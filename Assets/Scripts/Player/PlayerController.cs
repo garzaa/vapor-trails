@@ -5,15 +5,17 @@ using UnityEngine;
 public class PlayerController : Entity {
 
 	//public constants
-	float MaxMoveSpeed = 2;
+	float MaxMoveSpeed = 2.5f;
 	float JumpSpeed = 4;
 	float JUMP_CUTOFF = 2.0f;
 
-	//physics
+	//linked components
 	Rigidbody2D rb2d;
+	Animator anim;
 
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 		this.facingRight = false;
 	}
 	
@@ -23,6 +25,8 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
+		anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+
 		if (HorizontalInput()) {
 			if (Input.GetAxis("Horizontal") != 0) {
 				rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * MaxMoveSpeed), y:rb2d.velocity.y);
