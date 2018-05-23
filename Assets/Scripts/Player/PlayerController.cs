@@ -12,6 +12,11 @@ public class PlayerController : Entity {
 	//linked components
 	Rigidbody2D rb2d;
 	Animator anim;
+	public Transform groundCheckLeft;
+	public Transform groundCheckRight;
+
+	//private variables
+	public bool grounded = false;
 
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
@@ -20,8 +25,10 @@ public class PlayerController : Entity {
 	}
 	
 	void Update () {
+		UpdateGrounded();
 		Move();
 		Jump();
+		CheckFlip();
 	}
 
 	void Move() {
@@ -30,34 +37,36 @@ public class PlayerController : Entity {
 		if (HorizontalInput()) {
 			if (Input.GetAxis("Horizontal") != 0) {
 				rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * MaxMoveSpeed), y:rb2d.velocity.y);
+				movingRight = Input.GetAxis("Horizontal") > 0;
 			}
 		} 
 		//if no movement, stop the player on the ground 
 		else {
 			rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
 		}
-
-		//flip sprites depending on movement direction
-        if (!facingRight && rb2d.velocity.x > 0)
-        {
-            Flip();
-        }
-        else if (facingRight && rb2d.velocity.x < 0)
-        {
-            Flip();
-        }
 	}
 
 	void Jump() {
-		if (Input.GetButtonDown("Jump")) {
-			rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
+		if (grounded) {
+			if (Input.GetButtonDown("Jump")) {
+				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
+			}
 		}
+		
 		//emulate an analog jump
-        //if the jump button is released
-        if (Input.GetButtonUp("Jump") && rb2d.velocity.y > JUMP_CUTOFF) {
-            //then decrease the y velocity to the jump cutoff
-            rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
-        }
+		//if the jump button is released
+		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > JUMP_CUTOFF) {
+			//then decrease the y velocity to the jump cutoff
+			rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
+		}
+	}
+
+	void UpdateGrounded() {
+		bool leftGrounded = Physics2D.Linecast(transform.position, groundCheckLeft.position, 1 << LayerMask.NameToLayer("Ground"));
+		bool rightGrounded = Physics2D.Linecast(transform.position, groundCheckRight.position, 1 << LayerMask.NameToLayer("Ground"));
+		Debug.DrawLine(transform.position, groundCheckLeft.position);
+		Debug.DrawLine(transform.position, groundCheckRight.position);
+		grounded = leftGrounded || rightGrounded;	
 	}
 
 	bool HorizontalInput() {

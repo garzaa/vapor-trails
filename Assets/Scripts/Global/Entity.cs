@@ -8,15 +8,7 @@ public class Entity : MonoBehaviour {
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;
     public bool lockedInSpace = false;
-
-    public GameObject dustSprite;
-
-    //being lazy is valid :^)
-    public void Log(string str)
-    {
-        Debug.Log(str);
-    }
-    
+	
     public void Flip() 
 	{
         facingRight = !facingRight;

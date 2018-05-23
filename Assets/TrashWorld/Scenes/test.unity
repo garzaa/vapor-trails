@@ -108,6 +108,34 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &173810040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 173810041}
+  m_Layer: 0
+  m_Name: GroundCheckLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &173810041
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 173810040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12, y: -0.334, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1749783819}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &252528611
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +146,7 @@ GameObject:
   - component: {fileID: 252528613}
   - component: {fileID: 252528612}
   - component: {fileID: 252528614}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: basic ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,9 +304,42 @@ Transform:
   m_Father: {fileID: 2035352639}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &615381652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 615381653}
+  m_Layer: 0
+  m_Name: GroundCheckRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &615381653
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 615381652}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.12, y: -0.334, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1749783819}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1749783817 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1765911528617980, guid: d514ca4d35012064b90f0936ac25aee3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1781013852}
+--- !u!4 &1749783819 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3,
     type: 2}
   m_PrefabInternal: {fileID: 1781013852}
 --- !u!95 &1749783823
@@ -336,6 +397,26 @@ Prefab:
     - target: {fileID: 4823699093169772, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114277279835246002, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: groundCheckLeft
+      value: 
+      objectReference: {fileID: 173810041}
+    - target: {fileID: 114277279835246002, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: groundCheckRight
+      value: 
+      objectReference: {fileID: 615381653}
+    - target: {fileID: 20150582180514852, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: orthographic size
+      value: 0.9916666
+      objectReference: {fileID: 0}
+    - target: {fileID: 61208046417586162, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: -0.185
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
