@@ -8,7 +8,8 @@ public class Entity : MonoBehaviour {
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;
     public bool lockedInSpace = false;
-	
+	public bool inHitstop = false;
+
     public void Flip() 
 	{
         facingRight = !facingRight;

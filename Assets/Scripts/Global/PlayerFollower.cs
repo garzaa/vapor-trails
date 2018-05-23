@@ -6,6 +6,7 @@ public class PlayerFollower : MonoBehaviour {
 
 	public GameObject player;
 	public float moveSpeed;
+	public float lookAhead;
 	Vector3 velocity = Vector3.zero;
 
 	void Start () {
@@ -19,7 +20,7 @@ public class PlayerFollower : MonoBehaviour {
 		transform.position = Vector3.SmoothDamp(
 			transform.position,
 			new Vector3(
-				x:player.transform.position.x,
+				x:player.transform.position.x+(lookAhead * player.GetComponent<Entity>().GetForwardScalar()),
 				y:player.transform.position.y,
 				z:this.transform.position.z),
 			ref velocity,

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerController : Entity {
 
-	//public constants
+	//constants
 	float MaxMoveSpeed = 2.5f;
 	float JumpSpeed = 4;
 	float JUMP_CUTOFF = 2.0f;
 	int maxAirJumps = 1;
+	public int baseAttackDamage = 1;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -16,7 +17,7 @@ public class PlayerController : Entity {
 	public Transform groundCheckLeft;
 	public Transform groundCheckRight;
 
-	//private variables
+	//variables
 	bool grounded = false;
 	public int airJumps;
 	public bool midSwing = false;
@@ -39,6 +40,7 @@ public class PlayerController : Entity {
 	void Attack() {
 		if (Input.GetButtonDown("Attack")) {
 			anim.SetTrigger("Attack");
+			CameraShaker.SmallShake();
 		}
 	}
 
