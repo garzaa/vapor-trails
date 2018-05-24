@@ -18,9 +18,12 @@ public class PlayerController : Entity {
 	Animator anim;
 	public Transform groundCheckLeft;
 	public Transform groundCheckRight;
+	public WallCheck wcForwards;
+	public GameObject hurtboxes;
 
 	//variables
 	bool grounded = false;
+	bool touchingWall = false;
 	public int airJumps;
 	public bool midSwing = false;
 
@@ -33,6 +36,7 @@ public class PlayerController : Entity {
 	
 	void Update () {
 		UpdateGrounded();
+		UpdateWallSliding();
 		Move();
 		Attack();
 		Jump();
@@ -62,10 +66,10 @@ public class PlayerController : Entity {
 		else if (grounded) {
 			rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
 		} 
-		//or slow them down in the air
+		//or slow them down in the air if they haven't just walljumped
 		else {
 			rb2d.velocity = new Vector2(
-				x:rb2d.velocity.x / 1.2f,
+				x:rb2d.velocity.x / 1.05f,
 				y:rb2d.velocity.y
 			);
 		}
@@ -79,13 +83,21 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if (grounded || airJumps > 0) {
-			if (Input.GetButtonDown("Jump")) {
-				if (!grounded) {
-					airJumps--;
-				}
+		if (Input.GetButtonDown("Jump") && !frozen) {
+			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
 				InterruptAttack();
+				anim.SetTrigger("Jump");
+			}
+			else if (touchingWall) {
+				FreezeFor(.1f);
+				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:JumpSpeed);
+				airJumps--;
+				anim.SetTrigger("Jump");
+			}
+			else if (airJumps > 0) {
+				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
+				airJumps--;
 				anim.SetTrigger("Jump");
 			}
 		}
@@ -100,8 +112,8 @@ public class PlayerController : Entity {
 
 	void UpdateGrounded() {
 		//cast two rays in the ground direction to check for intersection
-		bool leftGrounded = Physics2D.Linecast(transform.position, groundCheckLeft.position, 1 << LayerMask.NameToLayer("Ground"));
-		bool rightGrounded = Physics2D.Linecast(transform.position, groundCheckRight.position, 1 << LayerMask.NameToLayer("Ground"));
+		bool leftGrounded = Physics2D.Linecast(transform.position, groundCheckLeft.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		bool rightGrounded = Physics2D.Linecast(transform.position, groundCheckRight.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 
 		//then check and call updates accordingly
 		bool groundedLastFrame = grounded;
@@ -120,7 +132,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnGroundHit() {
-		airJumps = maxAirJumps;
+		ResetAirJumps();
 		InterruptAttack();
 		anim.SetBool("Grounded", true);
 		if (terminalFalling) {
@@ -129,16 +141,67 @@ public class PlayerController : Entity {
 		}
 	}
 
+	void ResetAirJumps() {
+		airJumps = maxAirJumps;
+	}
+
 	void OnGroundLeave() {
 		anim.SetBool("Grounded", false);
 	}
 
 	void InterruptAttack() {
+		CloseAllHurtboxes();
 		ResetAttackTriggers();
 		midSwing = false;
 	}
 
 	public void ResetAttackTriggers() {
 		anim.ResetTrigger("Attack");
+	}
+
+	void UpdateWallSliding() {
+		bool touchingLastFrame = touchingWall;
+		touchingWall = wcForwards.TouchingWall();
+		if (!touchingLastFrame && touchingWall) {
+			OnWallHit();
+		} 
+		else if (touchingLastFrame && !touchingWall) {
+			OnWallLeave();
+		}
+	}
+
+	void OnWallHit() {
+		anim.SetBool("TouchingWall", true);
+		ResetAirJumps();
+	}
+
+	void OnWallLeave() {
+		anim.SetBool("TouchingWall", false);
+	}
+
+	void FreezeFor(float seconds) {
+		Freeze();
+		StartCoroutine(WaitAndUnFreeze(seconds));
+	}
+
+	IEnumerator WaitAndUnFreeze(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		UnFreeze();
+	}
+
+	public void Freeze() {
+		this.frozen = true;
+	}
+
+	public void UnFreeze() {
+		this.frozen = false;
+	}
+
+	public void CloseAllHurtboxes() {
+		foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
+            if (hurtbox.GetComponent<BoxCollider2D>().enabled) {
+                hurtbox.GetComponent<BoxCollider2D>().enabled = false;
+            } 
+        }
 	}
 }

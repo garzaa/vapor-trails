@@ -44,6 +44,10 @@ public class Enemy : Entity {
 
 	private Coroutine unStunRoutine;
 
+	public bool IsStunned() {
+		return stunned;
+	}
+
 	void OnEnable() {
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();

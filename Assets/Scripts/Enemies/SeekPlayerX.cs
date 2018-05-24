@@ -5,7 +5,7 @@ using UnityEngine;
 public class SeekPlayerX : EnemyBehavior {
 
 	public override void Move() {
-		if (mainController.frozen || playerDistance > maxSeekThreshold) {
+		if (mainController.frozen || playerDistance > maxSeekThreshold || mainController.IsStunned()) {
 			return;
 		}
 		//move towards the player
