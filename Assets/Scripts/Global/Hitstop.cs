@@ -11,10 +11,6 @@ public class Hitstop : MonoBehaviour{
 		instance = this;
 	}
 
-	//TODO: call this from the hitstop controller
-	/* public static void Run(float seconds, GameObject enemy) {
-		instance.StartCoroutine(DoHitstop(seconds, enemy));
-	}*/
 	public static void Run(float seconds, Enemy enemy, PlayerController pc) {
 		instance.StartCoroutine(DoHitstop(seconds, enemy, pc));
 	}
@@ -28,6 +24,7 @@ public class Hitstop : MonoBehaviour{
 		Vector2 lastPlayerV = pc.GetComponent<Rigidbody2D>().velocity;
 
 		Animator enemyAnim = enemy.GetComponent<Animator>();
+		Vector2 lastEnemyV = enemy.rb2d.velocity;
 
 		//freeze the positions, don't want to repeatedly freeze the player if they're hitting multiple enemies
 		enemy.inHitstop = true;
@@ -50,6 +47,7 @@ public class Hitstop : MonoBehaviour{
 
 		//don't want to unfreeze the enemy afterwards if they're already frozen for some reason
 		//so if they're not already frozen, then freeze them and store that info
+		//also unfreeze them if they're in hitstop?
 		bool frozenEnemy = false;
 		if (!enemy.lockedInSpace) {
 			enemy.LockInSpace();
@@ -68,6 +66,7 @@ public class Hitstop : MonoBehaviour{
 			//also then unfreeze them if they were frozen from hitstop
 			if (frozenEnemy) {
 				enemy.UnLockInSpace();
+				enemy.rb2d.velocity = lastEnemyV;
 			}
 		
 			if (rb2d != null) rb2d.velocity = lastV;

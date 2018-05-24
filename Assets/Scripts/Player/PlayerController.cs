@@ -40,7 +40,6 @@ public class PlayerController : Entity {
 	void Attack() {
 		if (Input.GetButtonDown("Attack")) {
 			anim.SetTrigger("Attack");
-			CameraShaker.SmallShake();
 		}
 	}
 
@@ -110,7 +109,11 @@ public class PlayerController : Entity {
 	}
 
 	void InterruptAttack() {
-		anim.ResetTrigger("Attack");
+		ResetAttackTriggers();
 		midSwing = false;
+	}
+
+	public void ResetAttackTriggers() {
+		anim.ResetTrigger("Attack");
 	}
 }
