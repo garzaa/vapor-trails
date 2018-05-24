@@ -19,5 +19,6 @@ public class PixelSnapper : MonoBehaviour {
             pixelScale = 3;
         }
         _camera.orthographicSize = Screen.height * (0.005f / pixelScale);
+        
     }
 }
