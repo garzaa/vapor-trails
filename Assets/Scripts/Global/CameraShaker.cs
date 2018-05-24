@@ -31,18 +31,20 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public static void BigShake() {
-		shakeAmount = 0.1f;
-		shakeDuration = 0.1f;
+		Shake(0.1f, 0.1f);
 	}
 
 	public static void MedShake() {
-		shakeAmount = 0.05f;
-		shakeDuration = 0.1f;
+		Shake(0.05f, 0.1f);
 	}
 
 	public static void SmallShake() {
-		shakeAmount = 0.01f;
-		shakeDuration = 0.1f;
+		Shake(0.1f, 0.05f);
+	}
+
+	static void Shake(float amount, float duration) {
+		shakeAmount = amount;
+		shakeDuration = duration;
 	}
 
 	void Update()

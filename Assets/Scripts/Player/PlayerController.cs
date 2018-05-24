@@ -124,6 +124,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		anim.SetBool("Grounded", true);
 		if (terminalFalling) {
+			CameraShaker.SmallShake();
 			anim.SetTrigger("HardLand");
 		}
 	}
