@@ -9,9 +9,10 @@ public class PlayerController : Entity {
 	float JumpSpeed = 4.5f;
 	float JUMP_CUTOFF = 2.0f;
 	int maxAirJumps = 1;
-	float terminalVelocity = -4f;
+	float terminalVelocity = -5f;
 	public int baseAttackDamage = 1;
 	public bool terminalFalling = false;
+	float DASH_SPEED = 8;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -26,6 +27,10 @@ public class PlayerController : Entity {
 	bool touchingWall = false;
 	public int airJumps;
 	public bool midSwing = false;
+	bool dashCooldown = false;
+	public bool dashing = false;
+	bool parrying = false;
+	Vector2 preDashVelocity;
 
 	void Start () {
 		airJumps = maxAirJumps;
@@ -50,29 +55,36 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
-		if (frozen) {
-			return;
-		}
 
-		anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+		if (!frozen) {
+			anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 
-		if (HorizontalInput() && !midSwing) {
-			if (Input.GetAxis("Horizontal") != 0) {
-				rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * MaxMoveSpeed), y:rb2d.velocity.y);
-				movingRight = Input.GetAxis("Horizontal") > 0;
+			if (HorizontalInput() && !midSwing) {
+				if (Input.GetAxis("Horizontal") != 0) {
+					rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * MaxMoveSpeed), y:rb2d.velocity.y);
+					movingRight = Input.GetAxis("Horizontal") > 0;
+				}
+			} 
+			//if no movement, stop the player on the ground 
+			else if (grounded) {
+				rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
+			} 
+			//or slow them down in the air if they haven't just walljumped
+			else {
+				rb2d.velocity = new Vector2(
+					x:rb2d.velocity.x / 1.05f,
+					y:rb2d.velocity.y
+				);
 			}
-		} 
-		//if no movement, stop the player on the ground 
-		else if (grounded) {
-			rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
-		} 
-		//or slow them down in the air if they haven't just walljumped
-		else {
-			rb2d.velocity = new Vector2(
-				x:rb2d.velocity.x / 1.05f,
-				y:rb2d.velocity.y
-			);
+
+			if (Input.GetButtonDown("Dash")) {
+				Dash();
+			}
 		}
+
+		if (dashing) {
+            rb2d.velocity = new Vector2(DASH_SPEED * GetForwardScalar(), 0);
+        }
 
 		if (rb2d.velocity.y < terminalVelocity) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
@@ -109,6 +121,51 @@ public class PlayerController : Entity {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
 		}
 	}
+
+	public void Dash() {
+		if (dashCooldown || dashing || parrying) {
+			return;
+		}
+		InterruptAttack();
+		//insert vapor/damage dash perks here
+
+		anim.SetTrigger("Dash");
+		dashing = true;
+		Freeze();
+		preDashVelocity = new Vector2(rb2d.velocity.x, 0);
+	}
+
+	public void StopDashing() {
+        UnFreeze();
+        dashing = false;
+        rb2d.velocity = preDashVelocity;
+        StartCoroutine(StartDashCooldown(.2f));
+		/*
+        if (VAPOR_DASH) {
+            WhiteSprite();
+            SetInvincible(false);
+        }
+        CloseHurtbox("DamageDash");
+		*/
+    }
+
+	IEnumerator StartDashCooldown(float seconds) {
+        dashCooldown = true;
+        yield return new WaitForSeconds(seconds);
+        dashCooldown = false;
+    }
+
+    void InterruptDash() {
+        dashing = false;
+        StartCoroutine(StartDashCooldown(.2f));
+		/*
+        if (VAPOR_DASH || DAMAGE_DASH) {
+            WhiteSprite();
+            SetInvincible(false);
+        }
+        CloseHurtbox("DamageDash");
+		*/
+    }
 
 	void UpdateGrounded() {
 		//cast two rays in the ground direction to check for intersection
