@@ -23,7 +23,7 @@ public class SeekPlayerX : EnemyBehavior {
 		}
 
 		if (Mathf.Abs(mainController.rb2d.velocity.x) < mainController.maxSpeed) {
-			mainController.rb2d.AddForce(new Vector2(mainController.moveForce * moveScale, mainController.rb2d.velocity.y));
+			mainController.rb2d.AddForce(new Vector2(mainController.moveForce * moveScale, 0));
 		}
 	}
 }

@@ -9,13 +9,14 @@ public class PlayerController : Entity {
 	float JumpSpeed = 4.5f;
 	float JUMP_CUTOFF = 2.0f;
 	int maxAirJumps = 1;
-	float terminalVelocity = -5f;
+	float hardLandVelocity = -5f;
+	float terminalVelocity = -10f;
 	public int baseAttackDamage = 1;
-	public bool terminalFalling = false;
+	public bool hardFalling = false;
 	float dashSpeed = 8;
 	int flashTimes = 5;
-	bool vaporDash = true;
-	public bool damageDash = false;
+	bool vaporDash = false;
+	bool damageDash = true;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -38,6 +39,10 @@ public class PlayerController : Entity {
 	bool parrying = false;
 	Vector2 preDashVelocity;
 	bool invincible = false;
+	bool inMeteor = false;
+
+	//other misc prefabs
+	public Transform vaporExplosion;
 
 	void Start () {
 		airJumps = maxAirJumps;
@@ -62,6 +67,10 @@ public class PlayerController : Entity {
 		if (Input.GetButtonDown("Attack")) {
 			anim.SetTrigger("Attack");
 		}
+
+		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing) {
+			MeteorSlam();
+		}
 	}
 
 	void Move() {
@@ -82,12 +91,12 @@ public class PlayerController : Entity {
 			//or slow them down in the air if they haven't just walljumped
 			else {
 				rb2d.velocity = new Vector2(
-					x:rb2d.velocity.x / 1.05f,
+					x:rb2d.velocity.x / 1.01f,
 					y:rb2d.velocity.y
 				);
 			}
 
-			if (Input.GetButtonDown("Dash")) {
+			if (Input.GetButtonDown("Special") && HorizontalInput() && !touchingWall) {
 				Dash();
 			}
 		}
@@ -98,9 +107,13 @@ public class PlayerController : Entity {
 
 		if (rb2d.velocity.y < terminalVelocity) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
-			terminalFalling = true;
-		} else {
-			terminalFalling = false;
+		} 
+
+		if (rb2d.velocity.y < hardLandVelocity) {
+			hardFalling = true;
+		}
+		else {
+			hardFalling = false;
 		}
 	}
 
@@ -115,6 +128,7 @@ public class PlayerController : Entity {
 				FreezeFor(.1f);
 				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:JumpSpeed);
 				airJumps--;
+				Flip();
 				anim.SetTrigger("Jump");
 			}
 			else if (airJumps > 0) {
@@ -137,8 +151,9 @@ public class PlayerController : Entity {
 			return;
 		}
 		InterruptAttack();
+		inMeteor = false;
 		//insert vapor/damage dash perks here
-		if (vaporDash || damageDash) {
+		if (vaporDash) {
 			SetInvincible(true);
             CyanSprite();
         }
@@ -208,8 +223,11 @@ public class PlayerController : Entity {
 	void OnGroundHit() {
 		ResetAirJumps();
 		InterruptAttack();
+		if (inMeteor) {
+			LandMeteor();
+		}
 		anim.SetBool("Grounded", true);
-		if (terminalFalling) {
+		if (hardFalling) {
 			CameraShaker.SmallShake();
 			anim.SetTrigger("HardLand");
 		}
@@ -304,4 +322,20 @@ public class PlayerController : Entity {
     public void SetInvincible(bool b) {
         this.invincible = b;
     }
+
+	void MeteorSlam() {
+		inMeteor = true;
+		SetInvincible(true);
+		anim.SetTrigger("Meteor");
+
+		rb2d.velocity = new Vector2(
+			x:0,
+			y:terminalVelocity
+		);
+	}
+
+	void LandMeteor() {
+		inMeteor = false;
+		Instantiate(vaporExplosion, transform.position, Quaternion.identity);
+	}
 }

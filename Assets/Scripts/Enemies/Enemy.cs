@@ -84,7 +84,10 @@ public class Enemy : Entity {
 			UnLockInSpace();
 			inHitstop = false;
 		}
-		KnockBack(attack.GetKnockback());
+		print(attack.GetKnockback());
+		if (attack.knockBack) {
+			KnockBack(attack.GetKnockback());
+		}
 	}
 
 	public void Die(){

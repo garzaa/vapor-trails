@@ -66,8 +66,9 @@ public class Hitstop : MonoBehaviour{
 			//also then unfreeze them if they were frozen from hitstop
 			if (frozenEnemy) {
 				enemy.UnLockInSpace();
-				enemy.rb2d.velocity = lastEnemyV;
 			}
+			print("giving enemy velocity " + lastEnemyV);
+			enemy.rb2d.velocity = lastEnemyV;
 		
 			if (rb2d != null) rb2d.velocity = lastV;
 			enemy.inHitstop = false;

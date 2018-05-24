@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour {
 	public float hitstopLength = .02f;
 	public float stunLength = 0.2f;
 	public bool cameraShake = false;
+	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
 	public GameObject hitmarker;
 
@@ -42,12 +43,14 @@ public class PlayerAttack : MonoBehaviour {
 		//instantiate the hitmarker
 		Instantiate(hitmarker, enemy.transform.position, Quaternion.identity);
 		//run hitstop
-		Hitstop.Run(this.hitstopLength, enemy, pc);
+		if (hitstopLength > 0.0f) {
+			Hitstop.Run(this.hitstopLength, enemy, pc);
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D enemyCol) {
 		if (enemyCol.gameObject.CompareTag(Tags.EnemyHitbox)) {
-			OnAttackLand(enemyCol.GetComponent<EnemyHitbox>().GetParent());
+			this.OnAttackLand(enemyCol.GetComponent<EnemyHitbox>().GetParent());
 		}
 	}
 }
