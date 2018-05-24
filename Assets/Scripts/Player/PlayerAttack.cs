@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour {
 
 	public int damage = 1;
-	public float hitstopLength = .04f;
+	public float hitstopLength = .02f;
 	public float stunLength = 0.2f;
 	public bool cameraShake = false;
 	public Vector2 knockbackVector = Vector2.zero;

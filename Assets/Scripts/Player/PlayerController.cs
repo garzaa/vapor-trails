@@ -6,10 +6,12 @@ public class PlayerController : Entity {
 
 	//constants
 	float MaxMoveSpeed = 2.5f;
-	float JumpSpeed = 4;
+	float JumpSpeed = 4.5f;
 	float JUMP_CUTOFF = 2.0f;
 	int maxAirJumps = 1;
+	float terminalVelocity = -4f;
 	public int baseAttackDamage = 1;
+	public bool terminalFalling = false;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -44,6 +46,10 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
+		if (frozen) {
+			return;
+		}
+
 		anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 
 		if (HorizontalInput() && !midSwing) {
@@ -53,8 +59,22 @@ public class PlayerController : Entity {
 			}
 		} 
 		//if no movement, stop the player on the ground 
-		else {
+		else if (grounded) {
 			rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
+		} 
+		//or slow them down in the air
+		else {
+			rb2d.velocity = new Vector2(
+				x:rb2d.velocity.x / 1.2f,
+				y:rb2d.velocity.y
+			);
+		}
+
+		if (rb2d.velocity.y < terminalVelocity) {
+			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
+			terminalFalling = true;
+		} else {
+			terminalFalling = false;
 		}
 	}
 
@@ -65,6 +85,8 @@ public class PlayerController : Entity {
 					airJumps--;
 				}
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
+				InterruptAttack();
+				anim.SetTrigger("Jump");
 			}
 		}
 
@@ -80,12 +102,11 @@ public class PlayerController : Entity {
 		//cast two rays in the ground direction to check for intersection
 		bool leftGrounded = Physics2D.Linecast(transform.position, groundCheckLeft.position, 1 << LayerMask.NameToLayer("Ground"));
 		bool rightGrounded = Physics2D.Linecast(transform.position, groundCheckRight.position, 1 << LayerMask.NameToLayer("Ground"));
-		Debug.DrawLine(transform.position, groundCheckLeft.position);
-		Debug.DrawLine(transform.position, groundCheckRight.position);
 
 		//then check and call updates accordingly
 		bool groundedLastFrame = grounded;
-		grounded = leftGrounded || rightGrounded;
+		grounded = (leftGrounded || rightGrounded)
+			&& rb2d.velocity.y <= 0;
 
 		if (!groundedLastFrame && grounded) {
 			OnGroundHit();	
@@ -102,6 +123,9 @@ public class PlayerController : Entity {
 		airJumps = maxAirJumps;
 		InterruptAttack();
 		anim.SetBool("Grounded", true);
+		if (terminalFalling) {
+			anim.SetTrigger("HardLand");
+		}
 	}
 
 	void OnGroundLeave() {
