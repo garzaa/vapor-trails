@@ -12,7 +12,10 @@ public class PlayerController : Entity {
 	float terminalVelocity = -5f;
 	public int baseAttackDamage = 1;
 	public bool terminalFalling = false;
-	float DASH_SPEED = 8;
+	float dashSpeed = 8;
+	int flashTimes = 5;
+	bool vaporDash = true;
+	public bool damageDash = false;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -21,6 +24,9 @@ public class PlayerController : Entity {
 	public Transform groundCheckRight;
 	public WallCheck wcForwards;
 	public GameObject hurtboxes;
+	SpriteRenderer spr;
+	Material defaultMaterial;
+    Material cyanMaterial;
 
 	//variables
 	bool grounded = false;
@@ -31,12 +37,16 @@ public class PlayerController : Entity {
 	public bool dashing = false;
 	bool parrying = false;
 	Vector2 preDashVelocity;
+	bool invincible = false;
 
 	void Start () {
 		airJumps = maxAirJumps;
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		this.facingRight = false;
+		spr = this.GetComponent<SpriteRenderer>();
+        defaultMaterial = spr.material;
+        cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 	}
 	
 	void Update () {
@@ -83,7 +93,7 @@ public class PlayerController : Entity {
 		}
 
 		if (dashing) {
-            rb2d.velocity = new Vector2(DASH_SPEED * GetForwardScalar(), 0);
+            rb2d.velocity = new Vector2(dashSpeed * GetForwardScalar(), 0);
         }
 
 		if (rb2d.velocity.y < terminalVelocity) {
@@ -128,8 +138,15 @@ public class PlayerController : Entity {
 		}
 		InterruptAttack();
 		//insert vapor/damage dash perks here
-
-		anim.SetTrigger("Dash");
+		if (vaporDash || damageDash) {
+			SetInvincible(true);
+            CyanSprite();
+        }
+        if (damageDash) {
+            anim.SetTrigger("DamageDash");
+        } else {
+			anim.SetTrigger("Dash");
+		}
 		dashing = true;
 		Freeze();
 		preDashVelocity = new Vector2(rb2d.velocity.x, 0);
@@ -140,31 +157,31 @@ public class PlayerController : Entity {
         dashing = false;
         rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(.2f));
-		/*
-        if (VAPOR_DASH) {
+		
+        if (vaporDash) {
             WhiteSprite();
             SetInvincible(false);
         }
-        CloseHurtbox("DamageDash");
-		*/
+		CloseAllHurtboxes();
     }
+
+	//the same as above without arresting the momentum
+	void InterruptDash() {
+		UnFreeze();
+        dashing = false;
+        StartCoroutine(StartDashCooldown(.2f));
+		
+        if (vaporDash) {
+            WhiteSprite();
+            SetInvincible(false);
+        }
+		CloseAllHurtboxes();
+	}
 
 	IEnumerator StartDashCooldown(float seconds) {
         dashCooldown = true;
         yield return new WaitForSeconds(seconds);
         dashCooldown = false;
-    }
-
-    void InterruptDash() {
-        dashing = false;
-        StartCoroutine(StartDashCooldown(.2f));
-		/*
-        if (VAPOR_DASH || DAMAGE_DASH) {
-            WhiteSprite();
-            SetInvincible(false);
-        }
-        CloseHurtbox("DamageDash");
-		*/
     }
 
 	void UpdateGrounded() {
@@ -228,6 +245,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit() {
+		InterruptDash();
 		anim.SetBool("TouchingWall", true);
 		ResetAirJumps();
 	}
@@ -261,4 +279,29 @@ public class PlayerController : Entity {
             } 
         }
 	}
+
+	public void CyanSprite() {
+        spr.material = cyanMaterial;
+    }
+
+    public void WhiteSprite() {
+        spr.material = defaultMaterial;
+    }
+
+    IEnumerator Hurt(int flashes, bool first) {
+        SetInvincible(true);
+        CyanSprite();
+        yield return new WaitForSeconds(.07f);
+        WhiteSprite();
+        yield return new WaitForSeconds(.07f);
+        if (flashes > 0) {
+            StartCoroutine(Hurt(--flashes, first)); //;^)
+        } else {
+            SetInvincible(false);
+        }
+    }
+
+    public void SetInvincible(bool b) {
+        this.invincible = b;
+    }
 }
