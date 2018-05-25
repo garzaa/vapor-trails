@@ -324,6 +324,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1984871489867286
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4696207732370504}
+  - component: {fileID: 61313471450201874}
+  - component: {fileID: 114613525430125934}
+  m_Layer: 11
+  m_Name: Dair
+  m_TagString: PlayerHurtbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4010077843090918
 Transform:
   m_ObjectHideFlags: 1
@@ -412,6 +429,7 @@ Transform:
   - {fileID: 4247729878894152}
   - {fileID: 4833181364373188}
   - {fileID: 4541301122151374}
+  - {fileID: 4696207732370504}
   m_Father: {fileID: 4078833572404762}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -481,6 +499,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4078833572404762}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4696207732370504
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1984871489867286}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4721521896916612
 Transform:
@@ -720,6 +751,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.70000005, y: 0.39999998}
   m_EdgeRadius: 0
+--- !u!61 &61313471450201874
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1984871489867286}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.07711804, y: -0.28962064}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1542356, y: 0.7360854}
+  m_EdgeRadius: 0
 --- !u!61 &61467846917484466
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -872,12 +928,12 @@ MonoBehaviour:
   groundCheckRight: {fileID: 4424824091364976}
   wcForwards: {fileID: 114101496514425878}
   hurtboxes: {fileID: 1459500802892718}
-  dustEmitter: {fileID: 0}
   airJumps: 1
   midSwing: 0
   dashing: 0
   vaporExplosion: {fileID: 4968793897392250, guid: d7a723616fd734f4cb74073438db7bfa,
     type: 2}
+  sparkle: {fileID: 4228839842857632, guid: a5193e362967e2444bd2507ff3f304f3, type: 2}
 --- !u!114 &114493465096067806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -917,6 +973,29 @@ MonoBehaviour:
   cameraShake: 0
   knockBack: 1
   knockbackVector: {x: 1, y: 0}
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  flipHitmarker: 0
+--- !u!114 &114613525430125934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1984871489867286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  hitstopLength: 0.01
+  stunLength: 0.2
+  cameraShake: 0
+  knockBack: 1
+  knockbackVector: {x: 0, y: -3}
+  selfKnockBack: 1
+  selfKnockBackVector: {x: 0, y: 2}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
   flipHitmarker: 0
 --- !u!114 &114667668517827986
@@ -936,6 +1015,8 @@ MonoBehaviour:
   cameraShake: 0
   knockBack: 1
   knockbackVector: {x: 0.5, y: 0}
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
   flipHitmarker: 1
 --- !u!114 &114692158387008966
@@ -969,6 +1050,8 @@ MonoBehaviour:
   cameraShake: 0
   knockBack: 1
   knockbackVector: {x: 0, y: 4}
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
   flipHitmarker: 0
 --- !u!114 &114954888997777664
@@ -988,6 +1071,8 @@ MonoBehaviour:
   cameraShake: 0
   knockBack: 1
   knockbackVector: {x: 0, y: 2}
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
   flipHitmarker: 0
 --- !u!114 &114966018533542240
@@ -1007,6 +1092,8 @@ MonoBehaviour:
   cameraShake: 1
   knockBack: 1
   knockbackVector: {x: 0, y: -10}
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
   flipHitmarker: 0
 --- !u!124 &124934155503292996

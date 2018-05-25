@@ -28,6 +28,7 @@ public class PlayerController : Entity {
 	SpriteRenderer spr;
 	Material defaultMaterial;
     Material cyanMaterial;
+	Transform effectPoint;
 
 	//variables
 	bool grounded = false;
@@ -43,6 +44,8 @@ public class PlayerController : Entity {
 
 	//other misc prefabs
 	public Transform vaporExplosion;
+	public Transform sparkle;
+	GameObject instantiatedSparkle = null;
 
 	void Start () {
 		airJumps = maxAirJumps;
@@ -52,6 +55,7 @@ public class PlayerController : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
+		effectPoint = transform.Find("EffectPoint").transform;
 	}
 	
 	void Update () {
@@ -68,6 +72,10 @@ public class PlayerController : Entity {
 
 		if (Input.GetButtonDown("Attack")) {
 			anim.SetTrigger("Attack");
+		}
+
+		if (Input.GetKeyDown(KeyCode.S)) {
+			Sparkle();
 		}
 
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing) {
@@ -350,5 +358,11 @@ public class PlayerController : Entity {
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		Instantiate(vaporExplosion, transform.position, Quaternion.identity);
+	}
+
+	public void Sparkle() {
+		if (instantiatedSparkle == null) {
+			instantiatedSparkle = (GameObject) Instantiate(sparkle, effectPoint.position, Quaternion.identity, this.transform).gameObject as GameObject;
+		}
 	}
 }
