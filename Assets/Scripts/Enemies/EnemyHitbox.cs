@@ -12,12 +12,16 @@ public class EnemyHitbox : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.CompareTag(Tags.PlayerHurtbox)) {
-			parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<PlayerAttack>());
+			//parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<PlayerAttack>());
 		}
 	}
 
 	public Enemy GetParent() {
 		return parentObject.GetComponent<Enemy>();
+	}
+
+	public void OnHit(PlayerAttack a) {
+		parentObject.GetComponent<Enemy>().OnHit(a);
 	}
 
 }

@@ -50,6 +50,8 @@ public class PlayerAttack : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D enemyCol) {
 		if (enemyCol.gameObject.CompareTag(Tags.EnemyHitbox)) {
+			//call enemy on hit first to avoid race condition with hitstop
+			enemyCol.GetComponent<EnemyHitbox>().OnHit(this);
 			this.OnAttackLand(enemyCol.GetComponent<EnemyHitbox>().GetParent());
 		}
 	}
