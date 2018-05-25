@@ -11,6 +11,8 @@ public class Projectile : MonoBehaviour {
 	public float shakeDistance;
 	public Transform burstPrefab;
 
+	public bool ignorePlayer = false;
+
 	void Start() {
 		rb2d = GetComponent<Rigidbody2D>();
 		player = GameObject.Find("Player");
@@ -18,9 +20,10 @@ public class Projectile : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.CompareTag(Tags.Player)) {
+		if (ignorePlayer && other.tag.ToLower().Contains("player")) {
 			return;
 		}
+
 		if (impactShake && Vector2.Distance(transform.position, player.transform.position) < shakeDistance) {
 			CameraShaker.TinyShake();
 		}

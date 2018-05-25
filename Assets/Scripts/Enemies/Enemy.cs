@@ -36,8 +36,8 @@ public class Enemy : Entity {
 
 	[HideInInspector] public SpriteRenderer spr;
 
-	public bool burstOnDeath;
-	public Transform chunkPrefab;
+	public bool burstOnDeath = false;
+	public Transform burstEffect;
 
 	bool isWhite;
 	bool stunned;
@@ -98,7 +98,7 @@ public class Enemy : Entity {
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("die");
 		} else {
-			if (burstOnDeath) {
+			if (burstEffect != null) {
 				Burst();
 			} else {
 				Destroy();
@@ -169,11 +169,7 @@ public class Enemy : Entity {
 	}
 
 	public void Burst() {
-		for (int i=0; i<4; i++) {
-				Transform newChunk = Instantiate(chunkPrefab, this.transform.position, Quaternion.identity);
-				Rigidbody2D cRB = newChunk.GetComponent<Rigidbody2D>();
-				cRB.velocity = new Vector2(x: Random.Range(-1f, 1f), y: Random.Range(2f, 3f));
-		}
+		Instantiate(burstEffect, this.transform.position, Quaternion.identity);
 		Destroy();
 	}
 
