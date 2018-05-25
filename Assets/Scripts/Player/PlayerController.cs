@@ -46,6 +46,7 @@ public class PlayerController : Entity {
 	public Transform vaporExplosion;
 	public Transform sparkle;
 	GameObject instantiatedSparkle = null;
+	public Transform bullet;
 
 	void Start () {
 		airJumps = maxAirJumps;
@@ -364,5 +365,8 @@ public class PlayerController : Entity {
 		if (instantiatedSparkle == null) {
 			instantiatedSparkle = (GameObject) Instantiate(sparkle, effectPoint.position, Quaternion.identity, effectPoint.transform).gameObject as GameObject;
 		}
-	}
+
+		GameObject b = (GameObject) Instantiate(bullet, effectPoint.position, Quaternion.identity).gameObject as GameObject;
+		b.GetComponent<Rigidbody2D>().velocity = new Vector2(10 * GetForwardScalar(), 0);
+	}	
 }
