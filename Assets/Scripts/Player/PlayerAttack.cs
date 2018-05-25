@@ -10,6 +10,8 @@ public class PlayerAttack : MonoBehaviour {
 	public bool cameraShake = false;
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
+	public bool selfKnockBack = false;
+	public Vector2 selfKnockBackVector = Vector2.zero;
 	public GameObject hitmarker;
 
 	public bool flipHitmarker = false;
@@ -42,6 +44,10 @@ public class PlayerAttack : MonoBehaviour {
 		}
 		//instantiate the hitmarker
 		Instantiate(hitmarker, enemy.transform.position, Quaternion.identity);
+		//run self knockback
+		if (selfKnockBack) {
+			pc.GetComponent<Rigidbody2D>().velocity = selfKnockBackVector;
+		}
 		//run hitstop
 		if (hitstopLength > 0.0f) {
 			Hitstop.Run(this.hitstopLength, enemy, pc);
