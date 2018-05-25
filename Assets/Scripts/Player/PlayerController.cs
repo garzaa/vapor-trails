@@ -362,7 +362,7 @@ public class PlayerController : Entity {
 
 	public void Sparkle() {
 		if (instantiatedSparkle == null) {
-			instantiatedSparkle = (GameObject) Instantiate(sparkle, effectPoint.position, Quaternion.identity, this.transform).gameObject as GameObject;
+			instantiatedSparkle = (GameObject) Instantiate(sparkle, effectPoint.position, Quaternion.identity, effectPoint.transform).gameObject as GameObject;
 		}
 	}
 }
