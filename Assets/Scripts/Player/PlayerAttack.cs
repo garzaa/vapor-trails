@@ -43,7 +43,9 @@ public class PlayerAttack : MonoBehaviour {
 			CameraShaker.SmallShake();
 		}
 		//instantiate the hitmarker
-		Instantiate(hitmarker, enemy.transform.position, Quaternion.identity);
+		if (this.hitmarker != null) {
+			Instantiate(hitmarker, enemy.transform.position, Quaternion.identity);
+		}
 		//run self knockback
 		if (selfKnockBack) {
 			pc.GetComponent<Rigidbody2D>().velocity = selfKnockBackVector;

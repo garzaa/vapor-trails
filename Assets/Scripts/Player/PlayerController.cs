@@ -75,7 +75,7 @@ public class PlayerController : Entity {
 			anim.SetTrigger("Attack");
 		}
 
-		if (Input.GetKeyDown(KeyCode.S)) {
+		if (Input.GetButtonDown("Projectile")) {
 			Sparkle();
 		}
 

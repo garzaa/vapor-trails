@@ -42,6 +42,10 @@ public class CameraShaker : MonoBehaviour
 		Shake(0.1f, 0.05f);
 	}
 
+	public static void TinyShake() {
+		Shake(0.05f, 0.05f);
+	}
+
 	static void Shake(float amount, float duration) {
 		shakeAmount = amount;
 		shakeDuration = duration;
