@@ -64,6 +64,8 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
+		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
+
 		if (Input.GetButtonDown("Attack")) {
 			anim.SetTrigger("Attack");
 		}
@@ -121,20 +123,24 @@ public class PlayerController : Entity {
 		if (Input.GetButtonDown("Jump") && !frozen) {
 			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
-				InterruptAttack();
 				anim.SetTrigger("Jump");
+				InterruptAttack();
 			}
 			else if (touchingWall) {
+				InterruptMeteor();
 				FreezeFor(.1f);
 				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:JumpSpeed);
 				airJumps--;
 				Flip();
 				anim.SetTrigger("Jump");
+				InterruptAttack();
 			}
 			else if (airJumps > 0) {
+				InterruptMeteor();
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
 				airJumps--;
 				anim.SetTrigger("Jump");
+				InterruptAttack();
 			}
 		}
 
@@ -247,6 +253,10 @@ public class PlayerController : Entity {
 		midSwing = false;
 	}
 
+	void InterruptMeteor() {
+		inMeteor = false;
+	}
+
 	public void ResetAttackTriggers() {
 		anim.ResetTrigger("Attack");
 	}
@@ -283,6 +293,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Freeze() {
+		this.inMeteor = false;
 		this.frozen = true;
 	}
 
@@ -336,6 +347,8 @@ public class PlayerController : Entity {
 
 	void LandMeteor() {
 		inMeteor = false;
+		//if called while wallsliding
+		anim.ResetTrigger("Meteor");
 		Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 	}
 }

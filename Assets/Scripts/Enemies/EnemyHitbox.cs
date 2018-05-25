@@ -10,12 +10,6 @@ public class EnemyHitbox : MonoBehaviour {
 		parentObject = this.gameObject.transform.parent.gameObject;
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.CompareTag(Tags.PlayerHurtbox)) {
-			//parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<PlayerAttack>());
-		}
-	}
-
 	public Enemy GetParent() {
 		return parentObject.GetComponent<Enemy>();
 	}

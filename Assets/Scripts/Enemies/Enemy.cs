@@ -75,6 +75,7 @@ public class Enemy : Entity {
 	}
 
 	public void OnHit(PlayerAttack attack) {
+		WhiteSprite();
 		DamageFor(attack.GetDamage());
 		//compute potential stun
 		StunFor(attack.GetStunLength());
@@ -84,7 +85,6 @@ public class Enemy : Entity {
 			UnLockInSpace();
 			inHitstop = false;
 		}
-		print(attack.GetKnockback());
 		if (attack.knockBack) {
 			KnockBack(attack.GetKnockback());
 		}
@@ -154,16 +154,12 @@ public class Enemy : Entity {
 	}
 
 	public void WhiteSprite() {
-		//in case the default material has been changed
-		if (!isWhite) {
-			defaultMaterial = spr.material;
-		}
-		isWhite = true;
+		white = true;
         spr.material = whiteMaterial;
     }
 
 	IEnumerator normalSprite() {
-		yield return new WaitForSeconds(.05f);
+		yield return new WaitForSeconds(.1f);
 		isWhite = false;
 		spr.material = defaultMaterial;
 	}
