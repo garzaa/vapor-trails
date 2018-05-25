@@ -88,6 +88,7 @@ public class PlayerController : Entity {
 
 		if (!frozen) {
 			anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 			if (HorizontalInput() && !midSwing) {
 				if (Input.GetAxis("Horizontal") != 0) {

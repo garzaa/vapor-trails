@@ -39,7 +39,6 @@ public class Enemy : Entity {
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
 
-	bool isWhite;
 	bool stunned;
 
 	private Coroutine unStunRoutine;
@@ -160,7 +159,6 @@ public class Enemy : Entity {
 
 	IEnumerator normalSprite() {
 		yield return new WaitForSeconds(.1f);
-		isWhite = false;
 		spr.material = defaultMaterial;
 	}
 
