@@ -9,20 +9,34 @@ public class SelfDestruct : MonoBehaviour {
 	public float loBound;
 	public float hiBound;
 
+	Coroutine timeOut;
+
 	void Start() {
 		if (timer > 0 && !randRange) {
-			StartCoroutine(WaitAndDestroy(timer));
+			WaitAndDestroy(timer);
 		} else if (randRange) {
-			StartCoroutine(WaitAndDestroy(Random.Range(loBound, hiBound)));
+			WaitAndDestroy(Random.Range(loBound, hiBound));
 		}
 	}
 
-	public void Destroy() {
-		Destroy(this.gameObject);
+	public void Destroy(float time = 0f) {
+		timeOut = StartCoroutine(DestroyIn(time));
 	}
 
-	IEnumerator WaitAndDestroy(float time) {
-		yield return new WaitForSeconds(time);
-		Destroy();
+	public void StopTimeout() {
+		if (timeOut != null) {
+			StopCoroutine(timeOut);
+		}
+	}
+
+	//to call from other objects
+	public void WaitAndDestroy(float time) {
+		StopTimeout();
+		timeOut = StartCoroutine(DestroyIn(time));
+	}
+
+	IEnumerator DestroyIn(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		Destroy(this.gameObject);
 	}
 }
