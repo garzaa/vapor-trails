@@ -5,13 +5,16 @@ public class PixelSnapper : MonoBehaviour {
 
     private Camera _camera;
 
-    void Update()
-    {
-        if (_camera == null)
-        {
+    void Start() {
+        if (_camera == null) {
             _camera = GetComponent<Camera>();
             _camera.orthographic = true;
         }
+    }
+
+    void Update()
+    {
+        int lastPixelScale = pixelScale;
         if (Screen.height < 720) {
             pixelScale = 2;
         } 
@@ -19,5 +22,12 @@ public class PixelSnapper : MonoBehaviour {
             pixelScale = 3;
         }
         _camera.orthographicSize = Screen.height * (0.005f / pixelScale);
+        if (pixelScale != lastPixelScale) {
+            UpdateUI(pixelScale);
+        }
+    }
+
+    void UpdateUI(int ratio) {
+        GameObject.Find("Canvas").GetComponent<Canvas>().scaleFactor = pixelScale;
     }
 }
