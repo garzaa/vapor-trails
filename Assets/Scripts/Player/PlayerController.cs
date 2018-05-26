@@ -61,13 +61,13 @@ public class PlayerController : Entity {
 	}
 	
 	void Update () {
+		CheckFlip();
 		UpdateGrounded();
 		UpdateWallSliding();
 		Move();
 		Shoot();
 		Attack();
 		Jump();
-		CheckFlip();
 	}
 
 	void Attack() {
@@ -138,7 +138,6 @@ public class PlayerController : Entity {
 				InterruptMeteor();
 				FreezeFor(.1f);
 				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:JumpSpeed);
-				airJumps--;
 				Flip();
 				anim.SetTrigger("Jump");
 				InterruptAttack();
