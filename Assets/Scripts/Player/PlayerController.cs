@@ -371,4 +371,16 @@ public class PlayerController : Entity {
 			);
 		}
 	}
+
+	public void GainEnergy(int amount) {
+		//UIController.UpdateUI()
+	}
+
+	public int CheckEnergy() {
+		return 1;
+	}
+
+	public void LoseEnergy(int amount) {
+		
+	}
 }

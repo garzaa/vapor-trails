@@ -18,6 +18,12 @@ public class PlayerAttack : MonoBehaviour {
 
 	PlayerController pc;
 
+	public bool gainsEnergy = false;
+	int energyGained = 1;
+
+	public bool costsEnergy = false;
+	int energyCost = 1;
+
 	void Start() {
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
@@ -54,11 +60,23 @@ public class PlayerAttack : MonoBehaviour {
 		if (hitstopLength > 0.0f) {
 			Hitstop.Run(this.hitstopLength, enemy, pc);
 		}
+		//give the player some energy
+		if (gainsEnergy) {
+			pc.GainEnergy(this.energyGained);
+		}
+		//deplete energy if necessary
+		if (costsEnergy) {
+			pc.LoseEnergy(this.energyCost);
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D enemyCol) {
 		if (enemyCol.gameObject.CompareTag(Tags.EnemyHitbox)) {
 			//call enemy on hit first to avoid race condition with hitstop
+			//if it takes energy to inflict damage, don't run any of the hit code
+			if (this.costsEnergy && this.energyCost > pc.CheckEnergy()) {
+				return;
+			}
 			enemyCol.GetComponent<EnemyHitbox>().OnHit(this);
 			this.OnAttackLand(enemyCol.GetComponent<EnemyHitbox>().GetParent());
 		}

@@ -39,15 +39,11 @@ public class ContainerUI : MonoBehaviour {
 		}
 
 		//for each full container, draw one
-		//offset: the gap between them plus their width
-		//the first container takes 0 offset and 0 width
-		//the second container takes 1 offset and 1 width
 		for (int i=0; i<current; i++) {
 			Vector2 newPos = new Vector2(
 				x:initialPos.x + (i * (containerWidth + initialGap)),
 				y:initialPos.y
 			);
-			print(newPos);
 			Instantiate(fullContainer, newPos, Quaternion.identity, this.transform.parent.transform);
 		}
 		//then do the same for the empty containers 
