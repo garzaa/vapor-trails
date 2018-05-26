@@ -16,8 +16,7 @@ public class PlayerController : Entity {
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	int flashTimes = 5;
-	bool vaporDash = false;
-	bool damageDash = true;
+	bool damageDash = false;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -169,10 +168,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		inMeteor = false;
 		//insert vapor/damage dash perks here
-		if (vaporDash) {
-			SetInvincible(true);
-            CyanSprite();
-        }
+		SetInvincible(true);
         if (damageDash) {
             anim.SetTrigger("DamageDash");
         } else {
@@ -189,10 +185,7 @@ public class PlayerController : Entity {
         rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
 		
-        if (vaporDash) {
-            WhiteSprite();
-            SetInvincible(false);
-        }
+        SetInvincible(false);
 		CloseAllHurtboxes();
     }
 
@@ -202,10 +195,7 @@ public class PlayerController : Entity {
         dashing = false;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
 		
-        if (vaporDash) {
-            WhiteSprite();
-            SetInvincible(false);
-        }
+        SetInvincible(false);
 		CloseAllHurtboxes();
 	}
 
