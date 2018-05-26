@@ -12,8 +12,9 @@ public class PlayerController : Entity {
 	float hardLandVelocity = -5f;
 	float terminalVelocity = -10f;
 	public int baseAttackDamage = 1;
-	public bool hardFalling = false;
 	float dashSpeed = 8;
+	float dashCooldownLength = .5f;
+	public bool hardFalling = false;
 	int flashTimes = 5;
 	bool vaporDash = false;
 	bool damageDash = true;
@@ -186,7 +187,7 @@ public class PlayerController : Entity {
         UnFreeze();
         dashing = false;
         rb2d.velocity = preDashVelocity;
-        StartCoroutine(StartDashCooldown(.2f));
+        StartCoroutine(StartDashCooldown(dashCooldownLength));
 		
         if (vaporDash) {
             WhiteSprite();
@@ -199,7 +200,7 @@ public class PlayerController : Entity {
 	void InterruptDash() {
 		UnFreeze();
         dashing = false;
-        StartCoroutine(StartDashCooldown(.2f));
+        StartCoroutine(StartDashCooldown(dashCooldownLength));
 		
         if (vaporDash) {
             WhiteSprite();
