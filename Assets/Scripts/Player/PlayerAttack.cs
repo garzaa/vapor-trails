@@ -40,7 +40,7 @@ public class PlayerAttack : MonoBehaviour {
 	void OnAttackLand(Enemy enemy) {
 		//camera shake?
 		if (cameraShake) {
-			CameraShaker.SmallShake();
+			CameraShaker.TinyShake();
 		}
 		//instantiate the hitmarker
 		if (this.hitmarker != null) {

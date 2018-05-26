@@ -5,17 +5,14 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
 	Rigidbody2D rb2d;
-	GameObject player;
 
 	public bool impactShake;
-	public float shakeDistance;
 	public Transform burstPrefab;
 
 	public bool ignorePlayer = false;
 
 	void Start() {
 		rb2d = GetComponent<Rigidbody2D>();
-		player = GameObject.Find("Player");
 		this.transform.parent = null;
 	}
 
@@ -24,7 +21,7 @@ public class Projectile : MonoBehaviour {
 			return;
 		}
 
-		if (impactShake && Vector2.Distance(transform.position, player.transform.position) < shakeDistance) {
+		if (impactShake) {
 			CameraShaker.TinyShake();
 		}
 		OnImpact();

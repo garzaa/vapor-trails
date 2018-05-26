@@ -7,7 +7,7 @@ public class PlayerController : Entity {
 	//constants
 	float MaxMoveSpeed = 2.5f;
 	float JumpSpeed = 4.5f;
-	float JUMP_CUTOFF = 2.0f;
+	float jumpCutoff = 2.0f;
 	int maxAirJumps = 1;
 	float hardLandVelocity = -5f;
 	float terminalVelocity = -10f;
@@ -154,9 +154,9 @@ public class PlayerController : Entity {
 
 		//emulate an analog jump
 		//if the jump button is released
-		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > JUMP_CUTOFF) {
+		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff) {
 			//then decrease the y velocity to the jump cutoff
-			rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
+			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
 		}
 	}
 
