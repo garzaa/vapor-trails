@@ -21,8 +21,8 @@ public class PlayerController : Entity {
 	//linked components
 	Rigidbody2D rb2d;
 	Animator anim;
-	public Transform groundCheckLeft;
-	public Transform groundCheckRight;
+	//public Transform groundCheckLeft;
+	//public Transform groundCheckRight;
 	public WallCheck wallCheck;
 	public GameObject hurtboxes;
 	SpriteRenderer spr;
@@ -30,6 +30,7 @@ public class PlayerController : Entity {
     Material cyanMaterial;
 	Transform effectPoint;
 	Gun gun;
+	GroundCheck groundCheck;
 
 	//variables
 	bool grounded = false;
@@ -58,6 +59,7 @@ public class PlayerController : Entity {
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		effectPoint = transform.Find("EffectPoint").transform;
 		gun = GetComponent<Gun>();
+		groundCheck = GetComponent<GroundCheck>();
 	}
 	
 	void Update () {
@@ -214,6 +216,7 @@ public class PlayerController : Entity {
 
 	void UpdateGrounded() {
 		//cast two rays in the ground direction to check for intersection
+		/* 
 		bool leftGrounded = Physics2D.Linecast(transform.position, groundCheckLeft.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 		bool rightGrounded = Physics2D.Linecast(transform.position, groundCheckRight.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 
@@ -221,7 +224,9 @@ public class PlayerController : Entity {
 		bool groundedLastFrame = grounded;
 		grounded = (leftGrounded || rightGrounded)
 			&& rb2d.velocity.y <= 0;
-
+		*/
+		bool groundedLastFrame = grounded;
+		grounded = groundCheck.IsGrounded();
 		if (!groundedLastFrame && grounded) {
 			OnGroundHit();	
 		} else if (groundedLastFrame && !grounded) {
