@@ -23,12 +23,13 @@ public class PlayerController : Entity {
 	Animator anim;
 	public Transform groundCheckLeft;
 	public Transform groundCheckRight;
-	public WallCheck wcForwards;
+	public WallCheck wallCheck;
 	public GameObject hurtboxes;
 	SpriteRenderer spr;
 	Material defaultMaterial;
     Material cyanMaterial;
 	Transform effectPoint;
+	Gun gun;
 
 	//variables
 	bool grounded = false;
@@ -46,7 +47,6 @@ public class PlayerController : Entity {
 	public Transform vaporExplosion;
 	public Transform sparkle;
 	GameObject instantiatedSparkle = null;
-	public Transform bullet;
 
 	void Start () {
 		airJumps = maxAirJumps;
@@ -57,12 +57,14 @@ public class PlayerController : Entity {
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		effectPoint = transform.Find("EffectPoint").transform;
+		gun = GetComponent<Gun>();
 	}
 	
 	void Update () {
 		UpdateGrounded();
 		UpdateWallSliding();
 		Move();
+		Shoot();
 		Attack();
 		Jump();
 		CheckFlip();
@@ -73,10 +75,6 @@ public class PlayerController : Entity {
 
 		if (Input.GetButtonDown("Attack")) {
 			anim.SetTrigger("Attack");
-		}
-
-		if (Input.GetButtonDown("Projectile")) {
-			Sparkle();
 		}
 
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing) {
@@ -273,7 +271,7 @@ public class PlayerController : Entity {
 
 	void UpdateWallSliding() {
 		bool touchingLastFrame = touchingWall;
-		touchingWall = wcForwards.TouchingWall();
+		touchingWall = wallCheck.TouchingWall();
 		if (!touchingLastFrame && touchingWall) {
 			OnWallHit();
 		} 
@@ -366,8 +364,15 @@ public class PlayerController : Entity {
 		if (instantiatedSparkle == null) {
 			instantiatedSparkle = (GameObject) Instantiate(sparkle, effectPoint.position, Quaternion.identity, effectPoint.transform).gameObject as GameObject;
 		}
+	}
 
-		GameObject b = (GameObject) Instantiate(bullet, effectPoint.position, Quaternion.identity).gameObject as GameObject;
-		b.GetComponent<Rigidbody2D>().velocity = new Vector2(10 * GetForwardScalar(), 0);
-	}	
+	public void Shoot() {
+		if (Input.GetButtonDown("Projectile")) {
+			Sparkle();
+			gun.Fire(
+				forwardScalar: GetForwardScalar(), 
+				bulletPos: effectPoint
+			);
+		}
+	}
 }

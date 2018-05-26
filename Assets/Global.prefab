@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 4388801647542126}
   - component: {fileID: 114101496514425878}
   m_Layer: 9
-  m_Name: WallCheckForwards
+  m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 50578690507464408}
   - component: {fileID: 114277279835246002}
   - component: {fileID: 95028895832518656}
+  - component: {fileID: 114770908498606042}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -926,7 +927,7 @@ MonoBehaviour:
   hardFalling: 0
   groundCheckLeft: {fileID: 4790949695729282}
   groundCheckRight: {fileID: 4424824091364976}
-  wcForwards: {fileID: 114101496514425878}
+  wallCheck: {fileID: 0}
   hurtboxes: {fileID: 1459500802892718}
   airJumps: 1
   midSwing: 0
@@ -934,7 +935,6 @@ MonoBehaviour:
   vaporExplosion: {fileID: 4968793897392250, guid: d7a723616fd734f4cb74073438db7bfa,
     type: 2}
   sparkle: {fileID: 4228839842857632, guid: a5193e362967e2444bd2507ff3f304f3, type: 2}
-  bullet: {fileID: 4471790932780182, guid: b565cb731d776b44f9ea0d7482836758, type: 2}
 --- !u!114 &114493465096067806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1055,6 +1055,19 @@ MonoBehaviour:
   selfKnockBackVector: {x: 0, y: 0}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
   flipHitmarker: 0
+--- !u!114 &114770908498606042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1765911528617980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf826fc4c5d8cd438fa6625a41dc18a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 4471790932780182, guid: b565cb731d776b44f9ea0d7482836758, type: 2}
+  startVelocity: {x: 10, y: 0}
 --- !u!114 &114954888997777664
 MonoBehaviour:
   m_ObjectHideFlags: 1
