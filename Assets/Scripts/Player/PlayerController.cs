@@ -176,7 +176,6 @@ public class PlayerController : Entity {
 		}
 		InterruptAttack();
 		inMeteor = false;
-		//insert vapor/damage dash perks here
 		SetInvincible(true);
         if (damageDash) {
             anim.SetTrigger("DamageDash");
