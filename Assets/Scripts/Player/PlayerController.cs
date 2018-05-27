@@ -6,7 +6,7 @@ public class PlayerController : Entity {
 
 	//constants
 	float MaxMoveSpeed = 2.5f;
-	float JumpSpeed = 4.5f;
+	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	int maxAirJumps = 1;
 	float hardLandVelocity = -5f;
@@ -16,6 +16,7 @@ public class PlayerController : Entity {
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	int flashTimes = 5;
+	float ledgeBoostSpeed = 2f;
 	bool damageDash = false;
 
 	//linked components
@@ -136,21 +137,21 @@ public class PlayerController : Entity {
 	void Jump() {
 		if (Input.GetButtonDown("Jump") && !frozen) {
 			if (grounded) {
-				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
+				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
 				InterruptAttack();
 			}
 			else if (touchingWall) {
 				InterruptMeteor();
 				FreezeFor(.1f);
-				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:JumpSpeed);
+				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:jumpSpeed);
 				Flip();
 				anim.SetTrigger("Jump");
 				InterruptAttack();
 			}
 			else if (airJumps > 0) {
 				InterruptMeteor();
-				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:JumpSpeed);
+				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				airJumps--;
 				anim.SetTrigger("Jump");
 				InterruptAttack();
@@ -389,5 +390,12 @@ public class PlayerController : Entity {
 
 	public void LoseEnergy(int amount) {
 
+	}
+
+	void LedgeBoost() {
+		anim.SetTrigger("LedgeBoost");
+		//provide an upward impulse
+		Vector2 v = rb2d.velocity;
+		v.y = ledgeBoostSpeed;
 	}
 }
