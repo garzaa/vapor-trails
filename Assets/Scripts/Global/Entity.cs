@@ -57,4 +57,8 @@ public class Entity : MonoBehaviour {
     public int GetForwardScalar() {
         return facingRight ? 1 : -1;
     }
+
+    public virtual void OnHit(Attack a) {
+
+    }
 }
