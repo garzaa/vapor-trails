@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 61277851552984730}
   - component: {fileID: 114128684164561082}
   m_Layer: 11
-  m_Name: Hitbox
-  m_TagString: EnemyHitbox
+  m_Name: Hurtbox
+  m_TagString: EnemyHurtbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
   lockedInSpace: 0
   inHitstop: 0
   rb2d: {fileID: 0}
-  hp: 3
+  hp: 20
   totalHP: 1
   moveForce: 4
   maxSpeed: 1
@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915a7bd76d3cb7b48845dfb9db7aa833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentObject: {fileID: 0}
 --- !u!114 &114333816583287650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -225,7 +226,7 @@ MonoBehaviour:
   mainController: {fileID: 0}
   rb2d: {fileID: 0}
   anim: {fileID: 0}
-  minSeekThreshold: 0.2
+  minSeekThreshold: 0.5
   maxSeekThreshold: 5
   playerDistance: 0
 --- !u!212 &212325674956203872

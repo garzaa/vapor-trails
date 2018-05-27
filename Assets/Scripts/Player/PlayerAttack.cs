@@ -71,14 +71,14 @@ public class PlayerAttack : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D enemyCol) {
-		if (enemyCol.gameObject.CompareTag(Tags.EnemyHitbox)) {
+		if (enemyCol.gameObject.CompareTag(Tags.EnemyHurtbox)) {
 			//call enemy on hit first to avoid race condition with hitstop
 			//if it takes energy to inflict damage, don't run any of the hit code
 			if (this.costsEnergy && this.energyCost > pc.CheckEnergy()) {
 				return;
 			}
-			enemyCol.GetComponent<EnemyHitbox>().OnHit(this);
-			this.OnAttackLand(enemyCol.GetComponent<EnemyHitbox>().GetParent());
+			enemyCol.GetComponent<EnemyHurtbox>().OnHit(this);
+			this.OnAttackLand(enemyCol.GetComponent<EnemyHurtbox>().GetParent());
 		}
 	}
 }
