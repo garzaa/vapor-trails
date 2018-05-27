@@ -134,7 +134,6 @@ public class PlayerController : Entity {
 		}
 
 		if (wallCheck.TouchingLedge() && Input.GetButtonDown("Jump")) {
-			print("Ledge Boost");
 			LedgeBoost();
 		}
 	}
