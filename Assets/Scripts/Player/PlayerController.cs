@@ -8,7 +8,7 @@ public class PlayerController : Entity {
 	float MaxMoveSpeed = 2.5f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
-	int maxAirJumps = 1;
+	int maxAirJumps = 0;
 	float hardLandVelocity = -5f;
 	float terminalVelocity = -10f;
 	public int baseAttackDamage = 1;
@@ -16,7 +16,7 @@ public class PlayerController : Entity {
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	int flashTimes = 5;
-	float ledgeBoostSpeed = 2f;
+	float ledgeBoostSpeed = 4f;
 	bool damageDash = false;
 
 	//linked components
@@ -132,10 +132,15 @@ public class PlayerController : Entity {
 		else {
 			hardFalling = false;
 		}
+
+		if (wallCheck.TouchingLedge() && Input.GetButtonDown("Jump")) {
+			print("Ledge Boost");
+			LedgeBoost();
+		}
 	}
 
 	void Jump() {
-		if (Input.GetButtonDown("Jump") && !frozen) {
+		if (Input.GetButtonDown("Jump") && !frozen && !wallCheck.TouchingLedge()) {
 			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
@@ -393,9 +398,11 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		anim.SetTrigger("LedgeBoost");
+		//anim.SetTrigger("LedgeBoost");
 		//provide an upward impulse
-		Vector2 v = rb2d.velocity;
-		v.y = ledgeBoostSpeed;
+		rb2d.velocity = new Vector2(
+			x:rb2d.velocity.x,
+			y:ledgeBoostSpeed
+		);
 	}
 }

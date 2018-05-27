@@ -7,10 +7,18 @@ public class WallCheck : MonoBehaviour {
 	public Transform topCorner;
 	public Transform bottomCorner;
 
+	public bool CheckPoint(Transform corner) {
+		return Physics2D.Linecast(transform.position, corner.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+	}
+
 	public bool TouchingWall() {
-		bool topGrounded = Physics2D.Linecast(transform.position, topCorner.position, 1 << LayerMask.NameToLayer(Layers.Ground));
-		bool bottomGrounded = Physics2D.Linecast(transform.position, bottomCorner.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		bool topGrounded = CheckPoint(topCorner);
+		bool bottomGrounded = CheckPoint(bottomCorner);
 
 		return topGrounded && bottomGrounded;
+	}
+
+	public bool TouchingLedge() {
+		return !CheckPoint(topCorner) && CheckPoint(bottomCorner);
 	}
 }
