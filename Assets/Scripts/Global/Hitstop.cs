@@ -123,9 +123,12 @@ public class Hitstop : MonoBehaviour{
 
 		//then undo everything for each entity that was frozen
 		//in reverse order
+		//one of the entities could have died though, so check for that
 		if (froze1) {
-			e1.UnLockInSpace();
-			e1.inHitstop = false;
+			if (e1 != null) {
+				e1.UnLockInSpace();
+				e1.inHitstop = false;
+			}
 			if (e1Anim != null) {
 				e1Anim.speed = 1;
 			}
@@ -135,8 +138,10 @@ public class Hitstop : MonoBehaviour{
 		}
 
 		if (froze2) {
-			e2.UnLockInSpace();
-			e2.inHitstop = false;
+			if (e2 != null) {
+				e2.UnLockInSpace();
+				e2.inHitstop = false;
+			}
 			if (e2Anim != null) {
 				e2Anim.speed = 1;
 			}

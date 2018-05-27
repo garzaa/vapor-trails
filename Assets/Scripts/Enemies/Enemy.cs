@@ -73,7 +73,7 @@ public class Enemy : Entity {
 		}
 	}
 
-	public void OnHit(PlayerAttack attack) {
+	public override void OnHit(PlayerAttack attack) {
 		WhiteSprite();
 		DamageFor(attack.GetDamage());
 		//compute potential stun

@@ -48,9 +48,8 @@ public class PlayerAttack : Attack {
 	}
 
 	new void OnTriggerEnter2D(Collider2D otherCol) {
-		print(otherCol.name);
-		print("bens");
 		if (attackedTags.Contains(otherCol.tag)) {
+			print(otherCol.name);
 			//call enemy on hit first to avoid race condition with hitstop
 			//if it takes energy to inflict damage, don't run any of the hit code
 			if (this.costsEnergy && this.energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {
