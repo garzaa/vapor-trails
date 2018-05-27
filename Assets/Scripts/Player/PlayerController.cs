@@ -43,6 +43,7 @@ public class PlayerController : Entity {
 	Vector2 preDashVelocity;
 	bool invincible = false;
 	bool inMeteor = false;
+	bool terminalFalling = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -118,8 +119,11 @@ public class PlayerController : Entity {
         }
 
 		if (rb2d.velocity.y < terminalVelocity) {
+			terminalFalling = true;
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
-		} 
+		} else {
+			terminalFalling = false;
+		}
 
 		if (rb2d.velocity.y < hardLandVelocity) {
 			hardFalling = true;
@@ -219,6 +223,7 @@ public class PlayerController : Entity {
 		bool groundedLastFrame = grounded;
 		grounded = groundCheck.IsGrounded();
 		if (!groundedLastFrame && grounded) {
+			
 			OnGroundHit();	
 		} else if (groundedLastFrame && !grounded) {
 			OnGroundLeave();
@@ -237,8 +242,10 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("Grounded", true);
 		if (hardFalling) {
-			CameraShaker.SmallShake();
 			anim.SetTrigger("HardLand");
+		}
+		if (terminalFalling) {
+			CameraShaker.SmallShake();
 		}
 	}
 
@@ -381,6 +388,6 @@ public class PlayerController : Entity {
 	}
 
 	public void LoseEnergy(int amount) {
-		
+
 	}
 }
