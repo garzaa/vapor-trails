@@ -8,7 +8,7 @@ public class PlayerController : Entity {
 	float MaxMoveSpeed = 2.5f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
-	int maxAirJumps = 0;
+	int maxAirJumps = 1;
 	float hardLandVelocity = -5f;
 	float terminalVelocity = -10f;
 	public int baseAttackDamage = 1;
@@ -399,6 +399,7 @@ public class PlayerController : Entity {
 		if (invincible) {
 			return;
 		}
+		CameraShaker.MedShake();
 		CyanSprite();
 		DamageFor(attack.GetDamage());
 		//compute potential stun

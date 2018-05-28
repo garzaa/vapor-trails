@@ -41,10 +41,27 @@ GameObject:
   m_Component:
   - component: {fileID: 4251578318577792}
   - component: {fileID: 61277851552984730}
-  - component: {fileID: 114128684164561082}
+  - component: {fileID: 114593253931705248}
   m_Layer: 11
   m_Name: Hurtbox
   m_TagString: EnemyHurtbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1783601992496826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4881919657082872}
+  - component: {fileID: 114741135375181718}
+  - component: {fileID: 61196547953741814}
+  m_Layer: 11
+  m_Name: Hitbox
+  m_TagString: EnemyHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,12 +86,26 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117209089605970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47, y: -1.391, z: 0}
+  m_LocalPosition: {x: -0.946, y: -0.661, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4251578318577792}
+  - {fileID: 4881919657082872}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4881919657082872
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783601992496826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4767939769733742}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &50939661936928982
 Rigidbody2D:
@@ -96,6 +127,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!61 &61196547953741814
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783601992496826}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.23}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.41, y: 0.16999999}
+  m_EdgeRadius: 0
 --- !u!61 &61277851552984730
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -179,8 +235,10 @@ MonoBehaviour:
   frozen: 0
   lockedInSpace: 0
   inHitstop: 0
+  stunned: 0
+  staggerable: 1
   rb2d: {fileID: 0}
-  hp: 20
+  hp: 2
   totalHP: 1
   moveForce: 4
   maxSpeed: 1
@@ -193,24 +251,11 @@ MonoBehaviour:
   hasAnimator: 0
   behaviors: []
   invincible: 0
-  staggerable: 1
   envDmgSusceptible: 1
   spr: {fileID: 0}
   burstOnDeath: 1
   burstEffect: {fileID: 4465596146934724, guid: b1eed2ae1dcc59a4195bb7ad94fbc1c0,
     type: 2}
---- !u!114 &114128684164561082
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1454726250525572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 915a7bd76d3cb7b48845dfb9db7aa833, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentObject: {fileID: 0}
 --- !u!114 &114333816583287650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,6 +274,39 @@ MonoBehaviour:
   minSeekThreshold: 0.5
   maxSeekThreshold: 5
   playerDistance: 0
+--- !u!114 &114593253931705248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1454726250525572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bd38ff3efb03147ba016fd5d749a07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114741135375181718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783601992496826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c975df952eed3042983881c6e595036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  hitstopLength: 0.02
+  cameraShake: 1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  hitmarker: {fileID: 0}
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.1
+  knockBack: 1
+  knockbackVector: {x: 5, y: 0}
 --- !u!212 &212325674956203872
 SpriteRenderer:
   m_ObjectHideFlags: 1

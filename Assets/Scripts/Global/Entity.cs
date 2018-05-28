@@ -14,6 +14,8 @@ public class Entity : MonoBehaviour {
     public bool staggerable = false;
     public Coroutine unStunRoutine;
 
+    
+
     public void Flip() 
 	{
         facingRight = !facingRight;
