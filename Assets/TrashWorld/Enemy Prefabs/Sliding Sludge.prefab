@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 95364026858914724}
   - component: {fileID: 114054261519097472}
   - component: {fileID: 114333816583287650}
+  - component: {fileID: 114666915614204268}
   m_Layer: 12
   m_Name: Sliding Sludge
   m_TagString: Untagged
@@ -237,9 +238,10 @@ MonoBehaviour:
   inHitstop: 0
   stunned: 0
   staggerable: 1
+  invincible: 0
   rb2d: {fileID: 0}
-  hp: 2
-  totalHP: 1
+  hp: 100
+  totalHP: 2
   moveForce: 4
   maxSpeed: 1
   healthChance: 0
@@ -250,7 +252,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   hasAnimator: 0
   behaviors: []
-  invincible: 0
   envDmgSusceptible: 1
   spr: {fileID: 0}
   burstOnDeath: 1
@@ -285,6 +286,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62bd38ff3efb03147ba016fd5d749a07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114666915614204268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117209089605970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf9c19660536974faf627fe565d705a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corner1: {fileID: 0}
+  corner2: {fileID: 0}
+  generateFromCollider: 1
 --- !u!114 &114741135375181718
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -28,11 +28,11 @@ public class Attack : MonoBehaviour {
 		if (this.hitmarker != null) {
 			Instantiate(hitmarker, e.transform.position, Quaternion.identity);
 		}
+		ExtendedAttackLand();
 		//run hitstop
 		if (hitstopLength > 0.0f) {
 			Hitstop.Run(this.hitstopLength, e, attackerParent);
 		}
-		ExtendedAttackLand();
 	}
 
 	public void OnTriggerEnter2D(Collider2D otherCol) {

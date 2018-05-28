@@ -100,4 +100,12 @@ public class Entity : MonoBehaviour {
     public virtual void OnHit(Attack a) {
 
     }
+
+    public virtual void OnGroundHit() {
+
+    }
+
+    public virtual void OnGroundLeave() {
+        
+    }
 }

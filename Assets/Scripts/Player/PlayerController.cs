@@ -22,8 +22,6 @@ public class PlayerController : Entity {
 	//linked components
 	Rigidbody2D rb2d;
 	Animator anim;
-	//public Transform groundCheckLeft;
-	//public Transform groundCheckRight;
 	public WallCheck wallCheck;
 	public GameObject hurtboxes;
 	SpriteRenderer spr;
@@ -66,7 +64,6 @@ public class PlayerController : Entity {
 	
 	void Update () {
 		CheckFlip();
-		UpdateGrounded();
 		UpdateWallSliding();
 		Move();
 		Shoot();
@@ -213,32 +210,12 @@ public class PlayerController : Entity {
         dashCooldown = false;
     }
 
-	void UpdateGrounded() {
-		//cast two rays in the ground direction to check for intersection
-		/* 
-		bool leftGrounded = Physics2D.Linecast(transform.position, groundCheckLeft.position, 1 << LayerMask.NameToLayer(Layers.Ground));
-		bool rightGrounded = Physics2D.Linecast(transform.position, groundCheckRight.position, 1 << LayerMask.NameToLayer(Layers.Ground));
-
-		//then check and call updates accordingly
-		bool groundedLastFrame = grounded;
-		grounded = (leftGrounded || rightGrounded)
-			&& rb2d.velocity.y <= 0;
-		*/
-		bool groundedLastFrame = grounded;
-		grounded = groundCheck.IsGrounded();
-		if (!groundedLastFrame && grounded) {
-			
-			OnGroundHit();	
-		} else if (groundedLastFrame && !grounded) {
-			OnGroundLeave();
-		}
-	}
-
 	bool HorizontalInput() {
 		return Input.GetAxis("Horizontal") != 0;
 	}
 
-	void OnGroundHit() {
+	public override void OnGroundHit() {
+		grounded = true;
 		ResetAirJumps();
 		InterruptAttack();
 		if (inMeteor) {
@@ -257,7 +234,8 @@ public class PlayerController : Entity {
 		airJumps = maxAirJumps;
 	}
 
-	void OnGroundLeave() {
+	public override void OnGroundLeave() {
+		grounded = false;
 		anim.SetBool("Grounded", false);
 	}
 

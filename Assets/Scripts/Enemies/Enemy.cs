@@ -164,4 +164,12 @@ public class Enemy : Entity {
 		Instantiate(burstEffect, this.transform.position, Quaternion.identity);
 		Destroy();
 	}
+
+	public override void OnGroundHit() {
+		anim.SetBool("Grounded", true);
+	}
+
+	public override void OnGroundLeave() {
+		anim.SetBool("Grounded", false);
+	}
 }
