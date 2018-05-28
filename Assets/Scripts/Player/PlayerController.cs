@@ -128,7 +128,7 @@ public class PlayerController : Entity {
 			hardFalling = false;
 		}
 
-		if (wallCheck.TouchingLedge() && Input.GetButtonDown("Jump")) {
+		if (wallCheck.TouchingLedge()) {
 			LedgeBoost();
 		}
 	}
@@ -364,10 +364,13 @@ public class PlayerController : Entity {
 	void LedgeBoost() {
 		//anim.SetTrigger("LedgeBoost");
 		//provide an upward impulse
-		rb2d.velocity = new Vector2(
-			x:rb2d.velocity.x * 1.2f * GetForwardScalar(),
-			y:ledgeBoostSpeed
-		);
+		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
+		if (Input.GetButtonDown("Jump") || movingTowardsLedge) {
+			rb2d.velocity = new Vector2(
+				x:rb2d.velocity.x * 1.2f * GetForwardScalar(),
+				y:ledgeBoostSpeed
+			);
+		}
 	}
 
 	public override void OnHit(Attack attack) {
