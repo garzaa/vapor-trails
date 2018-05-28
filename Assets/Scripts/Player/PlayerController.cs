@@ -15,9 +15,9 @@ public class PlayerController : Entity {
 	float dashSpeed = 8;
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
-	int flashTimes = 5;
 	float ledgeBoostSpeed = 4f;
 	bool damageDash = false;
+	int maxHP = 5;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -45,6 +45,7 @@ public class PlayerController : Entity {
 	bool invincible = false;
 	bool inMeteor = false;
 	bool terminalFalling = false;
+	bool cyan = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -88,7 +89,7 @@ public class PlayerController : Entity {
 
 	void Move() {
 
-		if (!frozen) {
+		if (!frozen && !stunned) {
 			anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
@@ -324,24 +325,12 @@ public class PlayerController : Entity {
 	}
 
 	public void CyanSprite() {
+		cyan = true;
         spr.material = cyanMaterial;
     }
 
     public void WhiteSprite() {
         spr.material = defaultMaterial;
-    }
-
-    IEnumerator Hurt(int flashes, bool first) {
-        SetInvincible(true);
-        CyanSprite();
-        yield return new WaitForSeconds(.07f);
-        WhiteSprite();
-        yield return new WaitForSeconds(.07f);
-        if (flashes > 0) {
-            StartCoroutine(Hurt(--flashes, first)); //;^)
-        } else {
-            SetInvincible(false);
-        }
     }
 
     public void SetInvincible(bool b) {
@@ -399,8 +388,38 @@ public class PlayerController : Entity {
 		//anim.SetTrigger("LedgeBoost");
 		//provide an upward impulse
 		rb2d.velocity = new Vector2(
-			x:rb2d.velocity.x,
+			x:rb2d.velocity.x * 1.2f * GetForwardScalar(),
 			y:ledgeBoostSpeed
 		);
+	}
+
+	public override void OnHit(Attack attack) {
+		CyanSprite();
+		DamageFor(attack.GetDamage());
+		//compute potential stun
+		StunFor(attack.GetStunLength());
+		//compute potential knockback
+		//unfreeze if this enemy is in hitstop to preserve the knockback vector
+		//they'll be put back in hitstop afterwards by the incoming attack if necessary
+		if (inHitstop) {
+			UnLockInSpace();
+			inHitstop = false;
+		}
+		if (attack.knockBack) {
+			KnockBack(attack.GetKnockback());
+		}
+		if (cyan) {
+			cyan = false;
+			StartCoroutine(normalSprite());
+		}
+	}
+
+	IEnumerator normalSprite() {
+		yield return new WaitForSeconds(.1f);
+		spr.material = defaultMaterial;
+	}
+
+	void DamageFor(int dmg) {
+		this.maxHP -= dmg;
 	}
 }
