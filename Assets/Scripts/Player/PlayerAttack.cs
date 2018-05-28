@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerAttack : Attack {
 
-	public float stunLength = 0.2f;
-	public bool knockBack = true;
-	public Vector2 knockbackVector = Vector2.zero;
 	public bool flipHitmarker = false;
 
 	public bool gainsEnergy = false;
@@ -19,17 +16,6 @@ public class PlayerAttack : Attack {
 		attackerParent = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackedTags = new List<string>();
 		attackedTags.Add(Tags.EnemyHurtbox);
-	}
-
-	public Vector2 GetKnockback() {
-		return new Vector2(
-			x:knockbackVector.x * attackerParent.GetForwardScalar(), 
-			y:knockbackVector.y
-		);
-	}
-	
-	public float GetStunLength() {
-		return this.stunLength;
 	}
 
 	public override void ExtendedAttackLand() {
@@ -49,7 +35,6 @@ public class PlayerAttack : Attack {
 
 	new void OnTriggerEnter2D(Collider2D otherCol) {
 		if (attackedTags.Contains(otherCol.tag)) {
-			print(otherCol.name);
 			//call enemy on hit first to avoid race condition with hitstop
 			//if it takes energy to inflict damage, don't run any of the hit code
 			if (this.costsEnergy && this.energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {

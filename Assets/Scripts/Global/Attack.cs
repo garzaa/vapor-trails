@@ -12,6 +12,9 @@ public class Attack : MonoBehaviour {
 	public GameObject hitmarker;
 	public List<string> attackedTags;
 	[HideInInspector] public Entity attackerParent;
+	public float stunLength = 0.2f;
+	public bool knockBack = true;
+	public Vector2 knockbackVector = Vector2.zero;
 
 	public int GetDamage() {
 		return this.damage;
@@ -37,6 +40,17 @@ public class Attack : MonoBehaviour {
 			otherCol.GetComponent<Hurtbox>().OnHit(this);
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 		}
+	}
+
+	public Vector2 GetKnockback() {
+		return new Vector2(
+			x:knockbackVector.x * attackerParent.GetForwardScalar(), 
+			y:knockbackVector.y
+		);
+	}
+	
+	public float GetStunLength() {
+		return this.stunLength;
 	}
 
 	//called on the entity that the attack lands on

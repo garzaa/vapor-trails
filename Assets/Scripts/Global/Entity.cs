@@ -10,6 +10,10 @@ public class Entity : MonoBehaviour {
     public bool lockedInSpace = false;
 	public bool inHitstop = false;
 
+    public bool stunned = false;
+    public bool staggerable = false;
+    public Coroutine unStunRoutine;
+
     public void Flip() 
 	{
         facingRight = !facingRight;
@@ -58,11 +62,40 @@ public class Entity : MonoBehaviour {
         return facingRight ? 1 : -1;
     }
 
+    public void StunFor(float seconds) {
+		if (staggerable) {
+			//if the enemy is already stunned, then resstart the stun period
+			if (stunned) {
+				StopCoroutine(unStunRoutine);
+				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
+			} else {
+				stunned = true;
+                Animator anim;
+                if ((anim = GetComponent<Animator>()) != null) {
+				    anim.SetBool("Stunned", true);
+                }
+				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
+			}
+		}
+	}
+
+	public void KnockBack(Vector2 kv) {
+        Rigidbody2D rb2d = GetComponent<Rigidbody2D>();
+		if (staggerable && rb2d != null) {
+			rb2d.velocity = kv;
+		}
+	}
+
+	IEnumerator WaitAndUnStun(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		stunned = false;
+        if (this.GetComponent<Animator>() != null) {
+            Animator anim = GetComponent<Animator>();
+		    anim.SetBool("Stunned", false);
+        }
+	}
+
     public virtual void OnHit(Attack a) {
-
-    }
-
-    public virtual void OnHit(PlayerAttack a) {
 
     }
 }

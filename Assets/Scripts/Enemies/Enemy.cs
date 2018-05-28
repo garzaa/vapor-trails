@@ -31,17 +31,12 @@ public class Enemy : Entity {
 	bool dead = false;
 	[HideInInspector] public bool invincible = false;
 
-	public bool staggerable = true;
 	public bool envDmgSusceptible = true;
 
 	[HideInInspector] public SpriteRenderer spr;
 
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
-
-	bool stunned;
-
-	private Coroutine unStunRoutine;
 
 	public bool IsStunned() {
 		return stunned;
@@ -73,7 +68,7 @@ public class Enemy : Entity {
 		}
 	}
 
-	public override void OnHit(PlayerAttack attack) {
+	public override void OnHit(Attack attack) {
 		WhiteSprite();
 		DamageFor(attack.GetDamage());
 		//compute potential stun
@@ -169,31 +164,5 @@ public class Enemy : Entity {
 	public void Burst() {
 		Instantiate(burstEffect, this.transform.position, Quaternion.identity);
 		Destroy();
-	}
-
-	public void StunFor(float seconds) {
-		if (staggerable) {
-			//if the enemy is already stunned, then resstart the stun period
-			if (stunned) {
-				StopCoroutine(unStunRoutine);
-				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
-			} else {
-				stunned = true;
-				anim.SetBool("Stunned", true);
-				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
-			}
-		}
-	}
-
-	public void KnockBack(Vector2 kv) {
-		if (staggerable) {
-			rb2d.velocity = kv;
-		}
-	}
-
-	IEnumerator WaitAndUnStun(float seconds) {
-		yield return new WaitForSeconds(seconds);
-		stunned = false;
-		anim.SetBool("Stunned", false);
 	}
 }

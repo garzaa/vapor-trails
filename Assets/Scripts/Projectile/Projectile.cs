@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-	Rigidbody2D rb2d;
-
 	public bool impactShake;
 	public Transform burstPrefab;
 
 	public bool ignorePlayer = false;
 
 	void Start() {
-		rb2d = GetComponent<Rigidbody2D>();
 		this.transform.parent = null;
 	}
 
