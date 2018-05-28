@@ -29,7 +29,6 @@ public class PlayerController : Entity {
     Material cyanMaterial;
 	Transform effectPoint;
 	Gun gun;
-	GroundCheck groundCheck;
 
 	//variables
 	bool grounded = false;
@@ -59,7 +58,6 @@ public class PlayerController : Entity {
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		effectPoint = transform.Find("EffectPoint").transform;
 		gun = GetComponent<Gun>();
-		groundCheck = GetComponent<GroundCheck>();
 	}
 	
 	void Update () {
