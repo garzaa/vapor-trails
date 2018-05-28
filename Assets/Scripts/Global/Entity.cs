@@ -14,7 +14,7 @@ public class Entity : MonoBehaviour {
     public bool staggerable = false;
     public Coroutine unStunRoutine;
 
-    
+    public bool invincible = false;
 
     public void Flip() 
 	{

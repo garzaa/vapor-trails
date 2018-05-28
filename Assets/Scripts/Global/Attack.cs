@@ -37,6 +37,12 @@ public class Attack : MonoBehaviour {
 
 	public void OnTriggerEnter2D(Collider2D otherCol) {
 		if (attackedTags.Contains(otherCol.gameObject.tag)) {
+			if (otherCol.GetComponent<Hurtbox>() == null) {
+				return;
+			}
+			if (otherCol.GetComponent<Hurtbox>().GetParent().invincible) {
+				return;
+			}
 			otherCol.GetComponent<Hurtbox>().OnHit(this);
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 		}

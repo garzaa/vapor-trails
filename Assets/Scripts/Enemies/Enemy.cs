@@ -29,7 +29,6 @@ public class Enemy : Entity {
 	bool white;
 
 	bool dead = false;
-	[HideInInspector] public bool invincible = false;
 
 	public bool envDmgSusceptible = true;
 

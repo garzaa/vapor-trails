@@ -42,7 +42,6 @@ public class PlayerController : Entity {
 	public bool dashing = false;
 	bool parrying = false;
 	Vector2 preDashVelocity;
-	bool invincible = false;
 	bool inMeteor = false;
 	bool terminalFalling = false;
 	bool cyan = false;
