@@ -351,8 +351,10 @@ public class PlayerController : Entity {
 
 	void LandMeteor() {
 		inMeteor = false;
+		SetInvincible(false);
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
+		CameraShaker.MedShake();
 		Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 	}
 
@@ -394,6 +396,9 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnHit(Attack attack) {
+		if (invincible) {
+			return;
+		}
 		CyanSprite();
 		DamageFor(attack.GetDamage());
 		//compute potential stun
