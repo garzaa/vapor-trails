@@ -32,7 +32,7 @@ public class PlayerController : Entity {
 	Transform effectPoint;
 	Gun gun;
 	public ContainerUI healthUI;
-	public ContainerUI energyUI;
+public ContainerUI energyUI;
 
 	//variables
 	bool grounded = false;
@@ -368,7 +368,7 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		if (dashing || inMeteor) {
+		if (dashing || inMeteor || Input.GetAxis("Vertical") < 0) {
 			return;
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
