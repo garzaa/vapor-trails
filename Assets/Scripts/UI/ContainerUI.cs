@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ContainerUI : MonoBehaviour {
+public class ContainerUI : UIComponent {
 
 	public int max;
 	public int current;
@@ -20,23 +20,23 @@ public class ContainerUI : MonoBehaviour {
 	float containerWidth;
 	Vector2 initialPos;
 
+	List<Image> drawnContainers;
+
 	void Start() {
 		initialGap = initialContainer.GetComponent<RectTransform>().position.x;
 		initialPos = initialContainer.transform.position;
 		initialRectWidth = initialContainer.GetComponent<RectTransform>().rect.width * GetCanvasScale();
-		UpdateContainers();
+		drawnContainers = new List<Image>();
+		DrawContainers();
 	}
 
 	void Update() {
 
 	}
 
-	void UpdateContainers() {
+	void DrawContainers() {
 		containerWidth = initialRectWidth;
-		//first, remove all the old containers
-		foreach (Transform child in this.transform) {
-			Destroy(child.gameObject);
-		}
+		ClearContainers();
 
 		//for each full container, draw one
 		for (int i=0; i<current; i++) {
@@ -44,7 +44,8 @@ public class ContainerUI : MonoBehaviour {
 				x:initialPos.x + (i * (containerWidth + initialGap)),
 				y:initialPos.y
 			);
-			Instantiate(fullContainer, newPos, Quaternion.identity, this.transform.parent.transform);
+			Image img = Instantiate(fullContainer, newPos, Quaternion.identity, this.transform.parent.transform);
+			drawnContainers.Add(img);
 		}
 		//then do the same for the empty containers 
 		for (int i=current; i<max; i++) {
@@ -52,12 +53,39 @@ public class ContainerUI : MonoBehaviour {
 				x:initialPos.x + (i * (containerWidth + initialGap)),
 				y:initialPos.y
 			);
-			Instantiate(emptyContainer, newPos, Quaternion.identity, this.transform.parent.transform);
+			Image img = Instantiate(emptyContainer, newPos, Quaternion.identity, this.transform.parent.transform);
+			drawnContainers.Add(img);
 		}
 	}
 
 	float GetCanvasScale() {
 		return GameObject.Find("Canvas").GetComponent<Canvas>().scaleFactor;
+	}
+
+	public void SetMax(int newMax) {
+		int prevMax = this.max;
+		this.max = newMax;
+		if (prevMax != this.max) {
+			DrawContainers();
+		}
+	}
+
+	public void SetCurrent(int newCurrent) {
+		int prevCurrent = this.current;
+		this.current = newCurrent;
+		if (prevCurrent != this.current) {
+			DrawContainers();
+		}
+	}
+
+	void ClearContainers() {
+		//this is throwing an error, maybe in the iterator mechanics or something
+		foreach (Image i in drawnContainers) {
+			Destroy(i.gameObject);
+		}
+		drawnContainers.Clear();
+
+
 	}
 	
 }

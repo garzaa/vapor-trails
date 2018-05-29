@@ -18,6 +18,8 @@ public class PlayerController : Entity {
 	float ledgeBoostSpeed = 4f;
 	bool damageDash = false;
 	int maxHP = 5;
+	int currentHP = 5;
+	float invincibilityLength = .8f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -29,6 +31,8 @@ public class PlayerController : Entity {
     Material cyanMaterial;
 	Transform effectPoint;
 	Gun gun;
+	public ContainerUI healthUI;
+	public ContainerUI energyUI;
 
 	//variables
 	bool grounded = false;
@@ -58,6 +62,7 @@ public class PlayerController : Entity {
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		effectPoint = transform.Find("EffectPoint").transform;
 		gun = GetComponent<Gun>();
+		currentHP = maxHP;
 	}
 	
 	void Update () {
@@ -67,6 +72,7 @@ public class PlayerController : Entity {
 		Shoot();
 		Attack();
 		Jump();
+		UpdateUI();
 	}
 
 	void Attack() {
@@ -362,10 +368,13 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		//anim.SetTrigger("LedgeBoost");
-		//provide an upward impulse
+		if (dashing || inMeteor) {
+			return;
+		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
 		if (Input.GetButtonDown("Jump") || movingTowardsLedge) {
+			//anim.SetTrigger("LedgeBoost");
+			//provide an upward impulse
 			rb2d.velocity = new Vector2(
 				x:rb2d.velocity.x * 1.2f * GetForwardScalar(),
 				y:ledgeBoostSpeed
@@ -377,6 +386,7 @@ public class PlayerController : Entity {
 		if (invincible) {
 			return;
 		}
+		InvincibleFor(this.invincibilityLength);
 		CameraShaker.MedShake();
 		CyanSprite();
 		DamageFor(attack.GetDamage());
@@ -390,7 +400,11 @@ public class PlayerController : Entity {
 			inHitstop = false;
 		}
 		if (attack.knockBack) {
-			KnockBack(attack.GetKnockback());
+			//knockback based on the position of the attack
+			Vector2 kv = attack.GetKnockback();
+			bool attackerToLeft = attack.transform.position.x < this.transform.position.x;
+			kv.x *= attackerToLeft ? 1 : -1;
+			KnockBack(kv);
 		}
 		if (cyan) {
 			cyan = false;
@@ -403,7 +417,30 @@ public class PlayerController : Entity {
 		spr.material = defaultMaterial;
 	}
 
+	IEnumerator waitAndSetVincible(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		SetInvincible(false);
+	}
+
+	void InvincibleFor(float seconds) {
+		SetInvincible(true);
+		StartCoroutine(waitAndSetVincible(seconds));
+	}
+
+
 	void DamageFor(int dmg) {
-		this.maxHP -= dmg;
+		currentHP -= dmg;
+		if (this.currentHP <= 0) {
+			Die();
+		}
+	}
+
+	void Die() {
+		Destroy(this.gameObject);
+	}
+
+	void UpdateUI() {
+		healthUI.SetMax(maxHP);
+		healthUI.SetCurrent(currentHP);
 	}
 }
