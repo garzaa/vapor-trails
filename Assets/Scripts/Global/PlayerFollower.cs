@@ -9,6 +9,8 @@ public class PlayerFollower : MonoBehaviour {
 	public float lookAhead;
 	Vector3 velocity = Vector3.zero;
 
+	bool smoothing;
+
 	void Start () {
 		this.transform.position = new Vector3(x:player.transform.position.x,
 			y:player.transform.position.y,
@@ -17,14 +19,26 @@ public class PlayerFollower : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
-		transform.position = Vector3.SmoothDamp(
-			transform.position,
-			new Vector3(
-				x:player.transform.position.x+(lookAhead * player.GetComponent<Entity>().GetForwardScalar()),
-				y:player.transform.position.y,
-				z:this.transform.position.z),
-			ref velocity,
-			moveSpeed * Time.deltaTime
-			);
+		if (smoothing) {
+			transform.position = Vector3.SmoothDamp(
+				transform.position,
+				new Vector3(
+					x:player.transform.position.x+(lookAhead * player.GetComponent<Entity>().GetForwardScalar()),
+					y:player.transform.position.y,
+					z:this.transform.position.z),
+				ref velocity,
+				moveSpeed * Time.deltaTime
+				);
+		} else {
+			transform.position = player.transform.position;
+		}
+	}
+
+	public void EnableSmoothing() {
+		this.smoothing = true;
+	}
+
+	public void DisableSmoothing() {
+		this.smoothing = false;
 	}
 }
