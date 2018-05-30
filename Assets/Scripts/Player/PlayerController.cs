@@ -157,8 +157,8 @@ public class PlayerController : Entity {
 				InterruptAttack();
 			}
 			else if (touchingWall || justLeftWall) {
-				StopCoroutine(currentWallTimeout);
 				InterruptMeteor();
+				InterruptAttack();
 				FreezeFor(.1f);
 				rb2d.velocity = new Vector2(
 					//we don't want to boost the player back to the wall if they just input a direction away from it
@@ -167,7 +167,7 @@ public class PlayerController : Entity {
 				);
 				Flip();
 				anim.SetTrigger("Jump");
-				InterruptAttack();
+				StopWallTimeout();
 			}
 			else if (airJumps > 0) {
 				InterruptMeteor();
@@ -190,6 +190,7 @@ public class PlayerController : Entity {
 		if (dashCooldown || dashing || parrying) {
 			return;
 		}
+		StopWallTimeout();
 		InterruptAttack();
 		inMeteor = false;
 		SetInvincible(true);
@@ -237,6 +238,7 @@ public class PlayerController : Entity {
 		grounded = true;
 		ResetAirJumps();
 		InterruptAttack();
+		StopWallTimeout();
 		if (inMeteor) {
 			LandMeteor();
 		}
@@ -470,8 +472,16 @@ public class PlayerController : Entity {
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(.1f);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
+	}
+
+	void StopWallTimeout() {
+		if (currentWallTimeout != null) {
+			StopCoroutine(currentWallTimeout);
+		}
+		anim.SetBool("JustLeftWall", false);
+		justLeftWall = false;
 	}
 }
