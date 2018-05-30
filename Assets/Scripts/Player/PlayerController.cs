@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : Entity {
 
 	//constants
-	float MaxMoveSpeed = 2.5f;
+	float maxMoveSpeed = 2.5f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	int maxAirJumps = 1;
@@ -32,7 +32,7 @@ public class PlayerController : Entity {
 	Transform effectPoint;
 	Gun gun;
 	public ContainerUI healthUI;
-public ContainerUI energyUI;
+	public ContainerUI energyUI;
 
 	//variables
 	bool grounded = false;
@@ -46,6 +46,8 @@ public ContainerUI energyUI;
 	bool inMeteor = false;
 	bool terminalFalling = false;
 	bool cyan = false;
+	bool justLeftWall = false;
+	Coroutine currentWallTimeout;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -95,7 +97,7 @@ public ContainerUI energyUI;
 
 			if (HorizontalInput() && !midSwing) {
 				if (Input.GetAxis("Horizontal") != 0) {
-					rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * MaxMoveSpeed), y:rb2d.velocity.y);
+					rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * maxMoveSpeed), y:rb2d.velocity.y);
 					movingRight = Input.GetAxis("Horizontal") > 0;
 				}
 			} 
@@ -113,6 +115,14 @@ public ContainerUI energyUI;
 
 			if (Input.GetButtonDown("Special") && HorizontalInput() && !touchingWall) {
 				Dash();
+			}
+
+			//if they're above max move speed, gently slow them
+			if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed) {
+				rb2d.velocity = new Vector2(
+					x:rb2d.velocity.x / 1.01f,
+					y:rb2d.velocity.y
+				);
 			}
 		}
 
@@ -146,10 +156,15 @@ public ContainerUI energyUI;
 				anim.SetTrigger("Jump");
 				InterruptAttack();
 			}
-			else if (touchingWall) {
+			else if (touchingWall || justLeftWall) {
+				StopCoroutine(currentWallTimeout);
 				InterruptMeteor();
 				FreezeFor(.1f);
-				rb2d.velocity = new Vector2(x:-2 * GetForwardScalar(), y:jumpSpeed);
+				rb2d.velocity = new Vector2(
+					//we don't want to boost the player back to the wall if they just input a direction away from it
+					x:maxMoveSpeed * GetForwardScalar() * (justLeftWall ? 1 : -1), 
+					y:jumpSpeed
+				);
 				Flip();
 				anim.SetTrigger("Jump");
 				InterruptAttack();
@@ -276,6 +291,12 @@ public ContainerUI energyUI;
 
 	void OnWallLeave() {
 		anim.SetBool("TouchingWall", false);
+
+		//if the player just left the wall, they input the opposite direction for a walljump
+		//so give them a split second to use a walljump when they're not technically touching the wall
+		if (!grounded) {
+			currentWallTimeout = StartCoroutine(WallLeaveTimeout());
+		}
 	}
 
 	void FreezeFor(float seconds) {
@@ -378,7 +399,7 @@ public ContainerUI energyUI;
 			ResetAirJumps();
 			InterruptAttack();
 			rb2d.velocity = new Vector2(
-				x:rb2d.velocity.x * 1.2f * GetForwardScalar(),
+				x:maxMoveSpeed * GetForwardScalar(),
 				y:ledgeBoostSpeed
 			);
 		}
@@ -444,5 +465,13 @@ public ContainerUI energyUI;
 	void UpdateUI() {
 		healthUI.SetMax(maxHP);
 		healthUI.SetCurrent(currentHP);
+	}
+
+	IEnumerator WallLeaveTimeout() {
+		justLeftWall = true;
+		anim.SetBool("JustLeftWall", true);
+		yield return new WaitForSeconds(0.1f);
+		justLeftWall = false;
+		anim.SetBool("JustLeftWall", false);
 	}
 }
