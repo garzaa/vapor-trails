@@ -10,6 +10,7 @@ public class PlayerFollower : MonoBehaviour {
 	Vector3 velocity = Vector3.zero;
 
 	bool smoothing;
+	bool following;
 
 	void Start () {
 		this.transform.position = new Vector3(x:player.transform.position.x,
@@ -19,6 +20,9 @@ public class PlayerFollower : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
+		if (!following) {
+			return;
+		}
 		if (smoothing) {
 			transform.position = Vector3.SmoothDamp(
 				transform.position,
@@ -40,5 +44,13 @@ public class PlayerFollower : MonoBehaviour {
 
 	public void DisableSmoothing() {
 		this.smoothing = false;
+	}
+
+	public void EnableFollowing() {
+		this.following = true;
+	}
+
+	public void DisableFollowing() {
+		this.following = false;
 	}
 }
