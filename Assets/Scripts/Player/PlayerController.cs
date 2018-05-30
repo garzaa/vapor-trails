@@ -147,6 +147,10 @@ public class PlayerController : Entity {
 		if (wallCheck.TouchingLedge()) {
 			LedgeBoost();
 		}
+
+		if (touchingWall && !grounded && !HorizontalInput()) {
+			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+		}
 	}
 
 	void Jump() {
