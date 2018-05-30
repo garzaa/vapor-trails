@@ -271,6 +271,7 @@ public class PlayerController : Entity {
 	}
 
 	void InterruptMeteor() {
+		anim.SetBool("InMeteor", false);
 		inMeteor = false;
 	}
 
@@ -350,7 +351,7 @@ public class PlayerController : Entity {
 		inMeteor = true;
 		SetInvincible(true);
 		anim.SetTrigger("Meteor");
-
+		anim.SetBool("InMeteor", true);
 		rb2d.velocity = new Vector2(
 			x:0,
 			y:terminalVelocity
@@ -359,6 +360,7 @@ public class PlayerController : Entity {
 
 	void LandMeteor() {
 		inMeteor = false;
+		anim.SetBool("InMeteor", false);
 		SetInvincible(false);
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
@@ -476,7 +478,7 @@ public class PlayerController : Entity {
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.2f);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
 	}
