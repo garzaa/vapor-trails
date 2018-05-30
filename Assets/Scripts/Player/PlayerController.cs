@@ -375,6 +375,8 @@ public ContainerUI energyUI;
 		if (Input.GetButtonDown("Jump") || movingTowardsLedge) {
 			//anim.SetTrigger("LedgeBoost");
 			//provide an upward impulse
+			ResetAirJumps();
+			InterruptAttack();
 			rb2d.velocity = new Vector2(
 				x:rb2d.velocity.x * 1.2f * GetForwardScalar(),
 				y:ledgeBoostSpeed

@@ -9,8 +9,8 @@ public class PlayerFollower : MonoBehaviour {
 	public float lookAhead;
 	Vector3 velocity = Vector3.zero;
 
-	bool smoothing;
-	bool following;
+	bool smoothing = true;
+	bool following = true;
 
 	void Start () {
 		this.transform.position = new Vector3(x:player.transform.position.x,
