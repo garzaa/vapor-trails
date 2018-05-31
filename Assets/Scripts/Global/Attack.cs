@@ -60,6 +60,9 @@ public class Attack : MonoBehaviour {
 	}
 
 	public virtual bool ExtendedAttackCheck(Collider2D col) {
+		if (col.GetComponent<Hurtbox>() == null) {
+			return false;
+		}
 		return !col.GetComponent<Hurtbox>().GetParent().invincible;
 	}
 

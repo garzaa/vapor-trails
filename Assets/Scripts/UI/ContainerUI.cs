@@ -23,10 +23,8 @@ public class ContainerUI : UIComponent {
 	List<Image> drawnContainers;
 
 	void Start() {
-		initialGap = initialContainer.GetComponent<RectTransform>().position.x;
-		initialPos = initialContainer.transform.position;
-		initialRectWidth = initialContainer.GetComponent<RectTransform>().rect.width * GetCanvasScale();
 		drawnContainers = new List<Image>();
+		InitPositions();
 		DrawContainers();
 	}
 
@@ -34,7 +32,14 @@ public class ContainerUI : UIComponent {
 
 	}
 
+	void InitPositions() {
+		initialGap = initialContainer.GetComponent<RectTransform>().position.x;
+		initialPos = initialContainer.transform.position;
+		initialRectWidth = initialContainer.GetComponent<RectTransform>().rect.width * GetCanvasScale();
+	}
+
 	void DrawContainers() {
+		InitPositions();
 		containerWidth = initialRectWidth;
 		ClearContainers();
 
