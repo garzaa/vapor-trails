@@ -9,7 +9,7 @@ public class PlayerController : Entity {
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	int maxAirJumps = 1;
-	float hardLandVelocity = -5f;
+	float hardLandVelocity = -4f;
 	float terminalVelocity = -10f;
 	public int baseAttackDamage = 1;
 	float dashSpeed = 8;
@@ -113,7 +113,7 @@ public class PlayerController : Entity {
 				);
 			}
 
-			if (Input.GetButtonDown("Special") && HorizontalInput() && !touchingWall) {
+			if (Input.GetButtonDown("Special") && HorizontalInput() && (!touchingWall || justLeftWall)) {
 				Dash();
 			}
 
@@ -361,6 +361,7 @@ public class PlayerController : Entity {
 	void LandMeteor() {
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
+		rb2d.velocity = Vector2.zero;
 		SetInvincible(false);
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
@@ -397,11 +398,12 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		if (dashing || inMeteor || Input.GetAxis("Vertical") < 0) {
+		if (inMeteor || Input.GetAxis("Vertical") < 0) {
 			return;
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
-		if (Input.GetButtonDown("Jump") || movingTowardsLedge) {
+		if (movingTowardsLedge) {
+			InterruptDash();
 			//anim.SetTrigger("LedgeBoost");
 			//provide an upward impulse
 			ResetAirJumps();
@@ -478,7 +480,7 @@ public class PlayerController : Entity {
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.2f);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
 	}

@@ -13,7 +13,7 @@ public class ParallaxLayer : MonoBehaviour {
     private void OnEnable()
     {
         options = Camera.main.GetComponentInParent<ParallaxOption>();
-        previousCameraPosition = Camera.main.transform.parent.transform.position;
+        previousCameraPosition = Camera.main.transform.position;
     }
  
     void Update ()
