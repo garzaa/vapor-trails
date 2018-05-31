@@ -170,7 +170,7 @@ public class PlayerController : Entity {
 					y:jumpSpeed
 				);
 				Flip();
-				anim.SetTrigger("Jump");
+				anim.SetTrigger("WallJump");
 				StopWallTimeout();
 			}
 			else if (airJumps > 0) {
