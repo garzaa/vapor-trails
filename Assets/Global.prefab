@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 4652373218800376}
   - component: {fileID: 114942677051927490}
   - component: {fileID: 61904102898474500}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: PlayerHurtbox
   m_TagString: PlayerHurtbox
   m_Icon: {fileID: 0}
@@ -333,6 +333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4907328520807726}
   - component: {fileID: 114692158387008966}
+  - component: {fileID: 114096589904260976}
   m_Layer: 0
   m_Name: CameraContainer
   m_TagString: Untagged
@@ -559,7 +560,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114997985086966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.21999997, y: -0.33400002, z: 0}
+  m_LocalPosition: {x: 0.21999997, y: -0.334, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4078833572404762}
@@ -663,7 +664,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1336690822729690}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.28000003, y: -0.33400002, z: 0}
+  m_LocalPosition: {x: -0.28000003, y: -0.334, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4078833572404762}
@@ -702,7 +703,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1251777175516782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67618227, y: -1.4806088, z: 0}
+  m_LocalPosition: {x: -3.7, y: 3.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4078833572404762}
@@ -758,7 +759,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.4575
+  orthographic size: 1.48
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1036,6 +1037,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f7d68666c3fcb4db1652f6ec711ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114096589904260976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1725532386823414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3079a0be567e6ed4b9d702bba6838a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveParallax: 0
+  storedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114101496514425878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1085,10 +1099,14 @@ MonoBehaviour:
   inHitstop: 0
   stunned: 0
   staggerable: 1
+  invincible: 0
+  envDmgSusceptible: 1
   baseAttackDamage: 1
   hardFalling: 0
   wallCheck: {fileID: 114101496514425878}
   hurtboxes: {fileID: 1459500802892718}
+  healthUI: {fileID: 114250467124477486}
+  energyUI: {fileID: 114640882907452660}
   airJumps: 1
   midSwing: 0
   dashing: 0
@@ -4758,7 +4776,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1133173491
+  randomSeed: -413823216
   InitialModule:
     serializedVersion: 3
     enabled: 1
