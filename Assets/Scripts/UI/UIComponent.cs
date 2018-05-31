@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class UIComponent : MonoBehaviour {
 
-	public void Show() {
+	public virtual void Show() {
 		SetEnabledRecursive(this.transform, true);
 	}
 
-	public void Hide() {
+	public virtual void Hide() {
 		SetEnabledRecursive(this.transform, false);
 	}
 
