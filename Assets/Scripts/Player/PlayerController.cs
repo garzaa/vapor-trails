@@ -9,7 +9,7 @@ public class PlayerController : Entity {
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	int maxAirJumps = 1;
-	float hardLandVelocity = -4f;
+	float hardLandVelocity = -4.5f;
 	float terminalVelocity = -10f;
 	public int baseAttackDamage = 1;
 	float dashSpeed = 8;
@@ -17,9 +17,9 @@ public class PlayerController : Entity {
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	bool damageDash = false;
-	int maxHP = 5;
-	int currentHP = 5;
-	float invincibilityLength = .8f;
+	int maxHP = 10;
+	int currentHP = 10;
+	float invincibilityLength = .5f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -416,8 +416,12 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnHit(Attack attack) {
-		if (invincible) {
+		if (invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			return;
+		}
+		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
+			InterruptMeteor();
+			InterruptDash();
 		}
 		InvincibleFor(this.invincibilityLength);
 		CameraShaker.MedShake();

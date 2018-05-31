@@ -18,7 +18,7 @@ public class PlayerAttack : Attack {
 		attackedTags.Add(Tags.EnemyHurtbox);
 	}
 
-	public override void ExtendedAttackLand() {
+	public override void ExtendedAttackLand(Entity e) {
 		//run self knockback
 		if (selfKnockBack) {
 			attackerParent.GetComponent<Rigidbody2D>().velocity = selfKnockBackVector;

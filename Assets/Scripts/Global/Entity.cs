@@ -15,6 +15,7 @@ public class Entity : MonoBehaviour {
     public Coroutine unStunRoutine;
 
     public bool invincible = false;
+    public bool envDmgSusceptible = true;
 
     public void Flip() 
 	{

@@ -3,6 +3,7 @@ public abstract class Tags {
 	public const string EditorOnly = "EditorOnly";
 	public const string EnemyHitbox = "EnemyHitbox";
 	public const string EnemyHurtbox = "EnemyHurtbox";
+	public const string EnviroDamage = "EnviroDamage";
 	public const string Finish = "Finish";
 	public const string GameController = "GameController";
 	public const string MainCamera = "MainCamera";

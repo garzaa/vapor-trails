@@ -30,8 +30,6 @@ public class Enemy : Entity {
 
 	bool dead = false;
 
-	public bool envDmgSusceptible = true;
-
 	[HideInInspector] public SpriteRenderer spr;
 
 	public bool burstOnDeath = false;
