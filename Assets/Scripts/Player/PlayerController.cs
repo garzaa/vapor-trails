@@ -480,7 +480,7 @@ public class PlayerController : Entity {
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(.2f);
+		yield return new WaitForSeconds(.1f);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
 	}
