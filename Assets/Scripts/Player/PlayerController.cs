@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : Entity {
 
 	//constants
-	float maxMoveSpeed = 2.5f;
+	float maxMoveSpeed = 3f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	int maxAirJumps = 1;

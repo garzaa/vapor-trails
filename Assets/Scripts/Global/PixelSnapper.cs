@@ -15,14 +15,10 @@ public class PixelSnapper : MonoBehaviour {
     void Update()
     {
         int lastPixelScale = pixelScale;
-        if (Screen.height < 720) {
-            pixelScale = 2;
-        } 
-        else if (Screen.height <= 1080) {
-            pixelScale = 3;
-        }
-        _camera.orthographicSize = Screen.height * (0.005f / pixelScale);
+        pixelScale = (Screen.height / 720) + 1;
+
         if (pixelScale != lastPixelScale) {
+            _camera.orthographicSize = Screen.height * (0.005f / pixelScale);
             UpdateUI(pixelScale);
         }
     }
