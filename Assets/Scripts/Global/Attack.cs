@@ -43,9 +43,6 @@ public class Attack : MonoBehaviour {
 			if (otherCol.GetComponent<Hurtbox>() == null) {
 				return;
 			}
-			if (otherCol.GetComponent<Hurtbox>().GetParent().invincible && !this.CompareTag(Tags.EnviroDamage)) {
-				return;
-			}
 			otherCol.GetComponent<Hurtbox>().OnHit(this);
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 		}
@@ -63,7 +60,7 @@ public class Attack : MonoBehaviour {
 	}
 
 	public virtual bool ExtendedAttackCheck(Collider2D col) {
-		return true;
+		return !col.GetComponent<Hurtbox>().GetParent().invincible;
 	}
 
 	//called on the entity that the attack lands on

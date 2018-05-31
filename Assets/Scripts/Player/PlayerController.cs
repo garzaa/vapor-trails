@@ -198,6 +198,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		inMeteor = false;
 		SetInvincible(true);
+		this.envDmgSusceptible = false;
         if (damageDash) {
             anim.SetTrigger("DamageDash");
         } else {
@@ -213,17 +214,17 @@ public class PlayerController : Entity {
         dashing = false;
         rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
-		
+		this.envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
     }
 
-	//the same as above without arresting the momentum
+	//the same as above without resetting the momentum
 	void InterruptDash() {
 		UnFreeze();
         dashing = false;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
-		
+		this.envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
 	}
@@ -421,7 +422,6 @@ public class PlayerController : Entity {
 		}
 		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			InterruptMeteor();
-			InterruptDash();
 		}
 		InvincibleFor(this.invincibilityLength);
 		CameraShaker.MedShake();
