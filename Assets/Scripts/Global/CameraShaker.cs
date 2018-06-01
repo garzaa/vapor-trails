@@ -31,7 +31,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public static void BigShake() {
-		Shake(0.1f, 0.1f);
+		Shake(0.5f, 0.5f);
 	}
 
 	public static void MedShake() {

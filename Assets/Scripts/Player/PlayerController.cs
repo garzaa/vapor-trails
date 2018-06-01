@@ -17,8 +17,8 @@ public class PlayerController : Entity {
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	bool damageDash = false;
-	int maxHP = 10;
-	int currentHP = 10;
+	int maxHP = 1;
+	public int currentHP = 1;
 	int maxEnergy = 5;
 	public int currentEnergy = 5;
 	float invincibilityLength = .5f;
@@ -35,6 +35,7 @@ public class PlayerController : Entity {
 	Gun gun;
 	public ContainerUI healthUI;
 	public ContainerUI energyUI;
+	public ParticleSystem deathParticles;
 
 	//variables
 	bool grounded = false;
@@ -157,7 +158,10 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if (Input.GetButtonDown("Jump") && !frozen && !wallCheck.TouchingLedge()) {
+		if (frozen || wallCheck.TouchingLedge() || lockedInSpace) {
+			return;
+		}
+		if (Input.GetButtonDown("Jump")) {
 			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
@@ -435,10 +439,13 @@ public class PlayerController : Entity {
 		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			InterruptMeteor();
 		}
-		InvincibleFor(this.invincibilityLength);
 		CameraShaker.MedShake();
-		CyanSprite();
 		DamageFor(attack.GetDamage());
+		if (this.currentHP == 0) {
+			return;
+		}
+		InvincibleFor(this.invincibilityLength);
+		CyanSprite();
 		//compute potential stun
 		StunFor(attack.GetStunLength());
 		//compute potential knockback
@@ -479,13 +486,41 @@ public class PlayerController : Entity {
 
 	void DamageFor(int dmg) {
 		currentHP -= dmg;
-		if (this.currentHP <= 0) {
+		if (currentHP <= 0) {
 			Die();
 		}
 	}
 
 	void Die() {
-		Destroy(this.gameObject);
+		CameraShaker.BigShake();
+		deathParticles.Emit(50);
+		LockInSpace();
+		Freeze();
+		anim.SetTrigger("Die");
+		DisableShooting();
+		InterruptAttack();
+		InterruptDash();
+		InterruptMeteor();
+		ResetAttackTriggers();
+		ResetAirJumps();
+		Respawn();
+	}
+
+	public void Respawn() {
+		FullHeal();
+		anim.SetTrigger("Respawn");
+	}
+
+	public void EndRespawnAnimation() {
+		UnFreeze();
+		UnLockInSpace();
+		EnableShooting();
+		InvincibleFor(1f);
+	}
+
+	void FullHeal() {
+		currentHP = maxHP;
+		currentEnergy = maxEnergy;
 	}
 
 	void UpdateUI() {

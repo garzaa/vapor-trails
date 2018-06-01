@@ -31,6 +31,9 @@ public class Entity : MonoBehaviour {
     }
 
     public void CheckFlip() {
+        if (frozen || lockedInSpace) {
+            return;
+        }
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
             if (!facingRight && rb2d.velocity.x > 0 && movingRight)
