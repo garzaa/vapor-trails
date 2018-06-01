@@ -17,12 +17,7 @@ public class ParallaxLayer : MonoBehaviour {
     }
  
     void Update ()
-    {
-        if (options.moveParallax && !previousMoveParallax)
-        {
-            previousCameraPosition = Camera.main.transform.position;
-        }
- 
+    { 
         previousMoveParallax = options.moveParallax;
  
         if (!Application.isPlaying && !options.moveParallax)
@@ -30,10 +25,8 @@ public class ParallaxLayer : MonoBehaviour {
             return;
         }
  
-        Vector3 distance = Camera.main.transform.position - previousCameraPosition;
+        Vector3 distance = Camera.main.transform.position;
         float direction = (moveInOppositeDirection) ? -1f : 1f;
-        transform.position += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
- 
-        previousCameraPosition = Camera.main.transform.position;
+        transform.position = Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
     }
 }
