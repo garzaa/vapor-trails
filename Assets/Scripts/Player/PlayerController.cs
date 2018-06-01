@@ -19,6 +19,8 @@ public class PlayerController : Entity {
 	bool damageDash = false;
 	int maxHP = 10;
 	int currentHP = 10;
+	int maxEnergy = 5;
+	public int currentEnergy = 5;
 	float invincibilityLength = .5f;
 
 	//linked components
@@ -368,7 +370,9 @@ public class PlayerController : Entity {
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		CameraShaker.MedShake();
-		Instantiate(vaporExplosion, transform.position, Quaternion.identity);
+		if (currentEnergy > 0) {
+			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
+		}
 	}
 
 	public void Sparkle() {
@@ -378,25 +382,32 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (Input.GetButtonDown("Projectile") && canShoot) {
+		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {
 			Sparkle();
 			gun.Fire(
 				forwardScalar: GetForwardScalar(), 
 				bulletPos: effectPoint
 			);
+			LoseEnergy(1);
 		}
 	}
 
 	public void GainEnergy(int amount) {
-		//UIController.UpdateUI()
+		currentEnergy += amount;
+		if (currentEnergy > maxEnergy) {
+			currentEnergy = maxEnergy;
+		}
 	}
 
 	public int CheckEnergy() {
-		return 1;
+		return currentEnergy;
 	}
 
 	public void LoseEnergy(int amount) {
-
+		currentEnergy -= amount;
+		if (currentEnergy < 0) {
+			currentEnergy = 0;
+		}
 	}
 
 	void LedgeBoost() {
@@ -480,6 +491,8 @@ public class PlayerController : Entity {
 	void UpdateUI() {
 		healthUI.SetMax(maxHP);
 		healthUI.SetCurrent(currentHP);
+		energyUI.SetMax(maxEnergy);
+		energyUI.SetCurrent(currentEnergy);
 	}
 
 	IEnumerator WallLeaveTimeout() {
