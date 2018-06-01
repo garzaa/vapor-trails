@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SceneData : MonoBehaviour {
 
-	public string title {set; get;}
-	public string subTitle {set; get;}
+	public string title;
+	public string subTitle;
 	public Vector2 defaultSpawnPoint;
 
 	void Awake() {

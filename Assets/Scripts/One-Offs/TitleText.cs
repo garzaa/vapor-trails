@@ -10,8 +10,18 @@ public class TitleText : MonoBehaviour {
 
 	Animator anim;
 
-	void Start() {
+	void Awake() {
 		anim = GetComponent<Animator>();
+	}
+
+	public void ShowText(string title, string subTitle = null) {
+		this.title.text = title;
+		if (!string.IsNullOrEmpty(subTitle)) {
+			this.subTitle.text = subTitle;
+		} else {
+			this.subTitle.text = "";
+		}
+		anim.SetTrigger("ShowText");
 	}
 
 }

@@ -7,14 +7,16 @@ public class PlayerFollower : MonoBehaviour {
 	public GameObject player;
 	public float moveSpeed;
 	public float lookAhead;
+	public float offsetY;
 	Vector3 velocity = Vector3.zero;
 
 	bool smoothing = true;
 	bool following = true;
 
+
 	void Start () {
 		this.transform.position = new Vector3(x:player.transform.position.x,
-			y:player.transform.position.y,
+			y:player.transform.position.y + offsetY,
 			z:this.transform.position.z
 		);
 	}
@@ -28,13 +30,13 @@ public class PlayerFollower : MonoBehaviour {
 				transform.position,
 				new Vector3(
 					x:player.transform.position.x+(lookAhead * player.GetComponent<Entity>().GetForwardScalar()),
-					y:player.transform.position.y,
+					y:player.transform.position.y + offsetY,
 					z:this.transform.position.z),
 				ref velocity,
 				moveSpeed * Time.deltaTime
 				);
 		} else {
-			transform.position = player.transform.position;
+			transform.position = player.transform.position + new Vector3(0, offsetY, 0);
 		}
 	}
 

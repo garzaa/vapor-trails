@@ -5,14 +5,16 @@ using UnityEngine;
 public class GlobalController : MonoBehaviour {
 
 	public static GlobalController gc;
-	public GameObject titleText;
+	public TitleText editorTitleText;
+	public static TitleText titleText;
 
 	void Awake()
 	{
 		gc = this;
+		titleText = editorTitleText;
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
-		
+		titleText.ShowText(title, subTitle);
 	}
 }
