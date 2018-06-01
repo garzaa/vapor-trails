@@ -505,4 +505,8 @@ public class PlayerController : Entity {
 	void DisableShooting() {
 		this.canShoot = false;
 	}
+
+	void DropThroughPlatform() {
+		
+	}
 }

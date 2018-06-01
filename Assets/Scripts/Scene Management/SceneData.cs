@@ -7,4 +7,8 @@ public class SceneData : MonoBehaviour {
 	public string title {set; get;}
 	public string subTitle {set; get;}
 	public Vector2 defaultSpawnPoint;
+
+	void Awake() {
+		this.gameObject.name = "SceneData";
+	}
 }

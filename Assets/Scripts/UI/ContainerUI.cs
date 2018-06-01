@@ -49,7 +49,7 @@ public class ContainerUI : UIComponent {
 				x:initialPos.x + (i * (containerWidth + initialGap)),
 				y:initialPos.y
 			);
-			Image img = Instantiate(fullContainer, newPos, Quaternion.identity, this.transform.parent.transform);
+			Image img = Instantiate(fullContainer, newPos, Quaternion.identity, this.transform);
 			drawnContainers.Add(img);
 		}
 		//then do the same for the empty containers 
@@ -58,7 +58,7 @@ public class ContainerUI : UIComponent {
 				x:initialPos.x + (i * (containerWidth + initialGap)),
 				y:initialPos.y
 			);
-			Image img = Instantiate(emptyContainer, newPos, Quaternion.identity, this.transform.parent.transform);
+			Image img = Instantiate(emptyContainer, newPos, Quaternion.identity, this.transform);
 			drawnContainers.Add(img);
 		}
 	}
