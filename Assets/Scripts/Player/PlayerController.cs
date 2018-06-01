@@ -48,6 +48,7 @@ public class PlayerController : Entity {
 	bool cyan = false;
 	bool justLeftWall = false;
 	Coroutine currentWallTimeout;
+	bool canShoot = true;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -377,7 +378,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (Input.GetButtonDown("Projectile")) {
+		if (Input.GetButtonDown("Projectile") && canShoot) {
 			Sparkle();
 			gun.Fire(
 				forwardScalar: GetForwardScalar(), 
@@ -495,5 +496,13 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("JustLeftWall", false);
 		justLeftWall = false;
+	}
+
+	void EnableShooting() {
+		this.canShoot = true;
+	}
+
+	void DisableShooting() {
+		this.canShoot = false;
 	}
 }
