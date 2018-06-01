@@ -17,4 +17,8 @@ public class GlobalController : MonoBehaviour {
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
 	}
+
+	public static void RespawnPlayer() {
+		
+	}
 }

@@ -511,6 +511,10 @@ public class PlayerController : Entity {
 		anim.SetTrigger("Respawn");
 	}
 
+	public void StartRespawnAnimation() {
+		transform.position = Vector2.zero;
+	}
+
 	public void EndRespawnAnimation() {
 		UnFreeze();
 		UnLockInSpace();
