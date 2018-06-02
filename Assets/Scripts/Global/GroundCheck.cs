@@ -33,8 +33,8 @@ public class GroundCheck : MonoBehaviour {
 
 	public bool IsGrounded() {
 		bool leftGrounded = Physics2D.Linecast(transform.position, corner1.position, 1 << LayerMask.NameToLayer(Layers.Ground));
-		Debug.DrawLine(transform.position, corner1.position);
-		Debug.DrawLine(transform.position, corner2.position);
+		Debug.DrawLine(corner1.position + Vector3.up * 0.01f, corner1.position);
+		Debug.DrawLine(corner2.position + Vector3.up * 0.01f, corner2.position);
 		bool rightGrounded = Physics2D.Linecast(transform.position, corner2.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 		return leftGrounded || rightGrounded;
 	}
@@ -49,5 +49,15 @@ public class GroundCheck : MonoBehaviour {
 		} else if (groundedLastFrame && !groundedCurrentFrame) {
 			GetComponent<Entity>().OnGroundLeave();
 		}
+	}
+
+	public bool TouchingPlatform() {
+		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+		GameObject g1 = Physics2D.Raycast(corner1.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask).transform.gameObject;
+		GameObject g2 = Physics2D.Raycast(corner2.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask).transform.gameObject;
+		if (g1 == null || g2 == null) {
+			return false;
+		}
+		return g1.GetComponent<PlatformEffector2D>() != null || g2.GetComponent<PlatformEffector2D>() != null;
 	}
 }

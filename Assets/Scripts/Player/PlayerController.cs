@@ -17,7 +17,7 @@ public class PlayerController : Entity {
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	bool damageDash = false;
-	int maxHP = 1;
+	int maxHP = 7;
 	public int currentHP = 1;
 	int maxEnergy = 5;
 	public int currentEnergy = 5;
@@ -52,6 +52,7 @@ public class PlayerController : Entity {
 	bool justLeftWall = false;
 	Coroutine currentWallTimeout;
 	bool canShoot = true;
+	Coroutine platformTimeout;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -96,6 +97,12 @@ public class PlayerController : Entity {
 	void Move() {
 
 		if (!frozen && !stunned) {
+			if (Input.GetAxis("Vertical") < 0) {
+				if (GetComponent<GroundCheck>().TouchingPlatform()) {
+					DropThroughPlatform();
+				}
+			}
+
 			anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
 			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
@@ -162,6 +169,7 @@ public class PlayerController : Entity {
 			return;
 		}
 		if (Input.GetButtonDown("Jump")) {
+			StopPlatformDrop();
 			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
@@ -268,6 +276,7 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundLeave() {
+		StopPlatformDrop();
 		grounded = false;
 		anim.SetBool("Grounded", false);
 	}
@@ -559,6 +568,23 @@ public class PlayerController : Entity {
 	}
 
 	void DropThroughPlatform() {
-		
+		rb2d.velocity = new Vector2(
+			rb2d.velocity.x,
+			hardLandVelocity
+		);
+		GetComponent<BoxCollider2D>().enabled = false;
+		StartCoroutine(EnableCollider(0.5f));
+	}
+
+	IEnumerator EnableCollider(float seconds) {
+		yield return new WaitForSeconds(seconds);
+		StopPlatformDrop();
+	}
+
+	void StopPlatformDrop() {
+		if (platformTimeout != null) {
+			StopCoroutine(platformTimeout);
+		}
+		GetComponent<BoxCollider2D>().enabled = true;
 	}
 }
