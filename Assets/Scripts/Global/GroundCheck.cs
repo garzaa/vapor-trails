@@ -53,11 +53,11 @@ public class GroundCheck : MonoBehaviour {
 
 	public bool TouchingPlatform() {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
-		GameObject g1 = Physics2D.Raycast(corner1.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask).transform.gameObject;
-		GameObject g2 = Physics2D.Raycast(corner2.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask).transform.gameObject;
-		if (g1 == null || g2 == null) {
+		RaycastHit2D g1 = Physics2D.Raycast(corner1.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
+		RaycastHit2D g2 = Physics2D.Raycast(corner2.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
+		if (g1.transform == null || g2.transform == null) {
 			return false;
 		}
-		return g1.GetComponent<PlatformEffector2D>() != null || g2.GetComponent<PlatformEffector2D>() != null;
+		return g1.transform.gameObject.GetComponent<PlatformEffector2D>() != null || g2.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
 	}
 }
