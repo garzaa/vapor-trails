@@ -10,6 +10,10 @@ public class DialogueUI : UIComponent {
 	public Text dialogue;
 	public Image speakerImage;
 
+	public bool slowRendering;
+	int letterIndex;
+	string textToRender;
+
 	public override void Show() {
 		anim.SetBool("Letterboxed", true);
 	}
@@ -20,8 +24,38 @@ public class DialogueUI : UIComponent {
 
 	public void RenderDialogueLine(DialogueLine line) {
 		speakerName.text = line.speakerName;
-		dialogue.text = line.lineText;
+		StartSlowRender(line.lineText);
 		speakerImage.sprite = line.speakerImage;
+	}
+
+	void ClearDialogue() {
+		dialogue.text = "";
+	}
+
+	void StartSlowRender(string str) {
+		ClearDialogue();
+		letterIndex = 0;
+		textToRender = str;
+		slowRendering = true;
+		StartCoroutine(SlowRender());
+	}
+
+	IEnumerator SlowRender() {
+		//then call self again to render the next letter
+		if (letterIndex < textToRender.Length && slowRendering) {
+			dialogue.text = dialogue.text + textToRender[letterIndex];
+			letterIndex++;
+			yield return new WaitForSeconds(.02f);
+			StartCoroutine(SlowRender());
+		} else {
+			//if there's no more, then the letter-by-letter rendering has stoppped
+			slowRendering = false;
+		}
+	}
+
+	public void CancelSlowRender() {
+		dialogue.text = textToRender;
+		slowRendering = false;
 	}
 
 }

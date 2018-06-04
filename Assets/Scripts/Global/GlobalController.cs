@@ -32,6 +32,11 @@ public class GlobalController : MonoBehaviour {
 
 	void Update() {
 		if (dialogueOpen && Input.GetButtonDown("Submit") && !dialogueOpenedThisFrame) {
+			if (dialogueUI.slowRendering) {
+				dialogueUI.CancelSlowRender();
+				return;
+			}
+
 			//advance dialogue line or close
 			DialogueLine nextLine = currentNPC.GetNextLine();
 			if (nextLine != null) {
@@ -47,19 +52,22 @@ public class GlobalController : MonoBehaviour {
 		dialogueUI.Show();
 		pc.EnterDialogue();
 		currentNPC = npc;
-		DialogueLine nextLine = currentNPC.GetNextLine();
-		if (nextLine != null) {
-			dialogueUI.RenderDialogueLine(nextLine);
-		} else {
-			ExitDialogue();
-		}
 		dialogueOpenedThisFrame = true;
-		dialogueOpen = true;
 	}
 
 	public static void ExitDialogue() {
 		dialogueOpen = false;
 		dialogueUI.Hide();
 		pc.ExitDialogue();
+	}
+
+	public void FinishOpeningLetterboxes() {
+		dialogueOpen = true;
+		DialogueLine nextLine = currentNPC.GetNextLine();
+		if (nextLine != null) {
+			dialogueUI.RenderDialogueLine(nextLine);
+		} else {
+			ExitDialogue();
+		}
 	}
 }
