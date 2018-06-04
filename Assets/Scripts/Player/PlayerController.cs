@@ -578,6 +578,7 @@ public class PlayerController : Entity {
 	}
 
 	void DropThroughPlatform() {
+		UnFreeze();
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
 			hardLandVelocity
