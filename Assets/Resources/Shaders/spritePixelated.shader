@@ -12,9 +12,10 @@ Shader "Unlit/spritePixelated"
         _MainTex ("Texture", 2D) = "white" {}
        
         [Header(Scaling)]
-        _Res ("Resolution", Float) = 1024
-        _PixelSize ("Pixel Size", Float) = .0625
-       
+        //the diameter of the sprite(must be square)
+        _Res ("Resolution", Float) = 64
+        _PixelSize ("Pixel Size", Float) = .01
+
         [Header(Sprite MetaData)]
         _SpriteUV ("Sprite Rect", Vector) = (1,1,0,0)
         _SpritePivot ("Sprite Pivot", Vector) = (1,1,0,0)
