@@ -237,7 +237,7 @@ public class PlayerController : Entity {
 	public void StopDashing() {
         UnFreeze();
         dashing = false;
-        rb2d.velocity = preDashVelocity;
+        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
         StartCoroutine(StartDashCooldown(dashCooldownLength));
 		this.envDmgSusceptible = true;
         SetInvincible(false);
@@ -606,11 +606,11 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterDialogue() {
+		InterruptEverything();
 		SetInvincible(true);
 		Freeze();
 		LockInSpace();
 		DisableShooting();
-		InterruptEverything();
 		inCutscene = true;
 	}
 
