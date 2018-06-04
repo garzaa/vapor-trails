@@ -64,7 +64,7 @@ public class ContainerUI : UIComponent {
 	}
 
 	float GetCanvasScale() {
-		return GameObject.Find("Canvas").GetComponent<Canvas>().scaleFactor;
+		return GameObject.Find("PixelCanvas").GetComponent<Canvas>().scaleFactor;
 	}
 
 	public void SetMax(int newMax) {

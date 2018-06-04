@@ -36,6 +36,7 @@ public class PlayerController : Entity {
 	public ContainerUI healthUI;
 	public ContainerUI energyUI;
 	public ParticleSystem deathParticles;
+	InteractAppendage interaction;
 
 	//variables
 	bool grounded = false;
@@ -53,6 +54,7 @@ public class PlayerController : Entity {
 	Coroutine currentWallTimeout;
 	bool canShoot = true;
 	Coroutine platformTimeout;
+	public bool inCutscene;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -70,6 +72,7 @@ public class PlayerController : Entity {
 		effectPoint = transform.Find("EffectPoint").transform;
 		gun = GetComponent<Gun>();
 		currentHP = maxHP;
+		interaction = GetComponentInChildren<InteractAppendage>();
 	}
 	
 	void Update () {
@@ -79,7 +82,14 @@ public class PlayerController : Entity {
 		Shoot();
 		Attack();
 		Jump();
+		Interact();
 		UpdateUI();
+	}
+
+	void Interact() {
+		if (Input.GetButtonDown("Submit") && interaction.currentInteractable != null && !inCutscene) {
+			interaction.currentInteractable.Interact(this.gameObject);
+		}
 	}
 
 	void Attack() {
@@ -573,7 +583,7 @@ public class PlayerController : Entity {
 			hardLandVelocity
 		);
 		GetComponent<BoxCollider2D>().enabled = false;
-		StartCoroutine(EnableCollider(0.5f));
+		platformTimeout = StartCoroutine(EnableCollider(0.5f));
 	}
 
 	IEnumerator EnableCollider(float seconds) {
@@ -586,5 +596,29 @@ public class PlayerController : Entity {
 			StopCoroutine(platformTimeout);
 		}
 		GetComponent<BoxCollider2D>().enabled = true;
+	}
+
+	void InterruptEverything() {
+		ResetAttackTriggers();
+		InterruptAttack();
+		InterruptDash();
+		InterruptMeteor();
+	}
+
+	public void EnterDialogue() {
+		SetInvincible(true);
+		Freeze();
+		LockInSpace();
+		DisableShooting();
+		InterruptEverything();
+		inCutscene = true;
+	}
+
+	public void ExitDialogue() {
+		UnFreeze();
+		UnLockInSpace();
+		EnableShooting();
+		SetInvincible(false);
+		inCutscene = false;
 	}
 }

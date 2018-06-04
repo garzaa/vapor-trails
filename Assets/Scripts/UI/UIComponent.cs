@@ -14,8 +14,12 @@ public class UIComponent : MonoBehaviour {
 	}
 
 	public void SetEnabledRecursive(Transform t, bool e) {
-		if (t.GetComponent<Image>() != null) {
-			t.GetComponent<Image>().enabled = e;
+		if (t.GetComponent<UIComponent>() != null) {
+			if (e) {
+				t.GetComponent<UIComponent>().Show();
+			} else {
+				t.GetComponent<UIComponent>().Hide();
+			}
 		}
 		foreach (Transform child in transform) {
 			SetEnabledRecursive(child, e);

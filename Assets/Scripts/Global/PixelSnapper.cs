@@ -24,6 +24,6 @@ public class PixelSnapper : MonoBehaviour {
     }
 
     void UpdateUI(int ratio) {
-        GameObject.Find("Canvas").GetComponent<Canvas>().scaleFactor = pixelScale;
+        GameObject.Find("PixelCanvas").GetComponent<Canvas>().scaleFactor = pixelScale;
     }
 }

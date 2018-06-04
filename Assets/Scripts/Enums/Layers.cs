@@ -12,6 +12,7 @@ public abstract class Layers {
 	public const string EnemyColliders = "EnemyColliders";
 	public const string Pickups = "Pickups";
 	public const string Projectiles = "Projectiles";
+	public const string Interactables = "Interactables";
 
 	public const int DefaultMask = 1;
 	public const int TransparentFXMask = 1 << 1;
@@ -25,6 +26,7 @@ public abstract class Layers {
 	public const int EnemyCollidersMask = 1 << 12;
 	public const int PickupsMask = 1 << 13;
 	public const int ProjectilesMask = 1 << 14;
+	public const int InteractablesMask = 1 << 15;
 
 	public const int DefaultNumber = 0;
 	public const int TransparentFXNumber = 1;
@@ -38,4 +40,5 @@ public abstract class Layers {
 	public const int EnemyCollidersNumber = 12;
 	public const int PickupsNumber = 13;
 	public const int ProjectilesNumber = 14;
+	public const int InteractablesNumber = 15;
 }
