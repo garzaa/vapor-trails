@@ -13,6 +13,7 @@ public class DialogueUI : UIComponent {
 	public bool slowRendering;
 	int letterIndex;
 	string textToRender;
+	public bool switchingImage;
 
 	Sprite nextImage;
 
@@ -79,9 +80,20 @@ public class DialogueUI : UIComponent {
 		speakerImage.sprite = line.speakerImage;
 	}
 
-	//called from the animation
+	//called from the animation or in the case of an interrupt
 	public void SwitchSpeakerImage() {
 		speakerImage.sprite = nextImage;
+	}
+
+
+	//also called from animation
+	public void StartSwitchingImage() {
+		this.switchingImage = true;
+	}
+
+	//ditto
+	public void StopSwitchingImage() {
+		this.switchingImage = false;
 	}
 
 }

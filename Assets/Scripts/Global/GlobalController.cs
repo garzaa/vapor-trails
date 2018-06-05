@@ -40,6 +40,10 @@ public class GlobalController : MonoBehaviour {
 				return;
 			}
 
+			if (dialogueUI.switchingImage) {
+				dialogueUI.SwitchSpeakerImage();
+			}
+
 			//advance dialogue line or close
 			DialogueLine nextLine = currentNPC.GetNextLine();
 			if (nextLine != null) {
