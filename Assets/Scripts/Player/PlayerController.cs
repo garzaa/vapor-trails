@@ -55,6 +55,7 @@ public class PlayerController : Entity {
 	bool canShoot = true;
 	Coroutine platformTimeout;
 	public bool inCutscene;
+	bool dead = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -216,7 +217,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dashing || parrying) {
+		if (dashCooldown || dashing || parrying || dead) {
 			return;
 		}
 		StopWallTimeout();
@@ -511,6 +512,7 @@ public class PlayerController : Entity {
 	}
 
 	void Die() {
+		this.dead = true;
 		CameraShaker.BigShake();
 		deathParticles.Emit(50);
 		LockInSpace();
@@ -526,7 +528,6 @@ public class PlayerController : Entity {
 	}
 
 	public void Respawn() {
-		FullHeal();
 		anim.SetTrigger("Respawn");
 	}
 
@@ -539,6 +540,8 @@ public class PlayerController : Entity {
 		UnLockInSpace();
 		EnableShooting();
 		InvincibleFor(1f);
+		FullHeal();
+		this.dead = false;
 	}
 
 	void FullHeal() {

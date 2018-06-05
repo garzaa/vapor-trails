@@ -6,6 +6,7 @@ public class SceneData : MonoBehaviour {
 
 	public string title;
 	public string subTitle;
+	public bool hidePlayer;
 	public Vector2 defaultSpawnPoint;
 
 	void Awake() {
