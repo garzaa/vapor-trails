@@ -14,6 +14,11 @@ public class NPC : Interactable {
 	}
 
 	public override void Interact(GameObject player) {
+		//if there's a sign object attached
+		if (GetComponent<Sign>() != null) {
+			GlobalController.CloseSign();
+		}
+
 		//start at the beginning of whatever conversation
 		currentDialogueLine = 0;
 
@@ -49,6 +54,10 @@ public class NPC : Interactable {
 	}
 
 	public void EnableDialogueSkipping() {
+		
+	}
+
+	public virtual void CloseDialogue() {
 		
 	}
 

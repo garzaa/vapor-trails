@@ -22,6 +22,10 @@ public class Interactable : MonoBehaviour {
 	}
 
 	public void AddPrompt() {
+		if (GetComponent<Sign>() != null) {
+			return;
+		}
+
 		if (currentPrompt == null && promptPrefab != null) {
 			//if there's a sprite renderer on this object, stick a prompt a little ways on top of it
 			if (gameObject.GetComponent<SpriteRenderer>() != null) {

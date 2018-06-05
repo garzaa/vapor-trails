@@ -67,6 +67,8 @@ public class GlobalController : MonoBehaviour {
 		dialogueOpen = false;
 		dialogueUI.Hide();
 		pc.ExitDialogue();
+		currentNPC.CloseDialogue();
+		currentNPC = null;
 	}
 
 	public static void FinishOpeningLetterboxes() {
