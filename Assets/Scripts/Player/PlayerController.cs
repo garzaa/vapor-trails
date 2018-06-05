@@ -375,7 +375,7 @@ public class PlayerController : Entity {
     }
 
 	void MeteorSlam() {
-		if (inMeteor) return;
+		if (inMeteor || dead) return;
 		inMeteor = true;
 		SetInvincible(true);
 		anim.SetTrigger("Meteor");
