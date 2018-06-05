@@ -27,7 +27,7 @@ public class NPC : Interactable {
 
 	public DialogueLine GetNextLine() {
 		if (currentDialogueLine < conversations[currentConversation].Count()) {
-			FinishDialogueLine(currentDialogueLine-1);
+			FinishDialogueLine(currentConversation, currentDialogueLine-1);
 			currentDialogueLine++;
 			return conversations[currentConversation][currentDialogueLine-1];
 		} else {
@@ -36,8 +36,20 @@ public class NPC : Interactable {
 		}
 	}
 
-	public virtual void FinishDialogueLine(int lineNumber) {
+	public virtual void FinishDialogueLine(int conversationNumber, int lineNumber) {
 
+	}
+
+	public DialogueLine GetCurrentLine() {
+		return conversations[currentConversation][currentDialogueLine];
+	}
+
+	public void DisableDialogueSkipping() {
+
+	}
+
+	public void EnableDialogueSkipping() {
+		
 	}
 
 }

@@ -14,7 +14,10 @@ public class DialogueUI : UIComponent {
 	int letterIndex;
 	string textToRender;
 
+	Sprite nextImage;
+
 	public override void Show() {
+		ClearDialogue();
 		anim.SetBool("Letterboxed", true);
 	}
 
@@ -23,9 +26,16 @@ public class DialogueUI : UIComponent {
 	}
 
 	public void RenderDialogueLine(DialogueLine line) {
+		//if the speaker name and portrait differ, start the animation for the portrait change
+		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text) {
+			nextImage = line.speakerImage;
+			anim.SetTrigger("SwitchSpeakerImage");
+		} else {
+			//this will be called from the animation in a separate function
+			speakerImage.sprite = line.speakerImage;
+		}
 		speakerName.text = line.speakerName;
 		StartSlowRender(line.lineText);
-		speakerImage.sprite = line.speakerImage;
 	}
 
 	void ClearDialogue() {
@@ -56,6 +66,22 @@ public class DialogueUI : UIComponent {
 	public void CancelSlowRender() {
 		dialogue.text = textToRender;
 		slowRendering = false;
+	}
+
+	public void FinishOpeningLetterboxes() {
+		GlobalController.FinishOpeningLetterboxes();
+	}
+
+	//for when the dialogue first fades in
+	public void ShowNameAndPicture(DialogueLine line) {
+		ClearDialogue();
+		speakerName.text = line.speakerName;
+		speakerImage.sprite = line.speakerImage;
+	}
+
+	//called from the animation
+	public void SwitchSpeakerImage() {
+		speakerImage.sprite = nextImage;
 	}
 
 }

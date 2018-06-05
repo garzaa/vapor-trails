@@ -18,7 +18,7 @@ public class GlobalController : MonoBehaviour {
 		gc = this;
 		titleText = editorTitleText;
 		DontDestroyOnLoad(this);
-		dialogueUI = GetComponent<DialogueUI>();
+		dialogueUI = GetComponentInChildren<DialogueUI>();
 		pc = GetComponentInChildren<PlayerController>();
 	}
 
@@ -49,6 +49,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterDialogue(NPC npc) {
+		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
 		dialogueUI.Show();
 		pc.EnterDialogue();
 		currentNPC = npc;
@@ -61,7 +62,7 @@ public class GlobalController : MonoBehaviour {
 		pc.ExitDialogue();
 	}
 
-	public void FinishOpeningLetterboxes() {
+	public static void FinishOpeningLetterboxes() {
 		dialogueOpen = true;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {

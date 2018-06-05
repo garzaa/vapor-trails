@@ -238,7 +238,7 @@ public class PlayerController : Entity {
 	public void StopDashing() {
         UnFreeze();
         dashing = false;
-        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+        rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
 		this.envDmgSusceptible = true;
         SetInvincible(false);
