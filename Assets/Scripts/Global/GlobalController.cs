@@ -15,6 +15,8 @@ public class GlobalController : MonoBehaviour {
 	static bool dialogueOpenedThisFrame = false;
 	static NPC currentNPC;
 
+	static RespawnManager rm;
+
 	void Awake()
 	{
 		gc = this;
@@ -23,14 +25,11 @@ public class GlobalController : MonoBehaviour {
 		dialogueUI = GetComponentInChildren<DialogueUI>();
 		signUI = GetComponentInChildren<SignUI>();
 		pc = GetComponentInChildren<PlayerController>();
+		rm = GetComponent<RespawnManager>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
-	}
-
-	public static void RespawnPlayer() {
-		
 	}
 
 	void Update() {
@@ -91,5 +90,18 @@ public class GlobalController : MonoBehaviour {
 
 	public static void CloseSign() {
 		signUI.Hide();
+	}
+
+	public static Vector2 GetPlayerPos() {
+		return pc.transform.position;
+	}
+
+	public static void Respawn() {
+		rm.RespawnPlayer();
+	}
+
+	//called when the new respawn scene is loaded
+	public static void StartPlayerRespawning() {
+		pc.StartRespawning();
 	}
 }

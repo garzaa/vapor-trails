@@ -22,6 +22,7 @@ public class Interactable : MonoBehaviour {
 	}
 
 	public void AddPrompt() {
+		//if there's a sign, it doesn't need a prompt
 		if (GetComponent<Sign>() != null) {
 			return;
 		}

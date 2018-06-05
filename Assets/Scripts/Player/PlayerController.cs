@@ -74,6 +74,7 @@ public class PlayerController : Entity {
 		gun = GetComponent<Gun>();
 		currentHP = maxHP;
 		interaction = GetComponentInChildren<InteractAppendage>();
+		Flip();
 	}
 	
 	void Update () {
@@ -524,15 +525,18 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		ResetAttackTriggers();
 		ResetAirJumps();
-		Respawn();
 	}
 
-	public void Respawn() {
+	public void FinishDyingAnimation() {
+		GlobalController.Respawn();
+	}
+
+	public void StartRespawning() {
 		anim.SetTrigger("Respawn");
 	}
 
 	public void StartRespawnAnimation() {
-		transform.position = Vector2.zero;
+		
 	}
 
 	public void EndRespawnAnimation() {
