@@ -7,6 +7,7 @@ public class NPC : Interactable {
 	public int currentConversation = 0;
 	public int currentDialogueLine = 0;
 
+	//TODO: maybe fix this?
 	NPCConversations conversations;
 
 	public override void ExtendedStart() {
