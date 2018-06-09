@@ -307,7 +307,6 @@ public class PlayerController : Entity {
 
 	public void ResetAttackTriggers() {
 		anim.ResetTrigger("Attack");
-		StopLedgeBoostAnimation();
 	}
 
 	void UpdateWallSliding() {
@@ -446,6 +445,7 @@ public class PlayerController : Entity {
 			InterruptDash();
 			if (!ledgeBoosting) {
 				anim.SetTrigger("LedgeBoost");
+				ledgeBoosting = true;
 			}
 			//provide an upward impulse
 			ResetAirJumps();

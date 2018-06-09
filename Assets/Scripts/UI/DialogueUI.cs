@@ -30,7 +30,9 @@ public class DialogueUI : UIComponent {
 		//if the speaker name and portrait differ, start the animation for the portrait change
 		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text) {
 			nextImage = line.speakerImage;
-			anim.SetTrigger("SwitchSpeakerImage");
+			if (!switchingImage) {
+				anim.SetTrigger("SwitchSpeakerImage");
+			}
 		} else {
 			//this will be called from the animation in a separate function
 			speakerImage.sprite = line.speakerImage;
