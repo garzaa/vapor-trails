@@ -7,7 +7,6 @@ public class NPC : Interactable {
 	public int currentConversation = 0;
 	public int currentDialogueLine = 0;
 
-	//TODO: maybe fix this?
 	NPCConversations conversations;
 
 	public override void ExtendedStart() {
@@ -50,12 +49,13 @@ public class NPC : Interactable {
 		return conversations[currentConversation][currentDialogueLine];
 	}
 
+	//TODO: remove this and the associated animation stuff
 	public void DisableDialogueSkipping() {
 
 	}
 
 	public void EnableDialogueSkipping() {
-		
+
 	}
 
 	public virtual void CloseDialogue() {

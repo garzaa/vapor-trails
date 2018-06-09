@@ -225,7 +225,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		inMeteor = false;
 		SetInvincible(true);
-		this.envDmgSusceptible = false;
+		envDmgSusceptible = false;
         if (damageDash) {
             anim.SetTrigger("DamageDash");
         } else {
@@ -241,7 +241,7 @@ public class PlayerController : Entity {
         dashing = false;
         rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
-		this.envDmgSusceptible = true;
+		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
     }
@@ -251,7 +251,7 @@ public class PlayerController : Entity {
 		UnFreeze();
         dashing = false;
         StartCoroutine(StartDashCooldown(dashCooldownLength));
-		this.envDmgSusceptible = true;
+		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
 	}
@@ -442,7 +442,7 @@ public class PlayerController : Entity {
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
 		if (movingTowardsLedge) {
 			InterruptDash();
-			//anim.SetTrigger("LedgeBoost");
+			anim.SetTrigger("LedgeBoost");
 			//provide an upward impulse
 			ResetAirJumps();
 			InterruptAttack();
@@ -470,7 +470,7 @@ public class PlayerController : Entity {
 		//compute potential stun
 		StunFor(attack.GetStunLength());
 		//compute potential knockback
-		//unfreeze if this enemy is in hitstop to preserve the knockback vector
+		//unfreeze if this enemy is in hitstop to preserve the first knockback vector
 		//they'll be put back in hitstop afterwards by the incoming attack if necessary
 		if (inHitstop) {
 			UnLockInSpace();
@@ -494,14 +494,14 @@ public class PlayerController : Entity {
 		spr.material = defaultMaterial;
 	}
 
-	IEnumerator waitAndSetVincible(float seconds) {
+	IEnumerator WaitAndSetVincible(float seconds) {
 		yield return new WaitForSeconds(seconds);
 		SetInvincible(false);
 	}
 
 	void InvincibleFor(float seconds) {
 		SetInvincible(true);
-		StartCoroutine(waitAndSetVincible(seconds));
+		StartCoroutine(WaitAndSetVincible(seconds));
 	}
 
 
