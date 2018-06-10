@@ -57,7 +57,6 @@ public class PlayerController : Entity {
 	Coroutine platformTimeout;
 	public bool inCutscene;
 	bool dead = false;
-	bool ledgeBoosting = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -448,10 +447,6 @@ public class PlayerController : Entity {
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
 		if (movingTowardsLedge) {
 			InterruptDash();
-			if (!ledgeBoosting) {
-				anim.SetTrigger("LedgeBoost");
-				ledgeBoosting = true;
-			}
 			//provide an upward impulse
 			ResetAirJumps();
 			InterruptAttack();
@@ -637,14 +632,6 @@ public class PlayerController : Entity {
 		EnableShooting();
 		SetInvincible(false);
 		inCutscene = false;
-	}
-
-	public void StartLedgeBoostAnimation() {
-		this.ledgeBoosting = true;
-	}
-
-	public void StopLedgeBoostAnimation() {
-		this.ledgeBoosting = false;
 	}
 
 	//called from animator
