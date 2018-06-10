@@ -391,6 +391,9 @@ public class PlayerController : Entity {
 		SetInvincible(true);
 		anim.SetTrigger("Meteor");
 		anim.SetBool("InMeteor", true);
+		wings.Open();
+		wings.EnableJets();
+		wings.Meteor();
 		rb2d.velocity = new Vector2(
 			x:0,
 			y:terminalVelocity
@@ -398,6 +401,7 @@ public class PlayerController : Entity {
 	}
 
 	void LandMeteor() {
+		wings.FoldIn();
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;

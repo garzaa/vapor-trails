@@ -38,14 +38,14 @@ public class PlayerWings : MonoBehaviour {
 	}
 
 	public void Meteor() {
-		anim.SetBool("Meteor", true);
+		anim.SetTrigger("Meteor");
 	}
 
-	public void EndMeteor() {
-		anim.SetBool("Meteor", false);
+	public void LandMeteor() {
+		anim.SetTrigger("LandMeteor");
 	}
 
-	//called by player at the end of a jump animation or whatever
+	//called by player and self at some animation ends
 	public void FoldIn() {
 		DisableJets();
 		Close();
