@@ -29,6 +29,7 @@ Shader "Unlit/spritePixelated"
         }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
  
         Pass
         {

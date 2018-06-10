@@ -37,6 +37,7 @@ public class PlayerController : Entity {
 	public ContainerUI energyUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
+	PlayerWings wings;
 
 	//variables
 	bool grounded = false;
@@ -75,6 +76,7 @@ public class PlayerController : Entity {
 		gun = GetComponent<Gun>();
 		currentHP = maxHP;
 		interaction = GetComponentInChildren<InteractAppendage>();
+		wings = transform.Find("Wings").GetComponent<PlayerWings>();
 		Flip();
 	}
 	
@@ -206,6 +208,9 @@ public class PlayerController : Entity {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				airJumps--;
 				anim.SetTrigger("Jump");
+				wings.Open();
+				wings.EnableJets();
+				wings.Jump();
 				InterruptAttack();
 			}
 		}
@@ -640,5 +645,10 @@ public class PlayerController : Entity {
 
 	public void StopLedgeBoostAnimation() {
 		this.ledgeBoosting = false;
+	}
+
+	//called from animator
+	public void CloseWings() {
+		wings.FoldIn();
 	}
 }
