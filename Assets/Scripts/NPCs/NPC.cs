@@ -14,6 +14,10 @@ public class NPC : Interactable {
 	}
 
 	public override void Interact(GameObject player) {
+		if (GlobalController.dialogueClosedThisFrame) {
+			return;
+		}
+
 		//if there's a sign object attached
 		if (GetComponent<Sign>() != null) {
 			GlobalController.CloseSign();
@@ -47,15 +51,6 @@ public class NPC : Interactable {
 
 	public DialogueLine GetCurrentLine() {
 		return conversations[currentConversation][currentDialogueLine];
-	}
-
-	//TODO: remove this and the associated animation stuff
-	public void DisableDialogueSkipping() {
-
-	}
-
-	public void EnableDialogueSkipping() {
-
 	}
 
 	public virtual void CloseDialogue() {

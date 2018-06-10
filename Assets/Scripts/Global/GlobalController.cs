@@ -13,6 +13,7 @@ public class GlobalController : MonoBehaviour {
 	static PlayerController pc;
 	static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
+	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 
 	static RespawnManager rm;
@@ -32,7 +33,7 @@ public class GlobalController : MonoBehaviour {
 		titleText.ShowText(title, subTitle);
 	}
 
-	void Update() {
+	void LateUpdate() {
 		if (dialogueOpen && Input.GetButtonDown("Submit") && !dialogueOpenedThisFrame) {
 			if (dialogueUI.slowRendering) {
 				dialogueUI.CancelSlowRender();
@@ -52,6 +53,7 @@ public class GlobalController : MonoBehaviour {
 			}
 		}
 		dialogueOpenedThisFrame = false;
+		dialogueClosedThisFrame = false;
 	}
 
 	public static void EnterDialogue(NPC npc) {
@@ -65,6 +67,7 @@ public class GlobalController : MonoBehaviour {
 	public static void ExitDialogue() {
 		dialogueOpen = false;
 		dialogueUI.Hide();
+		dialogueClosedThisFrame = true;
 		pc.ExitDialogue();
 		currentNPC.CloseDialogue();
 		currentNPC = null;
