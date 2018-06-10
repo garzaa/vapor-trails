@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 114502195903449344}
   - component: {fileID: 114906076754936298}
   - component: {fileID: 114592921531725442}
+  - component: {fileID: 114676880761664658}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -541,8 +542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4907328520807726}
   - component: {fileID: 114692158387008966}
-  - component: {fileID: 114096589904260976}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: CameraContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1415,19 +1415,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114096589904260976
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1725532386823414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3079a0be567e6ed4b9d702bba6838a63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveParallax: 0
-  storedPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114101496514425878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1573,6 +1560,7 @@ MonoBehaviour:
   dialogue: {fileID: 114742877619865716}
   speakerImage: {fileID: 114625505868507064}
   slowRendering: 0
+  switchingImage: 0
 --- !u!114 &114405074408685032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1934,6 +1922,17 @@ MonoBehaviour:
   flipHitmarker: 1
   gainsEnergy: 1
   costsEnergy: 0
+--- !u!114 &114676880761664658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251777175516782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1483a653e7e5f054db66b55ff0cd579c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114692158387008966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2132,6 +2131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signTextHidden: {fileID: 114192153041856966}
   signTextShown: {fileID: 114849068550316368}
+  worldPosition: {x: 0, y: 0}
 --- !u!114 &114906076754936298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5570,7 +5570,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 589266499
+  randomSeed: -1619270021
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -12501,7 +12501,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 193}
-  m_SizeDelta: {x: 644.6, y: 48.8}
+  m_SizeDelta: {x: 644.6, y: 91.8}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224661317864476616
 RectTransform:

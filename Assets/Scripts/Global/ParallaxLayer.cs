@@ -1,26 +1,23 @@
 ﻿using UnityEngine;
 
-[ExecuteInEditMode]
 public class ParallaxLayer : MonoBehaviour {
  
     public Vector2 speed;
     public bool moveInOppositeDirection;
- 
-    private ParallaxOption options;
- 
-    private void OnEnable()
-    {
-        options = Camera.main.GetComponentInParent<ParallaxOption>();
+    Transform mainCamera;
+
+    void Start() {
+        mainCamera = GameObject.Find("Main Camera").transform;
     }
  
     void Update ()
     { 
-        if (!Application.isPlaying && !options.moveParallax)
+        if (!Application.isPlaying)
         {
             return;
         }
  
-        Vector3 distance = Camera.main.transform.position;
+        Vector3 distance = mainCamera.position;
         float direction = (moveInOppositeDirection) ? -1f : 1f;
         transform.position = Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
     }
