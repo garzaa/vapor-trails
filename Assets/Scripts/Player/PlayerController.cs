@@ -236,6 +236,9 @@ public class PlayerController : Entity {
         } else {
 			anim.SetTrigger("Dash");
 		}
+		wings.Open();
+		wings.EnableJets();
+		wings.Dash();
 		dashing = true;
 		Freeze();
 		preDashVelocity = new Vector2(rb2d.velocity.x, 0);
@@ -249,6 +252,7 @@ public class PlayerController : Entity {
 		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
+		wings.FoldIn();
     }
 
 	//the same as above without resetting the momentum
@@ -325,6 +329,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit() {
+		CloseWings();
 		InterruptDash();
 		anim.SetBool("TouchingWall", true);
 		ResetAirJumps();
