@@ -16,7 +16,7 @@ public class PlayerController : Entity {
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
-	bool damageDash = false;
+	bool damageDash = true;
 	int maxHP = 7;
 	public int currentHP = 1;
 	int maxEnergy = 5;
