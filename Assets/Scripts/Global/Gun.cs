@@ -17,9 +17,5 @@ public class Gun : MonoBehaviour {
 			startVelocity.x * forwardScalar,
 			startVelocity.y
 		);
-
-		if (this.GetComponent<Rigidbody2D>() != null) {
-			b.GetComponent<Rigidbody2D>().velocity += this.GetComponent<Rigidbody2D>().velocity;
-		}
 	}
 }
