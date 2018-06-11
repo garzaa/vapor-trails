@@ -19,7 +19,7 @@ public class PlayerController : Entity {
 	bool damageDash = true;
 	int maxHP = 7;
 	public int currentHP = 1;
-	int maxEnergy = 5;
+	int maxEnergy = 25;
 	public int currentEnergy = 5;
 	float invincibilityLength = .5f;
 
@@ -75,6 +75,7 @@ public class PlayerController : Entity {
 		eyePosition = transform.Find("EyePosition").transform;
 		gun = GetComponent<Gun>();
 		currentHP = maxHP;
+		currentEnergy = maxEnergy;
 		interaction = GetComponentInChildren<InteractAppendage>();
 		wings = transform.Find("Wings").GetComponent<PlayerWings>();
 		Flip();
@@ -478,6 +479,7 @@ public class PlayerController : Entity {
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
 		if (movingTowardsLedge) {
+			EndDashCooldown();
 			wings.Open();
 			wings.EnableJets();
 			wings.LedgeBoost();
