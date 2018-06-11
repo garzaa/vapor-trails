@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWings : MonoBehaviour {
 
 	Animator anim;
+	bool ledgeBoosting;
 
 	public void Start() {
 		anim = this.GetComponent<Animator>();
@@ -45,8 +46,15 @@ public class PlayerWings : MonoBehaviour {
 		anim.SetTrigger("LandMeteor");
 	}
 
+	public void LedgeBoost() {
+		if (ledgeBoosting) return;
+		ledgeBoosting = true;
+		anim.SetTrigger("LedgeBoost");
+	}
+
 	//called by player and self at some animation ends
 	public void FoldIn() {
+		ledgeBoosting = false;
 		DisableJets();
 		Close();
 	}
