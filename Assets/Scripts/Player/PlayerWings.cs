@@ -56,6 +56,10 @@ public class PlayerWings : MonoBehaviour {
 		anim.SetTrigger("Supercruise");
 	}
 
+	public void SupercruiseMid() {
+		anim.SetTrigger("SupercruiseMid");
+	}
+
 	//called by player and self at some animation ends
 	public void FoldIn() {
 		ledgeBoosting = false;

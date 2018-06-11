@@ -47,7 +47,6 @@ public class PlayerController : Entity {
 	bool dashCooldown = false;
 	public bool dashing = false;
 	bool parrying = false;
-	Vector2 preDashVelocity;
 	bool inMeteor = false;
 	bool terminalFalling = false;
 	bool cyan = false;
@@ -58,6 +57,7 @@ public class PlayerController : Entity {
 	public bool inCutscene;
 	bool dead = false;
 	bool supercruise = false;
+	Coroutine dashTimeout;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -101,7 +101,7 @@ public class PlayerController : Entity {
 		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
 		anim.SetBool("SpecialHeld", Input.GetButton("Special"));
 
-		if (Input.GetButtonDown("Attack")) {
+		if (Input.GetButtonDown("Attack") && !frozen) {
 			wings.FoldIn();
 			anim.SetTrigger("Attack");
 		}
@@ -112,6 +112,13 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
+		if (Input.GetButtonDown("Jump") && supercruise) {
+			EndSupercruise();
+		}
+
+		if (Input.GetButtonDown("Special") && HorizontalInput() && ((!frozen) || justLeftWall)) {
+			Dash();
+		}
 
 		if (!frozen && !stunned) {
 			if (Input.GetAxis("Vertical") < 0) {
@@ -125,7 +132,17 @@ public class PlayerController : Entity {
 
 			if (HorizontalInput() && !midSwing) {
 				if (Input.GetAxis("Horizontal") != 0) {
-					rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * maxMoveSpeed), y:rb2d.velocity.y);
+					//if they just finished a dash or supercruise, keep their speed around for a bit ;^)
+					if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed && 
+							(Input.GetAxis("Horizontal") * GetForwardScalar() > 0)) 
+					{
+						rb2d.velocity = new Vector2(
+							x:rb2d.velocity.x / 1.01f,
+							y:rb2d.velocity.y
+						);
+					} else {
+						rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * maxMoveSpeed), y:rb2d.velocity.y);
+					}
 					movingRight = Input.GetAxis("Horizontal") > 0;
 				}
 			} 
@@ -141,10 +158,6 @@ public class PlayerController : Entity {
 				);
 			}
 
-			if (Input.GetButtonDown("Special") && HorizontalInput() && (!touchingWall || justLeftWall)) {
-				Dash();
-			}
-
 			//if they're above max move speed, gently slow them
 			if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed) {
 				rb2d.velocity = new Vector2(
@@ -154,7 +167,7 @@ public class PlayerController : Entity {
 			}
 		}
 
-		if (dashing) {
+		if (dashing || supercruise) {
             rb2d.velocity = new Vector2(dashSpeed * GetForwardScalar(), 0);
         }
 
@@ -245,14 +258,12 @@ public class PlayerController : Entity {
 		wings.Dash();
 		dashing = true;
 		Freeze();
-		preDashVelocity = new Vector2(rb2d.velocity.x, 0);
 	}
 
 	public void StopDashing() {
         UnFreeze();
         dashing = false;
-        rb2d.velocity = preDashVelocity;
-        StartCoroutine(StartDashCooldown(dashCooldownLength));
+        dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
@@ -272,8 +283,13 @@ public class PlayerController : Entity {
 	IEnumerator StartDashCooldown(float seconds) {
         dashCooldown = true;
         yield return new WaitForSeconds(seconds);
-        dashCooldown = false;
+        EndDashCooldown();
     }
+
+	void EndDashCooldown() {
+		dashCooldown = false;
+		dashTimeout = null;
+	}
 
 	bool HorizontalInput() {
 		return Input.GetAxis("Horizontal") != 0;
@@ -284,6 +300,7 @@ public class PlayerController : Entity {
 		ResetAirJumps();
 		InterruptAttack();
 		StopWallTimeout();
+		EndDashCooldown();
 		if (inMeteor) {
 			LandMeteor();
 		}
@@ -303,6 +320,7 @@ public class PlayerController : Entity {
 	public override void OnGroundLeave() {
 		StopPlatformDrop();
 		grounded = false;
+		EndDashCooldown();
 		anim.SetBool("Grounded", false);
 	}
 
@@ -336,6 +354,7 @@ public class PlayerController : Entity {
 	void OnWallHit() {
 		CloseWings();
 		InterruptDash();
+		EndSupercruise();
 		anim.SetBool("TouchingWall", true);
 		ResetAirJumps();
 	}
@@ -455,7 +474,7 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		if (inMeteor || Input.GetAxis("Vertical") < 0) {
+		if (inMeteor || Input.GetAxis("Vertical") < 0 || supercruise) {
 			return;
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
@@ -541,9 +560,7 @@ public class PlayerController : Entity {
 		Freeze();
 		anim.SetTrigger("Die");
 		DisableShooting();
-		InterruptAttack();
-		InterruptDash();
-		InterruptMeteor();
+		InterruptEverything();
 		ResetAttackTriggers();
 		ResetAirJumps();
 	}
@@ -632,6 +649,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		InterruptDash();
 		InterruptMeteor();
+		EndSupercruise();
 	}
 
 	public void EnterDialogue() {
@@ -664,5 +682,35 @@ public class PlayerController : Entity {
 		wings.Open();
 		wings.EnableJets();
 		wings.Supercruise();
+	}
+
+	//called at the start of the supercruiseMid animation
+	public void StartSupercruise() {
+		this.supercruise = true;
+		//move slightly up to keep them off the ground
+		this.transform.Translate(Vector2.up * 0.05f);
+		wings.Open();
+		wings.EnableJets();
+		wings.SupercruiseMid();
+		Freeze();
+		CameraShaker.MedShake();
+		//keep them level
+		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+	}
+
+	public void EndSupercruise() {
+		if (!supercruise) return;
+		this.supercruise = false;
+		UnFreeze();
+		wings.FoldIn();
+		anim.SetTrigger("EndSupercruise");
+		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+	}
+
+	//when the player hits a wall or dies 
+	public void InterruptSupercruise() {
+		if (!supercruise) return;
+		CameraShaker.SmallShake();
+		anim.SetTrigger("InterruptSupercruise");
 	}
 }
