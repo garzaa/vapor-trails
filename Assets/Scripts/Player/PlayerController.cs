@@ -57,6 +57,7 @@ public class PlayerController : Entity {
 	Coroutine platformTimeout;
 	public bool inCutscene;
 	bool dead = false;
+	bool supercruise = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -98,6 +99,7 @@ public class PlayerController : Entity {
 
 	void Attack() {
 		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
+		anim.SetBool("SpecialHeld", Input.GetButton("Special"));
 
 		if (Input.GetButtonDown("Attack")) {
 			wings.FoldIn();
@@ -183,6 +185,7 @@ public class PlayerController : Entity {
 		if (frozen || wallCheck.TouchingLedge() || lockedInSpace) {
 			return;
 		}
+
 		if (Input.GetButtonDown("Jump")) {
 			StopPlatformDrop();
 			if (grounded) {
@@ -655,5 +658,11 @@ public class PlayerController : Entity {
 
 	public bool IsGrounded() {
 		return this.grounded;
+	}
+
+	public void OpenSupercruiseWings() {
+		wings.Open();
+		wings.EnableJets();
+		wings.Supercruise();
 	}
 }
