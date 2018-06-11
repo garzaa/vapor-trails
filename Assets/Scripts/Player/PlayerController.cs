@@ -320,7 +320,6 @@ public class PlayerController : Entity {
 	public override void OnGroundLeave() {
 		StopPlatformDrop();
 		grounded = false;
-		EndDashCooldown();
 		anim.SetBool("Grounded", false);
 	}
 
