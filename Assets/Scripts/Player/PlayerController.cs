@@ -100,6 +100,7 @@ public class PlayerController : Entity {
 		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
 
 		if (Input.GetButtonDown("Attack")) {
+			wings.FoldIn();
 			anim.SetTrigger("Attack");
 		}
 
