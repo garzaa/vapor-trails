@@ -311,6 +311,7 @@ public class PlayerController : Entity {
 	void InterruptMeteor() {
 		anim.SetBool("InMeteor", false);
 		inMeteor = false;
+		wings.FoldIn();
 	}
 
 	public void ResetAttackTriggers() {
@@ -646,5 +647,9 @@ public class PlayerController : Entity {
 	//called from animator
 	public void CloseWings() {
 		wings.FoldIn();
+	}
+
+	public bool IsGrounded() {
+		return this.grounded;
 	}
 }

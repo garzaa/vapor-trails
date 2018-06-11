@@ -21,7 +21,8 @@ public class Attack : MonoBehaviour {
 	}
 
 	public void OnAttackLand(Entity e) {
-		if (cameraShake) {
+		//ugly hack, but we only want the camera to shake on player impact
+		if (cameraShake && e.gameObject.GetComponent<PlayerController>() != null) {
 			CameraShaker.TinyShake();
 		}
 		//instantiate the hitmarker
