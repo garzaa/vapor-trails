@@ -31,7 +31,7 @@ public class PlayerController : Entity {
 	SpriteRenderer spr;
 	Material defaultMaterial;
     Material cyanMaterial;
-	Transform effectPoint;
+	Transform eyePosition;
 	Gun gun;
 	public ContainerUI healthUI;
 	public ContainerUI energyUI;
@@ -71,7 +71,7 @@ public class PlayerController : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
-		effectPoint = transform.Find("EffectPoint").transform;
+		eyePosition = transform.Find("EyePosition").transform;
 		gun = GetComponent<Gun>();
 		currentHP = maxHP;
 		interaction = GetComponentInChildren<InteractAppendage>();
@@ -417,7 +417,7 @@ public class PlayerController : Entity {
 
 	public void Sparkle() {
 		if (instantiatedSparkle == null) {
-			instantiatedSparkle = (GameObject) Instantiate(sparkle, effectPoint.position, Quaternion.identity, effectPoint.transform).gameObject as GameObject;
+			instantiatedSparkle = (GameObject) Instantiate(sparkle, eyePosition.position, Quaternion.identity, eyePosition.transform).gameObject as GameObject;
 		}
 	}
 
@@ -426,7 +426,7 @@ public class PlayerController : Entity {
 			Sparkle();
 			gun.Fire(
 				forwardScalar: GetForwardScalar(), 
-				bulletPos: effectPoint
+				bulletPos: eyePosition
 			);
 			LoseEnergy(1);
 		}
