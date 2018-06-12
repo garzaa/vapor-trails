@@ -502,6 +502,7 @@ public class PlayerController : Entity {
 			InterruptMeteor();
 		}
 		CameraShaker.MedShake();
+		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
 		if (this.currentHP == 0) {
 			return;
@@ -650,7 +651,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		InterruptDash();
 		InterruptMeteor();
-		EndSupercruise();
+		InterruptSupercruise();
 	}
 
 	public void EnterDialogue() {
@@ -701,7 +702,7 @@ public class PlayerController : Entity {
 
 	public void EndSupercruise() {
 		if (!supercruise) return;
-		this.supercruise = false;
+		supercruise = false;
 		UnFreeze();
 		wings.FoldIn();
 		anim.SetTrigger("EndSupercruise");
@@ -712,6 +713,10 @@ public class PlayerController : Entity {
 	public void InterruptSupercruise() {
 		if (!supercruise) return;
 		CameraShaker.SmallShake();
+		supercruise = false;
+		UnFreeze();
+		wings.FoldIn();
+		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("InterruptSupercruise");
 	}
 }

@@ -17,5 +17,6 @@ public class Gun : MonoBehaviour {
 			startVelocity.x * forwardScalar,
 			startVelocity.y
 		);
+		b.transform.localScale = Vector3.Scale(b.transform.localScale, new Vector3(forwardScalar * -1, 1, 1));
 	}
 }
