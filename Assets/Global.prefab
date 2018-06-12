@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 114906076754936298}
   - component: {fileID: 114592921531725442}
   - component: {fileID: 114676880761664658}
+  - component: {fileID: 114892664916705956}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -2438,6 +2439,27 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114892664916705956
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251777175516782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb61340024520834687746fba964c485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dash: 1
+  damageDash: 1
+  gunEye: 1
+  doubleJump: 1
+  wallClimb: 1
+  meteor: 1
+  supercruise: 1
+  maxHP: 3
+  maxEnergy: 10
+  baseAttackDamage: 1
 --- !u!114 &114893115227258678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5899,7 +5921,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1583886351
+  randomSeed: 740729882
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -18911,8 +18933,8 @@ ParticleSystem:
   useRigidbodyForVelocity: 1
   startDelay:
     serializedVersion: 2
-    minMaxState: 3
-    scalar: 1
+    minMaxState: 0
+    scalar: 0
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -18959,9 +18981,9 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 0.3
-      minScalar: 0.6
+      minMaxState: 0
+      scalar: 0.5
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -19001,7 +19023,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -0.1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -19396,7 +19418,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 5
     enabled: 1
-    type: 6
+    type: 10
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -19406,7 +19428,7 @@ ParticleSystem:
     m_Rotation: {x: 0, y: 0, z: 0}
     m_Scale: {x: 0.64, y: 0.64, z: 1}
     placementMode: 2
-    m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     m_MeshRenderer: {fileID: 0}
     m_SkinnedMeshRenderer: {fileID: 0}
     m_MeshMaterialIndex: 0
@@ -19418,7 +19440,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.64
       mode: 0
       spread: 0
       speed:
@@ -19508,7 +19530,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2

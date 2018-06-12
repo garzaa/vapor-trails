@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : Entity {
 
+	//unlocks
+	PlayerUnlocks abilities;
+
 	//constants
 	float maxMoveSpeed = 3f;
 	float jumpSpeed = 4.5f;
