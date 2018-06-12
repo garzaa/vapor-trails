@@ -55,9 +55,19 @@ public class GroundCheck : MonoBehaviour {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		RaycastHit2D g1 = Physics2D.Raycast(corner1.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
 		RaycastHit2D g2 = Physics2D.Raycast(corner2.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
-		if (g1.transform == null || g2.transform == null) {
+		if (g1.transform == null && g2.transform == null) {
 			return false;
 		}
-		return g1.transform.gameObject.GetComponent<PlatformEffector2D>() != null || g2.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
+		bool grounded1 = false;
+		bool grounded2 = false;
+		
+		if (g1.transform != null) {
+			grounded1 = g1.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
+		}
+		if (g2.transform != null) {
+			grounded2 = g2.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
+		}
+		
+		return grounded1 || grounded2;
 	}
 }

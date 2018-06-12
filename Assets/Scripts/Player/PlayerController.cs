@@ -124,9 +124,13 @@ public class PlayerController : Entity {
 			Dash();
 		}
 
+		if (frozen) {
+			anim.SetFloat("Speed", 0f);
+		}
+
 		if (!frozen && !stunned) {
 			if (Input.GetAxis("Vertical") < 0) {
-				if (GetComponent<GroundCheck>().TouchingPlatform()) {
+				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
 					DropThroughPlatform();
 				}
 			}
@@ -244,7 +248,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dashing || parrying || dead) {
+		if (dashCooldown || dashing || parrying || dead || touchingWall) {
 			return;
 		}
 		StopWallTimeout();
@@ -357,6 +361,7 @@ public class PlayerController : Entity {
 	void OnWallHit() {
 		CloseWings();
 		InterruptDash();
+		EndDashCooldown();
 		EndSupercruise();
 		anim.SetBool("TouchingWall", true);
 		ResetAirJumps();
@@ -482,11 +487,11 @@ public class PlayerController : Entity {
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
 		if (movingTowardsLedge) {
-			EndDashCooldown();
 			wings.Open();
 			wings.EnableJets();
 			wings.LedgeBoost();
 			InterruptDash();
+			EndDashCooldown();
 			//provide an upward impulse
 			ResetAirJumps();
 			InterruptAttack();
