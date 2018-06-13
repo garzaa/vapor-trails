@@ -295,8 +295,10 @@ public class PlayerController : Entity {
     }
 
 	void EndDashCooldown() {
+		if (dashTimeout != null) {
+			StopCoroutine(dashTimeout);
+		}
 		dashCooldown = false;
-		dashTimeout = null;
 	}
 
 	bool HorizontalInput() {
