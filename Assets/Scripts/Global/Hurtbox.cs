@@ -15,7 +15,7 @@ public class Hurtbox : MonoBehaviour {
 	}
 
 	public void OnHit(Attack a) {
-		if (parentObject.GetComponent<Entity>() != null) {
+		if (parentObject != null) {
 			parentObject.GetComponent<Entity>().OnHit(a);
 		}
 	}

@@ -19,6 +19,9 @@ public class PlayerAttack : Attack {
 	}
 
 	public override void ExtendedAttackLand(Entity e) {
+		if (e == null) {
+			return;
+		}
 		//run self knockback
 		if (selfKnockBack) {
 			attackerParent.GetComponent<Rigidbody2D>().velocity = selfKnockBackVector;
