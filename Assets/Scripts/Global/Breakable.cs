@@ -14,6 +14,12 @@ public class Breakable : MonoBehaviour {
 			particles = GetComponentInChildren<ParticleSystem>();
 			particlesOnBreak = true;
 		}
+		int xScale = Random.Range(-1, 1) > 0 ? 1 : -1;
+		this.transform.localScale = new Vector3(
+			xScale,
+			this.transform.localScale.y,
+			this.transform.localScale.z
+		);
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
