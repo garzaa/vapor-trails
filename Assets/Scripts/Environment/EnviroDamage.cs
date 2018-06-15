@@ -29,7 +29,7 @@ public class EnviroDamage : Attack {
 		if (e == null) {
 			return false;
 		}
-		if (e.envDmgSusceptible) {
+		if (e.envDmgSusceptible && !e.stunned) {
 			return true;
 		} else {
 			return false;

@@ -105,7 +105,12 @@ public class PlayerController : Entity {
 
 	void Attack() {
 		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
-		anim.SetBool("SpecialHeld", Input.GetButton("Special"));
+		
+		if (!inCutscene) {
+			anim.SetBool("SpecialHeld", Input.GetButton("Special"));
+		} else {
+			anim.SetBool("SpecialHeld", false);
+		}
 
 		if (Input.GetButtonDown("Attack") && !frozen) {
 			wings.FoldIn();
@@ -146,8 +151,13 @@ public class PlayerController : Entity {
 					if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed && 
 							(Input.GetAxis("Horizontal") * GetForwardScalar() > 0)) 
 					{
+						//slow the player down less in the air
+						float divisor = 1.01f;
+						if (!grounded) {
+							divisor = 1.005f;
+						}
 						rb2d.velocity = new Vector2(
-							x:rb2d.velocity.x / 1.01f,
+							x:rb2d.velocity.x / divisor,
 							y:rb2d.velocity.y
 						);
 					} else {
@@ -311,8 +321,8 @@ public class PlayerController : Entity {
 		grounded = true;
 		ResetAirJumps();
 		InterruptAttack();
-		StopWallTimeout();
 		EndDashCooldown();
+		StopWallTimeout();
 		if (inMeteor) {
 			LandMeteor();
 		}
@@ -507,6 +517,9 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnHit(Attack attack) {
+		if (dead) {
+			return;
+		}
 		if (invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			return;
 		}
@@ -568,6 +581,7 @@ public class PlayerController : Entity {
 
 	void Die() {
 		this.dead = true;
+		this.envDmgSusceptible = false;
 		CameraShaker.BigShake();
 		deathParticles.Emit(50);
 		LockInSpace();
@@ -584,6 +598,7 @@ public class PlayerController : Entity {
 	}
 
 	public void StartRespawning() {
+		this.envDmgSusceptible = true;
 		anim.SetTrigger("Respawn");
 	}
 
@@ -738,8 +753,8 @@ public class PlayerController : Entity {
 		}
 		
 		if (currentHP < maxHP) {
-			print("healed");
 			currentHP += healAmt;
+			currentEnergy -= healCost;
 		}
 	}
 }

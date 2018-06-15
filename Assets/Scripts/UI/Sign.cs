@@ -2,6 +2,7 @@
 
 public class Sign : PlayerTriggeredObject {
 
+	[TextArea]
 	public string signText;
 	public Vector2 signOffset;
 
