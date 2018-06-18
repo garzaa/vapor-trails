@@ -5,9 +5,12 @@
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
-
-		[Header(Scaling)]
-		_PixelSize ("Pixel Size", Float) = .01
+		
+		[Header(Properties)]
+		_Speed ("Speed", Float) = 64
+		_Amp ("Amplitude", Float) = 2
+		_Width ("Width", Float) = 10
+		_Vertical ("Vertical", Range (0, 1)) = 0
 	}
 
 	SubShader
@@ -68,13 +71,18 @@
 			float _AlphaSplitEnabled;
 			float4 _MainTex_TexelSize;
 			uniform half _PixelSize;
+			uniform float _Speed;
+			uniform float _Amp;
+			uniform float _Width;
+			uniform float _Vertical;
 
 			fixed4 SineDisplace (float2 uv)
 			{
-				//move only by pixels
-				uv.y += floor(2 * sin(floor(uv.x / _MainTex_TexelSize.x) / 5 + (_Time * 64))) * _MainTex_TexelSize.y;
+				float2 final = uv;
+				final.y += floor(_Amp * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
+				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
 
-				fixed4 color = tex2D (_MainTex, uv);
+				fixed4 color = tex2D (_MainTex, final);
 
 				return color;
 			}
