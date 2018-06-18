@@ -17,17 +17,15 @@ public class GroundCheck : MonoBehaviour {
 			float radiusX = bc.bounds.extents.x;
 			float radiusY = bc.bounds.extents.y;
 			
-			//we want the rays to extend 1 pixel below the bottom edge of the collider
-			//with 100 ppu, it would be .01 units below
 			corner1 = new GameObject().transform;
 			corner1.name = "corner1";
 			corner1.transform.parent = this.transform;
-			corner1.localPosition = center - new Vector2(-radiusX, radiusY+0.1f);
+			corner1.localPosition = center - new Vector2(-radiusX, radiusY+0.02f);
 			
 			corner2 = new GameObject().transform;
 			corner2.name = "corner2";
 			corner2.transform.parent = this.transform;
-			corner2.localPosition = center - new Vector2(radiusX, radiusY+0.1f);
+			corner2.localPosition = center - new Vector2(radiusX, radiusY+0.02f);
 		}
 	}
 
