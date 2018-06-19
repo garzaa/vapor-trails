@@ -56,8 +56,8 @@ Shader "FX/Mirror"
 			fixed4 SineDisplace (sampler2D _reflTex, float2 uv)
 			{
 				float2 final = uv;
-				//		   AMP 						BUCKET WIDTH					SPEED
-				final.x += .0005 * (sin(floor(uv.y * _MainTex_TexelSize.z * 5) / 1 + (_Time * 100)));
+				//		   AMP 						 [--- BUCKET WIDTH ----]			SPEED
+				final.x += .0005 * (sin(floor(uv.y * _MainTex_TexelSize.z * 2) / 1 + (_Time * 100)));
 
 				fixed4 color = tex2D (_reflTex, final);
 
@@ -72,7 +72,7 @@ Shader "FX/Mirror"
 				tex.rgb *= tex.a;
 				//get the reflection surface?
 				//sample the 2d texture from the projected coordinates of the reflection
-				fixed4 refl = tex2D(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
+				fixed4 refl = SineDisplace(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
 				fixed4 final = refl * tex;
 				return final;
 			}
