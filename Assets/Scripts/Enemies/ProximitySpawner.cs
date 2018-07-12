@@ -24,9 +24,7 @@ public class ProximitySpawner : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		if (CheckTriggerDistance()) {
-			this.OnPlayerEnter();
-		}
+		CheckTriggerDistance();
 	}
 
 	void OnPlayerEnter() {
@@ -35,18 +33,11 @@ public class ProximitySpawner : MonoBehaviour {
 		}
 	}
 
-	bool CheckTriggerDistance() {
-		if (lastPlayerPos == Vector2.zero) {
+	void CheckTriggerDistance() {
+		if (Vector2.Distance(player.transform.position, this.transform.position) < triggerRadius) {
 			lastPlayerPos = player.transform.position;
-		} else {
-			if (Vector2.Distance(lastPlayerPos, this.transform.position) > triggerRadius
-				&& Vector2.Distance(player.transform.position, this.transform.position) < triggerRadius) {
-					lastPlayerPos = player.transform.position;
-					return true;
-				}
+			this.OnPlayerEnter();
 		}
-		lastPlayerPos = player.transform.position;
-		return false;
 	}
 
 	void Spawn() {

@@ -88,6 +88,7 @@ public class PlayerController : Entity {
 	
 	void Update () {
 		CheckFlip();
+		CheckHeal();
 		UpdateWallSliding();
 		Move();
 		Shoot();
@@ -755,6 +756,14 @@ public class PlayerController : Entity {
 		if (currentHP < maxHP) {
 			currentHP += healAmt;
 			currentEnergy -= healCost;
+		}
+	}
+
+	public void CheckHeal() {
+		if (healCost > currentEnergy || currentHP == maxHP) {
+			anim.SetBool("CanHeal", false);
+		} else {
+			anim.SetBool("CanHeal", true);
 		}
 	}
 }
