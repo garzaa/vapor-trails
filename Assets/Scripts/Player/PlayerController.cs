@@ -64,6 +64,8 @@ public class PlayerController : Entity {
 	bool supercruise = false;
 	Coroutine dashTimeout;
 	bool pressedUpLastFrame = false;
+	bool flashingCyan = false;
+	bool cyanLastFrame = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -90,6 +92,7 @@ public class PlayerController : Entity {
 	void Update () {
 		CheckFlip();
 		CheckHeal();
+		CheckFlash();
 		UpdateWallSliding();
 		Move();
 		Shoot();
@@ -102,6 +105,18 @@ public class PlayerController : Entity {
 	void Interact() {
 		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene) {
 			interaction.currentInteractable.Interact(this.gameObject);
+		}
+	}
+
+	void CheckFlash() {
+		if (flashingCyan) {
+			if (cyanLastFrame) {
+				cyanLastFrame = false;
+				WhiteSprite();
+			} else {
+				cyanLastFrame = true;
+				CyanSprite();
+			}
 		}
 	}
 
@@ -144,7 +159,9 @@ public class PlayerController : Entity {
 				}
 			}
 
-			anim.SetFloat("Speed", Mathf.Abs(Input.GetAxis("Horizontal")));
+			float modifier = (Input.GetKey(KeyCode.LeftControl)) ? 0.45f : 1f;
+			float hInput = Input.GetAxis("Horizontal") * modifier;
+			anim.SetFloat("Speed", Mathf.Abs(hInput));
 			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 			if (HorizontalInput() && !midSwing) {
@@ -163,7 +180,7 @@ public class PlayerController : Entity {
 							y:rb2d.velocity.y
 						);
 					} else {
-						rb2d.velocity = new Vector2(x:(Input.GetAxis("Horizontal") * maxMoveSpeed), y:rb2d.velocity.y);
+						rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
 					}
 					movingRight = Input.GetAxis("Horizontal") > 0;
 				}
@@ -269,6 +286,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		inMeteor = false;
 		SetInvincible(true);
+		FlashCyan();
 		envDmgSusceptible = false;
         if (damageDash) {
             anim.SetTrigger("DamageDash");
@@ -288,6 +306,7 @@ public class PlayerController : Entity {
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		envDmgSusceptible = true;
         SetInvincible(false);
+		StopFlashingCyan();
 		CloseAllHurtboxes();
 		wings.FoldIn();
     }
@@ -299,6 +318,7 @@ public class PlayerController : Entity {
         StartCoroutine(StartDashCooldown(dashCooldownLength));
 		envDmgSusceptible = true;
         SetInvincible(false);
+		StopFlashingCyan();
 		CloseAllHurtboxes();
 	}
 
@@ -432,6 +452,15 @@ public class PlayerController : Entity {
     public void SetInvincible(bool b) {
         this.invincible = b;
     }
+
+	public void FlashCyan() {
+		this.flashingCyan = true;
+	}
+
+	public void StopFlashingCyan() {
+		WhiteSprite();
+		this.flashingCyan = false;
+	}
 
 	void MeteorSlam() {
 		if (inMeteor || dead) return;
