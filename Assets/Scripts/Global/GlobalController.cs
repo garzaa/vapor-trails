@@ -34,7 +34,11 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		if (dialogueOpen && Input.GetButtonDown("Submit") && !dialogueOpenedThisFrame) {
+		if (
+			dialogueOpen 
+			&& (Input.GetButtonDown("Submit") || Input.GetButtonDown("Jump"))
+			&& !dialogueOpenedThisFrame
+			) {
 			if (dialogueUI.slowRendering) {
 				dialogueUI.CancelSlowRender();
 				return;

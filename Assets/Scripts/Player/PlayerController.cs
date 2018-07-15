@@ -128,7 +128,7 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (Input.GetButtonDown("Special") && HorizontalInput() && ((!frozen) || justLeftWall)) {
+		if (Input.GetButtonDown("Special") && HorizontalInput() && ((!frozen) || justLeftWall) && !VerticalInput()) {
 			Dash();
 		}
 
@@ -769,5 +769,9 @@ public class PlayerController : Entity {
 
 	public float MoveSpeedRatio() {
 		return Mathf.Abs(rb2d.velocity.x / maxMoveSpeed);
+	}
+
+	bool VerticalInput() {
+		return (Input.GetAxis("Vertical") != 0);
 	}
 }
