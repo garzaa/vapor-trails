@@ -216,13 +216,12 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if ((frozen && !dashing) || wallCheck.TouchingLedge() || lockedInSpace) {
+		if (frozen || wallCheck.TouchingLedge() || lockedInSpace) {
 			return;
 		}
 
 		if (Input.GetButtonDown("Jump")) {
 			StopPlatformDrop();
-			InterruptDash();
 			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
