@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 [System.Serializable]
 public class DialogueLine : System.Object {
