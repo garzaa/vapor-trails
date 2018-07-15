@@ -7,12 +7,13 @@ public class CameraOffset : MonoBehaviour {
 	Vector2 offset;
 	Vector3 velocity = Vector3.zero;
 	public GameObject player;
-	Entity pc;
+	PlayerController pc;
 	public bool lookingAhead = true;
 	public bool offsetEnabled = true;
 	
 	public float smoothAmount;
 	public float lookAhead;
+	public float lookUp;
 
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
@@ -23,9 +24,12 @@ public class CameraOffset : MonoBehaviour {
 
 		if (lookingAhead) {
 			//first offset based on player orientation
+			float newX = pc.GetForwardScalar() * pc.MoveSpeedRatio() * lookAhead;
+			float scalar = pc.IsGrounded() ? 1 : 0;
+			float newY = scalar * lookUp;
 			newPosition = new Vector3(
-				newPosition.x + pc.GetForwardScalar() * lookAhead,
-				newPosition.y,
+				newPosition.x + newX,
+				newPosition.y + newY,
 				newPosition.z	
 			);
 		}
@@ -42,7 +46,6 @@ public class CameraOffset : MonoBehaviour {
 			ref velocity,
 			smoothAmount * Time.deltaTime
 		);
-		Debug.Log(pc.GetForwardScalar() * lookAhead);
 	}
 
 	public void SetOffset(Vector2 newOffset) {

@@ -216,12 +216,13 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if (frozen || wallCheck.TouchingLedge() || lockedInSpace) {
+		if ((frozen && !dashing) || wallCheck.TouchingLedge() || lockedInSpace) {
 			return;
 		}
 
 		if (Input.GetButtonDown("Jump")) {
 			StopPlatformDrop();
+			InterruptDash();
 			if (grounded) {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
@@ -765,5 +766,9 @@ public class PlayerController : Entity {
 		} else {
 			anim.SetBool("CanHeal", true);
 		}
+	}
+
+	public float MoveSpeedRatio() {
+		return Mathf.Abs(rb2d.velocity.x / maxMoveSpeed);
 	}
 }
