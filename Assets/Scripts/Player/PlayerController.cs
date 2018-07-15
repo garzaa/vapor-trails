@@ -63,6 +63,7 @@ public class PlayerController : Entity {
 	bool dead = false;
 	bool supercruise = false;
 	Coroutine dashTimeout;
+	bool pressedUpLastFrame = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -99,7 +100,7 @@ public class PlayerController : Entity {
 	}
 
 	void Interact() {
-		if (Input.GetButtonDown("Submit") && interaction.currentInteractable != null && !inCutscene) {
+		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene) {
 			interaction.currentInteractable.Interact(this.gameObject);
 		}
 	}
@@ -773,5 +774,12 @@ public class PlayerController : Entity {
 
 	bool VerticalInput() {
 		return (Input.GetAxis("Vertical") != 0);
+	}
+
+	bool UpButtonPress() {
+		bool upThisFrame = Input.GetAxis("Vertical") > 0;
+		bool b = !pressedUpLastFrame && upThisFrame;
+		pressedUpLastFrame = upThisFrame;
+		return b;
 	}
 }
