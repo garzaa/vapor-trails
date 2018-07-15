@@ -35,7 +35,7 @@ public class PlayerFollower : MonoBehaviour {
 			transform.position = Vector3.SmoothDamp(
 				transform.position,
 				new Vector3(
-					x:player.transform.position.x+(lookAhead * player.GetComponent<Entity>().GetForwardScalar())+currentOffset.x,
+					x:player.transform.position.x + currentOffset.x,
 					y:player.transform.position.y + currentOffset.y,
 					z:this.transform.position.z),
 				ref velocity,

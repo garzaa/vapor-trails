@@ -38,7 +38,9 @@ public class DialogueUI : UIComponent {
 			speakerImage.sprite = line.speakerImage;
 		}
 		speakerName.text = line.speakerName;
-		StartSlowRender(line.lineText);
+		if (line.possibleLines.Length == 1) {
+			StartSlowRender(line.possibleLines[0]);
+		}
 	}
 
 	void ClearDialogue() {
