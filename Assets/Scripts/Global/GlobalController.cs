@@ -111,4 +111,5 @@ public class GlobalController : MonoBehaviour {
 	public static void StartPlayerRespawning() {
 		pc.StartRespawning();
 	}
+
 }

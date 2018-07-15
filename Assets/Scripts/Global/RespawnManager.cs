@@ -44,6 +44,7 @@ public class RespawnManager : MonoBehaviour {
 			toRespawn = false;
 			RepositionPlayer();
 			GlobalController.StartPlayerRespawning();
+			GetComponentInChildren<PlayerFollower>().DisableSmoothing();
 		}
 	}
 
@@ -62,6 +63,7 @@ public class RespawnManager : MonoBehaviour {
 			GlobalController.StartPlayerRespawning();
 		} else {
 			toRespawn = true;
+			GetComponentInChildren<PlayerFollower>().DisableSmoothing();
 			GlobalController.gc.GetComponent<TransitionManager>().LoadSceneFade(respawnPoint.sceneName);
 		}
 	}
