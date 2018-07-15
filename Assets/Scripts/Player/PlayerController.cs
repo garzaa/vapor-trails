@@ -129,7 +129,7 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (Input.GetButtonDown("Special") && HorizontalInput() && ((!frozen) || justLeftWall) && !VerticalInput()) {
+		if (Input.GetButtonDown("Special") && HorizontalInput() && ((!frozen) || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
 			Dash();
 		}
 
