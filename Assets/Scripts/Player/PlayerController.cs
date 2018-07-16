@@ -66,6 +66,7 @@ public class PlayerController : Entity {
 	bool pressedUpLastFrame = false;
 	bool flashingCyan = false;
 	bool cyanLastFrame = false;
+	bool runningLastFrame = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -91,7 +92,6 @@ public class PlayerController : Entity {
 	}
 	
 	void Update () {
-		CheckFlip();
 		CheckHeal();
 		CheckFlash();
 		UpdateWallSliding();
@@ -101,6 +101,7 @@ public class PlayerController : Entity {
 		Jump();
 		Interact();
 		UpdateUI();
+		CheckFlip();
 	}
 
 	void Interact() {
@@ -189,10 +190,21 @@ public class PlayerController : Entity {
 					}
 					movingRight = Input.GetAxis("Horizontal") > 0;
 				}
+				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f) {
+					int scalar = rb2d.velocity.x > 0 ? 1 : -1;
+					if (scalar * GetForwardScalar() > 0) {
+						BackwardDust();
+					} else {
+						ForwardDust();
+					}
+				}
 			} 
 			//if no movement, stop the player on the ground 
 			else if (grounded) {
 				rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
+				if (runningLastFrame) {
+					ForwardDust();
+				}
 			} 
 			//or slow them down in the air if they haven't just walljumped
 			else {
@@ -209,6 +221,8 @@ public class PlayerController : Entity {
 					y:rb2d.velocity.y
 				);
 			}
+
+			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		}
 
 		if (dashing || supercruise) {
@@ -358,6 +372,9 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		EndDashCooldown();
 		StopWallTimeout();
+		if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed) {
+			BackwardDust();
+		}
 		if (inMeteor) {
 			LandMeteor();
 		}
@@ -518,6 +535,9 @@ public class PlayerController : Entity {
 	public void Shoot() {
 		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {
 			Sparkle();
+			if (grounded) {
+				BackwardDust();
+			}
 			gun.Fire(
 				forwardScalar: GetForwardScalar(), 
 				bulletPos: eyePosition
@@ -765,6 +785,7 @@ public class PlayerController : Entity {
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
 		this.supercruise = true;
+		BackwardDust();
 		//move slightly up to keep them off the ground
 		this.transform.Translate(Vector2.up * 0.05f);
 		wings.Open();
@@ -802,6 +823,9 @@ public class PlayerController : Entity {
 		}
 		
 		if (currentHP < maxHP) {
+			if (grounded) {
+				ImpactDust();
+			}
 			currentHP += healAmt;
 			currentEnergy -= healCost;
 		}
