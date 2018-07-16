@@ -19,7 +19,7 @@ public class PlayerController : Entity {
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
-	bool damageDash = true;
+	bool damageDash = false;
 	int maxHP = 3;
 	public int currentHP = 1;
 	int maxEnergy = 5;
@@ -70,6 +70,7 @@ public class PlayerController : Entity {
 	//other misc prefabs
 	public Transform vaporExplosion;
 	public Transform sparkle;
+	public Transform dust;
 	GameObject instantiatedSparkle = null;
 
 	void Start () {
@@ -241,6 +242,11 @@ public class PlayerController : Entity {
 		if (Input.GetButtonDown("Jump")) {
 			StopPlatformDrop();
 			if (grounded) {
+				if (HorizontalInput()) {
+					BackwardDust();
+				} else {
+					ImpactDust();
+				}
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
 				InterruptAttack();
@@ -298,6 +304,9 @@ public class PlayerController : Entity {
 		wings.Dash();
 		dashing = true;
 		Freeze();
+		if (grounded) {
+			BackwardDust();
+		}
 	}
 
 	public void StopDashing() {
@@ -350,6 +359,11 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("Grounded", true);
 		if (hardFalling) {
+			if (HorizontalInput()) {
+				BackwardDust();
+			} else {
+				ImpactDust();
+			}
 			anim.SetTrigger("HardLand");
 		}
 		if (terminalFalling) {
@@ -810,5 +824,28 @@ public class PlayerController : Entity {
 		bool b = !pressedUpLastFrame && upThisFrame;
 		pressedUpLastFrame = upThisFrame;
 		return b;
+	}
+
+	void ImpactDust() {
+		ForwardDust();
+		BackwardDust();
+	}
+
+	void ForwardDust() {
+		GameObject d = Instantiate(dust, new Vector3(
+			this.transform.position.x + 0.32f * GetForwardScalar(),
+			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
+			this.transform.position.z
+		), Quaternion.identity).gameObject;
+		d.transform.localScale = new Vector3(-this.transform.localScale.x, 1, 1);
+	}
+
+	void BackwardDust() {
+		GameObject d = Instantiate(dust, new Vector3(
+			this.transform.position.x - 0.32f * GetForwardScalar(),
+			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
+			this.transform.position.z
+		), Quaternion.identity).gameObject;
+		d.transform.localScale = new Vector3(this.transform.localScale.x, 1, 1);
 	}
 }
