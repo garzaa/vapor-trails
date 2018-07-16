@@ -162,7 +162,11 @@ public class PlayerController : Entity {
 
 			float modifier = (Input.GetKey(KeyCode.LeftControl)) ? 0.45f : 1f;
 			float hInput = Input.GetAxis("Horizontal") * modifier;
-			anim.SetFloat("Speed", Mathf.Abs(hInput));
+			if (!touchingWall) {
+				anim.SetFloat("Speed", Mathf.Abs(hInput));
+			} else {
+				anim.SetFloat("Speed", 0);
+			}
 			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 			if (HorizontalInput() && !midSwing) {
