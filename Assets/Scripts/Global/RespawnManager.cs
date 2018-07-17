@@ -58,6 +58,9 @@ public class RespawnManager : MonoBehaviour {
 	}
 
 	public void RespawnPlayer() {
+		if (!player.GetComponent<Entity>().facingRight) {
+			player.GetComponent<Entity>().Flip();
+		}
 		if (SceneManager.GetActiveScene().name == this.respawnPoint.sceneName) {
 			RepositionPlayer();
 			GlobalController.StartPlayerRespawning();

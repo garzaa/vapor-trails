@@ -19,7 +19,7 @@ public class PlayerController : Entity {
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
-	bool damageDash = false;
+	bool damageDash = true;
 	int maxHP = 3;
 	public int currentHP = 1;
 	int maxEnergy = 5;
@@ -27,6 +27,7 @@ public class PlayerController : Entity {
 	float invincibilityLength = .5f;
 	int healCost = 3;
 	int healAmt = 1;
+	float backstepCooldownLength = .2f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -67,6 +68,8 @@ public class PlayerController : Entity {
 	bool flashingCyan = false;
 	bool cyanLastFrame = false;
 	bool runningLastFrame = false;
+	bool inBackstep = false;
+	bool backstepCooldown = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -155,6 +158,9 @@ public class PlayerController : Entity {
 		}
 
 		if (!frozen && !stunned) {
+			if (Input.GetButtonDown("Backstep") && grounded && !backstepCooldown) {
+				Backstep();
+			}
 			if (Input.GetAxis("Vertical") < 0) {
 				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
 					DropThroughPlatform();
@@ -229,6 +235,10 @@ public class PlayerController : Entity {
             rb2d.velocity = new Vector2(dashSpeed * GetForwardScalar(), 0);
         }
 
+		else if (inBackstep) {
+			rb2d.velocity = new Vector2(-maxMoveSpeed * GetForwardScalar(), 0);
+		}
+
 		if (rb2d.velocity.y < terminalVelocity) {
 			terminalFalling = true;
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
@@ -271,7 +281,7 @@ public class PlayerController : Entity {
 			}
 			else if (touchingWall || justLeftWall) {
 				InterruptMeteor();
-				DownDust();
+				if (touchingWall) DownDust();
 				InterruptAttack();
 				FreezeFor(.1f);
 				rb2d.velocity = new Vector2(
@@ -339,7 +349,6 @@ public class PlayerController : Entity {
 		wings.FoldIn();
     }
 
-	//the same as above without resetting the momentum
 	void InterruptDash() {
 		UnFreeze();
         dashing = false;
@@ -375,7 +384,7 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed && Input.GetAxis("Horizontal") * GetForwardScalar() > 0) {
 			BackwardDust();
-		} else if (Mathf.Abs(rb2d.velocity.x) > 0 && Input.GetAxis("Horizontal") * GetForwardScalar() <= 0) {
+		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && Input.GetAxis("Horizontal") * GetForwardScalar() <= 0) {
 			ForwardDust();
 		}
 		if (inMeteor) {
@@ -751,6 +760,7 @@ public class PlayerController : Entity {
 		InterruptDash();
 		InterruptMeteor();
 		InterruptSupercruise();
+		EndBackstep();
 	}
 
 	public void EnterDialogue() {
@@ -781,6 +791,7 @@ public class PlayerController : Entity {
 
 	public void OpenSupercruiseWings() {
 		wings.Open();
+		BackwardDust();
 		wings.EnableJets();
 		wings.Supercruise();
 	}
@@ -862,7 +873,7 @@ public class PlayerController : Entity {
 		BackwardDust();
 	}
 
-	void ForwardDust() {
+	public void ForwardDust() {
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * GetForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
@@ -871,7 +882,7 @@ public class PlayerController : Entity {
 		d.transform.localScale = new Vector3(-this.transform.localScale.x, 1, 1);
 	}
 
-	void BackwardDust() {
+	public void BackwardDust() {
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x - 0.32f * GetForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
@@ -888,5 +899,32 @@ public class PlayerController : Entity {
 		), Quaternion.identity, this.transform).gameObject;
 		d.transform.rotation = Quaternion.Euler(0, 0, 90 * GetForwardScalar());
 		d.transform.parent = null;
+	}
+
+	void Backstep() {
+		StopWallTimeout();
+		anim.SetTrigger("BackStep");
+		backstepCooldown = true;
+		InterruptAttack();
+		inMeteor = false;
+		SetInvincible(true);
+		FlashCyan();
+		envDmgSusceptible = false;
+		Freeze();
+		ForwardDust();
+		inBackstep = true;
+	}
+
+	public void EndBackstep() {
+		SetInvincible(false);
+		StopFlashingCyan();
+		UnFreeze();
+		Invoke("EnableBackstep", backstepCooldownLength);
+		inBackstep = false;
+		BackwardDust();
+	}
+
+	public void EnableBackstep() {
+		backstepCooldown = false;
 	}
 }
