@@ -190,7 +190,7 @@ public class PlayerController : Entity {
 					}
 					movingRight = Input.GetAxis("Horizontal") > 0;
 				}
-				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f) {
+				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
 					int scalar = rb2d.velocity.x > 0 ? 1 : -1;
 					if (scalar * GetForwardScalar() > 0) {
 						BackwardDust();
@@ -202,7 +202,7 @@ public class PlayerController : Entity {
 			//if no movement, stop the player on the ground 
 			else if (grounded) {
 				rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
-				if (runningLastFrame) {
+				if (runningLastFrame && !touchingWall) {
 					ForwardDust();
 				}
 			} 
@@ -271,6 +271,7 @@ public class PlayerController : Entity {
 			}
 			else if (touchingWall || justLeftWall) {
 				InterruptMeteor();
+				DownDust();
 				InterruptAttack();
 				FreezeFor(.1f);
 				rb2d.velocity = new Vector2(
@@ -372,8 +373,10 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		EndDashCooldown();
 		StopWallTimeout();
-		if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed) {
+		if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed && Input.GetAxis("Horizontal") * GetForwardScalar() > 0) {
 			BackwardDust();
+		} else if (Mathf.Abs(rb2d.velocity.x) > 0 && Input.GetAxis("Horizontal") * GetForwardScalar() <= 0) {
+			ForwardDust();
 		}
 		if (inMeteor) {
 			LandMeteor();
@@ -875,5 +878,15 @@ public class PlayerController : Entity {
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
 		d.transform.localScale = new Vector3(this.transform.localScale.x, 1, 1);
+	}
+
+	void DownDust() {
+		GameObject d = Instantiate(dust, new Vector3(
+			this.transform.position.x + 0.16f * GetForwardScalar(),
+			this.transform.position.y - .48f,
+			this.transform.position.z
+		), Quaternion.identity, this.transform).gameObject;
+		d.transform.rotation = Quaternion.Euler(0, 0, 90 * GetForwardScalar());
+		d.transform.parent = null;
 	}
 }
