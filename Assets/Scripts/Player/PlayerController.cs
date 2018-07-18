@@ -28,6 +28,7 @@ public class PlayerController : Entity {
 	int healCost = 3;
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
+	bool riposteTriggered = false;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -70,6 +71,7 @@ public class PlayerController : Entity {
 	bool runningLastFrame = false;
 	bool inBackstep = false;
 	bool backstepCooldown = false;
+	bool forcedWalking = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -111,6 +113,10 @@ public class PlayerController : Entity {
 		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene) {
 			interaction.currentInteractable.Interact(this.gameObject);
 		}
+	}
+
+	bool IsForcedWalking() {
+		return this.forcedWalking || Input.GetKey(KeyCode.LeftControl);
 	}
 
 	void CheckFlash() {
@@ -158,7 +164,7 @@ public class PlayerController : Entity {
 		}
 
 		if (!frozen && (!stunned)) {
-			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack") && Input.GetAxis("Horizontal") < 0.1) {
+			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack")) {
 				Backstep();
 			}
 			if (Input.GetAxis("Vertical") < 0) {
@@ -167,7 +173,7 @@ public class PlayerController : Entity {
 				}
 			}
 
-			float modifier = (Input.GetKey(KeyCode.LeftControl)) ? 0.45f : 1f;
+			float modifier = IsForcedWalking() ? 0.45f : 1f;
 			float hInput = Input.GetAxis("Horizontal") * modifier;
 			if (!touchingWall) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
@@ -221,7 +227,7 @@ public class PlayerController : Entity {
 			}
 
 			//if they're above max move speed, gently slow them
-			if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed) {
+			if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed && !IsForcedWalking()) {
 				rb2d.velocity = new Vector2(
 					x:rb2d.velocity.x / 1.01f,
 					y:rb2d.velocity.y
@@ -365,6 +371,14 @@ public class PlayerController : Entity {
         yield return new WaitForSeconds(seconds);
         EndDashCooldown();
     }
+
+	public void CheckRiposteTrigger() {
+		if (this.riposteTriggered) {
+			this.riposteTriggered = false;
+			anim.SetTrigger("Riposte");
+			EndBackstep();
+		}
+	}
 
 	void EndDashCooldown() {
 		if (dashTimeout != null) {
@@ -512,7 +526,7 @@ public class PlayerController : Entity {
 
 	void MeteorSlam() {
 		if (inMeteor || dead) return;
-		EndBackstep();
+		InterruptBackstep();
 		inMeteor = true;
 		SetInvincible(true);
 		anim.SetTrigger("Meteor");
@@ -918,12 +932,16 @@ public class PlayerController : Entity {
 	}
 
 	public void EndBackstep() {
+		InterruptBackstep();
+		BackwardDust();
+	}
+
+	void InterruptBackstep() {
 		SetInvincible(false);
 		StopFlashingCyan();
 		UnFreeze();
 		Invoke("EnableBackstep", backstepCooldownLength);
 		inBackstep = false;
-		BackwardDust();
 	}
 
 	public void EnableBackstep() {
