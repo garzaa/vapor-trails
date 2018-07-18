@@ -10,7 +10,6 @@ public class ProximitySpawner : MonoBehaviour {
 	private GameObject player;
 
 	public float triggerRadius = 5f;
-	private Vector2 lastPlayerPos;
 	public GameObject toSpawn;
 	private GameObject spawned;
 
@@ -35,7 +34,6 @@ public class ProximitySpawner : MonoBehaviour {
 
 	void CheckTriggerDistance() {
 		if (Vector2.Distance(player.transform.position, this.transform.position) < triggerRadius) {
-			lastPlayerPos = player.transform.position;
 			this.OnPlayerEnter();
 		}
 	}

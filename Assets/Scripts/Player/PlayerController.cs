@@ -28,7 +28,7 @@ public class PlayerController : Entity {
 	int healCost = 3;
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
-	bool riposteTriggered = false;
+	public bool riposteTriggered = false;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -161,13 +161,14 @@ public class PlayerController : Entity {
 
 		if (frozen) {
 			anim.SetFloat("Speed", 0f);
+			if (grounded) rb2d.velocity = Vector2.zero;
 		}
 
 		if (!frozen && (!stunned)) {
 			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack")) {
 				Backstep();
 			}
-			if (Input.GetAxis("Vertical") < 0) {
+			if (Input.GetAxis("Vertical") < 0 && Input.GetButtonDown("Jump")) {
 				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
 					DropThroughPlatform();
 				}
@@ -274,8 +275,8 @@ public class PlayerController : Entity {
 		}
 
 		if (Input.GetButtonDown("Jump")) {
-			StopPlatformDrop();
-			if (grounded) {
+			if ((Input.GetAxis("Vertical") >= 0)) StopPlatformDrop();
+			if (grounded && (Input.GetAxis("Vertical") >= 0)) {
 				if (HorizontalInput()) {
 					BackwardDust();
 				} else {
@@ -300,7 +301,7 @@ public class PlayerController : Entity {
 				anim.SetTrigger("WallJump");
 				StopWallTimeout();
 			}
-			else if (airJumps > 0) {
+			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled) {
 				InterruptMeteor();
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				airJumps--;
@@ -376,7 +377,11 @@ public class PlayerController : Entity {
 		if (this.riposteTriggered) {
 			this.riposteTriggered = false;
 			anim.SetTrigger("Riposte");
-			EndBackstep();
+			rb2d.velocity = Vector2.zero;
+			StopFlashingCyan();
+			UnFreeze();
+			Invoke("EnableBackstep", backstepCooldownLength);
+			inBackstep = false;
 		}
 	}
 
@@ -617,12 +622,15 @@ public class PlayerController : Entity {
 		if (dead) {
 			return;
 		}
+
 		if (invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			return;
 		}
+
 		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			InterruptMeteor();
 		}
+
 		CameraShaker.MedShake();
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());

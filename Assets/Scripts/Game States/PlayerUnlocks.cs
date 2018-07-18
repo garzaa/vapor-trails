@@ -12,6 +12,7 @@ public class PlayerUnlocks : MonoBehaviour {
 	public bool wallClimb;
 	public bool meteor;
 	public bool supercruise;
+	public bool riposte;
 	public bool ramKick;
 	/*
 	public bool valkyrieHover;

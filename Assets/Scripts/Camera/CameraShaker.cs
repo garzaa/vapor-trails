@@ -46,7 +46,7 @@ public class CameraShaker : MonoBehaviour
 		Shake(0.05f, 0.05f);
 	}
 
-	static void Shake(float amount, float duration) {
+	public static void Shake(float amount, float duration) {
 		shakeAmount = amount;
 		shakeDuration = duration;
 	}

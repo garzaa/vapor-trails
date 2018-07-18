@@ -8,6 +8,6 @@ public class EnemyAttack : Attack {
 	void Start () {
 		this.attackedTags = new List<string>();
 		attackedTags.Add(Tags.PlayerHurtbox);
-		attackerParent = GetComponentInParent<Entity>();	
+		attackerParent = GetComponentInParent<Entity>();
 	}
 }
