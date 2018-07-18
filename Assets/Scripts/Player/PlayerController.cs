@@ -157,8 +157,8 @@ public class PlayerController : Entity {
 			anim.SetFloat("Speed", 0f);
 		}
 
-		if (!frozen && !stunned) {
-			if (Input.GetButtonDown("Backstep") && grounded && !backstepCooldown) {
+		if (!frozen && (!stunned)) {
+			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack") && Input.GetAxis("Horizontal") < 0.1) {
 				Backstep();
 			}
 			if (Input.GetAxis("Vertical") < 0) {
@@ -280,6 +280,7 @@ public class PlayerController : Entity {
 				InterruptAttack();
 			}
 			else if (touchingWall || justLeftWall) {
+				InterruptDash();
 				InterruptMeteor();
 				if (touchingWall) DownDust();
 				InterruptAttack();
