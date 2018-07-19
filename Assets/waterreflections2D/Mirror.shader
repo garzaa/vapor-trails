@@ -72,7 +72,7 @@ Shader "FX/Mirror"
 				tex.rgb *= tex.a;
 				//get the reflection surface?
 				//sample the 2d texture from the projected coordinates of the reflection
-				fixed4 refl = SineDisplace(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
+				fixed4 refl = tex2D(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
 				fixed4 final = refl * tex;
 				return final;
 			}

@@ -260,7 +260,7 @@ public class PlayerController : Entity {
 			hardFalling = false;
 		}
 
-		if (wallCheck.TouchingLedge()) {
+		if (wallCheck.TouchingLedge() && !grounded) {
 			LedgeBoost();
 		}
 
@@ -420,7 +420,7 @@ public class PlayerController : Entity {
 			anim.SetTrigger("HardLand");
 		}
 		if (terminalFalling) {
-			CameraShaker.SmallShake();
+			CameraShaker.Shake(0.1f, 0.1f);
 		}
 	}
 
@@ -553,7 +553,7 @@ public class PlayerController : Entity {
 		SetInvincible(false);
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
-		CameraShaker.MedShake();
+		CameraShaker.Shake(0.2f, 0.2f);
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}
@@ -631,7 +631,7 @@ public class PlayerController : Entity {
 			InterruptMeteor();
 		}
 
-		CameraShaker.MedShake();
+		CameraShaker.Shake(0.2f, 0.1f);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
 		if (this.currentHP == 0) {
@@ -678,6 +678,7 @@ public class PlayerController : Entity {
 
 
 	void DamageFor(int dmg) {
+		deathParticles.Emit(50);
 		currentHP -= dmg;
 		if (currentHP <= 0) {
 			Die();
@@ -687,7 +688,7 @@ public class PlayerController : Entity {
 	void Die() {
 		this.dead = true;
 		this.envDmgSusceptible = false;
-		CameraShaker.BigShake();
+		CameraShaker.Shake(0.2f, 0.1f);
 		deathParticles.Emit(50);
 		LockInSpace();
 		Freeze();
@@ -830,7 +831,7 @@ public class PlayerController : Entity {
 		wings.EnableJets();
 		wings.SupercruiseMid();
 		Freeze();
-		CameraShaker.MedShake();
+		CameraShaker.Shake(0.1f, 0.1f);
 		//keep them level
 		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 	}
@@ -847,7 +848,7 @@ public class PlayerController : Entity {
 	//when the player hits a wall or dies 
 	public void InterruptSupercruise() {
 		if (!supercruise) return;
-		CameraShaker.SmallShake();
+		CameraShaker.Shake(0.1f, 0.1f);
 		supercruise = false;
 		UnFreeze();
 		wings.FoldIn();
