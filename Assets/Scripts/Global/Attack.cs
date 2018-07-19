@@ -6,7 +6,10 @@ public class Attack : MonoBehaviour {
 
 	public int damage = 1;
 	public float hitstopLength = .02f;
-	public bool cameraShake = false;
+	[Range(0, 1f)]
+	public float cameraShakeIntensity = .1f;
+	[Range(0, 2f)]
+	public float cameraShakeTime = 0.1f;
 	public bool selfKnockBack = false;
 	public Vector2 selfKnockBackVector = Vector2.zero;
 	public GameObject hitmarker;
@@ -22,8 +25,8 @@ public class Attack : MonoBehaviour {
 
 	public void OnAttackLand(Entity e) {
 		//ugly hack, but we only want the camera to shake on player impact
-		if (cameraShake && e.gameObject.GetComponent<PlayerController>() != null) {
-			CameraShaker.SmallShake();
+		if (cameraShakeTime>0f) {
+			CameraShaker.Shake(cameraShakeIntensity, cameraShakeTime);
 		}
 		//instantiate the hitmarker
 		if (this.hitmarker != null) {

@@ -42,9 +42,7 @@ public class Breakable : MonoBehaviour {
 
 		PlayerAttack a = other.GetComponent<PlayerAttack>();
 		if (a != null) {
-			if (a.cameraShake) {
-				CameraShaker.TinyShake();
-			}
+			CameraShaker.Shake(a.cameraShakeIntensity, a.cameraShakeTime);
 			//instantiate the hitmarker
 			if (a.hitmarker != null) {
 				Instantiate(a.hitmarker, this.transform.position, Quaternion.identity);

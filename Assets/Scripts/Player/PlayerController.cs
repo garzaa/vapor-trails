@@ -164,7 +164,7 @@ public class PlayerController : Entity {
 			if (grounded) rb2d.velocity = Vector2.zero;
 		}
 
-		if (!frozen && (!stunned)) {
+		if (!frozen && !(stunned || dead)) {
 			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack")) {
 				Backstep();
 			}
