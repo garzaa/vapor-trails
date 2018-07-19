@@ -20,12 +20,12 @@ public class PlayerController : Entity {
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	bool damageDash = true;
-	int maxHP = 3;
+	int maxHP = 5;
 	public int currentHP = 1;
 	int maxEnergy = 5;
 	public int currentEnergy = 5;
 	float invincibilityLength = .5f;
-	int healCost = 3;
+	int healCost = 1;
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
 	public bool riposteTriggered = false;

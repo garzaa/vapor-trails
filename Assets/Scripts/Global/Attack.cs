@@ -52,7 +52,7 @@ public class Attack : MonoBehaviour {
 		}
 	}
 
-	public Vector2 GetKnockback() {
+	public virtual Vector2 GetKnockback() {
 		return new Vector2(
 			x:knockbackVector.x * attackerParent.GetForwardScalar(), 
 			y:knockbackVector.y
