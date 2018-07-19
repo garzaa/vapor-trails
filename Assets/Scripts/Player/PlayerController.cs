@@ -314,8 +314,8 @@ public class PlayerController : Entity {
 		}
 
 		//emulate an analog jump
-		//if the jump button is released
 		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff) {
+			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
 		}
