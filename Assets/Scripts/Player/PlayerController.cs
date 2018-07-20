@@ -155,7 +155,7 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (Input.GetButtonDown("Special") && HorizontalInput() && ((!frozen) || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
+		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
 			Dash();
 		}
 
@@ -762,6 +762,7 @@ public class PlayerController : Entity {
 			rb2d.velocity.x,
 			hardLandVelocity
 		);
+		wings.FoldIn();
 		GetComponent<BoxCollider2D>().enabled = false;
 		platformTimeout = StartCoroutine(EnableCollider(0.5f));
 	}

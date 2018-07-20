@@ -55,7 +55,7 @@ public class CameraShaker : MonoBehaviour
 	{
 		if (shakeDuration > 0)
 		{
-			camTransform.localPosition = originalPos + Random.onUnitSphere * shakeAmount;
+			camTransform.localPosition = originalPos + OnUnitCircle() * shakeAmount;
 			
 			shakeDuration -= Time.deltaTime * decreaseFactor;
 		}
@@ -64,5 +64,10 @@ public class CameraShaker : MonoBehaviour
 			shakeDuration = 0f;
 			camTransform.localPosition = originalPos;
 		}
+	}
+
+	Vector3 OnUnitCircle() {
+		float randomAngle = Random.Range(0f, Mathf.PI * 2f);
+		return (Vector3) new Vector2(Mathf.Sin(randomAngle), Mathf.Cos(randomAngle)).normalized;
 	}
 }
