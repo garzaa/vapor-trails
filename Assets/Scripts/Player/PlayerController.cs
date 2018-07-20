@@ -676,7 +676,6 @@ public class PlayerController : Entity {
 		StartCoroutine(WaitAndSetVincible(seconds));
 	}
 
-
 	void DamageFor(int dmg) {
 		deathParticles.Emit(50);
 		currentHP -= dmg;
