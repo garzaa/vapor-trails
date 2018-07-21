@@ -136,7 +136,7 @@ public class PlayerController : Entity {
 			anim.SetBool("SpecialHeld", false);
 		}
 
-		if (Input.GetButtonDown("Attack") && !frozen) {
+		if (Input.GetButtonDown("Attack") && !frozen && !inMeteor) {
 			wings.FoldIn();
 			anim.SetTrigger("Attack");
 		}
