@@ -15,7 +15,7 @@ public class EnviroDamage : Attack {
 		attackedTags.Add(Tags.EnemyHurtbox);
 		attackedTags.Add(Tags.PlayerHurtbox);
 		if (particlesOnImpact) {
-			ps = particleObject.GetComponent<ParticleSystem>();
+			ps = GetComponentInChildren<ParticleSystem>();
 		}
 	}
 
