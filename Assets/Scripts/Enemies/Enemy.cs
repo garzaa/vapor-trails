@@ -86,7 +86,7 @@ public class Enemy : Entity {
 		this.dead = true;
 		DropPickups();
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
-			this.GetComponent<Animator>().SetTrigger("die");
+			this.GetComponent<Animator>().SetTrigger("Die");
 		} else {
 			if (burstEffect != null) {
 				Burst();

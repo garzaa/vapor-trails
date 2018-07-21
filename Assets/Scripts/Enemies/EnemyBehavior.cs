@@ -20,10 +20,15 @@ public class EnemyBehavior : MonoBehaviour {
 		playerObject = GameObject.Find("Player");
 		rb2d = this.GetComponent<Rigidbody2D>();
 		anim = this.GetComponent<Animator>();
+		ExtendedStart();
 	} 
 
 	void Update() {
 		playerDistance = Mathf.Abs(Vector2.Distance(this.transform.position, playerObject.transform.position));
+	}
+
+	public virtual void ExtendedStart() {
+
 	}
 
 	public virtual void Move(){}

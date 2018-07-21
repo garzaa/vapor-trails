@@ -10,20 +10,21 @@ public class JumpAtPlayer : EnemyBehavior {
 
 	public bool grounded = false;
 
+	public override void ExtendedStart() {
+		StartCoroutine(JumpTimeout());
+	}
+
 	IEnumerator JumpTimeout() {
 		yield return new WaitForSeconds(jumpCooldown);
-		if (!(mainController.frozen || playerDistance > maxSeekThreshold)) {
-			anim.SetTrigger("Squash");
-		} else {
-			StartCoroutine(JumpTimeout());
-		}
+		if (!mainController.frozen && playerDistance < maxSeekThreshold && grounded) {
+			Jump();
+		} 
+		StartCoroutine(JumpTimeout());
 	}
 
 	public void Jump() {
 		//move towards the player
 		//first, get where they are
-		anim.SetTrigger("Jump");
-
 		if (Mathf.Abs(playerObject.transform.position.x - this.transform.position.x) < minSeekThreshold) {
 			return;
 		}
@@ -41,7 +42,6 @@ public class JumpAtPlayer : EnemyBehavior {
 	public override void OnGroundHit() {
 		anim.SetBool("Grounded", true);
 		grounded = true;
-		StartCoroutine(JumpTimeout());
 	}
 
 	public override void OnGroundLeave() {
