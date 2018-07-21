@@ -10,8 +10,8 @@ public class ParallaxLayer : MonoBehaviour {
     void Start() {
         mainCamera = GameObject.Find("Main Camera").transform;
         originalCamPos = new Vector3(
-            mainCamera.position.x,
-            mainCamera.position.y,
+            0,
+            0,
             this.transform.position.z
         );
         originalPos = this.transform.position;
