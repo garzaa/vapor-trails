@@ -16,6 +16,7 @@ public class GlobalController : MonoBehaviour {
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
+	static Save save;
 
 	static RespawnManager rm;
 
@@ -29,6 +30,7 @@ public class GlobalController : MonoBehaviour {
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
+		save = gc.GetComponent<Save>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -112,6 +114,18 @@ public class GlobalController : MonoBehaviour {
 	//called when the new respawn scene is loaded
 	public static void StartPlayerRespawning() {
 		pc.StartRespawning();
+	}
+
+	public static void AddGameFlag(string f) {
+		if (!save.gameFlags.Contains(f)) {
+			save.gameFlags.Add(f);
+		} else {
+			Debug.LogWarning("Flag "+f+" already exists in save");
+		}
+	}
+
+	public static bool HasFlag(string f) {
+		return save.gameFlags.Contains(f);
 	}
 
 }
