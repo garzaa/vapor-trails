@@ -628,7 +628,12 @@ public class PlayerController : Entity {
 		}
 
 		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
-			InterruptMeteor();
+			if (envDmgSusceptible) {
+				OnEnviroDamage();
+				InterruptMeteor();
+			} else {
+				return;
+			}
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
@@ -955,5 +960,14 @@ public class PlayerController : Entity {
 
 	public void EnableBackstep() {
 		backstepCooldown = false;
+	}
+
+	void OnEnviroDamage() {
+		this.envDmgSusceptible = false;
+		Invoke("EnableEnviroDamage", .2f);
+	}
+
+	void EnableEnviroDamage() {
+		this.envDmgSusceptible = true;
 	}
 }
