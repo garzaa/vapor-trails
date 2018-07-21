@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AnimationInterface : MonoBehaviour {
 
-	public Transform effectPoint;
 	Animator anim;
 	ParticleSystem ps;
 
+	public Transform effectPoint;
 	public GameObject dust;
 	public GameObject sparkle;
 
@@ -24,12 +24,12 @@ public class AnimationInterface : MonoBehaviour {
 		SpawnEffect(sparkle);
 	}
 
-	public void EmitParticles(int particles) {
-		ps.Emit(particles);
-	}
-
 	public void SpawnEffect(GameObject e) {
 		Instantiate(e, Vector3.zero, Quaternion.identity, effectPoint.transform);
+	}
+
+	public void EmitParticles(int p) {
+		ps.Emit(p);
 	}
 
 	public void GameFlag(string flag) {
@@ -50,10 +50,13 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void HidePlayer() {
 		GlobalController.pc.LockInSpace();
-		GlobalController.pc.Freeze();	
+		GlobalController.pc.Freeze();
+		GlobalController.pc.DisableShooting();
 	}
 
 	public void ShowPlayer() {
-		
+		GlobalController.pc.UnLockInSpace();
+		GlobalController.pc.UnFreeze();
+		GlobalController.pc.EnableShooting();
 	}
 }

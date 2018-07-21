@@ -3,22 +3,27 @@
 public class ParallaxLayer : MonoBehaviour {
  
     public Vector2 speed;
-    public bool moveInOppositeDirection;
     Transform mainCamera;
+    Vector3 originalPos;
+    Vector3 originalCamPos;
 
     void Start() {
         mainCamera = GameObject.Find("Main Camera").transform;
+        originalCamPos = new Vector3(
+            mainCamera.position.x,
+            mainCamera.position.y,
+            this.transform.position.z
+        );
+        originalPos = this.transform.position;
     }
  
-    void Update ()
-    { 
-        if (!Application.isPlaying)
-        {
-            return;
-        }
- 
-        Vector3 distance = mainCamera.position;
-        float direction = (moveInOppositeDirection) ? -1f : 1f;
-        transform.position = Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
+    void Update () { 
+        Vector3 camPos = new Vector3(
+            mainCamera.position.x,
+            mainCamera.position.y,
+            this.transform.position.z
+        );
+        Vector3 totalCamDelta = camPos - originalCamPos;
+        transform.position = originalPos + Vector3.Scale(totalCamDelta, new Vector3(speed.x, speed.y));
     }
 }

@@ -752,11 +752,11 @@ public class PlayerController : Entity {
 		justLeftWall = false;
 	}
 
-	void EnableShooting() {
+	public void EnableShooting() {
 		this.canShoot = true;
 	}
 
-	void DisableShooting() {
+	public void DisableShooting() {
 		this.canShoot = false;
 	}
 

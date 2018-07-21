@@ -7,6 +7,7 @@ public class SceneData : MonoBehaviour {
 	public string subTitle;
 	public bool hidePlayer;
 	public bool blockRespawning;
+	[HideInInspector]
 	public string sceneName;
 	public Vector2 defaultSpawnPoint;
 	public bool loadOtherSceneAtStart;
