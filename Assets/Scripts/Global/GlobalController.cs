@@ -15,6 +15,7 @@ public class GlobalController : MonoBehaviour {
 	static bool dialogueOpenedThisFrame = false;
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
+	public static PlayerFollower playerFollower;
 
 	static RespawnManager rm;
 
@@ -27,6 +28,7 @@ public class GlobalController : MonoBehaviour {
 		signUI = GetComponentInChildren<SignUI>();
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
+		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {

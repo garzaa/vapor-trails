@@ -45,7 +45,7 @@ public class PlayerController : Entity {
 	//variables
 	bool grounded = false;
 	bool touchingWall = false;
-	public int airJumps;
+	int airJumps;
 	public bool midSwing = false;
 	bool dashCooldown = false;
 	public bool dashing = false;
@@ -968,5 +968,13 @@ public class PlayerController : Entity {
 
 	void EnableEnviroDamage() {
 		this.envDmgSusceptible = true;
+	}
+
+	public void ForceWalking() {
+		this.forcedWalking = true;
+	}
+
+	public void StopForcedWalking() {
+		this.forcedWalking = false;
 	}
 }

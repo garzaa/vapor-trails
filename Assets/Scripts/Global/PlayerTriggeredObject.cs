@@ -4,8 +4,12 @@ using UnityEngine;
 
 public abstract class PlayerTriggeredObject : MonoBehaviour {
 
+	[HideInInspector]
+	public PlayerController player;
+
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.CompareTag(Tags.Player)) {
+			this.player = other.GetComponent<PlayerController>();
 			OnPlayerEnter();
 		}
 	}
@@ -13,6 +17,7 @@ public abstract class PlayerTriggeredObject : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other) {
 		if (other.CompareTag(Tags.Player)) {
 			OnPlayerExit();
+			this.player = null;
 		}
 	}
 
