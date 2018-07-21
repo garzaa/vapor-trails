@@ -112,4 +112,18 @@ public class Entity : MonoBehaviour {
     public virtual void OnGroundLeave() {
         
     }
+
+    public void Hide() {
+        SpriteRenderer spr = GetComponent<SpriteRenderer>();
+        if (spr != null) {
+            spr.enabled = false;
+        }
+    }
+
+    public void Show() {
+        SpriteRenderer spr = GetComponent<SpriteRenderer>();
+        if (spr != null) {
+            spr.enabled = true;
+        }
+    }
 }

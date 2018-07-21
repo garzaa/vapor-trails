@@ -49,18 +49,11 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void HidePlayer() {
-		
+		GlobalController.pc.LockInSpace();
+		GlobalController.pc.Freeze();	
 	}
 
 	public void ShowPlayer() {
-		
-	}
-
-	public void LockPlayer() {
-
-	}
-
-	public void UnlockPlayer() {
 		
 	}
 }

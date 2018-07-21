@@ -66,9 +66,9 @@ public class MirrorReflection : MonoBehaviour
 
 		// Setup oblique projection matrix so that near plane is our reflection
 		// plane. This way we clip everything below/above it for free.
-		Vector4 clipPlane = CameraSpacePlane( reflectionCamera, pos, normal, 1.0f );
+		//Vector4 clipPlane = CameraSpacePlane( reflectionCamera, pos, normal, 1.0f );
 		//Matrix4x4 projection = cam.projectionMatrix;
-		Matrix4x4 projection = cam.CalculateObliqueMatrix(clipPlane);
+		//Matrix4x4 projection = cam.CalculateObliqueMatrix(clipPlane);
 		reflectionCamera.projectionMatrix = cam.projectionMatrix;
 
 		reflectionCamera.cullingMask = ~(1<<4) & m_ReflectLayers.value; // never render water layer
