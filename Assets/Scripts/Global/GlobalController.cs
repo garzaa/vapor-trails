@@ -10,7 +10,7 @@ public class GlobalController : MonoBehaviour {
 	public static TitleText titleText;
 	static SignUI signUI;
 	static DialogueUI dialogueUI;
-	static PlayerController pc;
+	public static PlayerController pc;
 	static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
 	public static bool dialogueClosedThisFrame = false;
