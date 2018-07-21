@@ -44,4 +44,23 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.playerFollower.EnableFollowing();
 	}
 
+	public void AnimationTrigger(string t) {
+		anim.SetTrigger(t);
+	}
+
+	public void HidePlayer() {
+		
+	}
+
+	public void ShowPlayer() {
+		
+	}
+
+	public void LockPlayer() {
+
+	}
+
+	public void UnlockPlayer() {
+		
+	}
 }

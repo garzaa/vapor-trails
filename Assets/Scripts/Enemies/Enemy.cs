@@ -165,9 +165,11 @@ public class Enemy : Entity {
 
 	public override void OnGroundHit() {
 		anim.SetBool("Grounded", true);
+		SendMessage("OnGroundHit", SendMessageOptions.DontRequireReceiver);
 	}
 
 	public override void OnGroundLeave() {
 		anim.SetBool("Grounded", false);
+			SendMessage("OnGroundLeave", SendMessageOptions.DontRequireReceiver);
 	}
 }
