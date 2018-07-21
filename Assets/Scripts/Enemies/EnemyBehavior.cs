@@ -27,4 +27,12 @@ public class EnemyBehavior : MonoBehaviour {
 	}
 
 	public virtual void Move(){}
+
+	public virtual void OnGroundHit() {
+
+	}
+
+	public virtual void OnGroundLeave() {
+		
+	}
 }

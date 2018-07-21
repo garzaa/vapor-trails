@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SwitchOnState : MonoBehaviour {
 
-	string gameFlag;
-	bool enableOnState;
+	public string gameFlag;
+	public bool enableOnState;
 
 	void Start() {
 		if (enableOnState) {

@@ -12,7 +12,6 @@ public class Enemy : Entity {
 	public int moveForce;
 	public int maxSpeed;
 
-	public float healthChance = 2f;
 	public float moneyChance = 0f;
 
 	public GameObject healthPrefab, moneyPrefab;
@@ -117,15 +116,7 @@ public class Enemy : Entity {
 	}
 
 	public void DropPickups() {
-		DropHealth();
 		DropMoney();
-	}
-
-	public void DropHealth() {
-		if (Random.Range(0f, 1f) < healthChance) {
-			GameObject h = (GameObject) Instantiate(healthPrefab, this.transform.position, Quaternion.identity);
-			h.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(3, 5));
-		}
 	}
 
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
@@ -165,11 +156,15 @@ public class Enemy : Entity {
 
 	public override void OnGroundHit() {
 		anim.SetBool("Grounded", true);
-		SendMessage("OnGroundHit", SendMessageOptions.DontRequireReceiver);
+		foreach (EnemyBehavior eb in this.behaviors) {
+			eb.OnGroundHit();
+		}
 	}
 
 	public override void OnGroundLeave() {
 		anim.SetBool("Grounded", false);
-			SendMessage("OnGroundLeave", SendMessageOptions.DontRequireReceiver);
+		foreach (EnemyBehavior eb in this.behaviors) {
+			eb.OnGroundLeave();
+		}
 	}
 }
