@@ -30,7 +30,7 @@ public class GlobalController : MonoBehaviour {
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
-		save = gc.GetComponent<Save>();
+		//save = gc.GetComponent<Save>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
