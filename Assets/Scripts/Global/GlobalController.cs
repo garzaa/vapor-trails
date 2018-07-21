@@ -128,4 +128,8 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
+	public static void LoadScene(string sceneName) {
+		gc.GetComponent<TransitionManager>().LoadSceneFade(sceneName);
+	}
+
 }

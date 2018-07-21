@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SceneLoadTrigger : PlayerTriggeredObject {
 
-	public override void OnPlayerEnter() {
+	public string sceneName;
 
+	public override void OnPlayerEnter() {
+		GlobalController.LoadScene(sceneName);
 	}
 
 	public override void OnPlayerExit() {
-		
+
 	}
 }

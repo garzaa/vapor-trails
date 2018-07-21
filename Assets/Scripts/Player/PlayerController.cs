@@ -413,6 +413,7 @@ public class PlayerController : Entity {
 			} else {
 				ImpactDust();
 			}
+			CameraShaker.Shake(0.05f, 0.1f);
 			anim.SetTrigger("HardLand");
 		}
 		if (terminalFalling) {
