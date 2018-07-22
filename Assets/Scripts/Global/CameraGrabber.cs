@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CameraGrabber : PlayerTriggeredObject {
 
-	
-
 	public override void OnPlayerEnter() {
 		GlobalController.playerFollower.DisableFollowing();
 	}

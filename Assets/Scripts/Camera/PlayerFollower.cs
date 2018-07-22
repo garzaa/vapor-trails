@@ -56,10 +56,12 @@ public class PlayerFollower : MonoBehaviour {
 
 	public void EnableFollowing() {
 		this.following = true;
+		GetComponentInChildren<CameraOffset>().following = true;
 	}
 
 	public void DisableFollowing() {
 		this.following = false;
+		GetComponentInChildren<CameraOffset>().following = false;
 	}
 
 	public void UpdateOffset(Vector2 newOffset) {

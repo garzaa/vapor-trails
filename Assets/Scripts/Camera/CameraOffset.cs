@@ -15,11 +15,17 @@ public class CameraOffset : MonoBehaviour {
 	public float lookAhead;
 	public float lookUp;
 
+	public bool following;
+
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
 	}
 
 	void FixedUpdate() {
+		if (!following) {
+			return;
+		}
+
 		Vector3 newPosition = player.transform.position;
 
 		if (lookingAhead) {
