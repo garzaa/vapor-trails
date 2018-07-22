@@ -14,7 +14,7 @@ public class PlayerUnlocks : MonoBehaviour {
 	public bool meteor;
 	public bool supercruise;
 	public bool riposte;
-	public bool ramKick;
+	public bool impactKick;
 	/*
 	public bool valkyrieHover;
 	public bool upppercut;

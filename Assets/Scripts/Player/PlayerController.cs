@@ -128,6 +128,10 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
+		if (inCutscene) {
+			return;
+		}
+
 		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
 		
 		if (!inCutscene) {
@@ -147,6 +151,13 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
+		if (inCutscene) {
+			anim.SetFloat("Speed", 0f);
+			if (grounded) rb2d.velocity = Vector2.zero;
+			anim.SetFloat("VerticalInput", 0f);
+			return;
+		}
+
 		if (Input.GetButtonDown("Jump") && supercruise) {
 			EndSupercruise();
 		}
