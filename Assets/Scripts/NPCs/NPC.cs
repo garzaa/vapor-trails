@@ -7,6 +7,8 @@ public class NPC : Interactable {
 	public int currentConversation = 0;
 	public int currentDialogueLine = 0;
 
+	public List<GameFlagOnLine> lineBasedFlags = new List<GameFlagOnLine>();
+
 	NPCConversations conversations;
 
 	public override void ExtendedStart() {
@@ -46,7 +48,11 @@ public class NPC : Interactable {
 	}
 
 	public virtual void FinishDialogueLine(int conversationNumber, int lineNumber) {
-
+		foreach (GameFlagOnLine g in lineBasedFlags) {
+			if (g.conversationNum == conversationNumber && g.lineNum == lineNumber) {
+				GlobalController.AddGameFlag(g.gameFlag);
+			}
+		}
 	}
 
 	public DialogueLine GetCurrentLine() {
