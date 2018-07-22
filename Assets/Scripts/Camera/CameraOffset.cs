@@ -15,7 +15,7 @@ public class CameraOffset : MonoBehaviour {
 	public float lookAhead;
 	public float lookUp;
 
-	public bool following;
+	public bool following = true;
 
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
