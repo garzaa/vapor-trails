@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class TransitionManager : MonoBehaviour {
 
+	string currentBeaconName = null;
+
 	void Start() {
 		OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 	}
@@ -19,25 +21,31 @@ public class TransitionManager : MonoBehaviour {
 			anim.SetBool("blackScreen", false);
 		}
 		 */
+		if (!string.IsNullOrEmpty(currentBeaconName)) {
+			//in case it was disabled in the previous scene
+			GlobalController.playerFollower.EnableFollowing();
+			GlobalController.MovePlayerTo(currentBeaconName);
+			currentBeaconName = null;
+		}
 		SceneData sd;
 		if (GameObject.Find("SceneData") != null) {
 			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
 
 			if (sd.loadOtherSceneAtStart) {
-				LoadSceneFade(sd.otherSceneName);
+				LoadSceneFade(sd.otherSceneName, null);
 				return;
 			}
 
 			GlobalController.ShowTitleText(sd.title, sd.subTitle);
 
-		}
-		
+		}		
 	}
 
-	public void LoadSceneFade(string sceneName) {
+	public void LoadSceneFade(string sceneName, string beaconName) {
 		/*
 		anim.SetBool("blackScreen", true);
 		*/
+		this.currentBeaconName = beaconName;
 		StartCoroutine(LoadAsync(sceneName));
 	}
 

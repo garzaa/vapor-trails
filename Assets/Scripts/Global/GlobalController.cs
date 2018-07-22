@@ -128,8 +128,18 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
-	public static void LoadScene(string sceneName) {
-		gc.GetComponent<TransitionManager>().LoadSceneFade(sceneName);
+	public static void LoadScene(string sceneName, string beaconName=null) {
+		gc.GetComponent<TransitionManager>().LoadSceneFade(sceneName, beaconName);
+	}
+
+	public static void MovePlayerTo(string objectName, bool smoothing=false) {
+		if (!smoothing) {
+			playerFollower.DisableSmoothing();
+		}
+		pc.transform.position = GameObject.Find(objectName).transform.position;
+		if (!smoothing) {
+			playerFollower.EnableSmoothing();
+		}
 	}
 
 }
