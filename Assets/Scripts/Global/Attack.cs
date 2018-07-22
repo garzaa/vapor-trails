@@ -13,6 +13,7 @@ public class Attack : MonoBehaviour {
 	public bool selfKnockBack = false;
 	public Vector2 selfKnockBackVector = Vector2.zero;
 	public GameObject hitmarker;
+	public bool flipHitmarker = false;
 	public List<string> attackedTags;
 	public Entity attackerParent;
 	public float stunLength = 0.2f;
@@ -30,7 +31,8 @@ public class Attack : MonoBehaviour {
 		}
 		//instantiate the hitmarker
 		if (this.hitmarker != null) {
-			Instantiate(hitmarker, e.transform.position, Quaternion.identity);
+			GameObject h = Instantiate(hitmarker, e.transform.position, Quaternion.identity);
+			if (flipHitmarker) h.transform.localScale = new Vector2(-1, 1);
 		}
 		ExtendedAttackLand(e);
 		//run hitstop

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerAttack : Attack {
 
-	public bool flipHitmarker = false;
-
 	public bool gainsEnergy = false;
 	int energyGained = 1;
 
