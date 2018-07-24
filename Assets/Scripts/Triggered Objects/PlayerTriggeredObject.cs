@@ -7,6 +7,10 @@ public abstract class PlayerTriggeredObject : MonoBehaviour {
 	[HideInInspector]
 	public PlayerController player;
 
+	void Start() {
+		gameObject.layer = LayerMask.NameToLayer(Layers.Triggers);
+	}
+
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.CompareTag(Tags.Player)) {
 			this.player = other.GetComponent<PlayerController>();

@@ -81,6 +81,7 @@ public class PlayerController : Entity {
 		anim = GetComponent<Animator>();
 		this.facingRight = false;
 		currentHP = unlocks.maxHP;
+		currentEnergy = unlocks.maxEnergy;
 		spr = this.GetComponent<SpriteRenderer>();
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");

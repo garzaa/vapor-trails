@@ -76,10 +76,6 @@ public class Entity : MonoBehaviour {
 				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
 			} else {
 				stunned = true;
-                Animator anim;
-                if ((anim = GetComponent<Animator>()) != null) {
-				    anim.SetBool("Stunned", true);
-                }
 				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
 			}
 		}

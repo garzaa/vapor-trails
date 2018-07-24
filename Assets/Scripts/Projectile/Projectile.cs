@@ -28,12 +28,10 @@ public class Projectile : MonoBehaviour {
 		if (burstPrefab != null) {
 			Instantiate(burstPrefab, transform.position, Quaternion.identity);
 		}
+		GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		//remove the collider/sprites/etc and stop particle emission
 		GetComponent<Collider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().enabled = false;
-		var e = GetComponent<ParticleSystem>().emission;
-		e.rateOverDistance = 0;
-		e.rateOverTime = 0;
 		GetComponent<SelfDestruct>().Destroy(2f);
 	}
 }
