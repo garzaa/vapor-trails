@@ -35,6 +35,12 @@ public class TransitionManager : MonoBehaviour {
 
 			GlobalController.ShowTitleText(sd.title, sd.subTitle);
 
+			if (sd.hideUI) {
+				GlobalController.HideUI();
+			} else {
+				GlobalController.ShowUI();
+			}
+
 		}
 
 		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
