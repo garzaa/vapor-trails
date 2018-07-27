@@ -15,7 +15,7 @@ public class PlayerFollower : MonoBehaviour {
 	bool smoothing = true;
 	bool following = true;
 
-
+	public GameObject target;
 
 	void Start () {
 		this.transform.position = new Vector3(
@@ -24,6 +24,7 @@ public class PlayerFollower : MonoBehaviour {
 			z:this.transform.position.z
 		);
 		pc = player.GetComponent<PlayerController>();
+		this.target = player;
 	}
 	
 	void FixedUpdate() {
@@ -35,14 +36,14 @@ public class PlayerFollower : MonoBehaviour {
 			transform.position = Vector3.SmoothDamp(
 				transform.position,
 				new Vector3(
-					x:player.transform.position.x + currentOffset.x,
-					y:player.transform.position.y + currentOffset.y,
+					x:target.transform.position.x + currentOffset.x,
+					y:target.transform.position.y + currentOffset.y,
 					z:this.transform.position.z),
 				ref velocity,
 				smoothAmount * Time.deltaTime
 				);
 		} else {
-			transform.position = player.transform.position + (Vector3) currentOffset;
+			transform.position = target.transform.position + (Vector3) currentOffset;
 		}	
 	}
 
@@ -62,6 +63,16 @@ public class PlayerFollower : MonoBehaviour {
 	public void DisableFollowing() {
 		this.following = false;
 		GetComponentInChildren<CameraOffset>().following = false;
+	}
+
+	public void FollowTarget(GameObject target) {
+		this.target = target;
+		GetComponentInChildren<CameraOffset>().following = false;
+	}
+
+	public void FollowPlayer() {
+		GetComponentInChildren<CameraOffset>().following = false;
+		this.target = player;
 	}
 
 	public void UpdateOffset(Vector2 newOffset) {

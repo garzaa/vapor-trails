@@ -24,6 +24,7 @@ public class TransitionManager : MonoBehaviour {
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
 			//in case it was disabled in the previous scene
 			GlobalController.playerFollower.EnableFollowing();
+			GlobalController.playerFollower.FollowPlayer();
 			GlobalController.MovePlayerTo(currentBeaconName);
 			currentBeaconName = null;
 		}

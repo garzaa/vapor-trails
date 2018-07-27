@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class CameraGrabber : PlayerTriggeredObject {
 
+	public GameObject targetPoint;
+
 	public override void OnPlayerEnter() {
-		GlobalController.playerFollower.DisableFollowing();
+		if (targetPoint != null) {
+			GlobalController.playerFollower.FollowTarget(targetPoint);
+		} else {
+			GlobalController.playerFollower.DisableFollowing();
+		}
 	}
 
 	public override void OnPlayerExit() {
 		GlobalController.playerFollower.EnableFollowing();
+		GlobalController.playerFollower.FollowPlayer();
 	}
 }

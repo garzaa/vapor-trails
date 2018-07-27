@@ -10,6 +10,8 @@ public class JumpAtPlayer : EnemyBehavior {
 
 	public bool grounded = false;
 
+	bool jumpTrigger = false;
+
 	public override void ExtendedStart() {
 		StartCoroutine(JumpTimeout());
 	}
@@ -17,9 +19,16 @@ public class JumpAtPlayer : EnemyBehavior {
 	IEnumerator JumpTimeout() {
 		yield return new WaitForSeconds(jumpCooldown);
 		if (!mainController.frozen && playerDistance < maxSeekThreshold && grounded) {
-			Jump();
+			jumpTrigger = true;
 		} 
 		StartCoroutine(JumpTimeout());
+	}
+
+	public void CheckJumpTrigger() {
+		if (jumpTrigger) {
+			jumpTrigger = false;
+			Jump();
+		}
 	}
 
 	public void Jump() {
