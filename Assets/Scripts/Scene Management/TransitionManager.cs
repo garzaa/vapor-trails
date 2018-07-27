@@ -48,7 +48,7 @@ public class TransitionManager : MonoBehaviour {
 	}
 
 	public void LoadSceneFade(string sceneName, string beaconName) {
-		GlobalController.FadeToBlack();
+		if (SceneManager.GetActiveScene().name != sceneName) GlobalController.FadeToBlack();
 		this.currentBeaconName = beaconName;
 		GlobalController.playerFollower.DisableSmoothing();
 		StartCoroutine(LoadAsync(sceneName));
