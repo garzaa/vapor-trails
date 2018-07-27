@@ -152,4 +152,16 @@ public class GlobalController : MonoBehaviour {
 		blackoutUI.Hide();
 	}
 
+	public static void ShowUI() {
+		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
+			c.Show();
+		}
+	}
+
+	public static void HideUI() {
+		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
+			c.Hide();
+		}
+	}
+
 }
