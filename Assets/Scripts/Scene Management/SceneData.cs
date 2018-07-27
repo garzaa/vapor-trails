@@ -9,7 +9,6 @@ public class SceneData : MonoBehaviour {
 	public bool blockRespawning;
 	[HideInInspector]
 	public string sceneName;
-	public Vector2 defaultSpawnPoint;
 	public bool loadOtherSceneAtStart;
 	public string otherSceneName;
 

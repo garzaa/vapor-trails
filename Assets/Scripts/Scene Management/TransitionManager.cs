@@ -44,7 +44,11 @@ public class TransitionManager : MonoBehaviour {
 		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
 		if (triggered != null) {
 			triggered.OnPlayerEnter();
-		}		
+		}
+
+		GlobalController.playerFollower.EnableFollowing();
+		GlobalController.playerFollower.FollowPlayer();
+		GlobalController.playerFollower.EnableSmoothing();
 	}
 
 	public void LoadSceneFade(string sceneName, string beaconName) {

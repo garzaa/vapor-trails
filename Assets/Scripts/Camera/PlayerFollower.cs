@@ -32,6 +32,10 @@ public class PlayerFollower : MonoBehaviour {
 			return;
 		}
 
+		if (target == null) {
+			FollowPlayer();
+		}
+
 		if (smoothing) {
 			transform.position = Vector3.SmoothDamp(
 				transform.position,
@@ -71,7 +75,7 @@ public class PlayerFollower : MonoBehaviour {
 	}
 
 	public void FollowPlayer() {
-		GetComponentInChildren<CameraOffset>().following = false;
+		GetComponentInChildren<CameraOffset>().following = true;
 		this.target = player;
 	}
 

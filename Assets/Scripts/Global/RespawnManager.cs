@@ -38,7 +38,6 @@ public class RespawnManager : MonoBehaviour {
 			TrySettingRespawnPoint();
 			if (!toRespawn) {
 				player = GameObject.Find("Player");
-				player.transform.position = sd.defaultSpawnPoint;
 			}
 		} else if (toRespawn) {
 			toRespawn = false;
