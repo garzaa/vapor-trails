@@ -76,7 +76,7 @@ public class PlayerController : Entity {
 	public Transform dust;
 	GameObject instantiatedSparkle = null;
 
-	void Start () {
+	void Start() {
 		unlocks = GetComponentInParent<PlayerUnlocks>();
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
@@ -92,6 +92,7 @@ public class PlayerController : Entity {
 		wings = transform.Find("Wings").GetComponent<PlayerWings>();
 		anim.SetBool("CanSupercruise", unlocks.supercruise);
 		Flip();
+		ResetAirJumps();
 	}
 	
 	void Update () {
@@ -705,6 +706,7 @@ public class PlayerController : Entity {
 	void Die() {
 		this.dead = true;
 		this.envDmgSusceptible = false;
+		currentEnergy = 0;
 		CameraShaker.Shake(0.2f, 0.1f);
 		deathParticles.Emit(50);
 		LockInSpace();
