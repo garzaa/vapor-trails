@@ -16,11 +16,7 @@ public class TransitionManager : MonoBehaviour {
     }
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) { 
-		/*
-		if (blackScreen) {
-			anim.SetBool("blackScreen", false);
-		}
-		 */
+		GlobalController.UnFadeToBlack();
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
 			//in case it was disabled in the previous scene
 			GlobalController.playerFollower.EnableFollowing();
@@ -52,9 +48,7 @@ public class TransitionManager : MonoBehaviour {
 	}
 
 	public void LoadSceneFade(string sceneName, string beaconName) {
-		/*
-		anim.SetBool("blackScreen", true);
-		*/
+		GlobalController.FadeToBlack();
 		this.currentBeaconName = beaconName;
 		GlobalController.playerFollower.DisableSmoothing();
 		StartCoroutine(LoadAsync(sceneName));

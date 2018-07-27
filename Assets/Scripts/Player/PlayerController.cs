@@ -710,6 +710,7 @@ public class PlayerController : Entity {
 		LockInSpace();
 		Freeze();
 		anim.SetTrigger("Die");
+		anim.SetBool("touchingWall", false);
 		DisableShooting();
 		InterruptEverything();
 		ResetAttackTriggers();

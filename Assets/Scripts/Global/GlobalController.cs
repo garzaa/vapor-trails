@@ -9,6 +9,7 @@ public class GlobalController : MonoBehaviour {
 	public TitleText editorTitleText;
 	public static TitleText titleText;
 	static SignUI signUI;
+	static BlackFadeUI blackoutUI;
 	static DialogueUI dialogueUI;
 	public static PlayerController pc;
 	static bool dialogueOpen;
@@ -31,6 +32,7 @@ public class GlobalController : MonoBehaviour {
 		rm = GetComponent<RespawnManager>();
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
 		save = gc.GetComponent<Save>();
+		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -140,6 +142,14 @@ public class GlobalController : MonoBehaviour {
 		if (!smoothing) {
 			playerFollower.EnableSmoothing();
 		}
+	}
+
+	public static void FadeToBlack() {
+		blackoutUI.Show();
+	}
+
+	public static void UnFadeToBlack() {
+		blackoutUI.Hide();
 	}
 
 }
