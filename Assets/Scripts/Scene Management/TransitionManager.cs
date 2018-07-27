@@ -56,6 +56,7 @@ public class TransitionManager : MonoBehaviour {
 		anim.SetBool("blackScreen", true);
 		*/
 		this.currentBeaconName = beaconName;
+		GlobalController.playerFollower.DisableSmoothing();
 		StartCoroutine(LoadAsync(sceneName));
 	}
 
