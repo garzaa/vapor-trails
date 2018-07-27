@@ -6,24 +6,20 @@ using UnityEngine.UI;
 public class UIComponent : MonoBehaviour {
 
 	public virtual void Show() {
-		SetEnabledRecursive(this.transform, true);
+		if (GetComponent<Image>() != null) {
+			GetComponent<Image>().enabled = true;
+		}
+		if (GetComponent<Text>() != null) {
+			GetComponent<Text>().enabled = true;
+		}
 	}
 
 	public virtual void Hide() {
-		SetEnabledRecursive(this.transform, false);
-	}
-
-	public void SetEnabledRecursive(Transform t, bool e) {
-		if (t.GetComponent<UIComponent>() != null) {
-			if (e) {
-				t.GetComponent<UIComponent>().Show();
-			} else {
-				t.GetComponent<UIComponent>().Hide();
-			}
+		if (GetComponent<Image>() != null) {
+			GetComponent<Image>().enabled = false;
 		}
-		foreach (Transform child in transform) {
-			SetEnabledRecursive(child, e);
+		if (GetComponent<Text>() != null) {
+			GetComponent<Text>().enabled = false;
 		}
 	}
-
 }
