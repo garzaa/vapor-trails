@@ -93,6 +93,7 @@ public class Entity : MonoBehaviour {
 		stunned = false;
         if (this.GetComponent<Animator>() != null) {
             Animator anim = GetComponent<Animator>();
+            anim.logWarnings = false;
 		    anim.SetBool("Stunned", false);
         }
 	}

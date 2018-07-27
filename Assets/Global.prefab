@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 114592921531725442}
   - component: {fileID: 114676880761664658}
   - component: {fileID: 114892664916705956}
+  - component: {fileID: 114568043210485488}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -770,6 +771,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1849346102820888
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4891732085236582}
+  m_Layer: 9
+  m_Name: InsideTriggerCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1901898517654700
 GameObject:
   m_ObjectHideFlags: 1
@@ -975,7 +991,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1765911528617980}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.63, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4022377240886294}
@@ -990,6 +1006,7 @@ Transform:
   - {fileID: 4812685009577194}
   - {fileID: 4795283589593094}
   - {fileID: 4762487342233756}
+  - {fileID: 4891732085236582}
   m_Father: {fileID: 4823699093169772}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1413,6 +1430,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4317679957759178}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4891732085236582
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1849346102820888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.135, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4078833572404762}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4907328520807726
 Transform:
@@ -2067,13 +2097,13 @@ MonoBehaviour:
   cameraShakeTime: 0
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 1
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.3
   knockBack: 1
   knockbackVector: {x: 0.5, y: 0}
-  flipHitmarker: 1
   gainsEnergy: 1
   costsEnergy: 0
 --- !u!114 &114062443589337922
@@ -2220,6 +2250,7 @@ MonoBehaviour:
   healthUI: {fileID: 114250467124477486}
   energyUI: {fileID: 114640882907452660}
   deathParticles: {fileID: 198754531371489922}
+  triggerCheck: {fileID: 4891732085236582}
   midSwing: 0
   dashing: 0
   inCutscene: 0
@@ -2448,6 +2479,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114568043210485488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1251777175516782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9cc8eb92ee2a8489b485acf1b544c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFlags: []
 --- !u!114 &114574233626698032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2478,13 +2521,13 @@ MonoBehaviour:
   cameraShakeTime: 0
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 1, y: 0}
-  flipHitmarker: 0
   gainsEnergy: 1
   costsEnergy: 0
 --- !u!114 &114592921531725442
@@ -2548,13 +2591,13 @@ MonoBehaviour:
   cameraShakeTime: 0
   selfKnockBack: 1
   selfKnockBackVector: {x: 0, y: 2}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: -8}
-  flipHitmarker: 0
   gainsEnergy: 1
   costsEnergy: 0
 --- !u!114 &114625505868507064
@@ -2628,6 +2671,7 @@ MonoBehaviour:
   smoothAmount: 40
   lookAhead: 0.7
   lookUp: 0.7
+  following: 1
 --- !u!114 &114640882907452660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2663,13 +2707,13 @@ MonoBehaviour:
   cameraShakeTime: 0.2
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 1
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.1
   knockBack: 1
   knockbackVector: {x: 3, y: 2}
-  flipHitmarker: 1
   gainsEnergy: 0
   costsEnergy: 0
 --- !u!114 &114676880761664658
@@ -2699,6 +2743,7 @@ MonoBehaviour:
   smoothAmount: 2
   lookAhead: 0
   initialOffset: {x: 0, y: 0}
+  target: {fileID: 0}
 --- !u!114 &114705605568669490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2768,13 +2813,13 @@ MonoBehaviour:
   cameraShakeTime: 0
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.8
   knockBack: 1
   knockbackVector: {x: 0, y: 4}
-  flipHitmarker: 0
   gainsEnergy: 1
   costsEnergy: 0
 --- !u!114 &114753586133332322
@@ -2801,7 +2846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 4471790932780182, guid: b565cb731d776b44f9ea0d7482836758, type: 2}
-  startVelocity: {x: 10, y: 0}
+  startVelocity: {x: 20, y: 0}
 --- !u!114 &114805703572054308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2919,9 +2964,9 @@ MonoBehaviour:
   meteor: 1
   supercruise: 1
   riposte: 1
-  ramKick: 0
+  impactKick: 0
   maxHP: 5
-  maxEnergy: 10
+  maxEnergy: 50
   baseAttackDamage: 1
 --- !u!114 &114893115227258678
 MonoBehaviour:
@@ -3021,13 +3066,13 @@ MonoBehaviour:
   cameraShakeTime: 0
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: 2}
-  flipHitmarker: 0
   gainsEnergy: 0
   costsEnergy: 1
 --- !u!114 &114966018533542240
@@ -3047,13 +3092,13 @@ MonoBehaviour:
   cameraShakeTime: 0.2
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
-  hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: -10}
-  flipHitmarker: 0
   gainsEnergy: 0
   costsEnergy: 1
 --- !u!198 &198311663044681666
@@ -12370,7 +12415,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.01
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13325,7 +13370,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -13334,22 +13379,22 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 0, g: 0.36033747, b: 0.9622642, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 0
-        ctime1: 65535
+        ctime0: 10409
+        ctime1: 50886
         ctime2: 0
         ctime3: 0
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
+        atime0: 10216
         atime1: 65535
         atime2: 0
         atime3: 0
@@ -13390,7 +13435,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
   UVModule:
-    enabled: 1
+    enabled: 0
     mode: 0
     frameOverTime:
       serializedVersion: 2
@@ -15914,13 +15959,13 @@ ParticleSystem:
     splitSubEmitterRibbons: 0
     colorOverLifetime:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 0.051397298, g: 0.4861803, b: 0.990566, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -15935,7 +15980,7 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
+        atime0: 16577
         atime1: 65535
         atime2: 0
         atime3: 0
@@ -16030,13 +16075,13 @@ ParticleSystem:
         m_RotationOrder: 4
     colorOverTrail:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 0, g: 0.49468517, b: 1, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -16051,7 +16096,7 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
+        atime0: 18504
         atime1: 65535
         atime2: 0
         atime3: 0
@@ -16905,7 +16950,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.01
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -17860,7 +17905,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -17869,22 +17914,22 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key1: {r: 0.06469935, g: 0.49774736, b: 0.8838513, a: 0}
+        key2: {r: 0.012415428, g: 0.46967113, b: 0.8773585, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
+        ctime1: 43369
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 0
+        atime0: 11951
         atime1: 65535
         atime2: 0
         atime3: 0
@@ -17893,7 +17938,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 2
+        m_NumColorKeys: 3
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
@@ -20381,13 +20426,13 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 0
+    enabled: 1
     mode: 0
     ratio: 1
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -30447,8 +30492,8 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3a2dc32a5db204941bea7f41346d4184, type: 2}
-  - {fileID: 2100000, guid: 3a2dc32a5db204941bea7f41346d4184, type: 2}
+  - {fileID: 2100000, guid: 13960df8ad8b54645bca3eae645a271b, type: 2}
+  - {fileID: 2100000, guid: 13960df8ad8b54645bca3eae645a271b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -30561,8 +30606,8 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3a2dc32a5db204941bea7f41346d4184, type: 2}
-  - {fileID: 2100000, guid: 3a2dc32a5db204941bea7f41346d4184, type: 2}
+  - {fileID: 2100000, guid: 13960df8ad8b54645bca3eae645a271b, type: 2}
+  - {fileID: 2100000, guid: 13960df8ad8b54645bca3eae645a271b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

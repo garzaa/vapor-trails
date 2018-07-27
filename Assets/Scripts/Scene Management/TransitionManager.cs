@@ -39,6 +39,11 @@ public class TransitionManager : MonoBehaviour {
 
 			GlobalController.ShowTitleText(sd.title, sd.subTitle);
 
+		}
+
+		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
+		if (triggered != null) {
+			triggered.OnPlayerEnter();
 		}		
 	}
 

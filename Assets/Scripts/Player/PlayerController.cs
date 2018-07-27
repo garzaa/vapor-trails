@@ -41,6 +41,7 @@ public class PlayerController : Entity {
 	InteractAppendage interaction;
 	PlayerWings wings;
 	PlayerUnlocks unlocks;
+	public Transform triggerCheck;
 
 	//variables
 	bool grounded = false;
@@ -989,5 +990,17 @@ public class PlayerController : Entity {
 
 	public void StopForcedWalking() {
 		this.forcedWalking = false;
+	}
+
+	public PlayerTriggeredObject CheckInsideTrigger() {
+		int layerMask = 1 << LayerMask.NameToLayer(Layers.Triggers);
+		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, triggerCheck.transform.position, 1f, layerMask);
+		if (hit) {
+			if (hit.transform.GetComponent<PlayerTriggeredObject>() != null) {
+				print("inside trigger apparently");
+				return hit.transform.GetComponent<PlayerTriggeredObject>();
+			}
+		} 
+		return null;
 	}
 }
