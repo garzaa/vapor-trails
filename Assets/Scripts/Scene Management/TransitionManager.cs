@@ -16,10 +16,20 @@ public class TransitionManager : MonoBehaviour {
     }
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		// reset everything and then re-enable according to scene data
 		GlobalController.pc.EndSupercruise();
 		GlobalController.pc.StopDashing();
 		GlobalController.pc.StopForcedWalking();
 		GlobalController.UnFadeToBlack();
+		GlobalController.playerFollower.EnableFollowing();
+		GlobalController.playerFollower.FollowPlayer();
+		GlobalController.playerFollower.EnableSmoothing();
+		PlayerController pc = GlobalController.pc;
+		pc.LockInSpace();
+		pc.SetInvincible(false);
+		pc.Freeze();
+		pc.Show();
+
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
 			//in case it was disabled in the previous scene
 			GlobalController.playerFollower.EnableFollowing();
@@ -44,6 +54,16 @@ public class TransitionManager : MonoBehaviour {
 				GlobalController.ShowUI();
 			}
 
+			if (sd.lockPlayer) {
+				pc.LockInSpace();
+				pc.SetInvincible(true);
+				pc.Freeze();
+			}
+
+			if (sd.hidePlayer) {
+				pc.Hide();
+			}
+
 		}
 
 		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
@@ -51,10 +71,6 @@ public class TransitionManager : MonoBehaviour {
 			print(triggered.name);
 			triggered.OnPlayerEnter();
 		}
-
-		GlobalController.playerFollower.EnableFollowing();
-		GlobalController.playerFollower.FollowPlayer();
-		GlobalController.playerFollower.EnableSmoothing();
 	}
 
 	public void LoadScene(string sceneName, string beaconName, bool fade = true) {

@@ -22,14 +22,12 @@ public class ContainerUI : UIComponent {
 
 	List<Image> drawnContainers;
 
+	bool hidden;
+
 	void Start() {
 		drawnContainers = new List<Image>();
 		InitPositions();
 		DrawContainers();
-	}
-
-	void Update() {
-
 	}
 
 	void InitPositions() {
@@ -39,6 +37,10 @@ public class ContainerUI : UIComponent {
 	}
 
 	void DrawContainers() {
+		if (hidden) {
+			return;
+		}
+
 		InitPositions();
 		containerWidth = initialRectWidth;
 		ClearContainers();
@@ -91,6 +93,20 @@ public class ContainerUI : UIComponent {
 		drawnContainers.Clear();
 
 
+	}
+
+	public override void Hide() {
+		this.hidden = true;
+		foreach (Image i in GetComponentsInChildren<Image>()) {
+			i.enabled = false;
+		}
+	}
+
+	public override void Show() {
+		this.hidden = false;
+		foreach (Image i in GetComponentsInChildren<Image>()) {
+			i.enabled = true;
+		}
 	}
 	
 }

@@ -363,7 +363,7 @@ public class PlayerController : Entity {
         SetInvincible(false);
 		StopFlashingCyan();
 		CloseAllHurtboxes();
-		wings.FoldIn();
+		if (wings != null) wings.FoldIn();
     }
 
 	void InterruptDash() {
@@ -523,7 +523,7 @@ public class PlayerController : Entity {
     }
 
     public void WhiteSprite() {
-        spr.material = defaultMaterial;
+		if (this.defaultMaterial != null) spr.material = defaultMaterial;
     }
 
     public void SetInvincible(bool b) {

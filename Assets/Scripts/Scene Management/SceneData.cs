@@ -12,6 +12,7 @@ public class SceneData : MonoBehaviour {
 	public bool loadOtherSceneAtStart;
 	public string otherSceneName;
 	public bool hideUI;
+	public bool lockPlayer;
 
 	void Awake() {
 		this.gameObject.name = "SceneData";
