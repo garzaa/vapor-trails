@@ -15,7 +15,10 @@ public class TransitionManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode) { 
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		GlobalController.pc.EndSupercruise();
+		GlobalController.pc.StopDashing();
+		GlobalController.pc.StopForcedWalking();
 		GlobalController.UnFadeToBlack();
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
 			//in case it was disabled in the previous scene
@@ -54,6 +57,7 @@ public class TransitionManager : MonoBehaviour {
 	}
 
 	public void LoadSceneFade(string sceneName, string beaconName) {
+		print("trying to load scene "+sceneName+" from current scene "+SceneManager.GetActiveScene().name);
 		if (SceneManager.GetActiveScene().name != sceneName) GlobalController.FadeToBlack();
 		this.currentBeaconName = beaconName;
 		GlobalController.playerFollower.DisableSmoothing();

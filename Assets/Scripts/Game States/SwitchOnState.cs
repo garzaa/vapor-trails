@@ -9,9 +9,9 @@ public class SwitchOnState : MonoBehaviour {
 
 	void Start() {
 		if (enableOnState) {
-			this.enabled = GlobalController.HasFlag(gameFlag);
+			this.gameObject.SetActive(GlobalController.HasFlag(gameFlag));
 		} else {
-			this.enabled = !GlobalController.HasFlag(gameFlag);
+			this.gameObject.SetActive(!GlobalController.HasFlag(gameFlag));
 		}
 	}
 	
