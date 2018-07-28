@@ -41,7 +41,6 @@ public class PlayerController : Entity {
 	InteractAppendage interaction;
 	PlayerWings wings;
 	PlayerUnlocks unlocks;
-	public Transform triggerCheck;
 
 	//variables
 	bool grounded = false;
@@ -85,7 +84,7 @@ public class PlayerController : Entity {
 		currentEnergy = unlocks.maxEnergy;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
-        defaultMaterial = spr.material;
+        defaultMaterial = GetComponent<SpriteRenderer>().material;
 		eyePosition = transform.Find("EyePosition").transform;
 		gun = GetComponent<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
@@ -997,10 +996,9 @@ public class PlayerController : Entity {
 
 	public PlayerTriggeredObject CheckInsideTrigger() {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Triggers);
-		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, triggerCheck.transform.position, 1f, layerMask);
+		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.up, .1f, layerMask);
 		if (hit) {
 			if (hit.transform.GetComponent<PlayerTriggeredObject>() != null) {
-				print("inside trigger apparently");
 				return hit.transform.GetComponent<PlayerTriggeredObject>();
 			}
 		} 
