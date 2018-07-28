@@ -131,7 +131,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadScene(string sceneName, string beaconName=null) {
-		gc.GetComponent<TransitionManager>().LoadSceneFade(sceneName, beaconName);
+		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beaconName);
 	}
 
 	public static void MovePlayerTo(string objectName, bool smoothing=false) {

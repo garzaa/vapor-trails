@@ -32,7 +32,7 @@ public class TransitionManager : MonoBehaviour {
 			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
 
 			if (sd.loadOtherSceneAtStart) {
-				LoadSceneFade(sd.otherSceneName, null);
+				LoadScene(sd.otherSceneName, null, fade:false);
 				return;
 			}
 
@@ -56,9 +56,8 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.playerFollower.EnableSmoothing();
 	}
 
-	public void LoadSceneFade(string sceneName, string beaconName) {
-		print("trying to load scene "+sceneName+" from current scene "+SceneManager.GetActiveScene().name);
-		if (SceneManager.GetActiveScene().name != sceneName) GlobalController.FadeToBlack();
+	public void LoadScene(string sceneName, string beaconName, bool fade = true) {
+		if (SceneManager.GetActiveScene().name != sceneName && fade) GlobalController.FadeToBlack();
 		this.currentBeaconName = beaconName;
 		GlobalController.playerFollower.DisableSmoothing();
 		StartCoroutine(LoadAsync(sceneName));

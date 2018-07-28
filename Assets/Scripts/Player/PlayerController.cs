@@ -83,9 +83,9 @@ public class PlayerController : Entity {
 		this.facingRight = false;
 		currentHP = unlocks.maxHP;
 		currentEnergy = unlocks.maxEnergy;
-		spr = this.GetComponent<SpriteRenderer>();
-        defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
+		spr = GetComponent<SpriteRenderer>();
+        defaultMaterial = spr.material;
 		eyePosition = transform.Find("EyePosition").transform;
 		gun = GetComponent<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();

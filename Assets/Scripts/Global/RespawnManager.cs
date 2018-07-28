@@ -66,7 +66,7 @@ public class RespawnManager : MonoBehaviour {
 		} else {
 			toRespawn = true;
 			GetComponentInChildren<PlayerFollower>().DisableSmoothing();
-			GlobalController.gc.GetComponent<TransitionManager>().LoadSceneFade(respawnPoint.sceneName, null);
+			GlobalController.gc.GetComponent<TransitionManager>().LoadScene(respawnPoint.sceneName, null);
 		}
 	}
 	
