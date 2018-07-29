@@ -16,6 +16,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip hardland;
 	public AudioClip die;
 	public AudioClip interact;
+	public AudioClip footfall;
 	public List<AudioClip> voices;
 
 	public static SoundManager sm;
@@ -72,6 +73,10 @@ public class SoundManager : MonoBehaviour {
 
 	public static void HardLandSound() {
 		sm.a.PlayOneShot(sm.hardland);
+	}
+
+	public static void FootFallSound() {
+		sm.a.PlayOneShot(sm.footfall);
 	}
 
 }

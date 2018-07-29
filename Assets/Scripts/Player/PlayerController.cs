@@ -468,7 +468,7 @@ public class PlayerController : Entity {
 
 	void UpdateWallSliding() {
 		bool touchingLastFrame = touchingWall;
-		touchingWall = wallCheck.TouchingWall();
+		touchingWall = wallCheck.TouchingWall() && !dead;
 		if (!touchingLastFrame && touchingWall) {
 			OnWallHit();
 		} 
@@ -1014,5 +1014,9 @@ public class PlayerController : Entity {
 			}
 		} 
 		return null;
+	}
+
+	public void AnimFoostep() {
+		SoundManager.FootFallSound();
 	}
 }
