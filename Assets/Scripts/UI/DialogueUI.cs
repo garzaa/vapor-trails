@@ -56,7 +56,7 @@ public class DialogueUI : UIComponent {
 	IEnumerator SlowRender() {
 		//then call self again to render the next letter
 		if (letterIndex < textToRender.Length && slowRendering) {
-			dialogue.text = dialogue.text + textToRender[letterIndex];
+			dialogue.text = textToRender.Substring(0, letterIndex+1) + MakeInvisibleText();
 			letterIndex++;
 			yield return new WaitForSeconds(.02f);
 			StartCoroutine(SlowRender());
@@ -64,6 +64,13 @@ public class DialogueUI : UIComponent {
 			//if there's no more, then the letter-by-letter rendering has stoppped
 			slowRendering = false;
 		}
+	}
+
+	string MakeInvisibleText() {
+		//why is the substring function Like This
+		string invisText = textToRender.Substring(letterIndex, textToRender.Length - letterIndex - 1);
+		invisText = "<color=#00000000>" + invisText + "</color>";
+		return invisText;
 	}
 
 	public void CancelSlowRender() {
