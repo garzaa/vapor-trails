@@ -79,7 +79,7 @@
 			fixed4 SineDisplace (float2 uv)
 			{
 				float2 final = uv;
-				final.y += floor(_Amp * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
+				final.y += floor(_Amp * _Vertical * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
 				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
 
 				fixed4 color = tex2D (_MainTex, final);

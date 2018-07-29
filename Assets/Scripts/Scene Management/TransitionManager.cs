@@ -25,9 +25,9 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.playerFollower.FollowPlayer();
 		GlobalController.playerFollower.EnableSmoothing();
 		PlayerController pc = GlobalController.pc;
-		pc.LockInSpace();
+		pc.UnLockInSpace();
 		pc.SetInvincible(false);
-		pc.Freeze();
+		pc.UnFreeze();
 		pc.Show();
 
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
