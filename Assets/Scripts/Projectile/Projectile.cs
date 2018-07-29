@@ -29,6 +29,7 @@ public class Projectile : MonoBehaviour {
 			Instantiate(burstPrefab, transform.position, Quaternion.identity);
 		}
 		GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+		SoundManager.ExplosionSound();
 		//remove the collider/sprites/etc and stop particle emission
 		GetComponent<Collider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().enabled = false;

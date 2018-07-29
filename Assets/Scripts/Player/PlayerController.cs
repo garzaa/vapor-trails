@@ -109,6 +109,7 @@ public class PlayerController : Entity {
 
 	void Interact() {
 		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene) {
+			SoundManager.InteractSound();
 			interaction.currentInteractable.Interact(this.gameObject);
 		}
 	}
@@ -294,8 +295,10 @@ public class PlayerController : Entity {
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				anim.SetTrigger("Jump");
 				InterruptAttack();
+				SoundManager.SmallJumpSound();
 			}
 			else if (unlocks.wallClimb && (touchingWall || justLeftWall)) {
+				SoundManager.SmallJumpSound();
 				InterruptDash();
 				InterruptMeteor();
 				if (touchingWall) DownDust();
@@ -311,6 +314,7 @@ public class PlayerController : Entity {
 				StopWallTimeout();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled) {
+				SoundManager.JumpSound();
 				InterruptMeteor();
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
 				airJumps--;
@@ -334,6 +338,7 @@ public class PlayerController : Entity {
 		if (dashCooldown || dashing || parrying || dead || touchingWall) {
 			return;
 		}
+		SoundManager.DashSound();
 		StopWallTimeout();
 		InterruptAttack();
 		inMeteor = false;
@@ -421,6 +426,7 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("Grounded", true);
 		if (hardFalling) {
+			SoundManager.HardLandSound();
 			if (HorizontalInput()) {
 				BackwardDust();
 			} else {
@@ -549,6 +555,7 @@ public class PlayerController : Entity {
 		wings.Open();
 		wings.EnableJets();
 		wings.Meteor();
+		SoundManager.DashSound();
 		rb2d.velocity = new Vector2(
 			x:0,
 			y:terminalVelocity
@@ -563,6 +570,7 @@ public class PlayerController : Entity {
 		SetInvincible(false);
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
+		SoundManager.ExplosionSound();
 		CameraShaker.Shake(0.2f, 0.2f);
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
@@ -581,6 +589,7 @@ public class PlayerController : Entity {
 		}
 		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {
 			Sparkle();
+			SoundManager.ShootSound();
 			if (grounded) {
 				BackwardDust();
 			}
@@ -695,6 +704,7 @@ public class PlayerController : Entity {
 	}
 
 	void DamageFor(int dmg) {
+		SoundManager.PlayerHurtSound();
 		deathParticles.Emit(50);
 		currentHP -= dmg;
 		if (currentHP <= 0) {
@@ -704,6 +714,7 @@ public class PlayerController : Entity {
 
 	void Die() {
 		this.dead = true;
+		SoundManager.PlayerDieSound();
 		this.envDmgSusceptible = false;
 		currentEnergy = 0;
 		CameraShaker.Shake(0.2f, 0.1f);

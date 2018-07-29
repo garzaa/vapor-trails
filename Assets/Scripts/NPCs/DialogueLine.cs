@@ -7,4 +7,5 @@ public class DialogueLine : System.Object {
 	public string lineText;
 	public string speakerName;
 	public Sprite speakerImage; 
+	public int voiceIndex = 0;
 }

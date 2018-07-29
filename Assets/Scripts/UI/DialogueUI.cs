@@ -15,6 +15,8 @@ public class DialogueUI : UIComponent {
 	string textToRender;
 	public bool switchingImage;
 
+	int voiceIndex = 0;
+
 	Sprite nextImage;
 
 	public override void Show() {
@@ -38,6 +40,7 @@ public class DialogueUI : UIComponent {
 			speakerImage.sprite = line.speakerImage;
 		}
 		speakerName.text = line.speakerName;
+		this.voiceIndex = line.voiceIndex;
 		StartSlowRender(line.lineText);
 	}
 
@@ -57,8 +60,11 @@ public class DialogueUI : UIComponent {
 		//then call self again to render the next letter
 		if (letterIndex < textToRender.Length && slowRendering) {
 			dialogue.text = textToRender.Substring(0, letterIndex+1) + MakeInvisibleText();
+			if (char.IsLetter(textToRender[letterIndex])) {
+				SoundManager.VoiceSound(voiceIndex);
+			}
 			letterIndex++;
-			yield return new WaitForSeconds(.02f);
+			yield return new WaitForSeconds(.05f);
 			StartCoroutine(SlowRender());
 		} else {
 			//if there's no more, then the letter-by-letter rendering has stoppped

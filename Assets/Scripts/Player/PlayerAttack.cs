@@ -32,6 +32,8 @@ public class PlayerAttack : Attack {
 		if (costsEnergy) {
 			attackerParent.GetComponent<PlayerController>().LoseEnergy(this.energyCost);
 		}
+
+		SoundManager.HitSound();
 	}
 
 	new void OnTriggerEnter2D(Collider2D otherCol) {
