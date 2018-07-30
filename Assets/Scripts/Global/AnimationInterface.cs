@@ -59,4 +59,8 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.UnFreeze();
 		GlobalController.pc.EnableShooting();
 	}
+
+	public void LoadScene(string sceneName) {
+		GlobalController.LoadScene(sceneName);
+	}
 }

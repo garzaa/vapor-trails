@@ -17,6 +17,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip die;
 	public AudioClip interact;
 	public AudioClip footfall;
+	public AudioClip heal;
 	public List<AudioClip> voices;
 
 	public static SoundManager sm;
@@ -77,6 +78,10 @@ public class SoundManager : MonoBehaviour {
 
 	public static void FootFallSound() {
 		sm.a.PlayOneShot(sm.footfall);
+	}
+
+	public static void HealSound() {
+		sm.a.PlayOneShot(sm.heal);
 	}
 
 }

@@ -896,6 +896,7 @@ public class PlayerController : Entity {
 			if (grounded) {
 				ImpactDust();
 			}
+			SoundManager.HealSound();
 			currentHP += healAmt;
 			currentEnergy -= healCost;
 		}
