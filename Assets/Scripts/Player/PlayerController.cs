@@ -180,6 +180,7 @@ public class PlayerController : Entity {
 			}
 			if (Input.GetAxis("Vertical") < 0 && Input.GetButtonDown("Jump")) {
 				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
+					print("dropping through platform");
 					DropThroughPlatform();
 				}
 			}
@@ -313,7 +314,7 @@ public class PlayerController : Entity {
 				anim.SetTrigger("WallJump");
 				StopWallTimeout();
 			}
-			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled) {
+			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
 				SoundManager.JumpSound();
 				InterruptMeteor();
 				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
