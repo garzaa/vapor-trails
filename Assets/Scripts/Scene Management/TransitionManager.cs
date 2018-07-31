@@ -30,6 +30,8 @@ public class TransitionManager : MonoBehaviour {
 		pc.UnFreeze();
 		pc.Show();
 
+		GlobalController.ShowUI();
+
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
 			//in case it was disabled in the previous scene
 			GlobalController.playerFollower.EnableFollowing();

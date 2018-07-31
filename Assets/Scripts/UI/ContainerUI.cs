@@ -24,7 +24,7 @@ public class ContainerUI : UIComponent {
 
 	bool hidden;
 
-	void Start() {
+	public void Start() {
 		drawnContainers = new List<Image>();
 		InitPositions();
 		DrawContainers();
@@ -39,6 +39,11 @@ public class ContainerUI : UIComponent {
 	void DrawContainers() {
 		if (hidden) {
 			return;
+		}
+
+		if (this.drawnContainers == null) {
+			this.drawnContainers = new List<Image>();
+			InitPositions();
 		}
 
 		InitPositions();
@@ -87,12 +92,12 @@ public class ContainerUI : UIComponent {
 
 	void ClearContainers() {
 		//this is throwing an error, maybe in the iterator mechanics or something
-		foreach (Image i in drawnContainers) {
-			Destroy(i.gameObject);
+		if (this.drawnContainers != null) {
+			foreach (Image i in drawnContainers) {
+				Destroy(i.gameObject);
+			}
+			drawnContainers.Clear();
 		}
-		drawnContainers.Clear();
-
-
 	}
 
 	public override void Hide() {
@@ -104,9 +109,8 @@ public class ContainerUI : UIComponent {
 
 	public override void Show() {
 		this.hidden = false;
-		foreach (Image i in GetComponentsInChildren<Image>()) {
-			i.enabled = true;
-		}
+		//dumb hack, but hey
+		DrawContainers();
 	}
 	
 }

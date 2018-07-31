@@ -482,7 +482,10 @@ public class PlayerController : Entity {
 		InterruptDash();
 		EndDashCooldown();
 		EndSupercruise();
-		if (unlocks.wallClimb) anim.SetBool("TouchingWall", true);
+		if (unlocks.wallClimb) {
+			anim.SetBool("TouchingWall", true);
+			SoundManager.HardLandSound();
+		}
 		ResetAirJumps();
 	}
 
@@ -960,6 +963,7 @@ public class PlayerController : Entity {
 
 	void Backstep() {
 		StopWallTimeout();
+		SoundManager.SmallJumpSound();
 		anim.SetTrigger("BackStep");
 		backstepCooldown = true;
 		InterruptAttack();
