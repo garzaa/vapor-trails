@@ -29,6 +29,7 @@ public class TransitionManager : MonoBehaviour {
 		pc.SetInvincible(false);
 		pc.UnFreeze();
 		pc.Show();
+		pc.EnableShooting();
 
 		GlobalController.ShowUI();
 
@@ -60,6 +61,7 @@ public class TransitionManager : MonoBehaviour {
 				pc.LockInSpace();
 				pc.SetInvincible(true);
 				pc.Freeze();
+				pc.DisableShooting();
 			}
 
 			if (sd.hidePlayer) {

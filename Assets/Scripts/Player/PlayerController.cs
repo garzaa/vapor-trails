@@ -485,7 +485,7 @@ public class PlayerController : Entity {
 		EndSupercruise();
 		if (unlocks.wallClimb) {
 			anim.SetBool("TouchingWall", true);
-			SoundManager.HardLandSound();
+			if (!grounded) SoundManager.HardLandSound();
 		}
 		ResetAirJumps();
 	}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class DialogueUI : UIComponent {
 
@@ -14,6 +15,7 @@ public class DialogueUI : UIComponent {
 	int letterIndex;
 	string textToRender;
 	public bool switchingImage;
+	float letterDelay = 0.05f;
 
 	int voiceIndex = 0;
 
@@ -63,13 +65,22 @@ public class DialogueUI : UIComponent {
 			if (char.IsLetter(textToRender[letterIndex])) {
 				SoundManager.VoiceSound(voiceIndex);
 			}
+			int scalar = 1;
+			if (isPause(textToRender[letterIndex])) {
+				scalar = 2;
+			}
+			yield return new WaitForSeconds(letterDelay * scalar);
 			letterIndex++;
-			yield return new WaitForSeconds(.05f);
 			StartCoroutine(SlowRender());
 		} else {
 			//if there's no more, then the letter-by-letter rendering has stoppped
 			slowRendering = false;
 		}
+	}
+
+	bool isPause(char c) {
+		char[] pauses = {'.', '!', ',', '?'};
+		return pauses.Contains(c);
 	}
 
 	string MakeInvisibleText() {
