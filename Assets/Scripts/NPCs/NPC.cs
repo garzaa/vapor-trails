@@ -28,10 +28,8 @@ public class NPC : Interactable {
 		//start at the beginning of whatever conversation
 		currentDialogueLine = 0;
 
-		//restart the last conversation if it's been reached
-		if (currentConversation >= conversations.Count()) {
-			currentConversation = conversations.Count() - 1;
-		}
+		//no need to restart the last conversation if it's been reached
+		//the NPC conversation will take care of it
 
 		GlobalController.EnterDialogue(this);
 	}
