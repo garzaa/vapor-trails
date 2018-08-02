@@ -38,6 +38,9 @@ public class NPCConversations : MonoBehaviour {
 				auxConversations.Remove(subc);
 			}
 		}
+		if (GetComponent<NPC>() != null) {
+			GetComponent<NPC>().currentConversation = conversations.Count - 1;
+		}
 	}
 
 }
