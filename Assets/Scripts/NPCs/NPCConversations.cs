@@ -15,7 +15,6 @@ public class NPCConversations : MonoBehaviour {
 
 	public Conversation this[int i] {
 		get {
-			print(i);
 			if (i < conversations.Count) { 
 				return conversations[i]; 
 			} else {
