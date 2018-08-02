@@ -180,7 +180,6 @@ public class PlayerController : Entity {
 			}
 			if (Input.GetAxis("Vertical") < 0 && Input.GetButtonDown("Jump")) {
 				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
-					print("dropping through platform");
 					DropThroughPlatform();
 				}
 			}
