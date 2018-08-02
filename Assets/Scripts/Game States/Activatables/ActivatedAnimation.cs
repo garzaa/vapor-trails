@@ -10,6 +10,7 @@ public class ActivatedAnimation : Activatable {
 
     public override void ActivateSwitch(bool b) {
         if (b && isTrigger) {
+            print(animationName);
             anim.SetTrigger(animationName);
         } else {
             anim.SetBool(animationName, b);

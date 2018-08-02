@@ -201,6 +201,7 @@ MonoBehaviour:
   - {fileID: 25312603}
   objectsToActivate:
   - {fileID: 25312604}
+  - {fileID: 525663554}
   switchOnActivation: 1
 --- !u!114 &25312603
 MonoBehaviour:
@@ -231,15 +232,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
-    - lineText: Nice work. Give me a second to open the gate.
+    - lineText: Nice work on those sludges. Give me a second to open the gate.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: I can't promise the rest of the town will be as warm and welcoming
         as I am.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
   target: {fileID: 525663548}
 --- !u!1001 &43130610
 Prefab:
@@ -1606,6 +1609,52 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aab798565a79ea143ab62e1d29471210, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1001 &454299991
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 33.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 9.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_RootOrder
+      value: 142
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140014181112846, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+      propertyPath: m_Name
+      value: Short Platform (7)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1001 &454403090
 Prefab:
   m_ObjectHideFlags: 0
@@ -1998,11 +2047,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 33.16
+      value: 32.83
       objectReference: {fileID: 0}
     - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7.57
+      value: 7.61
       objectReference: {fileID: 0}
     - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2145,6 +2194,8 @@ GameObject:
   - component: {fileID: 525663549}
   - component: {fileID: 525663548}
   - component: {fileID: 525663547}
+  - component: {fileID: 525663553}
+  - component: {fileID: 525663554}
   m_Layer: 15
   m_Name: Tara
   m_TagString: Untagged
@@ -2226,30 +2277,37 @@ MonoBehaviour:
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: Nobody. Just trying to get to the surface.
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
+      activatable: {fileID: 0}
     - lineText: Everyone's got a name.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: '...'
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
+      activatable: {fileID: 0}
     - lineText: I'm Val.
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
+      activatable: {fileID: 0}
     - lineText: Is that short for something?
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: No.
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
+      activatable: {fileID: 0}
   auxConversations: []
 --- !u!212 &525663551
 SpriteRenderer:
@@ -2312,6 +2370,38 @@ Transform:
   m_Father: {fileID: 1976492911}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &525663553
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 525663546}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b607ca639889f8f4eb99ee0655843d55, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &525663554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 525663546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 525663553}
+  animationName: LowerCrossbow
+  isTrigger: 1
 --- !u!1001 &546867290
 Prefab:
   m_ObjectHideFlags: 0
@@ -2427,11 +2517,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 38.58
+      value: 35.22
       objectReference: {fileID: 0}
     - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7.55
+      value: 7.26
       objectReference: {fileID: 0}
     - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2810,11 +2900,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4804425355259980, guid: b93a269a62705734fba720681ffe4ceb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 33.026
+      value: 32.696003
       objectReference: {fileID: 0}
     - target: {fileID: 4804425355259980, guid: b93a269a62705734fba720681ffe4ceb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 6.918
+      value: 6.958
       objectReference: {fileID: 0}
     - target: {fileID: 4804425355259980, guid: b93a269a62705734fba720681ffe4ceb, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3863,12 +3953,14 @@ MonoBehaviour:
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
+      activatable: {fileID: 0}
     - lineText: 'And risk sludges getting into town?
 
         Not happening.'
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: 'Ever since the Lady of the Lake appeared, we''ve been seeing more
         and more sludges. A few weeks ago, some even got into town.
 
@@ -3876,39 +3968,46 @@ MonoBehaviour:
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: They ate half our crops and poisoned two people before we managed
         to kill them.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: I'm not opening the gate while they're still out there.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: You've got a sword, go take care of them yourself.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
   - lines:
     - lineText: Just shoot the sludges with your crossbow.
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
-    - lineText: You think bolts grow on trees down here? You think trees grow down
-        here?
+      activatable: {fileID: 0}
+    - lineText: You think bolts grow on trees down here? I'm saving these for you.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
     - lineText: Go use your sword.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
   - lines:
     - lineText: I still hear sludges slapping around out there. This gate is staying
         closed, friend.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceIndex: 2
+      activatable: {fileID: 0}
   target: {fileID: 525663548}
 --- !u!4 &873700108
 Transform:
@@ -4318,7 +4417,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.23997879, y: -0.054333985}
+  m_Offset: {x: 0.23997879, y: 2.0702584}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4329,7 +4428,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5200424, y: 1.171332}
+  m_Size: {x: 0.5200424, y: 5.4205165}
   m_EdgeRadius: 0
 --- !u!1001 &988263843
 Prefab:
@@ -5268,6 +5367,46 @@ Prefab:
     - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
       propertyPath: m_LocalPosition.x
       value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: dash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: damageDash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: gunEye
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: doubleJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: wallClimb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: meteor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: supercruise
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: riposte
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
@@ -6998,7 +7137,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1051587549762264, guid: 45410ff860f0b4940abc6eb39e1c9cfd, type: 2}
       propertyPath: m_Layer
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1051587549762264, guid: 45410ff860f0b4940abc6eb39e1c9cfd, type: 2}
       propertyPath: m_IsActive
@@ -7154,6 +7293,62 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 724e968e21848504e8faafe2ea39cc75, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1687664690
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 37.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 8.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_RootOrder
+      value: 143
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896389276508304, guid: 25a4cda911c220d428d882341e47c875, type: 2}
+      propertyPath: m_Name
+      value: TiledBlock (32)
+      objectReference: {fileID: 0}
+    - target: {fileID: 212060421195093768, guid: 25a4cda911c220d428d882341e47c875,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 3.6999547
+      objectReference: {fileID: 0}
+    - target: {fileID: 212060421195093768, guid: 25a4cda911c220d428d882341e47c875,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 1.3451114
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 25a4cda911c220d428d882341e47c875, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1001 &1700074860
 Prefab:
@@ -7965,11 +8160,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 36.86
+      value: 36.93
       objectReference: {fileID: 0}
     - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 6.7
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 4915431952778742, guid: cda33d096fb15934599d54bbb7693fa2, type: 2}
       propertyPath: m_LocalPosition.z

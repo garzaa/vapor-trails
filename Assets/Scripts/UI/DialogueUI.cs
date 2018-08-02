@@ -36,7 +36,7 @@ public class DialogueUI : UIComponent {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
 				anim.SetTrigger("SwitchSpeakerImage");
-			}
+			}	
 		} else {
 			//this will be called from the animation in a separate function
 			speakerImage.sprite = line.speakerImage;
@@ -44,6 +44,10 @@ public class DialogueUI : UIComponent {
 		speakerName.text = line.speakerName;
 		this.voiceIndex = line.voiceIndex;
 		StartSlowRender(line.lineText);
+
+		if (line.activatable != null) {
+			line.activatable.ActivateSwitch(true);
+		}
 	}
 
 	void ClearDialogue() {
