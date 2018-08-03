@@ -824,11 +824,11 @@ public class PlayerController : Entity {
 
 	public void EnterDialogue() {
 		InterruptEverything();
-		SetInvincible(true);
 		Freeze();
 		LockInSpace();
 		DisableShooting();
 		inCutscene = true;
+		SetInvincible(true);
 	}
 
 	public void ExitDialogue() {

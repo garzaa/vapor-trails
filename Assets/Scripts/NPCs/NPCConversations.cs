@@ -38,9 +38,9 @@ public class NPCConversations : MonoBehaviour {
 				auxConversations.Remove(subc);
 			}
 		}
+		//then restart the conversation from the last "true" dialogue point
 		if (GetComponent<NPC>() != null) {
-			GetComponent<NPC>().currentConversation = conversations.Count - 1;
+			GetComponent<NPC>().ReactToLinRemoval();
 		}
 	}
-
 }
