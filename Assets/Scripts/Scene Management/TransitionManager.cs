@@ -37,7 +37,6 @@ public class TransitionManager : MonoBehaviour {
 		bool closedJets = false; 
 		if (pc.wings != null) {
 			if (pc.wings.HasOpenJets()) {
-				print("disabled jets");
 				pc.wings.DisableJetTrails();
 				closedJets = true;
 			}
@@ -91,7 +90,6 @@ public class TransitionManager : MonoBehaviour {
  
 		//then reopen the jets
 		if (closedJets) {
-			print("Reopening jets");
 			pc.wings.EnableJetTrails();
 		}
 	}
