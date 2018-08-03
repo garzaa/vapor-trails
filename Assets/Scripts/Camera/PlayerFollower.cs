@@ -71,11 +71,11 @@ public class PlayerFollower : MonoBehaviour {
 
 	public void FollowTarget(GameObject target) {
 		this.target = target;
-		GetComponentInChildren<CameraOffset>().following = false;
+		GetComponentInChildren<CameraOffset>().lookingAhead = false;
 	}
 
 	public void FollowPlayer() {
-		GetComponentInChildren<CameraOffset>().following = true;
+		GetComponentInChildren<CameraOffset>().lookingAhead = true;
 		this.target = player;
 	}
 
