@@ -28,6 +28,18 @@ public class PlayerWings : MonoBehaviour {
 		anim.SetBool("Jets", false);
 	}
 
+	public void DisableJetTrails() {
+		foreach (TrailRenderer t in  GetComponentsInChildren<TrailRenderer>()) {
+			t.emitting = false;
+		}
+	}
+
+	public void EnableJetTrails() {
+		foreach (TrailRenderer t in  GetComponentsInChildren<TrailRenderer>()) {
+			t.emitting = true;
+		}
+	}
+
 
 	//wing movement
 	public void Dash() {
@@ -65,6 +77,10 @@ public class PlayerWings : MonoBehaviour {
 		ledgeBoosting = false;
 		DisableJets();
 		Close();
+	}
+
+	public bool HasOpenJets() {
+		return anim.GetBool("Jets");
 	}
 
 }

@@ -39,7 +39,7 @@ public class PlayerController : Entity {
 	public ContainerUI energyUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
-	PlayerWings wings;
+	public PlayerWings wings;
 	PlayerUnlocks unlocks;
 
 	//variables
@@ -59,7 +59,7 @@ public class PlayerController : Entity {
 	Coroutine platformTimeout;
 	public bool inCutscene;
 	bool dead = false;
-	bool supercruise = false;
+	public bool supercruise = false;
 	Coroutine dashTimeout;
 	bool pressedUpLastFrame = false;
 	bool flashingCyan = false;

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TransitionManager : MonoBehaviour {
 
 	string currentBeaconName = null;
+	bool frozePlayerBeforeTransition = true;
 
 	void Start() {
 		OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -17,19 +18,31 @@ public class TransitionManager : MonoBehaviour {
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		// reset everything and then re-enable according to scene data
-		GlobalController.pc.EndSupercruise();
-		GlobalController.pc.StopDashing();
-		GlobalController.pc.StopForcedWalking();
+		PlayerController pc = GlobalController.pc;
+		pc.StopForcedWalking();
 		GlobalController.UnFadeToBlack();
 		GlobalController.playerFollower.EnableFollowing();
 		GlobalController.playerFollower.FollowPlayer();
 		GlobalController.playerFollower.EnableSmoothing();
-		PlayerController pc = GlobalController.pc;
 		pc.UnLockInSpace();
-		pc.SetInvincible(false);
-		pc.UnFreeze();
+		if (!frozePlayerBeforeTransition) {
+			pc.SetInvincible(false);
+			pc.UnFreeze();
+			//and reset to wait for the next transition
+			frozePlayerBeforeTransition = false;
+		}
 		pc.Show();
 		pc.EnableShooting();
+		//if the wings are open, don't leave a trail if they move around in the level
+		bool closedJets = false; 
+		if (pc.wings != null) {
+			if (pc.wings.HasOpenJets()) {
+				print("disabled jets");
+				pc.wings.DisableJetTrails();
+				closedJets = true;
+			}
+		}
+		
 
 		GlobalController.ShowUI();
 
@@ -75,12 +88,25 @@ public class TransitionManager : MonoBehaviour {
 			print(triggered.name);
 			triggered.OnPlayerEnter();
 		}
+ 
+		//then reopen the jets
+		if (closedJets) {
+			print("Reopening jets");
+			pc.wings.EnableJetTrails();
+		}
 	}
 
 	public void LoadScene(string sceneName, string beaconName, bool fade = true) {
 		if (SceneManager.GetActiveScene().name != sceneName && fade) GlobalController.FadeToBlack();
 		this.currentBeaconName = beaconName;
 		GlobalController.playerFollower.DisableSmoothing();
+
+		//preserve dash/supercruise state between scenes
+		PlayerController pc = GlobalController.pc;
+		if (pc.dashing || pc.supercruise) {
+			frozePlayerBeforeTransition = false;
+		}
+
 		StartCoroutine(LoadAsync(sceneName));
 	}
 
