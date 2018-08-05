@@ -10,7 +10,7 @@
 		_Speed ("Speed", Float) = 64
 		_Amp ("Amplitude", Float) = 2
 		_Width ("Width", Float) = 10
-		_Vertical ("Vertical", Range (0, 1)) = 0
+		_Vertical ("Vertical", Range (0, 10)) = 0
 	}
 
 	SubShader
