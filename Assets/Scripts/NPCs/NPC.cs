@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC : Interactable {
-	public List<GameFlagOnLine> lineBasedFlags = new List<GameFlagOnLine>();
-
 	NPCConversations conversations;
 
 	public override void ExtendedStart() {
@@ -45,11 +43,7 @@ public class NPC : Interactable {
 	}
 
 	public virtual void FinishDialogueLine(int conversationNumber, int lineNumber) {
-		foreach (GameFlagOnLine g in lineBasedFlags) {
-			if (g.conversationNum == conversationNumber && g.lineNum == lineNumber) {
-				GlobalController.AddGameFlag(g.gameFlag);
-			}
-		}
+		
 	}
 
 	//called whenever auxiliary conversations are added or removed

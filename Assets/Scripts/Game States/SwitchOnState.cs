@@ -7,7 +7,7 @@ public class SwitchOnState : MonoBehaviour {
 	public string gameFlag;
 	public bool enableOnState;
 
-	void Start() {
+	void Awake() {
 		if (enableOnState) {
 			this.gameObject.SetActive(GlobalController.HasFlag(gameFlag));
 		} else {

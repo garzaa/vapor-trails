@@ -48,6 +48,10 @@ public class DialogueUI : UIComponent {
 		if (line.activatable != null) {
 			line.activatable.ActivateSwitch(true);
 		}
+
+		if (!string.IsNullOrEmpty(line.gameFlag)) {
+			GlobalController.AddGameFlag(line.gameFlag);
+		}
 	}
 
 	void ClearDialogue() {

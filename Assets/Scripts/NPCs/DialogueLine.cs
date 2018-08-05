@@ -9,4 +9,5 @@ public class DialogueLine : System.Object {
 	public Sprite speakerImage; 
 	public int voiceIndex = 0;
 	public Activatable activatable;
+	public string gameFlag;
 }
