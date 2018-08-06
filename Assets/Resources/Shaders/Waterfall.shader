@@ -91,12 +91,7 @@
 				float2 final = uv;
 				//uv offset
 				final.y = (uv.y + _Time.w * _YSpeed);
-
-				//sinewave displacement
-				//final.y += floor(_Amp * _Vertical * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
-				//final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
-				//need a period of 64 px
-				final.x += sin(uv.y *_Speed + _Time*40) * _Amp;
+				final.x += sin(uv.y*_Width + _Time.w*_Speed) * _Amp;
 				
 				fixed4 color = tex2D(_MainTex, final);
 				return color;
