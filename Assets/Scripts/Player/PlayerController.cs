@@ -225,7 +225,7 @@ public class PlayerController : Entity {
 			//if no movement, stop the player on the ground 
 			else if (grounded) {
 				rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
-				if (runningLastFrame && !touchingWall) {
+				if (runningLastFrame && !touchingWall && !midSwing) {
 					ForwardDust();
 				}
 			} 
@@ -934,6 +934,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ForwardDust() {
+		Debug.Log("ForwardDust()");
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * GetForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
