@@ -934,7 +934,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ForwardDust() {
-		GameObject d = Instantiate(dust, new Vector3(
+ 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * GetForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
 			this.transform.position.z
