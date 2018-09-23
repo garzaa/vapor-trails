@@ -21,8 +21,10 @@ public class NPCConversations : MonoBehaviour {
 				int offset = conversations.Count;
 				if (i - offset < auxConversations.Count) {
 					return auxConversations[i - offset];
-				} else {
+				} else if (auxConversations.Count > 0) {
 					return auxConversations.Last();
+				} else {
+					return conversations.Last();
 				}
 			}
 		}
