@@ -867,15 +867,13 @@ public class PlayerController : Entity {
 	public void StartSupercruise() {
 		this.supercruise = true;
 		BackwardDust();
-		//move slightly up to keep them off the ground
-		//this.transform.Translate(Vector2.up * 0.05f);
 		wings.Open();
 		wings.EnableJets();
 		wings.SupercruiseMid();
 		Freeze();
 		CameraShaker.Shake(0.1f, 0.1f);
 		//keep them level
-		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 	}
 
 	public void EndSupercruise() {
