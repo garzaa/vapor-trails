@@ -5,7 +5,7 @@ Shader "FX/Mirror"
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		[PerRendererData] _Color ("Tint", Color) = (1,1,1,1)
+		_Color ("Tint", Color) = (1,1,1,1)
 		[HideInInspector] _ReflectionTex ("", 2D) = "white" {}
 	}
 	SubShader

@@ -184,7 +184,7 @@ public class PlayerController : Entity {
 				}
 			}
 
-			float modifier = IsForcedWalking() ? 0.45f : 1f;
+			float modifier = IsForcedWalking() ? 0.4f : 1f;
 			float hInput = Input.GetAxis("Horizontal") * modifier;
 			if (!touchingWall) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
