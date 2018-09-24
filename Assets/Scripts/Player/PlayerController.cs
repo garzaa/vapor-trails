@@ -41,6 +41,7 @@ public class PlayerController : Entity {
 	InteractAppendage interaction;
 	public PlayerWings wings;
 	PlayerUnlocks unlocks;
+	public ParticleSystem speedDust;
 
 	//variables
 	bool grounded = false;
@@ -276,6 +277,13 @@ public class PlayerController : Entity {
 
 		if (touchingWall && !grounded && !HorizontalInput()) {
 			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+		}
+
+		var emission = speedDust.emission;
+		if (grounded && Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed) {
+			emission.enabled = true;
+		} else {
+			emission.enabled = false;
 		}
 	}
 
@@ -860,7 +868,7 @@ public class PlayerController : Entity {
 		this.supercruise = true;
 		BackwardDust();
 		//move slightly up to keep them off the ground
-		this.transform.Translate(Vector2.up * 0.05f);
+		//this.transform.Translate(Vector2.up * 0.05f);
 		wings.Open();
 		wings.EnableJets();
 		wings.SupercruiseMid();
