@@ -882,7 +882,7 @@ public class PlayerController : Entity {
 		UnFreeze();
 		wings.FoldIn();
 		anim.SetTrigger("EndSupercruise");
-		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 
 	//when the player hits a wall or dies 
