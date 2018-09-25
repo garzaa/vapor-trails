@@ -41,7 +41,6 @@ public class PlayerController : Entity {
 	InteractAppendage interaction;
 	public PlayerWings wings;
 	PlayerUnlocks unlocks;
-	public ParticleSystem speedDust;
 
 	//variables
 	bool grounded = false;
@@ -797,6 +796,7 @@ public class PlayerController : Entity {
 
 	void DropThroughPlatform() {
 		UnFreeze();
+		InterruptEverything();
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
 			hardLandVelocity
