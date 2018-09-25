@@ -148,7 +148,7 @@ public class PlayerController : Entity {
 			anim.SetTrigger("Attack");
 		}
 
-		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing) {
+		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
 			if (unlocks.meteor) MeteorSlam();
 		}
 	}
@@ -863,6 +863,8 @@ public class PlayerController : Entity {
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
 		this.supercruise = true;
+		anim.ResetTrigger("InterruptSupercruise");
+		anim.ResetTrigger("EndSupercruise");
 		BackwardDust();
 		wings.Open();
 		wings.EnableJets();
@@ -874,12 +876,12 @@ public class PlayerController : Entity {
 	}
 
 	public void EndSupercruise() {
-		if (!supercruise) return;
+		if (!supercruise) return;		
 		supercruise = false;
 		UnFreeze();
 		wings.FoldIn();
-		anim.SetTrigger("EndSupercruise");
 		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+		anim.SetTrigger("EndSupercruise");
 	}
 
 	//when the player hits a wall or dies 
