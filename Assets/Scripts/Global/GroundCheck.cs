@@ -37,8 +37,6 @@ public class GroundCheck : MonoBehaviour {
 		return leftGrounded || rightGrounded;
 	}
 
-	
-
 	void Update() {
 		bool groundedLastFrame = groundedCurrentFrame;
 		groundedCurrentFrame = IsGrounded();
