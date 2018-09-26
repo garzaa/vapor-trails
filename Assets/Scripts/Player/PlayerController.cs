@@ -373,7 +373,15 @@ public class PlayerController : Entity {
 		StopFlashingCyan();
 		CloseAllHurtboxes();
 		if (wings != null) wings.FoldIn();
+		if (MovingForwards() && Input.GetButton("Special")) {
+			StartSupercruise();
+			anim.SetTrigger("StartSupercruise");
+		}
     }
+
+	public bool MovingForwards() {
+		return (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
+	}
 
 	void InterruptDash() {
 		UnFreeze();
@@ -862,10 +870,11 @@ public class PlayerController : Entity {
 
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
+		OpenSupercruiseWings();
 		this.supercruise = true;
 		anim.ResetTrigger("InterruptSupercruise");
 		anim.ResetTrigger("EndSupercruise");
-		BackwardDust();
+		if (grounded) BackwardDust();
 		wings.Open();
 		wings.EnableJets();
 		wings.SupercruiseMid();
