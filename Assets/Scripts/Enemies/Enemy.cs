@@ -14,7 +14,7 @@ public class Enemy : Entity {
 
 	public float moneyChance = 0f;
 
-	public GameObject healthPrefab, moneyPrefab;
+	public GameObject moneyPrefab;
 
 	public GameObject playerObject;
 
