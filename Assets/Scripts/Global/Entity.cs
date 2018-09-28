@@ -56,6 +56,7 @@ public class Entity : MonoBehaviour {
     }
 
     public void UnLockInSpace() {
+        Debug.Log("PINGAS");
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;

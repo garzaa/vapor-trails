@@ -9,7 +9,7 @@ public class TransitionManager : MonoBehaviour {
 	bool frozePlayerBeforeTransition = true;
 
 	void Start() {
-		OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 	}
 
 	void OnEnable() {
@@ -52,6 +52,7 @@ public class TransitionManager : MonoBehaviour {
 			GlobalController.MovePlayerTo(currentBeaconName);
 			currentBeaconName = null;
 		}
+
 		SceneData sd;
 		if (GameObject.Find("SceneData") != null) {
 			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
