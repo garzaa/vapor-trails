@@ -870,10 +870,11 @@ public class PlayerController : Entity {
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
 		OpenSupercruiseWings();
+		SoundManager.DashSound();
 		this.supercruise = true;
 		anim.ResetTrigger("InterruptSupercruise");
 		anim.ResetTrigger("EndSupercruise");
-		if (grounded) BackwardDust();
+		BackwardDust();
 		wings.Open();
 		wings.EnableJets();
 		wings.SupercruiseMid();
@@ -947,6 +948,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ForwardDust() {
+		if (!grounded) return;
  		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * GetForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
@@ -956,6 +958,7 @@ public class PlayerController : Entity {
 	}
 
 	public void BackwardDust() {
+		if (!grounded) return;
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x - 0.32f * GetForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
