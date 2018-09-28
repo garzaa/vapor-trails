@@ -374,7 +374,6 @@ public class PlayerController : Entity {
 		CloseAllHurtboxes();
 		if (wings != null) wings.FoldIn();
 		if (MovingForwards() && Input.GetButton("Special")) {
-			StartSupercruise();
 			anim.SetTrigger("StartSupercruise");
 		}
     }
