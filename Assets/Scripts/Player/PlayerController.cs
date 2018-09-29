@@ -14,6 +14,7 @@ public class PlayerController : Entity {
 	float hardLandVelocity = -4.5f;
 	float terminalVelocity = -10f;
 	float dashSpeed = 8;
+	float superCruiseSpeed = 10;
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
@@ -248,9 +249,13 @@ public class PlayerController : Entity {
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		}
 
-		if (dashing || supercruise) {
+		if (dashing) {
             rb2d.velocity = new Vector2(dashSpeed * GetForwardScalar(), 0);
         }
+
+		else if (supercruise) {
+			rb2d.velocity = new Vector2(superCruiseSpeed * GetForwardScalar(), 0);
+		}
 
 		else if (inBackstep) {
 			rb2d.velocity = new Vector2(-maxMoveSpeed * GetForwardScalar(), 0);
