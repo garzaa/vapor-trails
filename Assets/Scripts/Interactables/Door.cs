@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utilities;
 
 public class Door : Interactable {
 
-	public string sceneName;
+	public SceneField sceneToLoad;
 	public string beaconName;
 
 	public override void Interact(GameObject player) {
-		GlobalController.LoadScene(sceneName, beaconName);
+		GlobalController.LoadScene(sceneToLoad, beaconName);
 	}
 }
