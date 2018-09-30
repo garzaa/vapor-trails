@@ -609,9 +609,7 @@ public class PlayerController : Entity {
 		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {
 			Sparkle();
 			SoundManager.ShootSound();
-			if (grounded) {
-				BackwardDust();
-			}
+			BackwardDust();
 			gun.Fire(
 				forwardScalar: GetForwardScalar(), 
 				bulletPos: eyePosition
