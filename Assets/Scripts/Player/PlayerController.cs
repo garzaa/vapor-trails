@@ -138,7 +138,7 @@ public class PlayerController : Entity {
 
 		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
 		
-		if (!inCutscene) {
+		if (!inCutscene && !forcedWalking) {
 			anim.SetBool("SpecialHeld", Input.GetButton("Special"));
 		} else {
 			anim.SetBool("SpecialHeld", false);
