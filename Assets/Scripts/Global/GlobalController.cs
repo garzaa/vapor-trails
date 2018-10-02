@@ -121,8 +121,6 @@ public class GlobalController : MonoBehaviour {
 	public static void AddGameFlag(string f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
-		} else {
-			Debug.LogWarning("Flag "+f+" already exists in save");
 		}
 	}
 
