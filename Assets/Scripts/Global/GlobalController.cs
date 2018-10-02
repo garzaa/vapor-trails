@@ -126,6 +126,12 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
+	public static void RemoveGameFlag(string f) {
+		if (save.gameFlags.Contains(f)) {
+			save.gameFlags.Remove(f);
+		}
+	}
+
 	public static bool HasFlag(string f) {
 		return save.gameFlags.Contains(f);
 	}
