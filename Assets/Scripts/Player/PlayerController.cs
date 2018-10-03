@@ -289,7 +289,7 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if (frozen || wallCheck.TouchingLedge() || lockedInSpace) {
+		if (frozen || (wallCheck.TouchingLedge() && !grounded) || lockedInSpace) {
 			return;
 		}
 
