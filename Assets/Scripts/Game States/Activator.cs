@@ -9,6 +9,7 @@ public class Activator : MonoBehaviour {
 
 	public bool switchOnActivation = true;
 	bool activated = false;
+	public bool singleActivation = true;
 
 	public virtual void Start() {
 		//if it's set to disable everything at the start, make sure it's enabled
@@ -18,7 +19,7 @@ public class Activator : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if (activated) return;
+		if (singleActivation && activated) return;
 
 		bool allSatisfied = true;
 		foreach (ActivationCriteria c in criteria) {
