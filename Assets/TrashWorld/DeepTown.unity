@@ -1055,7 +1055,7 @@ PlatformEffector2D:
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 100
+  m_SurfaceArc: 180
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
@@ -20917,8 +20917,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1287202547}
+  - component: {fileID: 1287202548}
+  - component: {fileID: 1287202549}
   m_Layer: 0
-  m_Name: zodiac
+  m_Name: lake crossing container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20934,10 +20936,44 @@ Transform:
   m_LocalPosition: {x: 46.25, y: -2.265, z: 0.01076832}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1880097685}
   - {fileID: 1535342341}
   m_Father: {fileID: 0}
   m_RootOrder: 173
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1287202548
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1287202546}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 365b23224cf1b6a479bc993c91ad94ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1287202549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1287202546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1287202548}
+  animationName: CrossLake
+  isTrigger: 1
+  toggleBool: 0
 --- !u!1 &1294178796
 GameObject:
   m_ObjectHideFlags: 0
@@ -21791,7 +21827,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.49
+      value: 43.8
       objectReference: {fileID: 0}
     - target: {fileID: 50578690507464408, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 2}
@@ -23625,7 +23661,7 @@ GameObject:
   - component: {fileID: 1535342343}
   - component: {fileID: 1535342342}
   m_Layer: 0
-  m_Name: boat container
+  m_Name: boat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23642,9 +23678,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1651070235}
-  - {fileID: 1880097685}
   m_Father: {fileID: 1287202547}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1535342342
 Animator:
@@ -24223,6 +24258,7 @@ MonoBehaviour:
   - {fileID: 1607570024}
   objectsToActivate:
   - {fileID: 1535342343}
+  - {fileID: 1287202549}
   switchOnActivation: 1
   singleActivation: 0
 --- !u!114 &1607570024
@@ -25544,7 +25580,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 85.55
+      value: 71.17
       objectReference: {fileID: 0}
     - target: {fileID: 4743347703395458, guid: 25a4cda911c220d428d882341e47c875, type: 2}
       propertyPath: m_LocalPosition.y
@@ -26937,14 +26973,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1880097684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2106015888}
   - {fileID: 101145774}
-  m_Father: {fileID: 1535342341}
-  m_RootOrder: 1
+  m_Father: {fileID: 1287202547}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1880097686
 BoxCollider2D:

@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class PlayerGrabber : MonoBehaviour {
 
-	void OnCollisionStay2D(Collision2D c) {
-		if (c.gameObject.tag == "Player") {
+	Transform lastParent;
+
+	void OnCollisionEnter2D(Collision2D c) {
+		if (c.gameObject.CompareTag(Tags.Player)) {
+			lastParent = c.transform.parent;
 			c.transform.parent = this.transform;
 		}
 	}
 
-	void OnCollisionLeave2D(Collision2D c) {
-		if (c.gameObject.tag == "Player") {
-			c.transform.parent = null;
+	void OnCollisionExit2D(Collision2D c) {
+		if (c.gameObject.CompareTag(Tags.Player)) {
+			c.transform.parent = lastParent;
+			c.transform.rotation = Quaternion.identity;
 		}
 	}
 }
