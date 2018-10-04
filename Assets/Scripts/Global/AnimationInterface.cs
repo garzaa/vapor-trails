@@ -11,6 +11,8 @@ public class AnimationInterface : MonoBehaviour {
 	public GameObject dust;
 	public GameObject sparkle;
 
+	public List<AudioClip> sounds;
+
 	void Start() {
 		anim = GetComponent<Animator>();
 		ps = GetComponentInChildren<ParticleSystem>();
@@ -62,5 +64,9 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void LoadScene(string sceneName) {
 		GlobalController.LoadScene(sceneName);
+	}
+
+	public void PlaySound(int soundIndex) {
+		SoundManager.sm.a.PlayOneShot(this.sounds[soundIndex]);
 	}
 }

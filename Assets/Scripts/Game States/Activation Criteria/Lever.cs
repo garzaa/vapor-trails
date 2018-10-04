@@ -24,6 +24,7 @@ public class Lever : ActivationCriteria {
 			PlayerAttack a = other.GetComponent<PlayerAttack>();
 			if (a != null) {
 				CameraShaker.Shake(a.cameraShakeIntensity, a.cameraShakeTime);
+				SoundManager.HitSound();
 				//instantiate the hitmarker
 				if (a.hitmarker != null) {
 					Instantiate(a.hitmarker, this.transform.position, Quaternion.identity);

@@ -21,7 +21,7 @@ public class SoundManager : MonoBehaviour {
 	public List<AudioClip> voices;
 
 	public static SoundManager sm;
-	AudioSource a;
+	public AudioSource a;
 
 	void Start() {
 		sm = this;
@@ -83,5 +83,4 @@ public class SoundManager : MonoBehaviour {
 	public static void HealSound() {
 		sm.a.PlayOneShot(sm.heal);
 	}
-
 }
