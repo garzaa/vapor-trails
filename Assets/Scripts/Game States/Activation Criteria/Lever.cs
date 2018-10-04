@@ -20,7 +20,7 @@ public class Lever : ActivationCriteria {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (active && other.CompareTag(Tags.PlayerHitbox)) {
+		if (active && (other.GetComponent<PlayerAttack>() != null)) {
 			PlayerAttack a = other.GetComponent<PlayerAttack>();
 			if (a != null) {
 				CameraShaker.Shake(a.cameraShakeIntensity, a.cameraShakeTime);
@@ -35,7 +35,6 @@ public class Lever : ActivationCriteria {
 
 			Animator anim;
 			if ((anim = GetComponent<Animator>()) != null) {
-				print("PINGAS");
 				anim.SetBool("Flipped", flipped);
 				if (flipToInactive) {
 					anim.SetBool("Active", false);
