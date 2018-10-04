@@ -30,19 +30,28 @@ public class Lever : ActivationCriteria {
 				}
 			}
 
-			flipped = !flipped;
-			if (flipToInactive) active = false;
-
-			Animator anim;
-			if ((anim = GetComponent<Animator>()) != null) {
-				anim.SetBool("Flipped", flipped);
-				if (flipToInactive) {
-					anim.SetBool("Active", false);
-				}
-			}
+			Flip();
 
 			//then at the end of the flip, reset
 			satisfied = true;
 		}
+	}
+
+	public void Flip() {
+		flipped = !flipped;
+		if (flipToInactive) active = false;
+
+		Animator anim;
+		if ((anim = GetComponent<Animator>()) != null) {
+			anim.SetBool("Flipped", flipped);
+			if (flipToInactive) {
+				anim.SetBool("Active", false);
+			}
+		}
+	}
+
+	public void FlipOff() {
+		Flip();
+		satisfied = false;
 	}
 }

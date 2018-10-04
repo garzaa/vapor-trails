@@ -21,20 +21,24 @@ public class Activator : MonoBehaviour {
 	void FixedUpdate() {
 		if (singleActivation && activated) return;
 
-		bool allSatisfied = true;
-		foreach (ActivationCriteria c in criteria) {
-			if (!c.CheckSatisfied()) {
-				allSatisfied = false;
-				break;
+		bool allSatisfied = false;
+		if (criteria.Count > 0) {
+			allSatisfied = true;
+			foreach (ActivationCriteria c in criteria) {
+				if (!c.CheckSatisfied()) {
+					allSatisfied = false;
+					break;
+				}
 			}
 		}
+
 		if (allSatisfied) {
 			activated = true;
-			ActivateSwitch();
+			Activate();
 		}
 	}
 
-	public virtual void ActivateSwitch() {
+	public virtual void Activate() {
 		foreach (Activatable a in objectsToActivate) {
 			if (a != null) a.ActivateSwitch(switchOnActivation);
 		}

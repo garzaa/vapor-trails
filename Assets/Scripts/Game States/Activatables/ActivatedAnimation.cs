@@ -9,6 +9,12 @@ public class ActivatedAnimation : Activatable {
     public bool isTrigger;
     public bool toggleBool;
 
+    void Start() {
+        if (isTrigger && toggleBool) {
+            Debug.LogWarning("brainlet alert");
+        }
+    }
+
     public override void ActivateSwitch(bool b) {
         if (b && isTrigger) {
             anim.SetTrigger(animationName);
