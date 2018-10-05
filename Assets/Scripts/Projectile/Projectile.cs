@@ -26,7 +26,8 @@ public class Projectile : MonoBehaviour {
 
 	public void OnImpact() {
 		if (burstPrefab != null) {
-			Instantiate(burstPrefab, transform.position, Quaternion.identity);
+			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity).gameObject;
+			go.GetComponent<Rigidbody2D>().velocity = this.GetComponent<Rigidbody2D>().velocity;
 		}
 		GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		SoundManager.ExplosionSound();
