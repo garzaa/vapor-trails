@@ -34,7 +34,7 @@ public class PlayerController : Entity {
 	SpriteRenderer spr;
 	Material defaultMaterial;
     Material cyanMaterial;
-	Transform eyePosition;
+	Transform gunEyes;
 	Gun gun;
 	public ContainerUI healthUI;
 	public ContainerUI energyUI;
@@ -86,8 +86,8 @@ public class PlayerController : Entity {
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
         defaultMaterial = GetComponent<SpriteRenderer>().material;
-		eyePosition = transform.Find("EyePosition").transform;
-		gun = GetComponent<Gun>();
+		gunEyes = transform.Find("GunEyes").transform;
+		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
 		wings = transform.Find("Wings").GetComponent<PlayerWings>();
 		anim.SetBool("CanSupercruise", unlocks.supercruise);
@@ -598,7 +598,7 @@ public class PlayerController : Entity {
 
 	public void Sparkle() {
 		if (instantiatedSparkle == null) {
-			instantiatedSparkle = (GameObject) Instantiate(sparkle, eyePosition.position, Quaternion.identity, eyePosition.transform).gameObject as GameObject;
+			instantiatedSparkle = (GameObject) Instantiate(sparkle, gunEyes.position, Quaternion.identity, gunEyes.transform).gameObject as GameObject;
 		}
 	}
 
@@ -612,7 +612,7 @@ public class PlayerController : Entity {
 			BackwardDust();
 			gun.Fire(
 				forwardScalar: GetForwardScalar(), 
-				bulletPos: eyePosition
+				bulletPos: gunEyes
 			);
 			LoseEnergy(1);
 		}
