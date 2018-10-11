@@ -131,6 +131,9 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static bool HasFlag(string f) {
+		if (save == null) {
+			return false;
+		}
 		return save.gameFlags.Contains(f);
 	}
 
