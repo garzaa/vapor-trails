@@ -13,6 +13,9 @@ public class ActivatedAnimation : Activatable {
         if (isTrigger && toggleBool) {
             Debug.LogWarning("brainlet alert");
         }
+        if (anim == null) {
+            anim = GetComponent<Animator>();
+        }
     }
 
     public override void ActivateSwitch(bool b) {
