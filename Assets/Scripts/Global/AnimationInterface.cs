@@ -13,6 +13,8 @@ public class AnimationInterface : MonoBehaviour {
 
 	public List<AudioClip> sounds;
 
+	public List<Activatable> activatables;
+
 	void Start() {
 		anim = GetComponent<Animator>();
 		ps = GetComponentInChildren<ParticleSystem>();
@@ -68,5 +70,9 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void PlaySound(int soundIndex) {
 		SoundManager.sm.a.PlayOneShot(this.sounds[soundIndex]);
+	}
+
+	public void Activate(int index) {
+		activatables[index].Activate();
 	}
 }
