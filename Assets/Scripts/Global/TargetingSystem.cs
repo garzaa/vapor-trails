@@ -8,9 +8,13 @@ public class TargetingSystem : MonoBehaviour {
 	public List<string> targetedTags;
 	List<Transform> targetsInRange;
 
+	public GameObject targetingUI;
+	Animator targetAnim;
+
 	void Start() {
 		targetsInRange = new List<Transform>();
 		InvokeRepeating("GarbageCollect", 0, 1);
+		targetAnim = targetingUI.GetComponent<Animator>();
 	}
 
 
@@ -31,6 +35,18 @@ public class TargetingSystem : MonoBehaviour {
 		}
 		
 		return nearest;
+	}
+
+	void Update() {
+		Transform closest = GetClosestTarget(this.transform);
+		if (closest != null) {
+			if (targetingUI.transform.position != closest.transform.position) {
+				targetingUI.transform.position = Vector3.Lerp(targetingUI.transform.position, closest.transform.position, 0.5f);
+			}
+			targetAnim.SetBool("Locked", true);
+		} else {
+			targetAnim.SetBool("Locked", false);
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D otherCol) {
