@@ -1057,7 +1057,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 5ebae19942c41694d8b72585f9a6bec3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1460,24 +1460,28 @@ MonoBehaviour:
       speakerImage: {fileID: 21300000, guid: 98ed7ed1df4581942a1f2a1ec4f07843, type: 3}
       voiceIndex: 0
       activatable: {fileID: 0}
+      activatesOnLineEnd: 0
       gameFlag: 
     - lineText: So are you.
       speakerName: val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceIndex: 1
       activatable: {fileID: 0}
+      activatesOnLineEnd: 0
       gameFlag: 
     - lineText: I'm bound to the lake. I could never leave.
       speakerName: Lady of the Lake
       speakerImage: {fileID: 21300000, guid: 98ed7ed1df4581942a1f2a1ec4f07843, type: 3}
       voiceIndex: 0
       activatable: {fileID: 0}
+      activatesOnLineEnd: 0
       gameFlag: 
     - lineText: I was never good enough.
       speakerName: Lady of the Lake
       speakerImage: {fileID: 21300000, guid: 17bc9a0acdee48642b1607ba7b6e4496, type: 3}
       voiceIndex: 0
       activatable: {fileID: 1731553374}
+      activatesOnLineEnd: 1
       gameFlag: 
   auxConversations: []
 --- !u!114 &731428687
@@ -2381,6 +2385,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212747132694858480, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
   m_IsPrefabAsset: 0
@@ -2699,6 +2708,7 @@ Transform:
   - {fileID: 364249352}
   - {fileID: 315901199}
   - {fileID: 1092444167}
+  - {fileID: 1285329039}
   m_Father: {fileID: 1731553372}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2782,6 +2792,85 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1285329038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1285329039}
+  - component: {fileID: 1285329040}
+  - component: {fileID: 1285329041}
+  m_Layer: 11
+  m_Name: Hitbox
+  m_TagString: EnemyHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1285329039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1285329038}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.026000023, y: 0.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1233866381}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1285329040
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1285329038}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.025063276, y: -0.1668108}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.24837255, y: 0.61001766}
+  m_EdgeRadius: 0
+--- !u!114 &1285329041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1285329038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c975df952eed3042983881c6e595036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  hitstopLength: 0.02
+  cameraShakeIntensity: 0.1
+  cameraShakeTime: 0.1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  hitmarker: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464, type: 2}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.2
+  knockBack: 1
+  knockbackVector: {x: 2, y: 2}
 --- !u!1 &1334779020
 GameObject:
   m_ObjectHideFlags: 0

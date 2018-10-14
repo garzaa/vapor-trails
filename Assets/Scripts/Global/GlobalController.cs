@@ -19,6 +19,8 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerFollower playerFollower;
 	static Save save;
 
+	static Activatable toActivate = null;
+
 	static RespawnManager rm;
 
 	void Awake()
@@ -55,9 +57,24 @@ public class GlobalController : MonoBehaviour {
 			}
 
 			//advance dialogue line or close
+			//if necessary, hit the activatable from the previous line
+			if (toActivate != null) {
+				toActivate.Activate();
+				toActivate = null;
+			}
+
 			DialogueLine nextLine = currentNPC.GetNextLine();
+
 			if (nextLine != null) {
 				dialogueUI.RenderDialogueLine(nextLine);
+				if (nextLine.activatable != null) {
+					if (!nextLine.activatesOnLineEnd) {
+						nextLine.activatable.Activate();
+					} else {
+						toActivate = nextLine.activatable;
+					}
+				}
+				
 			} else {
 				ExitDialogue();
 			}
