@@ -18,6 +18,10 @@ public class Projectile : MonoBehaviour {
 			return;
 		}
 
+		if (other.CompareTag(Tags.EnemyHitbox)) {
+			return;
+		}
+
 		if (impactShake) {
 			CameraShaker.TinyShake();
 		}

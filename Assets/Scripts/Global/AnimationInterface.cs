@@ -8,8 +8,7 @@ public class AnimationInterface : MonoBehaviour {
 	ParticleSystem ps;
 
 	public Transform effectPoint;
-	public GameObject dust;
-	public GameObject sparkle;
+	public List<GameObject> effects;
 
 	public List<AudioClip> sounds;
 
@@ -20,16 +19,8 @@ public class AnimationInterface : MonoBehaviour {
 		ps = GetComponentInChildren<ParticleSystem>();
 	}
 
-	public void Dust() {
-		SpawnEffect(dust);
-	}
-
-	public void Sparkle() {
-		SpawnEffect(sparkle);
-	}
-
-	public void SpawnEffect(GameObject e) {
-		Instantiate(e, Vector3.zero, Quaternion.identity, effectPoint.transform);
+	public void SpawnEffect(int index) {
+		Instantiate(effects[index], effectPoint.transform.position, Quaternion.identity, null);
 	}
 
 	public void EmitParticles(int p) {

@@ -29,8 +29,7 @@ public class Gun : MonoBehaviour {
 			var dir = target.transform.position - this.transform.position;
 			var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 			b.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-			Vector2 towards = target.transform.position - b.transform.position;
-			b.GetComponent<Rigidbody2D>().velocity = towards.normalized * startSpeed;
+			b.GetComponent<Rigidbody2D>().velocity = b.transform.right.normalized * startSpeed;
 		} else {
 			b.GetComponent<Rigidbody2D>().velocity = new Vector2(
 				startSpeed * forwardScalar,
