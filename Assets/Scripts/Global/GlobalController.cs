@@ -23,8 +23,7 @@ public class GlobalController : MonoBehaviour {
 
 	static RespawnManager rm;
 
-	void Awake()
-	{
+	void Awake() {
 		gc = this;
 		titleText = editorTitleText;
 		DontDestroyOnLoad(this);

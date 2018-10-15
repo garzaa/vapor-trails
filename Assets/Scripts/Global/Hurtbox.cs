@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Hurtbox : MonoBehaviour {
 
-	GameObject parentObject;
+	public GameObject parentObject;
 
 	void Start() {
-		parentObject = this.gameObject.transform.parent.gameObject;
+		if (parentObject == null) parentObject = this.gameObject.transform.parent.gameObject;
 	}
 
 	public Entity GetParent() {
