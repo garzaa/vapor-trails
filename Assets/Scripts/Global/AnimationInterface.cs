@@ -39,7 +39,7 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.playerFollower.EnableFollowing();
 	}
 
-	public void AnimationTrigger(string t) {
+	public void SelfAnimationTrigger(string t) {
 		anim.SetTrigger(t);
 	}
 
@@ -63,7 +63,7 @@ public class AnimationInterface : MonoBehaviour {
 		SoundManager.sm.a.PlayOneShot(this.sounds[soundIndex]);
 	}
 
-	public void Activate(int index) {
+	public void HitActivatable(int index) {
 		activatables[index].Activate();
 	}
 }

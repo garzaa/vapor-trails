@@ -9,9 +9,11 @@ public class LadyOfTheLake : Enemy {
 
 	public void ChooseNextMove() {
 		int currentAction = lastAction;
-		while (lastAction == currentAction) {
-			currentAction = Mathf.FloorToInt(Random.Range(0, animationTriggers.Count-1));
+		while (currentAction == lastAction) {
+			currentAction = Mathf.FloorToInt(Random.Range(0, animationTriggers.Count));
 		}
+		lastAction = currentAction;
+		Debug.Log(currentAction);
 		anim.SetTrigger(animationTriggers[currentAction]);
 	}
 }
