@@ -13,7 +13,6 @@ public class LadyOfTheLake : Enemy {
 			currentAction = Mathf.FloorToInt(Random.Range(0, animationTriggers.Count));
 		}
 		lastAction = currentAction;
-		Debug.Log(currentAction);
 		anim.SetTrigger(animationTriggers[currentAction]);
 	}
 }

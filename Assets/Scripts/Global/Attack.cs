@@ -5,7 +5,6 @@ using UnityEngine;
 public class Attack : MonoBehaviour {
 
 	public int damage = 1;
-	public float hitstopLength = .02f;
 	[Range(0, 1f)]
 	public float cameraShakeIntensity = .1f;
 	[Range(0, 2f)]
@@ -35,10 +34,6 @@ public class Attack : MonoBehaviour {
 			if (flipHitmarker) h.transform.localScale = new Vector2(-1, 1);
 		}
 		ExtendedAttackLand(e);
-		//run hitstop
-		if (hitstopLength > 0.0f) {
-			Hitstop.Run(this.hitstopLength, e, attackerParent);
-		}
 	}
 
 	public void OnTriggerEnter2D(Collider2D otherCol) {

@@ -28,6 +28,10 @@ public class TargetingSystem : MonoBehaviour {
 			if (t != null) {
 				float currentDistance = Vector2.Distance(t.position, gunPos.position);
 				if (currentDistance < maxDistance) {
+					// then do a raycast to the target
+					if (!CheckTargetRaycast(t)) {
+						continue;
+					}
 					nearest = t;
 					maxDistance = currentDistance;
 				}
@@ -89,6 +93,20 @@ public class TargetingSystem : MonoBehaviour {
 			}
 		} catch (InvalidOperationException) {
 			return;
+		}
+	}
+
+	bool CheckTargetRaycast(Transform t) {
+		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, 
+											t.transform.position - this.transform.position, 
+											Vector3.Distance(t.transform.position, this.transform.position), 
+											layerMask);
+		if (hit.transform != null) {
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 }

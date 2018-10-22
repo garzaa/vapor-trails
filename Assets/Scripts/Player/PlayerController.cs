@@ -676,6 +676,7 @@ public class PlayerController : Entity {
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
+		Hitstop.Run(0.1f);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
 		if (this.currentHP == 0) {

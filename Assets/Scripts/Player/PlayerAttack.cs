@@ -10,6 +10,8 @@ public class PlayerAttack : Attack {
 	public bool costsEnergy = false;
 	int energyCost = 1;
 
+	public float hitstopLength = 0.2f;
+
 	void Start() {
 		attackerParent = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackedTags = new List<string>();
@@ -34,6 +36,11 @@ public class PlayerAttack : Attack {
 		}
 
 		SoundManager.HitSound();
+		
+		//run hitstop if it's a player attack
+		if (hitstopLength > 0.0f && this.gameObject.CompareTag(Tags.PlayerHitbox)) {
+			Hitstop.Run(this.hitstopLength);
+		}
 	}
 
 	new void OnTriggerEnter2D(Collider2D otherCol) {
