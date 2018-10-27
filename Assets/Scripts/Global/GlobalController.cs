@@ -15,6 +15,8 @@ public class GlobalController : MonoBehaviour {
 	static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
 	public static bool dialogueClosedThisFrame = false;
+	static bool cutsceneNext = false;
+	static bool inCutscene = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
 	static Save save;
@@ -189,6 +191,19 @@ public class GlobalController : MonoBehaviour {
 
 	public void ExitGame() {
 		Application.Quit();
+	}
+
+	//called from a cutscene animation to finish it and resume dialogue/player movement
+	public static void CutsceneCallback() {
+
+	}
+
+	static void EnterCutscene() {
+		inCutscene = true;
+	}
+
+	static void ExitCutscene() {
+		inCutscene = false;
 	}
 
 }

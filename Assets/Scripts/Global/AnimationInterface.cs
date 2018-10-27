@@ -66,4 +66,8 @@ public class AnimationInterface : MonoBehaviour {
 	public void HitActivatable(int index) {
 		activatables[index].Activate();
 	}
+
+	public void CutsceneCallback() {
+		//GlobalController.CutsceneCallback();
+	}
 }
