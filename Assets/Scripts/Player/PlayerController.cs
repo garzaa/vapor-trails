@@ -25,6 +25,7 @@ public class PlayerController : Entity {
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
 	public bool riposteTriggered = false;
+	float jumpBufferDuration = 0.1f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -69,6 +70,7 @@ public class PlayerController : Entity {
 	bool inBackstep = false;
 	bool backstepCooldown = false;
 	bool forcedWalking = false;
+	bool bufferedJump = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -296,42 +298,18 @@ public class PlayerController : Entity {
 		if (Input.GetButtonDown("Jump")) {
 			if ((Input.GetAxis("Vertical") >= 0)) StopPlatformDrop();
 			if (grounded && (Input.GetAxis("Vertical") >= 0)) {
-				if (HorizontalInput()) {
-					BackwardDust();
-				} else {
-					ImpactDust();
-				}
-				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
-				anim.SetTrigger("Jump");
-				InterruptAttack();
-				SoundManager.SmallJumpSound();
+				GroundJump();
 			}
 			else if (unlocks.wallClimb && (touchingWall || justLeftWall)) {
-				SoundManager.SmallJumpSound();
-				InterruptDash();
-				InterruptMeteor();
-				if (touchingWall) DownDust();
-				InterruptAttack();
-				FreezeFor(.1f);
-				rb2d.velocity = new Vector2(
-					//we don't want to boost the player back to the wall if they just input a direction away from it
-					x:maxMoveSpeed * GetForwardScalar() * (justLeftWall ? 1 : -1), 
-					y:jumpSpeed
-				);
-				Flip();
-				anim.SetTrigger("WallJump");
-				StopWallTimeout();
+				WallJump();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
-				SoundManager.JumpSound();
-				InterruptMeteor();
-				rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
-				airJumps--;
-				anim.SetTrigger("Jump");
-				wings.Open();
-				wings.EnableJets();
-				wings.Jump();
-				InterruptAttack();
+				AirJump();
+			}
+			else if (!grounded) {
+				//buffer a jump for a short amount of time for when the player hits the ground/wall
+				bufferedJump = true;
+				Invoke("CancelBufferedJump", jumpBufferDuration);
 			}
 		}
 
@@ -341,6 +319,47 @@ public class PlayerController : Entity {
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
 		}
+	}
+
+	void GroundJump() {
+		if (HorizontalInput()) {
+			BackwardDust();
+		} else {
+			ImpactDust();
+		}
+		rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
+		anim.SetTrigger("Jump");
+		InterruptAttack();
+		SoundManager.SmallJumpSound();
+	}
+
+	void WallJump() {
+		SoundManager.SmallJumpSound();
+		InterruptDash();
+		InterruptMeteor();
+		if (touchingWall) DownDust();
+		InterruptAttack();
+		FreezeFor(.1f);
+		rb2d.velocity = new Vector2(
+			//we don't want to boost the player back to the wall if they just input a direction away from it
+			x:maxMoveSpeed * GetForwardScalar() * (justLeftWall ? 1 : -1), 
+			y:jumpSpeed
+		);
+		Flip();
+		anim.SetTrigger("WallJump");
+		StopWallTimeout();
+	}
+
+	void AirJump() {
+		SoundManager.JumpSound();
+		InterruptMeteor();
+		rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
+		airJumps--;
+		anim.SetTrigger("Jump");
+		wings.Open();
+		wings.EnableJets();
+		wings.Jump();
+		InterruptAttack();
 	}
 
 	public void Dash() {
@@ -441,7 +460,7 @@ public class PlayerController : Entity {
 			LandMeteor();
 		}
 		anim.SetBool("Grounded", true);
-		if (hardFalling) {
+		if (hardFalling && !bufferedJump) {
 			SoundManager.HardLandSound();
 			if (HorizontalInput()) {
 				BackwardDust();
@@ -453,6 +472,10 @@ public class PlayerController : Entity {
 		}
 		if (terminalFalling) {
 			CameraShaker.Shake(0.1f, 0.1f);
+		}
+		if (bufferedJump) {
+			GroundJump();
+			CancelBufferedJump();
 		}
 	}
 
@@ -503,6 +526,10 @@ public class PlayerController : Entity {
 			if (!grounded) SoundManager.HardLandSound();
 		}
 		ResetAirJumps();
+		if (bufferedJump) {
+			WallJump();
+			CancelBufferedJump();
+		}
 	}
 
 	void OnWallLeave() {
@@ -1043,5 +1070,10 @@ public class PlayerController : Entity {
 
 	public void AnimFoostep() {
 		SoundManager.FootFallSound();
+	}
+
+	void CancelBufferedJump() {
+		this.CancelInvoke("CancelBufferedJump");
+		this.bufferedJump = false;
 	}
 }
