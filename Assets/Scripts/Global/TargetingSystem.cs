@@ -25,7 +25,7 @@ public class TargetingSystem : MonoBehaviour {
 			return null;
 		}
 		foreach (Transform t in targetsInRange) {
-			if (t != null) {
+			if (t != null && t.gameObject.activeSelf) {
 				float currentDistance = Vector2.Distance(t.position, gunPos.position);
 				if (currentDistance < maxDistance) {
 					// then do a raycast to the target
