@@ -7,6 +7,8 @@ public class DustController : MonoBehaviour {
 	public WallCheck groundCheck;
 	public ParticleSystem dustParticles;
 
+	public List<TrailRenderer> trails;
+
 	public PlayerController pc;
 
 	void FixedUpdate() {
@@ -21,6 +23,16 @@ public class DustController : MonoBehaviour {
 			emission.enabled = true;
 		} else {
 			emission.enabled = false;
+		}
+
+		if (pc.IsSpeeding() && trails.Count > 0) {
+			foreach (TrailRenderer t in trails) {
+				t.emitting = true;
+			}
+		} else if (!pc.IsSpeeding() && trails.Count  > 0) {
+			foreach (TrailRenderer t in trails) {
+				t.emitting = false;
+			}
 		}
 	}
 }

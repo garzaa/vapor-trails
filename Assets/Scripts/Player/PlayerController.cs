@@ -259,10 +259,6 @@ public class PlayerController : Entity {
 			rb2d.velocity = new Vector2(superCruiseSpeed * GetForwardScalar(), 0);
 		}
 
-		else if (inBackstep) {
-			rb2d.velocity = new Vector2(-maxMoveSpeed * GetForwardScalar(), 0);
-		}
-
 		if (rb2d.velocity.y < terminalVelocity) {
 			terminalFalling = true;
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
@@ -287,7 +283,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool IsSpeeding() {
-		return Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed;
+		return Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed || Mathf.Abs(rb2d.velocity.y) > jumpSpeed;
 	}
 
 	void Jump() {
@@ -321,6 +317,10 @@ public class PlayerController : Entity {
 		}
 	}
 
+	float AdditiveJumpSpeed() {
+		return Mathf.Clamp(rb2d.velocity.y > 0 ? rb2d.velocity.y : 0, 0, 2);
+	}
+
 	void GroundJump() {
 		if (HorizontalInput()) {
 			BackwardDust();
@@ -329,7 +329,7 @@ public class PlayerController : Entity {
 		}
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed + (rb2d.velocity.y > 0 ? rb2d.velocity.y : 0)
+			y:jumpSpeed + AdditiveJumpSpeed()
 		);
 		anim.SetTrigger("Jump");
 		InterruptAttack();
@@ -346,7 +346,7 @@ public class PlayerController : Entity {
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
 			x:maxMoveSpeed * GetForwardScalar() * (justLeftWall ? 1 : -1), 
-			y:jumpSpeed + (rb2d.velocity.y > 0 ? rb2d.velocity.y : 0)
+			y:jumpSpeed + AdditiveJumpSpeed()
 		);
 		Flip();
 		anim.SetTrigger("WallJump");
@@ -358,7 +358,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed + (rb2d.velocity.y > 0 ? rb2d.velocity.y : 0)
+			y:jumpSpeed + AdditiveJumpSpeed()
 			);
 		airJumps--;
 		anim.SetTrigger("Jump");
@@ -533,7 +533,6 @@ public class PlayerController : Entity {
 			if (rb2d.velocity.y > 0) {
 				float impactAngle = Mathf.Atan(rb2d.velocity.y / Mathf.Abs(rb2d.velocity.x));
 				impactAngle = Mathf.PI/2 - impactAngle;
-				Debug.Log(Mathf.Sin(impactAngle) * rb2d.velocity.x);
 				rb2d.velocity = new Vector2(
 					0,
 					rb2d.velocity.y + Mathf.Abs(Mathf.Sin(impactAngle) * rb2d.velocity.x)
@@ -679,7 +678,7 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		if (inMeteor || Input.GetAxis("Vertical") < 0 || supercruise) {
+		if (inMeteor || Input.GetAxis("Vertical") < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
@@ -1025,7 +1024,7 @@ public class PlayerController : Entity {
 
 	void Backstep() {
 		StopWallTimeout();
-		SoundManager.SmallJumpSound();
+		SoundManager.ShootSound();
 		anim.SetTrigger("BackStep");
 		backstepCooldown = true;
 		InterruptAttack();
@@ -1034,7 +1033,6 @@ public class PlayerController : Entity {
 		FlashCyan();
 		envDmgSusceptible = false;
 		Freeze();
-		ForwardDust();
 		inBackstep = true;
 	}
 
