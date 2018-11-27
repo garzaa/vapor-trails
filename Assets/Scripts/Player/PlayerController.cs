@@ -327,7 +327,10 @@ public class PlayerController : Entity {
 		} else {
 			ImpactDust();
 		}
-		rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
+		rb2d.velocity = new Vector2(
+			x:rb2d.velocity.x, 
+			y:jumpSpeed + (rb2d.velocity.y > 0 ? rb2d.velocity.y : 0)
+		);
 		anim.SetTrigger("Jump");
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
@@ -343,7 +346,7 @@ public class PlayerController : Entity {
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
 			x:maxMoveSpeed * GetForwardScalar() * (justLeftWall ? 1 : -1), 
-			y:jumpSpeed
+			y:jumpSpeed + (rb2d.velocity.y > 0 ? rb2d.velocity.y : 0)
 		);
 		Flip();
 		anim.SetTrigger("WallJump");
@@ -353,7 +356,10 @@ public class PlayerController : Entity {
 	void AirJump() {
 		SoundManager.JumpSound();
 		InterruptMeteor();
-		rb2d.velocity = new Vector2(x:rb2d.velocity.x, y:jumpSpeed);
+		rb2d.velocity = new Vector2(
+			x:rb2d.velocity.x, 
+			y:jumpSpeed + (rb2d.velocity.y > 0 ? rb2d.velocity.y : 0)
+			);
 		airJumps--;
 		anim.SetTrigger("Jump");
 		wings.Open();
@@ -524,6 +530,15 @@ public class PlayerController : Entity {
 		if (unlocks.wallClimb) {
 			anim.SetBool("TouchingWall", true);
 			if (!grounded) SoundManager.HardLandSound();
+			if (rb2d.velocity.y > 0) {
+				float impactAngle = Mathf.Atan(rb2d.velocity.y / Mathf.Abs(rb2d.velocity.x));
+				impactAngle = Mathf.PI/2 - impactAngle;
+				Debug.Log(Mathf.Sin(impactAngle) * rb2d.velocity.x);
+				rb2d.velocity = new Vector2(
+					0,
+					rb2d.velocity.y + Mathf.Abs(Mathf.Sin(impactAngle) * rb2d.velocity.x)
+				);
+			}
 		}
 		ResetAirJumps();
 		if (bufferedJump) {
