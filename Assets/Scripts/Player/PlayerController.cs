@@ -318,7 +318,7 @@ public class PlayerController : Entity {
 	}
 
 	float AdditiveJumpSpeed() {
-		return Mathf.Clamp(rb2d.velocity.y > 0 ? rb2d.velocity.y : 0, 0, 2);
+		return rb2d.velocity.y > 0 ? rb2d.velocity.y : 0;
 	}
 
 	void GroundJump() {
@@ -359,7 +359,7 @@ public class PlayerController : Entity {
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
 			y:jumpSpeed + AdditiveJumpSpeed()
-			);
+		);
 		airJumps--;
 		anim.SetTrigger("Jump");
 		wings.Open();
@@ -535,7 +535,7 @@ public class PlayerController : Entity {
 				impactAngle = Mathf.PI/2 - impactAngle;
 				rb2d.velocity = new Vector2(
 					0,
-					rb2d.velocity.y + Mathf.Abs(Mathf.Sin(impactAngle) * rb2d.velocity.x)
+					rb2d.velocity.y * Mathf.Clamp(Mathf.Abs(Mathf.Sin(impactAngle) * rb2d.velocity.x), 0, 2f)
 				);
 			}
 		}
