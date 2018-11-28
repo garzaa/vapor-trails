@@ -15,4 +15,8 @@ public class LadyOfTheLake : Enemy {
 		lastAction = currentAction;
 		anim.SetTrigger(animationTriggers[currentAction]);
 	}
+
+	public void AnimationTriggeredDeath() {
+		//do stuff
+	}
 }

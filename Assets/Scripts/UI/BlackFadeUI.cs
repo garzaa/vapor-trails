@@ -17,4 +17,8 @@ public class BlackFadeUI : UIComponent {
 	public override void Hide() {
 		anim.SetBool("Shown", false);
 	}
+
+	public void FlashWhite() {
+		anim.SetTrigger("WhiteFlash");
+	}
 }

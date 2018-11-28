@@ -70,4 +70,8 @@ public class AnimationInterface : MonoBehaviour {
 	public void CutsceneCallback() {
 		//GlobalController.CutsceneCallback();
 	}
+
+	public void FlashWhite() {
+		GlobalController.FlashWhite();
+	}
 }

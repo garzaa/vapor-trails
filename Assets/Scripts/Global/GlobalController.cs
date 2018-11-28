@@ -177,6 +177,10 @@ public class GlobalController : MonoBehaviour {
 		blackoutUI.Hide();
 	}
 
+	public static void FlashWhite() {
+		blackoutUI.FlashWhite();
+	}
+
 	public static void ShowUI() {
 		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
 			c.Show();
@@ -205,5 +209,4 @@ public class GlobalController : MonoBehaviour {
 	static void ExitCutscene() {
 		inCutscene = false;
 	}
-
 }
