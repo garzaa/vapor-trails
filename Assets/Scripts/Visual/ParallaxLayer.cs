@@ -32,6 +32,7 @@ public class ParallaxLayer : MonoBehaviour {
             Vector3 totalCamDelta = camPos - originalCamPos;
             transform.position = originalPos + Vector3.Scale(totalCamDelta, new Vector3(speed.x, speed.y));
         }
+        ExtendedUpdate();
     }
 
     public virtual void ExtendedUpdate() {
