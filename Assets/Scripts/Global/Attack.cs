@@ -31,7 +31,7 @@ public class Attack : MonoBehaviour {
 		//instantiate the hitmarker
 		if (this.hitmarker != null) {
 			GameObject h = Instantiate(hitmarker, e.transform.position, Quaternion.identity);
-			if (flipHitmarker) h.transform.localScale = new Vector2(-1, 1);
+			h.transform.localScale = new Vector2((e.facingRight ? -1 : 1) * (flipHitmarker ? -1 : 1), 1);
 		}
 		ExtendedAttackLand(e);
 	}

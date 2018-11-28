@@ -153,6 +153,10 @@ public class PlayerController : Entity {
 
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
 			if (unlocks.meteor) MeteorSlam();
+		} 
+
+		else if (Input.GetButtonDown("Attack") && Input.GetAxis("Vertical") < 0 && supercruise) {
+			anim.SetTrigger("Attack");
 		}
 	}
 
