@@ -12,8 +12,11 @@ public class JumpAtPlayer : EnemyBehavior {
 
 	bool jumpTrigger = false;
 
+	Entity e;
+
 	public override void ExtendedStart() {
 		StartCoroutine(JumpTimeout());
+		e = GetComponent<Entity>();
 	}
 
 	IEnumerator JumpTimeout() {
@@ -46,6 +49,12 @@ public class JumpAtPlayer : EnemyBehavior {
 			mainController.movingRight = false;
 		}
 		mainController.rb2d.velocity = new Vector2(scaleX * moveScale, scaleY);
+	}
+
+	protected override void ExtendedUpdate() {
+		if (!e.IsLookingAt(playerObject)) {
+			e.Flip();
+		}
 	}
 
 	public override void OnGroundHit() {

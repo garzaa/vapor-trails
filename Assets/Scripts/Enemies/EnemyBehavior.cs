@@ -25,9 +25,14 @@ public class EnemyBehavior : MonoBehaviour {
 
 	void Update() {
 		playerDistance = Mathf.Abs(Vector2.Distance(this.transform.position, playerObject.transform.position));
+		ExtendedUpdate();
 	}
 
 	public virtual void ExtendedStart() {
+
+	}
+
+	protected virtual void ExtendedUpdate() {
 
 	}
 
