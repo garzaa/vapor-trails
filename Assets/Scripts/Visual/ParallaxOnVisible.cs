@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ParallaxOnVisible : MonoBehaviour {
-    SpriteRenderer r;
     public Vector2 speed;
     Transform mainCamera;
     Vector3 originalPos;
@@ -11,7 +10,6 @@ public class ParallaxOnVisible : MonoBehaviour {
     bool parallaxEnabled = false;
 
     void Start() {
-        r = GetComponent<SpriteRenderer>();
         mainCamera = GameObject.Find("Main Camera").transform;
         originalPos = this.transform.position;
     }
@@ -29,13 +27,11 @@ public class ParallaxOnVisible : MonoBehaviour {
     }
 
     void OnBecameVisible() {
-        print("ENABLED");
         this.parallaxEnabled = true;
         this.originalCamPos = mainCamera.position;
     }
 
     void OnBecameInvisible() {
-        print("DISABLED");
         this.parallaxEnabled = false;
         this.transform.position = this.originalPos;
     }
