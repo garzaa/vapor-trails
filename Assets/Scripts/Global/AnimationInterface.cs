@@ -74,4 +74,12 @@ public class AnimationInterface : MonoBehaviour {
 	public void FlashWhite() {
 		GlobalController.FlashWhite();
 	}
+
+	public void EnterCutscene() {
+		GlobalController.EnterCutscene();
+	}
+
+	public void ExitCutscene() {
+		GlobalController.CutsceneCallback();
+	}
 }

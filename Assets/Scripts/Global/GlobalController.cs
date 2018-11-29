@@ -199,14 +199,17 @@ public class GlobalController : MonoBehaviour {
 
 	//called from a cutscene animation to finish it and resume dialogue/player movement
 	public static void CutsceneCallback() {
-
+		inCutscene = false;
+		ExitCutscene();
 	}
 
-	static void EnterCutscene() {
+	public static void EnterCutscene() {
 		inCutscene = true;
+		pc.EnterDialogue();
 	}
 
 	static void ExitCutscene() {
 		inCutscene = false;
+		pc.ExitDialogue();
 	}
 }
