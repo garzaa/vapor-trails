@@ -67,7 +67,6 @@ public class PlayerController : Entity {
 	bool flashingCyan = false;
 	bool cyanLastFrame = false;
 	bool runningLastFrame = false;
-	bool inBackstep = false;
 	bool backstepCooldown = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
@@ -440,7 +439,6 @@ public class PlayerController : Entity {
 			StopFlashingCyan();
 			UnFreeze();
 			Invoke("EnableBackstep", backstepCooldownLength);
-			inBackstep = false;
 		}
 	}
 
@@ -1038,7 +1036,6 @@ public class PlayerController : Entity {
 		FlashCyan();
 		envDmgSusceptible = false;
 		Freeze();
-		inBackstep = true;
 	}
 
 	public void EndBackstep() {
@@ -1051,7 +1048,6 @@ public class PlayerController : Entity {
 		StopFlashingCyan();
 		UnFreeze();
 		Invoke("EnableBackstep", backstepCooldownLength);
-		inBackstep = false;
 	}
 
 	public void EnableBackstep() {

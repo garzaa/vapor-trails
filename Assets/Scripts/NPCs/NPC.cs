@@ -47,7 +47,7 @@ public class NPC : Interactable {
 	}
 
 	//called whenever auxiliary conversations are added or removed
-	public void ReactToLinRemoval() {
+	public void ReactToLineRemoval() {
 		//unfortunate nomenclature
 		//but if the NPC is somewhere in the auxiliary conversations, reset it
 		if (currentConversation > conversations.conversations.Count) {

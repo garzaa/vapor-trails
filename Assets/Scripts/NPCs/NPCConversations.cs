@@ -42,7 +42,7 @@ public class NPCConversations : MonoBehaviour {
 		}
 		//then restart the conversation from the last "true" dialogue point
 		if (GetComponent<NPC>() != null) {
-			GetComponent<NPC>().ReactToLinRemoval();
+			GetComponent<NPC>().ReactToLineRemoval();
 		}
 	}
 }

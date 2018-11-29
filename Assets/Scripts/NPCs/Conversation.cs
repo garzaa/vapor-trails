@@ -9,6 +9,8 @@ public class Conversation : System.Object {
 	}
 
 	public DialogueLine this[int i] {
-		get { return lines[i]; }
+		get { 
+			return lines[i]; 
+		}
 	}
 }

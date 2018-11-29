@@ -14,6 +14,8 @@ public class AnimationInterface : MonoBehaviour {
 
 	public List<Activatable> activatables;
 
+	public List<NPC> npcs;
+
 	void Start() {
 		anim = GetComponent<Animator>();
 		ps = GetComponentInChildren<ParticleSystem>();
@@ -68,18 +70,10 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CutsceneCallback() {
-		//GlobalController.CutsceneCallback();
+		GlobalController.CutsceneCallback();
 	}
 
 	public void FlashWhite() {
 		GlobalController.FlashWhite();
-	}
-
-	public void EnterCutscene() {
-		GlobalController.EnterCutscene();
-	}
-
-	public void ExitCutscene() {
-		GlobalController.CutsceneCallback();
 	}
 }
