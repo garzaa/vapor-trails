@@ -19,6 +19,7 @@ public class GlobalController : MonoBehaviour {
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
 	static Save save;
+	static bool inCutscene;
 
 	static DialogueLine toActivate = null;
 
@@ -46,6 +47,7 @@ public class GlobalController : MonoBehaviour {
 			dialogueOpen 
 			&& (Input.GetButtonDown("Submit") || Input.GetButtonDown("Jump"))
 			&& !dialogueOpenedThisFrame
+			&& !inCutscene
 			) {
 			if (dialogueUI.slowRendering) {
 				dialogueUI.CancelSlowRender();
@@ -112,6 +114,7 @@ public class GlobalController : MonoBehaviour {
 	public static void FinishOpeningLetterboxes() {
 		Debug.Log("finished opening letterboxes");
 		dialogueOpen = true;
+		inCutscene = false;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {
 			Debug.Log("rendering next line: " + nextLine.lineText);
@@ -224,6 +227,7 @@ public class GlobalController : MonoBehaviour {
 	// hide dialogue UI but keep the player frozen
 	public static void EnterCutscene() {
 		Debug.Log("EnterCutscene");
+		inCutscene = true;
 		dialogueUI.Hide();
 	}
 }
