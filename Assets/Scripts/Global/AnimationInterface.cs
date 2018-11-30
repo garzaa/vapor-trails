@@ -76,4 +76,12 @@ public class AnimationInterface : MonoBehaviour {
 	public void FlashWhite() {
 		GlobalController.FlashWhite();
 	}
+
+	public void FollowEffectPoint() {
+		GlobalController.playerFollower.FollowTarget(this.effectPoint.gameObject);
+	}
+
+	public void StopFollowingEffectPoint() {
+		GlobalController.playerFollower.FollowPlayer();
+	}
 }
