@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 37396572}
   - component: {fileID: 37396574}
   - component: {fileID: 37396573}
+  - component: {fileID: 37396575}
   m_Layer: 0
   m_Name: DeathConversation
   m_TagString: Untagged
@@ -237,6 +238,23 @@ MonoBehaviour:
       voiceIndex: 2
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 
+    - lineText: lauren should approach here
+      speakerName: Lady of the Lake
+      speakerImage: {fileID: 21300000, guid: 17bc9a0acdee48642b1607ba7b6e4496, type: 3}
+      voiceIndex: 2
+      activatable: {fileID: 693156444}
+      activatesOnLineEnd: 1
+      blocking: 1
+      gameFlag: 
+    - lineText: lauren should be done approaching
+      speakerName: Lady of the Lake
+      speakerImage: {fileID: 21300000, guid: 17bc9a0acdee48642b1607ba7b6e4496, type: 3}
+      voiceIndex: 2
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
       gameFlag: 
   auxConversations: []
 --- !u!114 &37396574
@@ -253,6 +271,18 @@ MonoBehaviour:
   promptPrefab: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
+--- !u!114 &37396575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 37396571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590e06d2b3407f24181363f3b55e5ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npc: {fileID: 37396574}
 --- !u!1 &73893616
 GameObject:
   m_ObjectHideFlags: 0
@@ -6130,6 +6160,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4525689860634432, guid: 9fed365f7058d0943b79f0a8d5b52934,
     type: 2}
   m_PrefabInternal: {fileID: 1958138474}
+--- !u!1 &693156442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 693156443}
+  - component: {fileID: 693156444}
+  m_Layer: 0
+  m_Name: LaurenBoatApproachActivatable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &693156443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 693156442}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.3671465, y: 1.9539115, z: 64.974014}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 967592733}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &693156444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 693156442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1731553373}
+  animationName: LaurenBoatApproach
+  isTrigger: 1
+  toggleBool: 0
 --- !u!1 &714149691
 GameObject:
   m_ObjectHideFlags: 0
@@ -6301,6 +6375,7 @@ MonoBehaviour:
       voiceIndex: 0
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
+      blocking: 0
       gameFlag: 
     - lineText: So are you.
       speakerName: val
@@ -6308,6 +6383,7 @@ MonoBehaviour:
       voiceIndex: 1
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
+      blocking: 0
       gameFlag: 
     - lineText: I'm bound to the sludge. I could never leave.
       speakerName: Lady of the Lake
@@ -6315,6 +6391,7 @@ MonoBehaviour:
       voiceIndex: 0
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
+      blocking: 0
       gameFlag: 
     - lineText: I was never good enough.
       speakerName: Lady of the Lake
@@ -6322,6 +6399,7 @@ MonoBehaviour:
       voiceIndex: 0
       activatable: {fileID: 1731553374}
       activatesOnLineEnd: 1
+      blocking: 0
       gameFlag: 
   auxConversations: []
 --- !u!114 &731428687
@@ -6563,6 +6641,7 @@ Transform:
   m_Children:
   - {fileID: 1731553372}
   - {fileID: 731428685}
+  - {fileID: 693156443}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8495,7 +8574,7 @@ MonoBehaviour:
   - {fileID: 1253724471478936, guid: 64348cbddc5e41940b78422a022f08b1, type: 2}
   sounds: []
   activatables:
-  - {fileID: 364249355}
+  - {fileID: 37396575}
   npcs:
   - {fileID: 37396574}
 --- !u!114 &1731553376

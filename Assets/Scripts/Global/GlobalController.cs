@@ -20,7 +20,7 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerFollower playerFollower;
 	static Save save;
 
-	static Activatable toActivate = null;
+	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
 
@@ -58,8 +58,17 @@ public class GlobalController : MonoBehaviour {
 
 			//advance dialogue line or close
 			//if necessary, hit the activatable from the previous line
+			//and block dialogue/enter cutscene if necessary
 			if (toActivate != null) {
-				toActivate.Activate();
+				toActivate.activatable.Activate();
+				if (toActivate.blocking) {
+					//block dialogue line rendering and hide dialogue UI
+					EnterCutscene();
+					//don't render the dialogue
+					Debug.Log("entered blocking cutscnee");
+					toActivate = null;
+					return;
+				}
 				toActivate = null;
 			}
 
@@ -71,10 +80,9 @@ public class GlobalController : MonoBehaviour {
 					if (!nextLine.activatesOnLineEnd) {
 						nextLine.activatable.Activate();
 					} else {
-						toActivate = nextLine.activatable;
+						toActivate = nextLine;
 					}
 				}
-				
 			} else {
 				ExitDialogue();
 			}
@@ -92,6 +100,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void ExitDialogue() {
+		Debug.Log("Exited Dialogue");
 		dialogueOpen = false;
 		dialogueUI.Hide();
 		dialogueClosedThisFrame = true;
@@ -101,10 +110,19 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void FinishOpeningLetterboxes() {
+		Debug.Log("finished opening letterboxes");
 		dialogueOpen = true;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {
+			Debug.Log("rendering next line: " + nextLine.lineText);
 			dialogueUI.RenderDialogueLine(nextLine);
+			if (nextLine.activatable != null) {
+				if (!nextLine.activatesOnLineEnd) {
+					nextLine.activatable.Activate();
+				} else {
+					toActivate = nextLine;
+				}
+			}
 		} else {
 			ExitDialogue();
 		}
@@ -200,10 +218,12 @@ public class GlobalController : MonoBehaviour {
 	public static void CutsceneCallback() {
 		// show the dialogue UI
 		dialogueUI.Show();
+		Debug.Log("CutsceneCallback");
 	}
 
 	// hide dialogue UI but keep the player frozen
 	public static void EnterCutscene() {
+		Debug.Log("EnterCutscene");
 		dialogueUI.Hide();
 	}
 }

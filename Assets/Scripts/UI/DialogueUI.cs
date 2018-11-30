@@ -38,7 +38,6 @@ public class DialogueUI : UIComponent {
 				anim.SetTrigger("SwitchSpeakerImage");
 			}	
 		} else {
-			//this will be called from the animation in a separate function
 			speakerImage.sprite = line.speakerImage;
 		}
 		speakerName.text = line.speakerName;

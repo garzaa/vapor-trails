@@ -10,5 +10,6 @@ public class DialogueLine : System.Object {
 	public int voiceIndex = 0;
 	public Activatable activatable;
 	public bool activatesOnLineEnd;
+	public bool blocking;
 	public string gameFlag;
 }
