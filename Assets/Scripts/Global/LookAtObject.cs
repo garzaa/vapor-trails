@@ -13,7 +13,7 @@ public class LookAtObject : MonoBehaviour {
 		}
 	}
 	
-	void Update () {
+	void LateUpdate() {
 		var dir = target.transform.position - this.transform.position;
 		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 		this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
