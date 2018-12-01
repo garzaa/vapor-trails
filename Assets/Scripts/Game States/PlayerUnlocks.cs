@@ -4,6 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class PlayerUnlocks : MonoBehaviour {
+	//TODO: convert this to an enum
 
 	//abilities
 	public bool dash;

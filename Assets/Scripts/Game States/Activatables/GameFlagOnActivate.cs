@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameFlagOnActivate : Activatable {
+	//TODO: also make this an enum
 	public string flagName;
 
 	public override void ActivateSwitch(bool b) {
