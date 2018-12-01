@@ -380,7 +380,6 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		inMeteor = false;
 		SetInvincible(true);
-		FlashCyan();
 		envDmgSusceptible = false;
         if (unlocks.damageDash) {
             anim.SetTrigger("DamageDash");
@@ -403,7 +402,6 @@ public class PlayerController : Entity {
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		envDmgSusceptible = true;
         SetInvincible(false);
-		StopFlashingCyan();
 		CloseAllHurtboxes();
 		if (wings != null) wings.FoldIn();
 		if (MovingForwards() && Input.GetButton("Special")) {
@@ -421,7 +419,6 @@ public class PlayerController : Entity {
         StartCoroutine(StartDashCooldown(dashCooldownLength));
 		envDmgSusceptible = true;
         SetInvincible(false);
-		StopFlashingCyan();
 		CloseAllHurtboxes();
 	}
 
@@ -436,7 +433,6 @@ public class PlayerController : Entity {
 			this.riposteTriggered = false;
 			anim.SetTrigger("Riposte");
 			rb2d.velocity = Vector2.zero;
-			StopFlashingCyan();
 			UnFreeze();
 			Invoke("EnableBackstep", backstepCooldownLength);
 		}
@@ -1033,7 +1029,6 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		inMeteor = false;
 		SetInvincible(true);
-		FlashCyan();
 		envDmgSusceptible = false;
 		Freeze();
 	}
@@ -1045,7 +1040,6 @@ public class PlayerController : Entity {
 
 	void InterruptBackstep() {
 		SetInvincible(false);
-		StopFlashingCyan();
 		UnFreeze();
 		Invoke("EnableBackstep", backstepCooldownLength);
 	}

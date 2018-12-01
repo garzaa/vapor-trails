@@ -33,7 +33,6 @@ public class AnimationHierarchyEditor : EditorWindow {
 	void OnSelectionChange() {
 		if (Selection.objects.Length > 1 )
 		{
-			Debug.Log ("Length? " + Selection.objects.Length);
 			animationClips.Clear();
 			foreach ( Object o in Selection.objects )
 			{
@@ -103,7 +102,6 @@ public class AnimationHierarchyEditor : EditorWindow {
 			sOriginalRoot = EditorGUILayout.TextField(sOriginalRoot, GUILayout.Width(columnWidth));
 			sNewRoot = EditorGUILayout.TextField(sNewRoot, GUILayout.Width(columnWidth));
 			if (GUILayout.Button("Replace Root")) {
-				Debug.Log("O: "+sOriginalRoot+ " N: "+sNewRoot);
 				ReplaceRoot(sOriginalRoot, sNewRoot);
 			}
 

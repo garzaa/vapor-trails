@@ -15,7 +15,6 @@ public class GlobalController : MonoBehaviour {
 	static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
 	public static bool dialogueClosedThisFrame = false;
-	static bool cutsceneNext = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
 	static Save save;
@@ -67,7 +66,6 @@ public class GlobalController : MonoBehaviour {
 					//block dialogue line rendering and hide dialogue UI
 					EnterCutscene();
 					//don't render the dialogue
-					Debug.Log("entered blocking cutscnee");
 					toActivate = null;
 					return;
 				}
@@ -102,7 +100,6 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void ExitDialogue() {
-		Debug.Log("Exited Dialogue");
 		dialogueOpen = false;
 		dialogueUI.Hide();
 		dialogueClosedThisFrame = true;
@@ -112,12 +109,10 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void FinishOpeningLetterboxes() {
-		Debug.Log("finished opening letterboxes");
 		dialogueOpen = true;
 		inCutscene = false;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {
-			Debug.Log("rendering next line: " + nextLine.lineText);
 			dialogueUI.RenderDialogueLine(nextLine);
 			if (nextLine.activatable != null) {
 				if (!nextLine.activatesOnLineEnd) {
@@ -221,12 +216,10 @@ public class GlobalController : MonoBehaviour {
 	public static void CutsceneCallback() {
 		// show the dialogue UI
 		dialogueUI.Show();
-		Debug.Log("CutsceneCallback");
 	}
 
 	// hide dialogue UI but keep the player frozen
 	public static void EnterCutscene() {
-		Debug.Log("EnterCutscene");
 		inCutscene = true;
 		dialogueUI.Hide();
 	}
