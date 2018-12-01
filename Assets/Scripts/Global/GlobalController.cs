@@ -214,8 +214,12 @@ public class GlobalController : MonoBehaviour {
 
 	//called from a cutscene animation to finish it and resume dialogue
 	public static void CutsceneCallback() {
-		// show the dialogue UI
-		dialogueUI.Show();
+		// show the dialogue UI if there's a next line
+		if (currentNPC.hasNextLine()) {
+			dialogueUI.Show();
+		} else {
+			ExitDialogue();
+		}
 	}
 
 	// hide dialogue UI but keep the player frozen

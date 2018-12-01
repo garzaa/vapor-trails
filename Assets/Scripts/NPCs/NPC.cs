@@ -42,6 +42,10 @@ public class NPC : Interactable {
 		}
 	}
 
+	public bool hasNextLine() {
+		return currentDialogueLine < conversations[currentConversation].Count();
+	}
+
 	public virtual void FinishDialogueLine(int conversationNumber, int lineNumber) {
 		
 	}
