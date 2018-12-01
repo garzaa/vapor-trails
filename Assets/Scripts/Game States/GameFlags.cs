@@ -4,5 +4,7 @@ using UnityEngine;
 
 public enum GameFlag {
 	None,
-	BeatLadyOfTheLake
+	BeatLadyOfTheLake,
+	TaraWarnedVal,
+	TaraLoweredGate
 }

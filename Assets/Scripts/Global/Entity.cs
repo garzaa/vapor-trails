@@ -84,6 +84,7 @@ public class Entity : MonoBehaviour {
 	public void KnockBack(Vector2 kv) {
         Rigidbody2D rb2d = GetComponent<Rigidbody2D>();
 		if (staggerable && rb2d != null) {
+            Debug.Log(kv);
 			rb2d.velocity = kv;
 		}
 	}

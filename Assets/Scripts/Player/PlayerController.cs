@@ -743,6 +743,7 @@ public class PlayerController : Entity {
 			Vector2 kv = attack.GetKnockback();
 			bool attackerToLeft = attack.transform.position.x < this.transform.position.x;
 			kv.x *= attackerToLeft ? 1 : -1;
+			Debug.Log(kv);
 			KnockBack(kv);
 		}
 		if (cyan) {
