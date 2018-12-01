@@ -167,6 +167,8 @@ public class PlayerController : Entity {
 			return;
 		}
 
+		anim.SetBool("HorizontalInput",  HorizontalInput());
+
 		if (Input.GetButtonDown("Jump") && supercruise) {
 			EndSupercruise();
 		}
