@@ -29,7 +29,7 @@ public class AnimationInterface : MonoBehaviour {
 		ps.Emit(p);
 	}
 
-	public void GameFlag(string flag) {
+	public void GameFlag(GameFlag flag) {
 		GlobalController.AddGameFlag(flag);
 	}
 

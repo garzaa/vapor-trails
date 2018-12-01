@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwitchOnState : MonoBehaviour {
 
-	public string gameFlag;
+	public GameFlag gameFlag;
 	public bool enableOnState;
 
 	void Awake() {

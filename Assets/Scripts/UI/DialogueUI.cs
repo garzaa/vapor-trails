@@ -44,7 +44,7 @@ public class DialogueUI : UIComponent {
 		this.voiceIndex = line.voiceIndex;
 		StartSlowRender(line.lineText);
 
-		if (!string.IsNullOrEmpty(line.gameFlag)) {
+		if (line.gameFlag != GameFlag.None) {
 			GlobalController.AddGameFlag(line.gameFlag);
 		}
 	}

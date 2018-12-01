@@ -20,6 +20,8 @@ public class PlayerController : Entity {
 	float ledgeBoostSpeed = 4f;
 	public int currentHP = 1;
 	public int currentEnergy = 5;
+	int maxEnergy = 50;
+	int maxHP = 5;
 	float invincibilityLength = .5f;
 	int healCost = 1;
 	int healAmt = 1;
@@ -82,8 +84,9 @@ public class PlayerController : Entity {
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		this.facingRight = false;
-		currentHP = unlocks.maxHP;
-		currentEnergy = unlocks.maxEnergy;
+		currentHP = 5; //unlocks.maxHP;
+		currentEnergy = 50; //unlocks.maxEnergy;
+		maxEnergy = 50;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
         defaultMaterial = GetComponent<SpriteRenderer>().material;
@@ -91,7 +94,7 @@ public class PlayerController : Entity {
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
 		wings = transform.Find("Wings").GetComponent<PlayerWings>();
-		anim.SetBool("CanSupercruise", unlocks.supercruise);
+		anim.SetBool("CanSupercruise", unlocks.HasAbility(Ability.Supercruise));
 		Flip();
 		ResetAirJumps();
 	}
@@ -151,7 +154,7 @@ public class PlayerController : Entity {
 		}
 
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
-			if (unlocks.meteor) MeteorSlam();
+			if (unlocks.HasAbility(Ability.Meteor)) MeteorSlam();
 		} 
 
 		else if (Input.GetButtonDown("Attack") && Input.GetAxis("Vertical") < 0 && supercruise) {
@@ -174,7 +177,7 @@ public class PlayerController : Entity {
 		}
 
 		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
-			if (unlocks.dash) Dash();
+			if (unlocks.HasAbility(Ability.Dash)) Dash();
 		}
 
 		if (frozen) {
@@ -301,7 +304,7 @@ public class PlayerController : Entity {
 			if (grounded && (Input.GetAxis("Vertical") >= 0)) {
 				GroundJump();
 			}
-			else if (unlocks.wallClimb && (touchingWall || justLeftWall)) {
+			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
 				WallJump();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
@@ -383,7 +386,7 @@ public class PlayerController : Entity {
 		inMeteor = false;
 		SetInvincible(true);
 		envDmgSusceptible = false;
-        if (unlocks.damageDash) {
+        if (unlocks.HasAbility(Ability.DamageDash)) {
             anim.SetTrigger("DamageDash");
         } else {
 			anim.SetTrigger("Dash");
@@ -431,7 +434,7 @@ public class PlayerController : Entity {
     }
 
 	public void CheckRiposteTrigger() {
-		if (this.riposteTriggered && unlocks.riposte) {
+		if (this.riposteTriggered && unlocks.HasAbility(Ability.Riposte)) {
 			this.riposteTriggered = false;
 			anim.SetTrigger("Riposte");
 			rb2d.velocity = Vector2.zero;
@@ -486,7 +489,7 @@ public class PlayerController : Entity {
 	}
 
 	void ResetAirJumps() {
-		airJumps = unlocks.doubleJump ? 1 : 0;
+		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 	}
 
 	public override void OnGroundLeave() {
@@ -527,7 +530,7 @@ public class PlayerController : Entity {
 		InterruptDash();
 		EndDashCooldown();
 		EndSupercruise();
-		if (unlocks.wallClimb) {
+		if (unlocks.HasAbility(Ability.WallClimb)) {
 			anim.SetBool("TouchingWall", true);
 			if (!grounded) SoundManager.HardLandSound();
 			if (rb2d.velocity.y > 0) {
@@ -547,7 +550,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallLeave() {
-		if (unlocks.wallClimb) anim.SetBool("TouchingWall", false);
+		if (unlocks.HasAbility(Ability.WallClimb)) anim.SetBool("TouchingWall", false);
 
 		//if the player just left the wall, they input the opposite direction for a walljump
 		//so give them a split second to use a walljump when they're not technically touching the wall
@@ -644,7 +647,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (!unlocks.gunEye) {
+		if (!unlocks.HasAbility(Ability.GunEye)) {
 			return;
 		}
 		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {
@@ -661,8 +664,8 @@ public class PlayerController : Entity {
 
 	public void GainEnergy(int amount) {
 		currentEnergy += amount;
-		if (currentEnergy > unlocks.maxEnergy) {
-			currentEnergy = unlocks.maxEnergy;
+		if (currentEnergy > maxEnergy) {
+			currentEnergy = maxEnergy;
 		}
 	}
 
@@ -812,14 +815,14 @@ public class PlayerController : Entity {
 	}
 
 	void FullHeal() {
-		currentHP = unlocks.maxHP;
-		currentEnergy = unlocks.maxEnergy;
+		currentHP = maxHP;
+		currentEnergy = maxEnergy;
 	}
 
 	void UpdateUI() {
-		healthUI.SetMax(unlocks.maxHP);
+		healthUI.SetMax(maxHP);
 		healthUI.SetCurrent(currentHP);
-		energyUI.SetMax(unlocks.maxEnergy);
+		energyUI.SetMax(maxEnergy);
 		energyUI.SetCurrent(currentEnergy);
 	}
 
@@ -955,7 +958,7 @@ public class PlayerController : Entity {
 			return;
 		}
 		
-		if (currentHP < unlocks.maxHP) {
+		if (currentHP < maxHP) {
 			if (grounded) {
 				ImpactDust();
 			}
@@ -966,7 +969,7 @@ public class PlayerController : Entity {
 	}
 
 	public void CheckHeal() {
-		if (healCost > currentEnergy || currentHP == unlocks.maxHP) {
+		if (healCost > currentEnergy || currentHP == maxHP) {
 			anim.SetBool("CanHeal", false);
 		} else {
 			anim.SetBool("CanHeal", true);

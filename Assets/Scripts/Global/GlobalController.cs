@@ -151,19 +151,19 @@ public class GlobalController : MonoBehaviour {
 		pc.StartRespawning();
 	}
 
-	public static void AddGameFlag(string f) {
+	public static void AddGameFlag(GameFlag f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
 		}
 	}
 
-	public static void RemoveGameFlag(string f) {
+	public static void RemoveGameFlag(GameFlag f) {
 		if (save.gameFlags.Contains(f)) {
 			save.gameFlags.Remove(f);
 		}
 	}
 
-	public static bool HasFlag(string f) {
+	public static bool HasFlag(GameFlag f) {
 		if (save == null) {
 			return false;
 		}

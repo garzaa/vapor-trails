@@ -4,5 +4,5 @@ using UnityEngine;
 
 [System.Serializable]
 public class Save : MonoBehaviour {
-    public List<string> gameFlags = new List<string>();
+    public List<GameFlag> gameFlags = new List<GameFlag>();
 }

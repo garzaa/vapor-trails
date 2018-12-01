@@ -2,27 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class PlayerUnlocks : MonoBehaviour {
-	//TODO: convert this to an enum
+	// TODO: fix this
+	Dictionary<PassiveStat, int> passives;
 
-	//abilities
-	public bool dash;
-	public bool damageDash;
-	public bool gunEye;
-	public bool doubleJump;
-	public bool wallClimb;
-	public bool meteor;
-	public bool supercruise;
-	public bool riposte;
-	public bool impactKick;
-	/*
-	public bool valkyrieHover;
-	public bool upppercut;
-	*/
+	List<Ability> unlockedAbilities = new List<Ability> {
+		Ability.Dash,
+		Ability.DamageDash,
+		Ability.GunEye,
+		Ability.DoubleJump,
+		Ability.WallClimb,
+		Ability.Meteor,
+		Ability.Supercruise,
+		Ability.Riposte,
+		Ability.ImpactKick
+	};
 
-	//passives
-	public int maxHP;
-	public int maxEnergy;
-	public int baseAttackDamage = 1;
+	public bool HasAbility(Ability a) {
+		return unlockedAbilities.Contains(a);
+	}
+
+	public int GetPassiveStat(PassiveStat p) {
+		return passives[p];
+	}
+
+}
+
+public enum Ability {
+	Dash,
+	DamageDash,
+	GunEye,
+	DoubleJump,
+	WallClimb,
+	Meteor,
+	Supercruise,
+	Riposte,
+	ImpactKick
+}
+
+public enum PassiveStat {
+	MaxHP,
+	MaxEnergy,
+	BaseAttackDamage
 }
