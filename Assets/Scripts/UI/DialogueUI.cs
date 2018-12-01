@@ -30,9 +30,9 @@ public class DialogueUI : UIComponent {
 		anim.SetBool("Letterboxed", false);
 	}
 
-	public void RenderDialogueLine(DialogueLine line) {
+	public void RenderDialogueLine(DialogueLine line, bool fromCutscene = false) {
 		//if the speaker name and portrait differ, start the animation for the portrait change
-		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text) {
+		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text && !fromCutscene) {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
 				anim.SetTrigger("SwitchSpeakerImage");

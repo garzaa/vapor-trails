@@ -113,7 +113,7 @@ public class GlobalController : MonoBehaviour {
 		inCutscene = false;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {
-			dialogueUI.RenderDialogueLine(nextLine);
+			dialogueUI.RenderDialogueLine(nextLine, fromCutscene: true);
 			if (nextLine.activatable != null) {
 				if (!nextLine.activatesOnLineEnd) {
 					nextLine.activatable.Activate();

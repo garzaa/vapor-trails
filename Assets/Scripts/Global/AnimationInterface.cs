@@ -84,4 +84,8 @@ public class AnimationInterface : MonoBehaviour {
 	public void StopFollowingEffectPoint() {
 		GlobalController.playerFollower.FollowPlayer();
 	}
+
+	public void CameraShake(float seconds) {
+		CameraShaker.Shake(0.1f, seconds);
+	}
 }
