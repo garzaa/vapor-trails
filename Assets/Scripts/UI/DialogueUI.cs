@@ -41,7 +41,7 @@ public class DialogueUI : UIComponent {
 			speakerImage.sprite = line.speakerImage;
 		}
 		speakerName.text = line.speakerName;
-		this.voiceIndex = line.voiceIndex;
+		this.voiceIndex = (int) line.voiceSound;
 		StartSlowRender(line.lineText);
 
 		if (line.gameFlag != GameFlag.None) {

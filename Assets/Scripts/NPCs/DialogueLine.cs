@@ -7,9 +7,15 @@ public class DialogueLine : System.Object {
 	public string lineText;
 	public string speakerName;
 	public Sprite speakerImage; 
-	public int voiceIndex = 0;
+	public Voice voiceSound = Voice.Medium;
 	public Activatable activatable;
 	public bool activatesOnLineEnd;
 	public bool blocking;
 	public GameFlag gameFlag;
+}
+
+public enum Voice : int {
+	Low,
+	Medium,
+	High
 }
