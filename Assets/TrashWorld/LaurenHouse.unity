@@ -5192,7 +5192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab50aaba42ad1e4d9430e1a15d2df44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameFlag: LaurenAppearedInHouse
+  gameFlag: 0
   enableOnState: 0
 --- !u!4 &664626478
 Transform:
@@ -5201,12 +5201,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 664626474}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.673, y: -0.767, z: 0}
+  m_LocalPosition: {x: 0.80615234, y: -0.06096846, z: -0.5175781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 912109089}
-  m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_Father: {fileID: 1149462678}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &706121297
 Prefab:
@@ -5316,13 +5316,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 708815517}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.025, y: -1.285, z: 0}
+  m_LocalPosition: {x: 1.1581516, y: -0.5789684, z: -0.5175781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 272538975}
   - {fileID: 2116108038}
-  m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_Father: {fileID: 1149462678}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &756232040
 GameObject:
@@ -5567,7 +5567,8 @@ MonoBehaviour:
       voiceIndex: 2
       activatable: {fileID: 1035128403}
       activatesOnLineEnd: 0
-      gameFlag: LaurenAppearedInHouse
+      blocking: 0
+      gameFlag: 0
   auxConversations: []
 --- !u!114 &912109092
 MonoBehaviour:
@@ -5608,11 +5609,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1035128400}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.773, y: -1.437, z: 0}
+  m_LocalPosition: {x: -2.0938473, y: -0.7309685, z: -0.5175781}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_Father: {fileID: 1149462678}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1035128402
 SpriteRenderer:
@@ -5783,6 +5784,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4827407, y: 0.93793887}
   m_EdgeRadius: 0
+--- !u!1 &1149462677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149462678}
+  - component: {fileID: 1149462679}
+  m_Layer: 0
+  m_Name: lauren saying don't touch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1149462678
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1149462677}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.866848, y: -0.70603156, z: 0.5175781}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 708815519}
+  - {fileID: 1035128401}
+  - {fileID: 664626478}
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149462679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1149462677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab50aaba42ad1e4d9430e1a15d2df44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFlag: 1
+  enableOnState: 0
 --- !u!1001 &1205046925
 Prefab:
   m_ObjectHideFlags: 0
@@ -6592,14 +6638,16 @@ MonoBehaviour:
       voiceIndex: 1
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
-      gameFlag: 
+      blocking: 0
+      gameFlag: 0
     - lineText: Yep. Hoping you'll let me keep it for now.
       speakerName: Lauren
       speakerImage: {fileID: 21300000, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceIndex: 2
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
-      gameFlag: 
+      blocking: 0
+      gameFlag: 0
     - lineText: Of course. Enjoy your imminent death at the hands of the first Valkyrie
         that sees you with it.
       speakerName: Val
@@ -6607,7 +6655,8 @@ MonoBehaviour:
       voiceIndex: 2
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
-      gameFlag: 
+      blocking: 0
+      gameFlag: 0
   auxConversations: []
 --- !u!114 &2116108041
 MonoBehaviour:
