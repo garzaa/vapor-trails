@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class TransitionManager : MonoBehaviour {
 
 	string currentBeaconName = null;
-	bool frozePlayerBeforeTransition = true;
+	bool frozePlayerBeforeTransition = false;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -25,6 +25,7 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.playerFollower.FollowPlayer();
 		GlobalController.playerFollower.EnableSmoothing();
 		pc.UnLockInSpace();
+		// if the PC wasn't dashing or in supercruise
 		if (!frozePlayerBeforeTransition) {
 			pc.SetInvincible(false);
 			pc.UnFreeze();
@@ -75,6 +76,8 @@ public class TransitionManager : MonoBehaviour {
 				pc.SetInvincible(true);
 				pc.Freeze();
 				pc.DisableShooting();
+			} else {
+
 			}
 
 			if (sd.hidePlayer) {
@@ -102,9 +105,7 @@ public class TransitionManager : MonoBehaviour {
 
 		//preserve dash/supercruise state between scenes
 		PlayerController pc = GlobalController.pc;
-		if (pc.dashing || pc.supercruise) {
-			frozePlayerBeforeTransition = false;
-		}
+		frozePlayerBeforeTransition = (pc.dashing || pc.supercruise);
 
 		StartCoroutine(LoadAsync(sceneName));
 	}
