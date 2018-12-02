@@ -6,5 +6,6 @@ public enum GameFlag {
 	None,
 	BeatLadyOfTheLake,
 	TaraWarnedVal,
-	TaraLoweredGate
+	TaraLoweredGate,
+	LaurenFixedValEyes
 }
