@@ -162,6 +162,14 @@ public class PlayerController : Entity {
 		}
 	}
 
+	void Airbrake() {
+		rb2d.velocity = Vector2.zero;
+		EndSupercruise();
+		wings.Open();
+		wings.EnableJets();
+		wings.Airbrake();
+	}
+
 	void Move() {
 		if (inCutscene) {
 			anim.SetFloat("Speed", 0f);
@@ -174,6 +182,11 @@ public class PlayerController : Entity {
 
 		if (Input.GetButtonDown("Jump") && supercruise) {
 			EndSupercruise();
+		}
+
+		if (supercruise && !MovingForwards() && Input.GetAxis("Horizontal") != 0) {
+			Airbrake();
+			return;
 		}
 
 		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {

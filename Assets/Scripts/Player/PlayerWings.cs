@@ -6,9 +6,11 @@ public class PlayerWings : MonoBehaviour {
 
 	Animator anim;
 	bool ledgeBoosting;
+	Rigidbody2D rb2d;
 
 	public void Start() {
 		anim = this.GetComponent<Animator>();
+		rb2d = GetComponentInParent<PlayerController>().GetComponent<Rigidbody2D>();
 	}
 
 	//sprite changing
@@ -44,6 +46,10 @@ public class PlayerWings : MonoBehaviour {
 	//wing movement
 	public void Dash() {
 		anim.SetTrigger("Dash");
+	}
+
+	public void Airbrake() {
+		anim.SetTrigger("Airbrake");
 	}
 
 	public void Jump() {

@@ -5,10 +5,10 @@ using UnityEngine;
 public class FreezePlayerForDuration : StateMachineBehaviour {
 
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		animator.GetComponent<PlayerController>().Freeze();
+		animator.GetComponentInParent<PlayerController>().Freeze();
 	}
 
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		animator.GetComponent<PlayerController>().UnFreeze();
+		animator.GetComponentInParent<PlayerController>().UnFreeze();
 	}
 }
