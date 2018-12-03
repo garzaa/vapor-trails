@@ -164,6 +164,7 @@ public class PlayerController : Entity {
 
 	void Airbrake() {
 		rb2d.velocity = Vector2.zero;
+		SoundManager.JumpSound();
 		EndSupercruise();
 		wings.Open();
 		wings.EnableJets();
