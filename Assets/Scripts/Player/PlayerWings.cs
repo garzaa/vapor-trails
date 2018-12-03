@@ -6,11 +6,9 @@ public class PlayerWings : MonoBehaviour {
 
 	Animator anim;
 	bool ledgeBoosting;
-	Rigidbody2D rb2d;
 
 	public void Start() {
 		anim = this.GetComponent<Animator>();
-		rb2d = GetComponentInParent<PlayerController>().GetComponent<Rigidbody2D>();
 	}
 
 	//sprite changing
