@@ -22,9 +22,14 @@ public class ReduceYVelocity : StateMachineBehaviour {
 				rb2d.velocity.x,
 				velocityClamp
 			);
+		} else if (Mathf.Abs(rb2d.velocity.x) != 0) {
+			rb2d.velocity = new Vector2(
+				rb2d.velocity.x - (Mathf.Sign(rb2d.velocity.x) * velocityReduction),
+				0
+			);
 		} else {
 			rb2d.velocity = new Vector2(
-				rb2d.velocity.x * velocityReduction,
+				rb2d.velocity.x,
 				0
 			);
 		}
