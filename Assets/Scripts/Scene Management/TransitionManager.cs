@@ -7,6 +7,7 @@ public class TransitionManager : MonoBehaviour {
 
 	string currentBeaconName = null;
 	bool frozePlayerBeforeTransition = false;
+	bool closedJets = false;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -34,23 +35,15 @@ public class TransitionManager : MonoBehaviour {
 		}
 		pc.Show();
 		pc.EnableShooting();
-		//if the wings are open, don't leave a trail if they move around in the level
-		bool closedJets = false; 
-		if (pc.wings != null) {
-			if (pc.wings.HasOpenJets()) {
-				pc.wings.DisableJetTrails();
-				closedJets = true;
-			}
-		}
-		
 
 		GlobalController.ShowUI();
 
 		if (!string.IsNullOrEmpty(currentBeaconName)) {
 			//in case it was disabled in the previous scene
+			GlobalController.MovePlayerTo(currentBeaconName);
+			GlobalController.playerFollower.SnapToPlayer();
 			GlobalController.playerFollower.EnableFollowing();
 			GlobalController.playerFollower.FollowPlayer();
-			GlobalController.MovePlayerTo(currentBeaconName);
 			currentBeaconName = null;
 		}
 
@@ -101,10 +94,20 @@ public class TransitionManager : MonoBehaviour {
 	public void LoadScene(string sceneName, string beaconName, bool fade = true) {
 		if (SceneManager.GetActiveScene().name != sceneName && fade) GlobalController.FadeToBlack();
 		this.currentBeaconName = beaconName;
+		GlobalController.playerFollower.DisableFollowing();
 		GlobalController.playerFollower.DisableSmoothing();
 
 		//preserve dash/supercruise state between scenes
 		PlayerController pc = GlobalController.pc;
+		pc.LockInSpace();
+		//if the wings are open, don't leave a trail if they move around in the level
+		closedJets = false; 
+		if (pc.wings != null) {
+			if (pc.wings.HasOpenJets()) {
+				pc.wings.DisableJetTrails();
+				closedJets = true;
+			}
+		}
 		frozePlayerBeforeTransition = (pc.dashing || pc.supercruise);
 
 		StartCoroutine(LoadAsync(sceneName));

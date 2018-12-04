@@ -1104,4 +1104,9 @@ public class PlayerController : Entity {
 		this.CancelInvoke("CancelBufferedJump");
 		this.bufferedJump = false;
 	}
+
+	override public void UnLockInSpace() {
+		base.UnLockInSpace();
+		this.transform.rotation = Quaternion.identity;
+	}
 }

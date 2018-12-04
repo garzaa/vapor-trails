@@ -55,7 +55,7 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    public void UnLockInSpace() {
+    public virtual void UnLockInSpace() {
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
