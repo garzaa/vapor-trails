@@ -88,4 +88,12 @@ public class AnimationInterface : MonoBehaviour {
 	public void CameraShake(float seconds) {
 		CameraShaker.Shake(0.1f, seconds);
 	}
+
+	public void EnterSlowMotion() {
+		GlobalController.EnterSlowMotion();
+	}
+
+	public static void ExitSlowMotion() {
+		GlobalController.ExitSlowMotion();
+	}
 }

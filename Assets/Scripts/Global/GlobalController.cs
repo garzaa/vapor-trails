@@ -154,6 +154,9 @@ public class GlobalController : MonoBehaviour {
 	public static void AddGameFlag(GameFlag f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
+			foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
+				i.ReactToStateChange();
+			}
 		}
 	}
 
@@ -226,5 +229,13 @@ public class GlobalController : MonoBehaviour {
 	public static void EnterCutscene() {
 		inCutscene = true;
 		dialogueUI.Hide();
+	}
+
+	public static void EnterSlowMotion() {
+		Time.timeScale = 0.3f;
+	}
+
+	public static void ExitSlowMotion() {
+		Time.timeScale = 1;
 	}
 }
