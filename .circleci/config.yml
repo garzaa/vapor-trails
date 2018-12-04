@@ -6,8 +6,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Pull docker image
+          command: |
+            docker pull gableroux/unity3d
+            docker build -t gableroux/unity3d:latest .
+
       - run:
           name: Print the Current Time
           command: date
