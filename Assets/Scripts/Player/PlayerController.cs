@@ -816,7 +816,8 @@ public class PlayerController : Entity {
 	}
 
 	public void StartRespawnAnimation() {
-		
+		Freeze();
+		LockInSpace();
 	}
 
 	public void EndRespawnAnimation() {

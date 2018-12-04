@@ -8,18 +8,18 @@ public class SwitchOnStateImmediate : SwitchOnState {
 	public bool queuedReaction = false;
 	bool visible = false;
 
-	override protected void Awake() {
-		base.Awake();
-	}
-
 	public void ReactToStateChange() {
-		Awake();
+		if (waitsUntilInvisible) {
+			queuedReaction = true;
+		} else {
+			Awake();
+		}
 	}
 
 	void OnBecameInvisible() {
 		this.visible = false;
 		if (queuedReaction) {
-			ReactToStateChange();
+			Awake();
 			queuedReaction = false;
 		}
 	}
