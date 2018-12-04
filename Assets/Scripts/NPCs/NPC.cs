@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC : Interactable {
-	NPCConversations conversations;
+	protected NPCConversations conversations;
 
-	public override void ExtendedStart() {
+	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 	}
 

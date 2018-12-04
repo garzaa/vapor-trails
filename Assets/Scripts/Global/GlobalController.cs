@@ -154,20 +154,28 @@ public class GlobalController : MonoBehaviour {
 	public static void AddGameFlag(GameFlag f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
-			foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
-				i.ReactToStateChange();
-			}
+			PropagateStateChange();
+		}
+	}
+
+	public static void PropagateStateChange() {
+		foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
+			i.ReactToStateChange();
+		}
+		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
+			n.ReactToStateChange();
 		}
 	}
 
 	public static void RemoveGameFlag(GameFlag f) {
 		if (save.gameFlags.Contains(f)) {
 			save.gameFlags.Remove(f);
+			PropagateStateChange();
 		}
 	}
 
 	public static bool HasFlag(GameFlag f) {
-		if (save == null) {
+		if (save == null || f == GameFlag.None) {
 			return false;
 		}
 		return save.gameFlags.Contains(f);

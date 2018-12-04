@@ -17,7 +17,7 @@ public class Interactable : MonoBehaviour {
 		ExtendedStart();
 	}	
 
-	public virtual void ExtendedStart() {
+	protected virtual void ExtendedStart() {
 
 	}
 

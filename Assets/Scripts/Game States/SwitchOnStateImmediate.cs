@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwitchOnStateImmediate : SwitchOnState {
 
 	public bool waitsUntilInvisible = false;
-	public bool queuedReaction = false;
+	bool queuedReaction = false;
 	bool visible = false;
 
 	public void ReactToStateChange() {
