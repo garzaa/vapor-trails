@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
 	public bool impactShake;
-	public Transform burstPrefab;
+	public GameObject burstPrefab;
 
 	public bool ignorePlayer = false;
 
@@ -30,8 +30,7 @@ public class Projectile : MonoBehaviour {
 
 	public void OnImpact() {
 		if (burstPrefab != null) {
-			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity).gameObject;
-			go.GetComponent<Rigidbody2D>().velocity = this.GetComponent<Rigidbody2D>().velocity;
+			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity);
 		}
 		GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 		SoundManager.ExplosionSound();
