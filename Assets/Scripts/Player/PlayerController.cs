@@ -963,6 +963,7 @@ public class PlayerController : Entity {
 		supercruise = false;
 		UnFreeze();
 		wings.FoldIn();
+		wings.DisableJets();
 		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("InterruptSupercruise");
 	}
