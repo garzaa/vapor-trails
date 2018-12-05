@@ -502,7 +502,7 @@ public class PlayerController : Entity {
 		if (terminalFalling) {
 			CameraShaker.Shake(0.1f, 0.1f);
 		}
-		if (bufferedJump || Input.GetButton("Jump")) {
+		if (bufferedJump) {
 			GroundJump();
 			CancelBufferedJump();
 		}
