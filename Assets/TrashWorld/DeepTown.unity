@@ -294,6 +294,36 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e1bd2d77e170424ca6ea77b75c8b7fa, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &18519496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 18519497}
+  m_Layer: 15
+  m_Name: Conversations
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &18519497
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 18519496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1485569187}
+  - {fileID: 827188433}
+  m_Father: {fileID: 1335522059}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &20720109
 Prefab:
   m_ObjectHideFlags: 0
@@ -7744,6 +7774,72 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &827188432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 827188433}
+  - component: {fileID: 827188434}
+  - component: {fileID: 827188435}
+  m_Layer: 15
+  m_Name: BeatLadyOfTheLake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &827188433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827188432}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 18519497}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &827188434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827188432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42449ce83625f45bc2b59da74c82ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversations:
+  - lines:
+    - lineText: Wig! I'm going to boil you in mercury and let you beat yourself with
+        my cane.
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 0
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+  auxConversations: []
+--- !u!114 &827188435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827188432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab50aaba42ad1e4d9430e1a15d2df44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFlag: 1
+  enableOnState: 1
 --- !u!1 &831164079
 GameObject:
   m_ObjectHideFlags: 0
@@ -23035,9 +23131,8 @@ GameObject:
   - component: {fileID: 1335522058}
   - component: {fileID: 1335522057}
   - component: {fileID: 1335522062}
-  - component: {fileID: 1335522061}
-  - component: {fileID: 1335522060}
   - component: {fileID: 1335522063}
+  - component: {fileID: 1335522060}
   m_Layer: 15
   m_Name: lester working_0
   m_TagString: Untagged
@@ -23120,6 +23215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 905973148}
+  - {fileID: 18519497}
   m_Father: {fileID: 0}
   m_RootOrder: 89
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23131,116 +23227,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1335522056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42449ce83625f45bc2b59da74c82ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  conversations:
-  - lines:
-    - lineText: Care to explain why my wife would let a prismatic AI into town?
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: As a way of thanks for taking care of your sludge problem.
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: "Hmph. \nTry not to kill anybody while you're here."
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-  - lines:
-    - lineText: Is there a way to the surface from here?
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: Used to be. There's a turbine at the other side of Sludge Lake with
-        a service elevator, but nobody's been there for a while.
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: Why not?
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: There's something in the lake.
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: 'Our ferryman caught a glimpse of it last week and it almost killed
-        him. '
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-  - lines:
-    - lineText: Why settle in the Deeps? Why not just take the turbine elevator and
-        see how far up it goes?
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: You think Vapor City still uses turbines? That elevator was decomissioned
-        years ago, along with every seafloor turbine.
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: What do you think that thing in your chest is? Not a turbine, that's
-        for damn sure.
-      speakerName: Lester
-      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-  auxConversations: []
---- !u!114 &1335522061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1335522056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4a9d66ccf4057045a737917a61f0149, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d039d65218428c46b1129f9cedfc50b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
@@ -23559,6 +23546,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114568043210485488, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: gameFlags.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4823699093169772, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -23594,6 +23586,11 @@ Prefab:
     - target: {fileID: 1251777175516782, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114568043210485488, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: gameFlags.Array.data[0]
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
@@ -25096,6 +25093,140 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1485569186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1485569187}
+  - component: {fileID: 1485569188}
+  - component: {fileID: 1485569189}
+  m_Layer: 15
+  m_Name: Initial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1485569187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1485569186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 18519497}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1485569188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1485569186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42449ce83625f45bc2b59da74c82ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversations:
+  - lines:
+    - lineText: Care to explain why my wife would let a prismatic AI into town?
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: As a way of thanks for taking care of your sludge problem.
+      speakerName: Val
+      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: "Hmph. \nTry not to kill anybody while you're here."
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+  - lines:
+    - lineText: Is there a way to the surface from here?
+      speakerName: Val
+      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: Used to be. There's a turbine at the other side of Sludge Lake with
+        a service elevator, but nobody's been there for a while.
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: Why not?
+      speakerName: Val
+      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: There's something in the lake.
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: 'Our ferryman caught a glimpse of it last week and it almost killed
+        him. '
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+  - lines:
+    - lineText: If you're looking for advice, talk to Lauren. She used to deal with
+        prismatics.
+      speakerName: Val
+      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+  auxConversations: []
+--- !u!114 &1485569189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1485569186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab50aaba42ad1e4d9430e1a15d2df44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFlag: 1
+  enableOnState: 0
 --- !u!1 &1504147245
 GameObject:
   m_ObjectHideFlags: 0
