@@ -72,6 +72,7 @@ public class PlayerController : Entity {
 	bool backstepCooldown = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
+	bool jumpCutoffEnabled = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -332,10 +333,11 @@ public class PlayerController : Entity {
 		}
 
 		//emulate an analog jump
-		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff) {
+		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff && jumpCutoffEnabled) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
+			jumpCutoffEnabled = false;
 		}
 	}
 
@@ -356,9 +358,11 @@ public class PlayerController : Entity {
 		anim.SetTrigger("Jump");
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
+		jumpCutoffEnabled = true;
 	}
 
 	void WallJump() {
+		jumpCutoffEnabled = false;
 		SoundManager.SmallJumpSound();
 		InterruptDash();
 		InterruptMeteor();
@@ -376,6 +380,7 @@ public class PlayerController : Entity {
 	}
 
 	void AirJump() {
+		jumpCutoffEnabled = false;
 		SoundManager.JumpSound();
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
@@ -470,6 +475,7 @@ public class PlayerController : Entity {
 
 	public override void OnGroundHit() {
 		grounded = true;
+		jumpCutoffEnabled = false;
 		ResetAirJumps();
 		InterruptAttack();
 		EndDashCooldown();
@@ -496,7 +502,7 @@ public class PlayerController : Entity {
 		if (terminalFalling) {
 			CameraShaker.Shake(0.1f, 0.1f);
 		}
-		if (bufferedJump) {
+		if (bufferedJump || Input.GetButton("Jump")) {
 			GroundJump();
 			CancelBufferedJump();
 		}
@@ -540,6 +546,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit() {
+		jumpCutoffEnabled = false;
 		CloseWings();
 		InterruptDash();
 		EndDashCooldown();
