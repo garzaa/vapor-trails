@@ -559,7 +559,7 @@ public class PlayerController : Entity {
 				float impactAngle = Mathf.Atan(rb2d.velocity.y / Mathf.Abs(rb2d.velocity.x));
 				rb2d.velocity = new Vector2(
 					0,
-					rb2d.velocity.y * Mathf.Clamp(Mathf.Abs(Mathf.Cos(impactAngle) * rb2d.velocity.x), 0, 2f)
+					rb2d.velocity.y + Mathf.Clamp(Mathf.Abs(Mathf.Cos(impactAngle) * rb2d.velocity.x), 0, 1f)
 				);
 			}
 		}
