@@ -832,6 +832,8 @@ public class PlayerController : Entity {
 	}
 
 	public void EndRespawnAnimation() {
+		ResetAttackTriggers();
+		ResetAirJumps();
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();
