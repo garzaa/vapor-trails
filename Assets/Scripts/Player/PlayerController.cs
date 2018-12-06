@@ -13,8 +13,8 @@ public class PlayerController : Entity {
 	float jumpCutoff = 2.0f;
 	float hardLandVelocity = -4.5f;
 	float terminalVelocity = -10f;
-	float dashSpeed = 8;
-	float superCruiseSpeed = 10;
+	float dashSpeed = 8f;
+	float superCruiseSpeed = 8f;
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
@@ -28,6 +28,7 @@ public class PlayerController : Entity {
 	float backstepCooldownLength = .2f;
 	public bool riposteTriggered = false;
 	float jumpBufferDuration = 0.1f;
+	float preDashSpeed;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -275,11 +276,11 @@ public class PlayerController : Entity {
 		}
 
 		if (dashing) {
-            rb2d.velocity = new Vector2(dashSpeed * GetForwardScalar(), 0);
+            rb2d.velocity = new Vector2((dashSpeed+preDashSpeed) * GetForwardScalar(), 0);
         }
 
 		else if (supercruise) {
-			rb2d.velocity = new Vector2(superCruiseSpeed * GetForwardScalar(), 0);
+			rb2d.velocity = new Vector2((superCruiseSpeed+preDashSpeed) * GetForwardScalar(), 0);
 		}
 
 		if (rb2d.velocity.y < terminalVelocity) {
@@ -399,6 +400,7 @@ public class PlayerController : Entity {
 		if (dashCooldown || dashing || parrying || dead || touchingWall) {
 			return;
 		}
+		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 		SoundManager.DashSound();
 		StopWallTimeout();
 		InterruptAttack();
@@ -466,7 +468,10 @@ public class PlayerController : Entity {
 		if (dashTimeout != null) {
 			StopCoroutine(dashTimeout);
 		}
-		dashCooldown = false;
+		if (dashCooldown) {
+			FlashCyanOnce();
+			dashCooldown = false;
+		}
 	}
 
 	bool HorizontalInput() {
@@ -478,8 +483,10 @@ public class PlayerController : Entity {
 		jumpCutoffEnabled = false;
 		ResetAirJumps();
 		InterruptAttack();
-		EndDashCooldown();
 		StopWallTimeout();
+		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
+			LedgeBoost();
+		}
 		if (IsSpeeding() && Input.GetAxis("Horizontal") * GetForwardScalar() > 0) {
 			BackwardDust();
 		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && Input.GetAxis("Horizontal") * GetForwardScalar() <= 0) {
@@ -611,6 +618,11 @@ public class PlayerController : Entity {
     public void SetInvincible(bool b) {
         this.invincible = b;
     }
+
+	public void FlashCyanOnce() {
+		CyanSprite();
+		Invoke("WhiteSprite", 0.1f);
+	}
 
 	public void FlashCyan() {
 		this.flashingCyan = true;
@@ -932,6 +944,7 @@ public class PlayerController : Entity {
 
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
+		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 		OpenSupercruiseWings();
 		SoundManager.DashSound();
 		this.supercruise = true;
