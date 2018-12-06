@@ -29,6 +29,9 @@ public class PlayerController : Entity {
 	public bool riposteTriggered = false;
 	float jumpBufferDuration = 0.1f;
 	float preDashSpeed;
+	float perfectDashWindow = 0.05f;
+	bool perfectDashPossible;
+	bool earlyDashInput;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -398,9 +401,20 @@ public class PlayerController : Entity {
 
 	public void Dash() {
 		if (dashCooldown || dashing || parrying || dead || touchingWall) {
+			// you can't just buttonmash to get the timing right
+			if (dashCooldown) {
+				earlyDashInput = true;
+				Invoke("endEarlyDashInput", 0.2f);
+			}
 			return;
 		}
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
+		if (perfectDashPossible && !earlyDashInput) {
+			perfectDashPossible = false;
+			CancelInvoke("ClosePerfectDashWindow");
+			this.GainEnergy(1);
+			SoundManager.ShootSound();
+		}
 		SoundManager.DashSound();
 		StopWallTimeout();
 		InterruptAttack();
@@ -422,6 +436,10 @@ public class PlayerController : Entity {
 		}
 	}
 
+	private void endEarlyDashInput() {
+		earlyDashInput = false;
+	}
+
 	public void StopDashing() {
         UnFreeze();
         dashing = false;
@@ -434,6 +452,10 @@ public class PlayerController : Entity {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
+
+	private void ClosePerfectDashWindow() {
+		perfectDashPossible = false;
+	}
 
 	public bool MovingForwards() {
 		return (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
@@ -471,6 +493,8 @@ public class PlayerController : Entity {
 		if (dashCooldown) {
 			FlashCyanOnce();
 			dashCooldown = false;
+			perfectDashPossible = true;
+			Invoke("ClosePerfectDashWindow", 0.05f);
 		}
 	}
 
