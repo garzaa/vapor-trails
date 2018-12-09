@@ -971,6 +971,7 @@ public class PlayerController : Entity {
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
+
 		OpenSupercruiseWings();
 		SoundManager.DashSound();
 		this.supercruise = true;
