@@ -17,6 +17,7 @@ public class ForcedInteractTrigger : PlayerTriggeredObject {
 	}
 
 	public override void OnPlayerEnter() {
+		Debug.Log("PINGAS");
 		if (!interactedOnce) {
 			i.Interact(this.player.gameObject);
 			interactedOnce = true;
