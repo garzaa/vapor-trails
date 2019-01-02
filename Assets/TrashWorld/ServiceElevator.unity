@@ -765,6 +765,128 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &445718463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 445718464}
+  - component: {fileID: 445718468}
+  - component: {fileID: 445718467}
+  - component: {fileID: 445718466}
+  - component: {fileID: 445718465}
+  m_Layer: 15
+  m_Name: LaurenMidElevatorSpeech
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &445718464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445718463}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.097998, y: 0.23400003, z: 0.005126953}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 639840021}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &445718465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445718463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590e06d2b3407f24181363f3b55e5ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npc: {fileID: 445718467}
+--- !u!114 &445718466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445718463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42449ce83625f45bc2b59da74c82ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversations:
+  - lines:
+    - lineText: So now what? Does this go all the way up?
+      speakerName: Val
+      speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: No. It stops at the sewers, which will lead us to the Night Market.
+      speakerName: Lauren
+      speakerImage: {fileID: 21300000, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
+      voiceSound: 2
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: I have some unfinished business there. Try to blend in.
+      speakerName: Lauren
+      speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
+      voiceSound: 2
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+  auxConversations: []
+--- !u!114 &445718467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445718463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a9d66ccf4057045a737917a61f0149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
+    type: 2}
+  currentConversation: 0
+  currentDialogueLine: 0
+--- !u!61 &445718468
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 445718463}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.62414837, y: -0.34719318}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9298687, y: 0.89265144}
+  m_EdgeRadius: 0
 --- !u!1001 &447220171
 Prefab:
   m_ObjectHideFlags: 0
@@ -885,7 +1007,6 @@ GameObject:
   - component: {fileID: 545550251}
   - component: {fileID: 545550250}
   - component: {fileID: 545550249}
-  - component: {fileID: 545550248}
   m_Layer: 15
   m_Name: Lauren
   m_TagString: Untagged
@@ -893,19 +1014,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &545550248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 545550247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cab50aaba42ad1e4d9430e1a15d2df44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameFlag: 1
-  enableOnState: 0
 --- !u!114 &545550249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,6 +1276,7 @@ MonoBehaviour:
   sounds: []
   activatables:
   - {fileID: 130985008}
+  - {fileID: 445718465}
   npcs: []
 --- !u!1 &602272449
 GameObject:
@@ -1276,6 +1385,7 @@ Transform:
   - {fileID: 873075882}
   - {fileID: 1849077494}
   - {fileID: 602272452}
+  - {fileID: 445718464}
   m_Father: {fileID: 1544703024}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1366,7 +1476,7 @@ BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 668265269}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
