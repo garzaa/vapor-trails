@@ -64,13 +64,11 @@ public class ContainerUI : UIComponent {
 	}
 
 	public void SetMax(int newMax) {
-		int prevMax = this.max;
 		this.max = newMax;
 		DrawContainers();
 	}
 
 	public void SetCurrent(int newCurrent) {
-		int prevCurrent = this.current;
 		this.current = newCurrent;
 		DrawContainers();
 	}

@@ -25,7 +25,6 @@ public class PlayerController : Entity {
 	public bool riposteTriggered = false;
 	float jumpBufferDuration = 0.1f;
 	float preDashSpeed;
-	float perfectDashWindow = 0.05f;
 	bool perfectDashPossible;
 	bool earlyDashInput;
 
