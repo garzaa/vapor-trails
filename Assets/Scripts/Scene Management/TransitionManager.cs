@@ -25,6 +25,7 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.playerFollower.EnableFollowing();
 		GlobalController.playerFollower.FollowPlayer();
 		GlobalController.playerFollower.EnableSmoothing();
+		GlobalController.pauseEnabled = true;
 		pc.UnLockInSpace();
 		// if the PC wasn't dashing or in supercruise
 		if (!frozePlayerBeforeTransition) {
@@ -76,6 +77,8 @@ public class TransitionManager : MonoBehaviour {
 			if (sd.hidePlayer) {
 				pc.Hide();
 			}
+
+			GlobalController.pauseEnabled = sd.enablePausing;
 
 		}
 

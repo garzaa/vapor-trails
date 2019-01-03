@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GlobalController : MonoBehaviour {
 
@@ -14,15 +15,19 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerController pc;
 	static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
+	public static bool pauseEnabled = true;
+	static bool paused = false;
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
 	static Save save;
+	static Animator pauseUI;
 	static bool inCutscene;
 
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
+
 
 	void Awake() {
 		gc = this;
@@ -35,6 +40,7 @@ public class GlobalController : MonoBehaviour {
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
 		save = gc.GetComponent<Save>();
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
+		pauseUI = gc.transform.Find("PixelCanvas").transform.Find("PauseUI").GetComponent<Animator>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -52,6 +58,14 @@ public class GlobalController : MonoBehaviour {
         {
             LoadGame();
         }
+
+		if (Input.GetKeyDown(KeyCode.Escape) && pauseEnabled) {
+			if (!paused) {
+				Pause();
+			} else {
+				Unpause();
+			}
+		}
 		
 		if (
 			dialogueOpen 
@@ -266,5 +280,27 @@ public class GlobalController : MonoBehaviour {
 
 	public static void SaveGame() {
 		gc.GetComponent<BinarySaver>().SaveGame();
+	}
+
+	public static void Pause() {
+		if (pc.inCutscene) {
+			return;
+		}
+		pc.Freeze();
+		pc.inCutscene = true;
+		pauseUI.SetBool("Shown", true);
+		//manually first select
+		pauseUI.transform.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(pauseUI.transform.Find("Resume").gameObject);
+		paused = true;
+		SoundManager.InteractSound();
+		Time.timeScale = 0f;
+	}
+
+	public static void Unpause() {
+		paused = false;
+		Time.timeScale = 1;
+		pc.inCutscene = false;
+		pauseUI.SetBool("Shown", false);
+		pc.UnFreeze();
 	}
 }

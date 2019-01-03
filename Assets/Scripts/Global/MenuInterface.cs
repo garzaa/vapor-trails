@@ -11,4 +11,8 @@ public class MenuInterface : MonoBehaviour {
 	public void Exit() {
 		Application.Quit();
 	}
+
+	public void Unpause() {
+		GlobalController.Unpause();
+	}
 }

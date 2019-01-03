@@ -72,6 +72,7 @@ public class PlayerController : Entity {
 	bool forcedWalking = false;
 	bool bufferedJump = false;
 	bool jumpCutoffEnabled = false;
+	bool unfrozeThisFrame = false;
 
 	//other misc prefabs
 	public Transform vaporExplosion;
@@ -100,6 +101,9 @@ public class PlayerController : Entity {
 	}
 	
 	void Update () {
+		if (unfrozeThisFrame) {
+			frozen = true;
+		}
 		CheckHeal();
 		CheckFlash();
 		UpdateWallSliding();
@@ -110,6 +114,10 @@ public class PlayerController : Entity {
 		Interact();
 		UpdateUI();
 		CheckFlip();
+		if (unfrozeThisFrame) {
+			frozen = false;
+			unfrozeThisFrame = false;
+		}
 	}
 
 	void Interact() {
@@ -140,7 +148,7 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		anim.SetFloat("VerticalInput", Input.GetAxis("Vertical"));
+		if (!inCutscene) { anim.SetFloat("VerticalInput", Input.GetAxis("Vertical")); }
 		
 		if (!inCutscene && !forcedWalking) {
 			anim.SetBool("SpecialHeld", Input.GetButton("Special"));
@@ -615,6 +623,7 @@ public class PlayerController : Entity {
 
 	public void UnFreeze() {
 		this.frozen = false;
+		this.unfrozeThisFrame = true;
 	}
 
 	public void CloseAllHurtboxes() {
@@ -691,7 +700,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (!unlocks.HasAbility(Ability.GunEye)) {
+		if (!unlocks.HasAbility(Ability.GunEye) || inCutscene) {
 			return;
 		}
 		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {

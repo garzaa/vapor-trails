@@ -57,7 +57,7 @@ public class CameraShaker : MonoBehaviour
 		{
 			camTransform.localPosition = originalPos + OnUnitCircle() * shakeAmount;
 			
-			shakeDuration -= Time.deltaTime * decreaseFactor;
+			shakeDuration -= Time.unscaledDeltaTime * decreaseFactor;
 		}
 		else
 		{

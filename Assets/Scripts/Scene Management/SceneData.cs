@@ -6,6 +6,7 @@ public class SceneData : MonoBehaviour {
 	public string title;
 	public string subTitle;
 	public bool hidePlayer;
+	public bool enablePausing = true;
 	public bool blockRespawning;
 	[HideInInspector]
 	public string sceneName;
