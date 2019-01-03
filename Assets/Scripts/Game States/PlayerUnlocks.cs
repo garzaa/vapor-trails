@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerUnlocks : MonoBehaviour {
-	// TODO: fix this
-	Dictionary<PassiveStat, int> passives;
+	// TODO: implement this
+	public Dictionary<PassiveStat, int> passives;
 
-	List<Ability> unlockedAbilities = new List<Ability> {
+	public List<Ability> unlockedAbilities = new List<Ability> {
 		Ability.Dash,
 		Ability.DamageDash,
 		Ability.GunEye,
@@ -24,6 +24,16 @@ public class PlayerUnlocks : MonoBehaviour {
 
 	public int GetPassiveStat(PassiveStat p) {
 		return passives[p];
+	}
+
+	public SerializableUnlocks MakeSerializableUnlocks() {
+		Debug.Log(new SerializableUnlocks(this));
+		return new SerializableUnlocks(this);
+	}
+
+	public void LoadFromSerializableUnlocks(SerializableUnlocks s) {
+		this.unlockedAbilities = s.unlockedAbilities;
+		this.passives = s.passives;
 	}
 
 }
@@ -44,4 +54,15 @@ public enum PassiveStat {
 	MaxHP,
 	MaxEnergy,
 	BaseAttackDamage
+}
+
+[System.Serializable]
+public class SerializableUnlocks {
+	public Dictionary<PassiveStat, int> passives;
+	public List<Ability> unlockedAbilities;
+
+	public SerializableUnlocks(PlayerUnlocks p) {
+		this.passives = p.passives;
+		this.unlockedAbilities = p.unlockedAbilities;
+	}
 }

@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Entity {
-
-	//unlocks
-	PlayerUnlocks abilities;
-
 	//constants
 	float maxMoveSpeed = 3f;
 	float jumpSpeed = 4.5f;
@@ -90,8 +86,8 @@ public class PlayerController : Entity {
 		anim = GetComponent<Animator>();
 		this.facingRight = false;
 		currentHP = 5; //unlocks.maxHP;
-		currentEnergy = 50; //unlocks.maxEnergy;
-		maxEnergy = 50;
+		currentEnergy = 5; //unlocks.maxEnergy;
+		maxEnergy = 5;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
         defaultMaterial = GetComponent<SpriteRenderer>().material;
@@ -1148,5 +1144,14 @@ public class PlayerController : Entity {
 	override public void UnLockInSpace() {
 		base.UnLockInSpace();
 		this.transform.rotation = Quaternion.identity;
+	}
+
+	public void LoadFromSaveData(Save s) {
+		this.unlocks = s.unlocks;
+		this.maxEnergy = s.maxEnergy;
+		this.maxHP = s.maxHP;
+		this.currentEnergy = s.currentEnergy;
+		this.currentHP = s.currentHP;
+		UpdateUI();
 	}
 }

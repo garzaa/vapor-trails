@@ -42,6 +42,17 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	void LateUpdate() {
+
+		if (Input.GetKeyDown(KeyCode.S))
+        {
+            SaveGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadGame();
+        }
+		
 		if (
 			dialogueOpen 
 			&& (Input.GetButtonDown("Submit") || Input.GetButtonDown("Jump"))
@@ -245,5 +256,15 @@ public class GlobalController : MonoBehaviour {
 
 	public static void ExitSlowMotion() {
 		Time.timeScale = 1;
+	}
+
+	public static void LoadGame() {
+		gc.GetComponent<BinarySaver>().LoadGame();
+		Save s = gc.GetComponent<Save>();
+		pc.LoadFromSaveData(s);
+	}
+
+	public static void SaveGame() {
+		gc.GetComponent<BinarySaver>().SaveGame();
 	}
 }

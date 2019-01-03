@@ -20,12 +20,9 @@ public class ContainerUI : UIComponent {
 	float containerWidth;
 	Vector2 initialPos;
 
-	List<Image> drawnContainers;
-
 	bool hidden;
 
 	public void Start() {
-		drawnContainers = new List<Image>();
 		InitPositions();
 		DrawContainers();
 	}
@@ -41,12 +38,6 @@ public class ContainerUI : UIComponent {
 			return;
 		}
 
-		if (this.drawnContainers == null) {
-			this.drawnContainers = new List<Image>();
-			InitPositions();
-		}
-
-		InitPositions();
 		containerWidth = initialRectWidth;
 		ClearContainers();
 
@@ -57,7 +48,6 @@ public class ContainerUI : UIComponent {
 				y:initialPos.y
 			);
 			Image img = Instantiate(fullContainer, newPos, Quaternion.identity, this.transform);
-			drawnContainers.Add(img);
 		}
 		//then do the same for the empty containers 
 		for (int i=current; i<max; i++) {
@@ -66,7 +56,6 @@ public class ContainerUI : UIComponent {
 				y:initialPos.y
 			);
 			Image img = Instantiate(emptyContainer, newPos, Quaternion.identity, this.transform);
-			drawnContainers.Add(img);
 		}
 	}
 
@@ -77,26 +66,18 @@ public class ContainerUI : UIComponent {
 	public void SetMax(int newMax) {
 		int prevMax = this.max;
 		this.max = newMax;
-		if (prevMax != this.max) {
-			DrawContainers();
-		}
+		DrawContainers();
 	}
 
 	public void SetCurrent(int newCurrent) {
 		int prevCurrent = this.current;
 		this.current = newCurrent;
-		if (prevCurrent != this.current) {
-			DrawContainers();
-		}
+		DrawContainers();
 	}
 
 	void ClearContainers() {
-		//this is throwing an error, maybe in the iterator mechanics or something
-		if (this.drawnContainers != null) {
-			foreach (Image i in drawnContainers) {
-				Destroy(i.gameObject);
-			}
-			drawnContainers.Clear();
+		foreach (Transform t in this.transform) {
+			Destroy(t.gameObject);
 		}
 	}
 
