@@ -9,6 +9,8 @@ public class Lever : ActivationCriteria {
 	public bool flipToInactive = false;
 	bool satisfied = false;
 
+	bool hitTimeout = false;
+
 	public override bool CheckSatisfied() {
 		Animator anim;
 		if ((anim = GetComponent<Animator>()) != null) {
@@ -19,8 +21,14 @@ public class Lever : ActivationCriteria {
 		return preSatisfied;
 	}
 
+	void ReEnableHitting() {
+		hitTimeout = false;
+	}
+
 	void OnTriggerEnter2D(Collider2D other) {
-		if (active && (other.GetComponent<PlayerAttack>() != null)) {
+		if (active && (other.GetComponent<PlayerAttack>() != null) && !hitTimeout) {
+			hitTimeout = true;
+			Invoke("ReEnableHitting", 1);
 			PlayerAttack a = other.GetComponent<PlayerAttack>();
 			if (a != null) {
 				CameraShaker.Shake(a.cameraShakeIntensity, a.cameraShakeTime);

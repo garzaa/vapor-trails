@@ -84,7 +84,6 @@ public class TransitionManager : MonoBehaviour {
 
 		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
 		if (triggered != null) {
-			print(triggered.name);
 			triggered.OnPlayerEnter();
 		}
  
