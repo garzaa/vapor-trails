@@ -758,6 +758,9 @@ public class PlayerController : Entity {
 			if (envDmgSusceptible) {
 				OnEnviroDamage();
 				InterruptMeteor();
+				if (LayerMask.LayerToName(attack.attackerParent.gameObject.layer) == Layers.Water) {
+					ResetAirJumps();
+				}
 			} else {
 				return;
 			}
