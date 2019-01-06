@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnviroDamage : Attack {
 
 	public bool particlesOnImpact;
+	public bool returnPlayerToSafety = false;
 	public int numParticles;
 	public Transform particleObject;
 	ParticleSystem ps;

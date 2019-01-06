@@ -27,6 +27,7 @@ public class PlayerController : Entity {
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
+	Vector2 lastSafePos;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -97,6 +98,7 @@ public class PlayerController : Entity {
 		anim.SetBool("CanSupercruise", unlocks.HasAbility(Ability.Supercruise));
 		Flip();
 		ResetAirJumps();
+		lastSafePos = this.transform.position;
 	}
 	
 	void Update () {
@@ -538,7 +540,15 @@ public class PlayerController : Entity {
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 	}
 
+	void ReturnToSafety() {
+		GlobalController.playerFollower.DisableSmoothing();
+		transform.position = lastSafePos;
+		rb2d.velocity = Vector2.zero;
+		GlobalController.playerFollower.EnableFollowing();
+	}
+
 	public override void OnGroundLeave() {
+		lastSafePos = transform.position;
 		StopPlatformDrop();
 		grounded = false;
 		anim.SetBool("Grounded", false);
@@ -756,7 +766,7 @@ public class PlayerController : Entity {
 
 		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			if (envDmgSusceptible) {
-				OnEnviroDamage();
+				OnEnviroDamage(attack.GetComponent<EnviroDamage>());
 				InterruptMeteor();
 				if (LayerMask.LayerToName(attack.attackerParent.gameObject.layer) == Layers.Water) {
 					ResetAirJumps();
@@ -1106,8 +1116,11 @@ public class PlayerController : Entity {
 		backstepCooldown = false;
 	}
 
-	void OnEnviroDamage() {
+	void OnEnviroDamage(EnviroDamage e) {
 		this.envDmgSusceptible = false;
+		if (!grounded && e.returnPlayerToSafety) {
+			ReturnToSafety();
+		}
 		Invoke("EnableEnviroDamage", .2f);
 	}
 
