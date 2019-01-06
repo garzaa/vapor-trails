@@ -19,7 +19,6 @@ public class RespawnManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-
 	public void TrySettingRespawnPoint() {
 		SceneData sd = GetSceneData();
 		if (sd == null) {

@@ -347,6 +347,7 @@ public class PlayerController : Entity {
 	}
 
 	void GroundJump() {
+		SaveLastSafePos();
 		if (HorizontalInput()) {
 			BackwardDust();
 		} else {
@@ -499,6 +500,14 @@ public class PlayerController : Entity {
 		return Input.GetAxis("Horizontal") != 0;
 	}
 
+	public void OnLedgeStep() {
+		SaveLastSafePos();
+	}
+
+	void SaveLastSafePos() {
+		lastSafePos = this.transform.position;
+	}
+
 	public override void OnGroundHit() {
 		grounded = true;
 		jumpCutoffEnabled = false;
@@ -548,7 +557,6 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundLeave() {
-		lastSafePos = transform.position;
 		StopPlatformDrop();
 		grounded = false;
 		anim.SetBool("Grounded", false);
@@ -1122,6 +1130,7 @@ public class PlayerController : Entity {
 		if (!grounded && e.returnPlayerToSafety) {
 			ReturnToSafety();
 		}
+		StunFor(e.stunLength);
 		Invoke("EnableEnviroDamage", .2f);
 	}
 

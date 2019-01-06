@@ -9,6 +9,7 @@ public class GroundCheck : MonoBehaviour {
 	public bool generateFromCollider = false;
 
 	bool groundedCurrentFrame;
+	bool ledgeStepCurrentFrame;
 
 	void Start() {
 		if (generateFromCollider) {
@@ -29,12 +30,22 @@ public class GroundCheck : MonoBehaviour {
 		}
 	}
 
-	public bool IsGrounded() {
-		bool leftGrounded = Physics2D.Linecast(transform.position, corner1.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+	bool LeftGrounded() {
 		Debug.DrawLine(corner1.position + Vector3.up * 0.01f, corner1.position);
+		return Physics2D.Linecast(transform.position, corner1.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+	}
+
+	bool RightGrounded() {
 		Debug.DrawLine(corner2.position + Vector3.up * 0.01f, corner2.position);
-		bool rightGrounded = Physics2D.Linecast(transform.position, corner2.position, 1 << LayerMask.NameToLayer(Layers.Ground));
-		return leftGrounded || rightGrounded;
+		return Physics2D.Linecast(transform.position, corner2.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+	}
+
+	public bool IsGrounded() {
+		return LeftGrounded() || RightGrounded();
+	}
+
+	public bool OnlyGroundedOneSide() {
+		return LeftGrounded() ^ RightGrounded();
 	}
 
 	void Update() {
@@ -44,6 +55,14 @@ public class GroundCheck : MonoBehaviour {
 			GetComponent<Entity>().OnGroundHit();	
 		} else if (groundedLastFrame && !groundedCurrentFrame) {
 			GetComponent<Entity>().OnGroundLeave();
+		}
+
+		if (GetComponent<PlayerController>() != null) {
+			bool ledgeStepLastFrame = ledgeStepCurrentFrame;
+			ledgeStepCurrentFrame = OnlyGroundedOneSide();
+			if (!ledgeStepLastFrame && ledgeStepCurrentFrame) {
+				GetComponent<PlayerController>().OnLedgeStep();
+			}
 		}
 	}
 

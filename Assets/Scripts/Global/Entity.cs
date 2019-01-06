@@ -76,6 +76,7 @@ public class Entity : MonoBehaviour {
 				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
 			} else {
 				stunned = true;
+                frozen = true;
 				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
 			}
 		}
@@ -91,6 +92,7 @@ public class Entity : MonoBehaviour {
 	IEnumerator WaitAndUnStun(float seconds) {
 		yield return new WaitForSeconds(seconds);
 		stunned = false;
+        frozen = false;
         if (this.GetComponent<Animator>() != null) {
             Animator anim = GetComponent<Animator>();
             anim.logWarnings = false;
