@@ -112,6 +112,14 @@ public class PlayerController : Entity {
 		Interact();
 		UpdateUI();
 		CheckFlip();
+		if (Input.GetKeyDown(KeyCode.R)) {
+			if (GameObject.FindObjectOfType<Timer>() != null) {
+				GameObject.FindObjectOfType<Timer>().Reset();
+				this.transform.position = new Vector2(0, -1.69f);
+				currentHP = maxHP;
+				currentEnergy = maxEnergy
+			}
+		}
 	}
 
 	void Interact() {
