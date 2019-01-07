@@ -117,7 +117,7 @@ public class PlayerController : Entity {
 				GameObject.FindObjectOfType<Timer>().Reset();
 				this.transform.position = new Vector2(0, -1.69f);
 				currentHP = maxHP;
-				currentEnergy = maxEnergy
+				currentEnergy = maxEnergy;
 			}
 		}
 	}
