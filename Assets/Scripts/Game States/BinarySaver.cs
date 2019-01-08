@@ -37,7 +37,6 @@ public class BinarySaver : MonoBehaviour
         using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
         {
             binaryFormatter.Serialize(fileStream, save.MakeSerializableSave());
-			Debug.Log("game saved");
         }
     }
 
@@ -47,7 +46,6 @@ public class BinarySaver : MonoBehaviour
 
         using (FileStream fileStream = File.Open(path, FileMode.Open))
         {
-			Debug.Log("game loaded");
             return (SerializableSave)binaryFormatter.Deserialize(fileStream);
         }
     }

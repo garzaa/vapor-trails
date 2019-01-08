@@ -8,7 +8,6 @@ public class NPC : Interactable {
 	protected PersistentNPC persistence;
 
 	protected override void ExtendedStart() {
-		print("FUCK!" + this.name);
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
 	}
@@ -76,7 +75,6 @@ public class NPC : Interactable {
 	}
 
 	public void CloseDialogue() {
-		print(persistence);
 		if (persistence) {
 			persistence.ReactToDialogueClose();
 		}

@@ -213,7 +213,7 @@ public class PlayerController : Entity {
 			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack")) {
 				Backstep();
 			}
-			if (Input.GetAxis("Vertical") < 0 && Input.GetButtonDown("Jump")) {
+			if (Input.GetAxis("Vertical") < 0) {
 				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
 					DropThroughPlatform();
 				}
@@ -522,6 +522,7 @@ public class PlayerController : Entity {
 		ResetAirJumps();
 		InterruptAttack();
 		StopWallTimeout();
+		StopPlatformDrop();
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
 		}

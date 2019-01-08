@@ -19,7 +19,6 @@ public class Save : MonoBehaviour {
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {
-        print("asdasdas");
         persistentObjects[o.id] = o;
     }
 
@@ -30,20 +29,14 @@ public class Save : MonoBehaviour {
     }
 
     public SerializableSave MakeSerializableSave() {
-        Debug.Log("pingas");
-        foreach(KeyValuePair<string, SerializedPersistentObject> kv in this.persistentObjects) {
-            Debug.Log(kv.Key);
-        }
         return new SerializableSave(this);
     }
 
     public void LoadFromSerializableSave(SerializableSave s) {
-        print("loading from serializable save");
         this.slotNum = s.slotNum;
         this.gameFlags = s.gameFlags;
         this.persistentObjects = new Dictionary<string, SerializedPersistentObject>();
         for (int i=0; i<s.persistentObjectKeys.Count; i++) {
-            print(s.persistentObjectKeys[i]);
             this.persistentObjects[s.persistentObjectKeys[i]] = s.persistentObjectValues[i];
         }
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
@@ -77,7 +70,6 @@ public class SerializableSave {
         persistentObjectValues = new List<SerializedPersistentObject>();
 
         foreach (KeyValuePair<string, SerializedPersistentObject> kv in s.persistentObjects) {
-            Debug.Log(kv.Key);
             persistentObjectKeys.Add(kv.Key);
             persistentObjectValues.Add(kv.Value);
         }

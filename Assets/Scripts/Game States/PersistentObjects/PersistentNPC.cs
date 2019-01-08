@@ -15,7 +15,6 @@ public class PersistentNPC : PersistentObject {
 		SerializedPersistentObject o = LoadObjectState();
 		// this isn't a race condition with changing NPC dialogue on game flags, because that happens before Start()
 		if (o != null && npc.GetConversationsHash() == (int) o.persistentProperties["dialogueHash"]) {
-			print("LOADING CONVERSATIONS. WIG");
 			ConstructFromDeserialized(o);
 			npc.currentConversation = (int) persistentProperties["currentConversation"];
 			npc.currentDialogueLine = (int) persistentProperties["currentDialogueLine"];
@@ -23,7 +22,6 @@ public class PersistentNPC : PersistentObject {
 	}
 
 	public void ReactToDialogueClose() {
-		print("reacing to dialogue close");
 		UpdateObjectState();
 	}
 

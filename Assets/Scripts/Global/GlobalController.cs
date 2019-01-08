@@ -307,8 +307,6 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static SerializedPersistentObject GetPersistentObject(string id) {
-		Debug.Log(save);
-		Debug.Log(id);
 		return save.GetPersistentObject(id);
 	}
 
