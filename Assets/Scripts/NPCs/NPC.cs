@@ -5,8 +5,12 @@ using UnityEngine;
 public class NPC : Interactable {
 	protected NPCConversations conversations;
 
+	protected PersistentNPC persistence;
+
 	protected override void ExtendedStart() {
+		print("FUCK!" + this.name);
 		conversations = GetComponent<NPCConversations>();
+		persistence = GetComponent<PersistentNPC>();
 	}
 
 	public int currentConversation = 0;
@@ -29,6 +33,10 @@ public class NPC : Interactable {
 		//the NPC conversation will take care of it
 
 		GlobalController.EnterDialogue(this);
+	}
+
+	public int GetConversationsHash() {
+		return conversations.GetHashCode();
 	}
 
 	public DialogueLine GetNextLine() {
@@ -68,7 +76,10 @@ public class NPC : Interactable {
 	}
 
 	public void CloseDialogue() {
-
+		print(persistence);
+		if (persistence) {
+			persistence.ReactToDialogueClose();
+		}
 	}
 
 }

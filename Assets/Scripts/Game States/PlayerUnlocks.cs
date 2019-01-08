@@ -27,7 +27,6 @@ public class PlayerUnlocks : MonoBehaviour {
 	}
 
 	public SerializableUnlocks MakeSerializableUnlocks() {
-		Debug.Log(new SerializableUnlocks(this));
 		return new SerializableUnlocks(this);
 	}
 

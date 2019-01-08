@@ -5,6 +5,7 @@ using UnityEngine;
 public class StatefulNPC : NPC {
 
 	override protected void ExtendedStart() {
+		persistence = GetComponent<PersistentNPC>();
 		// get the last loaded (most recent) conversation
 		NPCConversations[] possibleConversations = GetComponentsInChildren<NPCConversations>(includeInactive:false);
 		this.conversations = possibleConversations[possibleConversations.Length-1];

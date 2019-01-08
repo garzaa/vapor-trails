@@ -12,7 +12,7 @@ public class Interactable : MonoBehaviour {
 	
 	GameObject currentPrompt = null;
 
-	void Start() {
+	void OnEnable() {
 		this.gameObject.layer = LayerMask.NameToLayer(Layers.Interactables);
 		ExtendedStart();
 	}	

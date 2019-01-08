@@ -27,7 +27,7 @@ public class BinarySaver : MonoBehaviour
 			Directory.CreateDirectory(folderPath);
 
 		string dataPath = Path.Combine(folderPath, slot + fileExtension);
-		SaveCharacter(existingSave, dataPath);
+		this.existingSave.LoadFromSerializableSave(LoadCharacter(dataPath));
 	}
 
     void SaveCharacter(Save save, string path)

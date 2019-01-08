@@ -20,14 +20,13 @@ public class GlobalController : MonoBehaviour {
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
-	static Save save;
+	public static Save save;
 	static Animator pauseUI;
 	static bool inCutscene;
 
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
-
 
 	void Awake() {
 		gc = this;
@@ -276,7 +275,10 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<BinarySaver>().LoadGame();
 		Save s = gc.GetComponent<Save>();
 		pc.LoadFromSaveData(s);
-	}
+		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
+			o.Start();
+		}
+ 	}
 
 	public static void SaveGame() {
 		gc.GetComponent<BinarySaver>().SaveGame();
@@ -302,5 +304,15 @@ public class GlobalController : MonoBehaviour {
 		pc.inCutscene = false;
 		pauseUI.SetBool("Shown", false);
 		pc.UnFreeze();
+	}
+
+	public static SerializedPersistentObject GetPersistentObject(string id) {
+		Debug.Log(save);
+		Debug.Log(id);
+		return save.GetPersistentObject(id);
+	}
+
+	public static void SavePersistentObject(SerializedPersistentObject o) {
+		save.SavePersistentObject(o);
 	}
 }
