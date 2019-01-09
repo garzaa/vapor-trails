@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Text;
 
 public class NPCConversations : MonoBehaviour {
 
@@ -11,6 +12,16 @@ public class NPCConversations : MonoBehaviour {
 
 	public int Count() {
 		return conversations.Count;
+	}
+
+	public int PersistentHashCode() {
+		StringBuilder sb = new StringBuilder(250);
+		foreach (Conversation c in conversations) {
+			foreach (DialogueLine d in c.lines) {
+				sb.Append(d.lineText);
+			}
+		}
+		return sb.ToString().GetHashCode();
 	}
 
 	public Conversation this[int i] {

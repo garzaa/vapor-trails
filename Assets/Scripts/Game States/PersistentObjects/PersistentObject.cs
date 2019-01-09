@@ -11,7 +11,7 @@ public class PersistentObject : MonoBehaviour {
 
 	public string GetID() {
 		if (id == null) {
-			id = SceneManager.GetActiveScene().name + "/" + this.name;;
+			id = SceneManager.GetActiveScene().path + "/" + this.name;;
 		}
 		return id;
 	}

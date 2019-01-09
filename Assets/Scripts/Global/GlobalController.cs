@@ -209,6 +209,16 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beaconName);
 	}
 
+	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
+		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
+	}
+
+	public static void MovePlayerTo(Vector2 position) {
+		playerFollower.DisableSmoothing();
+		pc.transform.position = position;
+		playerFollower.EnableSmoothing();
+	}
+
 	public static void MovePlayerTo(string objectName, bool smoothing=false) {
 		if (!smoothing) {
 			playerFollower.DisableSmoothing();

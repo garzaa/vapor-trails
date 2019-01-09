@@ -35,7 +35,7 @@ public class NPC : Interactable {
 	}
 
 	public int GetConversationsHash() {
-		return conversations.GetHashCode();
+		return conversations.PersistentHashCode();
 	}
 
 	public DialogueLine GetNextLine() {

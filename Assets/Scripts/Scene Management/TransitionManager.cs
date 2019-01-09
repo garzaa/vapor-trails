@@ -8,6 +8,8 @@ public class TransitionManager : MonoBehaviour {
 	string currentBeaconName = null;
 	bool frozePlayerBeforeTransition = false;
 	bool closedJets = false;
+	bool toPosition = false;
+	Vector2 position = Vector2.zero;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -46,6 +48,12 @@ public class TransitionManager : MonoBehaviour {
 			GlobalController.playerFollower.EnableFollowing();
 			GlobalController.playerFollower.FollowPlayer();
 			currentBeaconName = null;
+		} else if (toPosition) {
+			GlobalController.MovePlayerTo(position);
+			toPosition = false;
+			GlobalController.playerFollower.SnapToPlayer();
+			GlobalController.playerFollower.EnableFollowing();
+			GlobalController.playerFollower.FollowPlayer();
 		}
 
 		SceneData sd;
@@ -91,6 +99,12 @@ public class TransitionManager : MonoBehaviour {
 		if (closedJets) {
 			pc.wings.EnableJetTrails();
 		}
+	}
+
+	public void LoadSceneToPosition(string sceneName, Vector2 position) {
+		this.toPosition = true;
+		this.position = position;
+		LoadScene(sceneName, null);
 	}
 
 	public void LoadScene(string sceneName, string beaconName, bool fade = true) {
