@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class RespawnManager : MonoBehaviour {
 
-	RespawnPoint respawnPoint;
 	bool savedGameOnce;
 	bool toRespawn;
 	GameObject player;
@@ -19,39 +18,10 @@ public class RespawnManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-	public void TrySettingRespawnPoint() {
-		SceneData sd = GetSceneData();
-		if (sd == null) {
-			return;
-		}
-
-		if (!sd.blockRespawning && !savedGameOnce && GetSceneData() != null) {
-			this.savedGameOnce = true;
-			this.respawnPoint = new RespawnPoint(GlobalController.GetPlayerPos(), sd.sceneName);
-		}
-	}
-
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		SceneData sd = GetSceneData();
-		if (!savedGameOnce && sd != null) {
-			TrySettingRespawnPoint();
-			if (!toRespawn) {
-				player = GameObject.Find("Player");
-			}
-		} else if (toRespawn) {
+		if (toRespawn && !savedGameOnce) {
 			toRespawn = false;
-			RepositionPlayer();
 			GlobalController.StartPlayerRespawning();
-			GetComponentInChildren<PlayerFollower>().DisableSmoothing();
-		}
-	}
-
-	SceneData GetSceneData() {
-		GameObject sd = GameObject.Find("SceneData");
-		if (sd != null) {
-			return sd.GetComponent<SceneData>();
-		} else {
-			return null;
 		}
 	}
 
@@ -59,27 +29,13 @@ public class RespawnManager : MonoBehaviour {
 		if (!player.GetComponent<Entity>().facingRight) {
 			player.GetComponent<Entity>().Flip();
 		}
-		if (SceneManager.GetActiveScene().name == this.respawnPoint.sceneName) {
-			RepositionPlayer();
-			GlobalController.StartPlayerRespawning();
-		} else {
-			toRespawn = true;
-			GetComponentInChildren<PlayerFollower>().DisableSmoothing();
-			GlobalController.gc.GetComponent<TransitionManager>().LoadScene(respawnPoint.sceneName, null);
-		}
-	}
-	
-	void RepositionPlayer() {
-		player.transform.position = respawnPoint.position;
-	}
-}
+		toRespawn = true;
+		GetComponentInChildren<PlayerFollower>().DisableSmoothing();
+		GlobalController.LoadGame();
 
-class RespawnPoint : Object {
-	public Vector2 position;
-	public string sceneName;
-	
-	public RespawnPoint(Vector2 position, string sceneName) {
-		this.position = position;
-		this.sceneName = sceneName;
+		if (!GlobalController.SavedInOtherScene()) {
+			GlobalController.StartPlayerRespawning();
+			toRespawn = false;
+		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GlobalController : MonoBehaviour {
 
@@ -289,6 +290,10 @@ public class GlobalController : MonoBehaviour {
 			o.Start();
 		}
  	}
+
+	public static bool SavedInOtherScene() {
+		return save.sceneName != SceneManager.GetActiveScene().path;
+	}
 
 	public static void SaveGame() {
 		gc.GetComponent<BinarySaver>().SaveGame();
