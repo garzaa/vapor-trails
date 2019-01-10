@@ -210,12 +210,10 @@ public class PlayerController : Entity {
 		}
 
 		if (!frozen && !(stunned || dead)) {
-			if (Input.GetAxis("Vertical") < 0 && grounded && !backstepCooldown && Input.GetButtonDown("Attack")) {
-				Backstep();
-			}
 			if (Input.GetAxis("Vertical") < 0) {
-				if (GetComponent<GroundCheck>().TouchingPlatform() && grounded) {
-					DropThroughPlatform();
+				EdgeCollider2D platform = GetComponent<GroundCheck>().TouchingPlatform();
+				if (platform != null && grounded) {
+					DropThroughPlatform(platform);
 				}
 			}
 
@@ -324,7 +322,6 @@ public class PlayerController : Entity {
 		}
 
 		if (Input.GetButtonDown("Jump")) {
-			if ((Input.GetAxis("Vertical") >= 0)) StopPlatformDrop();
 			if (grounded && (Input.GetAxis("Vertical") >= 0)) {
 				GroundJump();
 			}
@@ -522,7 +519,6 @@ public class PlayerController : Entity {
 		ResetAirJumps();
 		InterruptAttack();
 		StopWallTimeout();
-		StopPlatformDrop();
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
 		}
@@ -566,7 +562,6 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundLeave() {
-		StopPlatformDrop();
 		grounded = false;
 		anim.SetBool("Grounded", false);
 	}
@@ -927,7 +922,7 @@ public class PlayerController : Entity {
 		this.canShoot = false;
 	}
 
-	void DropThroughPlatform() {
+	void DropThroughPlatform(EdgeCollider2D platform) {
 		UnFreeze();
 		InterruptEverything();
 		rb2d.velocity = new Vector2(
@@ -935,20 +930,20 @@ public class PlayerController : Entity {
 			hardLandVelocity
 		);
 		wings.FoldIn();
-		GetComponent<BoxCollider2D>().enabled = false;
-		platformTimeout = StartCoroutine(EnableCollider(0.5f));
+		platform.enabled = false;
+		platformTimeout = StartCoroutine(EnableCollider(0.1f, platform));
 	}
 
-	IEnumerator EnableCollider(float seconds) {
+	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {
 		yield return new WaitForSeconds(seconds);
-		StopPlatformDrop();
+		StopPlatformDrop(platform);
 	}
 
-	void StopPlatformDrop() {
+	void StopPlatformDrop(EdgeCollider2D platform) {
 		if (platformTimeout != null) {
 			StopCoroutine(platformTimeout);
 		}
-		GetComponent<BoxCollider2D>().enabled = true;
+		platform.enabled = true;
 	}
 
 	void InterruptEverything() {

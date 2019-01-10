@@ -31,13 +31,13 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool LeftGrounded() {
-		Debug.DrawLine(corner1.position + Vector3.up * 0.01f, corner1.position);
-		return Physics2D.Linecast(transform.position, corner1.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		Debug.DrawLine(corner1.position + new Vector3(0, 0.1f, 0), corner1.position);
+		return Physics2D.Linecast(corner1.position + new Vector3(0, 0.1f, 0), corner1.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 	}
 
 	bool RightGrounded() {
-		Debug.DrawLine(corner2.position + Vector3.up * 0.01f, corner2.position);
-		return Physics2D.Linecast(transform.position, corner2.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		Debug.DrawLine(corner2.position + new Vector3(0, 0.1f, 0), corner2.position);
+		return Physics2D.Linecast(corner2.position + new Vector3(0, 0.1f, 0), corner2.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 	}
 
 	public bool IsGrounded() {
@@ -66,12 +66,13 @@ public class GroundCheck : MonoBehaviour {
 		}
 	}
 
-	public bool TouchingPlatform() {
+	public EdgeCollider2D TouchingPlatform() {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		RaycastHit2D g1 = Physics2D.Raycast(corner1.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
 		RaycastHit2D g2 = Physics2D.Raycast(corner2.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
 		if (g1.transform == null && g2.transform == null) {
-			return false;
+			//return early to avoid redundant checks
+			return null;
 		}
 		bool grounded1 = false;
 		bool grounded2 = false;
@@ -83,6 +84,9 @@ public class GroundCheck : MonoBehaviour {
 			grounded2 = g2.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
 		}
 		
-		return grounded1 || grounded2;
+		if (grounded1 && grounded2) {
+			return g2.transform.gameObject.GetComponent<EdgeCollider2D>();
+		}
+		return null;
 	}
 }

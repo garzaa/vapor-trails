@@ -49,12 +49,14 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.LockInSpace();
 		GlobalController.pc.Freeze();
 		GlobalController.pc.DisableShooting();
+		GlobalController.pc.Hide();
 	}
 
 	public void ShowPlayer() {
 		GlobalController.pc.UnLockInSpace();
 		GlobalController.pc.UnFreeze();
 		GlobalController.pc.EnableShooting();
+		GlobalController.pc.Show();
 	}
 
 	public void LoadScene(string sceneName) {

@@ -8,6 +8,7 @@ public class WallCheck : MonoBehaviour {
 	public Transform bottomCorner;
 
 	public bool CheckPoint(Transform corner) {
+		Debug.DrawLine(transform.position, corner.position, Color.red);
 		return Physics2D.Linecast(transform.position, corner.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 	}
 
