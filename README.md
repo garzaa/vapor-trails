@@ -1,4 +1,4 @@
 # vapor trails
 [https://garzaa.github.io/game-demo/](https://garzaa.github.io/game-demo/)
 
-![this should be an animated gif](https://66.media.tumblr.com/c54531de813498d4aeb0e87277c667d6/tumblr_pksebwQc7S1x1v7ffo2_640.gif)
+![this should be a cool image](https://66.media.tumblr.com/6f1c6c2fa117d429c97e9156f3f712a7/tumblr_pl3ofyNYSu1tk26l4o1_640.png)
