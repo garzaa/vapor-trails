@@ -42,7 +42,8 @@ public class DialogueUI : UIComponent {
 		}
 		speakerName.text = line.speakerName;
 		this.voiceIndex = (int) line.voiceSound;
-		StartSlowRender(line.lineText);
+		string controllerFriendlyText = ControllerTextChanger.ReplaceText(line.lineText);
+		StartSlowRender(controllerFriendlyText);
 
 		if (line.gameFlag != GameFlag.None) {
 			GlobalController.AddGameFlag(line.gameFlag);

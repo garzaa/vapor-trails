@@ -25,6 +25,9 @@ public class GlobalController : MonoBehaviour {
 	static Animator pauseUI;
 	static bool inCutscene;
 
+	public static bool xboxController = false;
+	public static bool psController = false;
+
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
@@ -114,6 +117,8 @@ public class GlobalController : MonoBehaviour {
 		}
 		dialogueOpenedThisFrame = false;
 		dialogueClosedThisFrame = false;
+
+		UpdateControllerStatus();
 	}
 
 	public static void EnterDialogue(NPC npc) {
@@ -327,5 +332,23 @@ public class GlobalController : MonoBehaviour {
 
 	public static void SavePersistentObject(SerializedPersistentObject o) {
 		save.SavePersistentObject(o);
+	}
+
+	static void UpdateControllerStatus() {
+		string[] names = Input.GetJoystickNames();
+		for (int x = 0; x < names.Length; x++)
+		{
+			if (names[x].Length == 19)
+			{
+				psController = true;
+				xboxController = false;
+			}
+			if (names[x].Length == 33)
+			{
+				psController = false;
+				xboxController = true;
+
+			}
+		}
 	}
 }
