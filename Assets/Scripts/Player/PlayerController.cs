@@ -195,7 +195,7 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (supercruise && !MovingForwards() && Input.GetAxis("Horizontal") != 0) {
+		if (supercruise && !grounded && !touchingWall && !MovingForwards() && Input.GetAxis("Horizontal") != 0) {
 			Airbrake();
 			return;
 		}
@@ -232,15 +232,12 @@ public class PlayerController : Entity {
 					if (IsSpeeding() && 
 							(Input.GetAxis("Horizontal") * GetForwardScalar() > 0)) 
 					{
-						//slow the player down less in the air
-						float divisor = 1.01f;
+						//slow the player down more in the air
 						if (!grounded) {
-							divisor = 1.005f;
+							ReduceSpeedBy(0.05f);
+						} else {
+							ReduceSpeedBy(0.07f);
 						}
-						rb2d.velocity = new Vector2(
-							x:rb2d.velocity.x / divisor,
-							y:rb2d.velocity.y
-						);
 					} else {
 						rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
 					}
@@ -257,25 +254,19 @@ public class PlayerController : Entity {
 			} 
 			//if no movement, stop the player on the ground 
 			else if (grounded) {
-				rb2d.velocity = new Vector2(x:0, y:rb2d.velocity.y);
+				ReduceSpeedBy(100, capAtMaxSpeed:false);
 				if (runningLastFrame && !touchingWall && !midSwing) {
 					ForwardDust();
 				}
 			} 
 			//or slow them down in the air if they haven't just walljumped
 			else {
-				rb2d.velocity = new Vector2(
-					x:rb2d.velocity.x / 1.01f,
-					y:rb2d.velocity.y
-				);
+				ReduceSpeedBy(0.1f);
 			}
 
 			//if they're above max move speed, gently slow them
 			if (IsSpeeding() && !IsForcedWalking()) {
-				rb2d.velocity = new Vector2(
-					x:rb2d.velocity.x / 1.01f,
-					y:rb2d.velocity.y
-				);
+				ReduceSpeedBy(0.1f);
 			}
 
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
@@ -348,7 +339,8 @@ public class PlayerController : Entity {
 	}
 
 	float AdditiveJumpSpeed() {
-		return rb2d.velocity.y > 0 ? rb2d.velocity.y : 0;
+		// return rb2d.velocity.y > 0 ? rb2d.velocity.y : 0;
+		return 0;
 	}
 
 	void GroundJump() {
@@ -392,7 +384,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed + AdditiveJumpSpeed()
+			y:jumpSpeed + AdditiveJumpSpeed() + jumpSpeed/4
 		);
 		airJumps--;
 		anim.SetTrigger("Jump");
@@ -491,13 +483,13 @@ public class PlayerController : Entity {
 
 	void EndDashCooldown() {
 		if (dashTimeout != null) {
+			if (dashCooldown) {
+				FlashCyanOnce();
+				dashCooldown = false;
+				perfectDashPossible = true;
+				Invoke("ClosePerfectDashWindow", 0.1f);
+			}
 			StopCoroutine(dashTimeout);
-		}
-		if (dashCooldown) {
-			FlashCyanOnce();
-			dashCooldown = false;
-			perfectDashPossible = true;
-			Invoke("ClosePerfectDashWindow", 0.05f);
 		}
 	}
 
@@ -597,8 +589,11 @@ public class PlayerController : Entity {
 		jumpCutoffEnabled = false;
 		CloseWings();
 		InterruptDash();
-		EndDashCooldown();
+		if (dashCooldown) {
+			EndDashCooldown();
+		}
 		EndSupercruise();
+		//hold to wallclimb
 		if (unlocks.HasAbility(Ability.WallClimb)) {
 			anim.SetBool("TouchingWall", true);
 			if (!grounded) SoundManager.HardLandSound();
@@ -765,6 +760,25 @@ public class PlayerController : Entity {
 				y:ledgeBoostSpeed
 			);
 		}
+	}
+
+	void ReduceSpeedBy(float reductionAmt, bool capAtMaxSpeed = true) {
+		float originalSign = Mathf.Sign(rb2d.velocity.x);
+		float reduced;
+		if (!MovingForwards()) {
+			capAtMaxSpeed = false;
+		}
+		if (capAtMaxSpeed) {
+			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-reductionAmt, maxMoveSpeed);
+		} else {
+			// don't make them move backwards
+			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-reductionAmt, 0); 
+		}
+		reduced *= originalSign;
+		rb2d.velocity = new Vector2(
+			reduced,
+			rb2d.velocity.y
+		);
 	}
 
 	public override void OnHit(Attack attack) {
