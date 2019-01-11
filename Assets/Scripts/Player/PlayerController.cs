@@ -10,7 +10,7 @@ public class PlayerController : Entity {
 	float hardLandVelocity = -4.5f;
 	float terminalVelocity = -10f;
 	float dashSpeed = 8f;
-	float superCruiseSpeed = 8f;
+	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
@@ -200,6 +200,10 @@ public class PlayerController : Entity {
 			return;
 		}
 
+		if (supercruise && rb2d.velocity.x == 0) {
+			InterruptSupercruise();
+		}
+
 		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
 			if (unlocks.HasAbility(Ability.Dash)) Dash();
 		}
@@ -277,7 +281,7 @@ public class PlayerController : Entity {
         }
 
 		else if (supercruise) {
-			rb2d.velocity = new Vector2((superCruiseSpeed+preDashSpeed) * GetForwardScalar(), 0);
+			rb2d.velocity = new Vector2((superCruiseSpeed) * GetForwardScalar(), 0);
 		}
 
 		if (rb2d.velocity.y < terminalVelocity) {
