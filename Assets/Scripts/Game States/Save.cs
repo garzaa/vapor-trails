@@ -54,6 +54,12 @@ public class Save : MonoBehaviour {
             GlobalController.MovePlayerTo(playerPosition);
         }
     }
+
+    public void UnlockAbility(Ability a) {
+        if (!unlocks.unlockedAbilities.Contains(a)) {
+            unlocks.unlockedAbilities.Add(a);
+        }
+    }
 }
 
 

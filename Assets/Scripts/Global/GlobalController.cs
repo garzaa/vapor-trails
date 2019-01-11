@@ -24,6 +24,8 @@ public class GlobalController : MonoBehaviour {
 	public static Save save;
 	static Animator pauseUI;
 	static bool inCutscene;
+	static bool inAbilityGetUI;
+	public static Animator abilityUIAnimator;
 
 	public static bool xboxController = false;
 	public static bool psController = false;
@@ -31,6 +33,9 @@ public class GlobalController : MonoBehaviour {
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
+
+	// TODO: replace this mock with a real inventory
+	static List<InventoryItem> inventory;
 
 	void Awake() {
 		gc = this;
@@ -44,6 +49,8 @@ public class GlobalController : MonoBehaviour {
 		save = gc.GetComponent<Save>();
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = gc.transform.Find("PixelCanvas").transform.Find("PauseUI").GetComponent<Animator>();
+		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
+		inventory = new List<InventoryItem>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -68,6 +75,10 @@ public class GlobalController : MonoBehaviour {
 			} else {
 				Unpause();
 			}
+		}
+
+		if (inAbilityGetUI && Input.GetButtonDown("Jump")) {
+			HideAbilityGetUI();
 		}
 		
 		if (
@@ -350,5 +361,27 @@ public class GlobalController : MonoBehaviour {
 
 			}
 		}
+	}
+
+	public static void GetItem(InventoryItem item) {
+		inventory.Add(item);
+		item.OnPickup();
+	}
+
+	public static void ShowAbilityGetUI() {
+		abilityUIAnimator.SetTrigger("Show");
+		inAbilityGetUI = true;
+		pc.EnterDialogue();
+	}
+
+	public static void HideAbilityGetUI() {
+		pc.ExitDialogue();
+		SoundManager.InteractSound();
+		abilityUIAnimator.SetTrigger("Hide");
+		inAbilityGetUI = false;
+	}
+
+	public static void UnlockAbility(Ability a) {
+		save.UnlockAbility(a);
 	}
 }

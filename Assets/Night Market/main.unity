@@ -680,6 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: 
   description: 
+  item: {fileID: 0}
 --- !u!4 &338427785
 Transform:
   m_ObjectHideFlags: 0
@@ -831,6 +832,47 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &513590162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513590163}
+  - component: {fileID: 513590164}
+  m_Layer: 0
+  m_Name: GunEyesGiver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513590163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 513590162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2837712, y: -1.2703593, z: 4.2824764}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 44
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513590164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 513590162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abbc0bd0cb52e44483f730a8490c421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 114235780621759248, guid: 8f640994f50026a498d0b305c6caccc8, type: 2}
 --- !u!1 &523667572
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,7 +1036,7 @@ GameObject:
   - component: {fileID: 643337669}
   - component: {fileID: 643337673}
   m_Layer: 15
-  m_Name: idle
+  m_Name: busybox idle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1168,8 +1210,8 @@ MonoBehaviour:
       speakerName: Flynn
       speakerImage: {fileID: 21300002, guid: a7551d07cb3bb3b4e9dbd5429ed83ec5, type: 3}
       voiceSound: 2
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
+      activatable: {fileID: 513590164}
+      activatesOnLineEnd: 1
       blocking: 0
       gameFlag: 0
   auxConversations: []
@@ -2511,6 +2553,42 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114292870204708212, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: sounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1ef4e9ae14c9d904eac02dd9b841a237, type: 3}
+    - target: {fileID: 114319975875498952, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114319975875498952, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_Text
+      value: Draw on your fusion core to energize and accelerate a small bolt of plasma.
+        Autotargets enemies within range.
+      objectReference: {fileID: 0}
+    - target: {fileID: 224004578258188868, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 224134779313067994, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 381.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 224134779313067994, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -124.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 224134779313067994, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 97.28
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 2}
   m_IsPrefabAsset: 0
@@ -3422,7 +3500,7 @@ GameObject:
   - component: {fileID: 2083632324}
   - component: {fileID: 2083632323}
   m_Layer: 0
-  m_Name: borger
+  m_Name: borger sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

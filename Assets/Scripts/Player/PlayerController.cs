@@ -74,6 +74,7 @@ public class PlayerController : Entity {
 	bool bufferedJump = false;
 	bool jumpCutoffEnabled = false;
 
+
 	//other misc prefabs
 	public Transform vaporExplosion;
 	public Transform sparkle;
@@ -714,7 +715,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (!unlocks.HasAbility(Ability.GunEye) || inCutscene) {
+		if (!unlocks.HasAbility(Ability.GunEyes) || inCutscene) {
 			return;
 		}
 		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {

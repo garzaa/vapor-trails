@@ -9,7 +9,7 @@ public class PlayerUnlocks : MonoBehaviour {
 	public List<Ability> unlockedAbilities = new List<Ability> {
 		Ability.Dash,
 		Ability.DamageDash,
-		Ability.GunEye,
+		Ability.GunEyes,
 		Ability.DoubleJump,
 		Ability.WallClimb,
 		Ability.Meteor,
@@ -40,7 +40,7 @@ public class PlayerUnlocks : MonoBehaviour {
 public enum Ability {
 	Dash,
 	DamageDash,
-	GunEye,
+	GunEyes,
 	DoubleJump,
 	WallClimb,
 	Meteor,
