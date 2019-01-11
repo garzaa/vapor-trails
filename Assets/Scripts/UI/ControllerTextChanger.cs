@@ -9,7 +9,7 @@ public class ControllerTextChanger : MonoBehaviour {
 	static string textLastFrame;
 	static MatchEvaluator evaluator;
 
-	void Start() {
+	void OnEnable() {
 		evaluator = new MatchEvaluator(ButtonExtractor);
 	}
 

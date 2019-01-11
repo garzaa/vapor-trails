@@ -95,7 +95,13 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.EnterSlowMotion();
 	}
 
-	public static void ExitSlowMotion() {
+	public void ExitSlowMotion() {
 		GlobalController.ExitSlowMotion();
 	}
+
+	public void ShowTitle(string text) {
+		string[] splitText = text.Split('/');
+		GlobalController.ShowTitleText(splitText[0], splitText[1]);
+	}
+	
 }

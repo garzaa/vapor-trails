@@ -205,7 +205,9 @@ public class PlayerController : Entity {
 		}
 
 		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
-			if (unlocks.HasAbility(Ability.Dash)) Dash();
+			if (unlocks.HasAbility(Ability.Dash)) {
+				Dash();
+			} 
 		}
 
 		if (frozen) {
@@ -487,13 +489,13 @@ public class PlayerController : Entity {
 
 	void EndDashCooldown() {
 		if (dashTimeout != null) {
-			if (dashCooldown) {
-				FlashCyanOnce();
-				dashCooldown = false;
-				perfectDashPossible = true;
-				Invoke("ClosePerfectDashWindow", 0.1f);
-			}
 			StopCoroutine(dashTimeout);
+		}
+		if (dashCooldown) {
+			FlashCyanOnce();
+			dashCooldown = false;
+			perfectDashPossible = true;
+			Invoke("ClosePerfectDashWindow", 0.1f);
 		}
 	}
 

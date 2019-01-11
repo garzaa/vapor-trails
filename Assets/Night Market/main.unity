@@ -1112,9 +1112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
-    - lineText: Hey! Let me out so I can kill you.
+    - lineText: Hey! You're a Prismatic, right? Let me out so I can kill this guy.
       speakerName: Busybox
-      speakerImage: {fileID: 21300006, guid: 28993d3c6f1101e4b86eb6715d2c6e76, type: 3}
+      speakerImage: {fileID: 21300010, guid: 28993d3c6f1101e4b86eb6715d2c6e76, type: 3}
       voiceSound: 2
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
@@ -1130,7 +1130,7 @@ MonoBehaviour:
       gameFlag: 0
     - lineText: 'You get no sympathy from me, idiot.
 
-        Try not getting destroyed and trapped in a box next time.'
+        Try not getting daemonized next time.'
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: 175eecf3551913948b15d97c594ad13a, type: 3}
       voiceSound: 1
@@ -1146,19 +1146,27 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-  - lines:
-    - lineText: SHARON YOU HEINOUS GREMLIN
-      speakerName: DOGE
-      speakerImage: {fileID: 21300012, guid: 28993d3c6f1101e4b86eb6715d2c6e76, type: 3}
+    - lineText: "Isn't she great? I nabbed her myself, you know. \nA P-type Valkyrie!
+        No easy feat."
+      speakerName: Flynn
+      speakerImage: {fileID: 21300002, guid: a7551d07cb3bb3b4e9dbd5429ed83ec5, type: 3}
+      voiceSound: 0
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: You lured me into an alley and shot me in the back with a stolen AP
+        rifle.
+      speakerName: Busybox
+      speakerImage: {fileID: 21300006, guid: 28993d3c6f1101e4b86eb6715d2c6e76, type: 3}
       voiceSound: 2
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: RELEASE ME FROM THIS HARD DRIVE IMMEDIATELY AND LET ME SEE MY FUCKING
-        KIDS
-      speakerName: DOGE
-      speakerImage: {fileID: 21300012, guid: 28993d3c6f1101e4b86eb6715d2c6e76, type: 3}
+    - lineText: And then I sold the rifle!
+      speakerName: Flynn
+      speakerImage: {fileID: 21300002, guid: a7551d07cb3bb3b4e9dbd5429ed83ec5, type: 3}
       voiceSound: 2
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
@@ -1288,6 +1296,7 @@ GameObject:
   - component: {fileID: 716873622}
   - component: {fileID: 716873621}
   - component: {fileID: 716873620}
+  - component: {fileID: 716873623}
   m_Layer: 15
   m_Name: flynn_idle
   m_TagString: Untagged
@@ -1360,7 +1369,7 @@ BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 716873617}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -1424,6 +1433,19 @@ MonoBehaviour:
     type: 2}
   currentConversation: 0
   currentDialogueLine: 0
+--- !u!114 &716873623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716873617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ce4292ac924d0429de853c23a7a169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  facingRight: 1
+  target: {fileID: 0}
 --- !u!1001 &757127636
 Prefab:
   m_ObjectHideFlags: 0
