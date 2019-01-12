@@ -26,7 +26,7 @@ public class PlayerController : Entity {
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
-	bool canInteract;
+	bool canInteract = true;
 	Vector2 lastSafePos;
 
 	//linked components
