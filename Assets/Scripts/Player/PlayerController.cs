@@ -45,7 +45,7 @@ public class PlayerController : Entity {
 	InteractAppendage interaction;
 	public PlayerWings wings;
 	PlayerUnlocks unlocks;
-	public TargetingSystem targetingSystem;
+	public GameObject targetingSystem;
 
 	//variables
 	bool grounded = false;
@@ -1037,8 +1037,8 @@ public class PlayerController : Entity {
 		CameraShaker.Shake(0.1f, 0.1f);
 		supercruise = false;
 		UnFreeze();
-		wings.FoldIn();
 		wings.DisableJets();
+		wings.FoldIn();
 		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("InterruptSupercruise");
 	}

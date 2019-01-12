@@ -384,7 +384,7 @@ public class GlobalController : MonoBehaviour {
 	public static void UnlockAbility(Ability a) {
 		save.UnlockAbility(a);
 		if (a.Equals(Ability.GunEyes)) {
-			pc.targetingSystem.enabled = true;
+			pc.targetingSystem.SetActive(true);
 		}
 	}
 }
