@@ -7,7 +7,7 @@ public class Sign : PlayerTriggeredObject {
 	public Vector2 signOffset;
 
 	public override void OnPlayerEnter() {
-		GlobalController.OpenSign(this.signText, this.transform.position + new Vector3(signOffset.x, signOffset.y));
+		GlobalController.OpenSign(ControllerTextChanger.ReplaceText(signText), this.transform.position + new Vector3(signOffset.x, signOffset.y));
 	}
 
 	public override void OnPlayerExit() {
