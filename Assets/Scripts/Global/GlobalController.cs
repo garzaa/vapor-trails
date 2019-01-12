@@ -69,7 +69,7 @@ public class GlobalController : MonoBehaviour {
             LoadGame();
         }
 
-		if (Input.GetKeyDown(KeyCode.Escape) && pauseEnabled) {
+		if (Input.GetButtonDown("Start") && pauseEnabled) {
 			if (!paused) {
 				Pause();
 			} else {

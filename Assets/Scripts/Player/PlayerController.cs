@@ -26,6 +26,7 @@ public class PlayerController : Entity {
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
+	bool canInteract;
 	Vector2 lastSafePos;
 
 	//linked components
@@ -124,9 +125,11 @@ public class PlayerController : Entity {
 	}
 
 	void Interact() {
-		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene) {
+		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene && canInteract) {
 			SoundManager.InteractSound();
 			interaction.currentInteractable.Interact(this.gameObject);
+			canInteract = false;
+			StartCoroutine(InteractTimeout());
 		}
 	}
 
@@ -1193,5 +1196,10 @@ public class PlayerController : Entity {
 		this.currentEnergy = s.currentEnergy;
 		this.currentHP = s.currentHP;
 		UpdateUI();
+	}
+
+	IEnumerator InteractTimeout() {
+		yield return new WaitForSecondsRealtime(2);
+		canInteract = true;
 	}
 }
