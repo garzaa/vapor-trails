@@ -15,7 +15,7 @@ public class DialogueUI : UIComponent {
 	int letterIndex;
 	string textToRender;
 	public bool switchingImage;
-	float letterDelay = 0.05f;
+	float letterDelay = 0.03f;
 
 	int voiceIndex = 0;
 
@@ -71,7 +71,7 @@ public class DialogueUI : UIComponent {
 			}
 			int scalar = 1;
 			if (isPause(textToRender[letterIndex])) {
-				scalar = 2;
+				scalar = 7;
 			}
 			yield return new WaitForSeconds(letterDelay * scalar);
 			letterIndex++;

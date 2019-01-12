@@ -22,7 +22,6 @@ public class PlayerController : Entity {
 	int healCost = 1;
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
-	public bool riposteTriggered = false;
 	float jumpBufferDuration = 0.1f;
 	float preDashSpeed;
 	bool perfectDashPossible;
@@ -45,6 +44,7 @@ public class PlayerController : Entity {
 	InteractAppendage interaction;
 	public PlayerWings wings;
 	PlayerUnlocks unlocks;
+	public TargetingSystem targetingSystem;
 
 	//variables
 	bool grounded = false;
@@ -477,16 +477,6 @@ public class PlayerController : Entity {
         yield return new WaitForSeconds(seconds);
         EndDashCooldown();
     }
-
-	public void CheckRiposteTrigger() {
-		if (this.riposteTriggered && unlocks.HasAbility(Ability.Riposte)) {
-			this.riposteTriggered = false;
-			anim.SetTrigger("Riposte");
-			rb2d.velocity = Vector2.zero;
-			UnFreeze();
-			Invoke("EnableBackstep", backstepCooldownLength);
-		}
-	}
 
 	void EndDashCooldown() {
 		if (dashTimeout != null) {

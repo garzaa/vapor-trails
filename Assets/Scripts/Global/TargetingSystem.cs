@@ -11,7 +11,7 @@ public class TargetingSystem : MonoBehaviour {
 	public GameObject targetingUI;
 	Animator targetAnim;
 
-	void Start() {
+	void OnEnable() {
 		targetsInRange = new List<Transform>();
 		InvokeRepeating("GarbageCollect", 0, 1);
 		targetAnim = targetingUI.GetComponent<Animator>();
@@ -21,7 +21,7 @@ public class TargetingSystem : MonoBehaviour {
 	public Transform GetClosestTarget(Transform gunPos) {		
 		float maxDistance = float.PositiveInfinity;
 		Transform nearest = null;
-		if (targetsInRange.Count == 0) {
+		if (targetsInRange == null || targetsInRange.Count == 0) {
 			return null;
 		}
 		foreach (Transform t in targetsInRange) {
@@ -108,5 +108,9 @@ public class TargetingSystem : MonoBehaviour {
 		else {
 			return true;
 		}
+	}
+
+	void OnDisable() {
+		targetAnim.SetBool("Locked", false);
 	}
 }

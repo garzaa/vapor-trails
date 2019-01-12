@@ -9,13 +9,11 @@ public class PlayerUnlocks : MonoBehaviour {
 	public List<Ability> unlockedAbilities = new List<Ability> {
 		Ability.Dash,
 		Ability.DamageDash,
-		Ability.GunEyes,
+		//Ability.GunEyes,
 		Ability.DoubleJump,
 		Ability.WallClimb,
 		Ability.Meteor,
-		Ability.Supercruise,
-		Ability.Riposte,
-		Ability.ImpactKick
+		Ability.Supercruise
 	};
 
 	public bool HasAbility(Ability a) {
@@ -45,8 +43,6 @@ public enum Ability {
 	WallClimb,
 	Meteor,
 	Supercruise,
-	Riposte,
-	ImpactKick
 }
 
 public enum PassiveStat {
