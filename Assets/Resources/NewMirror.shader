@@ -1,12 +1,9 @@
-﻿ Shader "Sprites/DefaultColorFlash"
+﻿ Shader "Sprites/NewMirror"
  {
     Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
-        _FlashColor ("Flash Color", Color) = (1,1,1,1)
-        _FlashAmount ("Flash Amount",Range(0.0,1.0)) = 1.0
-        [MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
     }
 
     SubShader
@@ -26,12 +23,16 @@
         Fog { Mode Off }
         Blend One OneMinusSrcAlpha
 
+    GrabPass
+    {
+        "_BackgroundTexture"
+    }
+
         Pass
         {
         CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile DUMMY PIXELSNAP_ON
             #include "UnityCG.cginc"
             
             struct appdata_t
@@ -49,8 +50,6 @@
             };
             
             fixed4 _Color;
-            fixed4 _FlashColor;
-            float _FlashAmount;
 
             v2f vert(appdata_t IN)
             {
@@ -58,22 +57,18 @@
                 OUT.vertex = UnityObjectToClipPos(IN.vertex);
                 OUT.texcoord = IN.texcoord;
                 OUT.color = IN.color * _Color;
-                #ifdef PIXELSNAP_ON
-                OUT.vertex = UnityPixelSnap (OUT.vertex);
-                #endif
-
                 return OUT;
             }
 
             sampler2D _MainTex;
+            sampler2D _BackgroundTexture;
 
-            fixed4 frag(v2f IN) : COLOR
+            float4 frag(v2f IN) : COLOR
             {
-                fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
-                c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashAmount);
-                c.rgb *= c.a;
-            
-                return c;
+                float4 reflectionTex = tex2D(_BackgroundTexture, float2(IN.vertex.x, IN.vertex.y)); //tex2D(_BackgroundTexture, float2(IN.vertex.x, 1-IN.vertex.y));
+                reflectionTex *= _Color;
+                //reflectionTex.a = _MainTex.a;
+                return reflectionTex;
             }
         ENDCG
         }
