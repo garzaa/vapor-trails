@@ -30,8 +30,11 @@ public class Lightning : MonoBehaviour {
 		Draw();
 	}
 
+
 	void Draw() {
-		float distance = Vector2.Distance(pointA.position, pointB.position);
+		float distance = Vector2.Distance(pointA.localPosition, pointB.localPosition);
+		//want your linerenderer to use world space? too bad idiot, you have to work for it
+		Vector2 normB = pointB.localPosition - pointA.localPosition;
 		int numPoints = ((int) distance * (int) segmentsPerUnit);
 		if (numPoints < 1) {
 			return;
@@ -39,11 +42,11 @@ public class Lightning : MonoBehaviour {
 		//the fence post error
 		Vector3[] points = new Vector3[numPoints+1];
 		//then move from A to B, with some noise
-		float angle = Vector2.Angle(pointA.position, pointB.position);
+		float angle = Vector2.Angle(pointA.localPosition, normB);
 		for (int i=0; i<numPoints+1; i++) {
 			points[i] = Vector2.MoveTowards(
-				pointA.position, 
-				pointB.position,
+				pointA.localPosition, 
+				normB,
 				i * (distance / numPoints)
 			) + Perturbator(i, numPoints, angle);
 		}

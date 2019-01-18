@@ -30,6 +30,7 @@ public class Enemy : Entity {
 	bool dead = false;
 
 	[HideInInspector] public SpriteRenderer spr;
+	List<SpriteRenderer> spriteRenderers;
 
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
