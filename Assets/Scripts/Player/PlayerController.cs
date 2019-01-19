@@ -763,7 +763,7 @@ public class PlayerController : Entity {
 	}
 
 	void ReduceSpeedBy(float reductionAmt, bool capAtMaxSpeed = true) {
-		float originalSign = Mathf.Sign(rb2d.velocity.x);
+		float originalSign = GetForwardScalar(); //Mathf.Sign(rb2d.velocity.x);
 		float reduced;
 		if (!MovingForwards()) {
 			capAtMaxSpeed = false;
