@@ -61,7 +61,7 @@ Category {
 				//return i.color * (1 - (1 - i.color) * (1 - _TintColor)) * tex2D(_MainTex, i.texcoord);
 				half4 c = tex2D(_MainTex, i.texcoord).rgba; 			//Here is the texture
 				if (any(c.rgb != half3(1,1,1)))                               //if the texture color is different from white
-					c.rgb *= _TintColor.rgb;                                   //then color it by using the _Color property
+					c.rgba *= _TintColor.rgba;                                   //then color it by using the _Color property
 				return c;   
 			}
 			ENDCG 

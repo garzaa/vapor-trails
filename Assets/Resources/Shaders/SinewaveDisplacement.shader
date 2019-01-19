@@ -3,7 +3,7 @@
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		[PerRendererData] _Color ("Tint", Color) = (1,1,1,1)
+		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		
 		[Header(Properties)]
@@ -24,7 +24,7 @@
 			"CanUseSpriteAtlas"="True"
 		}
 
-		UsePass "Sprites/NonWhiteColorization/MainPass"
+		//UsePass "Sprites/NonWhiteColorization/MainPass"
 
 		Cull Off
 		Lighting Off
@@ -85,14 +85,14 @@
 				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
 
 				fixed4 color = tex2D (_MainTex, final);
-
+				if (any(color.rgb != half3(1,1,1)))
+					color.rgb *= _Color.rgb; 
 				return color;
 			}
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = SineDisplace (IN.texcoord) * IN.color;
-				c.rgb *= c.a;
+				fixed4 c = SineDisplace (IN.texcoord);
 				return c;
 			}
 		ENDCG
