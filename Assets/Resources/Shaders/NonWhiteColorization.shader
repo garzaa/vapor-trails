@@ -3,11 +3,11 @@
 Shader "Sprites/NonWhiteColorization" {
 Properties {
 	_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
-	_MainTex ("Particle Texture", 2D) = "white" {}
+	[PerRendererData] _MainTex ("Particle Texture", 2D) = "white" {}
 }
 
 Category {
-	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
+	Tags {"IgnoreProjector"="True" "RenderType"="Transparent" }
 	Name "MainPass"
 	Blend SrcAlpha OneMinusSrcAlpha
 	AlphaTest Greater .01
