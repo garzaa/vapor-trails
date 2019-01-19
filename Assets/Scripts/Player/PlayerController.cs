@@ -763,7 +763,7 @@ public class PlayerController : Entity {
 	}
 
 	void ReduceSpeedBy(float reductionAmt, bool capAtMaxSpeed = true) {
-		float originalSign = GetForwardScalar(); //Mathf.Sign(rb2d.velocity.x);
+		float originalSign = Mathf.Sign(rb2d.velocity.x);
 		float reduced;
 		if (!MovingForwards()) {
 			capAtMaxSpeed = false;
@@ -1199,7 +1199,7 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator InteractTimeout() {
-		yield return new WaitForSecondsRealtime(2);
+		yield return new WaitForSecondsRealtime(1);
 		canInteract = true;
 	}
 }
