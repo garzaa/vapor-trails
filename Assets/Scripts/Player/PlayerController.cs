@@ -1023,10 +1023,10 @@ public class PlayerController : Entity {
 
 	public void EndSupercruise() {
 		if (!supercruise) return;		
+		wings.DisableJets();
 		supercruise = false;
 		UnFreeze();
 		wings.FoldIn();
-		wings.DisableJets();
 		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("EndSupercruise");
 	}
@@ -1034,10 +1034,10 @@ public class PlayerController : Entity {
 	//when the player hits a wall or dies 
 	public void InterruptSupercruise() {
 		if (!supercruise) return;
+		wings.DisableJets();
 		CameraShaker.Shake(0.1f, 0.1f);
 		supercruise = false;
 		UnFreeze();
-		wings.DisableJets();
 		wings.FoldIn();
 		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("InterruptSupercruise");

@@ -24,6 +24,8 @@
 			"CanUseSpriteAtlas"="True"
 		}
 
+		//UsePass "Sprites/NonWhiteColorization/MainPass"
+
 		Cull Off
 		Lighting Off
 		ZWrite Off

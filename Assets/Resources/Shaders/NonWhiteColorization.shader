@@ -1,6 +1,6 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Particles/Test" {
+Shader "Sprites/NonWhitColorization" {
 Properties {
 	_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 	_MainTex ("Particle Texture", 2D) = "white" {}
@@ -8,6 +8,7 @@ Properties {
 
 Category {
 	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
+	Name "MainPass"
 	Blend SrcAlpha OneMinusSrcAlpha
 	AlphaTest Greater .01
 	ColorMask RGB
@@ -21,7 +22,6 @@ Category {
 	// ---- Fragment program cards
 	SubShader {
 		Pass {
-		
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -58,7 +58,11 @@ Category {
 
 			half4 frag (v2f i) : COLOR
 			{
-				return i.color * (1 - (1 - i.color) * (1 - _TintColor)) * tex2D(_MainTex, i.texcoord);
+				//return i.color * (1 - (1 - i.color) * (1 - _TintColor)) * tex2D(_MainTex, i.texcoord);
+				half4 c = tex2D(_MainTex, i.texcoord).rgba; 			//Here is the texture
+				if (any(c.rgb != half3(1,1,1)))                               //if the texture color is different from white
+					c.rgb *= _TintColor.rgb;                                   //then color it by using the _Color property
+				return c;   
 			}
 			ENDCG 
 		}
