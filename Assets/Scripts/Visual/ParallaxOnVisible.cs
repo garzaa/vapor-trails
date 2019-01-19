@@ -11,7 +11,7 @@ public class ParallaxOnVisible : MonoBehaviour {
 
     void Start() {
         mainCamera = GameObject.Find("Main Camera").transform;
-        originalPos = this.transform.position;
+        //originalPos = this.transform.position;
     }
 
     void Update() {
