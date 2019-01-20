@@ -49,8 +49,14 @@ public class Enemy : Entity {
 		behaviors = this.GetComponents<EnemyBehavior>();
 
 		spr = this.GetComponent<SpriteRenderer>();
-		defaultMaterial = spr.material;
+		
 		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
+		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
+		if (spr != null) {
+			defaultMaterial = spr.material;
+		} else {
+			defaultMaterial = spriteRenderers[0].material;
+		}
 		Initialize();
 	}
 
@@ -138,12 +144,22 @@ public class Enemy : Entity {
 
 	public void WhiteSprite() {
 		white = true;
-        spr.material = whiteMaterial;
+		spriteRenderers.ForEach(x => {
+			x.material = whiteMaterial;
+		});
+		if (spr != null) {
+        	spr.material = whiteMaterial;
+		}
     }
 
 	IEnumerator normalSprite() {
 		yield return new WaitForSeconds(.1f);
-		spr.material = defaultMaterial;
+		spriteRenderers.ForEach(x => {
+			x.material = defaultMaterial;
+		});
+		if (spr != null) {
+        	spr.material = defaultMaterial;
+		}
 	}
 
 	public virtual void OnDamage() {
