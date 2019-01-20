@@ -8,10 +8,10 @@ public class GroundCheck : MonoBehaviour {
 	public Transform corner2;
 	public bool generateFromCollider = false;
 
-	bool groundedCurrentFrame;
-	bool ledgeStepCurrentFrame;
+	protected bool groundedCurrentFrame;
+	protected bool ledgeStepCurrentFrame;
 
-	void Start() {
+	protected void Start() {
 		if (generateFromCollider) {
 			BoxCollider2D bc = GetComponent<BoxCollider2D>();
 			Vector2 center = bc.offset;
@@ -44,7 +44,7 @@ public class GroundCheck : MonoBehaviour {
 		return LeftGrounded() || RightGrounded();
 	}
 
-	public bool OnlyGroundedOneSide() {
+	public bool OnLedge() {
 		return LeftGrounded() ^ RightGrounded();
 	}
 
@@ -59,7 +59,7 @@ public class GroundCheck : MonoBehaviour {
 
 		if (GetComponent<PlayerController>() != null) {
 			bool ledgeStepLastFrame = ledgeStepCurrentFrame;
-			ledgeStepCurrentFrame = OnlyGroundedOneSide();
+			ledgeStepCurrentFrame = OnLedge();
 			if (!ledgeStepLastFrame && ledgeStepCurrentFrame) {
 				GetComponent<PlayerController>().OnLedgeStep();
 			}

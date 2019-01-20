@@ -986,7 +986,7 @@ public class PlayerController : Entity {
 		inCutscene = false;
 	}
 
-	//called from animator
+	//called from 1
 	public void CloseWings() {
 		wings.FoldIn();
 	}
