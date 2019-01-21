@@ -33,12 +33,13 @@ public class GlobalController : MonoBehaviour {
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
-
-	// TODO: replace this mock with a real inventory
 	static List<InventoryItem> inventory;
+
+	static Queue<NPC> queuedNPCs;
 
 	void Awake() {
 		gc = this;
+		queuedNPCs = new Queue<NPC>();
 		titleText = editorTitleText;
 		DontDestroyOnLoad(this);
 		dialogueUI = GetComponentInChildren<DialogueUI>();
@@ -133,6 +134,10 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterDialogue(NPC npc) {
+		if (dialogueOpen) {
+			queuedNPCs.Enqueue(npc);
+			return;
+		}
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
 		dialogueUI.Show();
 		pc.EnterDialogue();
@@ -164,6 +169,12 @@ public class GlobalController : MonoBehaviour {
 			}
 		} else {
 			ExitDialogue();
+		}
+	}
+
+	public static void FinishClosingLetterboxes() {
+		if (queuedNPCs.Count != 0) {
+			EnterDialogue(queuedNPCs.Dequeue());
 		}
 	}
 
@@ -364,8 +375,15 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void GetItem(InventoryItem item) {
+		if (item.isUnique && inventory.Contains(item)) {
+			return;
+		}
 		inventory.Add(item);
 		item.OnPickup();
+		if (item.GetType() != typeof(AbilityItem)) {
+			NPC itemDialogue = MakeItemPickupDialogue(item);
+			EnterDialogue(itemDialogue);
+		}
 	}
 
 	public static void ShowAbilityGetUI() {
@@ -386,5 +404,19 @@ public class GlobalController : MonoBehaviour {
 		if (a.Equals(Ability.GunEyes)) {
 			pc.targetingSystem.SetActive(true);
 		}
+	}
+
+	static NPC MakeItemPickupDialogue(InventoryItem item) { 
+		NPCConversations conversations = new NPCConversations();
+		DialogueLine line = new DialogueLine();
+
+		line.lineText = "You got the <color=aqua>" + item.itemName + "</color>.";
+		line.speakerImage = item.detailedIcon;
+		line.speakerName = "";
+
+		//this was never meant to happen
+		conversations.conversations = new List<Conversation>();
+		conversations.conversations.Add(new Conversation(line));
+		return new NPC(conversations);
 	}
 }

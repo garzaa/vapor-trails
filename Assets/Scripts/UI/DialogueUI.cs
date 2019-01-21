@@ -103,6 +103,10 @@ public class DialogueUI : UIComponent {
 		GlobalController.FinishOpeningLetterboxes();
 	}
 
+	public void FinishClosingLetterboxes() {
+		GlobalController.FinishClosingLetterboxes();
+	}
+
 	//for when the dialogue first fades in
 	public void ShowNameAndPicture(DialogueLine line) {
 		ClearDialogue();

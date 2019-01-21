@@ -13,4 +13,8 @@ public class Conversation : System.Object {
 			return lines[i]; 
 		}
 	}
+
+	public Conversation(DialogueLine line) {
+		this.lines = new DialogueLine[1] {line};
+	}
 }

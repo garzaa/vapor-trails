@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class StatefulNPC : NPC {
 
+	public StatefulNPC(NPCConversations c) : base(c) {
+		this.conversations = c;
+	}
+
 	override protected void ExtendedStart() {
 		persistence = GetComponent<PersistentNPC>();
 		// get the last loaded (most recent) conversation

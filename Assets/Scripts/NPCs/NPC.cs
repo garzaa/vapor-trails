@@ -7,6 +7,10 @@ public class NPC : Interactable {
 
 	protected PersistentNPC persistence;
 
+	public NPC(NPCConversations c) {
+		this.conversations = c;
+	}
+
 	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
