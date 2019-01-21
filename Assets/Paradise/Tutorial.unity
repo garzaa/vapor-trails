@@ -307,8 +307,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 151505404}
-  - component: {fileID: 151505406}
   - component: {fileID: 151505405}
+  - component: {fileID: 151505406}
   m_Layer: 12
   m_Name: Big Swing
   m_TagString: EnemyHitbox
@@ -352,8 +352,8 @@ MonoBehaviour:
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: 0}
---- !u!61 &151505406
-BoxCollider2D:
+--- !u!60 &151505406
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -361,10 +361,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.26402473, y: 0.10862732}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -374,9 +374,13 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.9849129, y: 0.78274536}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.3479271, y: 0.39995158}
+      - {x: -0.76953125, y: 0.09219277}
+      - {x: -0.72393227, y: -0.15350199}
+      - {x: -0.4459114, y: -0.34007156}
+      - {x: -0.14314842, y: -0.109503984}
 --- !u!1 &157667164
 GameObject:
   m_ObjectHideFlags: 0
