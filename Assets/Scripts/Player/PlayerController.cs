@@ -900,6 +900,10 @@ public class PlayerController : Entity {
 		this.dead = false;
 	}
 
+	public bool IsDead() {
+		return this.dead;
+	}
+
 	void FullHeal() {
 		currentHP = maxHP;
 		currentEnergy = maxEnergy;
