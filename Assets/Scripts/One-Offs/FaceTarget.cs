@@ -7,9 +7,15 @@ public class FaceTarget : MonoBehaviour {
 	public bool facingRight;
 	public GameObject target;
 
+	bool isEntity;
+
 	void Start() {
 		if (target == null) {
 			target = GlobalController.pc.gameObject;
+		}
+		isEntity = GetComponent<Entity>() != null;
+		if (isEntity) {
+			facingRight = GetComponent<Entity>().facingRight;
 		}
 	}
 
@@ -26,8 +32,13 @@ public class FaceTarget : MonoBehaviour {
 	}
 
 	void Flip() {
-		this.transform.localScale = new Vector2(this.transform.localScale.x * -1, this.transform.localScale.y);
-		facingRight = !facingRight;
+		if (isEntity) {
+			GetComponent<Entity>().Flip();
+			facingRight = !facingRight;
+		} else {
+			this.transform.localScale = new Vector2(this.transform.localScale.x * -1, this.transform.localScale.y);
+			facingRight = !facingRight;
+		}
 	}
 
 }

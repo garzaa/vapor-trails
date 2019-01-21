@@ -30,7 +30,7 @@ public class CameraOffset : MonoBehaviour {
 
 		if (lookingAhead) {
 			//first offset based on player orientation
-			float newX = pc.GetForwardScalar() * pc.MoveSpeedRatio() * lookAhead;
+			float newX = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookAhead;
 			float scalar = pc.IsGrounded() ? 1 : 0;
 			float newY = scalar * lookUp;
 			newPosition = new Vector3(

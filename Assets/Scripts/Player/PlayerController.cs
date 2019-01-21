@@ -240,7 +240,7 @@ public class PlayerController : Entity {
 				if (Input.GetAxis("Horizontal") != 0) {
 					//if they just finished a dash or supercruise, keep their speed around for a bit ;^)
 					if (IsSpeeding() && 
-							(Input.GetAxis("Horizontal") * GetForwardScalar() > 0)) 
+							(Input.GetAxis("Horizontal") * ForwardScalar() > 0)) 
 					{
 						//slow the player down more in the air
 						if (!grounded) {
@@ -255,7 +255,7 @@ public class PlayerController : Entity {
 				}
 				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
 					int scalar = rb2d.velocity.x > 0 ? 1 : -1;
-					if (scalar * GetForwardScalar() > 0) {
+					if (scalar * ForwardScalar() > 0) {
 						BackwardDust();
 					} else {
 						ForwardDust();
@@ -283,11 +283,11 @@ public class PlayerController : Entity {
 		}
 
 		if (dashing) {
-            rb2d.velocity = new Vector2((dashSpeed+preDashSpeed) * GetForwardScalar(), 0);
+            rb2d.velocity = new Vector2((dashSpeed+preDashSpeed) * ForwardScalar(), 0);
         }
 
 		else if (supercruise) {
-			rb2d.velocity = new Vector2((superCruiseSpeed) * GetForwardScalar(), 0);
+			rb2d.velocity = new Vector2((superCruiseSpeed) * ForwardScalar(), 0);
 		}
 
 		if (rb2d.velocity.y < terminalVelocity) {
@@ -380,7 +380,7 @@ public class PlayerController : Entity {
 		FreezeFor(.1f);
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
-			x:maxMoveSpeed * GetForwardScalar() * (justLeftWall ? 1 : -1), 
+			x:maxMoveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
 			y:jumpSpeed + AdditiveJumpSpeed()
 		);
 		Flip();
@@ -463,7 +463,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool MovingForwards() {
-		return (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
+		return (Input.GetAxis("Horizontal") * ForwardScalar()) > 0;
 	}
 
 	void InterruptDash() {
@@ -514,9 +514,9 @@ public class PlayerController : Entity {
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
 		}
-		if (IsSpeeding() && Input.GetAxis("Horizontal") * GetForwardScalar() > 0) {
+		if (IsSpeeding() && Input.GetAxis("Horizontal") * ForwardScalar() > 0) {
 			BackwardDust();
-		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && Input.GetAxis("Horizontal") * GetForwardScalar() <= 0) {
+		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && Input.GetAxis("Horizontal") * ForwardScalar() <= 0) {
 			ForwardDust();
 		}
 		if (inMeteor) {
@@ -716,7 +716,7 @@ public class PlayerController : Entity {
 			SoundManager.ShootSound();
 			BackwardDust();
 			gun.Fire(
-				forwardScalar: GetForwardScalar(), 
+				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
 			LoseEnergy(1);
@@ -745,7 +745,7 @@ public class PlayerController : Entity {
 		if (inMeteor || Input.GetAxis("Vertical") < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
-		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * GetForwardScalar()) > 0;
+		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * ForwardScalar()) > 0;
 		if (movingTowardsLedge) {
 			wings.Open();
 			wings.EnableJets();
@@ -756,7 +756,7 @@ public class PlayerController : Entity {
 			ResetAirJumps();
 			InterruptAttack();
 			rb2d.velocity = new Vector2(
-				x:maxMoveSpeed * GetForwardScalar(),
+				x:maxMoveSpeed * ForwardScalar(),
 				y:ledgeBoostSpeed
 			);
 		}
@@ -1089,7 +1089,7 @@ public class PlayerController : Entity {
 	public void ForwardDust() {
 		if (!grounded) return;
  		GameObject d = Instantiate(dust, new Vector3(
-			this.transform.position.x + 0.32f * GetForwardScalar(),
+			this.transform.position.x + 0.32f * ForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
@@ -1099,7 +1099,7 @@ public class PlayerController : Entity {
 	public void BackwardDust() {
 		if (!grounded) return;
 		GameObject d = Instantiate(dust, new Vector3(
-			this.transform.position.x - 0.32f * GetForwardScalar(),
+			this.transform.position.x - 0.32f * ForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
@@ -1108,11 +1108,11 @@ public class PlayerController : Entity {
 
 	void DownDust() {
 		GameObject d = Instantiate(dust, new Vector3(
-			this.transform.position.x + 0.16f * GetForwardScalar(),
+			this.transform.position.x + 0.16f * ForwardScalar(),
 			this.transform.position.y - .48f,
 			this.transform.position.z
 		), Quaternion.identity, this.transform).gameObject;
-		d.transform.rotation = Quaternion.Euler(0, 0, 90 * GetForwardScalar());
+		d.transform.rotation = Quaternion.Euler(0, 0, 90 * ForwardScalar());
 		d.transform.parent = null;
 	}
 

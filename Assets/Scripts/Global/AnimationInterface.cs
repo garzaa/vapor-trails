@@ -103,5 +103,10 @@ public class AnimationInterface : MonoBehaviour {
 		string[] splitText = text.Split('/');
 		GlobalController.ShowTitleText(splitText[0], splitText[1]);
 	}
+
+	public void RandomChoice(int numChoices) {
+		string choice = Mathf.FloorToInt(Random.Range(0, numChoices+0.9f)).ToString();
+		anim.SetTrigger(choice);
+	}
 	
 }

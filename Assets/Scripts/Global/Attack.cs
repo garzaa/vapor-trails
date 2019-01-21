@@ -51,7 +51,7 @@ public class Attack : MonoBehaviour {
 
 	public virtual Vector2 GetKnockback() {
 		return new Vector2(
-			x:knockbackVector.x * attackerParent.GetForwardScalar(), 
+			x:knockbackVector.x * attackerParent.ForwardScalar(), 
 			y:knockbackVector.y
 		);
 	}

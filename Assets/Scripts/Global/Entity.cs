@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour {
 
-    [HideInInspector] public bool facingRight = true;
+    public bool facingRight = true;
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;
     public bool lockedInSpace = false;
@@ -64,8 +64,15 @@ public class Entity : MonoBehaviour {
     }
 
     //returns the x-direction the entity is facing
-    public int GetForwardScalar() {
+    public int ForwardScalar() {
         return facingRight ? 1 : -1;
+    }
+
+    public Vector2 ForwardVector() {
+        return new Vector2(
+            ForwardScalar(),
+            1
+        );
     }
 
     public void StunFor(float seconds) {
