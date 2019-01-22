@@ -108,5 +108,9 @@ public class AnimationInterface : MonoBehaviour {
 		string choice = Mathf.FloorToInt(Random.Range(0, numChoices+0.9f)).ToString();
 		anim.SetTrigger(choice);
 	}
+
+	public void Deactivate() {
+		this.gameObject.SetActive(false);
+	}
 	
 }
