@@ -48,11 +48,7 @@ public class Save : MonoBehaviour {
         this.playerPosition = new Vector2(s.xPos, s.yPos);
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
 
-        if (sceneName != SceneManager.GetActiveScene().path) {
-            GlobalController.LoadSceneToPosition(sceneName, playerPosition);
-        } else {
-            GlobalController.MovePlayerTo(playerPosition);
-        }
+        GlobalController.LoadSceneToPosition(sceneName, playerPosition);
     }
 
     public void UnlockAbility(Ability a) {
