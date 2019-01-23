@@ -6,6 +6,7 @@ public class MoveInState : StateMachineBehaviour {
 
 	public bool onEnter;
 	public bool onUpdate;
+	public bool onExit;
 
 	public Vector2 direction;
 	public bool forceZero;
@@ -13,7 +14,7 @@ public class MoveInState : StateMachineBehaviour {
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		if (onEnter) {
 			Move(animator);
-		} else if (!onUpdate) {
+		} else if (!onUpdate && !onExit) {
 			Debug.Log("brainlet alert");
 		}
 	}
@@ -24,7 +25,13 @@ public class MoveInState : StateMachineBehaviour {
 		}
 	}
 
-	void Move(Animator animator) {
+	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		if (onExit) {
+			Move(animator);
+		}
+	}
+
+	public virtual void Move(Animator animator) {
 		Rigidbody2D rb2d = animator.GetComponent<Rigidbody2D>();
 		Entity e = animator.GetComponent<Entity>();
 		Vector2 newDirection = direction;

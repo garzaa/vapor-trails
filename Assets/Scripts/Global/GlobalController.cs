@@ -150,7 +150,9 @@ public class GlobalController : MonoBehaviour {
 		dialogueUI.Hide();
 		dialogueClosedThisFrame = true;
 		pc.ExitDialogue();
-		currentNPC.CloseDialogue();
+		if (currentNPC != null) {
+			currentNPC.CloseDialogue();
+		}
 		currentNPC = null;
 	}
 
@@ -288,7 +290,8 @@ public class GlobalController : MonoBehaviour {
 	//called from a cutscene animation to finish it and resume dialogue
 	public static void CutsceneCallback() {
 		// show the dialogue UI if there's a next line
-		if (currentNPC.hasNextLine()) {
+		// catch NPC being hidden by an activated animation
+		if (currentNPC != null && currentNPC.hasNextLine()) {
 			dialogueUI.Show();
 		} else {
 			ExitDialogue();
