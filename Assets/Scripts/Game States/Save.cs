@@ -16,6 +16,8 @@ public class Save : MonoBehaviour {
     public string sceneName;
     public Vector2 playerPosition;
 
+    public bool loadSceneInEditor = false;
+
     void Awake() {
         this.unlocks = GetComponent<PlayerUnlocks>();
         persistentObjects = new Dictionary<string, SerializedPersistentObject>();
@@ -48,10 +50,10 @@ public class Save : MonoBehaviour {
         this.playerPosition = new Vector2(s.xPos, s.yPos);
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
 
-        if (!Application.isEditor) {
-            GlobalController.LoadSceneToPosition(sceneName, playerPosition);
-        } else {
+        if (Application.isEditor && !loadSceneInEditor) {
             GlobalController.MovePlayerTo(playerPosition);
+        } else {
+            GlobalController.LoadSceneToPosition(sceneName, playerPosition);
         }
     }
 
