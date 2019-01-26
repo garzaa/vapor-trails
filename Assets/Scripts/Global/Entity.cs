@@ -119,14 +119,14 @@ public class Entity : MonoBehaviour {
         
     }
 
-    public void Hide() {
+    public virtual void Hide() {
         SpriteRenderer spr = GetComponent<SpriteRenderer>();
         if (spr != null) {
             spr.enabled = false;
         }
     }
 
-    public void Show() {
+    public virtual void Show() {
         SpriteRenderer spr = GetComponent<SpriteRenderer>();
         if (spr != null) {
             spr.enabled = true;

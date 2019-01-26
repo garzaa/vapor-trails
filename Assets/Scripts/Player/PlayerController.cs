@@ -1206,4 +1206,15 @@ public class PlayerController : Entity {
 		yield return new WaitForSecondsRealtime(1);
 		canInteract = true;
 	}
+
+	public override void Hide() {
+		anim.SetBool("Hidden", true);
+	}
+
+	public override void Show() {
+		if (anim == null) {
+			anim = GetComponent<Animator>();
+		}
+		anim.SetBool("Hidden", false);
+	}
 }
