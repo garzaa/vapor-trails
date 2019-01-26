@@ -98,7 +98,10 @@ public class Enemy : Entity {
 			if (burstEffect != null) {
 				Burst();
 			} else {
-				Destroy();
+				if (GetComponent<SelfDestruct>() == null) {
+					print("PINGAS");
+					Destroy();
+				}
 			}
 		}
 	}

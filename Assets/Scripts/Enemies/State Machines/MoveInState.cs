@@ -36,10 +36,10 @@ public class MoveInState : StateMachineBehaviour {
 		Entity e = animator.GetComponent<Entity>();
 		Vector2 newDirection = direction;
 		// if the x or y component of velocity is zero, do you clamp it at zero or leave it alone
-		if (!forceZero) {
+		if (forceZero) {
 			newDirection = new Vector2(
-				direction.x != 0 ? direction.x : rb2d.velocity.x,
-				direction.y != 0 ? direction.y : rb2d.velocity.y
+				direction.x == 0 ? 0 : rb2d.velocity.x,
+				direction.y == 0 ? 0 : rb2d.velocity.y
 			);
 		}
 
