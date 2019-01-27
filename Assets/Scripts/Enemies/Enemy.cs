@@ -146,9 +146,12 @@ public class Enemy : Entity {
 
 	public void WhiteSprite() {
 		white = true;
-		spriteRenderers.ForEach(x => {
+		foreach (SpriteRenderer x in spriteRenderers) {
 			x.material = whiteMaterial;
-		});
+		}
+		if (anim != null) {
+			anim.SetBool("WhiteSprite", true);
+		}
 		if (spr != null) {
         	spr.material = whiteMaterial;
 		}
@@ -161,6 +164,9 @@ public class Enemy : Entity {
 		});
 		if (spr != null) {
         	spr.material = defaultMaterial;
+		}
+		if (anim != null) {
+			anim.SetBool("WhiteSprite", false);
 		}
 	}
 
