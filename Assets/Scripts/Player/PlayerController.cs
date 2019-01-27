@@ -453,7 +453,7 @@ public class PlayerController : Entity {
         SetInvincible(false);
 		CloseAllHurtboxes();
 		if (wings != null) wings.FoldIn();
-		if (MovingForwards() && Input.GetButton("Special")) {
+		if (MovingForwards() && Input.GetButton("Special") && unlocks.HasAbility(Ability.Supercruise)) {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
