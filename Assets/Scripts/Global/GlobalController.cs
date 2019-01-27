@@ -319,6 +319,11 @@ public class GlobalController : MonoBehaviour {
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
 		}
+		foreach (Ability a in s.unlocks.unlockedAbilities) {
+			if (a.Equals(Ability.GunEyes)) {
+				pc.targetingSystem.SetActive(true);
+			}
+		}
  	}
 
 	public static bool SavedInOtherScene() {
