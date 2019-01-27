@@ -36,7 +36,6 @@ public class SelfDestruct : MonoBehaviour {
 	}
 
 	IEnumerator DestroyIn(float seconds) {
-		print(gameObject.name);
 		yield return new WaitForSeconds(seconds);
 		Destroy(this.gameObject);
 	}

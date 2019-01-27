@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ForcedInteractTrigger : PlayerTriggeredObject {
 
-	Interactable i;
+	public Interactable i;
 	bool interactedOnce;
 	public bool unpairAfterInteract = true;
 
 	void Start() {
-		i = GetComponentInChildren<Interactable>();
+		if (i == null) {
+			i = GetComponentInChildren<Interactable>();
+		}
 		//keep the player from interacting with it somehow, unless it's the actual interaction trigger
 		if (i.GetComponent<BoxCollider2D>() != null && i.transform != this.transform) {
 			i.gameObject.GetComponent<BoxCollider2D>().enabled = false;
