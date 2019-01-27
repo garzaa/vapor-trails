@@ -8,9 +8,6 @@ public class SwitchOnState : MonoBehaviour {
 	public bool enableOnState;
 
 	protected virtual void Awake() {
-		if (gameFlag == GameFlag.FoughtRichterOnce) {
-			print(GlobalController.HasFlag(gameFlag).ToString());
-		}
 		if (enableOnState) {
 			this.gameObject.SetActive(GlobalController.HasFlag(gameFlag));
 		} else {
