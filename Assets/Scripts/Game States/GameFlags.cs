@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum GameFlag {
 	None,
-	FoughtRichterOnce,
 	BeatRichter,
 	BeatLadyOfTheLake,
 	TaraWarnedVal,
 	TaraLoweredGate,
-	LaurenFixedValEyes
+	LaurenFixedValEyes,
+	FoughtRichterOnce
 }
