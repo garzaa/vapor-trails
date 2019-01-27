@@ -101,7 +101,6 @@ public class GlobalController : MonoBehaviour {
 			//if necessary, hit the activatable from the previous line
 			//and block dialogue/enter cutscene if necessary
 			if (toActivate != null) {
-				print("activating activatable "+ toActivate.activatable.name);
 				toActivate.activatable.Activate();
 				if (toActivate.blocking) {
 					//block dialogue line rendering and hide dialogue UI
@@ -125,7 +124,6 @@ public class GlobalController : MonoBehaviour {
 					}
 				}
 			} else {
-				print("exiting dialogue");
 				ExitDialogue();
 			}
 		}

@@ -99,7 +99,6 @@ public class Enemy : Entity {
 				Burst();
 			} else {
 				if (GetComponent<SelfDestruct>() == null) {
-					print("PINGAS");
 					Destroy();
 				}
 			}
