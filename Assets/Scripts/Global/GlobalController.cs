@@ -397,7 +397,7 @@ public class GlobalController : MonoBehaviour {
 	public static void ShowAbilityGetUI() {
 		abilityUIAnimator.SetTrigger("Show");
 		pc.EnterDialogue();
-		gc.Invoke("EnterAbilityUI", 1f);
+		gc.Invoke("EnterAbilityUI", 2f);
 	}
 
 	void EnterAbilityUI() {

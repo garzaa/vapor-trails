@@ -9,5 +9,7 @@ public enum GameFlag {
 	TaraWarnedVal,
 	TaraLoweredGate,
 	LaurenFixedValEyes,
-	FoughtRichterOnce
+	FoughtRichterOnce,
+	FoughtGrayOnce,
+	BeatGray
 }
