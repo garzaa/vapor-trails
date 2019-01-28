@@ -599,7 +599,7 @@ public class PlayerController : Entity {
 			if (!grounded) SoundManager.HardLandSound();
 		}
 		ResetAirJumps();
-		if (bufferedJump) {
+		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
 			CancelBufferedJump();
 		}
