@@ -112,5 +112,4 @@ public class AnimationInterface : MonoBehaviour {
 	public void Deactivate() {
 		this.gameObject.SetActive(false);
 	}
-	
 }

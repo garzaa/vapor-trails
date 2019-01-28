@@ -8,7 +8,7 @@ public class Hurtbox : MonoBehaviour {
 	public bool overrideTargetPosition;
 
 	void Start() {
-		if (parentObject == null) parentObject = this.gameObject.transform.parent.gameObject;
+		if (parentObject == null) parentObject = GetComponentInParent<Entity>().gameObject;
 	}
 
 	public Entity GetParent() {
