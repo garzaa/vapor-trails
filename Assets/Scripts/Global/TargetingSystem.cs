@@ -38,6 +38,10 @@ public class TargetingSystem : MonoBehaviour {
 			}
 		}
 		
+		if (nearest.GetComponent<Hurtbox>() != null) {
+			return nearest.GetComponent<Hurtbox>().parentObject.transform;
+		}
+
 		return nearest;
 	}
 
