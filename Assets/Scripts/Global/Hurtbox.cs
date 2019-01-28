@@ -5,6 +5,7 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour {
 
 	public GameObject parentObject;
+	public bool overrideTargetPosition;
 
 	void Start() {
 		if (parentObject == null) parentObject = this.gameObject.transform.parent.gameObject;
