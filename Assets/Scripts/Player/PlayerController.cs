@@ -747,9 +747,10 @@ public class PlayerController : Entity {
 		}
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * ForwardScalar()) > 0;
 		if (movingTowardsLedge) {
+			anim.SetTrigger("Jump");
 			wings.Open();
 			wings.EnableJets();
-			wings.LedgeBoost();
+			wings.Jump();
 			InterruptDash();
 			EndDashCooldown();
 			//provide an upward impulse

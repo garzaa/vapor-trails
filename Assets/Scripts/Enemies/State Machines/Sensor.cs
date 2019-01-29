@@ -12,9 +12,11 @@ public class Sensor : MonoBehaviour {
 	protected void Start() {
 		if (e == null) {
 			e = GetComponent<Enemy>();
+			if (e != null) {
+				player = e.playerObject;
+				pc = e.playerObject.GetComponent<PlayerController>();
+			}
 		}
-		player = e.playerObject;
-		pc = e.playerObject.GetComponent<PlayerController>();
 		if (animator == null) {
 			animator = GetComponent<Animator>();
 		}
