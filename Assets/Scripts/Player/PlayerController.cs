@@ -27,6 +27,7 @@ public class PlayerController : Entity {
 	bool perfectDashPossible;
 	bool earlyDashInput;
 	bool canInteract = true;
+	bool canUpSlash = true;
 	Vector2 lastSafePos;
 
 	//linked components
@@ -166,10 +167,12 @@ public class PlayerController : Entity {
 			wings.FoldIn();
 			anim.SetTrigger("Attack");
 		}
-
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
 			if (unlocks.HasAbility(Ability.Meteor)) MeteorSlam();
 		} 
+		else if (Input.GetButtonDown("Special") && canUpSlash && Input.GetAxis("Vertical") > 0 && !dashing && !supercruise && !touchingWall) {
+			UpSlash();
+		}
 
 		else if (Input.GetButtonDown("Attack") && Input.GetAxis("Vertical") < 0 && supercruise) {
 			anim.SetTrigger("Attack");
@@ -507,6 +510,7 @@ public class PlayerController : Entity {
 
 	public override void OnGroundHit() {
 		grounded = true;
+		canUpSlash = true;
 		jumpCutoffEnabled = false;
 		ResetAirJumps();
 		InterruptAttack();
@@ -540,6 +544,16 @@ public class PlayerController : Entity {
 			GroundJump();
 			CancelBufferedJump();
 		}
+	}
+
+	public void UpSlash() {
+		anim.SetTrigger("UpSlash");
+		wings.Close();
+		canUpSlash = false;
+		rb2d.velocity = new Vector2(
+			rb2d.velocity.x,
+			jumpSpeed * 1.3f
+		);
 	}
 
 	void ResetAirJumps() {
