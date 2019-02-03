@@ -770,7 +770,6 @@ public class PlayerController : Entity {
 			wings.Jump();
 			InterruptDash();
 			EndDashCooldown();
-			//provide an upward impulset
 			ResetAirJumps();
 			InterruptAttack();
 			rb2d.velocity = new Vector2(
@@ -781,6 +780,9 @@ public class PlayerController : Entity {
 	}
 
 	void ReduceSpeedBy(float reductionAmt, bool capAtMaxSpeed = true) {
+		if (!grounded && Mathf.Abs(rb2d.velocity.x) < 0.01f) {
+			return;
+		}
 		float originalSign = Mathf.Sign(rb2d.velocity.x);
 		float reduced;
 		if (!MovingForwards()) {
