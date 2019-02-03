@@ -551,6 +551,7 @@ public class PlayerController : Entity {
 		}
 		anim.SetTrigger("UpSlash");
 		wings.Close();
+		SoundManager.JumpSound();
 		canUpSlash = false;
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
