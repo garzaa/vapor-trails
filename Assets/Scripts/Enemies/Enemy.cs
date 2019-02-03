@@ -51,7 +51,7 @@ public class Enemy : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
 		
 		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
-		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
+		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 		if (spr != null) {
 			defaultMaterial = spr.material;
 		} else {

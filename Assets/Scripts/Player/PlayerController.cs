@@ -232,14 +232,14 @@ public class PlayerController : Entity {
 
 			float modifier = IsForcedWalking() ? 0.4f : 1f;
 			float hInput = Input.GetAxis("Horizontal") * modifier;
-			if (!touchingWall && !wallCheck.TouchingLedge() && !midSwing) {
+			if (!touchingWall && !wallCheck.TouchingLedge() && (!midSwing || !grounded)) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
 			} else {
 				anim.SetFloat("Speed", 0);
 			}
 			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
-			if (HorizontalInput() && !midSwing) {
+			if (HorizontalInput() && (!midSwing || !grounded)) {
 				if (Input.GetAxis("Horizontal") != 0) {
 					//if they just finished a dash or supercruise, keep their speed around for a bit ;^)
 					if (IsSpeeding() && 
