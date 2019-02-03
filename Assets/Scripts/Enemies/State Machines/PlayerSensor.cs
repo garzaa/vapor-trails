@@ -10,6 +10,6 @@ public class PlayerSensor : Sensor {
 			playerDist = new Vector2(10000, 10000);
 		}
 		animator.SetFloat("PlayerXDist", Mathf.Abs(playerDist.x));
-		animator.SetFloat("PlayerYDist", Mathf.Abs(playerDist.y));
+		animator.SetFloat("	", Mathf.Abs(playerDist.y));
 	}
 }

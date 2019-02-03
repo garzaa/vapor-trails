@@ -15,6 +15,13 @@ public class WallSensor : Sensor {
 	}
 
 	void Update() {
+		/* 
+		Debug.DrawLine(
+			this.transform.position,
+			this.transform.position + new Vector3((Vector2.right * e.ForwardScalar()).x, (Vector2.right * e.ForwardScalar()).y),
+			Color.red
+		);
+		*/
 		RaycastHit2D hit = Physics2D.BoxCast(
 			this.transform.position,
 			size,
