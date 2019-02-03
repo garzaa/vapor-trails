@@ -770,11 +770,11 @@ public class PlayerController : Entity {
 			wings.Jump();
 			InterruptDash();
 			EndDashCooldown();
-			//provide an upward impulse
+			//provide an upward impulset
 			ResetAirJumps();
 			InterruptAttack();
 			rb2d.velocity = new Vector2(
-				x:maxMoveSpeed * ForwardScalar(),
+				x:(IsSpeeding() ? rb2d.velocity.x : maxMoveSpeed * ForwardScalar()),
 				y:ledgeBoostSpeed
 			);
 		}
