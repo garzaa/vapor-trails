@@ -53,14 +53,17 @@ Shader "FX/Mirror"
 			sampler2D _ReflectionTex;
 			float4 _MainTex_TexelSize;
 
-			fixed4 SineDisplace (sampler2D _reflTex, float2 uv)
+			fixed4 SineDisplace(sampler2D _reflTex, float2 uv)
 			{
-				float normY  = uv.y - _MainTex_TexelSize;
-				
-				//		    AMP 	BUCKET WIDTH
+				// poor man's Fresnel effect!
+				float normY  = -(uv.y - _MainTex_TexelSize);
+				// distort more towards the bottom of screen
 				uv.x += pow(normY/30, 2) * sin(500*((normY)));
-
+				// also fade to black more towards the bottom
 				fixed4 color = tex2D (_reflTex, uv);
+				//color.rgb *= (uv.y / _MainTex_TexelSize);
+				color.rgb = lerp(color.rgb, _Color, normY / _MainTex_TexelSize);
+
 				return color;
 			}
 
