@@ -38,7 +38,6 @@ public class Projectile : MonoBehaviour {
 
 		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, other.transform.position, 4, 1 << LayerMask.NameToLayer(Layers.Ground));
 		if (hit.transform != null) {
-			Debug.Log("PINGAS");
 			Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 			Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
 			float newAngle = Vector2.Angle(Vector2.left, flipped);
