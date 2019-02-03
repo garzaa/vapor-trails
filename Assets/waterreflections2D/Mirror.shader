@@ -58,7 +58,7 @@ Shader "FX/Mirror"
 				float normY  = uv.y - _MainTex_TexelSize;
 				
 				//		    AMP 	BUCKET WIDTH
-				uv.x += pow(normY/, 2) * sin(500*((normY)));
+				uv.x += pow(normY/30, 2) * sin(500*((normY)));
 
 				fixed4 color = tex2D (_reflTex, uv);
 				return color;
