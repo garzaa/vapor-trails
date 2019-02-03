@@ -211,7 +211,7 @@ public class PlayerController : Entity {
 			InterruptSupercruise();
 		}
 
-		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Input.GetAxis("Vertical") >= -0.1) {
+		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(Input.GetAxis("Vertical")) <= 0.2f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			} 
@@ -510,7 +510,6 @@ public class PlayerController : Entity {
 
 	public override void OnGroundHit() {
 		grounded = true;
-		canUpSlash = true;
 		jumpCutoffEnabled = false;
 		ResetAirJumps();
 		InterruptAttack();
@@ -547,6 +546,9 @@ public class PlayerController : Entity {
 	}
 
 	public void UpSlash() {
+		if (!unlocks.HasAbility(Ability.UpSlash)) {
+			return;
+		}
 		anim.SetTrigger("UpSlash");
 		wings.Close();
 		canUpSlash = false;
@@ -557,6 +559,7 @@ public class PlayerController : Entity {
 	}
 
 	void ResetAirJumps() {
+		canUpSlash = true;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 	}
 

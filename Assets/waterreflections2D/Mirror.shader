@@ -44,8 +44,8 @@ Shader "FX/Mirror"
 				v2f o;
 				o.pos = UnityObjectToClipPos (i.pos);
 				o.uv = TRANSFORM_TEX(i.uv, _MainTex);
-				o.col = i.col * _Color;
 				o.refl = ComputeScreenPos (o.pos);
+				o.col = i.col * _Color;
 				return o;
 			}
 			
@@ -55,24 +55,22 @@ Shader "FX/Mirror"
 
 			fixed4 SineDisplace (sampler2D _reflTex, float2 uv)
 			{
-				float2 final = uv;
-				//		   AMP 						 [--- BUCKET WIDTH ----   ]			SPEED
-				final.x += .0008 * (sin(floor(uv.y * _MainTex_TexelSize.z * 50) / 1 + (_Time * 100)));
+				float normY  = uv.y - _MainTex_TexelSize;
+				
+				//		    AMP 	BUCKET WIDTH
+				uv.x += pow(normY/, 2) * sin(500*((normY)));
 
-				fixed4 color = tex2D (_reflTex, final);
-
+				fixed4 color = tex2D (_reflTex, uv);
 				return color;
 			}
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				//get the pattern provided by the texture on the reflector
+				//get the base reflector texture details
 				fixed4 tex = tex2D(_MainTex, i.uv) * i.col;
-				//get opacity
 				tex.rgb *= tex.a;
-				//get the reflection surface?
 				//sample the 2d texture from the projected coordinates of the reflection
-				fixed4 refl = tex2D(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
+				fixed4 refl = SineDisplace(_ReflectionTex, UNITY_PROJ_COORD(i.refl));
 				fixed4 final = refl * tex;
 				return final;
 			}
