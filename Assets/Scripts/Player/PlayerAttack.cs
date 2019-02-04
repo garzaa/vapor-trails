@@ -53,5 +53,5 @@ public class PlayerAttack : Attack {
 			otherCol.GetComponent<Hurtbox>().OnHit(this);
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 		}
-	}
+	} 
 }

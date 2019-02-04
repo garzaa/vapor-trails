@@ -36,13 +36,21 @@ public class Projectile : MonoBehaviour {
 			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity);
 		}
 
-		RaycastHit2D hit = Physics2D.CircleCast(this.transform.position, 0.5f, Vector2.up, 0, 1 << LayerMask.NameToLayer(Layers.Ground));
-		if (hit.transform != null) {
-			Debug.DrawLine(this.transform.position, hit.point, Color.red, 10);
+		if (other.GetComponent<PlayerAttack>() != null) {
+			other.GetComponent<PlayerAttack>().attackerParent.GetComponent<PlayerController>().GainEnergy(1);
+			SoundManager.HitSound();
 			Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
-			Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
+			Vector2 flipped = Vector2.Reflect(originalMotion, Vector2.up);
 			float newAngle = Vector2.Angle(Vector2.left, flipped);
-			GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle), null);
+			GameObject g = (GameObject) Instantiate(impactDust, this.transform.position, Quaternion.Euler(0, 0, newAngle), null);
+		} else {
+			RaycastHit2D hit = Physics2D.CircleCast(this.transform.position, 0.5f, Vector2.up, 0, 1 << LayerMask.NameToLayer(Layers.Ground));
+			if (hit.transform != null) {
+				Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
+				Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
+				float newAngle = Vector2.Angle(Vector2.left, flipped);
+				GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle), null);
+			}
 		}
 
 		GetComponent<Rigidbody2D>().velocity = Vector3.zero;

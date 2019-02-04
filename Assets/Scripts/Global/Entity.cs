@@ -23,7 +23,9 @@ public class Entity : MonoBehaviour {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-        //flip by scaling -1
+        if (GetComponentInChildren<LookAtObject>() != null) {
+            GetComponentInChildren<LookAtObject>().Flip();
+        }
     }
 
     public void Destroy() {

@@ -13,6 +13,12 @@ public class LookAtObject : MonoBehaviour {
 		}
 	}
 	
+	public void Flip() {
+		Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+	}
+
 	void LateUpdate() {
 		var dir = target.transform.position - this.transform.position;
 		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
