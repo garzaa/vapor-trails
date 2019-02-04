@@ -16,6 +16,8 @@ public class AnimationInterface : MonoBehaviour {
 
 	public List<NPC> npcs;
 
+	public List<ParticleSystem> particleSystems;
+
 	void Start() {
 		anim = GetComponent<Animator>();
 		ps = GetComponentInChildren<ParticleSystem>();

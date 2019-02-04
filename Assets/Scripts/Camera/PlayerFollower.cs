@@ -15,9 +15,15 @@ public class PlayerFollower : MonoBehaviour {
 	bool smoothing = true;
 	bool following = true;
 
+	bool playerWasNull = false;
+
 	public GameObject target;
 
 	void Start () {
+		if (player == null) {
+			player = GameObject.Find("Player");
+			playerWasNull = true;
+		}
 		this.transform.position = new Vector3(
 			x:player.transform.position.x + currentOffset.x,
 			y:player.transform.position.y + currentOffset.y,
@@ -25,6 +31,7 @@ public class PlayerFollower : MonoBehaviour {
 		);
 		pc = player.GetComponent<PlayerController>();
 		this.target = player;
+		smoothing = (smoothAmount != 0);
 	}
 	
 	void FixedUpdate() {
@@ -32,7 +39,7 @@ public class PlayerFollower : MonoBehaviour {
 			return;
 		}
 
-		if (target == null) {
+		if (target == null && !playerWasNull) {
 			FollowPlayer();
 		}
 
@@ -79,7 +86,9 @@ public class PlayerFollower : MonoBehaviour {
 	}
 
 	public void FollowPlayer() {
-		GetComponentInChildren<CameraOffset>().following = true;
+		if (GetComponentInChildren<CameraOffset>() != null) {
+			GetComponentInChildren<CameraOffset>().following = true;
+		}
 		this.target = player;
 	}
 

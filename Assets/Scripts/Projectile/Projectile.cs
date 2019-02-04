@@ -49,7 +49,7 @@ public class Projectile : MonoBehaviour {
 				Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 				Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
 				float newAngle = Vector2.Angle(Vector2.left, flipped);
-				GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle), null);
+				GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle+90), null);
 			}
 		}
 
