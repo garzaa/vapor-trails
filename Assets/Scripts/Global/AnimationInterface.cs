@@ -112,4 +112,12 @@ public class AnimationInterface : MonoBehaviour {
 	public void Deactivate() {
 		this.gameObject.SetActive(false);
 	}
+
+	public void FireGun() {
+		int forwardScalar = 1;
+		if (GetComponent<Entity>() != null) {
+			forwardScalar = GetComponent<Entity>().ForwardScalar();
+		}
+		GetComponent<Gun>().Fire(forwardScalar, effectPoint);
+	}
 }

@@ -32,6 +32,8 @@ public class Projectile : MonoBehaviour {
 	}
 
 	public void OnImpact(Collider2D other) {
+		print(LayerMask.LayerToName(other.gameObject.layer));
+		print(other.gameObject.name);
 		if (burstPrefab != null) {
 			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity);
 		}

@@ -36,5 +36,6 @@ public class Gun : MonoBehaviour {
 				0
 			);
 		}
+		print(b.GetComponent<Rigidbody2D>().velocity);
 	}
 }

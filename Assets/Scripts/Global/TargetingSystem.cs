@@ -14,7 +14,9 @@ public class TargetingSystem : MonoBehaviour {
 	void OnEnable() {
 		targetsInRange = new List<Transform>();
 		InvokeRepeating("GarbageCollect", 0, 1);
-		targetAnim = targetingUI.GetComponent<Animator>();
+		if (targetingUI != null) {
+			targetAnim = targetingUI.GetComponent<Animator>();
+		}
 	}
 
 
@@ -50,6 +52,9 @@ public class TargetingSystem : MonoBehaviour {
 	}
 
 	void Update() {
+		if (targetingUI == null) {
+			return;
+		}
 		Transform closest = GetClosestTarget(this.transform);
 		if (closest != null) {
 			if (targetingUI.transform.position != closest.transform.position) {
@@ -119,6 +124,9 @@ public class TargetingSystem : MonoBehaviour {
 	}
 
 	void OnDisable() {
+		if (targetingUI == null) {
+			return;
+		}
 		targetAnim.SetBool("Locked", false);
 	}
 }
