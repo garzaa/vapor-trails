@@ -118,6 +118,6 @@ public class AnimationInterface : MonoBehaviour {
 		if (GetComponent<Entity>() != null) {
 			forwardScalar = GetComponent<Entity>().ForwardScalar();
 		}
-		GetComponent<Gun>().Fire(forwardScalar, effectPoint);
+		GetComponent<Gun>().Fire(forwardScalar);
 	}
 }

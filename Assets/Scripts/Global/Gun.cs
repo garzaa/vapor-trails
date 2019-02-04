@@ -8,6 +8,8 @@ public class Gun : MonoBehaviour {
 	public float startSpeed;
 	public TargetingSystem targetingSystem;
 
+	public Transform extraBulletPos;
+
 	public void Fire(float forwardScalar = 1, Transform bulletPos = null) {
 		Transform target = null;
 
@@ -15,6 +17,13 @@ public class Gun : MonoBehaviour {
 			target = targetingSystem.GetClosestTarget(this.transform);
 		}
 
+		if (bulletPos == null) {
+			if (extraBulletPos == null) {
+				extraBulletPos = this.transform;
+			} else {
+				bulletPos = extraBulletPos.transform;
+			}
+		}
 
 		Vector3 startPos = this.transform.position;
 		if (bulletPos != null) {
@@ -36,6 +45,5 @@ public class Gun : MonoBehaviour {
 				0
 			);
 		}
-		print(b.GetComponent<Rigidbody2D>().velocity);
 	}
 }

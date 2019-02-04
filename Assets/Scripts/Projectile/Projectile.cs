@@ -32,18 +32,17 @@ public class Projectile : MonoBehaviour {
 	}
 
 	public void OnImpact(Collider2D other) {
-		print(LayerMask.LayerToName(other.gameObject.layer));
-		print(other.gameObject.name);
 		if (burstPrefab != null) {
 			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity);
 		}
 
-		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, other.transform.position, 4, 1 << LayerMask.NameToLayer(Layers.Ground));
+		RaycastHit2D hit = Physics2D.CircleCast(this.transform.position, 0.5f, Vector2.up, 0, 1 << LayerMask.NameToLayer(Layers.Ground));
 		if (hit.transform != null) {
+			Debug.DrawLine(this.transform.position, hit.point, Color.red, 10);
 			Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 			Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
 			float newAngle = Vector2.Angle(Vector2.left, flipped);
-			GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle+180), null);
+			GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle), null);
 		}
 
 		GetComponent<Rigidbody2D>().velocity = Vector3.zero;
