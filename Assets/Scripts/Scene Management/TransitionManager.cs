@@ -78,12 +78,19 @@ public class TransitionManager : MonoBehaviour {
 				pc.SetInvincible(true);
 				pc.Freeze();
 				pc.DisableShooting();
-			} else {
-
+			} else if (sd.unlockPlayer) {
+				pc.UnLockInSpace();
+				pc.SetInvincible(false);
+				pc.UnFreeze();
+				pc.EnableShooting();
 			}
 
 			if (sd.hidePlayer) {
 				pc.Hide();
+			}
+
+			if (sd.forceFaceRight && !pc.facingRight) {
+				pc.Flip();
 			}
 
 			GlobalController.pauseEnabled = sd.enablePausing;

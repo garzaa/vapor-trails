@@ -47,6 +47,10 @@ public class AnimationInterface : MonoBehaviour {
 		anim.SetTrigger(t);
 	}
 
+	public void ResetPlayerPosition() {
+		GlobalController.pc.transform.position = Vector2.zero;
+	}
+
 	public void HidePlayer() {
 		GlobalController.pc.LockInSpace();
 		GlobalController.pc.Freeze();
