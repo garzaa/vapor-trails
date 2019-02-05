@@ -5,18 +5,19 @@ using UnityEngine;
 public class GroundPinner : MonoBehaviour {
 
 	public GameObject target;
+	public Vector2 direction;
+	public float maxDistance = 64;
 
 	void Update() {
-		Debug.DrawLine(transform.position, Vector2.down * 128f);
 		RaycastHit2D hit = Physics2D.Raycast(
 			transform.position, 
-			Vector2.down, 
-			128f,
+			direction.normalized, 
+			maxDistance,
 			1 << LayerMask.NameToLayer(Layers.Ground)
 		);
 		if (hit.transform != null) {
 			target.SetActive(true);
-			target.transform.localPosition = hit.transform.localPosition;
+			target.transform.position = hit.point;
 		} else {
 			target.SetActive(false);
 		}
