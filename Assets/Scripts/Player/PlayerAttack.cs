@@ -54,4 +54,9 @@ public class PlayerAttack : Attack {
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 		}
 	} 
+
+	public void OnDeflect() {
+		attackerParent.GetComponent<PlayerController>().GainEnergy(1);
+		//spawn an effect, maybe go into a random pose
+	}
 }

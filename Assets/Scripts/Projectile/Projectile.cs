@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour {
 		}
 
 		if (other.GetComponent<PlayerAttack>() != null) {
-			other.GetComponent<PlayerAttack>().attackerParent.GetComponent<PlayerController>().GainEnergy(1);
+			other.GetComponent<PlayerAttack>().OnDeflect();
 			SoundManager.HitSound();
 			Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 			Vector2 flipped = Vector2.Reflect(originalMotion, Vector2.up);
