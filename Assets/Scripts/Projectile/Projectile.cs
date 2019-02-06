@@ -44,7 +44,12 @@ public class Projectile : MonoBehaviour {
 			float newAngle = Vector2.Angle(Vector2.left, flipped);
 			GameObject g = (GameObject) Instantiate(impactDust, this.transform.position, Quaternion.Euler(0, 0, newAngle), null);
 		} else {
-			RaycastHit2D hit = Physics2D.CircleCast(this.transform.position, 0.5f, Vector2.up, 0, 1 << LayerMask.NameToLayer(Layers.Ground));
+			RaycastHit2D hit = Physics2D.CircleCast(
+				this.transform.position, 
+				0.5f, 
+				Vector2.up, 
+				0, 
+				1 << LayerMask.NameToLayer(Layers.Ground) | 1 << LayerMask.NameToLayer(Layers.HitHurtboxes));
 			if (hit.transform != null) {
 				Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 				Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);

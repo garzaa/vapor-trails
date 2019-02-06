@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4490702323502402}
   - component: {fileID: 198786322585616794}
   - component: {fileID: 199576699001185930}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sparkles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 61385819676653120}
   - component: {fileID: 114864762706949150}
   - component: {fileID: 212752763262957332}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Spikes
   m_TagString: EnviroDamage
   m_Icon: {fileID: 0}
@@ -65,14 +65,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1244070637840296}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7016804, y: -2.6218152, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 37.331768, y: -0.78400004, z: 0}
   m_LocalScale: {x: 1.0000017, y: 1.0000017, z: 1}
   m_Children:
   - {fileID: 4490702323502402}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!61 &61385819676653120
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -110,18 +110,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  hitstopLength: 0.02
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
   hitmarker: {fileID: 1814475963142438, guid: 83ae3ae03bc01b6419bfd2bb229afd7d, type: 2}
+  flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 1
-  knockbackVector: {x: 0, y: 3}
+  knockbackVector: {x: 0, y: -3}
   particlesOnImpact: 0
+  returnPlayerToSafety: 0
   numParticles: 0
   particleObject: {fileID: 0}
 --- !u!198 &198786322585616794
