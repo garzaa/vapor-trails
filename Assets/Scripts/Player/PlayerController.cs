@@ -925,7 +925,7 @@ public class PlayerController : Entity {
 		return this.dead;
 	}
 
-	void FullHeal() {
+	public void FullHeal() {
 		currentHP = maxHP;
 		currentEnergy = maxEnergy;
 	}

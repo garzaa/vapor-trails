@@ -331,6 +331,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void SaveGame() {
+		pc.FullHeal();
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}
 
@@ -413,6 +414,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void UnlockAbility(Ability a) {
 		save.UnlockAbility(a);
+		pc.FullHeal();
 		if (a.Equals(Ability.GunEyes)) {
 			pc.targetingSystem.SetActive(true);
 		}
