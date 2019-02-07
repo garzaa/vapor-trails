@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "FX/Mirror"
+Shader "FX/MaskMirror"
 {
 	Properties
 	{
@@ -60,7 +60,7 @@ Shader "FX/Mirror"
 				// distort more towards the bottom of screen
 				uv.x += pow(normY/30, 2) * sin(500*((normY)));
 				fixed4 color = tex2D (_reflTex, uv);
-				color.rgb = lerp(color.rgb, _Color, sqrt(pow(normY / _MainTex_TexelSize, 2)));
+				//color.rgb = lerp(color.rgb, _Color, sqrt(pow(normY / _MainTex_TexelSize, 2)));
 				color.a = maskTex.a;
 				return color;
 			}
