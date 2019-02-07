@@ -2,7 +2,7 @@
 {
 	Properties
 	{
-		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		_MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		
@@ -86,7 +86,7 @@
 
 				fixed4 color = tex2D (_MainTex, final);
 				if (any(color.rgb != half3(1,1,1)))
-					color.rgb *= _Color.rgb; 
+					color.rgb *= _Color.rgb;
 				return color;
 			}
 
