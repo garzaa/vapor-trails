@@ -81,6 +81,7 @@ public class PlayerController : Entity {
 	public Transform vaporExplosion;
 	public Transform sparkle;
 	public Transform dust;
+	public GameObject impactParticles;
 	GameObject instantiatedSparkle = null;
 
 	void Start() {
@@ -713,7 +714,7 @@ public class PlayerController : Entity {
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		SoundManager.ExplosionSound();
-		CameraShaker.Shake(0.2f, 0.2f);
+		CameraShaker.Shake(0.5f, 0.5f);
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}

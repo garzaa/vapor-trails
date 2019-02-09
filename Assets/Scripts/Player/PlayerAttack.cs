@@ -52,8 +52,26 @@ public class PlayerAttack : Attack {
 			}
 			otherCol.GetComponent<Hurtbox>().OnHit(this);
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+			this.EmitHitParticles(otherCol);
 		}
 	} 
+
+	void EmitHitParticles(Collider2D otherCol) {
+		// get angle to target and average distance
+		Vector2 halfwayPoint = this.transform.position + ((otherCol.transform.position - this.transform.position)/2);
+		var dir = otherCol.transform.position - this.transform.position;
+		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+		//rotate hit particles
+		GameObject hitparticles = attackerParent.GetComponent<PlayerController>().impactParticles;
+		hitparticles.transform.position = otherCol.transform.position;
+		hitparticles.transform.rotation = Quaternion.AngleAxis(angle+90, Vector3.forward);
+
+		//emit 2 from each
+		foreach (ParticleSystem ps in hitparticles.GetComponentsInChildren<ParticleSystem>()) {
+			ps.Emit(1);
+		}
+	}
 
 	public void OnDeflect() {
 		attackerParent.GetComponent<PlayerController>().GainEnergy(1);
