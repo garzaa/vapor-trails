@@ -91,6 +91,7 @@ public class Enemy : Entity {
 		CloseHurtboxes();
 		this.frozen = true;
 		this.dead = true;
+		CameraShaker.SmallShake();
 		DropPickups();
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("Die");
