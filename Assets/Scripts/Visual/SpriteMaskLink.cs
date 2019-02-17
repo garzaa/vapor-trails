@@ -1,0 +1,21 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[ExecuteInEditMode]
+public class SpriteMaskLink : MonoBehaviour {
+    public SpriteRenderer otherSpriteRenderer;
+    SpriteMask mask;
+    Sprite spriteLastFrame = null;
+
+    void Start() {
+        this.mask = GetComponent<SpriteMask>();
+    }
+
+    void Update() {
+        if (spriteLastFrame != otherSpriteRenderer.sprite) {
+            this.mask.sprite = otherSpriteRenderer.sprite;
+            spriteLastFrame = otherSpriteRenderer.sprite;
+        }
+    }
+}
