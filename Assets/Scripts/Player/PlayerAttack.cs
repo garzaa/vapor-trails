@@ -75,6 +75,6 @@ public class PlayerAttack : Attack {
 
 	public void OnDeflect() {
 		attackerParent.GetComponent<PlayerController>().GainEnergy(1);
-		//spawn an effect, maybe go into a random pose
+		attackerParent.GetComponent<PlayerController>().Parry();
 	}
 }

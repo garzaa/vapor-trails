@@ -44,7 +44,8 @@ public enum Ability {
 	WallClimb,
 	Meteor,
 	Supercruise,
-	UpSlash
+	UpSlash,
+	Parry
 }
 
 public enum PassiveStat {

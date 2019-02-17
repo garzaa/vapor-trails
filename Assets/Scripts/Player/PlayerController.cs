@@ -55,7 +55,6 @@ public class PlayerController : Entity {
 	public bool midSwing = false;
 	bool dashCooldown = false;
 	public bool dashing = false;
-	bool parrying = false;
 	bool inMeteor = false;
 	bool terminalFalling = false;
 	bool cyan = false;
@@ -148,6 +147,12 @@ public class PlayerController : Entity {
 				cyanLastFrame = true;
 				CyanSprite();
 			}
+		}
+	}
+
+	public void Parry() {
+		if (grounded && unlocks.HasAbility(Ability.Parry)) {
+			anim.SetTrigger("Parry");
 		}
 	}
 
@@ -409,7 +414,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dashing || parrying || dead || touchingWall) {
+		if (dashCooldown || dashing || dead || touchingWall) {
 			// you can't just buttonmash to get the timing right
 			if (dashCooldown) {
 				earlyDashInput = true;
