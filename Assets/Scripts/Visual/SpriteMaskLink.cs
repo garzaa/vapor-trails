@@ -13,6 +13,11 @@ public class SpriteMaskLink : MonoBehaviour {
     }
 
     void Update() {
+        if (!otherSpriteRenderer.enabled) {
+            mask.sprite = null;
+            return;
+        }
+
         if (spriteLastFrame != otherSpriteRenderer.sprite) {
             this.mask.sprite = otherSpriteRenderer.sprite;
             spriteLastFrame = otherSpriteRenderer.sprite;
