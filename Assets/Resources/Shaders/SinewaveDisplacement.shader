@@ -11,6 +11,10 @@
 		_Amp ("Amplitude", Float) = 2
 		_Width ("Width", Float) = 10
 		_Vertical ("Vertical", Range (0, 10)) = 0
+
+		[Header(Movement)]
+		_XSpeed ("X Speed", Float) = 0
+		_YSpeed ("Y Speed", Float) = 0
 	}
 
 	SubShader
@@ -78,9 +82,17 @@
 			uniform float _Width;
 			uniform float _Vertical;
 
+			float _XSpeed;
+			float _YSpeed;
+
 			fixed4 SineDisplace (float2 uv)
 			{
 				float2 final = uv;
+
+				//uv offset
+				final.y = (uv.y + (_Time.w * _YSpeed));
+				final.x = (uv.x + (_Time.w * _XSpeed));
+
 				final.y += floor(_Amp * _Vertical * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
 				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
 
