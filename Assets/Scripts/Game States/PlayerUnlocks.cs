@@ -45,7 +45,8 @@ public enum Ability {
 	Meteor,
 	Supercruise,
 	UpSlash,
-	Parry
+	Parry,
+	None
 }
 
 public enum PassiveStat {
