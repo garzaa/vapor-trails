@@ -15,6 +15,9 @@
 		_XSpeed ("X Speed", Float) = 1
 		_YSpeed ("Y Speed", Float) = 1
 		_YDisplacment ("Y Displacement", Float) = 1
+
+		[Header(Transparency)]
+		_TransparencyAmount ("TransparencyAmount", Range (0, 1)) = 1
 	}
 
 	SubShader
@@ -82,8 +85,9 @@
 			float _YSpeed;
 			float4 _MainTex_ST;
 			float _YDisplacment;
+			float _TransparencyAmount;
 
-			fixed4 SineDisplace (float2 uv)
+			fixed4 SineDisplace (float2 uv, float4 inColor)
 			{
 				float2 final = uv;
 				//uv offset
@@ -94,14 +98,21 @@
 				//sinewave displacement
 				final.y += floor(_Amp * _Vertical * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
 				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
-				fixed4 color = tex2D(_MainTex, final);
+				
+				fixed4 color = UNITY_PROJ_COORD(tex2D(_MainTex, final)) * inColor;
+
+				// less transparent towards the bottom of the screen
+				float normY  = -(uv.y - _MainTex_TexelSize);
+				//color.a = lerp(color.a, 0, _TransparencyAmount * sqrt(pow(normY / _MainTex_TexelSize, 2)));
+				color.rgb *= color.a;
+				//color.a = min(inColor.a, 0.5);
 				return color;
 			}
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = SineDisplace (IN.texcoord) * IN.color;
-				c.rgb *= c.a;
+				fixed4 c = SineDisplace (IN.texcoord, IN.color); //* IN.color;
+				//c.rgb *= c.a;
 				return c;
 			}
 		ENDCG

@@ -1244,4 +1244,8 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("Hidden", false);
 	}
+
+	public void Sit() {
+		FreezeFor(1f);
+	}
 }
