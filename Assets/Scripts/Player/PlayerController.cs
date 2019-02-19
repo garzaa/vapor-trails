@@ -555,7 +555,6 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.UpSlash)) {
 			return;
 		}
-		anim.SetTrigger("UpSlash");
 		wings.Close();
 		SoundManager.JumpSound();
 		canUpSlash = false;
@@ -563,6 +562,7 @@ public class PlayerController : Entity {
 			rb2d.velocity.x,
 			jumpSpeed * 1.3f
 		);
+		anim.SetTrigger("UpSlash");
 	}
 
 	void ResetAirJumps() {
