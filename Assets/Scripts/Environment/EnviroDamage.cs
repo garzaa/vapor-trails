@@ -8,6 +8,7 @@ public class EnviroDamage : Attack {
 	public bool returnPlayerToSafety = false;
 	public int numParticles;
 	public Transform particleObject;
+	public AudioSource impactSound;
 	ParticleSystem ps;
 
 	void Start() {
@@ -41,6 +42,10 @@ public class EnviroDamage : Attack {
 		if (particlesOnImpact) {
 			particleObject.transform.position = e.transform.position;
 			ps.Emit(numParticles);
+		}
+
+		if (impactSound) {
+			impactSound.PlayOneShot(impactSound.clip);
 		}
 	}
 }
