@@ -6,16 +6,9 @@ public class Seat : Interactable {
 
     public SeatType seatType;
     public bool requiresFacingLocalRight;
-    public Vector2 sitPoint;
-
-    protected override void ExtendedStart() {
-        if (sitPoint == null) {
-            sitPoint = this.transform.position;
-        }
-    }
 
     public override void Interact(GameObject player) {
-        
+        RemovePrompt();
         Animator anim = player.GetComponent<Animator>();
         PlayerController pc = player.GetComponent<PlayerController>();
 
@@ -33,7 +26,11 @@ public class Seat : Interactable {
                 break;
         }
 
-        player.transform.position = this.sitPoint;
+        pc.transform.position = new Vector2(
+            this.transform.position.x,
+            pc.transform.position.y
+        );
+
         pc.Sit();
     }
 
