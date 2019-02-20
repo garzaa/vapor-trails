@@ -99,11 +99,13 @@
 				final.y += floor(_Amp * _Vertical * sin(floor(uv.x / _MainTex_TexelSize.x) / _Width + (_Time * _Speed))) * _MainTex_TexelSize.y;
 				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) / 1 + (_Time * 80))) * _MainTex_TexelSize.x;
 				
-				fixed4 color = UNITY_PROJ_COORD(tex2D(_MainTex, final)) * inColor;
+				fixed4 color = UNITY_PROJ_COORD(tex2D(_MainTex, final));
 
 				// less transparent towards the bottom of the screen
 				float normY  = -(uv.y - _MainTex_TexelSize);
 				//color.a = lerp(color.a, 0, _TransparencyAmount * sqrt(pow(normY / _MainTex_TexelSize, 2)));
+				if (any(color.rgb != half3(1,1,1)))
+					color.rgb *= inColor.rgb;
 				color.rgb *= color.a;
 				//color.a = min(inColor.a, 0.5);
 				return color;
