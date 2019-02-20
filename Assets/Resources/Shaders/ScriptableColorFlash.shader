@@ -5,7 +5,6 @@
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         [PerRendererData] _Color ("Tint", Color) = (1,1,1,0.5)
         [PerRendererData] _FlashColor ("Flash Color", Color) = (1,1,1,1)
-        [PerRendererData] _FlashAmount ("Flash Amount",Range(0.0,1.0)) = 1.0
     }
 
     SubShader
@@ -65,7 +64,7 @@
             fixed4 frag(v2f IN) : COLOR
             {
                 fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
-                c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashAmount);
+                c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashColor.a);
                 c.rgb *= c.a;
             
                 return c;
