@@ -115,7 +115,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void RandomChoice(int numChoices) {
-		string choice = Mathf.FloorToInt(Random.Range(0, numChoices+1)).ToString();
+		string choice = Mathf.FloorToInt(Random.Range(0, numChoices+0.9f)).ToString();
 		anim.SetTrigger(choice);
 	}
 

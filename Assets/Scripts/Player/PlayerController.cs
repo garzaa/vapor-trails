@@ -249,19 +249,21 @@ public class PlayerController : Entity {
 				if (Input.GetAxis("Horizontal") != 0) {
 					//if they just finished a dash or supercruise, keep their speed around for a bit ;^)
 					if (IsSpeeding() && 
-							(Input.GetAxis("Horizontal") * ForwardScalar() > 0)) 
+							(Input.GetAxis("Horizontal") * ForwardScalar() > 0)
+							&& !IsForcedWalking()) 
 					{
 						//slow the player down more in the air
 						if (!grounded) {
-							ReduceSpeedBy(0.05f);
+							ReduceSpeedBy(0.1f);
 						} else {
-							ReduceSpeedBy(0.07f);
+							ReduceSpeedBy(0.15f);
 						}
 					} else {
 						rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
 					}
 					movingRight = Input.GetAxis("Horizontal") > 0;
 				}
+				//if they've just started running
 				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
 					int scalar = rb2d.velocity.x > 0 ? 1 : -1;
 					if (scalar * ForwardScalar() > 0) {
@@ -283,16 +285,15 @@ public class PlayerController : Entity {
 				ReduceSpeedBy(0.1f);
 			}
 
-			//if they're above max move speed, gently slow them
-			if (IsSpeeding() && !IsForcedWalking()) {
-				ReduceSpeedBy(0.1f);
-			}
-
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		}
 
 		if (dashing) {
-            rb2d.velocity = new Vector2((dashSpeed+preDashSpeed) * ForwardScalar(), 0);
+			float maxV = Mathf.Max(Mathf.Abs(dashSpeed+preDashSpeed), Mathf.Abs(rb2d.velocity.x));
+            rb2d.velocity = new Vector2(
+				maxV * ForwardScalar(), 
+				0
+			);
         }
 
 		else if (supercruise) {
