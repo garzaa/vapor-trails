@@ -289,15 +289,16 @@ public class PlayerController : Entity {
 		}
 
 		if (dashing) {
-			float maxV = Mathf.Max(Mathf.Abs(dashSpeed+preDashSpeed), Mathf.Abs(rb2d.velocity.x));
+			float maxV = Mathf.Max(Mathf.Abs(dashSpeed+preDashSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
             rb2d.velocity = new Vector2(
-				maxV * ForwardScalar(), 
+				maxV, 
 				0
 			);
         }
 
 		else if (supercruise) {
-			rb2d.velocity = new Vector2((superCruiseSpeed) * ForwardScalar(), 0);
+			float maxV = Mathf.Max(Mathf.Abs(superCruiseSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
+			rb2d.velocity = new Vector2(maxV, 0);
 		}
 
 		if (rb2d.velocity.y < terminalVelocity) {
