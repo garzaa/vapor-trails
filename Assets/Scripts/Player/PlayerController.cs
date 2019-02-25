@@ -789,7 +789,7 @@ public class PlayerController : Entity {
 	}
 
 	void ReduceSpeedBy(float reductionAmt, bool capAtMaxSpeed = true) {
-		if (!grounded && Mathf.Abs(rb2d.velocity.x) < 0.01f) {
+		if (Mathf.Abs(rb2d.velocity.x) < 0.01f) {
 			return;
 		}
 		float originalSign = Mathf.Sign(rb2d.velocity.x);
@@ -803,9 +803,8 @@ public class PlayerController : Entity {
 			// don't make them move backwards
 			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-reductionAmt, 0); 
 		}
-		reduced *= originalSign;
 		rb2d.velocity = new Vector2(
-			reduced,
+			reduced * originalSign,
 			rb2d.velocity.y
 		);
 	}
@@ -832,7 +831,7 @@ public class PlayerController : Entity {
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
-		Hitstop.Run(0.1f);
+		Hitstop.Run(0.2f);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
 		GlobalController.FlashWhite();
@@ -841,15 +840,7 @@ public class PlayerController : Entity {
 		}
 		InvincibleFor(this.invincibilityLength);
 		CyanSprite();
-		//compute potential stun
 		StunFor(attack.GetStunLength());
-		//compute potential knockback
-		//unfreeze if this enemy is in hitstop to preserve the first knockback vector
-		//they'll be put back in hitstop afterwards by the incoming attack if necessary
-		if (inHitstop) {
-			UnLockInSpace();
-			inHitstop = false;
-		}
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
 			Vector2 kv = attack.GetKnockback();

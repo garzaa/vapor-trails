@@ -26,7 +26,10 @@
 			"CanUseSpriteAtlas"="True"
 		}
 
-		//UsePass "Sprites/NonWhiteColorization/MainPass"
+		GrabPass
+        {
+            "_BackgroundTexture"
+        }
 
 		Cull Off
 		Lighting Off
@@ -71,9 +74,7 @@
 			}
 
 			sampler2D _MainTex;
-			sampler2D _AlphaTex;
-			float _AlphaSplitEnabled;
-			float4 _MainTex_TexelSize;
+			sampler2D _BackgroundTexture;
 			uniform float _Speed;
 			uniform float _Amp;
 			uniform float _Width;
@@ -89,12 +90,13 @@
 				final.y = (uv.y + (_Time.w * _YSpeed));
 				final.x = (uv.x + (_Time.w * _XSpeed));
 
-				final.y += tan(final.x*(1/_Width) + (_Time.w)*_Speed) * (_Amp * sin(_Time.w*_Speed));
+				final.y += sin(final.x*(1/_Width) + (_Time.w)*_Speed) * (_Amp * sin(_Time.w*_Speed) + final.y);
 
-				fixed4 color = tex2D (_MainTex, final);
-				color.rgb *= inColor.rgb;
-				color.rgb *= color.a;
-				return color;
+				fixed4 c = tex2D (_MainTex, final);
+				c.rgb *= inColor.rgb;
+				c.rgb *= c.a;
+				fixed4 backgroundColor = tex2D(_BackgroundTexture, final);
+				return c;
 			}
 
 			fixed4 frag(v2f IN) : SV_Target

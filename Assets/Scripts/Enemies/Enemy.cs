@@ -74,14 +74,7 @@ public class Enemy : Entity {
 	public override void OnHit(Attack attack) {
 		WhiteSprite();
 		DamageFor(attack.GetDamage());
-		//compute potential stun
 		StunFor(attack.GetStunLength());
-		//compute potential knockback
-		//unfreeze if this enemy is in hitstop to preserve the knockback vector
-		if (inHitstop) {
-			UnLockInSpace();
-			inHitstop = false;
-		}
 		if (attack.knockBack) {
 			KnockBack(attack.GetKnockback());
 		}
