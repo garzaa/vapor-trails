@@ -15,7 +15,7 @@ public class AcceleratorController : MonoBehaviour
         Rigidbody2D rb2d = other.GetComponent<Rigidbody2D>();
         if (rb2d != null) {
             rb2d.velocity += (rb2d.velocity.normalized * 6f);
-            SoundManager.SwingSound();
+            SoundManager.JumpSound();
             animator.SetTrigger("Boost");
         }
     }

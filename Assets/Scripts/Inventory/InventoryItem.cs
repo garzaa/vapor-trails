@@ -7,7 +7,8 @@ public class InventoryItem : MonoBehaviour {
     public string itemName = "New Item";
     public Sprite itemIcon = null;
     public Sprite detailedIcon = null;
-    public bool isUnique = false;
+    public bool stackable = false;
+    public int count = 1;
 
     [TextArea]
     public string itemDescription = "";
