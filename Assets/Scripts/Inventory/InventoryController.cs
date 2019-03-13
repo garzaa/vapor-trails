@@ -31,14 +31,6 @@ public class InventoryController : MonoBehaviour {
         return debugItemCount;
     }
 
-    public void AddItem(InventoryItem item) {
-        if (item.stackable) {
-            GetItem(item).count += item.count;
-        } else if (!HasItem(item.name)) {
-            items.Add(item);
-        }
-    }
-
     public virtual void ReactToItemSelect(InventoryItem item) {
         
     }

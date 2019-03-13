@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class InventoryList : System.Object {
-    public List<InventoryItem> items;
+    List<InventoryItem> items;
 
     public InventoryItem GetItem(string itemName) {
         foreach (InventoryItem i in items) {
@@ -34,6 +34,14 @@ public class InventoryList : System.Object {
 
     public InventoryItem GetItemByIndex(int index) {
         return items[index];
+    }
+
+    public void AddItem(InventoryItem item) {
+        if (HasItem(item) && item.stackable) {
+            GetItem(item).count += item.count;
+        } else if (!HasItem(item)) {
+            items.Add(item);
+        }
     }
     
     public SerializableInventoryList MakeSerializableInventory() {
