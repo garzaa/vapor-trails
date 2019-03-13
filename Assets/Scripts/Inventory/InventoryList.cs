@@ -17,7 +17,8 @@ public class InventoryList : System.Object {
 
     public InventoryItem GetItem(InventoryItem item) {
         foreach (InventoryItem i in items) {
-            if (i.Equals(item)) {
+            //always check via name - items can have differing counts
+            if (i.name.Equals(item.name)) {
                 return i;
             }
         }
