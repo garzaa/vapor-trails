@@ -384,10 +384,10 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void GetItem(InventoryItem item) {
-		if (item.GetType()==typeof(AbilityItem) && inventory.Contains(item)) {
+		if (item.GetType()==typeof(AbilityItem) && inventory.HasItem(item)) {
 			return;
 		}
-		inventory.Add(item);
+		inventory.AddItem(item);
 		item.OnPickup();
 		if (item.GetType() != typeof(AbilityItem)) {
 			NPC itemDialogue = MakeItemPickupDialogue(item);

@@ -1,13 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour {
-    List<InventoryItem> items;
+    public InventoryList items;   
+    InventoryUI inventoryUI;
+    bool inInventory = false;
 
     //for debugging
     public int debugItemCount;
+
+    void Start() {
+        inventoryUI = GetComponent<InventoryUI>();
+    }
+
+    void Update() {
+        if (Input.GetButtonDown("Inventory")) {
+            if (inInventory) {
+                inInventory = false;
+                if (GlobalController.pc.inCutscene) {
+                    return;
+                }
+                GlobalController.pc.Freeze();
+                GlobalController.pc.inCutscene = true;
+            }
+        }
+    }
 
     int GetItemCount() {
         return debugItemCount;
@@ -21,42 +39,7 @@ public class InventoryController : MonoBehaviour {
         }
     }
 
-    public InventoryItem GetItem(string itemName) {
-        foreach (InventoryItem i in items) {
-            if (i.name.Equals(itemName)) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    public InventoryItem GetItem(InventoryItem item) {
-        foreach (InventoryItem i in items) {
-            if (i.Equals(item)) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    public bool HasItem(string itemName) {
-        return GetItem(itemName) != null;
-    }
-    
-    public SerializableInventory MakeSerializableInventory() {
-        return new SerializableInventory(this.items);
-    }
-
-    public void LoadFromSerializableInventory(SerializableInventory i) {
-        this.items = i.items;
-    }
-}
-
-[System.Serializable]
-public class SerializableInventory {
-    public List<InventoryItem> items;
-    
-    public SerializableInventory(List<InventoryItem> items) {
-        this.items = items;
+    public virtual void ReactToItemSelect(InventoryItem item) {
+        
     }
 }

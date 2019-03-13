@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class InventoryUI : UIComponent {
     Animator animator;
-    
+    InventoryItem currentlySelectedItem;
+    InventoryController inventoryController;
+
     public override void Show() {
-        animator.SetTrigger("Show");
+        animator.SetBool("Shown", true);
     }
 
     public override void Hide() {
-        animator.SetTrigger("Hide");
+        animator.SetBool("Shown", false);
+        currentlySelectedItem = null;
     }
 
-    void FixedUpdate() {
-
+    void Update() {
+        if (animator.GetBool("Shown")) {
+            if (Input.GetButtonDown("Jump")) {
+                inventoryController.ReactToItemSelect(currentlySelectedItem);
+            }
+        }
     }
+
 }
