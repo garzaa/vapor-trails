@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class InventoryItem : MonoBehaviour {
     public string itemName = "New Item";
     public Sprite itemIcon = null;

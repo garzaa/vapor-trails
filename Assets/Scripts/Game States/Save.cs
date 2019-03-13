@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// this is a duplicated class but I want it to exist in the editor
 public class Save : MonoBehaviour {
     public int slotNum = 1;
     public int currentHP = 5;
@@ -75,7 +74,6 @@ public class SerializableSave {
     public int maxHP = 5;
     public int currentEnergy = 5;
     public int maxEnergy = 5;
-    //ublic Dictionary<string, SerializedPersistentObject> persistentObjects;
     public List<string> persistentObjectKeys;
     public List<SerializedPersistentObject> persistentObjectValues;
     public string sceneName;

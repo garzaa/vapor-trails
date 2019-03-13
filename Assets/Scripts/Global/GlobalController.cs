@@ -33,8 +33,7 @@ public class GlobalController : MonoBehaviour {
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
-	//todo: make this the actual inventory class
-	static List<InventoryItem> inventory;
+	static InventoryController inventory;
 
 	static Queue<NPC> queuedNPCs;
 
@@ -52,7 +51,7 @@ public class GlobalController : MonoBehaviour {
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = gc.transform.Find("PixelCanvas").transform.Find("PauseUI").GetComponent<Animator>();
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
-		inventory = new List<InventoryItem>();
+		inventory = gc.GetComponentInChildren<InventoryController>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -385,7 +384,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void GetItem(InventoryItem item) {
-		if (item.isUnique && inventory.Contains(item)) {
+		if (item.GetType()==typeof(AbilityItem) && inventory.Contains(item)) {
 			return;
 		}
 		inventory.Add(item);
