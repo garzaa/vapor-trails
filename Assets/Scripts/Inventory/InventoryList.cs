@@ -44,6 +44,12 @@ public class InventoryList : System.Object {
             items.Add(item);
         }
     }
+
+    public void AddAll(InventoryList inventoryList) {
+        foreach (InventoryItem i in inventoryList.items) {
+            AddItem(i);
+        }
+    }
     
     public SerializableInventoryList MakeSerializableInventory() {
         return new SerializableInventoryList(this.items);

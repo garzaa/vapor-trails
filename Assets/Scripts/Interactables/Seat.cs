@@ -35,7 +35,7 @@ public class Seat : Interactable {
     }
 
     void FlipPlayerToOrientation(PlayerController pc) {
-        if ((transform.localScale.x == 1) ^ pc.facingRight) {
+        if ((transform.localScale.x > 0) ^ pc.facingRight) {
             pc.Flip();
         }
     }

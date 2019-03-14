@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class InventoryItem : MonoBehaviour {
+public class InventoryItem : System.Object {
     public string itemName = "New Item";
     public Sprite itemIcon = null;
     public Sprite detailedIcon = null;
