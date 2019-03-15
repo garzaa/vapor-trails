@@ -7,6 +7,10 @@ public class InventoryUI : UIComponent {
     InventoryItem currentlySelectedItem;
     InventoryController inventoryController;
 
+    void Start() {
+        animator = GetComponent<Animator>();
+    }
+
     public override void Show() {
         animator.SetBool("Shown", true);
     }
