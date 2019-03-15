@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryList : MonoBehaviour {
-    List<InventoryItem> items;
+    public List<InventoryItem> items;
 
     public InventoryItem GetItem(string itemName) {
         foreach (InventoryItem i in items) {
