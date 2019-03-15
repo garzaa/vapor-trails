@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class InventoryList : System.Object {
+public class InventoryList : MonoBehaviour {
     List<InventoryItem> items;
 
     public InventoryItem GetItem(string itemName) {
         foreach (InventoryItem i in items) {
-            if (i.name.Equals(itemName)) {
+            if (i.itemName.Equals(itemName)) {
                 return i;
             }
         }
@@ -18,7 +17,7 @@ public class InventoryList : System.Object {
     public InventoryItem GetItem(InventoryItem item) {
         foreach (InventoryItem i in items) {
             //always check via name - items can have differing counts
-            if (i.name.Equals(item.name)) {
+            if (i.itemName.Equals(item.itemName)) {
                 return i;
             }
         }

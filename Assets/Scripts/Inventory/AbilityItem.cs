@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class AbilityItem : InventoryItem {
 
 	public Ability ability;
 	public Sprite abilitySprite;
+	[TextArea]
 	public string instructions;
 
 	public override void OnPickup() {

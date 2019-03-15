@@ -1,25 +1,15 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1851915598650150}
-  m_IsPrefabAsset: 1
 --- !u!1 &1851915598650150
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4711109688526618}
-  - component: {fileID: 114235780621759248}
+  - component: {fileID: 711471149284411745}
   m_Layer: 0
   m_Name: GunEyes
   m_TagString: Untagged
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4711109688526618
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851915598650150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -40,23 +31,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114235780621759248
+--- !u!114 &711471149284411745
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851915598650150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7ce7c4a2522f449bdad3fb08fba1ba, type: 3}
+  m_GeneratorAsset: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 73b1df0cfdc2c5e498dea2bc2d6b6d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Gun Eyes
-  itemIcon: {fileID: 21300000, guid: 1583912a7d2a2b34ea91cd650cb26ab6, type: 3}
-  detailedIcon: {fileID: 21300000, guid: 0a24a9b84d154b94c9a655a9659e2957, type: 3}
-  isUnique: 1
-  itemDescription: Draw on your fusion core to energize and accelerate a small bolt
-    of plasma. Autotargets enemies within range.
-  ability: 2
-  abilitySprite: {fileID: 21300000, guid: 1583912a7d2a2b34ea91cd650cb26ab6, type: 3}
-  instructions: PRESS (X|Y|TRIANGLE) TO FIRE
+  item:
+    itemName: Gun Eyes
+    itemIcon: {fileID: 21300000, guid: 1583912a7d2a2b34ea91cd650cb26ab6, type: 3}
+    detailedIcon: {fileID: 21300000, guid: 0a24a9b84d154b94c9a655a9659e2957, type: 3}
+    stackable: 0
+    count: 1
+    itemDescription: Recent advances in plasma railgun miniaturization have allowed
+      some Valkyries to carry onboard ranged weapons.
+  abilityItem:
+    itemName: Gun Eyes
+    itemIcon: {fileID: 21300000, guid: 1583912a7d2a2b34ea91cd650cb26ab6, type: 3}
+    detailedIcon: {fileID: 21300000, guid: 0a24a9b84d154b94c9a655a9659e2957, type: 3}
+    stackable: 0
+    count: 1
+    itemDescription: Recent advances in plasma railgun miniaturization have allowed
+      some Valkyries to carry onboard ranged weapons.
+    ability: 2
+    abilitySprite: {fileID: 21300000, guid: 1583912a7d2a2b34ea91cd650cb26ab6, type: 3}
+    instructions: PRESS (X|Y|SQUARE) TO FIRE

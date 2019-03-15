@@ -18,7 +18,8 @@ public class PersistentObject : MonoBehaviour {
 
 	// this is called after the global Awake so the initial save data will always be present
 	public virtual void Start() {
-	
+		SerializedPersistentObject o = LoadObjectState();
+        ConstructFromSerialized(o);
 	}
 
 	public Hashtable GetProperties() {
@@ -29,7 +30,7 @@ public class PersistentObject : MonoBehaviour {
 		return new SerializedPersistentObject(this);
 	}
 
-	public virtual void ConstructFromDeserialized(SerializedPersistentObject s) {
+	public virtual void ConstructFromSerialized(SerializedPersistentObject s) {
 		this.persistentProperties = s.persistentProperties;
 	}
 
