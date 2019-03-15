@@ -5,9 +5,8 @@ Shader "Sprites/Outline"
 	Properties
 	{
 		[PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
-	    _Color("Tint", Color) = (1,1,1,1)
+	    [PerRendererData] _Color("Tint", Color) = (1,1,1,1)
         [PerRendererData] _FlashColor ("Flash Color", Color) = (1,1,1,1)
-		// Add values to determine if outlining is enabled and outline color.
 		[PerRendererData] _Outline("Outline", Float) = 0
 		[PerRendererData] _OutlineColor("Outline Color", Color) = (1,1,1,1)
 		[PerRendererData] _OutlineSize("Outline Size", int) = 1

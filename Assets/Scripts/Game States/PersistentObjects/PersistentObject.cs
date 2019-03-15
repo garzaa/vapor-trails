@@ -31,6 +31,9 @@ public class PersistentObject : MonoBehaviour {
 	}
 
 	public virtual void ConstructFromSerialized(SerializedPersistentObject s) {
+		if (s == null) {
+			return;
+		}
 		this.persistentProperties = s.persistentProperties;
 	}
 

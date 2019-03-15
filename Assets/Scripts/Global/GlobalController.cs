@@ -358,10 +358,17 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static SerializedPersistentObject GetPersistentObject(string id) {
+		if (save == null) {
+			return null;
+		}
 		return save.GetPersistentObject(id);
 	}
 
 	public static void SavePersistentObject(SerializedPersistentObject o) {
+		if (save == null) {
+			Debug.LogWarning("Save file is null!");
+			return;
+		}
 		save.SavePersistentObject(o);
 	}
 

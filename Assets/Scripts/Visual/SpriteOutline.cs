@@ -8,12 +8,13 @@ public class SpriteOutline : MonoBehaviour
     [Range(0, 16)]
     public int outlineSize = 1;
 
-    private SpriteRenderer spriteRenderer;
+    SpriteRenderer spriteRenderer;
+    Material mpb;
 
     void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
+        mpb = GetComponent<Renderer>().sharedMaterial;
         UpdateOutline(true);
     }
 
@@ -35,13 +36,10 @@ public class SpriteOutline : MonoBehaviour
             sprite.textureRect.max.x / sprite.texture.width,
             sprite.textureRect.max.y / sprite.texture.height);
 
-        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
-        spriteRenderer.GetPropertyBlock(mpb);
         mpb.SetFloat("_Outline", outline ? 1f : 0);
         mpb.SetColor("_OutlineColor", color);
         mpb.SetFloat("_OutlineSize", outlineSize);
         mpb.SetVector("_Rect", result);
-        spriteRenderer.SetPropertyBlock(mpb);
 
     }
 }
