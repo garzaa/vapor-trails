@@ -4,6 +4,9 @@ using UnityEngine.EventSystems;
 
 public class ItemPane : MonoBehaviour, ISelectHandler {
     InventoryUI inventoryUI;
+    public InventoryItem inventoryItem {
+        get { return inventoryItem; }
+    }
 
     void Start() {
         inventoryUI = GetComponentInParent<InventoryUI>();
@@ -11,7 +14,11 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
 
     public void OnSelect(BaseEventData eventData)
     {
-        inventoryUI.ReactToItemHover(this.GetComponent<RectTransform>());
+        inventoryUI.ReactToItemHover(this);
+    }
+
+    public void PopulateSelfInfo(InventoryItem item) {
+        
     }
 
 }

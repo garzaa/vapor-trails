@@ -7,11 +7,14 @@ public class InventoryUI : UIComponent {
     Animator animator;
     InventoryItem currentlySelectedItem;
     InventoryController inventoryController;
+    
+    public GameObject itemPaneTemplate;
+    public Transform gridHolder;
 
     public Image itemImage;
     public Text itemTitle;
     public Text itemDescription;
-
+    public Text itemCost;
     public ScrollRect scrollView;
 
     void Start() {
@@ -27,8 +30,9 @@ public class InventoryUI : UIComponent {
         currentlySelectedItem = null;
     }
 
-    public void ReactToItemHover(RectTransform itemPane) {
-        scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane);
+    public void ReactToItemHover(ItemPane itemPane) {
+        scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>());
+        ShowItemInfo(itemPane.inventoryItem);
     }
 
     void Update() {
@@ -36,6 +40,21 @@ public class InventoryUI : UIComponent {
             if (Input.GetButtonDown("Jump")) {
                 inventoryController.ReactToItemSelect(currentlySelectedItem);
             }
+        }
+    }
+
+    void ShowItemInfo(InventoryItem item) {
+        itemImage.sprite = item.detailedIcon;
+        itemTitle.text = item.itemName;
+        itemDescription.text = item.itemDescription;
+    }
+
+    public void PopulateItems(InventoryList inventoryList) {
+        //TODO: remove existing item gameObjects;
+        foreach (InventoryItem item in inventoryList.items) {
+            GameObject g = (GameObject) Instantiate(itemPaneTemplate);
+            g.transform.parent = gridHolder;
+            g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
     }
 

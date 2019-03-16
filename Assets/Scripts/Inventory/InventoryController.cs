@@ -34,4 +34,12 @@ public class InventoryController : MonoBehaviour {
     public virtual void ReactToItemSelect(InventoryItem item) {
         
     }
+
+    public void GetItem(InventoryItem item) {
+        if (item.GetType()==typeof(AbilityItem) && items.HasItem(item)) {
+			return;
+		}
+		items.AddItem(item);
+		item.OnPickup();
+    }
 }
