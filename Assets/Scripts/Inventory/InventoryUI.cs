@@ -53,7 +53,7 @@ public class InventoryUI : UIComponent {
 
     void ShowItemInfo(InventoryItem item) {
         itemImage.sprite = item.detailedIcon;
-        itemTitle.text = item.itemName;
+        itemTitle.text = item.itemName.ToUpper();
         itemDescription.text = item.itemDescription;
     }
 
