@@ -17,8 +17,12 @@ public class InventoryUI : UIComponent {
     public Text itemCost;
     public ScrollRect scrollView;
 
+    public int NUM_COLUMNS = 3;
+    RectTransform gridRect;
+
     void Start() {
         animator = GetComponent<Animator>();
+        gridRect = gridHolder.GetComponent<RectTransform>();
     }
 
     public override void Show() {
@@ -41,6 +45,10 @@ public class InventoryUI : UIComponent {
                 inventoryController.ReactToItemSelect(currentlySelectedItem);
             }
         }
+
+        if (Input.GetButtonDown("Inventory")) {
+            animator.SetBool("Shown", !animator.GetBool("Shown"));
+        }
     }
 
     void ShowItemInfo(InventoryItem item) {
@@ -58,6 +66,21 @@ public class InventoryUI : UIComponent {
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
+        //then update the grid container to be as tall as the list of items
+        SetGridHeight(gridRect, inventoryList.items.Count, NUM_COLUMNS);
+    }
+
+    public void SetGridHeight(RectTransform g, int itemCount, int numColumns) {
+        Vector2 s = g.sizeDelta; 
+        GridLayoutGroup grid = g.GetComponent<GridLayoutGroup>();
+
+        int numRows = itemCount / numColumns;
+        s.y = grid.padding.top + grid.padding.bottom
+            + (numRows * (int)grid.cellSize.y * grid.spacing.y)
+            // muh fencepost error
+            + ((numRows-1) * grid.spacing.y);
+
+        g.sizeDelta = s;
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class InventoryController : MonoBehaviour {
     public InventoryList items;   
     InventoryUI inventoryUI;
-    bool inInventory = false;`
+    bool inInventory = false;
 
     void Start() {
         inventoryUI = GetComponent<InventoryUI>();
@@ -22,10 +22,6 @@ public class InventoryController : MonoBehaviour {
                 GlobalController.pc.inCutscene = true;
             }
         }
-    }
-
-    int GetItemCount() {
-        return debugItemCount;
     }
 
     public virtual void ReactToItemSelect(InventoryItem item) {

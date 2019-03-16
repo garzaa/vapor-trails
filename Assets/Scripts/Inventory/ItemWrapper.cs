@@ -1,10 +1,7 @@
 using UnityEngine;
 
 public class ItemWrapper : MonoBehaviour {
-    public InventoryItem item {
-        get { return GetItem(); }
-        set { item = value; }
-    }
+    public InventoryItem item;
 
     virtual public InventoryItem GetItem() {
         return this.item;

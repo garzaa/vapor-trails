@@ -4,9 +4,7 @@ using UnityEngine.EventSystems;
 
 public class ItemPane : MonoBehaviour, ISelectHandler {
     InventoryUI inventoryUI;
-    public InventoryItem inventoryItem {
-        get { return inventoryItem; }
-    }
+    public InventoryItem inventoryItem;
 
     void Start() {
         inventoryUI = GetComponentInParent<InventoryUI>();
@@ -18,7 +16,7 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     }
 
     public void PopulateSelfInfo(InventoryItem item) {
-        
+
     }
 
 }
