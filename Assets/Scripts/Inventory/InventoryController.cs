@@ -5,10 +5,7 @@ using UnityEngine;
 public class InventoryController : MonoBehaviour {
     public InventoryList items;   
     InventoryUI inventoryUI;
-    bool inInventory = false;
-
-    //for debugging
-    public int debugItemCount;
+    bool inInventory = false;`
 
     void Start() {
         inventoryUI = GetComponent<InventoryUI>();
@@ -36,7 +33,7 @@ public class InventoryController : MonoBehaviour {
     }
 
     public void GetItem(InventoryItem item) {
-        if (item.GetType()==typeof(AbilityItem) && items.HasItem(item)) {
+        if (item.IsAbility() && items.HasItem(item)) {
 			return;
 		}
 		items.AddItem(item);

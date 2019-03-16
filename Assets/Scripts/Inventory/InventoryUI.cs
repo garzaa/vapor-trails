@@ -50,7 +50,9 @@ public class InventoryUI : UIComponent {
     }
 
     public void PopulateItems(InventoryList inventoryList) {
-        //TODO: remove existing item gameObjects;
+        foreach (Transform oldItem in gridHolder.transform) {
+            GameObject.Destroy(oldItem.gameObject);
+        }
         foreach (InventoryItem item in inventoryList.items) {
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
             g.transform.parent = gridHolder;

@@ -17,4 +17,8 @@ public class InventoryItem : System.Object {
 
     public virtual void OnPickup() {
     }
+
+    public bool IsAbility() {
+        return GetType() == typeof(AbilityItem);
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemGiver : Activatable {
 
-	public ItemEditorWrapper item;
+	public ItemWrapper item;
 
 	public override void ActivateSwitch(bool b) {
 		GlobalController.GetItem(this.item.GetItem());

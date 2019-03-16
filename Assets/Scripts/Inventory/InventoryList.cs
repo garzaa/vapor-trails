@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryList : MonoBehaviour {
@@ -51,7 +52,7 @@ public class InventoryList : MonoBehaviour {
     }
     
     public SerializableInventoryList MakeSerializableInventory() {
-        return new SerializableInventoryList(this.items);
+        return new SerializableInventoryList(items);
     }
 
     public void LoadFromSerializableInventoryList(SerializableInventoryList i) {
