@@ -38,9 +38,14 @@ public class InventoryList : MonoBehaviour {
     }
 
     public void AddItem(InventoryItem item) {
-        if (HasItem(item) && item.stackable) {
-            GetItem(item).count += item.count;
-        } else if (!HasItem(item)) {
+        if (HasItem(item)) {
+            if (item.IsAbility()) { 
+                return;
+		    }
+            if (item.stackable) {
+                GetItem(item).count += item.count;
+            }
+        } else {
             items.Add(item);
         }
     }

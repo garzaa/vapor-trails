@@ -6,6 +6,9 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     InventoryUI inventoryUI;
     public InventoryItem inventoryItem;
 
+    public Image itemImage;
+    public Text itemCount;
+
     void Start() {
         inventoryUI = GetComponentInParent<InventoryUI>();
     }
@@ -16,7 +19,9 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     }
 
     public void PopulateSelfInfo(InventoryItem item) {
-
+        itemImage.sprite = item.itemIcon;
+        this.inventoryItem = item;
+        //itemCount.text = item.count;
     }
 
 }

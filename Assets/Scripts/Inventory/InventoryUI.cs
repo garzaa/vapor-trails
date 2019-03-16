@@ -41,7 +41,7 @@ public class InventoryUI : UIComponent {
 
     void Update() {
         if (animator.GetBool("Shown")) {
-            if (Input.GetButtonDown("Jump")) {
+            if (Input.GetButtonDown("Jump") && currentlySelectedItem != null) {
                 inventoryController.ReactToItemSelect(currentlySelectedItem);
             }
         }
@@ -66,7 +66,7 @@ public class InventoryUI : UIComponent {
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
-        //then update the grid container to be as tall as the list of items
+
         SetGridHeight(gridRect, inventoryList.items.Count, NUM_COLUMNS);
     }
 
@@ -74,11 +74,13 @@ public class InventoryUI : UIComponent {
         Vector2 s = g.sizeDelta; 
         GridLayoutGroup grid = g.GetComponent<GridLayoutGroup>();
 
-        int numRows = itemCount / numColumns;
-        s.y = grid.padding.top + grid.padding.bottom
-            + (numRows * (int)grid.cellSize.y * grid.spacing.y)
+        int numRows = Mathf.Max(itemCount / numColumns, 1);
+        s.y = (
+            grid.padding.top + grid.padding.bottom
+            + (numRows * (int)grid.cellSize.y)
             // muh fencepost error
-            + ((numRows-1) * grid.spacing.y);
+            + ((numRows-1) * grid.spacing.y)
+        );
 
         g.sizeDelta = s;
     }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour {
     public InventoryList items;   
-    InventoryUI inventoryUI;
+    public InventoryUI inventoryUI;
     bool inInventory = false;
 
-    void Start() {
-        inventoryUI = GetComponent<InventoryUI>();
+    void Start () {
+        inventoryUI.PopulateItems(this.items);
     }
 
     void Update() {
@@ -28,11 +28,10 @@ public class InventoryController : MonoBehaviour {
         
     }
 
-    public void GetItem(InventoryItem item) {
-        if (item.IsAbility() && items.HasItem(item)) {
-			return;
-		}
+    public void AddItem(InventoryItem item) {
+        SoundManager.ItemGetSound();
 		items.AddItem(item);
+        inventoryUI.PopulateItems(this.items);
 		item.OnPickup();
     }
 }

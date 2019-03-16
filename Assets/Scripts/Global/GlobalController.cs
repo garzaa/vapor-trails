@@ -390,8 +390,8 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void GetItem(InventoryItem item) {
-		inventory.GetItem(item);
+	public static void AddItem(InventoryItem item) {
+		inventory.AddItem(item);
 		if (item.IsAbility()) {
 			NPC itemDialogue = MakeItemPickupDialogue(item);
 			//EnterDialogue(itemDialogue);

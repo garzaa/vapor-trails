@@ -18,6 +18,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip interact;
 	public AudioClip footfall;
 	public AudioClip heal;
+	public AudioClip itemGet;
 	public List<AudioClip> voices;
 
 	public static SoundManager sm;
@@ -82,5 +83,9 @@ public class SoundManager : MonoBehaviour {
 
 	public static void HealSound() {
 		sm.a.PlayOneShot(sm.heal);
+	}
+
+	public static void ItemGetSound() {
+		sm.a.PlayOneShot(sm.itemGet);
 	}
 }

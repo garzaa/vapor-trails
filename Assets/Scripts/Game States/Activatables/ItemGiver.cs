@@ -7,6 +7,6 @@ public class ItemGiver : Activatable {
 	public ItemWrapper item;
 
 	public override void ActivateSwitch(bool b) {
-		GlobalController.GetItem(this.item.GetItem());
+		GlobalController.AddItem(this.item.GetItem());
 	}
 }
