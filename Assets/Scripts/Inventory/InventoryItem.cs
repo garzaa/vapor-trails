@@ -10,6 +10,7 @@ public class InventoryItem : System.Object {
     public Sprite detailedIcon = null;
     public bool stackable = false;
     public int count = 1;
+    public int cost;
 
     [TextArea]
     public string itemDescription = "";

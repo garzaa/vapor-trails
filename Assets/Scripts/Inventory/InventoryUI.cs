@@ -11,7 +11,9 @@ public class InventoryUI : UIComponent {
     public Image itemImage;
     public Text itemTitle;
     public Text itemDescription;
-    
+
+    public ScrollRect scrollView;
+
     void Start() {
         animator = GetComponent<Animator>();
     }
@@ -23,6 +25,10 @@ public class InventoryUI : UIComponent {
     public override void Hide() {
         animator.SetBool("Shown", false);
         currentlySelectedItem = null;
+    }
+
+    public void ReactToItemHover(RectTransform itemPane) {
+        scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane);
     }
 
     void Update() {
