@@ -59,7 +59,7 @@ public class PlayerController : Entity {
 	bool inMeteor = false;
 	bool terminalFalling = false;
 	bool cyan = false;
-	bool justLeftWall = false;
+	public bool justLeftWall = false;
 	Coroutine currentWallTimeout;
 	bool canShoot = true;
 	Coroutine platformTimeout;
@@ -405,7 +405,7 @@ public class PlayerController : Entity {
 		);
 		Flip();
 		anim.SetTrigger("WallJump");
-		StopWallTimeout();
+		currentWallTimeout = StartCoroutine(WallLeaveTimeout());
 	}
 
 	void AirJump() {
@@ -461,7 +461,7 @@ public class PlayerController : Entity {
 		}
 	}
 
-	private void endEarlyDashInput() {
+	private void EndEarlyDashInput() {
 		earlyDashInput = false;
 	}
 
