@@ -36,7 +36,10 @@ public class InventoryUI : UIComponent {
     }
 
     void SelectFirstChild() {
-        gridHolder.GetChild(0).GetComponent<Button>().Select();
+        Button b = gridHolder.GetChild(0).GetComponent<Button>();
+        b.Select();
+        b.OnSelect(null);
+        ReactToItemHover(b.GetComponent<ItemPane>());
     }
 
     public void ReactToItemHover(ItemPane itemPane) {

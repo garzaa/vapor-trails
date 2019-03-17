@@ -20,7 +20,7 @@ public class AbilityGetUI : MonoBehaviour {
 		this.abilityText.text = item.itemName;
 		this.descriptionText.text = item.itemDescription;
 		this.instructionText.text = ControllerTextChanger.ReplaceText(item.instructions);
-		this.abilityImage.sprite = item.abilitySprite;
+		this.abilityImage.sprite = item.detailedIcon;
 		GlobalController.ShowAbilityGetUI();
 	}
 }
