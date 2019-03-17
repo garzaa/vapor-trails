@@ -36,7 +36,8 @@ public class InventoryUI : UIComponent {
     }
 
     void SelectFirstChild() {
-        gridHolder.GetChild(0).GetComponent<ItemPane>().OnSelect(eventData:null);
+        print("pingas");
+        gridHolder.GetChild(0).GetComponent<Button>().Select();
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
