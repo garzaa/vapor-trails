@@ -33,7 +33,7 @@ public class GlobalController : MonoBehaviour {
 	static DialogueLine toActivate = null;
 
 	static RespawnManager rm;
-	static InventoryController inventory;
+	public static InventoryController inventory;
 
 	static Queue<NPC> queuedNPCs;
 

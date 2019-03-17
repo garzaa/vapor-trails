@@ -57,6 +57,13 @@ public class InventoryList : MonoBehaviour {
     public void LoadFromSerializableInventoryList(SerializableInventoryList i) {
         this.items = i.items;
     }
+
+    public void RemoveItem(InventoryItem toRemove) {
+        if (GetItem(toRemove) == null) {
+            Debug.Log("RemoveItem isn't nullsafe you brainlet");
+        }
+        GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
+    }
 }
 
 [System.Serializable]
