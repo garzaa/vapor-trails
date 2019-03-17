@@ -7,8 +7,9 @@ public class PlayerController : Entity {
 	float maxMoveSpeed = 3f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
-	float hardLandVelocity = -4.5f;
-	float terminalVelocity = -10f;
+	float hardLandSpeed = -4.5f;
+	float fastFallSpeed = -7f;
+	float terminalSpeed = -10f;
 	float dashSpeed = 8f;
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
@@ -301,14 +302,14 @@ public class PlayerController : Entity {
 			rb2d.velocity = new Vector2(maxV, 0);
 		}
 
-		if (rb2d.velocity.y < terminalVelocity) {
+		if (rb2d.velocity.y < terminalSpeed) {
 			terminalFalling = true;
-			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalVelocity);
+			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalSpeed);
 		} else {
 			terminalFalling = false;
 		}
 
-		if (rb2d.velocity.y < hardLandVelocity) {
+		if (rb2d.velocity.y < hardLandSpeed) {
 			hardFalling = true;
 		}
 		else {
@@ -356,6 +357,14 @@ public class PlayerController : Entity {
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
 			jumpCutoffEnabled = false;
+		}
+		
+		//fast fall
+		if (Input.GetAxis("Vertical")<0 && rb2d.velocity.y < jumpCutoff && !grounded) {
+			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(rb2d.velocity.y, fastFallSpeed));
+			wings.Open();
+			wings.EnableJets();
+			wings.Meteor();
 		}
 	}
 
@@ -522,6 +531,7 @@ public class PlayerController : Entity {
 		ResetAirJumps();
 		InterruptAttack();
 		StopWallTimeout();
+		wings.FoldIn();
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
 		}
@@ -708,7 +718,7 @@ public class PlayerController : Entity {
 		SoundManager.DashSound();
 		rb2d.velocity = new Vector2(
 			x:0,
-			y:terminalVelocity
+			y:terminalSpeed
 		);
 	}
 
@@ -965,7 +975,7 @@ public class PlayerController : Entity {
 		InterruptEverything();
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
-			hardLandVelocity
+			hardLandSpeed
 		);
 		wings.FoldIn();
 		platform.enabled = false;

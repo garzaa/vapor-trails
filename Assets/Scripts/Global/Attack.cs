@@ -40,8 +40,6 @@ public class Attack : MonoBehaviour {
 		Vector2 s = h.transform.localScale;
 		s.x = UtilityMethods.BoolSign(parent.facingRight);
 		s.y = UtilityMethods.BoolSign(flipHitmarker)*-1;
-		Debug.Log(s);
-		Debug.Log(h.name);
 		h.transform.localScale = s;
 	}
 
