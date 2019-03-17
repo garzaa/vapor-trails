@@ -5,10 +5,8 @@ using System.Collections.Generic;
 
 public class ItemWanter : PersistentObject {
     public List<ItemWrapper> wantedItems;
-    public NPC internalNPC;
-
-    public Conversation acceptanceLines;
-    public Conversation rejectionLines;
+    public NPC acceptedNPC;
+    public NPC rejectedNPC;
 
     bool acceptedItemBefore;
 
@@ -30,13 +28,13 @@ public class ItemWanter : PersistentObject {
         InventoryList playerInventory = GlobalController.inventory.items;
         List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
         foreach (InventoryItem wantedItem in actualWantedItems) {
+            print(wantedItem.itemName);
             InventoryItem i = playerInventory.GetItem(wantedItem);
             if (!(i != null && i.count >= wantedItem.count)) {
+                print("pingas");
                 return false;
             }
         }
-        acceptedItemBefore = true;
-        UpdateObjectState();
         return true;
     }
 
@@ -50,9 +48,11 @@ public class ItemWanter : PersistentObject {
         foreach (InventoryItem wantedItem in actualWantedItems) {
             GlobalController.inventory.items.RemoveItem(wantedItem);
         }
+        acceptedItemBefore = true;
+        UpdateObjectState();
     }
 
-    public void UpdateInternalNPC(bool accepted) {
-        this.internalNPC.SetDialogueLines(accepted ? acceptanceLines : rejectionLines);
+    public NPC GetNPC(bool accepted) {
+        return accepted ? acceptedNPC : rejectedNPC;
     }
 }

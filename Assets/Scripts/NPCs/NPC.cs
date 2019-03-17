@@ -6,8 +6,7 @@ public class NPC : Interactable {
 	protected NPCConversations conversations;
 
 	protected PersistentNPC persistence;
-
-	ItemWanter itemWanter;
+	protected ItemWanter itemWanter;
 
 	public NPC(NPCConversations c) {
 		this.conversations = c;
@@ -39,11 +38,11 @@ public class NPC : Interactable {
 		// dialogue lines
 		if (AtLastConversation() && itemWanter != null) {
 			bool hasItem = itemWanter.CheckForItem();
-			itemWanter.UpdateInternalNPC(hasItem);
 			if (hasItem) {
 				itemWanter.TakeItems();
 			}
-			GlobalController.EnterDialogue(itemWanter.internalNPC);
+			GlobalController.EnterDialogue(itemWanter.GetNPC(hasItem));
+			return;
 		}
 
 		//no need to restart the last conversation if it's been reached
@@ -56,7 +55,7 @@ public class NPC : Interactable {
 	}
 
 	public bool AtLastConversation() {
-		return currentConversation == conversations.conversations.Count - 1;
+		return currentConversation >= conversations.conversations.Count;
 	}
 
 	public DialogueLine GetNextLine() {
@@ -99,11 +98,6 @@ public class NPC : Interactable {
 		if (persistence) {
 			persistence.ReactToDialogueClose();
 		}
-	}
-
-	public void SetDialogueLines(Conversation c) {
-		this.conversations = new NPCConversations();
-		this.conversations.conversations.Add(c);
 	}
 
 }

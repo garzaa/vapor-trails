@@ -7,6 +7,7 @@ public class MultiActivatable : Activatable {
 
 	public override void ActivateSwitch(bool b) {
 		foreach(Activatable a in activatables) {
+			if (a != null)
 			a.ActivateSwitch(b);
 		}
 	}
