@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InventoryUI : UIComponent {
     public Animator animator;
@@ -17,6 +18,8 @@ public class InventoryUI : UIComponent {
     public Text itemCost;
     public ScrollRect scrollView;
     public AudioSource audioSource;
+
+    public EventSystem eventSystem;
 
     int NUM_COLUMNS = 3;
     RectTransform gridRect;
@@ -39,7 +42,7 @@ public class InventoryUI : UIComponent {
     void SelectFirstChild() {
         Button b = gridHolder.GetChild(0).GetComponent<Button>();
         b.Select();
-        b.OnSelect(null);
+        b.OnSelect(new BaseEventData(eventSystem));
         ReactToItemHover(b.GetComponent<ItemPane>());
     }
 

@@ -21,7 +21,7 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     public void PopulateSelfInfo(InventoryItem item) {
         itemImage.sprite = item.itemIcon;
         this.inventoryItem = item;
-        //itemCount.text = item.count;
+        itemCount.text = (item.count > 1 ? item.count.ToString() : "");
     }
 
 }
