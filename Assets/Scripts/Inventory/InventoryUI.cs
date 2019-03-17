@@ -75,12 +75,13 @@ public class InventoryUI : UIComponent {
         GridLayoutGroup grid = g.GetComponent<GridLayoutGroup>();
 
         int numRows = Mathf.Max(itemCount / numColumns, 1);
-        s.y = (
+        //max with the height of the viewport
+        s.y = Mathf.Max(
             grid.padding.top + grid.padding.bottom
             + (numRows * (int)grid.cellSize.y)
             // muh fencepost error
             + ((numRows-1) * grid.spacing.y)
-        );
+        , 261);
 
         g.sizeDelta = s;
     }
