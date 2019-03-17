@@ -14,5 +14,8 @@ public class AbilityItem : InventoryItem {
 		GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
 		GlobalController.UnlockAbility(this.ability);
 	}
-		
+
+	new public AbilityItem Clone() {
+		return (AbilityItem) this.MemberwiseClone();
+	}		
 }

@@ -21,4 +21,8 @@ public class InventoryItem : System.Object {
     public bool IsAbility() {
         return GetType() == typeof(AbilityItem);
     }
+
+    public InventoryItem Clone() {
+        return (InventoryItem) this.MemberwiseClone();
+    }
 }
