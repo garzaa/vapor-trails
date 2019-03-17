@@ -16,8 +16,9 @@ public class InventoryUI : UIComponent {
     public Text itemDescription;
     public Text itemCost;
     public ScrollRect scrollView;
+    public AudioSource audioSource;
 
-    public int NUM_COLUMNS = 3;
+    int NUM_COLUMNS = 3;
     RectTransform gridRect;
 
     void Start() {
@@ -43,6 +44,7 @@ public class InventoryUI : UIComponent {
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
+        audioSource.PlayOneShot(audioSource.clip);
         scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>());
         ShowItemInfo(itemPane.inventoryItem);
     }
@@ -60,7 +62,7 @@ public class InventoryUI : UIComponent {
         itemTitle.text = item.itemName.ToUpper();
         itemDescription.text = item.itemDescription;
         if (item.IsAbility()) {
-            itemDescription.text += "\n\n" + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions);
+            itemDescription.text += "\n\n<color=white>" + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions) + "</color>";
         }
     }
 

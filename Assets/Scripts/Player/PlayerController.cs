@@ -1083,7 +1083,7 @@ public class PlayerController : Entity {
 	}
 
 	public void CheckHeal() {
-		if (healCost > currentEnergy || currentHP == maxHP) {
+		if (healCost > currentEnergy || currentHP == maxHP || !unlocks.HasAbility(Ability.Heal)) {
 			anim.SetBool("CanHeal", false);
 		} else {
 			anim.SetBool("CanHeal", true);

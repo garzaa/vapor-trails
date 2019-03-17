@@ -46,7 +46,8 @@ public enum Ability {
 	Supercruise,
 	UpSlash,
 	Parry,
-	None
+	None,
+	Heal
 }
 
 public enum PassiveStat {

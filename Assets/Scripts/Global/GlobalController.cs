@@ -84,9 +84,11 @@ public class GlobalController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Inventory")) {
 			if (pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown")) {
+				SoundManager.InteractSound();
 				inventory.inventoryUI.Hide();
 				pc.ExitDialogue();
 			} else if (!pc.inCutscene && pc.IsGrounded()) {
+				SoundManager.InteractSound();
 				inventory.inventoryUI.Show();
 				pc.EnterDialogue();
 			}
@@ -411,7 +413,8 @@ public class GlobalController : MonoBehaviour {
 	public static void ShowAbilityGetUI() {
 		abilityUIAnimator.SetTrigger("Show");
 		pc.EnterDialogue();
-		gc.Invoke("EnterAbilityUI", 2f);
+		// to keep the player from accidentally skipping the animation early
+		gc.Invoke("EnterAbilityUI", 1f);
 	}
 
 	void EnterAbilityUI() {
@@ -427,7 +430,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void UnlockAbility(Ability a) {
 		save.UnlockAbility(a);
-		pc.FullHeal();
 		if (a.Equals(Ability.GunEyes)) {
 			pc.targetingSystem.SetActive(true);
 		}
