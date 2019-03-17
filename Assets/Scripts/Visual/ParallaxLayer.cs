@@ -10,6 +10,8 @@ public class ParallaxLayer : MonoBehaviour {
     public bool parallaxEnabled = true;
 
     public void Start() {
+        RoundChildren();
+
         ExtendedStart();
         if (parallaxEnabled) {
             mainCamera = GameObject.Find("Main Camera").transform;
@@ -31,7 +33,7 @@ public class ParallaxLayer : MonoBehaviour {
             );
             Vector3 totalCamDelta = camPos - originalCamPos;
             transform.position = originalPos + Vector3.Scale(totalCamDelta, new Vector3(speed.x, speed.y));
-            transform.position.Round(2);
+            //transform.position = transform.position.Round(2);
         }
         ExtendedUpdate();
     }
@@ -42,5 +44,12 @@ public class ParallaxLayer : MonoBehaviour {
 
     public virtual void ExtendedStart() {
         
+    }
+
+    void RoundChildren() {
+        this.transform.position = this.transform.position.Round(2);
+        foreach (Transform child in transform) {
+            child.position = child.position.Round(2);
+        }
     }
 }
