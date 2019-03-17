@@ -86,7 +86,7 @@ public class GlobalController : MonoBehaviour {
 			if (pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown")) {
 				inventory.inventoryUI.Hide();
 				pc.ExitDialogue();
-			} else if (!pc.inCutscene) {
+			} else if (!pc.inCutscene && pc.IsGrounded()) {
 				inventory.inventoryUI.Show();
 				pc.EnterDialogue();
 			}

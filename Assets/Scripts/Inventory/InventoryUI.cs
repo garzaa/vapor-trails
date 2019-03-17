@@ -36,7 +36,6 @@ public class InventoryUI : UIComponent {
     }
 
     void SelectFirstChild() {
-        print("pingas");
         gridHolder.GetChild(0).GetComponent<Button>().Select();
     }
 
@@ -57,6 +56,9 @@ public class InventoryUI : UIComponent {
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.itemName.ToUpper();
         itemDescription.text = item.itemDescription;
+        if (item.IsAbility()) {
+            itemDescription.text += "\n\n" + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions);
+        }
     }
 
     public void PopulateItems(InventoryList inventoryList) {
