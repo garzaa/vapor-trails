@@ -116,8 +116,6 @@ public class DialogueUI : UIComponent {
 
 	//called from the animation or in the case of an interrupt
 	public void SwitchSpeakerImage() {
-		Debug.Log(nextImage);
-		Debug.Log("Swapped!");
 		speakerImage.sprite = nextImage;
 	}
 

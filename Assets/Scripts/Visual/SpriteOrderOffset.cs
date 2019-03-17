@@ -11,6 +11,7 @@ public class SpriteOrderOffset : MonoBehaviour {
     List<int> originalOrders; 
 
     void Start() {
+        originalOrders = new List<int>();
         sprites = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
         foreach (SpriteRenderer s in sprites) {
             originalOrders.Add(s.sortingOrder);
