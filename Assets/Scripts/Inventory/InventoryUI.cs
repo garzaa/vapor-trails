@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryUI : UIComponent {
-    Animator animator;
+    public Animator animator;
     InventoryItem currentlySelectedItem;
     InventoryController inventoryController;
     
@@ -27,11 +27,16 @@ public class InventoryUI : UIComponent {
 
     public override void Show() {
         animator.SetBool("Shown", true);
+        SelectFirstChild();
     }
 
     public override void Hide() {
         animator.SetBool("Shown", false);
         currentlySelectedItem = null;
+    }
+
+    void SelectFirstChild() {
+        gridHolder.GetChild(0).GetComponent<ItemPane>().OnSelect(eventData:null);
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
@@ -44,10 +49,6 @@ public class InventoryUI : UIComponent {
             if (Input.GetButtonDown("Jump") && currentlySelectedItem != null) {
                 inventoryController.ReactToItemSelect(currentlySelectedItem);
             }
-        }
-
-        if (Input.GetButtonDown("Inventory")) {
-            animator.SetBool("Shown", !animator.GetBool("Shown"));
         }
     }
 

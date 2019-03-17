@@ -81,6 +81,16 @@ public class GlobalController : MonoBehaviour {
 		if (inAbilityGetUI && Input.GetButtonDown("Jump")) {
 			HideAbilityGetUI();
 		}
+
+		if (Input.GetButtonDown("Inventory")) {
+			if (pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown")) {
+				inventory.inventoryUI.animator.SetBool("Shown", false);
+				pc.ExitDialogue();
+			} else if (!pc.inCutscene) {
+				inventory.inventoryUI.animator.SetBool("Shown", true);
+				pc.EnterDialogue();
+			}
+		}
 		
 		if (
 			dialogueOpen 
