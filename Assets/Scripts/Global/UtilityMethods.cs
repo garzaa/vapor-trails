@@ -40,4 +40,8 @@
             return new ItemWrapper(item);
         }
     }
+
+    public static int BoolSign(bool b) {
+        return b ? 1 : -1;
+    }
  }

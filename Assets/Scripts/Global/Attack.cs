@@ -23,17 +23,26 @@ public class Attack : MonoBehaviour {
 		return this.damage;
 	}
 
-	public void OnAttackLand(Entity e) {
-		//ugly hack, but we only want the camera to shake on player impact
-		if (cameraShakeTime>0f && e.GetComponent<PlayerController>() != null) {
+	public void OnAttackLand(Entity victim) {
+		if (cameraShakeTime>0f && victim.GetComponent<PlayerController>() != null) {
 			CameraShaker.Shake(cameraShakeIntensity, cameraShakeTime);
 		}
 		//instantiate the hitmarker
 		if (this.hitmarker != null) {
-			GameObject h = Instantiate(hitmarker, e.transform.position, Quaternion.identity);
-			h.transform.localScale = new Vector2((e.facingRight ? -1 : 1) * (flipHitmarker ? -1 : 1), 1);
+			MakeHitmarker(victim.transform.position);
 		}
-		ExtendedAttackLand(e);
+		ExtendedAttackLand(victim);
+	}
+
+	public void MakeHitmarker(Vector2 pos) {
+		Entity parent = this.attackerParent;
+		GameObject h = (GameObject) Instantiate(hitmarker, pos, Quaternion.identity, null);
+		Vector2 s = h.transform.localScale;
+		s.x = UtilityMethods.BoolSign(parent.facingRight);
+		s.y = UtilityMethods.BoolSign(flipHitmarker)*-1;
+		Debug.Log(s);
+		Debug.Log(h.name);
+		h.transform.localScale = s;
 	}
 
 	public void OnTriggerEnter2D(Collider2D otherCol) {

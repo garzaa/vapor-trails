@@ -46,7 +46,7 @@ public class Breakable : MonoBehaviour {
 			SoundManager.HitSound();
 			//instantiate the hitmarker
 			if (a.hitmarker != null) {
-				Instantiate(a.hitmarker, this.transform.position, Quaternion.identity);
+				a.MakeHitmarker(this.transform.position);
 			}
 		}
 	}
