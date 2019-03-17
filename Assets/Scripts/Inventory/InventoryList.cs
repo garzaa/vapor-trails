@@ -19,6 +19,7 @@ public class InventoryList : MonoBehaviour {
         foreach (InventoryItem i in items) {
             //always check via name - items can have differing counts
             if (i.itemName.Equals(item.itemName)) {
+                Debug.Log(i.count);
                 return i;
             }
         }
@@ -43,6 +44,8 @@ public class InventoryList : MonoBehaviour {
                 return;
 		    }
             if (item.stackable) {
+                Debug.Log(item.count);
+                Debug.Log(GetItem(item).count);
                 GetItem(item).count += item.count;
             }
         } else {
