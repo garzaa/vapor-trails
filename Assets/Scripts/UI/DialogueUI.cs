@@ -35,7 +35,8 @@ public class DialogueUI : UIComponent {
 		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text && !fromCutscene) {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
-				anim.SetTrigger("SwitchSpeakerImage");
+				//anim.SetTrigger("SwitchSpeakerImage");
+				SwitchSpeakerImage();
 			}	
 		} else {
 			speakerImage.sprite = line.speakerImage;
@@ -117,6 +118,7 @@ public class DialogueUI : UIComponent {
 	//called from the animation or in the case of an interrupt
 	public void SwitchSpeakerImage() {
 		speakerImage.sprite = nextImage;
+		speakerImage.preserveAspect = true;
 	}
 
 
