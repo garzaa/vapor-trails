@@ -204,6 +204,7 @@ public class PlayerController : Entity {
 		}
 
 		anim.SetBool("HorizontalInput",  HorizontalInput());
+		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 		if (Input.GetButtonDown("Jump") && supercruise) {
 			EndSupercruise();
@@ -244,7 +245,6 @@ public class PlayerController : Entity {
 			} else {
 				anim.SetFloat("Speed", 0);
 			}
-			anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 			if (HorizontalInput() && (!midSwing || !grounded)) {
 				if (Input.GetAxis("Horizontal") != 0) {
