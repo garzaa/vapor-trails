@@ -429,7 +429,7 @@ public class PlayerController : Entity {
 			// you can't just buttonmash to get the timing right
 			if (dashCooldown) {
 				earlyDashInput = true;
-				Invoke("endEarlyDashInput", 0.2f);
+				Invoke("EndEarlyDashInput", 0.2f);
 			}
 			return;
 		}
