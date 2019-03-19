@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class ItemWanter : PersistentObject {
     public List<ItemWrapper> wantedItems;
-    public NPC acceptedNPC;
-    public NPC rejectedNPC;
+    public Activatable toActivate;
 
     bool acceptedItemBefore;
+    bool persistent;
 
     override public void Start() {
         persistentProperties = new Hashtable();
@@ -24,14 +24,12 @@ public class ItemWanter : PersistentObject {
         acceptedItemBefore = (bool) this.persistentProperties["Accepted"];
     }
 
-    public bool CheckForItem() {
-        InventoryList playerInventory = GlobalController.inventory.items;
+    public bool CheckForItem(InventoryList inventoryToCheck) {
         List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
         foreach (InventoryItem wantedItem in actualWantedItems) {
             print(wantedItem.itemName);
-            InventoryItem i = playerInventory.GetItem(wantedItem);
+            InventoryItem i = inventoryToCheck.GetItem(wantedItem);
             if (!(i != null && i.count >= wantedItem.count)) {
-                print("pingas");
                 return false;
             }
         }
@@ -40,7 +38,7 @@ public class ItemWanter : PersistentObject {
 
     protected override void UpdateObjectState() {
         persistentProperties.Add("Accepted", acceptedItemBefore);
-        SaveObjectState();
+        if (persistent) SaveObjectState();
     }
 
     public void TakeItems() {
@@ -50,9 +48,8 @@ public class ItemWanter : PersistentObject {
         }
         acceptedItemBefore = true;
         UpdateObjectState();
-    }
-
-    public NPC GetNPC(bool accepted) {
-        return accepted ? acceptedNPC : rejectedNPC;
+        if (toActivate != null) {
+            toActivate.Activate();
+        }
     }
 }

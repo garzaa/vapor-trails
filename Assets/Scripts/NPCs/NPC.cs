@@ -6,7 +6,6 @@ public class NPC : Interactable {
 	protected NPCConversations conversations;
 
 	protected PersistentNPC persistence;
-	protected ItemWanter itemWanter;
 
 	public NPC(NPCConversations c) {
 		this.conversations = c;
@@ -15,7 +14,6 @@ public class NPC : Interactable {
 	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
-		itemWanter = GetComponent<ItemWanter>();
 	}
 
 	public int currentConversation = 0;
@@ -33,17 +31,6 @@ public class NPC : Interactable {
 
 		//start at the beginning of whatever conversation
 		currentDialogueLine = 0;
-
-		// if it wants an item, it can only accept it if it's reached all its current 
-		// dialogue lines
-		if (AtLastConversation() && itemWanter != null) {
-			bool hasItem = itemWanter.CheckForItem();
-			if (hasItem) {
-				itemWanter.TakeItems();
-			}
-			GlobalController.EnterDialogue(itemWanter.GetNPC(hasItem));
-			return;
-		}
 
 		//no need to restart the last conversation if it's been reached
 		//the NPC conversation will take care of it

@@ -11,7 +11,6 @@ public class StatefulNPC : NPC {
 	override protected void ExtendedStart() {
 		persistence = GetComponent<PersistentNPC>();
 		// get the last loaded (most recent) conversation
-		itemWanter = GetComponent<ItemWanter>();
 		NPCConversations[] possibleConversations = GetComponentsInChildren<NPCConversations>(includeInactive:false);
 		this.conversations = possibleConversations[possibleConversations.Length-1];
 		this.currentConversation = 0;
