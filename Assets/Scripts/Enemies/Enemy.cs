@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Enemy : Entity {
 
@@ -51,11 +51,13 @@ public class Enemy : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
 		
 		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
-		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
+        // vile, but easier than redoing the entire lady of the lake boss fight
+		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true))
+			.Where(x => x.GetComponent<IgnoreWhiteFlash>() == null).ToList();
 		if (spr != null) {
-			defaultMaterial = spr.material;
+				defaultMaterial = spr.material;
 		} else {
-			defaultMaterial = spriteRenderers[0].material;
+				defaultMaterial = spriteRenderers[0].material;
 		}
 		Initialize();
 	}

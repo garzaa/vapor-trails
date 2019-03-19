@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 12
+    serializedVersion: 10
     m_Resolution: 2
     m_BakeResolution: 40
     m_AtlasSize: 1024
@@ -62,7 +62,6 @@ LightmapSettings:
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
-    m_ExtractAmbientOcclusion: 0
     m_Padding: 2
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
@@ -77,16 +76,10 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVREnvironmentSampleCount: 500
-    m_PVREnvironmentReferencePointCount: 2048
-    m_PVRFilteringMode: 2
-    m_PVRDenoiserTypeDirect: 0
-    m_PVRDenoiserTypeIndirect: 0
-    m_PVRDenoiserTypeAO: 0
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVREnvironmentMIS: 0
+    m_PVRFilteringMode: 2
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -95,7 +88,6 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-    m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -201,21 +193,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
-    - lineText: Thanks for taking care of those sludges. I don't normally trust Prismatics,
-        but I'll make an exception for you.
+    - lineText: Hey, one more step and I'll...did you actually kill all those sludges?
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceSound: 2
-      activatable: {fileID: 525663554}
+      activatable: {fileID: 0}
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: I can't promise the rest of the town will be as warm and welcoming
-        as I am.
+    - lineText: Yes. Now let me through. I need to get to the surface.
+      speakerName: Val
+      speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 1744393229}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: Fine, but I can't promise the rest of the town will be as warm and
+        welcoming as I am.
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceSound: 2
-      activatable: {fileID: 1744393229}
+      activatable: {fileID: 405827473}
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
@@ -224,7 +223,7 @@ MonoBehaviour:
       speakerName: Tara
       speakerImage: {fileID: 21300000, guid: 2d9085b6c7e6a8141953eea6f6f4ef01, type: 3}
       voiceSound: 2
-      activatable: {fileID: 525663554}
+      activatable: {fileID: 0}
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 4
@@ -2060,6 +2059,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95d2a61639b30c44f9a85cc448357f5a, type: 3}
+--- !u!1 &405827471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405827472}
+  - component: {fileID: 405827473}
+  m_Layer: 15
+  m_Name: lowerbow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &405827472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405827471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 525663552}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &405827473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405827471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 525663553}
+  animationName: LowerCrossbow
+  isTrigger: 1
+  toggleBool: 0
 --- !u!1001 &421544612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3496,7 +3542,6 @@ GameObject:
   - component: {fileID: 525663548}
   - component: {fileID: 525663547}
   - component: {fileID: 525663553}
-  - component: {fileID: 525663554}
   m_Layer: 15
   m_Name: Tara
   m_TagString: Untagged
@@ -3666,6 +3711,7 @@ Transform:
   - {fileID: 612175357}
   - {fileID: 950132677}
   - {fileID: 736433398}
+  - {fileID: 405827472}
   m_Father: {fileID: 1976492911}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3688,22 +3734,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &525663554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 525663546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 525663553}
-  animationName: LowerCrossbow
-  isTrigger: 1
-  toggleBool: 0
 --- !u!1001 &546867290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5786,7 +5816,6 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
   UVModule:
-    serializedVersion: 2
     enabled: 0
     mode: 0
     timeMode: 0
@@ -5904,7 +5933,7 @@ ParticleSystem:
     rowIndex: 0
     cycles: 1
     uvChannelMask: -1
-    rowMode: 1
+    randomRow: 1
     sprites:
     - sprite: {fileID: 0}
     flipU: 0
@@ -14679,12 +14708,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114582457464919228, guid: d514ca4d35012064b90f0936ac25aee3,
-        type: 3}
-      propertyPath: hitmarker
-      value: 
-      objectReference: {fileID: 1123218027151258, guid: f7c3edfe3e8dd3b43bc4f9a5a077a464,
-        type: 3}
     - target: {fileID: 224004578258188868, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -16971,16 +16994,6 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 2.7798424
       objectReference: {fileID: 0}
-    - target: {fileID: 61364171102259448, guid: 2a0c947b282e85f45b29228d5d749c70,
-        type: 3}
-      propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 2.252518
-      objectReference: {fileID: 0}
-    - target: {fileID: 61364171102259448, guid: 2a0c947b282e85f45b29228d5d749c70,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 3.4780223
-      objectReference: {fileID: 0}
     - target: {fileID: 114329457333154764, guid: 2a0c947b282e85f45b29228d5d749c70,
         type: 3}
       propertyPath: particleObject
@@ -16990,6 +17003,16 @@ PrefabInstance:
         type: 3}
       propertyPath: returnPlayerToSafety
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61364171102259448, guid: 2a0c947b282e85f45b29228d5d749c70,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 2.252518
+      objectReference: {fileID: 0}
+    - target: {fileID: 61364171102259448, guid: 2a0c947b282e85f45b29228d5d749c70,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.4780223
       objectReference: {fileID: 0}
     - target: {fileID: 1975856613583488, guid: 2a0c947b282e85f45b29228d5d749c70, type: 3}
       propertyPath: m_IsActive
