@@ -9,6 +9,7 @@ public class ItemWanter : PersistentObject {
 
     bool acceptedItemBefore;
     bool persistent;
+    bool consumesItems = true;
 
     override public void Start() {
         persistentProperties = new Hashtable();
@@ -41,10 +42,12 @@ public class ItemWanter : PersistentObject {
         if (persistent) SaveObjectState();
     }
 
-    public void TakeItems() {
+    public void AcceptItems() {
         List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
-        foreach (InventoryItem wantedItem in actualWantedItems) {
-            GlobalController.inventory.items.RemoveItem(wantedItem);
+        if (consumesItems) {
+            foreach (InventoryItem wantedItem in actualWantedItems) {
+                GlobalController.inventory.items.RemoveItem(wantedItem);
+            }
         }
         acceptedItemBefore = true;
         UpdateObjectState();

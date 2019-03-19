@@ -584,8 +584,8 @@ public class PlayerController : Entity {
 
 	void ReturnToSafety() {
 		GlobalController.playerFollower.DisableSmoothing();
+		UnLockInSpace();
 		transform.position = lastSafePos;
-		rb2d.velocity = Vector2.zero;
 		GlobalController.playerFollower.EnableFollowing();
 	}
 
@@ -1180,7 +1180,8 @@ public class PlayerController : Entity {
 	void OnEnviroDamage(EnviroDamage e) {
 		this.envDmgSusceptible = false;
 		if (!grounded && e.returnPlayerToSafety) {
-			ReturnToSafety();
+			LockInSpace();
+			Invoke("ReturnToSafety", 0.2f);
 		}
 		StunFor(e.stunLength);
 		Invoke("EnableEnviroDamage", .2f);

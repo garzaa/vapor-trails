@@ -12,7 +12,7 @@ public class InteractableItemWanter : Interactable {
 
     override public void Interact(GameObject player) {
         if (itemWanter.CheckForItem(GlobalController.inventory.items)) {
-            itemWanter.TakeItems();
+            itemWanter.AcceptItems();
         }
     }
 }
