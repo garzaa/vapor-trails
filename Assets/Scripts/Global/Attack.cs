@@ -36,7 +36,7 @@ public class Attack : MonoBehaviour {
 
 	public void MakeHitmarker(Vector2 pos) {
 		Entity parent = this.attackerParent;
-		GameObject h = (GameObject) Instantiate(hitmarker, pos, Quaternion.identity, null);
+		GameObject h = Instantiate(hitmarker, pos, Quaternion.identity).gameObject;
 		Vector2 s = h.transform.localScale;
 		s.x = UtilityMethods.BoolSign(parent.facingRight);
 		s.y = UtilityMethods.BoolSign(flipHitmarker)*-1;

@@ -64,6 +64,7 @@ public class InventoryUI : UIComponent {
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.itemName.ToUpper();
         itemDescription.text = item.itemDescription;
+        itemCost.text = "$"+item.cost.ToString();
         if (item.IsAbility()) {
             itemDescription.text += "\n\n<color=white>" + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions) + "</color>";
         }
