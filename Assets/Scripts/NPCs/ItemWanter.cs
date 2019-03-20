@@ -36,6 +36,7 @@ public class ItemWanter : PersistentObject {
             if (!(i != null && i.count >= wantedItem.count)) {
                 //reject if even one item is missing
                 RejectItems();
+                return;
             }
         }
         AcceptItems();

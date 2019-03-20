@@ -8,13 +8,15 @@ public class Breakable : MonoBehaviour {
 	ParticleSystem particles;
 	bool particlesOnBreak = false;
 	bool broken = false;
+	public bool randomFlip = true;
 
 	void Start() {
 		if (GetComponentInChildren<ParticleSystem>() != null) {
 			particles = GetComponentInChildren<ParticleSystem>();
 			particlesOnBreak = true;
 		}
-		int xScale = Random.Range(-1, 1) > 0 ? 1 : -1;
+		int xScale = 1;
+		if (randomFlip) xScale = Random.Range(-1, 1) > 0 ? 1 : -1;
 		this.transform.localScale = new Vector3(
 			xScale,
 			this.transform.localScale.y,
