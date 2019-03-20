@@ -19,5 +19,6 @@ public class Hurtbox : MonoBehaviour {
 		if (parentObject != null) {
 			parentObject.GetComponent<Entity>().OnHit(a);
 		}
+		if (a.hitmarker != null) a.MakeHitmarker(this.transform.position);
 	}
 }

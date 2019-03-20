@@ -27,10 +27,6 @@ public class Attack : MonoBehaviour {
 		if (cameraShakeTime>0f && victim.GetComponent<PlayerController>() != null) {
 			CameraShaker.Shake(cameraShakeIntensity, cameraShakeTime);
 		}
-		//instantiate the hitmarker
-		if (this.hitmarker != null) {
-			MakeHitmarker(victim.transform.position);
-		}
 		ExtendedAttackLand(victim);
 	}
 
