@@ -6,4 +6,8 @@ public class ActivatedItemWanter : Activatable {
     override public void Activate() {
         itemWanter.CheckForItem(GlobalController.inventory.items);
     }
+
+    override public void ActivateSwitch(bool b) {
+        if (b) Activate();
+    }
 }

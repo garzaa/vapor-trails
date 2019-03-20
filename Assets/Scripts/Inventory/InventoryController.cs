@@ -8,6 +8,9 @@ public class InventoryController : MonoBehaviour {
     bool inInventory = false;
 
     void Start () {
+        if (this.items == null) {
+            return;
+        }
         inventoryUI.PopulateItems(this.items);
     }
 
