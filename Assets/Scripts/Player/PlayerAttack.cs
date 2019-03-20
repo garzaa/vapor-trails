@@ -12,6 +12,9 @@ public class PlayerAttack : Attack {
 
 	public float hitstopLength = 0.2f;
 
+	public GameObject leftHitmarker;
+	public GameObject rightHitmarker;
+
 	void Start() {
 		attackerParent = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackedTags = new List<string>();
@@ -53,7 +56,16 @@ public class PlayerAttack : Attack {
 			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 			this.EmitHitParticles(otherCol);
 		}
-	} 
+	}
+
+	override public void MakeHitmarker(Vector2 pos) {
+		Entity parent = this.attackerParent;
+		if (parent.facingRight) {
+			Instantiate(rightHitmarker, pos, Quaternion.identity);
+		} else {
+			Instantiate(hitmarker, pos, Quaternion.identity);
+		}
+	}
 
 	void EmitHitParticles(Collider2D otherCol) {
 		// get angle to target and average distance

@@ -34,7 +34,7 @@ public class Attack : MonoBehaviour {
 		ExtendedAttackLand(victim);
 	}
 
-	public void MakeHitmarker(Vector2 pos) {
+	public virtual void MakeHitmarker(Vector2 pos) {
 		Entity parent = this.attackerParent;
 		GameObject h = Instantiate(hitmarker, pos, Quaternion.identity).gameObject;
 		Vector2 s = h.transform.localScale;

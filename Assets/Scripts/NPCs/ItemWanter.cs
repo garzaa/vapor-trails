@@ -5,11 +5,12 @@ using System.Collections.Generic;
 
 public class ItemWanter : PersistentObject {
     public List<ItemWrapper> wantedItems;
-    public Activatable toActivate;
+    public Activatable yesActivation;
+    public Activatable noActivation;
 
     bool acceptedItemBefore;
     bool persistent;
-    bool consumesItems = true;
+    public bool consumesItems = false;
 
     override public void Start() {
         persistentProperties = new Hashtable();
@@ -25,16 +26,19 @@ public class ItemWanter : PersistentObject {
         acceptedItemBefore = (bool) this.persistentProperties["Accepted"];
     }
 
-    public bool CheckForItem(InventoryList inventoryToCheck) {
+    public void CheckForItem(InventoryList inventoryToCheck) {
+        if (acceptedItemBefore) {
+            return;
+        }
         List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
         foreach (InventoryItem wantedItem in actualWantedItems) {
-            print(wantedItem.itemName);
             InventoryItem i = inventoryToCheck.GetItem(wantedItem);
             if (!(i != null && i.count >= wantedItem.count)) {
-                return false;
+                //reject if even one item is missing
+                RejectItems();
             }
         }
-        return true;
+        AcceptItems();
     }
 
     protected override void UpdateObjectState() {
@@ -42,7 +46,7 @@ public class ItemWanter : PersistentObject {
         if (persistent) SaveObjectState();
     }
 
-    public void AcceptItems() {
+    void AcceptItems() {
         List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
         if (consumesItems) {
             foreach (InventoryItem wantedItem in actualWantedItems) {
@@ -51,8 +55,14 @@ public class ItemWanter : PersistentObject {
         }
         acceptedItemBefore = true;
         UpdateObjectState();
-        if (toActivate != null) {
-            toActivate.Activate();
+        if (yesActivation != null) {
+            yesActivation.Activate();
+        }
+    }
+
+    void RejectItems() {
+        if (noActivation != null) {
+            noActivation.Activate();
         }
     }
 }
