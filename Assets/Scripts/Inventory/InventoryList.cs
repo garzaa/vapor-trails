@@ -62,7 +62,12 @@ public class InventoryList : MonoBehaviour {
         if (GetItem(toRemove) == null) {
             Debug.Log("RemoveItem isn't nullsafe you brainlet");
         }
-        GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
+        if (toRemove.stackable) {
+            GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
+        } else {
+            items.Remove(GetItem(toRemove));
+        } 
+
     }
 }
 
