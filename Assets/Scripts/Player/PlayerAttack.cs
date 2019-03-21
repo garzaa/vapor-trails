@@ -63,7 +63,7 @@ public class PlayerAttack : Attack {
 		if (parent.facingRight) {
 			Instantiate(rightHitmarker, pos, Quaternion.identity);
 		} else {
-			Instantiate(hitmarker, pos, Quaternion.identity);
+			Instantiate(leftHitmarker, pos, Quaternion.identity);
 		}
 	}
 
