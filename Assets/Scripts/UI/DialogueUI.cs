@@ -31,7 +31,7 @@ public class DialogueUI : UIComponent {
 	}
 
 	public void RenderDialogueLine(DialogueLine line, bool fromCutscene = false) {
-		//if the speaker name and portrait differ, start the animation for the portrait change
+		anim.SetBool("IsSign", line.speakerImage == null);
 		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text && !fromCutscene) {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
@@ -40,7 +40,7 @@ public class DialogueUI : UIComponent {
 			}	
 		} else {
 			speakerImage.sprite = line.speakerImage;
-		}
+		} 
 		speakerName.text = line.speakerName;
 		this.voiceIndex = (int) line.voiceSound;
 		string controllerFriendlyText = ControllerTextChanger.ReplaceText(line.lineText);
@@ -111,6 +111,7 @@ public class DialogueUI : UIComponent {
 	//for when the dialogue first fades in
 	public void ShowNameAndPicture(DialogueLine line) {
 		ClearDialogue();
+		anim.SetBool("IsSign", line.speakerImage == null);
 		speakerName.text = line.speakerName;
 		speakerImage.sprite = line.speakerImage;
 	}

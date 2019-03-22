@@ -16,7 +16,7 @@ public class Hitstop : MonoBehaviour{
 	}
 
 	static IEnumerator DoHitstop(float seconds) {
-		Time.timeScale = 0.2f;
+		Time.timeScale = 0.1f;
 		yield return new WaitForSecondsRealtime(seconds);
 		Time.timeScale = 1f;
 	}

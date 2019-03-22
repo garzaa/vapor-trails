@@ -75,6 +75,12 @@ public class Enemy : Entity {
 
 	public override void OnHit(Attack attack) {
 		WhiteSprite();
+		if (attack.GetComponent<PlayerAttack>() != null) {
+			PlayerAttack a = attack.GetComponent<PlayerAttack>();
+			if (a.hitstopLength > 0 && this.hp > attack.GetDamage()) {
+				Hitstop.Run(a.hitstopLength);
+			}
+		}
 		DamageFor(attack.GetDamage());
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
@@ -86,7 +92,7 @@ public class Enemy : Entity {
 		CloseHurtboxes();
 		this.frozen = true;
 		this.dead = true;
-		CameraShaker.SmallShake();
+		Hitstop.Run(.1f);
 		DropPickups();
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("Die");

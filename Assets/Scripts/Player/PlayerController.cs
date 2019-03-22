@@ -416,6 +416,7 @@ public class PlayerController : Entity {
 			x:rb2d.velocity.x, 
 			y:jumpSpeed + AdditiveJumpSpeed() + jumpSpeed/4
 		);
+		ImpactDust();
 		airJumps--;
 		anim.SetTrigger("Jump");
 		wings.Open();
@@ -567,6 +568,7 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.UpSlash)) {
 			return;
 		}
+		ImpactDust();
 		wings.Close();
 		SoundManager.JumpSound();
 		canUpSlash = false;
