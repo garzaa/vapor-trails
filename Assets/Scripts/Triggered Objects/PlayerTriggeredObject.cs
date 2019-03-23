@@ -7,6 +7,7 @@ public abstract class PlayerTriggeredObject : MonoBehaviour {
 	[HideInInspector]
 	public PlayerController player;
 
+
 	void Start() {
 		gameObject.layer = LayerMask.NameToLayer(Layers.Triggers);
 	}
