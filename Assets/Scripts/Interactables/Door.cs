@@ -10,6 +10,7 @@ public class Door : Interactable {
 	public string beaconName;
 
 	public override void Interact(GameObject player) {
+		base.Interact(player);
 		GlobalController.LoadScene(sceneToLoad, beaconName);
 	}
 }

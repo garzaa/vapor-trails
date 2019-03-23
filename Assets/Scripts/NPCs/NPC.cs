@@ -24,6 +24,8 @@ public class NPC : Interactable {
 			return;
 		}
 
+		base.Interact(player);
+
 		//if there's a sign object attached
 		if (GetComponent<Sign>() != null) {
 			GlobalController.CloseSign();

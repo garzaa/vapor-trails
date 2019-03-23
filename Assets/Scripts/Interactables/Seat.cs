@@ -6,6 +6,7 @@ public class Seat : Interactable {
 
     public SeatType seatType;
     public bool requiresFacingLocalRight;
+    public bool movesPlayerToPosition = true;
 
     public override void Interact(GameObject player) {
         RemovePrompt();
@@ -24,12 +25,17 @@ public class Seat : Interactable {
             case SeatType.LEDGE:
                 anim.SetTrigger("Ledge");
                 break;
+            case SeatType.KNEEL:
+                anim.SetTrigger("Kneel");
+                break;
         }
 
-        pc.transform.position = new Vector2(
-            this.transform.position.x,
-            pc.transform.position.y
-        );
+        if (movesPlayerToPosition) {
+            pc.transform.position = new Vector2(
+                this.transform.position.x,
+                pc.transform.position.y
+            );
+        }
 
         pc.Sit();
     }
@@ -43,5 +49,6 @@ public class Seat : Interactable {
 
 public enum SeatType {
     BENCH,
-    LEDGE
+    LEDGE,
+    KNEEL
 }

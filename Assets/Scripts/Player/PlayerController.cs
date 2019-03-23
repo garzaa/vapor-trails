@@ -846,7 +846,6 @@ public class PlayerController : Entity {
 		Hitstop.Run(0.2f);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
-		GlobalController.FlashWhite();
 		if (this.currentHP == 0) {
 			return;
 		}
