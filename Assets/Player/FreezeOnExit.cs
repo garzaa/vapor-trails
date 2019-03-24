@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class FreezeOnExit : StateMachineBehaviour {
 
+	public bool onEnter;
+	public bool during;
+
+	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		PlayerController pc = animator.GetComponent<PlayerController>();
+		if (!pc.inCutscene && onEnter) {
+			animator.GetComponent<PlayerController>().Freeze();
+		}
+	}
+
+	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		PlayerController pc = animator.GetComponent<PlayerController>();
+		if (!pc.inCutscene && during) {
+			animator.GetComponent<PlayerController>().Freeze();
+		}
+	}
+
 	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		PlayerController pc = animator.GetComponent<PlayerController>();
 		if (!pc.inCutscene) {

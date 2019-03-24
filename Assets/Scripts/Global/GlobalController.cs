@@ -58,6 +58,16 @@ public class GlobalController : MonoBehaviour {
 		titleText.ShowText(title, subTitle);
 	}
 
+	static void OpenInventory() {
+		inventory.ShowInventory();
+		pc.EnterDialogue();
+	}
+
+	static void CloseInventory() {
+		inventory.HideInventory();
+		pc.ExitDialogue();
+	}
+
 	void LateUpdate() {
 
 		if (Input.GetKeyDown(KeyCode.S))
@@ -84,13 +94,9 @@ public class GlobalController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Inventory")) {
 			if (pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown")) {
-				SoundManager.InteractSound();
-				inventory.inventoryUI.Hide();
-				pc.ExitDialogue();
+				CloseInventory();
 			} else if (!pc.inCutscene && pc.IsGrounded()) {
-				SoundManager.InteractSound();
-				inventory.inventoryUI.Show();
-				pc.EnterDialogue();
+				OpenInventory();
 			}
 		}
 		
@@ -447,5 +453,10 @@ public class GlobalController : MonoBehaviour {
 		conversations.conversations = new List<Conversation>();
 		conversations.conversations.Add(new Conversation(line));
 		return new NPC(conversations);
+	}
+
+	public static void EnterMerchantDialogue(Merchant merchant) {
+		inventory.currentMerchant = merchant;
+		OpenInventory();
 	}
 }

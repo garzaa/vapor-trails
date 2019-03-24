@@ -7,7 +7,9 @@ public class InventoryController : MonoBehaviour {
     public InventoryUI inventoryUI;
     bool inInventory = false;
 
-    Merchant merchant;
+    public ItemWrapper moneyItem;
+
+    public Merchant currentMerchant;
 
     void Start () {
         if (this.items == null) {
@@ -16,21 +18,11 @@ public class InventoryController : MonoBehaviour {
         inventoryUI.PopulateItems(this.items);
     }
 
-    void Update() {
-        if (Input.GetButtonDown("Inventory")) {
-            if (inInventory) {
-                inInventory = false;
-                if (GlobalController.pc.inCutscene) {
-                    return;
-                }
-                GlobalController.pc.Freeze();
-                GlobalController.pc.inCutscene = true;
-            }
-        }
-    }
-
     public virtual void ReactToItemSelect(InventoryItem item) {
-        if (this.merchant == null) return; 
+        if (this.currentMerchant == null) return;
+        else {
+            this.currentMerchant.TryToBuy(item);
+        }
     }
 
     public void AddItem(InventoryItem item) {
@@ -38,5 +30,26 @@ public class InventoryController : MonoBehaviour {
 		items.AddItem(item);
         inventoryUI.PopulateItems(this.items);
 		item.OnPickup();
+    }
+
+    public void ShowInventory() {
+        SoundManager.InteractSound();
+        if (currentMerchant != null) {
+            inventoryUI.PopulateItems(currentMerchant.baseInventory);
+        }
+        inventoryUI.Show();
+    }
+
+    public void HideInventory() {
+        SoundManager.InteractSound();
+        if (currentMerchant != null) {
+            currentMerchant = null;
+        }
+        inventoryUI.Hide();
+        inventoryUI.PopulateItems(this.items);
+    }
+
+    public int CheckMoney() {
+        return (items.GetItem(moneyItem.GetItem()) ?? new InventoryItem()).count;
     }
 }

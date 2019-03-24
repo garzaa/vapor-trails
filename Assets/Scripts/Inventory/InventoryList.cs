@@ -6,6 +6,10 @@ using UnityEngine;
 public class InventoryList : MonoBehaviour {
     public List<InventoryItem> items;
 
+    public InventoryList() {
+        this.items = new List<InventoryItem>();
+    }
+
     public InventoryItem GetItem(string itemName) {
         foreach (InventoryItem i in items) {
             if (i.itemName.Equals(itemName)) {
@@ -45,7 +49,11 @@ public class InventoryList : MonoBehaviour {
     }
 
     public void AddAll(InventoryList inventoryList) {
-        foreach (InventoryItem i in inventoryList.items) {
+        AddAll(inventoryList.items);
+    }
+
+    public void AddAll(List<InventoryItem> items) {
+        foreach (InventoryItem i in items) {
             AddItem(i);
         }
     }
