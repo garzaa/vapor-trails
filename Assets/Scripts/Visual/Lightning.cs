@@ -36,10 +36,7 @@ public class Lightning : MonoBehaviour {
 		//want your linerenderer to use world space? too bad idiot, you have to work for it
 		Vector2 normB = pointB.localPosition - pointA.localPosition;
 		int numPoints = (int) (distance * segmentsPerUnit);
-		print(numPoints);
-		print(distance * segmentsPerUnit);
 		if (numPoints < 1) {
-			print("bengis");
 			return;
 		}
 		//the fence post error

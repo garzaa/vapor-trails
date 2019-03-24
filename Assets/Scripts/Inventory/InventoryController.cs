@@ -7,6 +7,8 @@ public class InventoryController : MonoBehaviour {
     public InventoryUI inventoryUI;
     bool inInventory = false;
 
+    Merchant merchant;
+
     void Start () {
         if (this.items == null) {
             return;
@@ -28,7 +30,7 @@ public class InventoryController : MonoBehaviour {
     }
 
     public virtual void ReactToItemSelect(InventoryItem item) {
-        
+        if (this.merchant == null) return; 
     }
 
     public void AddItem(InventoryItem item) {
