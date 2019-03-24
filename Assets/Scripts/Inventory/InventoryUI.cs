@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class InventoryUI : UIComponent {
     public Animator animator;
@@ -31,7 +32,6 @@ public class InventoryUI : UIComponent {
 
     public override void Show() {
         SelectFirstChild();
-        print("showing");
         animator.SetBool("Shown", true);
     }
 
@@ -41,8 +41,6 @@ public class InventoryUI : UIComponent {
     }
 
     void SelectFirstChild() {
-        print("selecting first child...");
-        Debug.Log(gridHolder.GetChild(0).GetComponent<ItemPane>().inventoryItem.itemName);
         Button b = gridHolder.GetChild(0).GetComponent<Button>();
         b.Select();
         b.OnSelect(new BaseEventData(eventSystem));
@@ -74,12 +72,13 @@ public class InventoryUI : UIComponent {
     }
 
     public void PopulateItems(InventoryList inventoryList) {
-        print("populating items...");
-        foreach (Transform oldItem in gridHolder.transform) {
+        // don't want to modify things in place, instead copy and iterate through that
+        // it Just Works
+        foreach (Transform oldItem in gridHolder.transform.Cast<Transform>().ToArray()) {
             // Destroy is called after the Update loop, which screws up the first child selection logic
-            // so we do this
-            oldItem.transform.SetAsLastSibling();
-            GameObject.Destroy(oldItem.gameObject);
+            // so we do this so it's not shown
+            Destroy(oldItem.gameObject);
+            oldItem.parent = null;
         }
         foreach (InventoryItem item in inventoryList.items) {
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);

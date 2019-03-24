@@ -12,10 +12,7 @@ public class InventoryController : MonoBehaviour {
     public Merchant currentMerchant;
 
     void Start () {
-        if (this.items == null) {
-            return;
-        }
-        inventoryUI.PopulateItems(this.items);
+        items = items ?? new InventoryList();
     }
 
     public virtual void ReactToItemSelect(InventoryItem item) {
@@ -36,17 +33,16 @@ public class InventoryController : MonoBehaviour {
         SoundManager.InteractSound();
         if (currentMerchant != null) {
             inventoryUI.PopulateItems(currentMerchant.baseInventory);
+        } else {
+            inventoryUI.PopulateItems(this.items);
         }
         inventoryUI.Show();
     }
 
     public void HideInventory() {
         SoundManager.InteractSound();
-        if (currentMerchant != null) {
-            currentMerchant = null;
-        }
+        currentMerchant = null;
         inventoryUI.Hide();
-        inventoryUI.PopulateItems(this.items);
     }
 
     public int CheckMoney() {
