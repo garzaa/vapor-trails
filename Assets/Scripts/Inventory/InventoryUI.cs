@@ -30,8 +30,9 @@ public class InventoryUI : UIComponent {
     }
 
     public override void Show() {
-        animator.SetBool("Shown", true);
         SelectFirstChild();
+        print("showing");
+        animator.SetBool("Shown", true);
     }
 
     public override void Hide() {
@@ -40,6 +41,8 @@ public class InventoryUI : UIComponent {
     }
 
     void SelectFirstChild() {
+        print("selecting first child...");
+        Debug.Log(gridHolder.GetChild(0).GetComponent<ItemPane>().inventoryItem.itemName);
         Button b = gridHolder.GetChild(0).GetComponent<Button>();
         b.Select();
         b.OnSelect(new BaseEventData(eventSystem));
@@ -71,7 +74,11 @@ public class InventoryUI : UIComponent {
     }
 
     public void PopulateItems(InventoryList inventoryList) {
+        print("populating items...");
         foreach (Transform oldItem in gridHolder.transform) {
+            // Destroy is called after the Update loop, which screws up the first child selection logic
+            // so we do this
+            oldItem.transform.SetAsLastSibling();
             GameObject.Destroy(oldItem.gameObject);
         }
         foreach (InventoryItem item in inventoryList.items) {
@@ -79,7 +86,6 @@ public class InventoryUI : UIComponent {
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
-
         SetGridHeight(gridRect, inventoryList.items.Count, NUM_COLUMNS);
     }
 
