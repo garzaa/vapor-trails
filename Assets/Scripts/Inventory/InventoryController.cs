@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour {
     public InventoryList items;   
@@ -11,8 +12,11 @@ public class InventoryController : MonoBehaviour {
 
     public Merchant currentMerchant;
 
+    public Text moneyUI;
+
     void Start () {
         items = items ?? new InventoryList();
+        UpdateMoneyUI();
     }
 
     public virtual void ReactToItemSelect(InventoryItem item) {
@@ -25,14 +29,16 @@ public class InventoryController : MonoBehaviour {
     public void AddItem(InventoryItem item) {
         SoundManager.ItemGetSound();
 		items.AddItem(item);
-        inventoryUI.PopulateItems(this.items);
+        if (inInventory) inventoryUI.PopulateItems(this.items);
 		item.OnPickup();
+        UpdateMoneyUI();
     }
 
     public void ShowInventory() {
         SoundManager.InteractSound();
         if (currentMerchant != null) {
             inventoryUI.PopulateItems(currentMerchant.baseInventory);
+            inventoryUI.animator.SetBool("Merchant", true);
         } else {
             inventoryUI.PopulateItems(this.items);
         }
@@ -42,10 +48,18 @@ public class InventoryController : MonoBehaviour {
     public void HideInventory() {
         SoundManager.InteractSound();
         currentMerchant = null;
+        inventoryUI.animator.SetBool("Merchant", false);
         inventoryUI.Hide();
     }
 
     public int CheckMoney() {
-        return (items.GetItem(moneyItem.GetItem()) ?? new InventoryItem()).count;
+        if (items.GetItem(moneyItem.GetItem()) != null) {
+            return items.GetItem(moneyItem.GetItem()).count;
+        }
+        return 0;
+    }
+
+    void UpdateMoneyUI() {
+        moneyUI.text = "$ " + CheckMoney().ToString();
     }
 }

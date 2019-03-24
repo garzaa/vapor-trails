@@ -84,12 +84,18 @@ public class ContainerUI : UIComponent {
 		foreach (Image i in GetComponentsInChildren<Image>()) {
 			i.enabled = false;
 		}
+		foreach (Text t in GetComponentsInChildren<Text>()) {
+			t.enabled = false;
+		}
 	}
 
 	public override void Show() {
 		this.hidden = false;
 		//dumb hack, but hey
 		DrawContainers();
+		foreach (Text t in GetComponentsInChildren<Text>()) {
+			t.enabled = true;
+		}
 	}
 	
 }
