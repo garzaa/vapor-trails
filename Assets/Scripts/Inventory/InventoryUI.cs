@@ -60,7 +60,7 @@ public class InventoryUI : UIComponent {
         itemDescription.text = item.itemDescription;
         itemCost.text = "$"+item.cost.ToString();
         if (item.IsAbility()) {
-            itemDescription.text += "\n\n<color=white>" + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions) + "</color>";
+            itemDescription.text += "\n\n<color=white>" + ControllerTextChanger.ReplaceText(item.instructions) + "</color>";
         }
     }
 

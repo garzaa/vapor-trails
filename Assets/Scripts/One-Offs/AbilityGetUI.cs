@@ -16,7 +16,7 @@ public class AbilityGetUI : MonoBehaviour {
 		anim = GetComponent<Animator>();
 	}
 	
-	public void GetItem(AbilityItem item) {
+	public void GetItem(InventoryItem item) {
 		this.abilityText.text = item.itemName;
 		this.descriptionText.text = item.itemDescription;
 		this.instructionText.text = ControllerTextChanger.ReplaceText(item.instructions);

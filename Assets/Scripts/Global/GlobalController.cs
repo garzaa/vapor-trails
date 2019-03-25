@@ -414,7 +414,6 @@ public class GlobalController : MonoBehaviour {
 		inventory.AddItem(item);
 		if (item.IsAbility()) {
 			NPC itemDialogue = MakeItemPickupDialogue(item);
-			//EnterDialogue(itemDialogue);
 		}
 	}
 

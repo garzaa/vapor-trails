@@ -17,10 +17,6 @@ public class Merchant : PersistentObject {
     [TextArea]
     public string thanksDialogue;
 
-    new void Start() {
-        base.Start();
-    }
-
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
         if (s == null) {
             this.baseInventory = new InventoryList();
@@ -29,7 +25,7 @@ public class Merchant : PersistentObject {
             ).ToList());
             return;
         }
-        
+
         this.persistentProperties = s.persistentProperties;
 
         this.gameFlagsHit = ((List<int>) s.persistentProperties["GameFlags"]).Select(
@@ -56,5 +52,9 @@ public class Merchant : PersistentObject {
             "GameFlags", 
             this.gameFlagsHit.Select(f => (int) f)
         );
+    }
+
+    public void ReactToBuy() {
+        UpdateObjectState();
     }
 }

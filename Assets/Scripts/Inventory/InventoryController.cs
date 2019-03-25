@@ -23,7 +23,6 @@ public class InventoryController : MonoBehaviour {
         if (this.currentMerchant == null)  {
             return;
         }
-        print("pingy");
         TryToBuy(item);
     }
 
@@ -90,6 +89,7 @@ public class InventoryController : MonoBehaviour {
             inventoryUI.merchantLine.text = currentMerchant.thanksDialogue;
             itemBuy.PlayOneShot(itemBuy.clip);
             UpdateMoneyUI();
+            currentMerchant.ReactToBuy();
         } else {
             inventoryUI.merchantLine.text = currentMerchant.notEnoughMoneyDialogue;
         }

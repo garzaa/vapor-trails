@@ -22,7 +22,6 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     }
 
     void OnClick() {
-        print("PINGAS!!!!");
         GlobalController.inventory.ReactToItemSelect(this.inventoryItem);
     }
 

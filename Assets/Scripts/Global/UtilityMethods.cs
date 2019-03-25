@@ -33,14 +33,6 @@
         return result;
     }
 
-    public static ItemWrapper WrapItem(InventoryItem item) {
-        if (item.IsAbility()) {
-            return new AbilityItemWrapper((AbilityItem) item, item);
-        } else {
-            return new ItemWrapper(item);
-        }
-    }
-
     public static int BoolSign(bool b) {
         return b ? 1 : -1;
     }

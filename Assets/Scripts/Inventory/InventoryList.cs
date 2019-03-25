@@ -63,7 +63,7 @@ public class InventoryList : MonoBehaviour {
     }
 
     public void LoadFromSerializableInventoryList(SerializableInventoryList i) {
-        this.items = i.items;
+        this.items = i.items.Select(x => new InventoryItem(x)).ToList();
     }
 
     public void RemoveItem(InventoryItem toRemove) {
@@ -81,9 +81,9 @@ public class InventoryList : MonoBehaviour {
 
 [System.Serializable]
 public class SerializableInventoryList {
-    public List<InventoryItem> items;
+    public List<SerializableItem> items;
     
     public SerializableInventoryList(List<InventoryItem> items) {
-        this.items = items;
+        this.items = items.Select(x => x.MakeSerialized()).ToList();
     }
 }
