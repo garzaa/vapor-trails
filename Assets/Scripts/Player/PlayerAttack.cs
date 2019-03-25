@@ -89,4 +89,8 @@ public class PlayerAttack : Attack {
 		attackerParent.GetComponent<PlayerController>().GainEnergy(1);
 		attackerParent.GetComponent<PlayerController>().Parry();
 	}
+
+	override public int GetDamage() {
+		return this.damage * attackerParent.GetComponent<PlayerController>().baseDamage;
+	}
 }

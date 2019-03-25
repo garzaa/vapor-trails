@@ -17,8 +17,9 @@ public class PlayerController : Entity {
 	float ledgeBoostSpeed = 4f;
 	public int currentHP = 1;
 	public int currentEnergy = 5;
-	int maxEnergy = 5;
-	int maxHP = 5;
+	public int maxEnergy = 5;
+	public int maxHP = 5;
+	public int baseDamage = 1;
 	float invincibilityLength = .5f;
 	int healCost = 1;
 	int healAmt = 1;

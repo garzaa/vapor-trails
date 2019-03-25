@@ -19,7 +19,7 @@ public class Attack : MonoBehaviour {
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
 
-	public int GetDamage() {
+	public virtual int GetDamage() {
 		return this.damage;
 	}
 

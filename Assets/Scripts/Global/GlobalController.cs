@@ -412,9 +412,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddItem(InventoryItem item) {
 		inventory.AddItem(item);
-		if (item.IsAbility()) {
-			NPC itemDialogue = MakeItemPickupDialogue(item);
-		}
 	}
 
 	public static void ShowAbilityGetUI() {
@@ -459,5 +456,19 @@ public class GlobalController : MonoBehaviour {
 	public static void EnterMerchantDialogue(Merchant merchant) {
 		inventory.currentMerchant = merchant;
 		OpenInventory();
+	}
+
+	public static void BoostStat(StatType statType, int amount) {
+		switch (statType) {
+			case StatType.HEALTH:
+				pc.maxHP += amount;
+				break;
+			case StatType.ENERGY:
+				pc.maxEnergy += amount;
+				break;
+			case StatType.DAMAGE:
+				pc.baseDamage += amount;
+				break;
+		}
 	}
 }

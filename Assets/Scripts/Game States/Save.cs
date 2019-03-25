@@ -9,6 +9,7 @@ public class Save : MonoBehaviour {
     public int maxHP = 5;
     public int currentEnergy = 5;
     public int maxEnergy = 5;
+    public int basePlayerDamage = 1;
     public List<GameFlag> gameFlags = new List<GameFlag>();
     public PlayerUnlocks unlocks;
     public Dictionary<string, SerializedPersistentObject> persistentObjects;
@@ -34,6 +35,9 @@ public class Save : MonoBehaviour {
     }
 
     public SerializableSave MakeSerializableSave() {
+        this.maxHP = GlobalController.pc.maxHP;
+        this.maxEnergy = GlobalController.pc.maxEnergy;
+        this.basePlayerDamage = GlobalController.pc.baseDamage;
         this.playerPosition = GlobalController.pc.transform.position;
         this.sceneName = SceneManager.GetActiveScene().path;
         this.playerItems = GlobalController.inventory.items.MakeSerializableInventory();
@@ -50,7 +54,6 @@ public class Save : MonoBehaviour {
         this.sceneName = s.sceneName;
         this.playerPosition = new Vector2(s.xPos, s.yPos);
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
-        // absolutely disgusting
         GlobalController.inventory.items.LoadFromSerializableInventoryList(s.playerItems);
 
         if (Application.isEditor && !loadSceneInEditor) {
@@ -58,6 +61,9 @@ public class Save : MonoBehaviour {
         } else {
             GlobalController.LoadSceneToPosition(sceneName, playerPosition);
         }
+        GlobalController.pc.maxHP = s.maxHP;
+        GlobalController.pc.maxEnergy = s.maxEnergy;
+        GlobalController.pc.baseDamage = s.baseDamage;
     }
 
     public void UnlockAbility(Ability a) {
@@ -77,6 +83,7 @@ public class SerializableSave {
     public int maxHP = 5;
     public int currentEnergy = 5;
     public int maxEnergy = 5;
+    public int baseDamage = 1;
     public List<string> persistentObjectKeys;
     public List<SerializedPersistentObject> persistentObjectValues;
     public string sceneName;
@@ -96,6 +103,7 @@ public class SerializableSave {
         this.yPos = s.playerPosition.y;
         this.sceneName = s.sceneName;
         this.playerItems = s.playerItems;
+        this.baseDamage = s.basePlayerDamage;
         persistentObjectKeys = new List<string>();
         persistentObjectValues = new List<SerializedPersistentObject>();
 

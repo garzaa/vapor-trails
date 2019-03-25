@@ -20,10 +20,16 @@ public class InventoryItem : System.Object {
 	[TextArea]
 	public string instructions = "";
 
+    public Activatable activatesOnPickup;
+
     public virtual void OnPickup() {
-        if (!IsAbility()) return;
-        GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
-		GlobalController.UnlockAbility(this.ability);
+        if (IsAbility()) {
+            GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
+            GlobalController.UnlockAbility(this.ability);
+        }
+        if (activatesOnPickup != null) {
+            activatesOnPickup.Activate();   
+        }
     }
 
     public bool IsAbility() {

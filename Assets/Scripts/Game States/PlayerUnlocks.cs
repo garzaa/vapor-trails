@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerUnlocks : MonoBehaviour {
-	// TODO: implement this
-	public Dictionary<PassiveStat, int> passives;
+	public int maxHP = 3;
+	public int maxEnergy = 5;
+	public int baseDamage = 1;
 
 	public List<Ability> unlockedAbilities = new List<Ability> {
 		Ability.Dash,
@@ -21,17 +22,15 @@ public class PlayerUnlocks : MonoBehaviour {
 		return unlockedAbilities.Contains(a);
 	}
 
-	public int GetPassiveStat(PassiveStat p) {
-		return passives[p];
-	}
-
 	public SerializableUnlocks MakeSerializableUnlocks() {
 		return new SerializableUnlocks(this);
 	}
 
-	public void LoadFromSerializableUnlocks(SerializableUnlocks s) {
-		this.unlockedAbilities = s.unlockedAbilities;
-		this.passives = s.passives;
+	public void LoadFromSerializableUnlocks(SerializableUnlocks p) {
+		this.unlockedAbilities = p.unlockedAbilities;
+		maxHP = p.maxHP;
+		maxEnergy = p.maxEnergy;
+		baseDamage = p.baseDamage;
 	}
 
 }
@@ -50,19 +49,17 @@ public enum Ability {
 	Heal
 }
 
-public enum PassiveStat {
-	MaxHP,
-	MaxEnergy,
-	BaseAttackDamage
-}
-
 [System.Serializable]
 public class SerializableUnlocks {
-	public Dictionary<PassiveStat, int> passives;
+	public int maxHP = 3;
+	public int maxEnergy = 5;
+	public int baseDamage = 1;
 	public List<Ability> unlockedAbilities;
 
 	public SerializableUnlocks(PlayerUnlocks p) {
-		this.passives = p.passives;
 		this.unlockedAbilities = p.unlockedAbilities;
+		maxHP = p.maxHP;
+		maxEnergy = p.maxEnergy;
+		baseDamage = p.baseDamage;
 	}
 }
