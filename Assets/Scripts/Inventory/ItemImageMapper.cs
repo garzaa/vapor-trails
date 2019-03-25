@@ -17,6 +17,9 @@ public class ItemImageMapper : MonoBehaviour {
         ).ToList();
         
         foreach (InventoryItem item in allItems) {
+            if (mappings.ContainsKey(item.itemName)) {
+                continue;
+            }
             mappings.Add(
                 item.itemName,
                 new ItemImageMap(
