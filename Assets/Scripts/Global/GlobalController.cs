@@ -293,12 +293,14 @@ public class GlobalController : MonoBehaviour {
 		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
 			c.Show();
 		}
+		inventory.moneyUI.gameObject.SetActive(true);
 	}
 
 	public static void HideUI() {
 		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
 			c.Hide();
 		}
+		inventory.moneyUI.gameObject.SetActive(false);
 	}
 
 	public void ExitGame() {
