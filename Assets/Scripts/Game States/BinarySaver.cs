@@ -30,6 +30,15 @@ public class BinarySaver : MonoBehaviour
 		this.existingSave.LoadFromSerializableSave(LoadCharacter(dataPath));
 	}
 
+    public bool HasSavedGame(int slot=1) {
+        string folderPath = Path.Combine(Application.persistentDataPath, folderName);
+		if (!Directory.Exists(folderPath)) {
+			Directory.CreateDirectory(folderPath);
+            return false;
+        }
+        return true;
+    }
+
     void SaveCharacter(Save save, string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
