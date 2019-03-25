@@ -41,7 +41,7 @@ public class Merchant : PersistentObject {
         if (gameFlagsHit.Contains(i.flag)) {
             return;
         }
-        baseInventory.AddAll(i.items);
+        baseInventory.AddAll(i.items.Select(x => x.GetItem()).ToList());
         gameFlagsHit.Add(i.flag);
     }
 
