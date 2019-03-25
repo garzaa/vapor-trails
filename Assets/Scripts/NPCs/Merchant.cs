@@ -29,11 +29,14 @@ public class Merchant : PersistentObject {
             ).ToList());
             return;
         }
+        
         this.persistentProperties = s.persistentProperties;
-        //this is most CERTAINLY a code smell
+
         this.gameFlagsHit = ((List<int>) s.persistentProperties["GameFlags"]).Select(
             x => (GameFlag) x
         ).ToList();
+
+        print("merchant "+this.name+" is trying to load saved items");
         this.baseInventory.items = ((List<InventoryItem>) s.persistentProperties["Inventory"]).Select(
             x => (InventoryItem) x
         ).ToList();

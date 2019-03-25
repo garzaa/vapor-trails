@@ -14,6 +14,7 @@ public class Save : MonoBehaviour {
     public Dictionary<string, SerializedPersistentObject> persistentObjects;
     public string sceneName;
     public Vector2 playerPosition;
+    public List<InventoryItem> playerItems;
 
     public bool loadSceneInEditor = false;
 
@@ -35,6 +36,7 @@ public class Save : MonoBehaviour {
     public SerializableSave MakeSerializableSave() {
         this.playerPosition = GlobalController.pc.transform.position;
         this.sceneName = SceneManager.GetActiveScene().path;
+        this.playerItems = GlobalController.inventory.items.items;
         return new SerializableSave(this);
     }
 
@@ -48,6 +50,9 @@ public class Save : MonoBehaviour {
         this.sceneName = s.sceneName;
         this.playerPosition = new Vector2(s.xPos, s.yPos);
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
+        this.playerItems = s.playerItems;
+        // absolutely disgusting
+        GlobalController.inventory.items.items = this.playerItems;
 
         if (Application.isEditor && !loadSceneInEditor) {
             GlobalController.MovePlayerTo(playerPosition);
@@ -79,6 +84,7 @@ public class SerializableSave {
     public string sceneName;
     public float xPos;
     public float yPos;
+    public List<InventoryItem> playerItems;
 
     public SerializableSave(Save s) {
         this.slotNum = s.slotNum;
@@ -91,6 +97,7 @@ public class SerializableSave {
         this.xPos = s.playerPosition.x;
         this.yPos = s.playerPosition.y;
         this.sceneName = s.sceneName;
+        this.playerItems = s.playerItems;
         persistentObjectKeys = new List<string>();
         persistentObjectValues = new List<SerializedPersistentObject>();
 

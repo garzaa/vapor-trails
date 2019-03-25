@@ -349,7 +349,9 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void SaveGame() {
-		pc.FullHeal();
+		if (save.unlocks.HasAbility(Ability.Heal)) {
+			pc.FullHeal();
+		}
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}
 
