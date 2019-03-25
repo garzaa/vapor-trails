@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Merchant : PersistentObject {
     public List<ItemWrapper> startingInventory;
     public InventoryList baseInventory;
-    List<GameFlag> gameFlagsHit;
+    List<GameFlag> gameFlagsHit = new List<GameFlag>();
 
     public string merchantName;
     public Sprite merchantPortrit;
@@ -18,8 +18,8 @@ public class Merchant : PersistentObject {
     public string thanksDialogue;
 
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
+        this.baseInventory = new InventoryList();
         if (s == null) {
-            this.baseInventory = new InventoryList();
             this.baseInventory.AddAll(startingInventory.Select(
                 x => x.GetItem()
             ).ToList());
@@ -32,10 +32,9 @@ public class Merchant : PersistentObject {
             x => (GameFlag) x
         ).ToList();
 
-        print("merchant "+this.name+" is trying to load saved items");
-        this.baseInventory.items = ((List<InventoryItem>) s.persistentProperties["Inventory"]).Select(
-            x => (InventoryItem) x
-        ).ToList();
+        this.baseInventory.LoadFromSerializableInventoryList(
+            (SerializableInventoryList) s.persistentProperties["Inventory"]
+        );
     }
 
     public void AddGameFlagInventory(GameFlagInventory i) {
@@ -47,14 +46,16 @@ public class Merchant : PersistentObject {
     }
 
     override protected void UpdateObjectState() {
+        this.persistentProperties = new Hashtable();
         this.persistentProperties.Add("Inventory", baseInventory.MakeSerializableInventory());
         this.persistentProperties.Add(
             "GameFlags", 
-            this.gameFlagsHit.Select(f => (int) f)
+            this.gameFlagsHit.Select(f => (int) f).ToList()
         );
+        SaveObjectState();
     }
 
     public void ReactToBuy() {
-        UpdateObjectState();
+        this.UpdateObjectState();
     }
 }
