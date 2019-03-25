@@ -11,11 +11,19 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
 
     void Start() {
         inventoryUI = GetComponentInParent<InventoryUI>();
+        GetComponent<Button>().onClick.AddListener(OnClick);
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        inventoryUI.ReactToItemHover(this);
+        if (inventoryUI != null) {
+            inventoryUI.ReactToItemHover(this);
+        }
+    }
+
+    void OnClick() {
+        print("PINGAS!!!!");
+        GlobalController.inventory.ReactToItemSelect(this.inventoryItem);
     }
 
     public void PopulateSelfInfo(InventoryItem item) {

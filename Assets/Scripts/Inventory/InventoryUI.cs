@@ -19,8 +19,10 @@ public class InventoryUI : UIComponent {
     public Text itemCost;
     public ScrollRect scrollView;
     public AudioSource audioSource;
-
     public EventSystem eventSystem;
+    public Image merchantPortrait;
+    public Text merchantName;
+    public Text merchantLine;
 
     int NUM_COLUMNS = 3;
     RectTransform gridRect;
@@ -31,7 +33,6 @@ public class InventoryUI : UIComponent {
     }
 
     public override void Show() {
-        SelectFirstChild();
         animator.SetBool("Shown", true);
     }
 
@@ -51,14 +52,6 @@ public class InventoryUI : UIComponent {
         audioSource.PlayOneShot(audioSource.clip);
         scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>());
         ShowItemInfo(itemPane.inventoryItem);
-    }
-
-    void Update() {
-        if (animator.GetBool("Shown")) {
-            if (Input.GetButtonDown("Jump") && currentlySelectedItem != null) {
-                inventoryController.ReactToItemSelect(currentlySelectedItem);
-            }
-        }
     }
 
     void ShowItemInfo(InventoryItem item) {
@@ -86,6 +79,7 @@ public class InventoryUI : UIComponent {
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
         SetGridHeight(gridRect, inventoryList.items.Count, NUM_COLUMNS);
+        SelectFirstChild();
     }
 
     public void SetGridHeight(RectTransform g, int itemCount, int numColumns) {
@@ -102,6 +96,12 @@ public class InventoryUI : UIComponent {
         , 261);
 
         g.sizeDelta = s;
+    }
+
+    public void PropagateMerchantInfo(Merchant merchant) {
+        merchantPortrait.sprite = merchant.merchantPortrit;
+        merchantName.text = merchant.merchantName;
+        merchantLine.text = merchant.greetingDialogue;
     }
 
 }

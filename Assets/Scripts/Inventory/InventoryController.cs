@@ -9,21 +9,22 @@ public class InventoryController : MonoBehaviour {
     bool inInventory = false;
 
     public ItemWrapper moneyItem;
-
     public Merchant currentMerchant;
-
     public Text moneyUI;
+    public AudioSource itemBuy;
+
 
     void Start () {
         items = items ?? new InventoryList();
         UpdateMoneyUI();
     }
 
-    public virtual void ReactToItemSelect(InventoryItem item) {
-        if (this.currentMerchant == null) return;
-        else {
-            this.currentMerchant.TryToBuy(item);
+    public void ReactToItemSelect(InventoryItem item) {
+        if (this.currentMerchant == null)  {
+            return;
         }
+        print("pingy");
+        TryToBuy(item);
     }
 
     public void AddItem(InventoryItem item) {
@@ -38,8 +39,10 @@ public class InventoryController : MonoBehaviour {
         SoundManager.InteractSound();
         if (currentMerchant != null) {
             inventoryUI.PopulateItems(currentMerchant.baseInventory);
+            inventoryUI.PropagateMerchantInfo(currentMerchant);
             inventoryUI.animator.SetBool("Merchant", true);
         } else {
+            inventoryUI.animator.SetBool("Merchant", false);
             inventoryUI.PopulateItems(this.items);
         }
         inventoryUI.Show();
@@ -61,5 +64,34 @@ public class InventoryController : MonoBehaviour {
 
     void UpdateMoneyUI() {
         moneyUI.text = "$ " + CheckMoney().ToString();
+    }
+
+    public void TakeMoney(int amount) {
+        items.GetItem(moneyItem.GetItem()).count -= amount;
+    }
+
+    void TryToBuy(InventoryItem item) {
+        InventoryList merchantInventory = currentMerchant.baseInventory;
+        bool hasMoney = item.cost <= GlobalController.inventory.CheckMoney();
+        if (hasMoney) {
+            InventoryItem toAdd = merchantInventory.GetItem(item).Clone();
+            TakeMoney(item.cost);
+            if (merchantInventory.GetItem(item).stackable) {
+               if (merchantInventory.GetItem(item).count > 1) {
+                    merchantInventory.GetItem(item).count -= 1;
+               } else {
+                    merchantInventory.RemoveItem(item);
+               }
+            } else {
+                    merchantInventory.RemoveItem(item);
+            }
+            toAdd.count = 1;
+            items.AddItem(toAdd);
+            inventoryUI.merchantLine.text = currentMerchant.thanksDialogue;
+            itemBuy.PlayOneShot(itemBuy.clip);
+        } else {
+            inventoryUI.merchantLine.text = currentMerchant.notEnoughMoneyDialogue;
+        }
+        inventoryUI.PopulateItems(currentMerchant.baseInventory);
     }
 }

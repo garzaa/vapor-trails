@@ -11,7 +11,11 @@ public class Merchant : PersistentObject {
     public string merchantName;
     public Sprite merchantPortrit;
     [TextArea]
-    public string merchantDialogue;
+    public string greetingDialogue;
+    [TextArea]
+    public string notEnoughMoneyDialogue;
+    [TextArea]
+    public string thanksDialogue;
 
     new void Start() {
         base.Start();
@@ -49,12 +53,5 @@ public class Merchant : PersistentObject {
             "GameFlags", 
             this.gameFlagsHit.Select(f => (int) f)
         );
-    }
-
-    //TODO: implement
-    public void TryToBuy(InventoryItem item) {
-        // check for money
-        // if so, remove from merchant inventory, add to player inventory
-        // repopulate inventory UI
     }
 }
