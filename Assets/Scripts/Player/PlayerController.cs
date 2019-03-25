@@ -585,6 +585,9 @@ public class PlayerController : Entity {
 	}
 
 	void ReturnToSafety() {
+		if (this.currentHP <= 0) {
+			return;
+		}
 		GlobalController.playerFollower.DisableSmoothing();
 		UnLockInSpace();
 		transform.position = lastSafePos;
