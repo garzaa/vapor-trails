@@ -7,6 +7,9 @@ public class PlayerWings : MonoBehaviour {
 	Animator anim;
 	bool ledgeBoosting;
 
+	public GameObject nearIgnition;
+	public GameObject farIgnition;
+
 	public void Start() {
 		anim = this.GetComponent<Animator>();
 	}
@@ -85,6 +88,13 @@ public class PlayerWings : MonoBehaviour {
 
 	public bool HasOpenJets() {
 		return anim.GetBool("Jets");
+	}
+
+	public void IgnitionBurst() {
+		nearIgnition.SetActive(false);
+		farIgnition.SetActive(false);
+		nearIgnition.SetActive(true);
+		farIgnition.SetActive(true);
 	}
 
 }

@@ -361,7 +361,7 @@ public class PlayerController : Entity {
 		}
 		
 		//fast fall
-		if (Input.GetAxis("Vertical")<0 && rb2d.velocity.y < jumpCutoff && !grounded) {
+		if (Input.GetAxis("Vertical")<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(rb2d.velocity.y, fastFallSpeed));
 			wings.Open();
 			wings.EnableJets();
@@ -446,10 +446,10 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		InterruptAttack();
 		inMeteor = false;
-		SetInvincible(true);
-		envDmgSusceptible = false;
         if (unlocks.HasAbility(Ability.DamageDash)) {
             anim.SetTrigger("DamageDash");
+			envDmgSusceptible = false;
+			SetInvincible(true);
         } else {
 			anim.SetTrigger("Dash");
 		}
@@ -534,6 +534,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		wings.FoldIn();
+		SaveLastSafePos();
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
 		}
@@ -866,6 +867,9 @@ public class PlayerController : Entity {
 		if (cyan) {
 			cyan = false;
 			StartCoroutine(normalSprite());
+		}
+		if (dashing) {
+			InterruptDash();
 		}
 	}
 
