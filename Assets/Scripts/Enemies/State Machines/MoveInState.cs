@@ -11,7 +11,10 @@ public class MoveInState : StateMachineBehaviour {
 	public Vector2 direction;
 	public bool forceZero;
 
+	Entity e;
+
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		e = animator.GetComponent<Entity>();
 		if (onEnter) {
 			Move(animator);
 		} else if (!onUpdate && !onExit) {
@@ -33,7 +36,6 @@ public class MoveInState : StateMachineBehaviour {
 
 	public virtual void Move(Animator animator) {
 		Rigidbody2D rb2d = animator.GetComponent<Rigidbody2D>();
-		Entity e = animator.GetComponent<Entity>();
 		Vector2 newDirection = direction;
 		// if the x or y component of velocity is zero, do you clamp it at zero or leave it alone
 		if (forceZero) {
