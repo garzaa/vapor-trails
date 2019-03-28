@@ -13,7 +13,7 @@ public class BinarySaver : MonoBehaviour
 	}
 
 	public void SaveGame(int slot=1) {
-		string folderPath = Path.Combine(Application.persistentDataPath, folderName);
+		string folderPath = GetFolderPath();
 		if (!Directory.Exists(folderPath))
 			Directory.CreateDirectory(folderPath);
 
@@ -22,18 +22,26 @@ public class BinarySaver : MonoBehaviour
 	}
 
 	public void LoadGame(int slot=1) {
-		string folderPath = Path.Combine(Application.persistentDataPath, folderName);
+		string folderPath = GetFolderPath();
 		if (!Directory.Exists(folderPath))
 			Directory.CreateDirectory(folderPath);
 
-		string dataPath = Path.Combine(folderPath, slot + fileExtension);
+		string dataPath = GetSavePath(slot);
 		this.existingSave.LoadFromSerializableSave(LoadCharacter(dataPath));
 	}
 
+    string GetFolderPath() {
+        return Path.Combine(Application.persistentDataPath, folderName);
+    }
+
+    string GetSavePath(int slot) {
+        return Path.Combine(GetFolderPath(), slot + fileExtension);
+    }
+
     public bool HasSavedGame(int slot=1) {
-        string folderPath = Path.Combine(Application.persistentDataPath, folderName);
-		if (!Directory.Exists(folderPath)) {
-			Directory.CreateDirectory(folderPath);
+        try {
+            LoadCharacter(GetSavePath(slot));
+        } catch (FileNotFoundException) {
             return false;
         }
         return true;
