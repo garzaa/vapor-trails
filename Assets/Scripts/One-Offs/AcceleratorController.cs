@@ -17,6 +17,9 @@ public class AcceleratorController : MonoBehaviour
             rb2d.velocity += (rb2d.velocity.normalized * 6f);
             SoundManager.JumpSound();
             animator.SetTrigger("Boost");
+            if (rb2d.GetComponent<PlayerController>() != null) {
+                rb2d.GetComponent<PlayerController>().EndShortHopWindow();
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ public class PlayerController : Entity {
 	bool earlyDashInput;
 	bool canInteract = true;
 	bool canUpSlash = true;
+	bool canShortHop = true;
 	Vector2 lastSafePos;
 
 	//linked components
@@ -75,7 +76,6 @@ public class PlayerController : Entity {
 	bool backstepCooldown = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
-	bool jumpCutoffEnabled = false;
 
 
 	//other misc prefabs
@@ -156,6 +156,10 @@ public class PlayerController : Entity {
 		if (grounded && unlocks.HasAbility(Ability.Parry)) {
 			anim.SetTrigger("Parry");
 		}
+	}
+
+	public void EndShortHopWindow() {
+		canShortHop = false;
 	}
 
 	void Attack() {
@@ -353,11 +357,10 @@ public class PlayerController : Entity {
 		}
 
 		//emulate an analog jump
-		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff && jumpCutoffEnabled) {
+		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff && canShortHop) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
-			jumpCutoffEnabled = false;
 		}
 		
 		//fast fall
@@ -388,11 +391,10 @@ public class PlayerController : Entity {
 		anim.SetTrigger("Jump");
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
-		jumpCutoffEnabled = true;
 	}
 
 	void WallJump() {
-		jumpCutoffEnabled = false;
+		EndShortHopWindow();
 		SoundManager.SmallJumpSound();
 		InterruptDash();
 		InterruptMeteor();
@@ -410,8 +412,8 @@ public class PlayerController : Entity {
 	}
 
 	void AirJump() {
-		jumpCutoffEnabled = false;
 		SoundManager.JumpSound();
+		EndShortHopWindow();
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
@@ -529,7 +531,7 @@ public class PlayerController : Entity {
 
 	public override void OnGroundHit() {
 		grounded = true;
-		jumpCutoffEnabled = false;
+		canShortHop = true;
 		ResetAirJumps();
 		InterruptAttack();
 		StopWallTimeout();
@@ -570,6 +572,7 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.UpSlash)) {
 			return;
 		}
+		EndShortHopWindow();
 		ImpactDust();
 		wings.Close();
 		SoundManager.JumpSound();
@@ -629,7 +632,6 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit() {
-		jumpCutoffEnabled = false;
 		CloseWings();
 		InterruptDash();
 		if (dashCooldown) {
