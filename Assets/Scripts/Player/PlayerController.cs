@@ -541,7 +541,6 @@ public class PlayerController : Entity {
 		ResetAirJumps();
 		InterruptAttack();
 		StopWallTimeout();
-		wings.FoldIn();
 		SaveLastSafePos();
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
@@ -737,7 +736,9 @@ public class PlayerController : Entity {
 	}
 
 	void LandMeteor() {
-		wings.FoldIn();
+		if (HorizontalInput()) {
+			wings.FoldIn();
+		}
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;
@@ -1036,7 +1037,7 @@ public class PlayerController : Entity {
 		inCutscene = false;
 	}
 
-	//called from 1
+	//called from animations
 	public void CloseWings() {
 		wings.FoldIn();
 	}
