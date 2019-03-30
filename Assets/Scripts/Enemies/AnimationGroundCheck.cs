@@ -6,6 +6,7 @@ using UnityEngine;
 public class AnimationGroundCheck : GroundCheck {
 
 	Animator animator;
+	bool touchingLedgeLastFrame;
 
 	new void Start() {
 		base.Start();
@@ -14,7 +15,11 @@ public class AnimationGroundCheck : GroundCheck {
 	}
 	
 	void Update() {
+		if (!touchingLedgeLastFrame && OnLedge()) {
+			animator.SetTrigger("LedgeStep");
+		}
 		animator.SetBool("Grounded", IsGrounded());
 		animator.SetBool("TouchingLedge", OnLedge());
+		touchingLedgeLastFrame = OnLedge();
 	}
 }

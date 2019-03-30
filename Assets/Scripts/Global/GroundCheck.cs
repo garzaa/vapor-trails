@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour {
 
-	public Transform corner1;
-	public Transform corner2;
+	public GameObject corner1;
+	public GameObject corner2;
 	public bool generateFromCollider = false;
 
 	protected bool groundedCurrentFrame;
@@ -18,26 +18,26 @@ public class GroundCheck : MonoBehaviour {
 			float radiusX = bc.bounds.extents.x;
 			float radiusY = bc.bounds.extents.y;
 			
-			corner1 = new GameObject().transform;
+			corner1 = new GameObject();
 			corner1.name = "corner1";
 			corner1.transform.parent = this.transform;
-			corner1.localPosition = center - new Vector2(-radiusX, radiusY+0.02f);
+			corner1.transform.localPosition = center - new Vector2(-radiusX, radiusY+0.02f);
 			
-			corner2 = new GameObject().transform;
+			corner2 = new GameObject();
 			corner2.name = "corner2";
 			corner2.transform.parent = this.transform;
-			corner2.localPosition = center - new Vector2(radiusX, radiusY+0.02f);
+			corner2.transform.localPosition = center - new Vector2(radiusX, radiusY+0.02f);
 		}
 	}
 
 	bool LeftGrounded() {
-		Debug.DrawLine(corner1.position + new Vector3(0, 0.1f, 0), corner1.position);
-		return Physics2D.Linecast(corner1.position + new Vector3(0, 0.1f, 0), corner1.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		Debug.DrawLine(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position);
+		return Physics2D.Linecast(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 	}
 
 	bool RightGrounded() {
-		Debug.DrawLine(corner2.position + new Vector3(0, 0.1f, 0), corner2.position);
-		return Physics2D.Linecast(corner2.position + new Vector3(0, 0.1f, 0), corner2.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		Debug.DrawLine(corner2.transform.position + new Vector3(0, 0.1f, 0), corner2.transform.position);
+		return Physics2D.Linecast(corner2.transform.position + new Vector3(0, 0.1f, 0), corner2.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 	}
 
 	public bool IsGrounded() {
@@ -68,8 +68,8 @@ public class GroundCheck : MonoBehaviour {
 
 	public EdgeCollider2D TouchingPlatform() {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
-		RaycastHit2D g1 = Physics2D.Raycast(corner1.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
-		RaycastHit2D g2 = Physics2D.Raycast(corner2.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
+		RaycastHit2D g1 = Physics2D.Raycast(corner1.transform.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
+		RaycastHit2D g2 = Physics2D.Raycast(corner2.transform.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
 		if (g1.transform == null && g2.transform == null) {
 			//return early to avoid redundant checks
 			return null;
