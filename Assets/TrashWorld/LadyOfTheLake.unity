@@ -510,6 +510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  newDialoguePrompt: {fileID: 0}
+  noNewDialoguePrompt: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &37396575
@@ -6356,7 +6358,7 @@ MonoBehaviour:
   sceneToLoad:
     sceneAsset: {fileID: 102900000, guid: 91a5314047c841940a977e2db7d7fb94, type: 3}
     sceneName: TrashWorld/DeepTown
-  beaconName: DeepTownRightBeacon
+  beacon: 2
 --- !u!61 &309222245
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12780,6 +12782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 632960012}
+  - component: {fileID: 632960013}
   m_Layer: 9
   m_Name: LadyLeftBeacon
   m_TagString: Untagged
@@ -12801,6 +12804,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &632960013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632960011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe138e9573022044bb135b0ac3678ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beacon: 1
 --- !u!1001 &634331665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13369,6 +13385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  newDialoguePrompt: {fileID: 0}
+  noNewDialoguePrompt: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &731428688
@@ -15023,7 +15041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1251777175516782, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4823699093169772, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15072,7 +15090,7 @@ PrefabInstance:
     - target: {fileID: 224004578258188868, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7801138278394486319, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
@@ -15082,12 +15100,17 @@ PrefabInstance:
     - target: {fileID: 7801138278394486319, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7801138278394486319, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.66751915
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114568043210485488, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 3}
+      propertyPath: gameFlags.Array.data[0]
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
@@ -21404,6 +21427,11 @@ PrefabInstance:
         type: 3}
       propertyPath: beaconName
       value: ServiceElevatorDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 114314759951430532, guid: 7053f547b5584b040b69a67a973265b3,
+        type: 3}
+      propertyPath: beacon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7053f547b5584b040b69a67a973265b3, type: 3}

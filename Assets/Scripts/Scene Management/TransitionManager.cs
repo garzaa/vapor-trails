@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TransitionManager : MonoBehaviour {
 
-	string currentBeaconName = null;
+	Beacon currentBeacon = Beacon.None;
 	bool frozePlayerBeforeTransition = false;
 	bool closedJets = false;
 	bool toPosition = false;
@@ -41,13 +41,12 @@ public class TransitionManager : MonoBehaviour {
 
 		GlobalController.ShowUI();
 
-		if (!string.IsNullOrEmpty(currentBeaconName)) {
-			//in case it was disabled in the previous scene
-			GlobalController.MovePlayerTo(currentBeaconName);
+		if (currentBeacon != Beacon.None) {
+			GlobalController.MovePlayerTo(currentBeacon);
 			GlobalController.playerFollower.SnapToPlayer();
 			GlobalController.playerFollower.EnableFollowing();
 			GlobalController.playerFollower.FollowPlayer();
-			currentBeaconName = null;
+			currentBeacon = Beacon.None;
 		} else if (toPosition) {
 			GlobalController.MovePlayerTo(position);
 			toPosition = false;
@@ -61,7 +60,7 @@ public class TransitionManager : MonoBehaviour {
 			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
 
 			if (sd.loadOtherSceneAtStart) {
-				LoadScene(sd.otherSceneName, null, fade:false);
+				LoadScene(sd.otherSceneName, Beacon.None, fade:false);
 				return;
 			}
 
@@ -111,12 +110,12 @@ public class TransitionManager : MonoBehaviour {
 	public void LoadSceneToPosition(string sceneName, Vector2 position) {
 		this.toPosition = true;
 		this.position = position;
-		LoadScene(sceneName, null);
+		LoadScene(sceneName, Beacon.None);
 	}
 
-	public void LoadScene(string sceneName, string beaconName, bool fade = true) {
+	public void LoadScene(string sceneName, Beacon beacon, bool fade = true) {
 		if (fade) GlobalController.FadeToBlack();
-		this.currentBeaconName = beaconName;
+		this.currentBeacon = beacon;
 		GlobalController.playerFollower.DisableFollowing();
 		GlobalController.playerFollower.DisableSmoothing();
 

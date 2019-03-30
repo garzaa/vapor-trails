@@ -6,10 +6,10 @@ using Utilities;
 public class SceneLoadTrigger : PlayerTriggeredObject {
 
 	public SceneField sceneToLoad;
-	public string beaconName;
+	public Beacon beacon;
 
 	public override void OnPlayerEnter() {
-		GlobalController.LoadScene(sceneToLoad, beaconName: beaconName);
+		GlobalController.LoadScene(sceneToLoad, beacon: beacon);
 	}
 
 	public override void OnPlayerExit() {

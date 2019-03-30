@@ -7,10 +7,10 @@ using Utilities;
 public class Door : Interactable {
 
 	public SceneField sceneToLoad;
-	public string beaconName;
+	public Beacon beacon;
 
 	public override void Interact(GameObject player) {
 		base.Interact(player);
-		GlobalController.LoadScene(sceneToLoad, beaconName);
+		GlobalController.LoadScene(sceneToLoad, beacon);
 	}
 }

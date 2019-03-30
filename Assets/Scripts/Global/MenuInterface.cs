@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class MenuInterface : MonoBehaviour {
 
+	public GameObject continueGame;
+
+	void Start() {
+		continueGame.SetActive(GlobalController.HasSavedGame());
+	}
+
 	public void LoadScene(string sceneName) {
 		GlobalController.LoadScene(sceneName);
 	}

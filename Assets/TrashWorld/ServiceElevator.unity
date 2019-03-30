@@ -2957,6 +2957,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
     type: 3}
+  newDialoguePrompt: {fileID: 0}
+  noNewDialoguePrompt: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!61 &445718468
@@ -3294,6 +3296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
     type: 3}
+  newDialoguePrompt: {fileID: 0}
+  noNewDialoguePrompt: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!61 &545550251
@@ -6334,6 +6338,50 @@ MonoBehaviour:
   animationName: TurnOnLights
   isTrigger: 1
   toggleBool: 0
+--- !u!1 &1049457566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049457568}
+  - component: {fileID: 1049457567}
+  m_Layer: 9
+  m_Name: ElevatorEnterBottomBeacon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1049457567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049457566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe138e9573022044bb135b0ac3678ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beacon: 1
+--- !u!4 &1049457568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049457566}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.035, y: 0.575, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051823747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1537826980926146, guid: b6c4789e4dee41c4aae2b9feeb1a8954,
@@ -13405,6 +13453,11 @@ PrefabInstance:
       propertyPath: beaconName
       value: NightMarketBeacon
       objectReference: {fileID: 0}
+    - target: {fileID: 114314759951430532, guid: 7053f547b5584b040b69a67a973265b3,
+        type: 3}
+      propertyPath: beacon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7053f547b5584b040b69a67a973265b3, type: 3}
 --- !u!4 &1528252795 stripped
@@ -13962,6 +14015,11 @@ PrefabInstance:
         type: 3}
       propertyPath: beaconName
       value: NightMarketBeacon
+      objectReference: {fileID: 0}
+    - target: {fileID: 114314759951430532, guid: 7053f547b5584b040b69a67a973265b3,
+        type: 3}
+      propertyPath: beacon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7053f547b5584b040b69a67a973265b3, type: 3}
@@ -16203,11 +16261,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 61199591851670324, guid: f0b4c24f144fb9c4ea26f909b7b948bd,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114978735087165112, guid: f0b4c24f144fb9c4ea26f909b7b948bd,
         type: 3}
       propertyPath: objectsToActivate.Array.size
@@ -16218,6 +16271,11 @@ PrefabInstance:
       propertyPath: objectsToActivate.Array.data[0]
       value: 
       objectReference: {fileID: 1493619339}
+    - target: {fileID: 61199591851670324, guid: f0b4c24f144fb9c4ea26f909b7b948bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 212951010727776442, guid: f0b4c24f144fb9c4ea26f909b7b948bd,
         type: 3}
       propertyPath: m_SortingOrder
@@ -16462,6 +16520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  newDialoguePrompt: {fileID: 0}
+  noNewDialoguePrompt: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!1001 &2083228205

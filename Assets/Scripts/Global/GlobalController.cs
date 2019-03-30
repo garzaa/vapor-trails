@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GlobalController : MonoBehaviour {
 
@@ -37,6 +38,8 @@ public class GlobalController : MonoBehaviour {
 
 	static Queue<NPC> queuedNPCs;
 
+	static int saveSlot = 1;
+
 	void Awake() {
 		gc = this;
 		queuedNPCs = new Queue<NPC>();
@@ -56,6 +59,10 @@ public class GlobalController : MonoBehaviour {
 
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
+	}
+
+	public static bool HasSavedGame() {
+		return gc.GetComponent<BinarySaver>().HasSavedGame(saveSlot);
 	}
 
 	static void OpenInventory() {
@@ -253,8 +260,8 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
-	public static void LoadScene(string sceneName, string beaconName=null) {
-		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beaconName);
+	public static void LoadScene(string sceneName, Beacon beacon=Beacon.None) {
+		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 	}
 
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
@@ -267,11 +274,14 @@ public class GlobalController : MonoBehaviour {
 		playerFollower.EnableSmoothing();
 	}
 
-	public static void MovePlayerTo(string objectName, bool smoothing=false) {
+	public static void MovePlayerTo(Beacon beacon, bool smoothing=false) {
 		if (!smoothing) {
 			playerFollower.DisableSmoothing();
 		}
-		pc.transform.position = GameObject.Find(objectName).transform.position;
+		BeaconWrapper b = Object.FindObjectsOfType<BeaconWrapper>().Where(
+			x => x.beacon == beacon
+		).First();
+		pc.transform.position = b.transform.position;
 		if (!smoothing) {
 			playerFollower.EnableSmoothing();
 		}
