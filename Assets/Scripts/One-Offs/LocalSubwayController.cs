@@ -21,4 +21,16 @@ public class LocalSubwayController : AnimationInterface {
             a.SetBool("Open", false);
         }
     }
+
+    public void OpenMapUI() {
+
+    }
+
+    public void CloseMapUI() {
+
+    }
+
+    public void ReactToStationSelect(SubwayStopButton stop) {
+
+    }
 }
