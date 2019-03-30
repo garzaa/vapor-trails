@@ -152,6 +152,10 @@ public class PlayerController : Entity {
 		}
 	}
 
+	public void AnimationLandMeteor() {
+		wings.LandMeteor();
+	}
+
 	public void Parry() {
 		if (grounded && unlocks.HasAbility(Ability.Parry)) {
 			anim.SetTrigger("Parry");
@@ -316,9 +320,11 @@ public class PlayerController : Entity {
 
 		if (rb2d.velocity.y < hardLandSpeed) {
 			hardFalling = true;
+			anim.SetBool("FastFalling", true);
 		}
 		else {
 			hardFalling = false;
+			anim.SetBool("FastFalling", false);
 		}
 
 		if (wallCheck.TouchingLedge() && !grounded) {
@@ -557,7 +563,6 @@ public class PlayerController : Entity {
 				ImpactDust();
 			}
 			CameraShaker.Shake(0.05f, 0.1f);
-			anim.SetTrigger("HardLand");
 		}
 		if (terminalFalling) {
 			CameraShaker.Shake(0.1f, 0.1f);
