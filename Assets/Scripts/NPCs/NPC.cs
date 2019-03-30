@@ -7,6 +7,9 @@ public class NPC : Interactable {
 
 	protected PersistentNPC persistence;
 
+	public GameObject newDialoguePrompt;
+	public GameObject noNewDialoguePrompt;
+
 	public NPC(NPCConversations c) {
 		this.conversations = c;
 	}
@@ -14,12 +17,14 @@ public class NPC : Interactable {
 	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
+		noNewDialoguePrompt = noNewDialoguePrompt ?? promptPrefab;
+		newDialoguePrompt = newDialoguePrompt ?? promptPrefab;
 	}
 
 	public int currentConversation = 0;
 	public int currentDialogueLine = 0;
 
-	public override void Interact(GameObject player) {
+	override public void Interact(GameObject player) {
 		if (GlobalController.dialogueClosedThisFrame) {
 			return;
 		}
@@ -37,6 +42,11 @@ public class NPC : Interactable {
 		//no need to restart the last conversation if it's been reached
 		//the NPC conversation will take care of it
 		GlobalController.EnterDialogue(this);
+	}
+
+	override public void AddPrompt() {
+		promptPrefab = AtLastConversation() ? noNewDialoguePrompt : newDialoguePrompt;
+		base.AddPrompt();
 	}
 
 	public int GetConversationsHash() {
