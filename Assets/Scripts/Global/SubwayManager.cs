@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SubwayManager : MonoBehaviour {
     public static SubwayManager sm;
-    static SubwayMapUI mapUI;
+    public static SubwayMapUI mapUI;
 
     static Vector2 offset;
 
