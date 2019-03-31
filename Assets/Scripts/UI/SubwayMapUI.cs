@@ -19,6 +19,12 @@ public class SubwayMapUI : UIComponent {
         eventSystem = GetComponent<EventSystem>();
     }
 
+    public void UpdateDiscoveredStops() {
+        foreach (SubwayStopButton b in GetComponentsInChildren<SubwayStopButton>()) {
+            b.CheckDiscovery();
+        }
+    }
+
     public void SelectFirstChild() {
         Button b = GetComponentsInChildren<Button>().Where(
             x => x.interactable
@@ -36,8 +42,10 @@ public class SubwayMapUI : UIComponent {
         foreach (SubwayStopButton b in buttons) {
             // reset from the last station
             b.GetComponent<Animator>().SetBool("ThisStop", false);
+            b.GetComponent<Animator>().SetBool("Interactable", false);
             if (b.stop == stop) {
                 b.GetComponent<Animator>().SetBool("ThisStop", true);
+                b.GetComponent<Animator>().SetBool("Interactable", true);
             }
         }
     }

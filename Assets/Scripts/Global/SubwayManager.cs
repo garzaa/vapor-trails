@@ -31,6 +31,7 @@ public class SubwayManager : MonoBehaviour {
         localSubway = lc;
         mapUI.gameObject.SetActive(true);
         mapUI.PropagateCurrentStopInfo(lc.stop);
+        mapUI.UpdateDiscoveredStops();
         mapUI.SelectFirstChild();
     }
 
