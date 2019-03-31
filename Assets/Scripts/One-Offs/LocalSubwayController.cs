@@ -6,6 +6,7 @@ using System.Linq;
 public class LocalSubwayController : AnimationInterface {
     List<Animator> doors;
     public AudioSource doorsOpening;
+    public SubwayStop thisStop;
 
     void Start() {
         doors = GetComponentsInChildren<Animator>().ToList();
@@ -25,15 +26,7 @@ public class LocalSubwayController : AnimationInterface {
         }
     }
 
-    public void OpenMapUI() {
-
-    }
-
-    public void CloseMapUI() {
-
-    }
-
-    public void ReactToStationSelect(SubwayStopButton stop) {
-
+    public void FinishClosingDoors() {
+        SubwayManager.OpenMapUI();
     }
 }
