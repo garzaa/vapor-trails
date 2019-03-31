@@ -69,6 +69,7 @@ public class LocalSubwayController : AnimationInterface {
 
     public void BoardPlayer() {
         animator.SetTrigger("BoardPlayer");
+        animator.SetBool("PlayerHidden", true);
         holdingPlayer = true;
     }
 }
