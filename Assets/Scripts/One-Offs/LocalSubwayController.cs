@@ -6,7 +6,7 @@ using System.Linq;
 public class LocalSubwayController : AnimationInterface {
     List<Animator> doors;
     public AudioSource doorsOpening;
-    public SubwayStop thisStop;
+    public SubwayStop stop;
    public  PlayerFollower playerFollower;
 
     void Start() {
@@ -29,7 +29,7 @@ public class LocalSubwayController : AnimationInterface {
 
     public void FinishClosingDoors() {
         SubwayManager.SetPlayerOffset(this.transform.position - playerFollower.transform.position);
-        SubwayManager.OpenMapUI();
+        SubwayManager.OpenMapUI(this);
     }
 
     public void FinishDeparting() {

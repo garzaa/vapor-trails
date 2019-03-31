@@ -25,9 +25,12 @@ public class SubwayManager : MonoBehaviour {
         playerOffset = newOffset;
     }
 
-    public static void OpenMapUI() {
+    public static void OpenMapUI(LocalSubwayController lc) {
         GlobalController.pc.EnterDialogue();
         mapUI.gameObject.SetActive(true);
+        print(lc.stop);
+        mapUI.PropagateCurrentStopInfo(lc.stop);
+        mapUI.SelectFirstChild();
     }
 
     public static void CloseMapUI() {
