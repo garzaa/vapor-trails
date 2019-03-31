@@ -19,11 +19,13 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void OpenMapUI() {
-        mapUI.Show();
+        GlobalController.pc.EnterDialogue();
+        mapUI.gameObject.SetActive(true);
     }
 
     public static void CloseMapUI() {
-        mapUI.Hide();
+        GlobalController.pc.ExitDialogue();
+        mapUI.gameObject.SetActive(false);
     }
 
     public static void ReactToStationSelect(SubwayStopButton stop) {

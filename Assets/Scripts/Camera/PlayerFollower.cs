@@ -14,6 +14,9 @@ public class PlayerFollower : MonoBehaviour {
 	Vector2 currentOffset;
 	Vector3 velocity = Vector3.zero;
 
+	public bool followX = true;
+	public bool followY = true;
+
 	bool smoothing = true;
 	bool following = true;
 
@@ -49,14 +52,18 @@ public class PlayerFollower : MonoBehaviour {
 			transform.position = Vector3.SmoothDamp(
 				transform.position,
 				new Vector3(
-					x:target.transform.position.x + currentOffset.x,
-					y:target.transform.position.y + currentOffset.y,
+					x:followX ? target.transform.position.x + currentOffset.x : transform.position.x,
+					y:followY ? target.transform.position.y + currentOffset.y : transform.position.y,
 					z:this.transform.position.z),
 				ref velocity,
 				smoothAmount * Time.deltaTime
 				);
 		} else {
-			transform.position = target.transform.position + (Vector3) currentOffset;
+			transform.position = new Vector3(
+					x:followX ? target.transform.position.x + currentOffset.x : transform.position.x,
+					y:followY ? target.transform.position.y + currentOffset.y : transform.position.y,
+					z:this.transform.position.z);
+			transform.position += (Vector3) currentOffset;
 		}	
 	}
 
