@@ -7,11 +7,10 @@ public class LocalSubwayController : AnimationInterface {
     List<Animator> doors;
     public AudioSource doorsOpening;
     public SubwayStop thisStop;
-    PlayerFollower playerFollower;
+   public  PlayerFollower playerFollower;
 
     void Start() {
         doors = GetComponentsInChildren<Animator>().ToList();
-        playerFollower = GetComponentInChildren<PlayerFollower>();
     }
 
     public void OpenDoors() {
@@ -29,6 +28,11 @@ public class LocalSubwayController : AnimationInterface {
     }
 
     public void FinishClosingDoors() {
+        SubwayManager.SetPlayerOffset(this.transform.position - playerFollower.transform.position);
         SubwayManager.OpenMapUI();
+    }
+
+    public void FinishDeparting() {
+        SubwayManager.DepartWithPlayer();
     }
 }

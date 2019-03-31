@@ -4,7 +4,7 @@ public class SubwayManager : MonoBehaviour {
     public static SubwayManager sm;
     public static SubwayMapUI mapUI;
 
-    static Vector2 offset;
+    static Vector3 playerOffset;
 
     void Start() {
         sm = this;
@@ -12,12 +12,17 @@ public class SubwayManager : MonoBehaviour {
         CloseMapUI();
     }
 
-    public static void Depart() {
+    public static void DepartWithPlayer() {
 
     }
 
-    public static void Arrive() {
+    public static void ArriveWithPlayer() {
+        LocalSubwayController lc = Object.FindObjectOfType<LocalSubwayController>();
+        GlobalController.MovePlayerTo(lc.transform.position + playerOffset);
+    }
 
+    public static void SetPlayerOffset(Vector2 newOffset) {
+        playerOffset = newOffset;
     }
 
     public static void OpenMapUI() {
@@ -32,5 +37,8 @@ public class SubwayManager : MonoBehaviour {
 
     public static void ReactToStationSelect(SubwayStop stop) {
         print(stop);
+        LocalSubwayController lc = Object.FindObjectOfType<LocalSubwayController>();
+        CloseMapUI();
+        lc.GetComponent<Animator>().SetTrigger("Depart");
     }
 }
