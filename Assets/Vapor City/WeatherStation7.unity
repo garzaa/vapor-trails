@@ -3018,6 +3018,71 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1ab14c4a7b2be24889ea023e8408350, type: 3}
+--- !u!1 &518632510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 518632511}
+  - component: {fileID: 518632513}
+  - component: {fileID: 518632512}
+  m_Layer: 0
+  m_Name: DepartsBackwards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &518632511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518632510}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1341902188}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &518632512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518632510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1341902190}
+  animationName: DepartsBack
+  isTrigger: 0
+  toggleBool: 0
+--- !u!114 &518632513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518632510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c5dfd2a1084db498d438b857025b3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  criteria: []
+  objectsToActivate:
+  - {fileID: 518632512}
+  switchOnActivation: 1
+  singleActivation: 1
 --- !u!1 &519770765
 GameObject:
   m_ObjectHideFlags: 0
@@ -7903,6 +7968,7 @@ Transform:
   - {fileID: 1917403019}
   - {fileID: 546533411}
   - {fileID: 1823021911}
+  - {fileID: 518632511}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7927,7 +7993,7 @@ MonoBehaviour:
   npcs: []
   particleSystems: []
   doorsOpening: {fileID: 1341902191}
-  stop: 0
+  stop: 1
   playerFollower: {fileID: 1507036677}
 --- !u!95 &1341902190
 Animator:

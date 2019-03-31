@@ -4,6 +4,7 @@ public class SubwayManager : MonoBehaviour {
     public static SubwayManager sm;
     public static SubwayMapUI mapUI;
 
+    static LocalSubwayController localSubway;
     static Vector3 playerOffset;
 
     void Start() {
@@ -27,8 +28,8 @@ public class SubwayManager : MonoBehaviour {
 
     public static void OpenMapUI(LocalSubwayController lc) {
         GlobalController.pc.EnterDialogue();
+        localSubway = lc;
         mapUI.gameObject.SetActive(true);
-        print(lc.stop);
         mapUI.PropagateCurrentStopInfo(lc.stop);
         mapUI.SelectFirstChild();
     }
@@ -39,9 +40,8 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void ReactToStationSelect(SubwayStop stop) {
-        LocalSubwayController lc = Object.FindObjectOfType<LocalSubwayController>();
-        if (stop == lc.stop) return;
+        if (stop == localSubway.stop) return;
         CloseMapUI();
-        lc.GetComponent<Animator>().SetTrigger("Depart");
+        localSubway.GetComponent<Animator>().SetTrigger("Depart");
     }
 }
