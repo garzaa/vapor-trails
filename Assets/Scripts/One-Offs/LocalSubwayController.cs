@@ -11,6 +11,7 @@ public class LocalSubwayController : AnimationInterface {
     public PlayerFollower playerFollower;
 
     public bool playerArriving = false;
+    bool holdingPlayer = false;
 
     void PlayDoorCloseSound() {
         PlaySound(1);
@@ -36,8 +37,13 @@ public class LocalSubwayController : AnimationInterface {
     }
 
     public void FinishClosingDoors() {
-        SubwayManager.SetPlayerOffset(this.transform.position - playerFollower.transform.position);
-        SubwayManager.OpenMapUI(this);
+        if (holdingPlayer) {
+            SubwayManager.SetPlayerOffset(this.transform.position - playerFollower.transform.position);
+            SubwayManager.OpenMapUI(this);
+        } else {
+            // skip the map, this will be called when the map closes
+            animator.SetTrigger("Depart");
+        }
     }
 
     public void FinishDeparting() {
@@ -54,11 +60,15 @@ public class LocalSubwayController : AnimationInterface {
         playerArriving = false;
         animator.SetBool("PlayerHidden", false);
         ShowPlayer();
-        DepartWithoutPlayer();
+        OpenDoors();
     }
 
-    void DepartWithoutPlayer() {
+    void Depart() {
         CloseDoors();
-        animator.SetTrigger("Depart");
+    }
+
+    public void BoardPlayer() {
+        animator.SetTrigger("BoardPlayer");
+        holdingPlayer = true;
     }
 }
