@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerFollower : MonoBehaviour {
 
+	[HideInInspector]
 	public GameObject player;
+	[HideInInspector]
 	public PlayerController pc;
 	public float smoothAmount;
 	public float lookAhead;
