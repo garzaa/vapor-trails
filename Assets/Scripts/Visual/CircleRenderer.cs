@@ -7,10 +7,13 @@ using UnityEngine;
 public class CircleRenderer : MonoBehaviour {
 
 	public int segments;
+	[Range(0, 1)]
+	public float arcFraction = 1f;
 	public float radius = 10f;
 
 	int segmentsLastFrame;
 	float radiusLastFrame;
+	float arcFractionLastFrame;
 	LineRenderer line;
 
 	void Start() {
@@ -24,16 +27,18 @@ public class CircleRenderer : MonoBehaviour {
 		}
 		segmentsLastFrame = segments;
 		radiusLastFrame = radius;
+		arcFractionLastFrame = arcFraction;
 	}
 
 	bool Changed() {
-		return segments != segmentsLastFrame || radius != radiusLastFrame;
+		return segments != segmentsLastFrame || radius != radiusLastFrame || arcFraction != arcFractionLastFrame;
 	}
 
 	void DrawCircle(int segments) {
 		Vector3[] points = new Vector3[segments];
-		line.positionCount = segments;
-		for (int i=0; i<segments; i++) {
+		int actualSegments = (int) ((float) segments * arcFraction); 
+		line.positionCount = actualSegments;
+		for (int i=0; i<actualSegments; i++) {
 			float angle =  ((float) i/segments) * Mathf.PI*2.0f;
 			points[i] = new Vector3(
 				Mathf.Sin(angle)*radius, 
