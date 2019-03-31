@@ -10,6 +10,12 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
     public GameFlag requiredGameFlag = GameFlag.None;
     public string originalText;
 
+    bool discovered;
+
+    public bool IsDiscovered() {
+        return discovered;
+    }
+
     void Start() {
         mapUI = GetComponentInParent<SubwayMapUI>();
         GetComponent<Button>().onClick.AddListener(OnClick);
@@ -22,9 +28,11 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
         if (requiredGameFlag != GameFlag.None && !GlobalController.HasFlag(requiredGameFlag)) {
             GetComponentInChildren<Text>().text = "???";
             anim.SetBool("Interactable", false);
+            discovered = false;
         } else {
             GetComponentInChildren<Text>().text = originalText;
             anim.SetBool("Interactable", true);
+            discovered = true;
         }
     }
 

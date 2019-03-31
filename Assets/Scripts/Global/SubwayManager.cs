@@ -19,6 +19,7 @@ public class SubwayManager : MonoBehaviour {
 
     public static void ArriveWithPlayer() {
         LocalSubwayController lc = Object.FindObjectOfType<LocalSubwayController>();
+        lc.playerArriving = true;
         GlobalController.MovePlayerTo(lc.transform.position + playerOffset);
     }
 
@@ -30,8 +31,8 @@ public class SubwayManager : MonoBehaviour {
         GlobalController.pc.EnterDialogue();
         localSubway = lc;
         mapUI.gameObject.SetActive(true);
-        mapUI.PropagateCurrentStopInfo(lc.stop);
         mapUI.UpdateDiscoveredStops();
+        mapUI.PropagateCurrentStopInfo(lc.stop);
         mapUI.SelectFirstChild();
     }
 

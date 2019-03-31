@@ -42,10 +42,10 @@ public class SubwayMapUI : UIComponent {
         foreach (SubwayStopButton b in buttons) {
             // reset from the last station
             b.GetComponent<Animator>().SetBool("ThisStop", false);
-            b.GetComponent<Animator>().SetBool("Interactable", false);
+            if (b.IsDiscovered()) b.GetComponent<Animator>().SetBool("Interactable", true);
             if (b.stop == stop) {
                 b.GetComponent<Animator>().SetBool("ThisStop", true);
-                b.GetComponent<Animator>().SetBool("Interactable", true);
+                b.GetComponent<Animator>().SetBool("Interactable", false);
             }
         }
     }
