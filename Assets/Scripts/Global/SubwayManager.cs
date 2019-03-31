@@ -8,6 +8,8 @@ public class SubwayManager : MonoBehaviour {
 
     void Start() {
         sm = this;
+        mapUI = Object.FindObjectOfType<SubwayMapUI>();
+        CloseMapUI();
     }
 
     public static void Depart() {
@@ -28,7 +30,7 @@ public class SubwayManager : MonoBehaviour {
         mapUI.gameObject.SetActive(false);
     }
 
-    public static void ReactToStationSelect(SubwayStopButton stop) {
-
+    public static void ReactToStationSelect(SubwayStop stop) {
+        print(stop);
     }
 }

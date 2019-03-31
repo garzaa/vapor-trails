@@ -7,9 +7,11 @@ public class LocalSubwayController : AnimationInterface {
     List<Animator> doors;
     public AudioSource doorsOpening;
     public SubwayStop thisStop;
+    PlayerFollower playerFollower;
 
     void Start() {
         doors = GetComponentsInChildren<Animator>().ToList();
+        playerFollower = GetComponentInChildren<PlayerFollower>();
     }
 
     public void OpenDoors() {
