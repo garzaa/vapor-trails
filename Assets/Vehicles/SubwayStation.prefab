@@ -3170,7 +3170,6 @@ MonoBehaviour:
   doorsOpening: {fileID: 2612741120585438726}
   stop: 1
   playerFollower: {fileID: 2612741120754799980}
-  playerArriving: 0
 --- !u!82 &2612741120585438726
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4745,7 +4744,6 @@ GameObject:
   - component: {fileID: 56227055265632784}
   - component: {fileID: 4217968932390025917}
   - component: {fileID: 6535155440974456644}
-  - component: {fileID: 4217968932390025914}
   m_Layer: 0
   m_Name: ActivatedClosedDoors
   m_TagString: Untagged
@@ -4781,7 +4779,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activatables:
   - {fileID: 6535155440974456644}
-  - {fileID: 4217968932390025914}
 --- !u!114 &6535155440974456644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4808,21 +4805,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2612741120585438724}
+        m_MethodName: BoardPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &4217968932390025914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4217968932390025915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11245989dcb33b046973537f283687ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 2612741120585438727}
-  animationName: PlayerHidden
-  isTrigger: 0
-  toggleBool: 1

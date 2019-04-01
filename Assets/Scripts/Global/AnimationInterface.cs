@@ -60,6 +60,8 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.Freeze();
 		GlobalController.pc.DisableShooting();
 		GlobalController.pc.Hide();
+		GlobalController.pc.inCutscene = true;
+		GlobalController.pc.SetInvincible(true);
 	}
 
 	virtual public void ShowPlayer() {
@@ -67,6 +69,8 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.UnFreeze();
 		GlobalController.pc.EnableShooting();
 		GlobalController.pc.Show();
+		GlobalController.pc.SetInvincible(false);
+		GlobalController.pc.inCutscene = false;
 	}
 
 	public void LoadScene(string sceneName) {

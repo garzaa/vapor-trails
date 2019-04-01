@@ -11,6 +11,7 @@ public class SubwayManager : MonoBehaviour {
     static Vector3 playerOffset;
     static SubwayStop destination;
     public static bool playerOnSubway;
+    static bool firstClose;
 
     public List<StationSceneMapping> stationMappings;
 
@@ -32,11 +33,11 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void ArriveWithPlayer() {
-        LocalSubwayController lc = Object.FindObjectOfType<LocalSubwayController>();
-        GlobalController.MovePlayerTo(lc.transform.position + playerOffset);
-        lc.HidePlayer();
-        lc.OffsetPlayerFollower(playerOffset);
-        lc.GetComponent<Animator>().SetTrigger("Arrive");
+        localSubway = Object.FindObjectOfType<LocalSubwayController>();
+        GlobalController.MovePlayerTo(localSubway.transform.position + playerOffset);
+        localSubway.HidePlayer();
+        localSubway.OffsetPlayerFollower(playerOffset);
+        localSubway.GetComponent<Animator>().SetTrigger("Arrive");
     }
 
     public static void SetPlayerOffset(Vector2 newOffset) {
@@ -53,7 +54,6 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void CloseMapUI() {
-        GlobalController.pc.ExitDialogue();
         mapUI.gameObject.SetActive(false);
     }
 

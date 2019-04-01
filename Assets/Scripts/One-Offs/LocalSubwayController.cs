@@ -11,6 +11,7 @@ public class LocalSubwayController : AnimationInterface {
     public PlayerFollower playerFollower;
 
     bool holdingPlayer = false;
+    bool arrivingForPlayer = false;
 
     GameObject subwayCars;
 
@@ -24,11 +25,47 @@ public class LocalSubwayController : AnimationInterface {
         subwayCars = transform.Find("Cars").gameObject;
     }
 
+    public void FinishDeparting() {
+        if (holdingPlayer) SubwayManager.DepartWithPlayer();
+    }
+
+    public void CheckPlayerEnter() {
+        if (!holdingPlayer) {
+            animator.SetTrigger("Arrive");
+            arrivingForPlayer = true;
+        }
+    }
+
+    public void FinishArriving() {
+        OpenDoors();
+    }
+
     public void OpenDoors() {
         doorsOpening.PlayOneShot(doorsOpening.clip);
         foreach (Animator a in doors) {
             a.SetBool("Open", true);
         }
+        Invoke("FinishOpeningDoors", 1f);
+    }
+
+    public void FinishOpeningDoors() {
+        if (holdingPlayer && !arrivingForPlayer) {
+            ShowPlayer();
+            LeaveWithoutPlayer();
+        }
+    }
+
+    // called from the end of the doors opening if it's not holding or arriving for the player
+    void LeaveWithoutPlayer() {
+        CloseDoors();
+        Invoke("FinishClosingDoors", 1f);
+    }
+
+    // called from the interaction
+    public void BoardPlayer() {
+        HidePlayer();
+        Invoke("FinishClosingDoors", 1f);
+        animator.SetTrigger("BoardPlayer");
     }
 
     public void CloseDoors() {
@@ -44,46 +81,27 @@ public class LocalSubwayController : AnimationInterface {
             SubwayManager.OpenMapUI(this);
         } else {
             // skip the map, this will be called when the map closes
+            ShowPlayer();
             animator.SetTrigger("Depart");
         }
     }
 
-    public void FinishDeparting() {
-        SubwayManager.DepartWithPlayer();
-    }
-
-    public void CheckPlayerEnter() {
-        if (!holdingPlayer) {
-            animator.SetTrigger("Arrive");
-        }
-    }
-
-    public void FinishArriving() {
-        ShowPlayer();
-        OpenDoors();
-    }
-
-    void Depart() {
-        CloseDoors();
-    }
-
-    public void BoardPlayer() {
-        animator.SetTrigger("BoardPlayer");
-        holdingPlayer = true;
-    }
-
     public void OffsetPlayerFollower(Vector3 offset) {
-        playerFollower.transform.position = subwayCars.transform.position - offset;
+        subwayCars = subwayCars ?? transform.Find("Cars").gameObject;
+        playerFollower.transform.position = subwayCars.transform.position + offset;
     }
 
     override public void HidePlayer() {
+        // if called from OnSceneLoaded
+        holdingPlayer = true;
+        animator = animator ?? GetComponent<Animator>();
+        animator.SetBool("PlayerHidden", true);
         base.HidePlayer();
-        animator.SetBool("PlayerHidden", false);
     }
 
     override public void ShowPlayer() {
         base.ShowPlayer();
         holdingPlayer = false;
-        animator.SetBool("PlayerHidden", true);
+        animator.SetBool("PlayerHidden", false);
     }
 }
