@@ -55,14 +55,14 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.transform.position = Vector2.zero;
 	}
 
-	public void HidePlayer() {
+	virtual public void HidePlayer() {
 		GlobalController.pc.LockInSpace();
 		GlobalController.pc.Freeze();
 		GlobalController.pc.DisableShooting();
 		GlobalController.pc.Hide();
 	}
 
-	public void ShowPlayer() {
+	virtual public void ShowPlayer() {
 		GlobalController.pc.UnLockInSpace();
 		GlobalController.pc.UnFreeze();
 		GlobalController.pc.EnableShooting();

@@ -47,6 +47,8 @@ public class TransitionManager : MonoBehaviour {
 			GlobalController.playerFollower.EnableFollowing();
 			GlobalController.playerFollower.FollowPlayer();
 			currentBeacon = Beacon.None;
+		} else if (SubwayManager.playerOnSubway) {
+			SubwayManager.ArriveWithPlayer();
 		} else if (toPosition) {
 			GlobalController.MovePlayerTo(position);
 			toPosition = false;

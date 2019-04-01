@@ -10,8 +10,9 @@ public class LocalSubwayController : AnimationInterface {
     public SubwayStop stop;
     public PlayerFollower playerFollower;
 
-    public bool playerArriving = false;
     bool holdingPlayer = false;
+
+    GameObject subwayCars;
 
     void PlayDoorCloseSound() {
         PlaySound(1);
@@ -20,6 +21,7 @@ public class LocalSubwayController : AnimationInterface {
     void Start() {
         doors = GetComponentsInChildren<Animator>().ToList();
         animator = GetComponent<Animator>();
+        subwayCars = transform.Find("Cars").gameObject;
     }
 
     public void OpenDoors() {
@@ -38,7 +40,7 @@ public class LocalSubwayController : AnimationInterface {
 
     public void FinishClosingDoors() {
         if (holdingPlayer) {
-            SubwayManager.SetPlayerOffset(this.transform.position - playerFollower.transform.position);
+            SubwayManager.SetPlayerOffset(playerFollower.transform.position - this.transform.position);
             SubwayManager.OpenMapUI(this);
         } else {
             // skip the map, this will be called when the map closes
@@ -51,14 +53,12 @@ public class LocalSubwayController : AnimationInterface {
     }
 
     public void CheckPlayerEnter() {
-        if (!playerArriving) {
+        if (!holdingPlayer) {
             animator.SetTrigger("Arrive");
         }
     }
 
     public void FinishArriving() {
-        playerArriving = false;
-        animator.SetBool("PlayerHidden", false);
         ShowPlayer();
         OpenDoors();
     }
@@ -69,7 +69,21 @@ public class LocalSubwayController : AnimationInterface {
 
     public void BoardPlayer() {
         animator.SetTrigger("BoardPlayer");
-        animator.SetBool("PlayerHidden", true);
         holdingPlayer = true;
+    }
+
+    public void OffsetPlayerFollower(Vector3 offset) {
+        playerFollower.transform.position = subwayCars.transform.position - offset;
+    }
+
+    override public void HidePlayer() {
+        base.HidePlayer();
+        animator.SetBool("PlayerHidden", false);
+    }
+
+    override public void ShowPlayer() {
+        base.ShowPlayer();
+        holdingPlayer = false;
+        animator.SetBool("PlayerHidden", true);
     }
 }
