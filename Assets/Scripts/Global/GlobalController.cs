@@ -423,6 +423,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddItem(InventoryItem item) {
+		AlerterText.Alert("Item acquired");
 		inventory.AddItem(item);
 	}
 

@@ -73,6 +73,10 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.inCutscene = false;
 	}
 
+	public void Alert(string alertText) {
+		AlerterText.Alert(alertText);
+	}
+
 	public void LoadScene(string sceneName) {
 		GlobalController.LoadScene(sceneName);
 	}
