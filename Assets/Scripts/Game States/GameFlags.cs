@@ -11,5 +11,15 @@ public enum GameFlag {
 	LaurenFixedValEyes,
 	FoughtRichterOnce,
 	FoughtGrayOnce,
-	BeatGray
+	BeatGray,
+	DiscoveredCeruleanCove,
+	DiscoveredHighwayTerminal,
+	DiscoveredMaintenanceTunnel,
+	DiscoveredFinancialDistrict,
+	DiscoveredUnderpass,
+	DiscoveredSludgeWastes,
+	DiscoveredDeepTown,
+	DiscoveredEasternTurbine,
+	DiscoveredDocks,
+	DiscoveredParadise
 }
