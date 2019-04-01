@@ -59,6 +59,7 @@ public class SubwayManager : MonoBehaviour {
 
     public static void ReactToStationSelect(SubwayStop stop) {
         if (stop == localSubway.stop) return;
+        destination = stop;
         CloseMapUI();
         localSubway.GetComponent<Animator>().SetTrigger("Depart");
     }

@@ -25,6 +25,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
     }
 
     public void CheckDiscovery() {
+        anim = anim ?? GetComponent<Animator>();
         if (requiredGameFlag != GameFlag.None && !GlobalController.HasFlag(requiredGameFlag)) {
             GetComponentInChildren<Text>().text = "???";
             anim.SetBool("Interactable", false);
