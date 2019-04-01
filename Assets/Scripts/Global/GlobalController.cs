@@ -362,7 +362,9 @@ public class GlobalController : MonoBehaviour {
 
 	public static void SaveGame() {
 		if (save.unlocks.HasAbility(Ability.Heal)) {
+			AlerterText.Alert("Rebuilding waveform");
 			pc.FullHeal();
+			AlerterText.Alert("Done");
 		}
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}

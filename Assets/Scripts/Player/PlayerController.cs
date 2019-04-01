@@ -85,6 +85,18 @@ public class PlayerController : Entity {
 	public GameObject impactParticles;
 	GameObject instantiatedSparkle = null;
 
+	string[] deathText = {
+		"WARNING: WAVEFORM CRITICAL",
+		"Attempting backup",
+		"Backup failed!",
+		"WARNING: WAVEFORM DESTABILIZED",
+		"Shutting down",
+		"Critical degradation detected",
+		"Error: segmentation fault",
+		"Core dumped",
+		"8: 0xD34DB4B3"
+	};
+
 	void Start() {
 		unlocks = GetComponentInParent<PlayerUnlocks>();
 		rb2d = GetComponent<Rigidbody2D>();
@@ -445,6 +457,7 @@ public class PlayerController : Entity {
 		}
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 		if (perfectDashPossible && !earlyDashInput) {
+			AlerterText.Alert("Recycling DASH velocity");
 			perfectDashPossible = false;
 			CancelInvoke("ClosePerfectDashWindow");
 			this.GainEnergy(1);
@@ -861,6 +874,9 @@ public class PlayerController : Entity {
 		DamageFor(attack.GetDamage());
 		if (this.currentHP == 0) {
 			return;
+		} else if (currentHP == 1) {
+			AlerterText.Alert("WARNING");
+			AlerterText.Alert("BODY WAVEFORM CRITICALLY DAMAGED");
 		}
 		InvincibleFor(this.invincibilityLength);
 		CyanSprite();
@@ -906,6 +922,7 @@ public class PlayerController : Entity {
 	}
 
 	void Die() {
+		AlerterText.AlertList(deathText);
 		this.dead = true;
 		SoundManager.PlayerDieSound();
 		this.envDmgSusceptible = false;
