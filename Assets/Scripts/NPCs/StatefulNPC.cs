@@ -15,10 +15,21 @@ public class StatefulNPC : NPC {
 		this.conversations = possibleConversations[possibleConversations.Length-1];
 		this.currentConversation = 0;
 		this.currentDialogueLine = 0;
+		if (noNewDialoguePrompt == null) {
+			noNewDialoguePrompt = promptPrefab;
+		}
+		if (newDialoguePrompt == null) {
+			newDialoguePrompt = promptPrefab;
+		}
 	}
 
 	public void ReactToStateChange() {
 		this.ExtendedStart();
+	}
+
+	override public void AddPrompt() {
+		promptPrefab = AtLastConversation() ? noNewDialoguePrompt : newDialoguePrompt;
+		base.AddPrompt();
 	}
 
 }
