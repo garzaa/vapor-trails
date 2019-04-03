@@ -21,5 +21,6 @@ public enum GameFlag {
 	DiscoveredDeepTown,
 	DiscoveredEasternTurbine,
 	DiscoveredDocks,
-	DiscoveredParadise
+	DiscoveredParadise,
+	DiscoveredGalleryPark
 }

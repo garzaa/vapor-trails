@@ -27,6 +27,7 @@ public class TagsLayersEnumBuilder : EditorWindow {
 		StringBuilder sb = new StringBuilder();
 
 		sb.Append("//This class is auto-generated, do not modify (TagsLayersEnumBuilder.cs)\n");
+		sb.Append("[System.Serializable]\n");
 		sb.Append("public abstract class Tags {\n");
 
 		var srcArr = UnityEditorInternal.InternalEditorUtility.tags;

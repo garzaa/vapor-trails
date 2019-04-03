@@ -10,5 +10,6 @@ public enum SubwayStop {
     UNDERPASS,
     PARADISE,
     SLUDGE_WASTES,
-    EASTERN_TURBINE
+    EASTERN_TURBINE,
+    GALLERY_PARK
 }
