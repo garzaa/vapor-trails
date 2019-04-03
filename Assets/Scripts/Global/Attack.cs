@@ -70,7 +70,6 @@ public class Attack : MonoBehaviour {
 		return !col.GetComponent<Hurtbox>().GetParent().invincible;
 	}
 
-	//called on the entity that the attack lands on
 	public virtual void ExtendedAttackLand(Entity e) {
 
 	}
