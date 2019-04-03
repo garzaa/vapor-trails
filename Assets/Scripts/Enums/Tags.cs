@@ -1,6 +1,7 @@
 //This class is auto-generated, do not modify (TagsLayersEnumBuilder.cs)
 [System.Serializable]
 public abstract class Tags {
+	public const string AnimationArm = "AnimationArm";
 	public const string EditorOnly = "EditorOnly";
 	public const string EnemyHitbox = "EnemyHitbox";
 	public const string EnemyHurtbox = "EnemyHurtbox";

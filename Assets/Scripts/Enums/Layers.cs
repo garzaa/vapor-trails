@@ -14,6 +14,7 @@ public abstract class Layers {
 	public const string Projectiles = "Projectiles";
 	public const string Interactables = "Interactables";
 	public const string Breakables = "Breakables";
+	public const string SpriteMasks = "Sprite Masks";
 
 	public const int DefaultMask = 1;
 	public const int TransparentFXMask = 1 << 1;
@@ -29,6 +30,7 @@ public abstract class Layers {
 	public const int ProjectilesMask = 1 << 14;
 	public const int InteractablesMask = 1 << 15;
 	public const int BreakablesMask = 1 << 16;
+	public const int SpriteMasksMask = 1 << 17;
 
 	public const int DefaultNumber = 0;
 	public const int TransparentFXNumber = 1;
@@ -44,4 +46,5 @@ public abstract class Layers {
 	public const int ProjectilesNumber = 14;
 	public const int InteractablesNumber = 15;
 	public const int BreakablesNumber = 16;
+	public const int SpriteMasksNumber = 17;
 }

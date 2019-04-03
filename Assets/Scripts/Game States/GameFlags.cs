@@ -22,5 +22,6 @@ public enum GameFlag {
 	DiscoveredEasternTurbine,
 	DiscoveredDocks,
 	DiscoveredParadise,
-	DiscoveredGalleryPark
+	DiscoveredGalleryPark,
+	BeatGame
 }
