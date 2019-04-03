@@ -1,46 +1,39 @@
 ﻿using UnityEngine;
 
+
+[ExecuteInEditMode]
 public class ParallaxLayer : MonoBehaviour {
  
     public Vector2 speed;
-    Transform mainCamera;
-    Vector3 originalPos;
-    Vector3 originalCamPos;
+   	public bool moveInOppositeDirection;
 
-    public bool parallaxEnabled = true;
+	private Transform cameraTransform;
+	private Vector3 previousCameraPosition;
+	private bool previousMoveParallax;
+	private ParallaxOption options;
 
-    public void Start() {
-        RoundChildren();
+	void OnEnable() {
+		GameObject gameCamera = GameObject.Find("Main Camera");
+		options = gameCamera.GetComponent<ParallaxOption>();
+		cameraTransform = gameCamera.transform;
+		previousCameraPosition = cameraTransform.position;
+	}
 
-        ExtendedStart();
-        if (parallaxEnabled) {
-            mainCamera = GameObject.Find("Main Camera").transform;
-            originalCamPos = new Vector3(
-                0,
-                0,
-                this.transform.position.z
-            );
-            originalPos = this.transform.position;
-        }
-    }
- 
-    void Update () {
-        if (parallaxEnabled) {
-            Vector3 camPos = new Vector3(
-                mainCamera.position.x,
-                mainCamera.position.y,
-                this.transform.position.z
-            );
-            Vector3 totalCamDelta = camPos - originalCamPos;
-            transform.position = originalPos + Vector3.Scale(totalCamDelta, new Vector3(speed.x, speed.y));
-            //transform.position = transform.position.Round(2);
-        }
-        ExtendedUpdate();
-    }
+	void Update () {
+		if(options.moveParallax && !previousMoveParallax)
+			previousCameraPosition = cameraTransform.position;
 
-    public virtual void ExtendedUpdate() {
+		previousMoveParallax = options.moveParallax;
 
-    }
+		if(!Application.isPlaying && !options.moveParallax)
+			return;
+
+		Vector3 distance = cameraTransform.position - previousCameraPosition;
+		float direction = (moveInOppositeDirection) ? -1f : 1f;
+		transform.position += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
+
+		previousCameraPosition = cameraTransform.position;
+	}
 
     public virtual void ExtendedStart() {
         
