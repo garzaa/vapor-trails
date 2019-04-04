@@ -65,6 +65,22 @@ public class GlobalController : MonoBehaviour {
 		return gc.GetComponent<BinarySaver>().HasSavedGame(saveSlot);
 	}
 
+	public static void NewGamePlus() {
+		gc.GetComponent<BinarySaver>().NewGamePlus();
+		Save s = gc.GetComponent<Save>();
+		pc.LoadFromSaveData(s);
+		foreach (Ability a in s.unlocks.unlockedAbilities) {
+			if (a.Equals(Ability.GunEyes)) {
+				pc.targetingSystem.SetActive(true);
+			}
+		}
+		LoadScene("Paradise/Tutorial");
+	}
+
+	public static bool HasBeatGame() {
+		return gc.GetComponent<BinarySaver>().HasFinishedGame();
+	}
+
 	static void OpenInventory() {
 		inventory.ShowInventory();
 		pc.EnterDialogue();

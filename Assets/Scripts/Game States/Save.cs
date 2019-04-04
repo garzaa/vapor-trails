@@ -34,6 +34,13 @@ public class Save : MonoBehaviour {
         return o;
     }
 
+    public void LoadNewGamePlus(SerializableSave s, int slotNum) {
+        this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
+        GlobalController.pc.maxHP = s.maxHP;
+        GlobalController.pc.maxEnergy = s.maxEnergy;
+        GlobalController.pc.baseDamage = s.baseDamage;
+    }
+
     public SerializableSave MakeSerializableSave() {
         this.maxHP = GlobalController.pc.maxHP;
         this.maxEnergy = GlobalController.pc.maxEnergy;

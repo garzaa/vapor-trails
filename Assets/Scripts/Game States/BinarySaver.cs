@@ -30,6 +30,26 @@ public class BinarySaver : MonoBehaviour
 		this.existingSave.LoadFromSerializableSave(LoadCharacter(dataPath));
 	}
 
+    public bool HasFinishedGame(int slot=1) {
+        if (!HasSavedGame()) return false;
+        string folderPath = GetFolderPath();
+		if (!Directory.Exists(folderPath))
+			Directory.CreateDirectory(folderPath);
+
+		string dataPath = GetSavePath(slot);
+		SerializableSave s = LoadCharacter(dataPath);
+        return s.gameFlags.Contains(GameFlag.BeatGame);
+    }
+
+    public void NewGamePlus(int slot=1) {
+        string folderPath = GetFolderPath();
+		if (!Directory.Exists(folderPath))
+			Directory.CreateDirectory(folderPath);
+
+		string dataPath = GetSavePath(slot);
+		this.existingSave.LoadNewGamePlus(LoadCharacter(dataPath), slot);
+    }
+
     string GetFolderPath() {
         return Path.Combine(Application.persistentDataPath, folderName);
     }

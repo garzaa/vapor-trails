@@ -11,6 +11,13 @@ public class TargetingSystem : MonoBehaviour {
 	public GameObject targetingUI;
 	Animator targetAnim;
 
+	void Start() {
+		List<Ability> unlocks = gameObject.GetComponentInParent<PlayerUnlocks>().unlockedAbilities;
+		if (!unlocks.Contains(Ability.GunEyes)) {
+			gameObject.SetActive(false);
+		}
+	}
+
 	void OnEnable() {
 		targetsInRange = new List<Transform>();
 		InvokeRepeating("GarbageCollect", 0, 1);
