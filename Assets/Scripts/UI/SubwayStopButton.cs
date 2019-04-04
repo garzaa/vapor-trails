@@ -9,6 +9,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
 
     public GameFlag requiredGameFlag = GameFlag.None;
     public string originalText;
+    bool startedBefore = false;
 
     bool discovered;
 
@@ -21,10 +22,14 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
         GetComponent<Button>().onClick.AddListener(OnClick);
         originalText = GetComponentInChildren<Text>().text;
         anim = GetComponent<Animator>();
+        startedBefore = true;
         CheckDiscovery();
     }
 
     public void CheckDiscovery() {
+        if (!startedBefore) {
+            Start();
+        }
         anim = anim ?? GetComponent<Animator>();
         if (requiredGameFlag != GameFlag.None && !GlobalController.HasFlag(requiredGameFlag)) {
             GetComponentInChildren<Text>().text = "???";
@@ -42,6 +47,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
     }
 
     public void OnSelect(BaseEventData eventData) {
+        mapUI = mapUI ?? GetComponentInParent<SubwayMapUI>();
         mapUI.ReactToItemHover(this.stop);
     }
 }

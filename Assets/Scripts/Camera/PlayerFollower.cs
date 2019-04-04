@@ -30,8 +30,8 @@ public class PlayerFollower : MonoBehaviour {
 			playerWasNull = true;
 		}
 		this.transform.position = new Vector3(
-			x:player.transform.position.x + currentOffset.x,
-			y:player.transform.position.y + currentOffset.y,
+			x:followX ? player.transform.position.x + currentOffset.x : transform.position.x,
+			y:followY ? player.transform.position.y + currentOffset.y : transform.position.y,
 			z:this.transform.position.z
 		);
 		pc = player.GetComponent<PlayerController>();
