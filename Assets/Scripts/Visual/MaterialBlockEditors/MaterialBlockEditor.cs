@@ -9,6 +9,6 @@ public class MaterialBlockEditor : MonoBehaviour
     public string valueName;
 
     void Start() {
-        material = GetComponent<Renderer>().sharedMaterial;
+        material = GetComponent<Renderer>().material;
     }
 }

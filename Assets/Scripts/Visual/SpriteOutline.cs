@@ -14,7 +14,7 @@ public class SpriteOutline : MonoBehaviour
     void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        mpb = GetComponent<Renderer>().sharedMaterial;
+        mpb = GetComponent<Renderer>().material;
         UpdateOutline(true);
     }
 
