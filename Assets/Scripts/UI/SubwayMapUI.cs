@@ -26,7 +26,7 @@ public class SubwayMapUI : UIComponent {
     }
 
     public void SelectFirstChild() {
-        Button b = GetComponentsInChildren<Button>().Where(
+        Button b = GetComponentsInChildren<Button>(true).Where(
             x => x.interactable
         ).First();
         b.Select();
