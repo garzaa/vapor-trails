@@ -25,6 +25,7 @@ public class PlayerController : Entity {
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
 	float jumpBufferDuration = 0.1f;
+	float combatCooldown = 3f;
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
@@ -183,7 +184,9 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (!inCutscene) { anim.SetFloat("VerticalInput", Input.GetAxis("Vertical")); }
+		if (!inCutscene) { 
+			anim.SetFloat("VerticalInput", Input.GetAxis("Vertical")); 
+		}
 		
 		if (!inCutscene && !forcedWalking) {
 			anim.SetBool("SpecialHeld", Input.GetButton("Special"));
@@ -191,19 +194,31 @@ public class PlayerController : Entity {
 			anim.SetBool("SpecialHeld", false);
 		}
 
+		bool attacked = false;
+
 		if (Input.GetButtonDown("Attack") && !frozen && !inMeteor) {
 			wings.FoldIn();
 			anim.SetTrigger("Attack");
+			attacked = true;
 		}
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
-			if (unlocks.HasAbility(Ability.Meteor)) MeteorSlam();
+			if (unlocks.HasAbility(Ability.Meteor)) {
+				MeteorSlam();
+			}
+			attacked = true;
 		} 
 		else if (Input.GetButtonDown("Special") && canUpSlash && Input.GetAxis("Vertical") > 0 && !dashing && !supercruise && !touchingWall) {
+			attacked = true;
 			UpSlash();
 		}
 
 		else if (Input.GetButtonDown("Attack") && Input.GetAxis("Vertical") < 0 && supercruise) {
+			attacked = true;
 			anim.SetTrigger("Attack");
+		}
+
+		if (attacked) {
+			StartCombatCooldown();
 		}
 	}
 
@@ -1285,5 +1300,16 @@ public class PlayerController : Entity {
 
 	public void Sit() {
 		FreezeFor(1f);
+	}
+
+	public void StartCombatCooldown() {
+		return;
+		anim.SetBool("CombatMode", true);
+		CancelInvoke("EndCombatCooldown");
+		Invoke("EndCombatCooldown", combatCooldown);
+	}
+
+	public void EndCombatCooldown() {
+		anim.SetBool("CombatMode", false);
 	}
 }
