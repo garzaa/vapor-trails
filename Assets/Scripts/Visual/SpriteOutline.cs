@@ -14,7 +14,7 @@ public class SpriteOutline : MonoBehaviour
     void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (Application.isEditor) {
+        if (!Application.isEditor) {
             mpb = GetComponent<Renderer>().material;
         } else {
             mpb = GetComponent<Renderer>().sharedMaterial;

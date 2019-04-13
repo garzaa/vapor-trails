@@ -9,7 +9,7 @@ public class MaterialBlockEditor : MonoBehaviour
     public string valueName;
 
     void Start() {
-        if (Application.isEditor) {
+        if (!Application.isEditor) {
             material = GetComponent<Renderer>().material;
         } else {
             material = GetComponent<Renderer>().sharedMaterial;
