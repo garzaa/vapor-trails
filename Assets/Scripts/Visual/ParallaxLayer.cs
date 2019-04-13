@@ -14,12 +14,14 @@ public class ParallaxLayer : MonoBehaviour {
 
 	void OnEnable() {
 		GameObject gameCamera = GameObject.Find("Main Camera");
+		if (gameCamera == null) return;
 		options = gameCamera.GetComponent<ParallaxOption>();
 		cameraTransform = gameCamera.transform;
 		previousCameraPosition = cameraTransform.position;
 	}
 
 	void Update () {
+		if (cameraTransform == null) return;
 		if(options.moveParallax && !previousMoveParallax)
 			previousCameraPosition = cameraTransform.position;
 
@@ -33,6 +35,7 @@ public class ParallaxLayer : MonoBehaviour {
 		transform.position += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
 
 		previousCameraPosition = cameraTransform.position;
+		RoundChildren();
 	}
 
     public virtual void ExtendedStart() {
