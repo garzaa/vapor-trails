@@ -6,9 +6,17 @@ public class MaterialColorEditor : MaterialBlockEditor {
     public Color color;
     Color valueLastFrame;
 
+    override protected void Start() {
+        base.Start();
+        block.SetColor(valueName, color);
+        SetBlock();
+    }
+
     void Update() {
         if (color != valueLastFrame) {
-            material.SetColor(valueName, color);
+            GetBlock();
+            block.SetColor(valueName, color);
+            SetBlock();
         }
         valueLastFrame = color;
     }

@@ -10,7 +10,9 @@ public class MaterialRangeEditor : MaterialBlockEditor
 
     void Update() {
         if (value != valueLastFrame) {
-            material.SetFloat(valueName, value);
+            GetBlock();
+            block.SetFloat(valueName, value);
+            SetBlock();
         }
         valueLastFrame = value;
     }

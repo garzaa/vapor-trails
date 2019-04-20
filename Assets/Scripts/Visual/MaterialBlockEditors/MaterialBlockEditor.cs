@@ -1,17 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEditor;
 
 [ExecuteInEditMode]
 public class MaterialBlockEditor : MonoBehaviour {
-    protected Material material;
+
     public string valueName;
 
-    void Start() {
-        if (!Application.isEditor) {
-            material = GetComponent<Renderer>().material;
-        } else {
-            material = GetComponent<Renderer>().sharedMaterial;
-        }
+    private Renderer r;
+    protected MaterialPropertyBlock block;
+
+    virtual protected void Start() {
+        block = new MaterialPropertyBlock();
+        r = GetComponent<Renderer>();
+        r.GetPropertyBlock(block);
+    }
+
+    protected void SetBlock() {
+        r.SetPropertyBlock(block);
+    }
+
+    protected void GetBlock() {
+        r.GetPropertyBlock(block);
     }
 }

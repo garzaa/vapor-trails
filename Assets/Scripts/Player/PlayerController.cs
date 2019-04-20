@@ -929,7 +929,6 @@ public class PlayerController : Entity {
 
 	void DamageFor(int dmg) {
 		SoundManager.PlayerHurtSound();
-		deathParticles.Emit(50);
 		currentHP -= dmg;
 		if (currentHP <= 0) {
 			Die();
