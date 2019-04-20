@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialColorEditor : MaterialBlockEditor
-{
+public class MaterialColorEditor : MaterialBlockEditor {
     public Color color;
     Color valueLastFrame;
 

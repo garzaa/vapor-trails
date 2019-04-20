@@ -774,7 +774,7 @@ public class PlayerController : Entity {
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		SoundManager.ExplosionSound();
-		CameraShaker.Shake(0.5f, 0.5f);
+		CameraShaker.Shake(0.2f, 0.2f);
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}

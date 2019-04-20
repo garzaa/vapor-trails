@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class MaterialBlockEditor : MonoBehaviour
-{
+public class MaterialBlockEditor : MonoBehaviour {
     protected Material material;
     public string valueName;
 

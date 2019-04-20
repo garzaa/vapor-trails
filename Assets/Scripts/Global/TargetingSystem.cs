@@ -12,7 +12,11 @@ public class TargetingSystem : MonoBehaviour {
 	Animator targetAnim;
 
 	void Start() {
-		List<Ability> unlocks = gameObject.GetComponentInParent<PlayerUnlocks>().unlockedAbilities;
+		PlayerUnlocks playerUnlocks = gameObject.GetComponentInParent<PlayerUnlocks>();
+		if (playerUnlocks == null) {
+			return;
+		}
+		List<Ability> unlocks = playerUnlocks.unlockedAbilities;
 		if (!unlocks.Contains(Ability.GunEyes)) {
 			gameObject.SetActive(false);
 		}
