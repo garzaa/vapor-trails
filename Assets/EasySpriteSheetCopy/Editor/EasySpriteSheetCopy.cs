@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 public class EasySpriteSheetCopy{
 	
@@ -145,11 +147,26 @@ public class EasySpriteSheetCopy{
 	#region Paste Method
 	[MenuItem("CONTEXT/TextureImporter/Paste Copied Settings", false,200)]
 	private static void PasteSpriteTextureSettings(MenuCommand command){
+		PasteScaledSettings(command, 1);
+	}
+	#endregion
+
+	[MenuItem("CONTEXT/TextureImporter/Paste 8x scaled settings", false, 201)]
+	private static void Paste8x(MenuCommand command) {
+		PasteScaledSettings(command, 8);
+	}
+
+	private static void PasteScaledSettings(MenuCommand command, int scale) {
 		//Grab current Texture Importer
 		TextureImporter currentTexture = command.context as TextureImporter;
 		
+		// change names to match current texture
+		String newName = GetFileName(currentTexture);
+		clipboard.spriteData = UpdateSpriteNames(newName, clipboard);
 
-
+		// scale
+		clipboard.spriteData = ScaleSprites(clipboard, scale);
+		
 		//Copy over platform specific settings
 		switch (clipboard.copyType){
 		//***************************************
@@ -213,7 +230,6 @@ public class EasySpriteSheetCopy{
 		//Refresh asset/apply settings
 		AssetDatabase.ImportAsset(currentTexture.assetPath, ImportAssetOptions.ForceUpdate);
 	}
-	#endregion
 
 	#region Clear Methods
 	[MenuItem("CONTEXT/TextureImporter/Reset Overrides", false,300)]
@@ -281,4 +297,41 @@ public class EasySpriteSheetCopy{
 		return clipboard.clipboardSet;
 	}
 	#endregion
+
+
+	static List<SpriteMetaData> UpdateSpriteNames(string newTextureName, CopySpriteClipboard clipboard) {
+		// split each sprite name by _, the last one is the number
+		// and add that to the new name
+		for (int i=0; i<clipboard.spriteData.Count; i++) {
+			SpriteMetaData x = clipboard.spriteData[i];
+			string[] s = x.name.Split('_');
+			x.name = newTextureName + "_" + s[s.Length - 1];
+			clipboard.spriteData[i] = x;
+		}
+
+		return clipboard.spriteData;
+	}
+
+	static List<SpriteMetaData> ScaleSprites(CopySpriteClipboard clipboard, int scale) {
+		// split each sprite name by _, the last one is the number
+		// and add that to the new name
+		for (int i=0; i<clipboard.spriteData.Count; i++) {
+			SpriteMetaData x = clipboard.spriteData[i];
+			x.rect.size *= scale;
+			x.rect.position *= scale;
+			clipboard.spriteData[i] = x;
+		}
+
+		return clipboard.spriteData;
+	}
+
+	static string GetFileName(TextureImporter tex) {
+		string firstName = tex.spritesheet[0].name;
+		Debug.Log(firstName);
+		// split by _, take everything but the last element, join
+		return String.Join(
+			"_",
+			firstName.Split('_').Take(firstName.Split('_').Length-1).ToArray()
+		);
+	}
 }
