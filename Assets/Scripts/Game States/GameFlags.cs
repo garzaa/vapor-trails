@@ -23,5 +23,6 @@ public enum GameFlag {
 	DiscoveredDocks,
 	DiscoveredParadise,
 	DiscoveredGalleryPark,
-	BeatGame
+	BeatGame,
+	MetStevenInHeadspace	
 }
