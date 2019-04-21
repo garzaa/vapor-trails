@@ -32,7 +32,6 @@ public class HeadspaceController : MonoBehaviour {
     }
 
     public void LeaveHeadspace() {
-        print(lastScene);
         SceneManager.LoadScene(lastScene);
     }
 
@@ -40,5 +39,6 @@ public class HeadspaceController : MonoBehaviour {
         lastScene = null;
         GlobalController.MovePlayerTo(lastPlayerPos);
         GlobalController.pc.GetComponent<Animator>().SetTrigger("InstantKneel");
+        animator.SetTrigger("LeaveHeadspace");
     }
 }

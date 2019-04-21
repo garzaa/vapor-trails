@@ -23,6 +23,7 @@ public class CameraOffset : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (!following) {
+			transform.localPosition = Vector3.zero;
 			return;
 		}
 
