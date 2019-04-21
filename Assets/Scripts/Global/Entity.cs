@@ -5,6 +5,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour {
 
     public bool facingRight = true;
+    public bool canFlip = true;
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;
     public bool lockedInSpace = false;
@@ -16,8 +17,10 @@ public class Entity : MonoBehaviour {
     public bool invincible = false;
     public bool envDmgSusceptible = true;
 
-    public void Flip() 
-	{
+    public void Flip() {
+        if (!canFlip) {
+            return;
+        }
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
