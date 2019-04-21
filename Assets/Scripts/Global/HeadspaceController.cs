@@ -9,6 +9,7 @@ public class HeadspaceController : MonoBehaviour {
 
     void Start() {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        animator = GetComponent<Animator>();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -17,13 +18,13 @@ public class HeadspaceController : MonoBehaviour {
         }
     }
 
-    void StartEnterHeadspaceAnimation () {
+    public void StartEnterHeadspaceAnimation() {
         lastScene = SceneManager.GetActiveScene().path;
         animator.SetTrigger("EnterHeadspace");
     }
 
     // called from animation
-    public void EnterHeadspace () {
+    public void AnimationEnterHeadspace() {
         GlobalController.LoadScene("Headspace/Headspace", Beacon.A);
     }
 
@@ -34,5 +35,6 @@ public class HeadspaceController : MonoBehaviour {
     public void FinishLeavingHeadspace() {
         lastScene = null;
         GlobalController.MovePlayerTo(lastPlayerPos);
+        GlobalController.pc.GetComponent<Animator>().SetTrigger("InstantKneel");
     }
 }
