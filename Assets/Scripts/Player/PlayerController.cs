@@ -910,6 +910,7 @@ public class PlayerController : Entity {
 		if (dashing) {
 			InterruptDash();
 		}
+		anim.SetTrigger("Hurt");
 	}
 
 	IEnumerator normalSprite() {
