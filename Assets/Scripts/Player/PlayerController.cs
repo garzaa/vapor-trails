@@ -572,6 +572,7 @@ public class PlayerController : Entity {
 		SaveLastSafePos();
 		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
 			LedgeBoost();
+			return;
 		}
 		if (IsSpeeding() && Input.GetAxis("Horizontal") * ForwardScalar() > 0) {
 			BackwardDust();
@@ -583,6 +584,9 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
+			if (HorizontalInput()) {
+				anim.SetTrigger("Roll");
+			}
 			SoundManager.HardLandSound();
 			if (HorizontalInput()) {
 				BackwardDust();

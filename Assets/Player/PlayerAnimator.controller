@@ -624,6 +624,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: Roll
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -755,6 +761,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEnter: 1
   during: 1
+--- !u!114 &114617788857658344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d5273c25ba30c448fb95fae4f1fcbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEnter: 0
+  onUpdate: 0
+  onExit: 0
+  direction: {x: 0, y: 0}
+  forceZero: 0
 --- !u!114 &114701816774385820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4628,13 +4651,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: HorizontalInput
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: FastFalling
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: Grounded
+    m_ConditionEvent: Roll
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102290645533105450}
@@ -5429,7 +5446,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Roll
-  m_Speed: 1.6
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101299789689177662}
@@ -6768,7 +6785,7 @@ AnimatorStateMachine:
     m_Position: {x: 576, y: -168, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102290645533105450}
-    m_Position: {x: 12, y: -12, z: 0}
+    m_Position: {x: -36, y: -24, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102870107486777058}
     m_Position: {x: -216, y: 84, z: 0}
