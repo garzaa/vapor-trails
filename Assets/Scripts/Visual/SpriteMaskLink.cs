@@ -10,6 +10,9 @@ public class SpriteMaskLink : MonoBehaviour {
 
     void Start() {
         this.mask = GetComponent<SpriteMask>();
+        if (otherSpriteRenderer == null) {
+            otherSpriteRenderer = GetComponentInParent<SpriteRenderer>();
+        }
     }
 
     void Update() {
