@@ -11,7 +11,7 @@ Shader "FX/Mirror"
 	SubShader
 	{
 		Tags  { 
-			"Queue"="Transparent"
+			"Queue"="Transparent+1"
 			"RenderType"="Transparent" 
 		}
 		LOD 100

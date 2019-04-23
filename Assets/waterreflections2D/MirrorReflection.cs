@@ -149,7 +149,7 @@ public class MirrorReflection : MonoBehaviour
 		{
 			if( m_ReflectionTexture )
 				DestroyImmediate( m_ReflectionTexture );
-			m_ReflectionTexture = new RenderTexture( Camera.main.pixelWidth, Camera.main.pixelHeight, 16 );
+			m_ReflectionTexture = new RenderTexture( Camera.main.pixelWidth, Camera.main.pixelHeight, 24 );
 			m_ReflectionTexture.name = "__MirrorReflection" + GetInstanceID();
 			m_ReflectionTexture.isPowerOfTwo = true;
 			m_ReflectionTexture.filterMode = FilterMode.Point;
