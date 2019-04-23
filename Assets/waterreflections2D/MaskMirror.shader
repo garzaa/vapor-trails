@@ -60,9 +60,8 @@ Shader "FX/MaskMirror"
 				// distort more towards the bottom of screen
 				uv.x += pow(normY/30, 2) * sin(500*((normY)));
 				fixed4 color = tex2D (_reflTex, uv);
-				color.rgb *= lerp(color.rgb, _Color, color.a);
+				color.rgb *= lerp(color.rgb, _Color, _Color.a);
 				color.a = maskTex.a;
-				color.rgb *= color.a;
 				return color;
 			}
 
