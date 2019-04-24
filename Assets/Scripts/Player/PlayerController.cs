@@ -345,11 +345,12 @@ public class PlayerController : Entity {
 			terminalFalling = false;
 		}
 
-		if (rb2d.velocity.y < hardLandSpeed) {
+		if (rb2d.velocity.y < hardLandSpeed && !inMeteor) {
+			print("hard falling");
 			hardFalling = true;
 			anim.SetBool("FastFalling", true);
 		}
-		else {
+		else if (!IsGrounded()) {
 			hardFalling = false;
 			anim.SetBool("FastFalling", false);
 		}
@@ -584,8 +585,12 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
+			hardFalling = false;
 			if (HorizontalInput()) {
 				anim.SetTrigger("Roll");
+			} else {
+				print("hard land");
+				anim.SetTrigger("HardLand");
 			}
 			SoundManager.HardLandSound();
 			if (HorizontalInput()) {
@@ -1077,7 +1082,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool IsGrounded() {
-		return this.grounded;
+		return GetComponent<GroundCheck>().IsGrounded();
 	}
 
 	public void OpenSupercruiseWings() {
