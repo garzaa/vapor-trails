@@ -346,7 +346,6 @@ public class PlayerController : Entity {
 		}
 
 		if (rb2d.velocity.y < hardLandSpeed && !inMeteor) {
-			print("hard falling");
 			hardFalling = true;
 			anim.SetBool("FastFalling", true);
 		}
@@ -589,7 +588,6 @@ public class PlayerController : Entity {
 			if (HorizontalInput()) {
 				anim.SetTrigger("Roll");
 			} else {
-				print("hard land");
 				anim.SetTrigger("HardLand");
 			}
 			SoundManager.HardLandSound();
