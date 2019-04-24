@@ -1314,4 +1314,14 @@ public class PlayerController : Entity {
 	public void EndCombatCooldown() {
 		anim.SetBool("CombatMode", false);
 	}
+
+	// called from animations
+	public void HairForwards() {
+		anim.SetTrigger("HairForwards");
+	}
+
+	// also called from animation
+	public void HairBackwards() {
+		anim.SetTrigger("HairBackwards");
+	}
 }
