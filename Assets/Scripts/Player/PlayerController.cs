@@ -308,6 +308,7 @@ public class PlayerController : Entity {
 					} else {
 						ForwardDust();
 					}
+					HairBackwards();
 				}
 			} 
 			//if no movement, stop the player on the ground 
@@ -315,6 +316,7 @@ public class PlayerController : Entity {
 				ReduceSpeedBy(100, capAtMaxSpeed:false);
 				if (runningLastFrame && !touchingWall && !midSwing) {
 					ForwardDust();
+					HairForwards();
 				}
 			} 
 			//or slow them down in the air if they haven't just walljumped
