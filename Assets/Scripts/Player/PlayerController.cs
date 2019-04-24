@@ -675,10 +675,8 @@ public class PlayerController : Entity {
 		}
 		EndSupercruise();
 		//hold to wallclimb
-		if (unlocks.HasAbility(Ability.WallClimb)) {
-			anim.SetBool("TouchingWall", true);
-			if (!grounded) SoundManager.HardLandSound();
-		}
+		anim.SetBool("TouchingWall", true);
+		if (!grounded) SoundManager.HardLandSound();
 		ResetAirJumps();
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
@@ -687,7 +685,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallLeave() {
-		if (unlocks.HasAbility(Ability.WallClimb)) anim.SetBool("TouchingWall", false);
+		anim.SetBool("TouchingWall", false);
 
 		//if the player just left the wall, they input the opposite direction for a walljump
 		//so give them a split second to use a walljump when they're not technically touching the wall
