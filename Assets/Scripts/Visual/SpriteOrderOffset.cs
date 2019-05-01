@@ -1,38 +1,42 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using UnityEditor;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-[ExecuteInEditMode]
 public class SpriteOrderOffset : MonoBehaviour {
-
     public int offset;
-    int offsetLastFrame;
-    List<SpriteRenderer> sprites;
-    List<int> originalOrders; 
 
-    void Start() {
-        originalOrders = new List<int>();
-        sprites = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
-        foreach (SpriteRenderer s in sprites) {
-            originalOrders.Add(s.sortingOrder);
+    private SpriteRenderer[] renderers;
+
+    public void Start() {
+        GetChildren();
+    }
+
+    public void GetChildren() {
+        renderers = GetComponentsInChildren<SpriteRenderer>();
+    }
+
+    public void ApplyOffset() {
+        for (int i=0; i<renderers.Length; i++) {
+            renderers[i].sortingOrder += offset;
         }
     }
+}
 
-    void Update() {
-        if (offsetLastFrame != offset) {
-            UpdateSpritesOffset(offset);
+[CustomEditor(typeof(SpriteOrderOffset))]
+class SpriteOrderOffsetEditor : Editor {
+    SpriteOrderOffset spriteOrderOffset;
+
+    void Awake() {
+        spriteOrderOffset = (SpriteOrderOffset) target;
+    }
+
+    public override void OnInspectorGUI() {
+        DrawDefaultInspector();
+
+        if (GUILayout.Button("Apply Offset")) {
+            spriteOrderOffset.GetChildren();
+            spriteOrderOffset.ApplyOffset();
         }
-        offset = offsetLastFrame;
     }
-
-    void UpdateSpritesOffset(int newOffset) {
-        for (int i=0; i<sprites.Count; i++) {
-            sprites[i].sortingOrder = originalOrders[i];
-        }
-    }
-
-    void OnDisable() {
-        UpdateSpritesOffset(0);
-    }
-
 }
