@@ -26,7 +26,6 @@ public class HeadspaceController : MonoBehaviour {
         animator.SetTrigger("EnterHeadspace");
     }
 
-    // called from animation
     public void AnimationEnterHeadspace() {
         GlobalController.LoadScene("Headspace/Headspace", Beacon.A);
     }

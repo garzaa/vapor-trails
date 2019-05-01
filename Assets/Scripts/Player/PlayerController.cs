@@ -587,7 +587,7 @@ public class PlayerController : Entity {
 		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
 			hardFalling = false;
-			if (HorizontalInput()) {
+			if (HorizontalInput() && canFlip) {
 				anim.SetTrigger("Roll");
 			} else {
 				anim.SetTrigger("HardLand");
