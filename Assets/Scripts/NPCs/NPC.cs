@@ -97,6 +97,8 @@ public class NPC : Interactable {
 		if (persistence) {
 			persistence.ReactToDialogueClose();
 		}
+		// prompt will have been hidden by the base interactable
+		AddPrompt();
 	}
 
 }

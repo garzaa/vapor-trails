@@ -512,9 +512,13 @@ public class PlayerController : Entity {
 		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
-		if (wings != null && HorizontalInput() && !frozen && !grounded) {
+		if (wings != null) {
 			// keep wings open during dash recovery
-			wings.FoldIn();
+			if (!HorizontalInput() && !frozen && grounded) {
+				// do nothing
+			} else {
+				wings.FoldIn();
+			}
 		}
 		if (MovingForwards() && Input.GetButton("Special") && unlocks.HasAbility(Ability.Supercruise)) {
 			anim.SetTrigger("StartSupercruise");

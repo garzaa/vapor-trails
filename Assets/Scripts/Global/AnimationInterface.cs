@@ -139,4 +139,8 @@ public class AnimationInterface : MonoBehaviour {
 		}
 		GetComponent<Gun>().Fire(forwardScalar);
 	}
+
+	public void MovePlayerToEffectPoint() {
+		GlobalController.MovePlayerTo(effectPoint.position);
+	}
 }
