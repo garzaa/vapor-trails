@@ -12,7 +12,7 @@ public class ParallaxLayer : MonoBehaviour {
 	private bool previousMoveParallax;
 	private ParallaxOption options;
 
-	void OnEnable() {
+	void Start() {
 		GameObject gameCamera = GameObject.Find("Main Camera");
 		if (gameCamera == null) return;
 		options = gameCamera.GetComponent<ParallaxOption>();

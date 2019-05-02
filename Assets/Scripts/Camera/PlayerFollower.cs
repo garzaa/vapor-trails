@@ -24,7 +24,7 @@ public class PlayerFollower : MonoBehaviour {
 
 	public GameObject target;
 
-	void Start () {
+	void Start() {
 		if (player == null) {
 			player = GameObject.Find("Player");
 			playerWasNull = true;
