@@ -1,5 +1,114 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1240886585070665908
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7279623013654227267}
+  - component: {fileID: 7837017290293464851}
+  - component: {fileID: 4180407963497618583}
+  m_Layer: 0
+  m_Name: MetroPassChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7279623013654227267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240886585070665908}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.8639994, y: -0.055000007, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1077405503398556860}
+  m_Father: {fileID: 2612741120585438725}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7837017290293464851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240886585070665908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0352fc3ae975bd24ba0fcba699eb4093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemWanter: {fileID: 4180407963497618583}
+--- !u!114 &4180407963497618583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240886585070665908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d64c39a674dd444927d7b1d5ff7738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wantedItems:
+  - {fileID: 7786840209303599235, guid: 413ae99ec6be3304ca83fe23dfb9653a, type: 3}
+  yesActivation: {fileID: 4217968932390025917}
+  noActivation: {fileID: 2779057581875218591}
+  consumesItems: 0
+--- !u!1 &1364842865523758261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1077405503398556860}
+  - component: {fileID: 2779057581875218591}
+  m_Layer: 0
+  m_Name: Denier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1077405503398556860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364842865523758261}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7279623013654227267}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2779057581875218591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364842865523758261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1f155f183eeec47a9b107d5fe95f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alerts:
+  - ERROR
+  - Metro pass required
 --- !u!1 &1662698979106941937
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,6 +334,7 @@ MonoBehaviour:
   anim: {fileID: 1662698979150036597}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &1662698979172834542
 GameObject:
@@ -373,6 +483,7 @@ MonoBehaviour:
   anim: {fileID: 1662698979310861390}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &1662698979354698267
 GameObject:
@@ -837,6 +948,7 @@ MonoBehaviour:
   anim: {fileID: 1662698980593549893}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &1662698980624505015
 GameObject:
@@ -1143,6 +1255,7 @@ MonoBehaviour:
   anim: {fileID: 1662698981152171390}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &1662698981175568951
 GameObject:
@@ -1449,6 +1562,7 @@ MonoBehaviour:
   anim: {fileID: 2612741119353065599}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741119398107584
 GameObject:
@@ -1518,6 +1632,7 @@ MonoBehaviour:
   anim: {fileID: 2612741119398107589}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741119463264073
 GameObject:
@@ -1704,7 +1819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
-  activatable: {fileID: 4217968932390025917}
+  activatable: {fileID: 7837017290293464851}
 --- !u!1 &2612741119524092472
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,6 +2199,7 @@ MonoBehaviour:
   anim: {fileID: 2612741120585438727}
   animationName: DepartsBack
   isTrigger: 0
+  setBool: 0
   toggleBool: 0
 --- !u!1 &2612741119810851681
 GameObject:
@@ -2157,7 +2273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
-  activatable: {fileID: 4217968932390025917}
+  activatable: {fileID: 7837017290293464851}
 --- !u!1 &2612741119932710547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2226,6 +2342,7 @@ MonoBehaviour:
   anim: {fileID: 2612741119932710548}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741119950911074
 GameObject:
@@ -2690,6 +2807,7 @@ MonoBehaviour:
   anim: {fileID: 2612741120181298419}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741120243585381
 GameObject:
@@ -3078,7 +3196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
-  activatable: {fileID: 4217968932390025917}
+  activatable: {fileID: 7837017290293464851}
 --- !u!1 &2612741120585438722
 GameObject:
   m_ObjectHideFlags: 0
@@ -3114,6 +3232,7 @@ Transform:
   - {fileID: 2612741121201136866}
   - {fileID: 2612741121110949950}
   - {fileID: 2612741119798112086}
+  - {fileID: 7279623013654227267}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3323,6 +3442,7 @@ MonoBehaviour:
   anim: {fileID: 2612741120671943973}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741120754799978
 GameObject:
@@ -3509,7 +3629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
-  activatable: {fileID: 4217968932390025917}
+  activatable: {fileID: 7837017290293464851}
 --- !u!1 &2612741120880728755
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,7 +3781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
-  activatable: {fileID: 4217968932390025917}
+  activatable: {fileID: 7837017290293464851}
 --- !u!1 &2612741120995351934
 GameObject:
   m_ObjectHideFlags: 0
@@ -3809,6 +3929,7 @@ MonoBehaviour:
   anim: {fileID: 2612741121004146675}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741121026026379
 GameObject:
@@ -4296,6 +4417,7 @@ MonoBehaviour:
   anim: {fileID: 2612741121134048557}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741121198195997
 GameObject:
@@ -4365,6 +4487,7 @@ MonoBehaviour:
   anim: {fileID: 2612741121198195998}
   animationName: Open
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!1 &2612741121201136867
 GameObject:
@@ -4565,7 +4688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
-  activatable: {fileID: 4217968932390025917}
+  activatable: {fileID: 7837017290293464851}
 --- !u!1 &2612741121281003842
 GameObject:
   m_ObjectHideFlags: 0
