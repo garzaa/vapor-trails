@@ -9,7 +9,7 @@ public class ParallaxLayer : MonoBehaviour {
 
 	private Transform cameraTransform;
 	private Vector3 previousCameraPosition;
-	private bool previousMoveParallax;
+	private bool activeLastFrame;
 	private ParallaxOption options;
 
 	void Start() {
@@ -21,19 +21,24 @@ public class ParallaxLayer : MonoBehaviour {
 	}
 
 	void Update () {
-		if (cameraTransform == null) return;
-		if(options.moveParallax && !previousMoveParallax)
-			previousCameraPosition = cameraTransform.position;
-
-		previousMoveParallax = options.moveParallax;
-
-		if(!Application.isPlaying && !options.moveParallax)
+		if (cameraTransform == null ) {
 			return;
+		}
 
-		Vector3 distance = cameraTransform.position - previousCameraPosition;
-		float direction = (moveInOppositeDirection) ? -1f : 1f;
-		transform.position += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
+		// if parallax wasn't active last frame
+		if (options.moveParallax && !activeLastFrame) {
+			Start();
+			activeLastFrame = options.moveParallax;
+			return;
+		}
 
+		activeLastFrame = options.moveParallax;
+
+		if (!Application.isPlaying && !options.moveParallax){
+			return;
+		}
+
+		Move();
 		previousCameraPosition = cameraTransform.position;
 		RoundChildren();
 	}
@@ -48,4 +53,10 @@ public class ParallaxLayer : MonoBehaviour {
             child.position = child.position.Round(2);
         }
     }
+
+	void Move() {
+		Vector3 distance = cameraTransform.position - previousCameraPosition;
+		float direction = (moveInOppositeDirection) ? -1f : 1f;
+		transform.position += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
+	}
 }

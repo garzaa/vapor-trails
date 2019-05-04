@@ -287,8 +287,11 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void MovePlayerTo(Vector2 position) {
+		DisableParallax();
 		playerFollower.DisableSmoothing();
 		pc.transform.position = position;
+		playerFollower.SnapToPlayer();
+		EnableParallax();
 		playerFollower.EnableSmoothing();
 	}
 
@@ -301,10 +304,11 @@ public class GlobalController : MonoBehaviour {
 			x => x.beacon == beacon
 		).First();
 		pc.transform.position = b.transform.position;
+		playerFollower.SnapToPlayer();
+		EnableParallax();
 		if (!smoothing) {
 			playerFollower.EnableSmoothing();
 		}
-		EnableParallax();
 	}
 
 	public static void FadeToBlack() {
@@ -510,10 +514,12 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnableParallax() {
+		print("enabling parallax");
 		parallaxOption.moveParallax = true;
 	}
 
 	public static void DisableParallax() {
+		print("disabling parallax");
 		parallaxOption.moveParallax = false;
 	}
 }
