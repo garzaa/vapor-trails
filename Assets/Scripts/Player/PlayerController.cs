@@ -25,7 +25,7 @@ public class PlayerController : Entity {
 	int healAmt = 1;
 	float backstepCooldownLength = .2f;
 	float jumpBufferDuration = 0.1f;
-	float combatCooldown = 3f;
+	float combatCooldown = 2f;
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
@@ -194,31 +194,22 @@ public class PlayerController : Entity {
 			anim.SetBool("SpecialHeld", false);
 		}
 
-		bool attacked = false;
 
 		if (Input.GetButtonDown("Attack") && !frozen && !inMeteor) {
 			wings.FoldIn();
 			anim.SetTrigger("Attack");
-			attacked = true;
 		}
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
-			attacked = true;
 		} 
 		else if (Input.GetButtonDown("Special") && canUpSlash && Input.GetAxis("Vertical") > 0 && !dashing && !supercruise && !touchingWall) {
-			attacked = true;
 			UpSlash();
 		}
 
 		else if (Input.GetButtonDown("Attack") && Input.GetAxis("Vertical") < 0 && supercruise) {
-			attacked = true;
 			anim.SetTrigger("Attack");
-		}
-
-		if (attacked) {
-			StartCombatCooldown();
 		}
 	}
 
@@ -1102,7 +1093,6 @@ public class PlayerController : Entity {
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-
 		OpenSupercruiseWings();
 		SoundManager.DashSound();
 		this.supercruise = true;
@@ -1120,6 +1110,7 @@ public class PlayerController : Entity {
 
 	public void EndSupercruise() {
 		if (!supercruise) return;		
+		StartCombatCooldown();
 		wings.DisableJets();
 		supercruise = false;
 		UnFreeze();
@@ -1131,6 +1122,7 @@ public class PlayerController : Entity {
 	//when the player hits a wall or dies 
 	public void InterruptSupercruise() {
 		if (!supercruise) return;
+		StartCombatCooldown();
 		wings.DisableJets();
 		CameraShaker.Shake(0.1f, 0.1f);
 		supercruise = false;
@@ -1316,8 +1308,8 @@ public class PlayerController : Entity {
 		FreezeFor(1f);
 	}
 
+	// called from the beginning of special move animations
 	public void StartCombatCooldown() {
-		return;
 		anim.SetBool("CombatMode", true);
 		CancelInvoke("EndCombatCooldown");
 		Invoke("EndCombatCooldown", combatCooldown);

@@ -13,7 +13,7 @@ public class ChildColorEditor : MaterialBlockEditor {
         GetChildren();
     }
 
-    public void GetChildren() {
+    void GetChildren() {
         renderers = GetComponentsInChildren<Renderer>();
         blocks = new MaterialPropertyBlock[renderers.Length];
 
@@ -46,10 +46,6 @@ class ChildColorEditorInspector : Editor {
 
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
-
-        if (GUILayout.Button("Get Children")) {
-            colorEditor.GetChildren();
-        }
 
         if (GUILayout.Button("Update Child Colors")) {
             colorEditor.UpdateColors();

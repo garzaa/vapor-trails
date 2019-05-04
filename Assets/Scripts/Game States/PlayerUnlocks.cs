@@ -46,7 +46,8 @@ public enum Ability {
 	UpSlash,
 	Parry,
 	None,
-	Heal
+	Heal,
+	Hover
 }
 
 [System.Serializable]
