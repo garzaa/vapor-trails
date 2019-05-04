@@ -51,6 +51,7 @@ public class PlayerController : Entity {
 	public PlayerWings wings;
 	PlayerUnlocks unlocks;
 	public GameObject targetingSystem;
+	TrailRenderer[] trails;
 
 	//variables
 	bool grounded = false;
@@ -1327,5 +1328,18 @@ public class PlayerController : Entity {
 	// also called from animation
 	public void HairBackwards() {
 		anim.SetTrigger("HairBackwards");
+	}
+
+	public void DisableTrails() {
+		trails = GetComponentsInChildren<TrailRenderer>();
+		foreach (TrailRenderer t in trails) {
+			t.gameObject.SetActive(false);
+		}
+	}
+
+	public void EnableTrails() {
+		foreach (TrailRenderer t in trails) {
+			t.gameObject.SetActive(true);
+		}
 	}
 }

@@ -43,7 +43,7 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.ShowUI();
 
 		if (currentBeacon != Beacon.None) {
-			GlobalController.MovePlayerTo(currentBeacon);
+			GlobalController.MovePlayerToBeacon(currentBeacon);
 			GlobalController.playerFollower.SnapToPlayer();
 			GlobalController.playerFollower.EnableFollowing();
 			GlobalController.playerFollower.FollowPlayer();
@@ -125,14 +125,6 @@ public class TransitionManager : MonoBehaviour {
 		//preserve dash/supercruise state between scenes
 		PlayerController pc = GlobalController.pc;
 		pc.LockInSpace();
-		//if the wings are open, don't leave a trail if they move around in the level
-		closedJets = false; 
-		if (pc.wings != null) {
-			if (pc.wings.HasOpenJets()) {
-				pc.wings.DisableJetTrails();
-				closedJets = true;
-			}
-		}
 		frozePlayerBeforeTransition = (pc.dashing || pc.supercruise);
 
 		StartCoroutine(LoadAsync(sceneName));

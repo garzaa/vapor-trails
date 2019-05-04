@@ -289,26 +289,19 @@ public class GlobalController : MonoBehaviour {
 	public static void MovePlayerTo(Vector2 position) {
 		DisableParallax();
 		playerFollower.DisableSmoothing();
+		pc.DisableTrails();
 		pc.transform.position = position;
+		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		EnableParallax();
 		playerFollower.EnableSmoothing();
 	}
 
-	public static void MovePlayerTo(Beacon beacon, bool smoothing=false) {
-		DisableParallax();
-		if (!smoothing) {
-			playerFollower.DisableSmoothing();
-		}
+	public static void MovePlayerToBeacon(Beacon beacon) {
 		BeaconWrapper b = Object.FindObjectsOfType<BeaconWrapper>().Where(
 			x => x.beacon == beacon
 		).First();
-		pc.transform.position = b.transform.position;
-		playerFollower.SnapToPlayer();
-		EnableParallax();
-		if (!smoothing) {
-			playerFollower.EnableSmoothing();
-		}
+		MovePlayerTo(b.transform.position);
 	}
 
 	public static void FadeToBlack() {
