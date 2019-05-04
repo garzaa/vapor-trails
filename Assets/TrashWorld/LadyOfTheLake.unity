@@ -464,7 +464,7 @@ MonoBehaviour:
       activatesOnLineEnd: 1
       blocking: 1
       gameFlag: 0
-    - lineText: Wait, hang on.
+    - lineText: Wait. Don't shoot her yet.
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
       voiceSound: 2
@@ -6900,6 +6900,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   animationName: RaiseArm
   isTrigger: 1
+  setBool: 0
   toggleBool: 0
 --- !u!114 &364249356
 MonoBehaviour:
@@ -7299,6 +7300,7 @@ MonoBehaviour:
   anim: {fileID: 1731553373}
   animationName: AdvanceMusic
   isTrigger: 1
+  setBool: 0
   toggleBool: 0
 --- !u!1001 &425154502
 PrefabInstance:
@@ -12915,6 +12917,7 @@ MonoBehaviour:
   anim: {fileID: 1731553373}
   animationName: LaurenBoatApproach
   isTrigger: 1
+  setBool: 0
   toggleBool: 0
 --- !u!1001 &700812669
 PrefabInstance:
@@ -26986,6 +26989,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   animationName: FightEnabled
   isTrigger: 0
+  setBool: 0
   toggleBool: 1
 --- !u!114 &1731553375
 MonoBehaviour:
@@ -27026,6 +27030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   facingRight: 1
+  canFlip: 1
   movingRight: 0
   frozen: 0
   lockedInSpace: 0
@@ -33225,6 +33230,7 @@ MonoBehaviour:
   anim: {fileID: 1731553373}
   animationName: ShowFace
   isTrigger: 1
+  setBool: 0
   toggleBool: 0
 --- !u!1001 &1958138474
 PrefabInstance:
@@ -38176,21 +38182,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Steven
       objectReference: {fileID: 0}
-    - target: {fileID: 198307667992038130, guid: aab798565a79ea143ab62e1d29471210,
-        type: 3}
-      propertyPath: NoiseModule.enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198307667992038130, guid: aab798565a79ea143ab62e1d29471210,
-        type: 3}
-      propertyPath: NoiseModule.frequency
-      value: 1.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 198307667992038130, guid: aab798565a79ea143ab62e1d29471210,
-        type: 3}
-      propertyPath: NoiseModule.strength.scalar
-      value: 0.03
-      objectReference: {fileID: 0}
     - target: {fileID: 4921457441362676, guid: aab798565a79ea143ab62e1d29471210, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.672
@@ -38399,6 +38390,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d41dd83804b4f9144810bae45044a94a,
         type: 3}
+    - target: {fileID: 114819692771344570, guid: aab798565a79ea143ab62e1d29471210,
+        type: 3}
+      propertyPath: newDialoguePrompt
+      value: 
+      objectReference: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
+        type: 3}
+    - target: {fileID: 114819692771344570, guid: aab798565a79ea143ab62e1d29471210,
+        type: 3}
+      propertyPath: noNewDialoguePrompt
+      value: 
+      objectReference: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
+        type: 3}
     - target: {fileID: 61480852427020626, guid: aab798565a79ea143ab62e1d29471210,
         type: 3}
       propertyPath: m_Offset.y
@@ -38419,18 +38422,21 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 0.8652668
       objectReference: {fileID: 0}
-    - target: {fileID: 114819692771344570, guid: aab798565a79ea143ab62e1d29471210,
+    - target: {fileID: 198307667992038130, guid: aab798565a79ea143ab62e1d29471210,
         type: 3}
-      propertyPath: newDialoguePrompt
-      value: 
-      objectReference: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
+      propertyPath: NoiseModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198307667992038130, guid: aab798565a79ea143ab62e1d29471210,
         type: 3}
-    - target: {fileID: 114819692771344570, guid: aab798565a79ea143ab62e1d29471210,
+      propertyPath: NoiseModule.frequency
+      value: 1.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 198307667992038130, guid: aab798565a79ea143ab62e1d29471210,
         type: 3}
-      propertyPath: noNewDialoguePrompt
-      value: 
-      objectReference: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
-        type: 3}
+      propertyPath: NoiseModule.strength.scalar
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aab798565a79ea143ab62e1d29471210, type: 3}
 --- !u!1 &2002492899 stripped
@@ -39141,6 +39147,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   animationName: Get
   isTrigger: 1
+  setBool: 0
   toggleBool: 0
 --- !u!1 &3689719238119579025
 GameObject:
