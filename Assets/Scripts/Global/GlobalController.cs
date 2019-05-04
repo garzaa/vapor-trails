@@ -39,6 +39,7 @@ public class GlobalController : MonoBehaviour {
 	static Queue<NPC> queuedNPCs;
 
 	static int saveSlot = 1;
+	static ParallaxOption parallaxOption;
 
 	void Awake() {
 		gc = this;
@@ -55,6 +56,7 @@ public class GlobalController : MonoBehaviour {
 		pauseUI = gc.transform.Find("PixelCanvas").transform.Find("PauseUI").GetComponent<Animator>();
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
+		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -291,6 +293,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void MovePlayerTo(Beacon beacon, bool smoothing=false) {
+		DisableParallax();
 		if (!smoothing) {
 			playerFollower.DisableSmoothing();
 		}
@@ -301,6 +304,7 @@ public class GlobalController : MonoBehaviour {
 		if (!smoothing) {
 			playerFollower.EnableSmoothing();
 		}
+		EnableParallax();
 	}
 
 	public static void FadeToBlack() {
@@ -503,5 +507,13 @@ public class GlobalController : MonoBehaviour {
 				pc.baseDamage += amount;
 				break;
 		}
+	}
+
+	public static void EnableParallax() {
+		parallaxOption.moveParallax = true;
+	}
+
+	public static void DisableParallax() {
+		parallaxOption.moveParallax = false;
 	}
 }
