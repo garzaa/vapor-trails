@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -32,23 +31,6 @@ public class ChildColorEditor : MaterialBlockEditor {
             b.SetColor(valueName, color);
             blocks[i] = b;
             print(renderers[i].name);
-        }
-    }
-}
-
-[CustomEditor(typeof(ChildColorEditor))]
-class ChildColorEditorInspector : Editor {
-    ChildColorEditor colorEditor;
-
-    void Awake() {
-        colorEditor = (ChildColorEditor) target;
-    }
-
-    public override void OnInspectorGUI() {
-        DrawDefaultInspector();
-
-        if (GUILayout.Button("Update Child Colors")) {
-            colorEditor.UpdateColors();
         }
     }
 }
