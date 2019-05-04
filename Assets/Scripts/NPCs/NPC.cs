@@ -17,8 +17,12 @@ public class NPC : Interactable {
 	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
-		noNewDialoguePrompt = noNewDialoguePrompt ?? promptPrefab;
-		newDialoguePrompt = newDialoguePrompt ?? promptPrefab;
+		if (noNewDialoguePrompt == null) {
+			noNewDialoguePrompt = promptPrefab;
+		}
+		if (newDialoguePrompt == null) {
+			newDialoguePrompt = promptPrefab;
+		}
 	}
 
 	public int currentConversation = 0;
@@ -97,8 +101,6 @@ public class NPC : Interactable {
 		if (persistence) {
 			persistence.ReactToDialogueClose();
 		}
-		// prompt will have been hidden by the base interactable
-		AddPrompt();
 	}
 
 }

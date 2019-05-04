@@ -98,7 +98,6 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void FollowEffectPoint() {
-		print ("following "+ effectPoint.name);
 		GlobalController.playerFollower.FollowTarget(this.effectPoint.gameObject);
 	}
 

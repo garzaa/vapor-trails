@@ -23,6 +23,7 @@ public class TransitionManager : MonoBehaviour {
 		// reset everything and then re-enable according to scene data
 		PlayerController pc = GlobalController.pc;
 		pc.StopForcedWalking();
+		pc.inCutscene = false;
 		GlobalController.UnFadeToBlack();
 		GlobalController.playerFollower.EnableFollowing();
 		GlobalController.playerFollower.FollowPlayer();
