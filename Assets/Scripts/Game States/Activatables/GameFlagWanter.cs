@@ -11,7 +11,9 @@ public class GameFlagWanter : Activatable {
             if (!GlobalController.HasFlag(f)) {
                 if (noActivatable != null) {
                     noActivatable.Activate();
-                    yesActivatable.ActivateSwitch(false);
+                    if (yesActivatable != null) {
+                        yesActivatable.ActivateSwitch(false);
+                    }
                     return;
                 }
             }
