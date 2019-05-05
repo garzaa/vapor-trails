@@ -8,8 +8,10 @@ public class MenuInterface : MonoBehaviour {
 	public GameObject ngPlus;
 
 	void Start() {
-		continueGame.SetActive(GlobalController.HasSavedGame());
-		ngPlus.SetActive((GlobalController.HasBeatGame()));
+		if (continueGame != null) {
+			continueGame.SetActive(GlobalController.HasSavedGame());
+			ngPlus.SetActive((GlobalController.HasBeatGame()));
+		}
 	}
 
 	public void LoadScene(string sceneName) {

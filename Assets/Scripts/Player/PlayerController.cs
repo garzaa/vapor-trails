@@ -944,6 +944,8 @@ public class PlayerController : Entity {
 
 	void Die() {
 		AlerterText.AlertList(deathText);
+		// if the animation gets interrupted or something, use this as a failsafe
+		Invoke("FinishDyingAnimation", 3f);
 		this.dead = true;
 		SoundManager.PlayerDieSound();
 		this.envDmgSusceptible = false;
@@ -961,6 +963,7 @@ public class PlayerController : Entity {
 	}
 
 	public void FinishDyingAnimation() {
+		CancelInvoke("FinishDyingAnimation");
 		GlobalController.Respawn();
 	}
 
