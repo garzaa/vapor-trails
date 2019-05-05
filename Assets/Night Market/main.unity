@@ -1125,6 +1125,15 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
+    - lineText: I'd fight you, but this is just the demo. You can find the subway
+        pass about ten feet to my left.
+      speakerName: Richter
+      speakerImage: {fileID: 21300000, guid: 36c6795fe2b629c449b3aaa06b845bd6, type: 3}
+      voiceSound: 0
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
   auxConversations: []
 --- !u!114 &150787636
 MonoBehaviour:
@@ -10319,11 +10328,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0.66751915
       objectReference: {fileID: 0}
-    - target: {fileID: 203497602, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: cf6e3a6dee50ab74d990449662f24a55,
-        type: 3}
     - target: {fileID: 114892664916705956, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: unlockedAbilities.Array.size
@@ -10379,6 +10383,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 130
       objectReference: {fileID: 0}
+    - target: {fileID: 203497602, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cf6e3a6dee50ab74d990449662f24a55,
+        type: 3}
     - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_LocalPosition.y
       value: -1.345
@@ -10386,11 +10395,6 @@ PrefabInstance:
     - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 114635358981891304, guid: d514ca4d35012064b90f0936ac25aee3,
-        type: 3}
-      propertyPath: lookingAhead
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212493314102856926, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
@@ -10410,6 +10414,11 @@ PrefabInstance:
     - target: {fileID: 2845709655973956253, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114635358981891304, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 3}
+      propertyPath: lookingAhead
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4756734983361046, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
@@ -14529,6 +14538,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 431248602}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2090047100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2090047103}
+  - component: {fileID: 2090047102}
+  - component: {fileID: 2090047101}
+  m_Layer: 0
+  m_Name: DiscoveredNightMarket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2090047101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090047100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7e7c687e805d746addb1fcd3338123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flagName: 22
+--- !u!114 &2090047102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090047100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c5dfd2a1084db498d438b857025b3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  criteria: []
+  objectsToActivate:
+  - {fileID: 2090047101}
+  switchOnActivation: 1
+  singleActivation: 1
+--- !u!4 &2090047103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090047100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 24.813068, y: 1.7862673, z: -0.054631796}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2090322109
 GameObject:
