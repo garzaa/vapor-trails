@@ -443,7 +443,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddItem(InventoryItem item) {
 		if (!item.IsAbility()) {
-			AlerterText.Alert("Item acquired");
+			AlerterText.Alert(item.itemName + " acquired");
 		}
 		inventory.AddItem(item);
 	}
