@@ -29,7 +29,7 @@ public class PlayerController : Entity {
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
-	bool canInteract = true;
+	public bool canInteract = true;
 	bool canUpSlash = true;
 	bool canShortHop = true;
 	Vector2 lastSafePos;

@@ -507,12 +507,10 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnableParallax() {
-		print("enabling parallax");
 		parallaxOption.moveParallax = true;
 	}
 
 	public static void DisableParallax() {
-		print("disabling parallax");
 		parallaxOption.moveParallax = false;
 	}
 }
