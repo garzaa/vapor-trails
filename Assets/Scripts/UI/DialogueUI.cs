@@ -89,8 +89,7 @@ public class DialogueUI : UIComponent {
 	}
 
 	string MakeInvisibleText() {
-		//why is the substring function Like This
-		string invisText = textToRender.Substring(letterIndex, textToRender.Length - letterIndex - 1);
+		string invisText = textToRender.Substring(letterIndex+1);
 		invisText = "<color=#00000000>" + invisText + "</color>";
 		return invisText;
 	}
