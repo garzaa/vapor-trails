@@ -37,15 +37,15 @@ public class SubwayMapUI : UIComponent {
         if (audioSource != null) audioSource.PlayOneShot(audioSource.clip);
     }
 
-    public void PropagateCurrentStopInfo(SubwayStop stop) {
+    public void PropagateCurrentStopInfo(SubwayStop localStop) {
         SubwayStopButton[] buttons = GetComponentsInChildren<SubwayStopButton>();
         foreach (SubwayStopButton b in buttons) {
             // reset from the last station
             b.GetComponent<Animator>().SetBool("ThisStop", false);
             if (b.IsDiscovered()) b.GetComponent<Animator>().SetBool("Interactable", true);
-            if (b.stop == stop) {
+            if (b.stop == localStop) {
                 b.GetComponent<Animator>().SetBool("ThisStop", true);
-                b.GetComponent<Animator>().SetBool("Interactable", false);
+                // b.GetComponent<Animator>().SetBool("Interactable", false);
             }
         }
     }
