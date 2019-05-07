@@ -17,7 +17,7 @@ public class Entity : MonoBehaviour {
     public bool invincible = false;
     public bool envDmgSusceptible = true;
 
-    public void Flip() {
+    public virtual void Flip() {
         if (!canFlip) {
             return;
         }

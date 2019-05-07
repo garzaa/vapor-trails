@@ -266,6 +266,8 @@ public class PlayerController : Entity {
 				}
 			}
 
+			anim.SetBool("InputBackwards", InputBackwards());
+
 			float modifier = IsForcedWalking() ? 0.4f : 1f;
 			float hInput = Input.GetAxis("Horizontal") * modifier;
 			if (!touchingWall && !wallCheck.TouchingLedge() && (!midSwing || !grounded)) {
@@ -633,10 +635,8 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			return;
 		}
-		GlobalController.playerFollower.DisableSmoothing();
+		GlobalController.MovePlayerTo(lastSafePos);
 		UnLockInSpace();
-		transform.position = lastSafePos;
-		GlobalController.playerFollower.EnableFollowing();
 	}
 
 	public override void OnGroundLeave() {
@@ -1344,5 +1344,9 @@ public class PlayerController : Entity {
 		foreach (TrailRenderer t in trails) {
 			t.gameObject.SetActive(true);
 		}
+	}
+	
+	bool InputBackwards() {
+		return (ForwardScalar() * Mathf.Ceil(Input.GetAxis("Horizontal"))) < 0;
 	}
 }

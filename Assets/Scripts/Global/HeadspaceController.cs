@@ -23,7 +23,7 @@ public class HeadspaceController : MonoBehaviour {
     public void StartEnterHeadspaceAnimation() {
         lastScene = SceneManager.GetActiveScene().name;
         lastPlayerPos = GlobalController.pc.transform.position;
-        animator.SetTrigger("EnterHeadspace");
+        // animator.SetTrigger("EnterHeadspace");
     }
 
     public void AnimationEnterHeadspace() {

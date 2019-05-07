@@ -377,8 +377,8 @@ public class GlobalController : MonoBehaviour {
 		return save.sceneName != SceneManager.GetActiveScene().path;
 	}
 
-	public static void SaveGame() {
-		if (save.unlocks.HasAbility(Ability.Heal)) {
+	public static void SaveGame(bool autosave=false) {
+		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {
 			AlerterText.Alert("Rebuilding waveform");
 			pc.FullHeal();
 			AlerterText.Alert("Done");
