@@ -6,6 +6,7 @@ public class HeadspaceController : MonoBehaviour {
     Animator animator;
     Animator playerAnimator;
     string lastScene;
+    bool toFinishLeavingHeadspace = false;
 
     void Start() {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -13,10 +14,13 @@ public class HeadspaceController : MonoBehaviour {
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (lastScene != null && scene.name != "Headspace") {
+        if (lastScene != null && scene.name != "Headspace" && toFinishLeavingHeadspace) {
             FinishLeavingHeadspace();
         } else if (scene.name == "Headspace") {
             GlobalController.pc.GetComponent<Animator>().SetTrigger("InstantKneel");
+        } else {
+            // catch any edge cases
+            toFinishLeavingHeadspace = false;
         }
     }
 
@@ -31,11 +35,13 @@ public class HeadspaceController : MonoBehaviour {
     }
 
     public void LeaveHeadspace() {
+        toFinishLeavingHeadspace = true;
         SceneManager.LoadScene(lastScene);
     }
 
     public void FinishLeavingHeadspace() {
         lastScene = null;
+        toFinishLeavingHeadspace = false;
         GlobalController.MovePlayerTo(lastPlayerPos);
         GlobalController.pc.GetComponent<Animator>().SetTrigger("InstantKneel");
         animator.SetTrigger("LeaveHeadspace");
