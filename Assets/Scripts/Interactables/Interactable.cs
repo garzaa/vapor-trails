@@ -21,6 +21,10 @@ public class Interactable : MonoBehaviour {
 
 	}
 
+	public virtual void InteractFromPlayer(GameObject player) {
+		Interact(player);
+	}
+
 	public virtual void AddPrompt() {
 		//if there's a sign, it doesn't need a prompt
 		if (GetComponent<Sign>() != null) {

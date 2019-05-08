@@ -7,8 +7,7 @@ public class NPC : Interactable {
 
 	protected PersistentNPC persistence;
 
-	public GameObject newDialoguePrompt;
-	public GameObject noNewDialoguePrompt;
+	bool interactedFromPlayer = false;
 
 	public NPC(NPCConversations c) {
 		this.conversations = c;
@@ -17,16 +16,15 @@ public class NPC : Interactable {
 	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
-		if (noNewDialoguePrompt == null) {
-			noNewDialoguePrompt = promptPrefab;
-		}
-		if (newDialoguePrompt == null) {
-			newDialoguePrompt = promptPrefab;
-		}
 	}
 
 	public int currentConversation = 0;
 	public int currentDialogueLine = 0;
+
+	override public void InteractFromPlayer(GameObject player) {
+		interactedFromPlayer = true;
+		Interact(player);
+	}
 
 	override public void Interact(GameObject player) {
 		if (GlobalController.dialogueClosedThisFrame) {
@@ -49,7 +47,7 @@ public class NPC : Interactable {
 	}
 
 	override public void AddPrompt() {
-		promptPrefab = AtLastConversation() ? noNewDialoguePrompt : newDialoguePrompt;
+		promptPrefab = AtLastConversation() ? GlobalController.gc.talkPrompt : GlobalController.gc.newDialoguePrompt;
 		base.AddPrompt();
 	}
 
@@ -100,6 +98,9 @@ public class NPC : Interactable {
 	public void CloseDialogue() {
 		if (persistence) {
 			persistence.ReactToDialogueClose();
+		}
+		if (interactedFromPlayer) {
+			AddPrompt();
 		}
 	}
 

@@ -41,6 +41,9 @@ public class GlobalController : MonoBehaviour {
 	static int saveSlot = 1;
 	static ParallaxOption parallaxOption;
 
+	public GameObject talkPrompt;
+	public GameObject newDialoguePrompt;
+
 	void Awake() {
 		gc = this;
 		queuedNPCs = new Queue<NPC>();
