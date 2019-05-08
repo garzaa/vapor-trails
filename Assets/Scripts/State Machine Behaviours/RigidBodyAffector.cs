@@ -20,7 +20,7 @@ public class RigidBodyAffector : StateMachineBehaviour {
     }
 
     virtual protected void Enter() {
-
+        
     }
 
     virtual protected void Update() {
