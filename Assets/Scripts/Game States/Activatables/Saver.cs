@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Saver : Activatable {
 	public override void ActivateSwitch(bool b) {
-		GlobalController.SaveGame();
+		GlobalController.SaveGame(true);
 	}
 }

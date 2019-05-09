@@ -32,7 +32,8 @@ public class PlayerController : Entity {
 	public bool canInteract = true;
 	bool canUpSlash = true;
 	bool canShortHop = true;
-	Vector2 lastSafePos;
+	Vector2 lastSafeOffset;
+	GameObject lastSafeObject;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -117,7 +118,7 @@ public class PlayerController : Entity {
 		anim.SetBool("CanSupercruise", unlocks.HasAbility(Ability.Supercruise));
 		Flip();
 		ResetAirJumps();
-		lastSafePos = this.transform.position;
+		lastSafeOffset = this.transform.position;
 	}
 	
 	void Update () {
@@ -562,10 +563,6 @@ public class PlayerController : Entity {
 		SaveLastSafePos();
 	}
 
-	void SaveLastSafePos() {
-		lastSafePos = this.transform.position;
-	}
-
 	public override void OnGroundHit() {
 		grounded = true;
 		canShortHop = true;
@@ -631,11 +628,18 @@ public class PlayerController : Entity {
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 	}
 
+	void SaveLastSafePos() {
+		// save the safe position as an offset of the groundCheck's last hit ground
+		lastSafeObject = GetComponent<GroundCheck>().currentGround;
+		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
+	}
+
+
 	void ReturnToSafety() {
 		if (this.currentHP <= 0) {
 			return;
 		}
-		GlobalController.MovePlayerTo(lastSafePos);
+		GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		UnLockInSpace();
 	}
 

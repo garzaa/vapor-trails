@@ -126,6 +126,7 @@ public class GlobalController : MonoBehaviour {
 			} else if (!pc.inCutscene && pc.IsGrounded()) {
 				OpenInventory();
 			}
+			
 		}
 		
 		if (
@@ -134,6 +135,7 @@ public class GlobalController : MonoBehaviour {
 			&& !dialogueOpenedThisFrame
 			&& !inCutscene
 			) {
+
 			if (dialogueUI.slowRendering) {
 				dialogueUI.CancelSlowRender();
 				return;

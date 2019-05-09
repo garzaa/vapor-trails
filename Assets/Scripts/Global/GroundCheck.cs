@@ -7,9 +7,11 @@ public class GroundCheck : MonoBehaviour {
 	public GameObject corner1;
 	public GameObject corner2;
 	public bool generateFromCollider = false;
+	public GameObject currentGround;
 
-	protected bool groundedCurrentFrame;
-	protected bool ledgeStepCurrentFrame;
+	bool groundedCurrentFrame;
+	bool ledgeStepCurrentFrame;
+	
 
 	protected void Start() {
 		if (generateFromCollider) {
@@ -32,7 +34,11 @@ public class GroundCheck : MonoBehaviour {
 
 	bool LeftGrounded() {
 		Debug.DrawLine(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position);
-		return Physics2D.Linecast(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		RaycastHit2D hit = Physics2D.Linecast(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		if (hit) {
+			currentGround = hit.collider.gameObject;
+		}
+		return hit;
 	}
 
 	bool RightGrounded() {
