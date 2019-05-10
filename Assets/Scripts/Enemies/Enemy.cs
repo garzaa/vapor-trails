@@ -173,7 +173,7 @@ public class Enemy : Entity {
 	}
 
 	public virtual void OnDamage() {
-
+		anim.SetTrigger("Hurt");
 	}
 
 	public void Burst() {

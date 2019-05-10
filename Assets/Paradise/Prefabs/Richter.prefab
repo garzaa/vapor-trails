@@ -48,6 +48,8 @@ Transform:
   - {fileID: 4697251305795606}
   - {fileID: 4685759770694186}
   - {fileID: 4891892354687814}
+  - {fileID: 7598105873955343971}
+  - {fileID: 3498271957640515153}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,7 +62,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1018928358723658}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: d390e26a990bb14408c78d636c510bb3, type: 2}
+  m_Material: {fileID: 6200000, guid: 6d2b4b5ad60eb8e42bd4ba4ecfec92c0, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -132,6 +134,7 @@ MonoBehaviour:
   corner1: {fileID: 1711506965120698}
   corner2: {fileID: 1916539034659274}
   generateFromCollider: 0
+  currentGround: {fileID: 0}
 --- !u!114 &114080363219909906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +206,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 854a0f4d6148c0f4c9d85f62064307e8, type: 3}
   - {fileID: 8300000, guid: 7a208ae35aa183a4d8f63b5e5449e48a, type: 3}
   activatables:
-  - {fileID: 0}
+  - {fileID: 6458441082749089870}
+  - {fileID: 6458441082749089870}
+  - {fileID: 6458441082749089870}
+  - {fileID: 6302703730178390615}
   npcs: []
   particleSystems: []
 --- !u!114 &114658252261490686
@@ -6886,3 +6892,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valueName: _FlashColor
   color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &4761939301437747400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7598105873955343971}
+  - component: {fileID: 6458441082749089870}
+  m_Layer: 12
+  m_Name: ForwardsPush
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7598105873955343971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761939301437747400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4230356196836586}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6458441082749089870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761939301437747400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8610e50868d65724a82be843a7dff3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 50794635457955746}
+  useEntityForward: 1
+  force: {x: 50, y: 0}
+--- !u!1 &5051744912114634263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3498271957640515153}
+  - component: {fileID: 6302703730178390615}
+  m_Layer: 0
+  m_Name: Stopper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3498271957640515153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051744912114634263}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.08729589, y: -0.07020727, z: 0.0046134624}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4230356196836586}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6302703730178390615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051744912114634263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ced019e6ec4b6144c85e8bd397c68b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 50794635457955746}
