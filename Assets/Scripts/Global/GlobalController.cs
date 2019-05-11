@@ -45,7 +45,13 @@ public class GlobalController : MonoBehaviour {
 	public GameObject newDialoguePrompt;
 
 	void Awake() {
-		gc = this;
+		if (gc == null) {
+			gc = this;
+		} else {
+			// if this one's a duplicate, destroy
+			Destroy(this.gameObject);
+			return;
+		}
 		queuedNPCs = new Queue<NPC>();
 		titleText = editorTitleText;
 		DontDestroyOnLoad(this);

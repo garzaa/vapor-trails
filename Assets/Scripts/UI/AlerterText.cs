@@ -36,6 +36,9 @@ public class AlerterText : MonoBehaviour {
         if (alertQueue.Count > 0) {
             DisplayAlert(alertQueue.Dequeue());
         }
+        if (at == null) {
+            return;
+        }
         at.Invoke("CheckQueue", at.alertInterval);
     }
 }

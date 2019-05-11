@@ -361,6 +361,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool IsSpeeding() {
+		if (rb2d == null) return false;
 		return Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed || Mathf.Abs(rb2d.velocity.y) > jumpSpeed;
 	}
 
@@ -1164,6 +1165,7 @@ public class PlayerController : Entity {
 	}
 
 	public float MoveSpeedRatio() {
+		if (rb2d == null) return 0;
 		return Mathf.Abs(rb2d.velocity.x / maxMoveSpeed);
 	}
 
