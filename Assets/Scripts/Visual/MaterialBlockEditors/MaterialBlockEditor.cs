@@ -11,7 +11,6 @@ public class MaterialBlockEditor : MonoBehaviour {
     virtual protected void Start() {
         block = new MaterialPropertyBlock();
         r = GetComponent<Renderer>();
-        r.GetPropertyBlock(block);
     }
 
     protected void SetBlock() {
@@ -19,6 +18,7 @@ public class MaterialBlockEditor : MonoBehaviour {
     }
 
     protected void GetBlock() {
+        if (block == null) block = new MaterialPropertyBlock();
         r.GetPropertyBlock(block);
     }
 }
