@@ -8,6 +8,7 @@ public class MaterialColorEditor : MaterialBlockEditor {
 
     override protected void Start() {
         base.Start();
+        GetBlock();
         block.SetColor(valueName, color);
         SetBlock();
     }
