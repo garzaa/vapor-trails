@@ -18,6 +18,7 @@ public class Attack : MonoBehaviour {
 	public float stunLength = 0.2f;
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
+	public bool attackLandTrigger = false;
 
 	public virtual int GetDamage() {
 		return this.damage;
@@ -26,6 +27,9 @@ public class Attack : MonoBehaviour {
 	public void OnAttackLand(Entity victim) {
 		if (cameraShakeTime>0f && victim.GetComponent<PlayerController>() != null) {
 			CameraShaker.Shake(cameraShakeIntensity, cameraShakeTime);
+		}
+		if (attackLandTrigger) {
+			attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
 		}
 		ExtendedAttackLand(victim);
 	}
