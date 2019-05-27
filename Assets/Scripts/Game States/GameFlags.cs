@@ -25,5 +25,6 @@ public enum GameFlag {
 	DiscoveredGalleryPark,
 	BeatGame,
 	MetStevenInHeadspace,
-	DiscoveredNightMarket
+	DiscoveredNightMarket,
+	BeatRichter2
 }
