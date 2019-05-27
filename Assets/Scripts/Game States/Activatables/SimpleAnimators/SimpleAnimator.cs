@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SimpleAnimator : Activatable {
     public float initialDelay;
-    protected bool running = false;
+    public bool running = false;
 
     protected virtual void Start() {
         Invoke("Activate", initialDelay);
