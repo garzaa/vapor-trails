@@ -22,4 +22,5 @@ public class PlayerEnterCriteria : ActivationCriteria {
 	override public bool CheckSatisfied() {
 		return containsPlayer;
 	}
+	
 }
