@@ -49,7 +49,6 @@ public class PlayerController : Entity {
 	public ContainerUI energyUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
-	public PlayerWings wings;
 	PlayerUnlocks unlocks;
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
@@ -114,7 +113,6 @@ public class PlayerController : Entity {
 		gunEyes = transform.Find("GunEyes").transform;
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
-		wings = transform.Find("Wings").GetComponent<PlayerWings>();
 		anim.SetBool("CanSupercruise", unlocks.HasAbility(Ability.Supercruise));
 		Flip();
 		ResetAirJumps();
@@ -168,7 +166,6 @@ public class PlayerController : Entity {
 	}
 
 	public void AnimationLandMeteor() {
-		wings.LandMeteor();
 	}
 
 	public void Parry() {
@@ -198,7 +195,6 @@ public class PlayerController : Entity {
 
 
 		if (Input.GetButtonDown("Attack") && !frozen && !inMeteor) {
-			wings.FoldIn();
 			anim.SetTrigger("Attack");
 		}
 		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
@@ -219,9 +215,6 @@ public class PlayerController : Entity {
 		rb2d.velocity = Vector2.zero;
 		SoundManager.JumpSound();
 		EndSupercruise();
-		wings.Open();
-		wings.EnableJets();
-		wings.Airbrake();
 	}
 
 	void Move() {
@@ -397,9 +390,6 @@ public class PlayerController : Entity {
 		//fast fall
 		if (Input.GetAxis("Vertical")<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(rb2d.velocity.y, fastFallSpeed));
-			wings.Open();
-			wings.EnableJets();
-			wings.Meteor();
 		}
 	}
 
@@ -453,9 +443,6 @@ public class PlayerController : Entity {
 		ImpactDust();
 		airJumps--;
 		anim.SetTrigger("Jump");
-		wings.Open();
-		wings.EnableJets();
-		wings.Jump();
 		InterruptAttack();
 	}
 
@@ -487,9 +474,6 @@ public class PlayerController : Entity {
         } else {
 			anim.SetTrigger("Dash");
 		}
-		wings.Open();
-		wings.EnableJets();
-		wings.Dash();
 		dashing = true;
 		Freeze();
 		if (grounded) {
@@ -508,14 +492,6 @@ public class PlayerController : Entity {
 		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
-		if (wings != null) {
-			// keep wings open during dash recovery
-			if (!HorizontalInput() && !frozen && grounded) {
-				// do nothing
-			} else {
-				wings.FoldIn();
-			}
-		}
 		if (MovingForwards() && Input.GetButton("Special") && unlocks.HasAbility(Ability.Supercruise)) {
 			anim.SetTrigger("StartSupercruise");
 		}
@@ -614,7 +590,6 @@ public class PlayerController : Entity {
 		}
 		EndShortHopWindow();
 		ImpactDust();
-		wings.Close();
 		SoundManager.JumpSound();
 		canUpSlash = false;
 		rb2d.velocity = new Vector2(
@@ -658,7 +633,6 @@ public class PlayerController : Entity {
 	void InterruptMeteor() {
 		anim.SetBool("InMeteor", false);
 		inMeteor = false;
-		wings.FoldIn();
 	}
 
 	public void ResetAttackTriggers() {
@@ -677,7 +651,6 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit() {
-		CloseWings();
 		InterruptDash();
 		if (dashCooldown) {
 			EndDashCooldown();
@@ -764,9 +737,6 @@ public class PlayerController : Entity {
 		SetInvincible(true);
 		anim.SetTrigger("Meteor");
 		anim.SetBool("InMeteor", true);
-		wings.Open();
-		wings.EnableJets();
-		wings.Meteor();
 		SoundManager.DashSound();
 		rb2d.velocity = new Vector2(
 			x:0,
@@ -775,9 +745,6 @@ public class PlayerController : Entity {
 	}
 
 	void LandMeteor() {
-		if (HorizontalInput()) {
-			wings.FoldIn();
-		}
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;
@@ -838,9 +805,6 @@ public class PlayerController : Entity {
 		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * ForwardScalar()) > 0;
 		if (movingTowardsLedge) {
 			anim.SetTrigger("Jump");
-			wings.Open();
-			wings.EnableJets();
-			wings.Jump();
 			InterruptDash();
 			EndDashCooldown();
 			ResetAirJumps();
@@ -1040,7 +1004,6 @@ public class PlayerController : Entity {
 			rb2d.velocity.x,
 			hardLandSpeed
 		);
-		wings.FoldIn();
 		platform.enabled = false;
 		platformTimeout = StartCoroutine(EnableCollider(0.1f, platform));
 	}
@@ -1083,34 +1046,18 @@ public class PlayerController : Entity {
 		inCutscene = false;
 	}
 
-	//called from animations
-	public void CloseWings() {
-		wings.FoldIn();
-	}
-
 	public bool IsGrounded() {
 		return GetComponent<GroundCheck>().IsGrounded();
-	}
-
-	public void OpenSupercruiseWings() {
-		wings.Open();
-		BackwardDust();
-		wings.EnableJets();
-		wings.Supercruise();
 	}
 
 	//called at the start of the supercruiseMid animation
 	public void StartSupercruise() {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-		OpenSupercruiseWings();
 		SoundManager.DashSound();
 		this.supercruise = true;
 		anim.ResetTrigger("InterruptSupercruise");
 		anim.ResetTrigger("EndSupercruise");
 		BackwardDust();
-		wings.Open();
-		wings.EnableJets();
-		wings.SupercruiseMid();
 		Freeze();
 		CameraShaker.Shake(0.1f, 0.1f);
 		//keep them level
@@ -1120,10 +1067,8 @@ public class PlayerController : Entity {
 	public void EndSupercruise() {
 		if (!supercruise) return;		
 		StartCombatCooldown();
-		wings.DisableJets();
 		supercruise = false;
 		UnFreeze();
-		wings.FoldIn();
 		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("EndSupercruise");
 	}
@@ -1132,11 +1077,9 @@ public class PlayerController : Entity {
 	public void InterruptSupercruise() {
 		if (!supercruise) return;
 		StartCombatCooldown();
-		wings.DisableJets();
 		CameraShaker.Shake(0.1f, 0.1f);
 		supercruise = false;
 		UnFreeze();
-		wings.FoldIn();
 		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
 		anim.SetTrigger("InterruptSupercruise");
 	}

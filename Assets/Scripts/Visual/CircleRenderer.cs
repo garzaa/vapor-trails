@@ -4,24 +4,23 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(LineRenderer))]
-public class CircleRenderer : MonoBehaviour {
+public class CircleRenderer : LineRendererEditor {
 
 	public int segments;
 	[Range(0, 1)]
 	public float arcFraction = 1f;
-	public float radius = 10f;
+	public float radius = .10f;
 
 	int segmentsLastFrame;
 	float radiusLastFrame;
 	float arcFractionLastFrame;
-	LineRenderer line;
 
-	void Start() {
-		line = GetComponent<LineRenderer>();
+	override protected void Start() {
+		base.Start();
 		DrawCircle(segments);
 	}
 	
-	void Update () {
+	void LateUpdate () {
 		if (Changed() && segments > 0) {
 			DrawCircle(segments);
 		}

@@ -103,11 +103,7 @@ public class TransitionManager : MonoBehaviour {
 		if (triggered != null) {
 			triggered.OnPlayerEnter();
 		}
- 
-		//then reopen the jets
-		if (closedJets) {
-			pc.wings.EnableJetTrails();
-		}
+
 	}
 
 	public void LoadSceneToPosition(string sceneName, Vector2 position) {
