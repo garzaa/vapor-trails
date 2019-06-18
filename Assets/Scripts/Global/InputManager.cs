@@ -5,21 +5,19 @@ using UnityEngine;
 public class InputManager : MonoBehaviour {
 
     static readonly float INPUT_TOLERANCE = 0.1f;
-    static readonly string HORIZONTAL = "Horizontal";
-    static readonly string VERTICAL = "Vertical";
 
     static bool frozenInputs = false;
 
     public static bool HasHorizontalInput() {
-        return Mathf.Abs(Input.GetAxis(HORIZONTAL)) > INPUT_TOLERANCE;
+        return Mathf.Abs(Input.GetAxis(Inputs.H_AXIS)) > INPUT_TOLERANCE;
     }
 
     public static float HorizontalInput() {
-        return Input.GetAxis(HORIZONTAL);
+        return Input.GetAxis(Inputs.H_AXIS);
     }
 
     public static float VerticalInput() {
-        return Input.GetAxis(VERTICAL);
+        return Input.GetAxis(Inputs.V_AXIS);
     }
 
     public static bool ButtonDown(string buttonName) {
