@@ -9,23 +9,28 @@ public class InputManager : MonoBehaviour {
     static bool frozenInputs = false;
 
     public static bool HasHorizontalInput() {
-        return Mathf.Abs(Input.GetAxis(Inputs.H_AXIS)) > INPUT_TOLERANCE;
+        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Inputs.H_AXIS)) > INPUT_TOLERANCE;
     }
 
     public static float HorizontalInput() {
-        return Input.GetAxis(Inputs.H_AXIS);
+        return frozenInputs ? 0 : Input.GetAxis(Inputs.H_AXIS);
     }
 
     public static float VerticalInput() {
-        return Input.GetAxis(Inputs.V_AXIS);
+        return frozenInputs ? 0 : Input.GetAxis(Inputs.V_AXIS);
     }
 
     public static bool ButtonDown(string buttonName) {
+        if (
+            frozenInputs
+            && (
+                Inputs.IsType(buttonName, InputType.MOVE)
+                || Inputs.IsType(buttonName, InputType.ACTION)
+            )
+        ) {
+            return false;
+        }
         return Input.GetButtonDown(buttonName);
-    }
-
-    public static bool ButtonUp(string buttonName) {
-        return Input.GetButtonUp(buttonName);
     }
 
     public static void FreezeInputs() {
