@@ -8,7 +8,11 @@ public class SpeedSensor : Sensor {
 
 	new void Start() {
 		base.Start();
-		rb2d = e.GetComponent<Rigidbody2D>();
+		if (e != null) {
+			rb2d = e.GetComponent<Rigidbody2D>();
+		} else {
+			rb2d = animator.GetComponent<Rigidbody2D>();
+		}
 	}
 
 	void Update () {
