@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerController : Entity {
 	//constants
-	public float moveForce = 3f;
+	public float moveSpeed = 3.5f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	float hardLandSpeed = -4.5f;
-	public float dashForce = 8f;
+	public float dashSpeed = 8f;
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
@@ -268,7 +268,14 @@ public class PlayerController : Entity {
 
 			if (InputManager.HasHorizontalInput() && (!midSwing || !grounded)) {
 				if (InputManager.HorizontalInput() != 0) {
-					rb2d.AddForce(new Vector2((hInput * moveForce), 0));
+					float xVec= hInput * moveSpeed;
+					if (IsSpeeding() && MovingForwards()) {
+						xVec = rb2d.velocity.x;
+					}
+					rb2d.velocity = (new Vector2(
+						xVec, 
+						rb2d.velocity.y)
+					);
 					movingRight = InputManager.HorizontalInput() > 0;
 				}
 				//if they've just started running
@@ -286,7 +293,12 @@ public class PlayerController : Entity {
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		}
 
-		if (supercruise) {
+		if (dashing) {
+			rb2d.velocity = new Vector2(
+				ForwardScalar() * (dashSpeed + preDashSpeed), 
+				Mathf.Max(rb2d.velocity.y, 0)
+			);
+		} else if (supercruise) {
 			float maxV = Mathf.Max(Mathf.Abs(superCruiseSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
 			rb2d.velocity = new Vector2(maxV, 0);
 		}
@@ -313,11 +325,6 @@ public class PlayerController : Entity {
 
 		if (touchingWall && !grounded && !InputManager.HasHorizontalInput()) {
 			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-		}
-
-		if (dashing) {
-			rb2d.AddForce(new Vector2(dashForce * ForwardScalar(), 0));
-			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Max(rb2d.velocity.y, 0));
 		}
 	}
 
@@ -357,7 +364,7 @@ public class PlayerController : Entity {
 		
 		//fast fall
 		if (InputManager.VerticalInput()<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
-			rb2d.AddForce(Vector2.down * moveForce);
+			rb2d.velocity = Vector2.down * moveSpeed;
 		}
 	}
 
@@ -392,7 +399,7 @@ public class PlayerController : Entity {
 		FreezeFor(.1f);
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
-			x:moveForce * ForwardScalar() * (justLeftWall ? 1 : -1), 
+			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
 			y:jumpSpeed + AdditiveJumpSpeed()
 		);
 		Flip();
@@ -424,6 +431,10 @@ public class PlayerController : Entity {
 			return;
 		}
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
+		rb2d.velocity = new Vector2(
+			ForwardScalar() * (dashSpeed + preDashSpeed), 
+			Mathf.Max(rb2d.velocity.y, 0)
+		);
 		if (perfectDashPossible && !earlyDashInput) {
 			AlerterText.Alert("Recycling DASH velocity");
 			perfectDashPossible = false;
@@ -443,7 +454,6 @@ public class PlayerController : Entity {
 			anim.SetTrigger("Dash");
 		}
 		dashing = true;
-		Freeze();
 		if (grounded) {
 			BackwardDust();
 		}

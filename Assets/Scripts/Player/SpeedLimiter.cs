@@ -3,35 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedLimiter : MonoBehaviour {
-    Rigidbody2D rb2d;
     public float maxSpeedX;
     public float maxSpeedY;
 
-    public bool hasDrag = false;
-    public Vector2 drag;
-    public float speedRatio = 0.7f;
-
-    bool waitingToDamp = false;
-
     public Vector2 velocity;
+
+    Rigidbody2D rb2d;
+    PlayerController pc;
 
     void Start() {
         rb2d = GetComponent<Rigidbody2D>();
+        pc = GetComponent<PlayerController>();
     }
 
-    void Update() {
-        if (!hasDrag) {
+    void LateUpdate() {
+        if (pc == null) {
             ClampSpeed();
-        } else if (hasDrag) {
-            StartCoroutine(ApplyDrag());
+        } else {
+            ReduceSpeed();
         }
-    }
-
-    IEnumerator ApplyDrag() {
-        yield return new WaitForFixedUpdate();
-        float force_x = -drag.x * rb2d.velocity.x * speedRatio;
-        float force_y = -drag.y * rb2d.velocity.y * speedRatio;
-        rb2d.AddForce(new Vector2(force_x, force_y));
         velocity = rb2d.velocity;
     }
 
@@ -50,4 +40,20 @@ public class SpeedLimiter : MonoBehaviour {
     public bool IsSpeeding() {
         return (Mathf.Abs(rb2d.velocity.x) > maxSpeedX || Mathf.Abs(rb2d.velocity.y) > maxSpeedY);
     }
+
+    void ReduceSpeed() {
+		if (Mathf.Abs(rb2d.velocity.x) < 0.01f) {
+			return;
+		}
+		float originalSign = Mathf.Sign(rb2d.velocity.x);
+		float reduced;
+		if (IsSpeeding()) {
+			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-.1f, maxSpeedX);
+            rb2d.velocity = new Vector2(
+                reduced * originalSign,
+                rb2d.velocity.y
+		    );
+		}
+	}
+
 }
