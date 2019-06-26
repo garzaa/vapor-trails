@@ -7,38 +7,35 @@ public class SpeedLimiter : MonoBehaviour {
     public float maxSpeedX;
     public float maxSpeedY;
 
-    public bool damping = false;
-    [Range(0, 1)]
-    public float dampRate;
+    public bool hasDrag = false;
+    public Vector2 drag;
+    public float acceleration = 10f;
 
     const float DAMP_INTERVAL = 0.1f;
     bool waitingToDamp = false;
+
+    public Vector2 velocity;
 
     void Start() {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
     void Update() {
-        if (!damping) {
+        if (!hasDrag) {
             ClampSpeed();
-        } else if (!waitingToDamp) {
-            waitingToDamp = true;
-            StartCoroutine("DampSpeed");
+        } else if (hasDrag) {
+            StartCoroutine(ApplyDrag());
         }
     }
 
-    IEnumerator DampSpeed() {
-        yield return new WaitForSeconds(dampRate);
-        Vector2 newVec = rb2d.velocity;
-        if (Mathf.Abs(rb2d.velocity.x) > maxSpeedX) {
-            newVec.x = rb2d.velocity.x - Mathf.Sign(rb2d.velocity.x)*dampRate;
-        }
-        if (Mathf.Abs(rb2d.velocity.y) > maxSpeedY) {
-            newVec.y = rb2d.velocity.y - Mathf.Sign(rb2d.velocity.y)*dampRate;
-        }
-
-        rb2d.velocity = newVec;
-        waitingToDamp = false;
+    IEnumerator ApplyDrag() {
+        yield return new WaitForFixedUpdate();
+        velocity = transform.InverseTransformDirection(rb.velocity);
+        float force_x = -drag.x / velocity.x;
+        float force_y = -drag.y / rb2d.velocity.y;
+        rb2d.AddRelativeForce(new Vector2(force_x, force_y));
+        rb2d.AddRelativeForce(new Vector2(rb2d.mass * acceleration, rb2d.mass * acceleration));
+        velocity = rb2d.velocity;
     }
 
     void ClampSpeed() {

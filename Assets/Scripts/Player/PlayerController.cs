@@ -272,20 +272,7 @@ public class PlayerController : Entity {
 
 			if (InputManager.HasHorizontalInput() && (!midSwing || !grounded)) {
 				if (InputManager.HorizontalInput() != 0) {
-					//if they just finished a dash or supercruise, keep their speed around for a bit ;^)
-					if (IsSpeeding() && 
-							(InputManager.HorizontalInput() * ForwardScalar() > 0)
-							&& !IsForcedWalking()) 
-					{
-						//slow the player down more in the air
-						if (!grounded) {
-							ReduceSpeedBy(0.1f);
-						} else {
-							ReduceSpeedBy(0.15f);
-						}
-					} else {
-						rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
-					}
+					rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
 					movingRight = InputManager.HorizontalInput() > 0;
 				}
 				//if they've just started running
