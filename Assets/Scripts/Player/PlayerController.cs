@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PlayerController : Entity {
 	//constants
-	float maxMoveSpeed = 3f;
+	public float moveForce = 3f;
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	float hardLandSpeed = -4.5f;
-	float fastFallSpeed = -7f;
+	public float dashForce = 8f;
 	float terminalSpeed = -10f;
-	float dashSpeed = 8f;
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
 	public bool hardFalling = false;
@@ -34,6 +33,7 @@ public class PlayerController : Entity {
 	bool canShortHop = true;
 	Vector2 lastSafeOffset;
 	GameObject lastSafeObject;
+	SpeedLimiter speedLimiter;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -117,6 +117,7 @@ public class PlayerController : Entity {
 		Flip();
 		ResetAirJumps();
 		lastSafeOffset = this.transform.position;
+		speedLimiter = GetComponent<SpeedLimiter>();
 	}
 	
 	void Update () {
@@ -272,7 +273,7 @@ public class PlayerController : Entity {
 
 			if (InputManager.HasHorizontalInput() && (!midSwing || !grounded)) {
 				if (InputManager.HorizontalInput() != 0) {
-					rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
+					rb2d.AddForce(new Vector2((hInput * moveForce), 0));
 					movingRight = InputManager.HorizontalInput() > 0;
 				}
 				//if they've just started running
@@ -285,32 +286,12 @@ public class PlayerController : Entity {
 					}
 					HairBackwards();
 				}
-			} 
-			//if no movement, stop the player on the ground 
-			else if (grounded) {
-				ReduceSpeedBy(100, capAtMaxSpeed:false);
-				if (runningLastFrame && !touchingWall && !midSwing) {
-					ForwardDust();
-					HairForwards();
-				}
-			} 
-			//or slow them down in the air if they haven't just walljumped
-			else {
-				ReduceSpeedBy(0.1f);
 			}
 
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		}
 
-		if (dashing) {
-			float maxV = Mathf.Max(Mathf.Abs(dashSpeed+preDashSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
-            rb2d.velocity = new Vector2(
-				maxV, 
-				0
-			);
-        }
-
-		else if (supercruise) {
+		if (supercruise) {
 			float maxV = Mathf.Max(Mathf.Abs(superCruiseSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
 			rb2d.velocity = new Vector2(maxV, 0);
 		}
@@ -342,7 +323,7 @@ public class PlayerController : Entity {
 
 	public bool IsSpeeding() {
 		if (rb2d == null) return false;
-		return Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed || Mathf.Abs(rb2d.velocity.y) > jumpSpeed;
+		return speedLimiter.IsSpeeding();
 	}
 
 	void Jump() {
@@ -376,7 +357,7 @@ public class PlayerController : Entity {
 		
 		//fast fall
 		if (InputManager.VerticalInput()<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
-			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(rb2d.velocity.y, fastFallSpeed));
+			rb2d.AddForce(Vector2.down * moveForce);
 		}
 	}
 
@@ -411,7 +392,7 @@ public class PlayerController : Entity {
 		FreezeFor(.1f);
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
-			x:maxMoveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
+			x:moveForce * ForwardScalar() * (justLeftWall ? 1 : -1), 
 			y:jumpSpeed + AdditiveJumpSpeed()
 		);
 		Flip();
@@ -534,11 +515,7 @@ public class PlayerController : Entity {
 			LedgeBoost();
 			return;
 		}
-		if (IsSpeeding() && InputManager.HorizontalInput() * ForwardScalar() > 0) {
-			BackwardDust();
-		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && InputManager.HorizontalInput() * ForwardScalar() <= 0) {
-			ForwardDust();
-		}
+		ImpactDust();
 		if (inMeteor) {
 			LandMeteor();
 		}
@@ -793,31 +770,10 @@ public class PlayerController : Entity {
 			ResetAirJumps();
 			InterruptAttack();
 			rb2d.velocity = new Vector2(
-				x:(IsSpeeding() ? rb2d.velocity.x : maxMoveSpeed * ForwardScalar()),
+				x:(IsSpeeding() ? rb2d.velocity.x : speedLimiter.maxSpeedX * ForwardScalar()),
 				y:ledgeBoostSpeed
 			);
 		}
-	}
-
-	void ReduceSpeedBy(float reductionAmt, bool capAtMaxSpeed = true) {
-		if (Mathf.Abs(rb2d.velocity.x) < 0.01f) {
-			return;
-		}
-		float originalSign = Mathf.Sign(rb2d.velocity.x);
-		float reduced;
-		if (!MovingForwards()) {
-			capAtMaxSpeed = false;
-		}
-		if (capAtMaxSpeed) {
-			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-reductionAmt, maxMoveSpeed);
-		} else {
-			// don't make them move backwards
-			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-reductionAmt, 0); 
-		}
-		rb2d.velocity = new Vector2(
-			reduced * originalSign,
-			rb2d.velocity.y
-		);
 	}
 
 	public override void OnHit(Attack attack) {
@@ -1092,7 +1048,7 @@ public class PlayerController : Entity {
 
 	public float MoveSpeedRatio() {
 		if (rb2d == null) return 0;
-		return Mathf.Abs(rb2d.velocity.x / maxMoveSpeed);
+		return Mathf.Abs(rb2d.velocity.x / speedLimiter.maxSpeedX);
 	}
 
 	bool VerticalInput() {

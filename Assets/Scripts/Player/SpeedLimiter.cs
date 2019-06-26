@@ -9,9 +9,7 @@ public class SpeedLimiter : MonoBehaviour {
 
     public bool hasDrag = false;
     public Vector2 drag;
-    public float acceleration = 10f;
 
-    const float DAMP_INTERVAL = 0.1f;
     bool waitingToDamp = false;
 
     public Vector2 velocity;
@@ -30,11 +28,9 @@ public class SpeedLimiter : MonoBehaviour {
 
     IEnumerator ApplyDrag() {
         yield return new WaitForFixedUpdate();
-        velocity = transform.InverseTransformDirection(rb.velocity);
-        float force_x = -drag.x / velocity.x;
-        float force_y = -drag.y / rb2d.velocity.y;
-        rb2d.AddRelativeForce(new Vector2(force_x, force_y));
-        rb2d.AddRelativeForce(new Vector2(rb2d.mass * acceleration, rb2d.mass * acceleration));
+        float force_x = -drag.x * rb2d.velocity.x;
+        float force_y = -drag.y * rb2d.velocity.y;
+        rb2d.AddForce(new Vector2(force_x, force_y));
         velocity = rb2d.velocity;
     }
 
@@ -48,5 +44,9 @@ public class SpeedLimiter : MonoBehaviour {
         }
 
         rb2d.velocity = newVec;
+    }
+
+    public bool IsSpeeding() {
+        return (Mathf.Abs(rb2d.velocity.x) > maxSpeedX || Mathf.Abs(rb2d.velocity.y) > maxSpeedY);
     }
 }
