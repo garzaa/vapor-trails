@@ -9,6 +9,7 @@ public class SpeedLimiter : MonoBehaviour {
 
     public bool hasDrag = false;
     public Vector2 drag;
+    public float speedRatio = 0.7f;
 
     bool waitingToDamp = false;
 
@@ -28,8 +29,8 @@ public class SpeedLimiter : MonoBehaviour {
 
     IEnumerator ApplyDrag() {
         yield return new WaitForFixedUpdate();
-        float force_x = -drag.x * rb2d.velocity.x;
-        float force_y = -drag.y * rb2d.velocity.y;
+        float force_x = -drag.x * rb2d.velocity.x * speedRatio;
+        float force_y = -drag.y * rb2d.velocity.y * speedRatio;
         rb2d.AddForce(new Vector2(force_x, force_y));
         velocity = rb2d.velocity;
     }

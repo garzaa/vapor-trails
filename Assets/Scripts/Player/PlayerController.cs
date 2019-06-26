@@ -248,11 +248,6 @@ public class PlayerController : Entity {
 			} 
 		}
 
-		if (frozen) {
-			anim.SetFloat("Speed", 0f);
-			if (grounded) rb2d.velocity = Vector2.zero;
-		}
-
 		if (!frozen && !(stunned || dead)) {
 			if (InputManager.VerticalInput() < 0) {
 				EdgeCollider2D platform = GetComponent<GroundCheck>().TouchingPlatform();
@@ -318,6 +313,11 @@ public class PlayerController : Entity {
 
 		if (touchingWall && !grounded && !InputManager.HasHorizontalInput()) {
 			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+		}
+
+		if (dashing) {
+			rb2d.AddForce(new Vector2(dashForce * ForwardScalar(), 0));
+			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Max(rb2d.velocity.y, 0));
 		}
 	}
 
