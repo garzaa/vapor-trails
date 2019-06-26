@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class Inputs {
     public static readonly string H_AXIS = "Horizontal";
-    public static readonly string V_AXIS = "VERTICAL";
+    public static readonly string V_AXIS = "Vertical";
     public static readonly string JUMP   = "Jump";
     public static readonly string ATTACK = "Attack";
 

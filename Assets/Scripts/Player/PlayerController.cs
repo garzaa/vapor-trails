@@ -184,30 +184,30 @@ public class PlayerController : Entity {
 		}
 
 		if (!inCutscene) { 
-			anim.SetFloat("VerticalInput", Input.GetAxis("Vertical")); 
+			anim.SetFloat("VerticalInput", InputManager.VerticalInput()); 
 		}
 		
 		if (!inCutscene && !forcedWalking) {
-			anim.SetBool("SpecialHeld", Input.GetButton("Special"));
+			anim.SetBool("SpecialHeld", InputManager.Button(Inputs.SPECIAL));
 		} else {
 			anim.SetBool("SpecialHeld", false);
 		}
 
 
-		if (Input.GetButtonDown("Attack") && !frozen && !inMeteor) {
-			anim.SetTrigger("Attack");
+		if (InputManager.ButtonDown(Inputs.ATTACK) && !frozen && !inMeteor) {
+			anim.SetTrigger(Inputs.ATTACK);
 		}
-		else if (!grounded && Input.GetButtonDown("Special") && Input.GetAxis("Vertical") < 0 && !dashing && !supercruise) {
+		else if (!grounded && InputManager.Button(Inputs.SPECIAL) && InputManager.VerticalInput() < 0 && !dashing && !supercruise) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
 		} 
-		else if (Input.GetButtonDown("Special") && canUpSlash && Input.GetAxis("Vertical") > 0 && !dashing && !supercruise && !touchingWall) {
+		else if (InputManager.Button(Inputs.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !dashing && !supercruise && !touchingWall) {
 			UpSlash();
 		}
 
-		else if (Input.GetButtonDown("Attack") && Input.GetAxis("Vertical") < 0 && supercruise) {
-			anim.SetTrigger("Attack");
+		else if (InputManager.ButtonDown(Inputs.ATTACK) && InputManager.VerticalInput() < 0 && supercruise) {
+			anim.SetTrigger(Inputs.ATTACK);
 		}
 	}
 
@@ -225,14 +225,14 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		anim.SetBool("HorizontalInput",  HorizontalInput());
+		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
-		if (Input.GetButtonDown("Jump") && supercruise) {
+		if (InputManager.ButtonDown(Inputs.JUMP) && supercruise) {
 			EndSupercruise();
 		}
 
-		if (supercruise && !grounded && !touchingWall && !MovingForwards() && Input.GetAxis("Horizontal") != 0) {
+		if (supercruise && !grounded && !touchingWall && !MovingForwards() && InputManager.HorizontalInput() != 0) {
 			Airbrake();
 			return;
 		}
@@ -241,7 +241,7 @@ public class PlayerController : Entity {
 			InterruptSupercruise();
 		}
 
-		if (Input.GetButtonDown("Special") && HorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(Input.GetAxis("Vertical")) <= 0.2f) {
+		if (InputManager.Button(Inputs.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			} 
@@ -253,7 +253,7 @@ public class PlayerController : Entity {
 		}
 
 		if (!frozen && !(stunned || dead)) {
-			if (Input.GetAxis("Vertical") < 0) {
+			if (InputManager.VerticalInput() < 0) {
 				EdgeCollider2D platform = GetComponent<GroundCheck>().TouchingPlatform();
 				if (platform != null && grounded) {
 					DropThroughPlatform(platform);
@@ -263,18 +263,18 @@ public class PlayerController : Entity {
 			anim.SetBool("InputBackwards", InputBackwards());
 
 			float modifier = IsForcedWalking() ? 0.4f : 1f;
-			float hInput = Input.GetAxis("Horizontal") * modifier;
+			float hInput = InputManager.HorizontalInput() * modifier;
 			if (!touchingWall && !wallCheck.TouchingLedge() && (!midSwing || !grounded)) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
 			} else {
 				anim.SetFloat("Speed", 0);
 			}
 
-			if (HorizontalInput() && (!midSwing || !grounded)) {
-				if (Input.GetAxis("Horizontal") != 0) {
+			if (InputManager.HasHorizontalInput() && (!midSwing || !grounded)) {
+				if (InputManager.HorizontalInput() != 0) {
 					//if they just finished a dash or supercruise, keep their speed around for a bit ;^)
 					if (IsSpeeding() && 
-							(Input.GetAxis("Horizontal") * ForwardScalar() > 0)
+							(InputManager.HorizontalInput() * ForwardScalar() > 0)
 							&& !IsForcedWalking()) 
 					{
 						//slow the player down more in the air
@@ -286,7 +286,7 @@ public class PlayerController : Entity {
 					} else {
 						rb2d.velocity = new Vector2(x:(hInput * maxMoveSpeed), y:rb2d.velocity.y);
 					}
-					movingRight = Input.GetAxis("Horizontal") > 0;
+					movingRight = InputManager.HorizontalInput() > 0;
 				}
 				//if they've just started running
 				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
@@ -348,7 +348,7 @@ public class PlayerController : Entity {
 			LedgeBoost();
 		}
 
-		if (touchingWall && !grounded && !HorizontalInput()) {
+		if (touchingWall && !grounded && !InputManager.HasHorizontalInput()) {
 			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 		}
 	}
@@ -363,8 +363,8 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (Input.GetButtonDown("Jump")) {
-			if (grounded && (Input.GetAxis("Vertical") >= 0)) {
+		if (InputManager.ButtonDown(Inputs.JUMP)) {
+			if (grounded && (InputManager.VerticalInput() >= 0)) {
 				GroundJump();
 			}
 			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
@@ -381,14 +381,14 @@ public class PlayerController : Entity {
 		}
 
 		//emulate an analog jump
-		if (Input.GetButtonUp("Jump") && rb2d.velocity.y > jumpCutoff && canShortHop) {
+		if (InputManager.ButtonUp(Inputs.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
 		}
 		
 		//fast fall
-		if (Input.GetAxis("Vertical")<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
+		if (InputManager.VerticalInput()<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(rb2d.velocity.y, fastFallSpeed));
 		}
 	}
@@ -400,7 +400,7 @@ public class PlayerController : Entity {
 
 	void GroundJump() {
 		SaveLastSafePos();
-		if (HorizontalInput()) {
+		if (InputManager.HasHorizontalInput()) {
 			BackwardDust();
 		} else {
 			ImpactDust();
@@ -409,7 +409,7 @@ public class PlayerController : Entity {
 			x:rb2d.velocity.x, 
 			y:jumpSpeed + AdditiveJumpSpeed()
 		);
-		anim.SetTrigger("Jump");
+		anim.SetTrigger(Inputs.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
 	}
@@ -442,7 +442,7 @@ public class PlayerController : Entity {
 		);
 		ImpactDust();
 		airJumps--;
-		anim.SetTrigger("Jump");
+		anim.SetTrigger(Inputs.JUMP);
 		InterruptAttack();
 	}
 
@@ -492,7 +492,7 @@ public class PlayerController : Entity {
 		envDmgSusceptible = true;
         SetInvincible(false);
 		CloseAllHurtboxes();
-		if (MovingForwards() && Input.GetButton("Special") && unlocks.HasAbility(Ability.Supercruise)) {
+		if (MovingForwards() && InputManager.Button(Inputs.SPECIAL) && unlocks.HasAbility(Ability.Supercruise)) {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
@@ -502,7 +502,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool MovingForwards() {
-		return (Input.GetAxis("Horizontal") * ForwardScalar()) > 0;
+		return (InputManager.HorizontalInput() * ForwardScalar()) > 0;
 	}
 
 	void InterruptDash() {
@@ -532,10 +532,6 @@ public class PlayerController : Entity {
 		}
 	}
 
-	bool HorizontalInput() {
-		return Input.GetAxis("Horizontal") != 0;
-	}
-
 	public void OnLedgeStep() {
 		SaveLastSafePos();
 	}
@@ -547,13 +543,13 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		SaveLastSafePos();
-		if (rb2d.velocity.y > 0 && Input.GetButton("Jump")) {
+		if (rb2d.velocity.y > 0 && InputManager.Button(Inputs.JUMP)) {
 			LedgeBoost();
 			return;
 		}
-		if (IsSpeeding() && Input.GetAxis("Horizontal") * ForwardScalar() > 0) {
+		if (IsSpeeding() && InputManager.HorizontalInput() * ForwardScalar() > 0) {
 			BackwardDust();
-		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && Input.GetAxis("Horizontal") * ForwardScalar() <= 0) {
+		} else if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed/2 && InputManager.HorizontalInput() * ForwardScalar() <= 0) {
 			ForwardDust();
 		}
 		if (inMeteor) {
@@ -562,13 +558,13 @@ public class PlayerController : Entity {
 		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
 			hardFalling = false;
-			if (HorizontalInput() && canFlip) {
+			if (InputManager.HasHorizontalInput() && canFlip) {
 				anim.SetTrigger("Roll");
 			} else {
 				anim.SetTrigger("HardLand");
 			}
 			SoundManager.HardLandSound();
-			if (HorizontalInput()) {
+			if (InputManager.HasHorizontalInput()) {
 				BackwardDust();
 			} else {
 				ImpactDust();
@@ -636,7 +632,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ResetAttackTriggers() {
-		anim.ResetTrigger("Attack");
+		anim.ResetTrigger(Inputs.ATTACK);
 	}
 
 	void UpdateWallSliding() {
@@ -768,7 +764,7 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.GunEyes) || inCutscene) {
 			return;
 		}
-		if (Input.GetButtonDown("Projectile") && canShoot && CheckEnergy() >= 1) {
+		if (InputManager.ButtonDown(Inputs.PROJECTILE) && canShoot && CheckEnergy() >= 1) {
 			Sparkle();
 			SoundManager.ShootSound();
 			BackwardDust();
@@ -799,12 +795,12 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		if (inMeteor || Input.GetAxis("Vertical") < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
+		if (inMeteor || InputManager.VerticalInput() < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
-		bool movingTowardsLedge = (Input.GetAxis("Horizontal") * ForwardScalar()) > 0;
+		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
 		if (movingTowardsLedge) {
-			anim.SetTrigger("Jump");
+			anim.SetTrigger(Inputs.JUMP);
 			InterruptDash();
 			EndDashCooldown();
 			ResetAirJumps();
@@ -1113,11 +1109,11 @@ public class PlayerController : Entity {
 	}
 
 	bool VerticalInput() {
-		return (Input.GetAxis("Vertical") != 0);
+		return (InputManager.VerticalInput() != 0);
 	}
 
 	bool UpButtonPress() {
-		bool upThisFrame = Input.GetAxis("Vertical") > 0;
+		bool upThisFrame = InputManager.VerticalInput() > 0;
 		bool b = !pressedUpLastFrame && upThisFrame;
 		pressedUpLastFrame = upThisFrame;
 		return b;
@@ -1296,6 +1292,6 @@ public class PlayerController : Entity {
 	}
 	
 	bool InputBackwards() {
-		return (ForwardScalar() * Mathf.Ceil(Input.GetAxis("Horizontal"))) < 0;
+		return (ForwardScalar() * Mathf.Ceil(InputManager.HorizontalInput())) < 0;
 	}
 }

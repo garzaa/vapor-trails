@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour {
@@ -7,6 +5,14 @@ public class InputManager : MonoBehaviour {
     static readonly float INPUT_TOLERANCE = 0.1f;
 
     static bool frozenInputs = false;
+
+    private static bool CheckFrozenInputs(string buttonName) {
+        return !frozenInputs
+            && (
+                Inputs.IsType(buttonName, InputType.MOVE)
+                || Inputs.IsType(buttonName, InputType.ACTION)
+            );
+    }
 
     public static bool HasHorizontalInput() {
         return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Inputs.H_AXIS)) > INPUT_TOLERANCE;
@@ -21,16 +27,15 @@ public class InputManager : MonoBehaviour {
     }
 
     public static bool ButtonDown(string buttonName) {
-        if (
-            frozenInputs
-            && (
-                Inputs.IsType(buttonName, InputType.MOVE)
-                || Inputs.IsType(buttonName, InputType.ACTION)
-            )
-        ) {
-            return false;
-        }
-        return Input.GetButtonDown(buttonName);
+        return CheckFrozenInputs(buttonName) && Input.GetButtonDown(buttonName);
+    }
+
+    public static bool Button(string buttonName) {
+        return CheckFrozenInputs(buttonName) && Input.GetButton(buttonName);
+    }
+
+    public static bool ButtonUp(string buttonName) {
+        return CheckFrozenInputs(buttonName) && Input.GetButtonUp(buttonName);
     }
 
     public static void FreezeInputs() {
