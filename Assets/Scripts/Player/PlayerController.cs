@@ -363,8 +363,8 @@ public class PlayerController : Entity {
 		}
 		
 		//fast fall
-		if (InputManager.VerticalInput()<-0.7 && rb2d.velocity.y < jumpCutoff && !grounded) {
-			rb2d.velocity = Vector2.down * moveSpeed;
+		if (InputManager.VerticalInput()<-0.7f && rb2d.velocity.y < jumpCutoff && !grounded) {
+			rb2d.velocity = new Vector2(rb2d.velocity.x, -speedLimiter.maxSpeedY);
 		}
 	}
 
