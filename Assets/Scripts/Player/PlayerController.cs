@@ -364,7 +364,7 @@ public class PlayerController : Entity {
 		
 		//fast fall
 		if (InputManager.VerticalInput()<-0.7f && rb2d.velocity.y < jumpCutoff && !grounded) {
-			rb2d.velocity = new Vector2(rb2d.velocity.x, -speedLimiter.maxSpeedY);
+			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(-speedLimiter.maxSpeedY/2, rb2d.velocity.y));
 		}
 	}
 
@@ -457,6 +457,7 @@ public class PlayerController : Entity {
 		if (grounded) {
 			BackwardDust();
 		}
+		Freeze();
 	}
 
 	private void EndEarlyDashInput() {
