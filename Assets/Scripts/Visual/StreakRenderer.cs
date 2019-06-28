@@ -14,8 +14,8 @@ public class StreakRenderer : LineRendererEditor {
 
     void LateUpdate() {
         Vector3[] points = new Vector3[2];
-        points[0] = start.position;
-        points[1] = end.position;
+        points[0] = start.localPosition;
+        points[1] = end.localPosition;
         line.SetPositions(points);
     }
 }
