@@ -12,8 +12,7 @@ public class PlayerAttack : Attack {
 
 	public float hitstopLength = 0.2f;
 
-	public GameObject leftHitmarker;
-	public GameObject rightHitmarker;
+	public bool rotateHitmarker = true;
 
 	void Start() {
 		attackerParent = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -59,13 +58,16 @@ public class PlayerAttack : Attack {
 		}
 	}
 
-	override public void MakeHitmarker(Vector2 pos) {
-		Entity parent = this.attackerParent;
-		if (parent.facingRight) {
-			Instantiate(rightHitmarker, pos, Quaternion.identity);
-		} else {
-			Instantiate(leftHitmarker, pos, Quaternion.identity);
-		}
+	override public void MakeHitmarker(Transform pos) {
+		GameObject h = Instantiate(hitmarker, attackerParent.transform);
+        h.transform.position = pos.position;
+        if (rotateHitmarker) {
+            h.transform.eulerAngles = new Vector3(
+                0,
+                0,
+                Vector2.Angle(Vector2.right, knockbackVector)
+            );
+        }
 	}
 
 	void EmitHitParticles(Collider2D otherCol) {

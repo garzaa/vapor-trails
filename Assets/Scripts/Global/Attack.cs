@@ -34,13 +34,9 @@ public class Attack : MonoBehaviour {
 		ExtendedAttackLand(victim);
 	}
 
-	public virtual void MakeHitmarker(Vector2 pos) {
-		Entity parent = this.attackerParent;
-		GameObject h = Instantiate(hitmarker, pos, Quaternion.identity).gameObject;
-		Vector2 s = h.transform.localScale;
-		s.x = UtilityMethods.BoolSign(parent.facingRight);
-		s.y = UtilityMethods.BoolSign(flipHitmarker)*-1;
-		h.transform.localScale = s;
+	public virtual void MakeHitmarker(Transform pos) {
+		GameObject h = Instantiate(hitmarker, pos);
+        h.transform.position = pos.position;
 	}
 
 	public void OnTriggerEnter2D(Collider2D otherCol) {

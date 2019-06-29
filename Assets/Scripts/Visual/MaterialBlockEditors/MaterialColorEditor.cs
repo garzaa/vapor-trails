@@ -13,7 +13,7 @@ public class MaterialColorEditor : MaterialBlockEditor {
         SetBlock();
     }
 
-    void Update() {
+    void LateUpdate() {
         if (color != valueLastFrame) {
             GetBlock();
             block.SetColor(valueName, color);

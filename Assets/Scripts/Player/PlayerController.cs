@@ -57,7 +57,6 @@ public class PlayerController : Entity {
 	bool grounded = false;
 	bool touchingWall = false;
 	int airJumps;
-	public bool midSwing = false;
 	bool dashCooldown = false;
 	public bool dashing = false;
 	bool inMeteor = false;
@@ -260,34 +259,32 @@ public class PlayerController : Entity {
 
 			float modifier = IsForcedWalking() ? 0.4f : 1f;
 			float hInput = InputManager.HorizontalInput() * modifier;
-			if (!touchingWall && !wallCheck.TouchingLedge() && (!midSwing || !grounded)) {
+			if (!touchingWall && !wallCheck.TouchingLedge()) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
 			} else {
 				anim.SetFloat("Speed", 0);
 			}
 
-			if (InputManager.HasHorizontalInput() && (!midSwing || !grounded)) {
-				if (InputManager.HorizontalInput() != 0) {
-					float xVec= hInput * moveSpeed;
-					if (IsSpeeding() && MovingForwards()) {
-						xVec = rb2d.velocity.x;
-					}
-					rb2d.velocity = (new Vector2(
-						xVec, 
-						rb2d.velocity.y)
-					);
-					movingRight = InputManager.HorizontalInput() > 0;
+			if (InputManager.HorizontalInput() != 0) {
+				float xVec= hInput * moveSpeed;
+				if (IsSpeeding() && MovingForwards()) {
+					xVec = rb2d.velocity.x;
 				}
-				//if they've just started running
-				if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
-					int scalar = rb2d.velocity.x > 0 ? 1 : -1;
-					if (scalar * ForwardScalar() > 0) {
-						BackwardDust();
-					} else {
-						ForwardDust();
-					}
-					HairBackwards();
+				rb2d.velocity = (new Vector2(
+					xVec, 
+					rb2d.velocity.y)
+				);
+				movingRight = InputManager.HorizontalInput() > 0;
+			}
+			//if they've just started running
+			if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
+				int scalar = rb2d.velocity.x > 0 ? 1 : -1;
+				if (scalar * ForwardScalar() > 0) {
+					BackwardDust();
+				} else {
+					ForwardDust();
 				}
+				HairBackwards();
 			}
 
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
@@ -596,9 +593,7 @@ public class PlayerController : Entity {
 	}
 
 	void InterruptAttack() {
-		CloseAllHurtboxes();
 		ResetAttackTriggers();
-		midSwing = false;
 	}
 
 	void InterruptMeteor() {

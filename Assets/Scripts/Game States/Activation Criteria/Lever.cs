@@ -35,7 +35,7 @@ public class Lever : ActivationCriteria {
 				SoundManager.HitSound();
 				//instantiate the hitmarker
 				if (a.hitmarker != null) {
-					a.MakeHitmarker(this.transform.position);
+					a.MakeHitmarker(this.transform);
 				}
 			}
 
