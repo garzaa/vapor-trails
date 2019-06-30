@@ -18,6 +18,7 @@ public class PlayerAttack : Attack {
 		attackerParent = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackedTags = new List<string>();
 		attackedTags.Add(Tags.EnemyHurtbox);
+		rb2d = attackerParent.GetComponent<Rigidbody2D>();
 	}
 
 	public override void ExtendedAttackLand(Entity e) {
@@ -26,7 +27,10 @@ public class PlayerAttack : Attack {
 		}
 		//run self knockback
 		if (selfKnockBack) {
-			attackerParent.GetComponent<Rigidbody2D>().velocity = selfKnockBackVector;
+			attackerParent.GetComponent<Rigidbody2D>().velocity = new Vector2(
+				forceX ? selfKnockBackVector.x * attackerParent.ForwardScalar() : attackerParent.GetComponent<Rigidbody2D>().velocity.x,
+				selfKnockBackVector.y
+			);
 		}
 		//give the player some energy
 		if (gainsEnergy) {

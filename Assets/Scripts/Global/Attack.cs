@@ -11,6 +11,7 @@ public class Attack : MonoBehaviour {
 	public float cameraShakeTime = 0.1f;
 	public bool selfKnockBack = false;
 	public Vector2 selfKnockBackVector = Vector2.zero;
+	public bool forceX = false;
 	public GameObject hitmarker;
 	public bool flipHitmarker = false;
 	public List<string> attackedTags;
@@ -18,7 +19,17 @@ public class Attack : MonoBehaviour {
 	public float stunLength = 0.2f;
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
+	public bool inheritMomentum = false;
 	public bool attackLandTrigger = false;
+
+	protected Rigidbody2D rb2d;
+
+	void Start() {
+		if (attackerParent == null) {
+			attackerParent = GetComponentInParent<Entity>();
+		}
+		rb2d = attackerParent.GetComponent<Rigidbody2D>();
+	}
 
 	public virtual int GetDamage() {
 		return this.damage;
@@ -53,10 +64,14 @@ public class Attack : MonoBehaviour {
 	}
 
 	public virtual Vector2 GetKnockback() {
-		return new Vector2(
-			x:knockbackVector.x * attackerParent.ForwardScalar(), 
+		Vector2 baseKnockback = new Vector2(
+			x:knockbackVector.x * attackerParent.ForwardScalar(),
 			y:knockbackVector.y
 		);
+		if (inheritMomentum) {
+			baseKnockback += rb2d.velocity;
+		}
+		return baseKnockback;
 	}
 	
 	public float GetStunLength() {
