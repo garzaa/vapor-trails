@@ -438,13 +438,12 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		InterruptAttack();
 		inMeteor = false;
+		anim.SetTrigger("Dash");
         if (unlocks.HasAbility(Ability.DamageDash)) {
             anim.SetTrigger("DamageDash");
 			envDmgSusceptible = false;
 			SetInvincible(true);
-        } else {
-			anim.SetTrigger("Dash");
-		}
+        }
 		dashing = true;
 		if (grounded) {
 			BackwardDust();
