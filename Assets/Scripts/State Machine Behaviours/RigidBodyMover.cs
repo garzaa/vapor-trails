@@ -6,6 +6,7 @@ public class RigidBodyMover : RigidBodyAffector {
     public bool forceX;
     public bool forceY;
     public bool entityForward;
+    public bool pickMax = false;
     Entity e;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -15,8 +16,12 @@ public class RigidBodyMover : RigidBodyAffector {
 
     override protected void Update() {
         rb2d.velocity = new Vector2(
-            forceX ? (entityForward ? x * e.ForwardScalar() : x) : rb2d.velocity.x,
+            forceX ? (pickMax ? (Mathf.Max(GetBase(), rb2d.velocity.x))*e.ForwardScalar() : GetBase()) : GetBase(),
             forceY ? y : rb2d.velocity.y
         );
+    }
+
+    float GetBase() {
+        return (entityForward ? x * e.ForwardScalar() : x);
     }
 }
