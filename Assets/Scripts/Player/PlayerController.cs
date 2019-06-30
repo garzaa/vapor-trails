@@ -202,7 +202,7 @@ public class PlayerController : Entity {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Inputs.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !dashing && !supercruise && !touchingWall) {
+		else if (InputManager.Button(Inputs.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !dashing && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
 		}
 
