@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreezeOnExit : StateMachineBehaviour {
+public class FreezeInState : StateMachineBehaviour {
 
 	public bool onEnter;
 	public bool during;
