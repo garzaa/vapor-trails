@@ -358,11 +358,6 @@ public class PlayerController : Entity {
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
 		}
-		
-		//fast fall
-		if (InputManager.VerticalInput()<-0.7f && rb2d.velocity.y < jumpCutoff && !grounded) {
-			rb2d.velocity = new Vector2(rb2d.velocity.x, Mathf.Min(-speedLimiter.maxSpeedY/2, rb2d.velocity.y));
-		}
 	}
 
 	float AdditiveJumpSpeed() {
