@@ -526,7 +526,7 @@ public class PlayerController : Entity {
 			hardFalling = false;
 			if (InputManager.HasHorizontalInput() && canFlip) {
 				anim.SetTrigger("Roll");
-			} else if (Mathf.Abs(rb2d.velocity.x) < 0.2) {
+			} else if (Mathf.Abs(rb2d.velocity.x) <= 4) {
 				anim.SetTrigger("HardLand");
 			}
 			SoundManager.HardLandSound();
