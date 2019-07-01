@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerSpeedLimiter : SpeedLimiter {
 
     public float dragAmount = 0.01f;
+    public bool clampSpeed = false;
     PlayerController pc;
 
     override protected void Start() {
@@ -15,9 +16,11 @@ public class PlayerSpeedLimiter : SpeedLimiter {
 			return;
 		}
 		float originalSign = Mathf.Sign(rb2d.velocity.x);
-		float reduced;
 		if (IsSpeeding()) {
-			reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-dragAmount, maxSpeedX);
+            float reduced = maxSpeedX;
+            if (!clampSpeed) {
+			    reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-dragAmount, maxSpeedX);
+            }
             rb2d.velocity = new Vector2(
                 reduced * originalSign,
                 rb2d.velocity.y

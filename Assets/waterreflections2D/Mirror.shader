@@ -55,7 +55,7 @@ Shader "FX/Mirror"
 
 			fixed4 SineDisplace(sampler2D _reflTex, float2 uv, fixed4 maskTex)
 			{
-				// poor man's Fresnel effect!
+				// poor man's Fresnel effect
 				float normY  = -(uv.y - _MainTex_TexelSize);
 				// distort more towards the bottom of screen
 				uv.x += pow(normY/30, 2) * sin(500*((normY)));
