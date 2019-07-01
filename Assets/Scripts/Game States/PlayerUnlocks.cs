@@ -35,21 +35,6 @@ public class PlayerUnlocks : MonoBehaviour {
 
 }
 
-public enum Ability {
-	Dash,
-	DamageDash,
-	GunEyes,
-	DoubleJump,
-	WallClimb,
-	Meteor,
-	Supercruise,
-	UpSlash,
-	Parry,
-	None,
-	Heal,
-	Hover
-}
-
 [System.Serializable]
 public class SerializableUnlocks {
 	public int maxHP = 3;
