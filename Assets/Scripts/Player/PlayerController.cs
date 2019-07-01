@@ -994,7 +994,6 @@ public class PlayerController : Entity {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 		SoundManager.DashSound();
 		this.supercruise = true;
-		anim.ResetTrigger("InterruptSupercruise");
 		anim.ResetTrigger("EndSupercruise");
 		BackwardDust();
 		Freeze();
@@ -1020,7 +1019,7 @@ public class PlayerController : Entity {
 		supercruise = false;
 		UnFreeze();
 		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
-		anim.SetTrigger("InterruptSupercruise");
+		anim.SetTrigger("EndSupercruise");
 	}
 
 	public void Heal() {
