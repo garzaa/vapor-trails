@@ -93,9 +93,9 @@ public class PlayerController : Entity {
 		"WARNING: WAVEFORM DESTABILIZED",
 		"Shutting down",
 		"Critical degradation detected",
-		"Error: segmentation fault",
+		"ERROR: SEGMENTATION FAULT",
 		"Core dumped",
-		"8: 0xD34DB4B3"
+		"16: 0xD34DB4B3"
 	};
 
 	void Start() {
