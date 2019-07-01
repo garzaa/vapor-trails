@@ -165,9 +165,6 @@ public class PlayerController : Entity {
 		}
 	}
 
-	public void AnimationLandMeteor() {
-	}
-
 	public void Parry() {
 		if (grounded && unlocks.HasAbility(Ability.Parry)) {
 			anim.SetTrigger("Parry");
@@ -194,20 +191,16 @@ public class PlayerController : Entity {
 		}
 
 
-		if (InputManager.ButtonDown(Inputs.ATTACK) && !frozen && !inMeteor) {
+		if (InputManager.ButtonDown(Inputs.ATTACK) && !inMeteor) {
 			anim.SetTrigger(Inputs.ATTACK);
 		}
-		else if (!grounded && InputManager.Button(Inputs.SPECIAL) && InputManager.VerticalInput() < 0 && !dashing && !supercruise) {
+		else if (!grounded && InputManager.Button(Inputs.SPECIAL) && InputManager.VerticalInput() < 0 && !supercruise) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Inputs.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !dashing && !supercruise && !touchingWall && !grounded) {
+		else if (InputManager.Button(Inputs.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
-		}
-
-		else if (InputManager.ButtonDown(Inputs.ATTACK) && InputManager.VerticalInput() < 0 && supercruise) {
-			anim.SetTrigger(Inputs.ATTACK);
 		}
 	}
 
@@ -384,7 +377,6 @@ public class PlayerController : Entity {
 	void WallJump() {
 		EndShortHopWindow();
 		SoundManager.SmallJumpSound();
-		InterruptDash();
 		InterruptMeteor();
 		if (touchingWall) DownDust();
 		InterruptAttack();
@@ -422,6 +414,10 @@ public class PlayerController : Entity {
 			}
 			return;
 		}
+		anim.SetTrigger("Dash");
+	}
+
+	public void StartDashAnimation() {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 		rb2d.velocity = new Vector2(
 			ForwardScalar() * (dashSpeed + preDashSpeed), 
@@ -438,12 +434,6 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		InterruptAttack();
 		inMeteor = false;
-		anim.SetTrigger("Dash");
-        if (unlocks.HasAbility(Ability.DamageDash)) {
-            anim.SetTrigger("DamageDash");
-			envDmgSusceptible = false;
-			SetInvincible(true);
-        }
 		dashing = true;
 		if (grounded) {
 			BackwardDust();
@@ -455,13 +445,11 @@ public class PlayerController : Entity {
 		earlyDashInput = false;
 	}
 
-	public void StopDashing() {
+	public void StopDashAnimation() {
         UnFreeze();
         dashing = false;
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
-		envDmgSusceptible = true;
-        SetInvincible(false);
-		CloseAllHurtboxes();
+		StartCombatCooldown();
 		if (MovingForwards() && InputManager.Button(Inputs.SPECIAL) && unlocks.HasAbility(Ability.Supercruise)) {
 			anim.SetTrigger("StartSupercruise");
 		}
@@ -473,15 +461,6 @@ public class PlayerController : Entity {
 
 	public bool MovingForwards() {
 		return (InputManager.HorizontalInput() * ForwardScalar()) > 0;
-	}
-
-	void InterruptDash() {
-		UnFreeze();
-        dashing = false;
-        StartCoroutine(StartDashCooldown(dashCooldownLength));
-		envDmgSusceptible = true;
-        SetInvincible(false);
-		CloseAllHurtboxes();
 	}
 
 	IEnumerator StartDashCooldown(float seconds) {
@@ -611,7 +590,6 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit() {
-		InterruptDash();
 		if (dashCooldown) {
 			EndDashCooldown();
 		}
@@ -655,14 +633,6 @@ public class PlayerController : Entity {
 		this.frozen = false;
 	}
 
-	public void CloseAllHurtboxes() {
-		foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
-            if (hurtbox.GetComponent<BoxCollider2D>().enabled) {
-                hurtbox.GetComponent<BoxCollider2D>().enabled = false;
-            } 
-        }
-	}
-
 	public void CyanSprite() {
 		cyan = true;
         spr.material = cyanMaterial;
@@ -692,7 +662,6 @@ public class PlayerController : Entity {
 
 	void MeteorSlam() {
 		if (inMeteor || dead) return;
-		InterruptBackstep();
 		inMeteor = true;
 		SetInvincible(true);
 		anim.SetTrigger("Meteor");
@@ -702,6 +671,7 @@ public class PlayerController : Entity {
 			x:0,
 			y:terminalSpeed
 		);
+		StartCombatCooldown();
 	}
 
 	void LandMeteor() {
@@ -765,7 +735,6 @@ public class PlayerController : Entity {
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
 		if (movingTowardsLedge) {
 			anim.SetTrigger(Inputs.JUMP);
-			InterruptDash();
 			EndDashCooldown();
 			ResetAirJumps();
 			InterruptAttack();
@@ -821,11 +790,16 @@ public class PlayerController : Entity {
 			cyan = false;
 			StartCoroutine(normalSprite());
 		}
-		if (dashing) {
-			InterruptDash();
-		}
 		anim.SetTrigger("Hurt");
 	}
+
+	public void EnableSkeleton() {
+		anim.SetBool("Skeleton", true);
+	}
+
+	public void DisableSkeleton() {
+		anim.SetBool("Skeleton", false);
+	} 
 
 	IEnumerator normalSprite() {
 		yield return new WaitForSeconds(.1f);
@@ -962,10 +936,8 @@ public class PlayerController : Entity {
 	void InterruptEverything() {
 		ResetAttackTriggers();
 		InterruptAttack();
-		InterruptDash();
 		InterruptMeteor();
 		InterruptSupercruise();
-		EndBackstep();
 	}
 
 	public void EnterDialogue() {
@@ -1106,17 +1078,6 @@ public class PlayerController : Entity {
 		SetInvincible(true);
 		envDmgSusceptible = false;
 		Freeze();
-	}
-
-	public void EndBackstep() {
-		InterruptBackstep();
-		BackwardDust();
-	}
-
-	void InterruptBackstep() {
-		SetInvincible(false);
-		UnFreeze();
-		Invoke("EnableBackstep", backstepCooldownLength);
 	}
 
 	public void EnableBackstep() {
