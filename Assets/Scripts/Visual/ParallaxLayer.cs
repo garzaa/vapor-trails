@@ -17,7 +17,7 @@ public class ParallaxLayer : MonoBehaviour {
 		if (gameCamera == null) return;
 		options = gameCamera.GetComponent<ParallaxOption>();
 		cameraTransform = gameCamera.transform;
-		previousCameraPosition = cameraTransform.position;
+		previousCameraPosition = Vector2.zero;
 	}
 
 	void Update () {

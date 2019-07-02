@@ -560,7 +560,7 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			return;
 		}
-		GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset, withParallax:true);
+		GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		UnLockInSpace();
 	}
 
