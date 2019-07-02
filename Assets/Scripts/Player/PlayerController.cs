@@ -185,21 +185,21 @@ public class PlayerController : Entity {
 		}
 		
 		if (!inCutscene && !forcedWalking) {
-			anim.SetBool("SpecialHeld", InputManager.Button(Inputs.SPECIAL));
+			anim.SetBool("SpecialHeld", InputManager.Button(Buttons.SPECIAL));
 		} else {
 			anim.SetBool("SpecialHeld", false);
 		}
 
 
-		if (InputManager.ButtonDown(Inputs.ATTACK) && !inMeteor) {
-			anim.SetTrigger(Inputs.ATTACK);
+		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
+			anim.SetTrigger(Buttons.ATTACK);
 		}
-		else if (!grounded && InputManager.Button(Inputs.SPECIAL) && InputManager.VerticalInput() < 0 && !supercruise) {
+		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < 0 && !supercruise) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Inputs.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !supercruise && !touchingWall && !grounded) {
+		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
 		}
 	}
@@ -221,7 +221,7 @@ public class PlayerController : Entity {
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
-		if (InputManager.ButtonDown(Inputs.JUMP) && supercruise) {
+		if (InputManager.ButtonDown(Buttons.JUMP) && supercruise) {
 			EndSupercruise();
 		}
 
@@ -234,14 +234,14 @@ public class PlayerController : Entity {
 			InterruptSupercruise();
 		}
 
-		if (InputManager.Button(Inputs.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
+		if (InputManager.Button(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			} 
 		}
 
 		if (!frozen && !(stunned || dead)) {
-			if (InputManager.VerticalInput() < 0) {
+			if (InputManager.VerticalInput() < 0 && InputManager.ButtonDown(Buttons.JUMP)) {
 				EdgeCollider2D platform = GetComponent<GroundCheck>().TouchingPlatform();
 				if (platform != null && grounded) {
 					DropThroughPlatform(platform);
@@ -328,7 +328,7 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (InputManager.ButtonDown(Inputs.JUMP)) {
+		if (InputManager.ButtonDown(Buttons.JUMP)) {
 			if (grounded && (InputManager.VerticalInput() >= 0)) {
 				GroundJump();
 			}
@@ -346,7 +346,7 @@ public class PlayerController : Entity {
 		}
 
 		//emulate an analog jump
-		if (InputManager.ButtonUp(Inputs.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
+		if (InputManager.ButtonUp(Buttons.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
@@ -369,7 +369,7 @@ public class PlayerController : Entity {
 			x:rb2d.velocity.x, 
 			y:jumpSpeed + AdditiveJumpSpeed()
 		);
-		anim.SetTrigger(Inputs.JUMP);
+		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
 	}
@@ -401,7 +401,7 @@ public class PlayerController : Entity {
 		);
 		ImpactDust();
 		airJumps--;
-		anim.SetTrigger(Inputs.JUMP);
+		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 	}
 
@@ -450,7 +450,7 @@ public class PlayerController : Entity {
         dashing = false;
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
-		if (MovingForwards() && InputManager.Button(Inputs.SPECIAL) && unlocks.HasAbility(Ability.Supercruise)) {
+		if (MovingForwards() && InputManager.Button(Buttons.SPECIAL) && unlocks.HasAbility(Ability.Supercruise)) {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
@@ -492,7 +492,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		SaveLastSafePos();
-		if (rb2d.velocity.y > 0 && InputManager.Button(Inputs.JUMP)) {
+		if (rb2d.velocity.y > 0 && InputManager.Button(Buttons.JUMP)) {
 			LedgeBoost();
 			return;
 		}
@@ -579,7 +579,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ResetAttackTriggers() {
-		anim.ResetTrigger(Inputs.ATTACK);
+		anim.ResetTrigger(Buttons.ATTACK);
 	}
 
 	void UpdateWallSliding() {
@@ -702,7 +702,7 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.GunEyes) || inCutscene) {
 			return;
 		}
-		if (InputManager.ButtonDown(Inputs.PROJECTILE) && canShoot && CheckEnergy() >= 1) {
+		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= 1) {
 			Sparkle();
 			SoundManager.ShootSound();
 			BackwardDust();
@@ -738,7 +738,7 @@ public class PlayerController : Entity {
 		}
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
 		if (movingTowardsLedge) {
-			anim.SetTrigger(Inputs.JUMP);
+			anim.SetTrigger(Buttons.JUMP);
 			EndDashCooldown();
 			ResetAirJumps();
 			InterruptAttack();

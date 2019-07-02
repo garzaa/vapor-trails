@@ -9,21 +9,21 @@ public class InputManager : MonoBehaviour {
     private static bool CheckFrozenInputs(string buttonName) {
         return !frozenInputs
             && (
-                Inputs.IsType(buttonName, InputType.MOVE)
-                || Inputs.IsType(buttonName, InputType.ACTION)
+                Buttons.IsType(buttonName, InputType.MOVE)
+                || Buttons.IsType(buttonName, InputType.ACTION)
             );
     }
 
     public static bool HasHorizontalInput() {
-        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Inputs.H_AXIS)) > INPUT_TOLERANCE;
+        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE;
     }
 
     public static float HorizontalInput() {
-        return frozenInputs ? 0 : Input.GetAxis(Inputs.H_AXIS);
+        return frozenInputs ? 0 : Input.GetAxis(Buttons.H_AXIS);
     }
 
     public static float VerticalInput() {
-        return frozenInputs ? 0 : Input.GetAxis(Inputs.V_AXIS);
+        return frozenInputs ? 0 : Input.GetAxis(Buttons.V_AXIS);
     }
 
     public static bool ButtonDown(string buttonName) {
