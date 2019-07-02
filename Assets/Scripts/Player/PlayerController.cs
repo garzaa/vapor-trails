@@ -11,7 +11,7 @@ public class PlayerController : Entity {
 	public float dashSpeed = 6f;
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
-	float dashCooldownLength = .5f;
+	float dashCooldownLength = .75f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	public int currentHP = 1;
@@ -499,6 +499,10 @@ public class PlayerController : Entity {
 		ImpactDust();
 		if (inMeteor) {
 			LandMeteor();
+		}
+		if (touchingWall) {
+			// wall touching reverses the player rig
+			Flip();
 		}
 		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
