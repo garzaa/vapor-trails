@@ -406,7 +406,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dashing || dead || touchingWall) {
+		if (dashCooldown || dead || touchingWall || frozen) {
 			// you can't just buttonmash to get the timing right
 			if (dashCooldown) {
 				earlyDashInput = true;

@@ -192,11 +192,11 @@ public class GlobalController : MonoBehaviour {
 			queuedNPCs.Enqueue(npc);
 			return;
 		}
-		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
 		dialogueUI.Show();
 		pc.EnterDialogue();
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
+		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
 	}
 
 	public static void ExitDialogue() {

@@ -14,4 +14,8 @@ public class NoFlip : StateMachineBehaviour {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         e.canFlip = true;
     }
+
+    public override void OnStateMachineExit(Animator animator, int stateMachinePathHash) {
+        e.canFlip = false;
+    }
 }
