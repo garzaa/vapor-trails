@@ -87,13 +87,12 @@ public class PlayerController : Entity {
 	GameObject instantiatedSparkle = null;
 
 	string[] deathText = {
-		"WARNING: WAVEFORM CRITICAL",
+		"WARNING: WAVEFORM UNSTABLE",
 		"Attempting backup",
 		"Backup failed!",
-		"WARNING: WAVEFORM DESTABILIZED",
-		"Shutting down",
 		"Critical degradation detected",
-		"ERROR: SEGMENTATION FAULT",
+		"WARNING: WAVEFORM DESTABILIZED",
+		"ERROR: NO_WAVE",
 		"Core dumped",
 		"16: 0xD34DB4B3"
 	};
@@ -774,11 +773,11 @@ public class PlayerController : Entity {
 		Hitstop.Run(0.2f);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
+		AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
 		if (this.currentHP == 0) {
 			return;
 		} else if (currentHP == 1) {
-			AlerterText.Alert("WARNING");
-			AlerterText.Alert("BODY WAVEFORM CRITICALLY DAMAGED");
+			AlerterText.Alert("WAVEFORM CRITICAL");
 		}
 		InvincibleFor(this.invincibilityLength);
 		CyanSprite();
