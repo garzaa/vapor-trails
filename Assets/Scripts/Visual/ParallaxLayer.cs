@@ -20,7 +20,7 @@ public class ParallaxLayer : MonoBehaviour {
 		previousCameraPosition = Vector2.zero;
 	}
 
-	public void Update () {
+	public void Update() {
 		if (cameraTransform == null ) {
 			return;
 		}
@@ -40,17 +40,17 @@ public class ParallaxLayer : MonoBehaviour {
 
 		Move();
 		previousCameraPosition = cameraTransform.position;
-		RoundChildren();
+		FloorChildren();
 	}
 
     public virtual void ExtendedStart() {
         
     }
 
-    void RoundChildren() {
-        this.transform.position = this.transform.position.Round(2);
+    void FloorChildren() {
+        this.transform.position = this.transform.position.Floor(2);
         foreach (Transform child in transform) {
-            child.position = child.position.Round(2);
+            child.position = child.position.Floor(2);
         }
     }
 

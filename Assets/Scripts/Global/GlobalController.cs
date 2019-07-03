@@ -301,12 +301,10 @@ public class GlobalController : MonoBehaviour {
 		if (!withParallax) DisableParallax();
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
-		if (withParallax) ForceParallaxUpdate();
 		pc.transform.position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		if (!withParallax) EnableParallax();
-		if (withParallax) ForceParallaxUpdate();
 		playerFollower.EnableSmoothing();
 	}
 
@@ -525,12 +523,5 @@ public class GlobalController : MonoBehaviour {
 
 	public static void DisableParallax() {
 		parallaxOption.moveParallax = false;
-	}
-
-	public static void ForceParallaxUpdate() {
-		ParallaxLayer[] ps = GameObject.FindObjectsOfType<ParallaxLayer>();
-		for (int i=0; i<ps.Length; i++) {
-			ps[i].Update();
-		}
 	}
 }

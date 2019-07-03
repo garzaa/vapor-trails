@@ -21,6 +21,25 @@
             Mathf.Round(vector3.z * multiplier) / multiplier);
     }
 
+    /// <summary>
+    /// Floors a Vector3.
+    /// </summary>
+    /// <param name="vector3"></param>
+    /// <param name="decimalPlaces"></param>
+    /// <returns></returns>
+    public static Vector3 Floor(this Vector3 vector3, int decimalPlaces = 2)
+    {
+        float multiplier = 1;
+        for (int i = 0; i < decimalPlaces; i++)
+        {
+            multiplier *= 10f;
+        }
+        return new Vector3(
+            Mathf.Floor(vector3.x * multiplier) / multiplier,
+            Mathf.Floor(vector3.y * multiplier) / multiplier,
+            Mathf.Floor(vector3.z * multiplier) / multiplier);
+    }
+
     public static Vector2 GetSnapToPositionToBringChildIntoView(this ScrollRect instance, RectTransform child)
     {
         Canvas.ForceUpdateCanvases();
@@ -33,7 +52,7 @@
         return result;
     }
 
-    public static int BoolSign(bool b) {
+    public static int Sign(bool b) {
         return b ? 1 : -1;
     }
  }
