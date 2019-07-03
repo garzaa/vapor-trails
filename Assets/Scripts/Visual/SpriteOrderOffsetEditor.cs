@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.UIElements;
 
 [CustomEditor(typeof(SpriteOrderOffset))]
 public class SpriteOrderOffsetEditor : Editor {
