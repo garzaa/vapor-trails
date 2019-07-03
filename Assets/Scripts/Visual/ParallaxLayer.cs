@@ -20,7 +20,7 @@ public class ParallaxLayer : MonoBehaviour {
 		previousCameraPosition = Vector2.zero;
 	}
 
-	void Update () {
+	public void Update () {
 		if (cameraTransform == null ) {
 			return;
 		}

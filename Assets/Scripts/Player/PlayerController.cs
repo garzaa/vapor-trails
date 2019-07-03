@@ -834,18 +834,14 @@ public class PlayerController : Entity {
 		Invoke("FinishDyingAnimation", 3f);
 		this.dead = true;
 		SoundManager.PlayerDieSound();
-		this.envDmgSusceptible = false;
 		currentEnergy = 0;
 		CameraShaker.Shake(0.2f, 0.1f);
-		deathParticles.Emit(50);
 		LockInSpace();
 		Freeze();
 		anim.SetTrigger("Die");
-		anim.SetBool("touchingWall", false);
-		DisableShooting();
+		anim.SetBool("TouchingWall", false);
 		InterruptEverything();
 		ResetAttackTriggers();
-		ResetAirJumps();
 	}
 
 	public void FinishDyingAnimation() {
@@ -854,19 +850,19 @@ public class PlayerController : Entity {
 	}
 
 	public void StartRespawning() {
-		this.envDmgSusceptible = true;
 		anim.SetTrigger("Respawn");
+		EndRespawnAnimation();
 	}
 
 	public void StartRespawnAnimation() {
 		Freeze();
-		LockInSpace();
 	}
 
 	public void EndRespawnAnimation() {
 		ResetAttackTriggers();
 		ResetAirJumps();
 		UnFreeze();
+		InputManager.UnfreezeInputs();
 		UnLockInSpace();
 		EnableShooting();
 		InvincibleFor(1f);
