@@ -297,14 +297,12 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
 
-	public static void MovePlayerTo(Vector2 position, bool withParallax = true) {
-		if (!withParallax) DisableParallax();
+	public static void MovePlayerTo(Vector2 position) {
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		pc.transform.position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
-		if (!withParallax) EnableParallax();
 		playerFollower.EnableSmoothing();
 	}
 
