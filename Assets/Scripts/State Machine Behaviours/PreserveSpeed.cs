@@ -9,6 +9,6 @@ public class PreserveSpeed : RigidBodyAffector {
     }
 
     override protected void Update() {
-        rb2d.velocity = originalVelocity;
+        rb2d.velocity = new Vector2(originalVelocity.x, rb2d.velocity.y);
     }
 }
