@@ -92,9 +92,9 @@ public class PlayerController : Entity {
 		"Backup failed!",
 		"Critical degradation detected",
 		"WARNING: WAVEFORM DESTABILIZED",
-		"ERROR: NO_WAVE",
 		"Core dumped",
-		"16: 0xD34DB4B3"
+		"16: 0xD34DB4B3",
+		"ERROR: NO_WAVE"
 	};
 
 	void Start() {
@@ -773,7 +773,9 @@ public class PlayerController : Entity {
 		Hitstop.Run(0.2f);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
-		AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
+		if (currentHP > 0) {
+			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
+		}
 		if (this.currentHP == 0) {
 			return;
 		} else if (currentHP == 1) {
@@ -1099,7 +1101,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ForceWalking() {
-		this.forcedWalking = true;
+		//this.forcedWalking = true;
 	}
 
 	public void StopForcedWalking() {
