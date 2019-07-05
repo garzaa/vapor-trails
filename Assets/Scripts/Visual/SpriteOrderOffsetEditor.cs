@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -14,3 +15,4 @@ public class SpriteOrderOffsetEditor : Editor {
         }
     }
 }
+#endif
