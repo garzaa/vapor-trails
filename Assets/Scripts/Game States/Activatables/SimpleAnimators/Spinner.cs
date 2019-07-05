@@ -5,7 +5,7 @@ public class Spinner : SimpleAnimator {
 
     override protected void Draw() {
         Vector3 r = this.transform.rotation.eulerAngles;
-        r.z = (r.z + speed) % 360;
+        r.z = (r.z + (speed * Time.deltaTime)) % 360;
         this.transform.rotation = Quaternion.Euler(r);
     }
 }

@@ -82,14 +82,13 @@ public class Entity : MonoBehaviour {
     public void StunFor(float seconds) {
 		if (staggerable) {
 			//if the enemy is already stunned, then resstart the stun period
-			if (stunned) {
-				StopCoroutine(unStunRoutine);
-				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
-			} else {
-				stunned = true;
-                frozen = true;
-				unStunRoutine = StartCoroutine(WaitAndUnStun(seconds));
-			}
+            CancelInvoke("UnStun");
+            if (this.GetComponent<Animator>() != null) {
+                Animator anim = GetComponent<Animator>();
+                anim.logWarnings = false;
+                anim.SetBool("Stunned", true);
+            }
+            Invoke("UnStun", seconds);
 		}
 	}
 
@@ -100,10 +99,8 @@ public class Entity : MonoBehaviour {
 		}
 	}
 
-	IEnumerator WaitAndUnStun(float seconds) {
-		yield return new WaitForSeconds(seconds);
+	void UnStun() {
 		stunned = false;
-        frozen = false;
         if (this.GetComponent<Animator>() != null) {
             Animator anim = GetComponent<Animator>();
             anim.logWarnings = false;
