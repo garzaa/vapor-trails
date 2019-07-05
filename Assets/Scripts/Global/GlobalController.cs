@@ -36,7 +36,7 @@ public class GlobalController : MonoBehaviour {
 	static RespawnManager rm;
 	public static InventoryController inventory;
 
-	static Queue<NPC> queuedNPCs;
+	static Queue<NPC> queuedNPCs = new Queue<NPC>();
 
 	static int saveSlot = 1;
 	static ParallaxOption parallaxOption;
@@ -52,9 +52,8 @@ public class GlobalController : MonoBehaviour {
 			Destroy(this.gameObject);
 			return;
 		}
-		queuedNPCs = new Queue<NPC>();
-		titleText = editorTitleText;
 		DontDestroyOnLoad(this);
+		titleText = editorTitleText;
 		dialogueUI = GetComponentInChildren<DialogueUI>();
 		signUI = GetComponentInChildren<SignUI>();
 		pc = GetComponentInChildren<PlayerController>();
