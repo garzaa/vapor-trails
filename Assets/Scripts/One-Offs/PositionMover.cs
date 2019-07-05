@@ -12,8 +12,8 @@ public class PositionMover : MonoBehaviour {
         if (currentDestination >= destinations.Length) {
             return;
         }
-        this.transform.position = Vector2.MoveTowards(this.transform.position, destinations[currentDestination].transform.position, speed * Time.deltaTime);
-        if (this.transform.position.Equals(destinations[currentDestination].transform.position)) {
+        transform.position = Vector2.MoveTowards(transform.position, destinations[currentDestination].position, speed * Time.deltaTime);
+        if (transform.position.Equals(destinations[currentDestination].position)) {
             currentDestination += 1;
             if (loop && currentDestination >= destinations.Length) {
                 currentDestination = 0;
