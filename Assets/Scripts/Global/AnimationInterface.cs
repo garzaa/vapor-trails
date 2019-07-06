@@ -127,6 +127,10 @@ public class AnimationInterface : MonoBehaviour {
 		anim.SetTrigger(choice);
 	}
 
+	public void RandomFloatChoice(float max) {
+		anim.SetFloat("RandomFloat", Random.Range(0f, max));
+	}
+
 	public void Deactivate() {
 		this.gameObject.SetActive(false);
 	}
