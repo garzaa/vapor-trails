@@ -4,8 +4,8 @@ public class Spinner : SimpleAnimator {
     public float speed;
 
     override protected void Draw() {
-        Vector3 r = this.transform.rotation.eulerAngles;
+        Vector3 r = transform.rotation.eulerAngles;
         r.z = (r.z + (speed * Time.deltaTime)) % 360;
-        this.transform.rotation = Quaternion.Euler(r);
+        transform.rotation = Quaternion.Euler(r);
     }
 }
