@@ -81,11 +81,10 @@ public class Entity : MonoBehaviour {
 
     public void StunFor(float seconds) {
 		if (staggerable) {
-			//if the enemy is already stunned, then resstart the stun period
+			//if the enemy is already stunned, then restart the stun period
             CancelInvoke("UnStun");
             if (this.GetComponent<Animator>() != null) {
                 Animator anim = GetComponent<Animator>();
-                anim.logWarnings = false;
                 anim.SetBool("Stunned", true);
             }
             Invoke("UnStun", seconds);
@@ -103,7 +102,6 @@ public class Entity : MonoBehaviour {
 		stunned = false;
         if (this.GetComponent<Animator>() != null) {
             Animator anim = GetComponent<Animator>();
-            anim.logWarnings = false;
 		    anim.SetBool("Stunned", false);
         }
 	}
