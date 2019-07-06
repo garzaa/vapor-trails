@@ -11,6 +11,7 @@ public class Enemy : Entity {
 	public int totalHP;
 	public int moveForce;
 	public int maxSpeed;
+	public float diStrength;
 
 	public float moneyChance = 0f;
 
@@ -64,6 +65,11 @@ public class Enemy : Entity {
 
 	public virtual void Initialize() {
 
+	}
+
+	override public void KnockBack(Vector2 kv) {
+		kv += Random.insideUnitCircle * diStrength;
+		base.KnockBack(kv);
 	}
 
 	public void DamageFor(int dmg) {
