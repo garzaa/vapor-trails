@@ -136,4 +136,9 @@ public class Entity : MonoBehaviour {
         float sign = o.transform.position.x - this.transform.position.x;
         return ((facingRight && sign>0) || (!facingRight && sign<0));
     }
+
+    public bool IsFacing(GameObject other) {
+        return (facingRight && other.transform.position.x > this.transform.position.x) 
+            || (!facingRight && other.transform.position.x < this.transform.position.x);
+    }
 }

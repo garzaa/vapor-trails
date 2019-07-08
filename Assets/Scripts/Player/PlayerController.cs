@@ -36,7 +36,9 @@ public class PlayerController : Entity {
 	SpeedLimiter speedLimiter;
 	bool canParry = false;
 	float parryTimeout = 5f/60f;
+	bool missedParry = false;
 	bool movingForwardsLastFrame;
+	float missedInputCooldown = 40f/60f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -169,6 +171,8 @@ public class PlayerController : Entity {
 	}
 
 	public void Parry() {
+		missedParry = false;
+		CancelInvoke("EndMissedParryWindow");
 		SoundManager.PlaySound(SoundManager.sm.parry);
 		AlerterText.Alert("Executing sequence PARRY");
 		GainEnergy(1);
@@ -247,8 +251,10 @@ public class PlayerController : Entity {
 			} 
 		}
 
-		if (!movingForwardsLastFrame && MovingForwards()) {
+		if (!movingForwardsLastFrame && MovingForwards() && !missedParry) {
 			StartParryWindow();
+			missedParry = true;
+			Invoke("EndMissedParryWindow", missedInputCooldown);
 		}
 
 		if (!frozen && !(stunned || dead)) {
@@ -423,7 +429,7 @@ public class PlayerController : Entity {
 			// you can't just buttonmash to get the timing right
 			if (dashCooldown) {
 				earlyDashInput = true;
-				Invoke("EndEarlyDashInput", 0.2f);
+				Invoke("EndEarlyDashInput", missedInputCooldown);
 			}
 			return;
 		}
@@ -490,7 +496,7 @@ public class PlayerController : Entity {
 			FlashCyanOnce();
 			dashCooldown = false;
 			perfectDashPossible = true;
-			Invoke("ClosePerfectDashWindow", 0.1f);
+			Invoke("ClosePerfectDashWindow", 0.2f);
 		}
 	}
 
@@ -767,7 +773,7 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (canParry) {
+		if (canParry && this.IsFacing(attack.attackerParent.gameObject)) {
 			Parry();
 			return;
 		}
@@ -1227,5 +1233,9 @@ public class PlayerController : Entity {
 
 	public void EndParryWindow() {
 		canParry = false;
+	}
+
+	public void EndMissedParryWindow() {
+		missedParry = false;
 	}
 }
