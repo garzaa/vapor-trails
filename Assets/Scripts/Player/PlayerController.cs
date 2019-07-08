@@ -34,6 +34,9 @@ public class PlayerController : Entity {
 	Vector2 lastSafeOffset;
 	GameObject lastSafeObject;
 	SpeedLimiter speedLimiter;
+	bool canParry = false;
+	float parryTimeout = 5f/60f;
+	bool movingForwardsLastFrame;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -84,6 +87,7 @@ public class PlayerController : Entity {
 	public Transform sparkle;
 	public Transform dust;
 	public GameObject impactParticles;
+	public ParticleSystem parryParticles;
 	GameObject instantiatedSparkle = null;
 
 	string[] deathText = {
@@ -165,9 +169,13 @@ public class PlayerController : Entity {
 	}
 
 	public void Parry() {
-		if (grounded && unlocks.HasAbility(Ability.Parry)) {
-			anim.SetTrigger("Parry");
-		}
+		SoundManager.PlaySound(SoundManager.sm.parry);
+		AlerterText.Alert("Executing sequence PARRY");
+		GainEnergy(1);
+		parryParticles.Emit(15);
+		Hitstop.Run(0.5f);
+		StartCombatCooldown();
+		anim.SetTrigger("Parry");
 	}
 
 	public void EndShortHopWindow() {
@@ -237,6 +245,10 @@ public class PlayerController : Entity {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			} 
+		}
+
+		if (!movingForwardsLastFrame && MovingForwards()) {
+			StartParryWindow();
 		}
 
 		if (!frozen && !(stunned || dead)) {
@@ -315,6 +327,8 @@ public class PlayerController : Entity {
 		if (touchingWall && !grounded && !InputManager.HasHorizontalInput()) {
 			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 		}
+
+		movingForwardsLastFrame = MovingForwards();
 	}
 
 	public bool IsSpeeding() {
@@ -750,6 +764,11 @@ public class PlayerController : Entity {
 
 	public override void OnHit(Attack attack) {
 		if (dead) {
+			return;
+		}
+
+		if (canParry) {
+			Parry();
 			return;
 		}
 
@@ -1198,5 +1217,15 @@ public class PlayerController : Entity {
 	
 	bool InputBackwards() {
 		return (ForwardScalar() * Mathf.Ceil(InputManager.HorizontalInput())) < 0;
+	}
+
+	public void StartParryWindow() {
+		CancelInvoke("EndParryWindow");
+		canParry = true;
+		Invoke("EndParryWindow", parryTimeout);
+	}
+
+	public void EndParryWindow() {
+		canParry = false;
 	}
 }

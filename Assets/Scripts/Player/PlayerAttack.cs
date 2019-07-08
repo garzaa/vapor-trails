@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : Attack {
-
-	public bool gainsEnergy = false;
+	
 	int energyGained = 1;
-
-	public bool costsEnergy = false;
 	int energyCost = 1;
 
+	public bool gainsEnergy = false;
+	public bool costsEnergy = false;
 	public float hitstopLength = 0.2f;
-
 	public bool rotateHitmarker = true;
 
 	void Start() {
@@ -50,7 +47,7 @@ public class PlayerAttack : Attack {
 		}
 	}
 
-	new void OnTriggerEnter2D(Collider2D otherCol) {
+	override protected void OnTriggerEnter2D(Collider2D otherCol) {
 		if (attackedTags.Contains(otherCol.tag)) {
 			//if it takes energy to inflict damage, don't run any of the hit code
 			if (this.costsEnergy && this.energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {

@@ -50,7 +50,7 @@ public class Attack : MonoBehaviour {
         h.transform.position = pos.position;
 	}
 
-	public void OnTriggerEnter2D(Collider2D otherCol) {
+	virtual protected void OnTriggerEnter2D(Collider2D otherCol) {
 		if (!ExtendedAttackCheck(otherCol)) {
 			return;
 		}

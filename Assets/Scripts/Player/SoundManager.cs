@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip footfall;
 	public AudioClip heal;
 	public AudioClip itemGet;
+	public AudioClip parry;
 	public List<AudioClip> voices;
 
 	public static SoundManager sm;
@@ -27,6 +28,10 @@ public class SoundManager : MonoBehaviour {
 	void Start() {
 		sm = this;
 		a = GetComponent<AudioSource>();
+	}
+
+	public static void PlaySound(AudioClip s) {
+		sm.a.PlayOneShot(s);
 	}
 
 	public static void HitSound() {
