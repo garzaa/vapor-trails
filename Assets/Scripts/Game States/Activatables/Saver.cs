@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Saver : Activatable {
-	public override void Activate() {
+	override public void Activate() {
+		AlerterText.Alert("Game saved");
 		GlobalController.SaveGame(true);
+	}
+
+	override public void ActivateSwitch(bool b) {
+		if (b) Activate();
 	}
 }
