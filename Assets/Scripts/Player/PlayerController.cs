@@ -177,6 +177,7 @@ public class PlayerController : Entity {
 		AlerterText.Alert("Executing sequence PARRY");
 		GainEnergy(1);
 		parryParticles.Emit(15);
+		InvincibleFor(0.5f);
 		Hitstop.Run(0.5f);
 		StartCombatCooldown();
 		anim.SetTrigger("Parry");

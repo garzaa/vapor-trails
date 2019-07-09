@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Saver : Activatable {
 	override public void Activate() {
-		AlerterText.Alert("Game saved");
 		GlobalController.SaveGame(true);
 	}
 
