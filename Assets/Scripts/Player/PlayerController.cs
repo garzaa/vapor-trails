@@ -35,7 +35,7 @@ public class PlayerController : Entity {
 	GameObject lastSafeObject;
 	SpeedLimiter speedLimiter;
 	bool canParry = false;
-	float parryTimeout = 5f/60f;
+	float parryTimeout = 6f/60f;
 	bool missedParry = false;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 40f/60f;
@@ -774,12 +774,12 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (canParry && this.IsFacing(attack.attackerParent.gameObject)) {
-			Parry();
+		if (invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			return;
 		}
 
-		if (invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
+		if (canParry && this.IsFacing(attack.attackerParent.gameObject)) {
+			Parry();
 			return;
 		}
 
