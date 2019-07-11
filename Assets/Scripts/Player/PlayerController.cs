@@ -38,7 +38,7 @@ public class PlayerController : Entity {
 	float parryTimeout = 6f/60f;
 	bool missedParry = false;
 	bool movingForwardsLastFrame;
-	float missedInputCooldown = 40f/60f;
+	float missedInputCooldown = 20f/60f;
 
 	//linked components
 	Rigidbody2D rb2d;
