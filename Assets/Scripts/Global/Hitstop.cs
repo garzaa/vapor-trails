@@ -12,12 +12,12 @@ public class Hitstop : MonoBehaviour{
 	}
 
 	public static void Run(float seconds) {
-		instance.StartCoroutine(DoHitstop(seconds));
+		Time.timeScale = 0.1f;
+		instance.CancelInvoke("EndHitstop");
+		instance.Invoke("EndHitstop", seconds);
 	}
 
-	static IEnumerator DoHitstop(float seconds) {
+	static void EndHitstop() {
 		Time.timeScale = 0.1f;
-		yield return new WaitForSecondsRealtime(seconds);
-		Time.timeScale = 1f;
 	}
 }
