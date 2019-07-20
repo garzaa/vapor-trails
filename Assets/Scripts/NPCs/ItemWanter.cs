@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ public class ItemWanter : PersistentObject {
     public Activatable noActivation;
 
     bool acceptedItemBefore;
-    bool persistent;
+    bool persistent = false;
     public bool consumesItems = false;
 
     override public void Start() {

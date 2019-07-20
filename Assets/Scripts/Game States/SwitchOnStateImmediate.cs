@@ -6,7 +6,6 @@ public class SwitchOnStateImmediate : SwitchOnState {
 
 	public bool waitsUntilInvisible = false;
 	bool queuedReaction = false;
-	bool visible = false;
 
 	public void ReactToStateChange() {
 		if (waitsUntilInvisible) {
@@ -17,15 +16,9 @@ public class SwitchOnStateImmediate : SwitchOnState {
 	}
 
 	void OnBecameInvisible() {
-		this.visible = false;
 		if (queuedReaction) {
 			Awake();
 			queuedReaction = false;
 		}
 	}
-
-	void OnBecameVisible() {
-		this.visible = true;
-	}
-
 }

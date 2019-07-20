@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -7,7 +5,6 @@ using System.Linq;
 
 public class InventoryUI : UIComponent {
     public Animator animator;
-    InventoryItem currentlySelectedItem;
     InventoryController inventoryController;
     
     public GameObject itemPaneTemplate;
@@ -38,7 +35,6 @@ public class InventoryUI : UIComponent {
 
     public override void Hide() {
         animator.SetBool("Shown", false);
-        currentlySelectedItem = null;
     }
 
     void SelectFirstChild() {

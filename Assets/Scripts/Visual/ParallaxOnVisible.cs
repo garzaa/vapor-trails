@@ -5,7 +5,6 @@ using UnityEngine;
 public class ParallaxOnVisible : MonoBehaviour {
     public Vector2 speed;
     Transform mainCamera;
-    Vector3 originalPos;
     Vector3 originalCamPos;
     bool parallaxEnabled = false;
 
@@ -22,7 +21,7 @@ public class ParallaxOnVisible : MonoBehaviour {
                 this.transform.position.z
             );
             Vector3 totalCamDelta = camPos - originalCamPos;
-            transform.position = originalPos + Vector3.Scale(totalCamDelta, new Vector3(speed.x, speed.y));
+            transform.position = Vector3.Scale(totalCamDelta, new Vector3(speed.x, speed.y));
         } 
     }
 
@@ -33,6 +32,6 @@ public class ParallaxOnVisible : MonoBehaviour {
 
     void OnBecameInvisible() {
         this.parallaxEnabled = false;
-        this.transform.position = this.originalPos;
+        this.transform.position = Vector2.zero; 
     }
 }

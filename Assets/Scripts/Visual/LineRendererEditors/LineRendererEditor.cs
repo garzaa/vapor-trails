@@ -8,5 +8,6 @@ public class LineRendererEditor : MonoBehaviour {
 
     virtual protected void Start() {
         line = GetComponent<LineRenderer>();
+        line.useWorldSpace = false;
     }
 }

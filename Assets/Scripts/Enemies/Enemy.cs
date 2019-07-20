@@ -11,7 +11,9 @@ public class Enemy : Entity {
 	public int totalHP;
 	public int moveForce;
 	public int maxSpeed;
-	public float diStrength;
+	public float diStrength = 0.5f;
+	public float diScaleMagnitude = 0.1f;
+	private int selfJuggleChain;
 
 	public float moneyChance = 0f;
 
@@ -68,7 +70,8 @@ public class Enemy : Entity {
 	}
 
 	override public void KnockBack(Vector2 kv) {
-		kv += Random.insideUnitCircle * diStrength;
+		selfJuggleChain++;
+		kv += Random.insideUnitCircle * diStrength * (selfJuggleChain*diScaleMagnitude);
 		base.KnockBack(kv);
 	}
 
@@ -126,6 +129,11 @@ public class Enemy : Entity {
 			StartCoroutine(normalSprite());
 		}
 		ExtendedUpdate();
+	}
+
+	override protected void UnStun() {
+		selfJuggleChain = 0;
+		base.UnStun();
 	}
 
 	public virtual void ExtendedUpdate() {

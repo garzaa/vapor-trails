@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +6,6 @@ public class TransitionManager : MonoBehaviour {
 
 	Beacon currentBeacon = Beacon.None;
 	bool frozePlayerBeforeTransition = false;
-	bool closedJets = false;
 	bool toPosition = false;
 	Vector2 position = Vector2.zero;
 

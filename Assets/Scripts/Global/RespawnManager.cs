@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class RespawnManager : MonoBehaviour {
 
-	bool savedGameOnce;
 	bool toRespawn;
 	GameObject player;
 
@@ -19,7 +18,7 @@ public class RespawnManager : MonoBehaviour {
     }
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		if (toRespawn && !savedGameOnce) {
+		if (toRespawn) {
 			toRespawn = false;
 			GlobalController.StartPlayerRespawning();
 		}

@@ -22,7 +22,6 @@ public class PlayerController : Entity {
 	float invincibilityLength = .5f;
 	int healCost = 1;
 	int healAmt = 1;
-	float backstepCooldownLength = .2f;
 	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
 	float preDashSpeed;
@@ -79,7 +78,6 @@ public class PlayerController : Entity {
 	bool flashingCyan = false;
 	bool cyanLastFrame = false;
 	bool runningLastFrame = false;
-	bool backstepCooldown = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
 
@@ -108,8 +106,8 @@ public class PlayerController : Entity {
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		this.facingRight = false;
-		currentHP = 5; //unlocks.maxHP;
-		currentEnergy = 5; //unlocks.maxEnergy;
+		currentHP = unlocks.maxHP;
+		currentEnergy = unlocks.maxEnergy;
 		maxEnergy = 5;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
@@ -117,7 +115,6 @@ public class PlayerController : Entity {
 		gunEyes = transform.Find("GunEyes").transform;
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
-		anim.SetBool("CanSupercruise", unlocks.HasAbility(Ability.Supercruise));
 		Flip();
 		ResetAirJumps();
 		lastSafeOffset = this.transform.position;
@@ -287,6 +284,7 @@ public class PlayerController : Entity {
 				);
 				movingRight = InputManager.HorizontalInput() > 0;
 			}
+
 			//if they've just started running
 			if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
 				int scalar = rb2d.velocity.x > 0 ? 1 : -1;
@@ -427,7 +425,6 @@ public class PlayerController : Entity {
 
 	public void Dash() {
 		if (dashCooldown || dead || touchingWall || frozen) {
-			// you can't just buttonmash to get the timing right
 			if (dashCooldown) {
 				earlyDashInput = true;
 				Invoke("EndEarlyDashInput", missedInputCooldown);
@@ -1094,22 +1091,6 @@ public class PlayerController : Entity {
 		), Quaternion.identity, this.transform).gameObject;
 		d.transform.rotation = Quaternion.Euler(0, 0, 90 * ForwardScalar());
 		d.transform.parent = null;
-	}
-
-	void Backstep() {
-		StopWallTimeout();
-		SoundManager.ShootSound();
-		anim.SetTrigger("BackStep");
-		backstepCooldown = true;
-		InterruptAttack();
-		inMeteor = false;
-		SetInvincible(true);
-		envDmgSusceptible = false;
-		Freeze();
-	}
-
-	public void EnableBackstep() {
-		backstepCooldown = false;
 	}
 
 	void OnEnviroDamage(EnviroDamage e) {

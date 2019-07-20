@@ -98,7 +98,7 @@ public class Entity : MonoBehaviour {
 		}
 	}
 
-	void UnStun() {
+	virtual protected void UnStun() {
 		stunned = false;
         if (this.GetComponent<Animator>() != null) {
             Animator anim = GetComponent<Animator>();
