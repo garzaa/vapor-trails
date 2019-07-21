@@ -103,11 +103,6 @@ public class GlobalController : MonoBehaviour {
 
 	void LateUpdate() {
 
-		if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveGame();
-        }
-
         if (Input.GetKeyDown(KeyCode.L))
         {
             LoadGame();
