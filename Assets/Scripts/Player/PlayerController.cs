@@ -1044,7 +1044,7 @@ public class PlayerController : Entity {
 	}
 
 	bool UpButtonPress() {
-		bool upThisFrame = InputManager.VerticalInput() > 0;
+		bool upThisFrame = InputManager.VerticalInput() > 0.5;
 		bool b = !pressedUpLastFrame && upThisFrame;
 		pressedUpLastFrame = upThisFrame;
 		return b;
