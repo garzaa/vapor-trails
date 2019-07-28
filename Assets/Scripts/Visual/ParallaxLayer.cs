@@ -18,7 +18,7 @@ public class ParallaxLayer : MonoBehaviour {
 		options = gameCamera.GetComponent<ParallaxOption>();
 		cameraTransform = gameCamera.transform;
 		previousCameraPosition = Vector2.zero;
-		RoundChildren();
+		RoundChildren(this.transform);
 	}
 
 	public void Update() {
@@ -47,9 +47,11 @@ public class ParallaxLayer : MonoBehaviour {
         
     }
 
-    void RoundChildren() {
-        foreach (Transform child in transform) {
-            child.localPosition = child.localPosition.Round(2);
+    void RoundChildren(Transform t) {
+		t.position = t.position.Round(2);
+        foreach (Transform child in t) {
+            child.position = child.position.Round(2);
+			RoundChildren(child);
         }
     }
 
