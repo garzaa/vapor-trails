@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(SpriteMask))]
 public class SpriteMaskLink : MonoBehaviour {
     public SpriteRenderer otherSpriteRenderer;
     SpriteMask mask;
