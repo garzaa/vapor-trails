@@ -17,7 +17,7 @@ public class Lightning : MonoBehaviour {
 
 	LineRenderer lineRenderer;
 
-	void Start() {
+	void OnEnable() {
 		lineRenderer = GetComponent<LineRenderer>();
 		if (pointA == null || pointB == null) {
 			Debug.Log("brainlet alert");

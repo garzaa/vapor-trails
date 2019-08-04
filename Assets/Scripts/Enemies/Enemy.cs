@@ -48,6 +48,7 @@ public class Enemy : Entity {
 		playerObject = GameObject.Find("Player");
 		if ((anim = this.GetComponent<Animator>()) != null) {
 			this.hasAnimator = true;
+			anim.logWarnings = false;
 		}
 		behaviors = this.GetComponents<EnemyBehavior>();
 

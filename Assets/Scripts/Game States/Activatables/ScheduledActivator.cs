@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ScheduledActivator : Activator {
 
-	float timeout = 0f;
-	float delay = 0f;
+	public float timeout = 0f;
+	public float delay = 0f;
 
 	public override void Start() {
 		base.Start();
