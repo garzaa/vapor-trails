@@ -38,6 +38,9 @@ public class InventoryUI : UIComponent {
     }
 
     void SelectFirstChild() {
+        if (gridHolder.childCount == 0) {
+            return;
+        }
         Button b = gridHolder.GetChild(0).GetComponent<Button>();
         b.Select();
         b.OnSelect(new BaseEventData(eventSystem));
