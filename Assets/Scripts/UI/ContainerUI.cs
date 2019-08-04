@@ -8,29 +8,13 @@ public class ContainerUI : UIComponent {
 	public int max;
 	public int current;
 
-	public Image emptyContainer;
-	public Image fullContainer;
-
-	public Transform initialContainer;
-
-	//how far apart to space the containers
-	//taken from the width from the screen edge :^)
-	float initialGap;
-	float initialRectWidth;
-	float containerWidth;
-	Vector2 initialPos;
+	public GameObject containerPrefab;
+	public Transform gridContainer;
 
 	bool hidden;
 
 	public void Start() {
-		InitPositions();
 		DrawContainers();
-	}
-
-	void InitPositions() {
-		initialGap = initialContainer.GetComponent<RectTransform>().position.x;
-		initialPos = initialContainer.transform.position;
-		initialRectWidth = initialContainer.GetComponent<RectTransform>().rect.width * GetCanvasScale();
 	}
 
 	void DrawContainers() {
@@ -38,29 +22,22 @@ public class ContainerUI : UIComponent {
 			return;
 		}
 
-		containerWidth = initialRectWidth;
-		ClearContainers();
-
-		//for each full container, draw one
-		for (int i=0; i<current; i++) {
-			Vector2 newPos = new Vector2(
-				x:initialPos.x + (i * (containerWidth + initialGap)),
-				y:initialPos.y
-			);
-			Image img = Instantiate(fullContainer, newPos, Quaternion.identity, this.transform);
+		if (gridContainer.childCount < max) {
+			for (int i=1; i<=max; i++) {
+				if (i > gridContainer.childCount) {
+					Instantiate(containerPrefab, Vector3.zero, Quaternion.identity, gridContainer);
+				}
+			}
+		} else if (gridContainer.childCount > max) {
+			for (int i=0; i<max-current; i++) {
+				Destroy(gridContainer.GetChild(gridContainer.childCount-1).gameObject);
+			}
 		}
-		//then do the same for the empty containers 
-		for (int i=current; i<max; i++) {
-			Vector2 newPos = new Vector2(
-				x:initialPos.x + (i * (containerWidth + initialGap)),
-				y:initialPos.y
-			);
-			Image img = Instantiate(emptyContainer, newPos, Quaternion.identity, this.transform);
-		}
-	}
 
-	float GetCanvasScale() {
-		return GameObject.Find("PixelCanvas").GetComponent<Canvas>().scaleFactor;
+		for (int i=0; i<gridContainer.childCount; i++) {
+			gridContainer.GetChild(i).GetComponent<Animator>().SetBool("Full", i<current);
+		}
+		
 	}
 
 	public void SetMax(int newMax) {
@@ -73,29 +50,11 @@ public class ContainerUI : UIComponent {
 		DrawContainers();
 	}
 
-	void ClearContainers() {
-		foreach (Transform t in this.transform) {
-			Destroy(t.gameObject);
-		}
-	}
-
 	public override void Hide() {
 		this.hidden = true;
-		foreach (Image i in GetComponentsInChildren<Image>()) {
-			i.enabled = false;
-		}
-		foreach (Text t in GetComponentsInChildren<Text>()) {
-			t.enabled = false;
-		}
 	}
 
 	public override void Show() {
 		this.hidden = false;
-		//dumb hack, but hey
-		DrawContainers();
-		foreach (Text t in GetComponentsInChildren<Text>()) {
-			t.enabled = true;
-		}
 	}
-	
 }

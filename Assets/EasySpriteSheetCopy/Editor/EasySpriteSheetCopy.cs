@@ -161,8 +161,8 @@ public class EasySpriteSheetCopy{
 		TextureImporter currentTexture = command.context as TextureImporter;
 		
 		// change names to match current texture
-		String newName = GetFileName(currentTexture);
-		clipboard.spriteData = UpdateSpriteNames(newName, clipboard);
+		// String newName = GetFileName(currentTexture);
+		// clipboard.spriteData = UpdateSpriteNames(newName, clipboard);
 
 		// scale
 		clipboard.spriteData = ScaleSprites(clipboard, scale);

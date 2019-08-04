@@ -216,6 +216,7 @@ public class PlayerController : Entity {
 			anim.SetFloat("Speed", 0f);
 			if (grounded) rb2d.velocity = Vector2.zero;
 			anim.SetFloat("VerticalInput", 0f);
+			anim.SetBool("HorizontalInput", false);
 			return;
 		}
 
