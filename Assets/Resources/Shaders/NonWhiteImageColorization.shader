@@ -6,7 +6,7 @@ Properties {
 }
 
 Category {
-	Tags {"IgnoreProjector"="True" "RenderType"="Transparent" }
+	Tags {"IgnoreProjector"="True" "RenderType"="Transparent" "Queue"="Transparent"}
 	Name "MainPass"
 	Blend SrcAlpha OneMinusSrcAlpha
 	AlphaTest Greater .01
