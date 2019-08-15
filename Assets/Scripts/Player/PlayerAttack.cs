@@ -50,12 +50,14 @@ public class PlayerAttack : Attack {
 	override protected void OnTriggerEnter2D(Collider2D otherCol) {
 		if (attackedTags.Contains(otherCol.tag)) {
 			//if it takes energy to inflict damage, don't run any of the hit code
-			if (this.costsEnergy && this.energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {
+			if (costsEnergy && energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {
 				return;
 			}
-			otherCol.GetComponent<Hurtbox>().OnHit(this);
-			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
-			this.EmitHitParticles(otherCol);
+			if (otherCol.GetComponent<Hurtbox>() != null) {
+				otherCol.GetComponent<Hurtbox>().OnHit(this);
+				OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+			}
+			EmitHitParticles(otherCol);
 		}
 	}
 
