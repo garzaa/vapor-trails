@@ -11,15 +11,14 @@ public class TargetingSystem : MonoBehaviour {
 	public GameObject targetingUI;
 	Animator targetAnim;
 
+	List<Ability> playerUnlocks;
+
 	void Start() {
-		PlayerUnlocks playerUnlocks = gameObject.GetComponentInParent<PlayerUnlocks>();
-		if (playerUnlocks == null) {
-			return;
-		}
-		List<Ability> unlocks = playerUnlocks.unlockedAbilities;
-		if (!unlocks.Contains(Ability.GunEyes)) {
-			gameObject.SetActive(false);
-		}
+		playerUnlocks = gameObject.GetComponentInParent<PlayerUnlocks>().unlockedAbilities;
+	}
+
+	bool CanTarget() {
+		return playerUnlocks.Contains(Ability.GunEyes);
 	}
 
 	void OnEnable() {
@@ -63,7 +62,8 @@ public class TargetingSystem : MonoBehaviour {
 	}
 
 	void Update() {
-		if (targetingUI == null) {
+		if (targetingUI == null || !CanTarget()) {
+			targetAnim.SetBool("Locked", false);
 			return;
 		}
 		Transform closest = GetClosestTarget(this.transform);

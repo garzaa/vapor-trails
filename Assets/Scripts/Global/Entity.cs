@@ -85,6 +85,7 @@ public class Entity : MonoBehaviour {
             CancelInvoke("UnStun");
             if (this.GetComponent<Animator>() != null) {
                 Animator anim = GetComponent<Animator>();
+                anim.SetTrigger("OnHit");
                 anim.SetBool("Stunned", true);
             }
             Invoke("UnStun", seconds);

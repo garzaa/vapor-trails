@@ -48,7 +48,7 @@ public class PlayerController : Entity {
 	Material defaultMaterial;
     Material cyanMaterial;
 	Transform gunEyes;
-	Gun gun;
+	public Gun gun;
 	public ContainerUI healthUI;
 	public ContainerUI energyUI;
 	public ParticleSystem deathParticles;

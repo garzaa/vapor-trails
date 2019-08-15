@@ -79,11 +79,6 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<BinarySaver>().NewGamePlus();
 		Save s = gc.GetComponent<Save>();
 		pc.LoadFromSaveData(s);
-		foreach (Ability a in s.unlocks.unlockedAbilities) {
-			if (a.Equals(Ability.GunEyes)) {
-				pc.targetingSystem.SetActive(true);
-			}
-		}
 		LoadScene("Paradise/Tutorial");
 	}
 
@@ -369,11 +364,6 @@ public class GlobalController : MonoBehaviour {
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
 		}
-		foreach (Ability a in s.unlocks.unlockedAbilities) {
-			if (a.Equals(Ability.GunEyes)) {
-				pc.targetingSystem.SetActive(true);
-			}
-		}
  	}
 
 	public static bool SavedInOtherScene() {
@@ -471,9 +461,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void UnlockAbility(Ability a) {
 		save.UnlockAbility(a);
-		if (a.Equals(Ability.GunEyes)) {
-			pc.targetingSystem.SetActive(true);
-		}
 	}
 
 	static NPC MakeItemPickupDialogue(InventoryItem item) { 
