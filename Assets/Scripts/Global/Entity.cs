@@ -21,6 +21,10 @@ public class Entity : MonoBehaviour {
         if (!canFlip) {
             return;
         }
+        ForceFlip();
+    }
+
+    public virtual void ForceFlip() {
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
@@ -139,6 +143,7 @@ public class Entity : MonoBehaviour {
     }
 
     public bool IsFacing(GameObject other) {
+        if (other == null) return false;
         return (facingRight && other.transform.position.x > this.transform.position.x) 
             || (!facingRight && other.transform.position.x < this.transform.position.x);
     }

@@ -59,7 +59,7 @@ public class PlayerController : Entity {
 
 	//variables
 	bool grounded = false;
-	bool touchingWall = false;
+	GameObject touchingWall = null;
 	int airJumps;
 	bool dashCooldown = false;
 	public bool dashing = false;
@@ -169,6 +169,7 @@ public class PlayerController : Entity {
 		InvincibleFor(0.5f);
 		Hitstop.Run(0.5f);
 		StartCombatCooldown();
+		EndParryWindow();
 		anim.SetTrigger("Parry");
 	}
 
@@ -262,7 +263,7 @@ public class PlayerController : Entity {
 			float hInput = InputManager.HorizontalInput() * modifier;
 			if (!touchingWall && !wallCheck.TouchingLedge()) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
-			} else {
+			} else if (IsFacing(touchingWall)) {
 				anim.SetFloat("Speed", 0);
 			}
 
@@ -279,7 +280,7 @@ public class PlayerController : Entity {
 			}
 
 			//if they've just started running
-			if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !touchingWall) {
+			if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !IsFacing(touchingWall)) {
 				int scalar = rb2d.velocity.x > 0 ? 1 : -1;
 				if (scalar * ForwardScalar() > 0) {
 					BackwardDust();
@@ -460,7 +461,7 @@ public class PlayerController : Entity {
         dashing = false;
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
-		if (MovingForwards() && InputManager.Button(Buttons.SPECIAL) && unlocks.HasAbility(Ability.Supercruise)) {
+		if (MovingForwards() && InputManager.Button(Buttons.SPECIAL) && unlocks.HasAbility(Ability.Supercruise) && !InputManager.Button(Buttons.ATTACK)) {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
@@ -593,17 +594,17 @@ public class PlayerController : Entity {
 	}
 
 	void UpdateWallSliding() {
-		bool touchingLastFrame = touchingWall;
-		touchingWall = wallCheck.TouchingWall() && !dead;
-		if (!touchingLastFrame && touchingWall) {
-			OnWallHit();
+		GameObject touchingLastFrame = touchingWall;
+		touchingWall = wallCheck.TouchingWall();
+		if (!touchingLastFrame && touchingWall && !justLeftWall) {
+			OnWallHit(touchingWall);
 		} 
 		else if (touchingLastFrame && !touchingWall) {
 			OnWallLeave();
 		}
 	}
 
-	void OnWallHit() {
+	void OnWallHit(GameObject touchingWall) {
 		if (dashCooldown) {
 			EndDashCooldown();
 		}
@@ -612,6 +613,9 @@ public class PlayerController : Entity {
 		anim.SetBool("TouchingWall", true);
 		if (!grounded) SoundManager.HardLandSound();
 		ResetAirJumps();
+		if (!IsFacing(touchingWall) && !grounded) {
+			ForceFlip();
+		}
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
 			CancelBufferedJump();

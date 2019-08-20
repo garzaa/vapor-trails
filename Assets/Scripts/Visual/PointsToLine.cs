@@ -12,7 +12,6 @@ public class PointsToLine : MonoBehaviour {
 	void Start() {
 		lineRenderer = GetComponent<LineRenderer>();
 		lineRenderer.positionCount = points.Count;
-		lineRenderer.useWorldSpace = false;
 	}
 
 	void Update() {

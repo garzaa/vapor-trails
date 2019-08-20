@@ -15,7 +15,7 @@ public class PixelSnapper : MonoBehaviour {
     void Update()
     {
         int lastPixelScale = pixelScale;
-        pixelScale = (Screen.height / 720) + 1;
+        //pixelScale = (Screen.height / 720) + 1;
 
         if (pixelScale != lastPixelScale) {
             _camera.orthographicSize = Screen.height * (0.005f / pixelScale);
