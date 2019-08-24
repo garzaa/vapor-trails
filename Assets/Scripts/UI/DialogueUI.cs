@@ -22,6 +22,7 @@ public class DialogueUI : UIComponent {
 	Sprite nextImage;
 
 	public override void Show() {
+		anim.SetBool("LastLine", false);
 		ClearDialogue();
 		anim.SetBool("Letterboxed", true);
 	}

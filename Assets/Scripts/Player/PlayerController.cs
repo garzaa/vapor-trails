@@ -598,7 +598,7 @@ public class PlayerController : Entity {
 		touchingWall = wallCheck.TouchingWall();
 		if (!touchingLastFrame && touchingWall && !justLeftWall) {
 			OnWallHit(touchingWall);
-		} 
+		}
 		else if (touchingLastFrame && !touchingWall) {
 			OnWallLeave();
 		}
