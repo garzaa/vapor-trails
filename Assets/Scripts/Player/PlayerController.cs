@@ -751,7 +751,7 @@ public class PlayerController : Entity {
 			return;
 		}
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
-		if (movingTowardsLedge) {
+		if (movingTowardsLedge && InputManager.VerticalInput() > 0.2f) {
 			anim.SetTrigger(Buttons.JUMP);
 			EndDashCooldown();
 			ResetAirJumps();
