@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Entity {
@@ -38,6 +37,7 @@ public class PlayerController : Entity {
 	bool missedParry = false;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
+	float coyoteTime = 0.1f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -67,6 +67,7 @@ public class PlayerController : Entity {
 	bool terminalFalling = false;
 	bool cyan = false;
 	public bool justLeftWall = false;
+	bool justLeftGround = false;
 	Coroutine currentWallTimeout;
 	bool canShoot = true;
 	Coroutine platformTimeout;
@@ -222,7 +223,6 @@ public class PlayerController : Entity {
 		}
 
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
-		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 		if (InputManager.ButtonDown(Buttons.JUMP) && supercruise) {
 			EndSupercruise();
@@ -576,6 +576,13 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundLeave() {
+		float interval = 0;
+		if (rb2d.velocity.y <= 0) interval = coyoteTime;
+		StartCoroutine(GroundLeaveTimeout(interval));
+	}
+
+	IEnumerator GroundLeaveTimeout(float interval) {
+		yield return new WaitForSecondsRealtime(interval);
 		grounded = false;
 		anim.SetBool("Grounded", false);
 	}
@@ -910,7 +917,7 @@ public class PlayerController : Entity {
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(coyoteTime);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
 	}
