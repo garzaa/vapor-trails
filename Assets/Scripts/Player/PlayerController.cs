@@ -81,6 +81,7 @@ public class PlayerController : Entity {
 	bool runningLastFrame = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
+	bool justFlipped = false;
 
 
 	//other misc prefabs
@@ -474,6 +475,18 @@ public class PlayerController : Entity {
 
 	public bool MovingForwards() {
 		return (InputManager.HorizontalInput() * ForwardScalar()) > 0;
+	}
+
+	override public void ForceFlip() {
+		base.ForceFlip();
+		justFlipped = true;
+		anim.SetBool("JustFlipped", true);
+		Invoke("EndFlipWindow", coyoteTime * 2f);
+	}
+
+	void EndFlipWindow() {
+		justFlipped = false;
+		anim.SetBool("JustFlipped", false);
 	}
 
 	IEnumerator StartDashCooldown(float seconds) {
