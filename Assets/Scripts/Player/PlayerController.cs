@@ -219,10 +219,12 @@ public class PlayerController : Entity {
 			if (grounded) rb2d.velocity = Vector2.zero;
 			anim.SetFloat("VerticalInput", 0f);
 			anim.SetBool("HorizontalInput", false);
+			anim.SetFloat("VerticalSpeed", 0f);
 			return;
 		}
 
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
+		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 		if (InputManager.ButtonDown(Buttons.JUMP) && supercruise) {
 			EndSupercruise();
