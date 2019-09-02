@@ -481,7 +481,6 @@ public class PlayerController : Entity {
 		base.ForceFlip();
 		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
-		Invoke("EndFlipWindow", coyoteTime * 2f);
 	}
 
 	void EndFlipWindow() {
@@ -1083,7 +1082,6 @@ public class PlayerController : Entity {
 	}
 
 	public void ForwardDust() {
-		if (!grounded) return;
  		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * ForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
@@ -1093,7 +1091,6 @@ public class PlayerController : Entity {
 	}
 
 	public void BackwardDust() {
-		if (!grounded) return;
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x - 0.32f * ForwardScalar(),
 			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
