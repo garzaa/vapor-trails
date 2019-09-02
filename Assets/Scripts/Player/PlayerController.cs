@@ -431,10 +431,11 @@ public class PlayerController : Entity {
 		anim.SetTrigger("Dash");
 	}
 
-	public void StartDashAnimation() {
+	public void StartDashAnimation(bool backwards) {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
+		float newSpeed = ((backwards ? 0 : dashSpeed) + preDashSpeed);
 		rb2d.velocity = new Vector2(
-			ForwardScalar() * (dashSpeed + preDashSpeed), 
+			ForwardScalar() * newSpeed, 
 			Mathf.Max(rb2d.velocity.y, 0)
 		);
 		if (perfectDashPossible && !earlyDashInput) {
@@ -464,7 +465,7 @@ public class PlayerController : Entity {
         dashing = false;
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
-		if (MovingForwards() && InputManager.Button(Buttons.SPECIAL) && unlocks.HasAbility(Ability.Supercruise) && !InputManager.Button(Buttons.ATTACK)) {
+		if (MovingForwards() && InputManager.Button(Buttons.SPECIAL) && unlocks.HasAbility(Ability.Supercruise) && !InputManager.Button(Buttons.ATTACK) && !justFlipped) {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
@@ -481,6 +482,7 @@ public class PlayerController : Entity {
 		base.ForceFlip();
 		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
+		Invoke("EndFlipWindow", coyoteTime * 2f);
 	}
 
 	void EndFlipWindow() {
