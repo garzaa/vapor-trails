@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour {
 
+	public string attackName;
 	public int damage = 1;
 	[Range(0, 2f)]
 	public float cameraShakeIntensity = .1f;

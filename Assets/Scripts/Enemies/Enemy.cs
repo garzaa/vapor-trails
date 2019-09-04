@@ -76,7 +76,7 @@ public class Enemy : Entity {
 		base.KnockBack(kv);
 	}
 
-	public void DamageFor(int dmg) {
+	virtual public void DamageFor(int dmg) {
 		this.hp -= dmg;
 		if (this.hp <= 0 && !dead) {
 			Die();

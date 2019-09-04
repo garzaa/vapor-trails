@@ -927,7 +927,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &904415963
 BoxCollider2D:
@@ -967,6 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Parry
   damage: 0
   cameraShakeIntensity: 0.05
   cameraShakeTime: 0
@@ -12184,8 +12185,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4833181364373188}
-  - component: {fileID: 114966018533542240}
   - component: {fileID: 61998996344265180}
+  - component: {fileID: 114966018533542240}
   m_Layer: 11
   m_Name: Meteor
   m_TagString: PlayerHitbox
@@ -12205,40 +12206,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114966018533542240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1179581034779330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 2
-  cameraShakeIntensity: 0.2
-  cameraShakeTime: 0.2
-  selfKnockBack: 0
-  selfKnockBackVector: {x: 0, y: 0}
-  forceX: 0
-  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
-    type: 3}
-  flipHitmarker: 0
-  attackedTags: []
-  attackerParent: {fileID: 0}
-  stunLength: 0.2
-  knockBack: 1
-  knockbackVector: {x: 0, y: -10}
-  inheritMomentum: 0
-  attackLandTrigger: 0
-  gainsEnergy: 0
-  costsEnergy: 1
-  hitstopLength: 0
-  rotateHitmarker: 1
 --- !u!61 &61998996344265180
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12265,6 +12234,39 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114966018533542240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179581034779330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Meteor Spike
+  damage: 2
+  cameraShakeIntensity: 0.2
+  cameraShakeTime: 0.2
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.2
+  knockBack: 1
+  knockbackVector: {x: 0, y: -10}
+  inheritMomentum: 0
+  attackLandTrigger: 0
+  gainsEnergy: 0
+  costsEnergy: 1
+  hitstopLength: 0
+  rotateHitmarker: 1
 --- !u!1 &1187988023406702
 GameObject:
   m_ObjectHideFlags: 0
@@ -13345,6 +13347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Light Punch
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
@@ -13472,7 +13475,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61571123422440548
 BoxCollider2D:
@@ -13512,6 +13515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Orca Fist
   damage: 3
   cameraShakeIntensity: 0
   cameraShakeTime: 0
@@ -13683,6 +13687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Medium Punch
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
@@ -19102,6 +19107,7 @@ Transform:
   - {fileID: 6268907377787452381}
   - {fileID: 3008678515523752534}
   - {fileID: 2340882430023202027}
+  - {fileID: 6629551232949104433}
   - {fileID: 4247729878894152}
   - {fileID: 4833181364373188}
   - {fileID: 4696207732370504}
@@ -19112,6 +19118,9 @@ Transform:
   - {fileID: 4816421236441364359}
   - {fileID: 8917558420256518478}
   - {fileID: 44299666145833810}
+  - {fileID: 823046922103804979}
+  - {fileID: 8833002391058632556}
+  - {fileID: 7595343372445247065}
   m_Father: {fileID: 4078833572404762}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19145,7 +19154,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61646847540539000
 BoxCollider2D:
@@ -19185,6 +19194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Rocket Knee
   damage: 3
   cameraShakeIntensity: 1
   cameraShakeTime: 0.2
@@ -24669,7 +24679,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61905031991245590
 BoxCollider2D:
@@ -24709,6 +24719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: 
   damage: 1
   cameraShakeIntensity: 0
   cameraShakeTime: 0
@@ -26044,7 +26055,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814514134950208}
-  m_LocalRotation: {x: -0, y: 0, z: -0.07637088, w: 0.9970795}
+  m_LocalRotation: {x: -0, y: 0, z: -0.12419905, w: 0.99225736}
   m_LocalPosition: {x: 0.02000046, y: -0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -36788,7 +36799,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61313471450201874
 BoxCollider2D:
@@ -36828,6 +36839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Air Stomp
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0
@@ -42622,7 +42634,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4085933246619100747
 BoxCollider2D:
@@ -42662,6 +42674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Speed Punch
   damage: 2
   cameraShakeIntensity: 2
   cameraShakeTime: 0.3
@@ -52496,6 +52509,97 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &1210331095684684732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8833002391058632556}
+  - component: {fileID: 6057516898668140099}
+  - component: {fileID: 2723527972896899896}
+  m_Layer: 11
+  m_Name: AirHighKick
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8833002391058632556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210331095684684732}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6057516898668140099
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210331095684684732}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.012735486, y: 0.089117706}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.97913885, y: 0.7782353}
+  m_EdgeRadius: 0
+--- !u!114 &2723527972896899896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210331095684684732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Air High Kick
+  damage: 1
+  cameraShakeIntensity: 0.3
+  cameraShakeTime: 0.2
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.8
+  knockBack: 1
+  knockbackVector: {x: 1, y: 1}
+  inheritMomentum: 1
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.2
+  rotateHitmarker: 1
 --- !u!1 &1238502847566848690
 GameObject:
   m_ObjectHideFlags: 0
@@ -57429,6 +57533,97 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &1430831813443523809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6629551232949104433}
+  - component: {fileID: 9048497690488974842}
+  - component: {fileID: 4323360495703973791}
+  m_Layer: 11
+  m_Name: GroundedAxeKick
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6629551232949104433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430831813443523809}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &9048497690488974842
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430831813443523809}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.1716764, y: 0.10928261}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.26126003, y: 0.81856513}
+  m_EdgeRadius: 0
+--- !u!114 &4323360495703973791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430831813443523809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Axe Kick
+  damage: 1
+  cameraShakeIntensity: 0.1
+  cameraShakeTime: 0.1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 1
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.5
+  knockBack: 1
+  knockbackVector: {x: 0, y: 3}
+  inheritMomentum: 0
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.1
+  rotateHitmarker: 1
 --- !u!1 &1504570538378557117
 GameObject:
   m_ObjectHideFlags: 0
@@ -57505,6 +57700,12 @@ LineRenderer:
   - {x: 0.15086475, y: 0.3046963, z: 0}
   - {x: 0.19560836, y: 0.27809596, z: 0}
   - {x: 0.23576705, y: 0.24497734, z: 0}
+  - {x: 0.2703996, y: 0.20611663, z: 0}
+  - {x: 0.29869416, y: 0.16242473, z: 0}
+  - {x: 0.31998762, y: 0.11492573, z: 0}
+  - {x: 0.33378085, y: 0.064732954, z: 0}
+  - {x: 0.33975053, y: 0.013022906, z: 0}
+  - {x: 0.3377567, y: -0.03899239, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.05
@@ -57623,7 +57824,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &8284806745756616020
 BoxCollider2D:
@@ -57663,6 +57864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Speed Elbow
   damage: 2
   cameraShakeIntensity: 2
   cameraShakeTime: 0.3
@@ -58048,7 +58250,16 @@ LineRenderer:
   m_SortingLayerID: 1545236751
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Positions: []
+  m_Positions:
+  - {x: 0, y: 0.24, z: 0}
+  - {x: 0.03663583, y: 0.2371873, z: 0}
+  - {x: 0.072412945, y: 0.22881512, z: 0}
+  - {x: 0.106492765, y: 0.21507972, z: 0}
+  - {x: 0.13807648, y: 0.19630304, z: 0}
+  - {x: 0.1664238, y: 0.17292517, z: 0}
+  - {x: 0.1908703, y: 0.14549409, z: 0}
+  - {x: 0.21084294, y: 0.114652745, z: 0}
+  - {x: 0.2258736, y: 0.08112404, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.02
@@ -66267,6 +66478,97 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!1 &4278336549449539635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 823046922103804979}
+  - component: {fileID: 7441046804197957447}
+  - component: {fileID: 731770291156434952}
+  m_Layer: 11
+  m_Name: DiveKick
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &823046922103804979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278336549449539635}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &7441046804197957447
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278336549449539635}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.28742564, y: -0.099999964}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7748513, y: 0.39999998}
+  m_EdgeRadius: 0
+--- !u!114 &731770291156434952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4278336549449539635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Dive Kick
+  damage: 1
+  cameraShakeIntensity: 0.1
+  cameraShakeTime: 0.1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.2
+  knockBack: 1
+  knockbackVector: {x: 0, y: 0}
+  inheritMomentum: 1
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.1
+  rotateHitmarker: 0
 --- !u!1 &4387468557166325361
 GameObject:
   m_ObjectHideFlags: 0
@@ -67341,6 +67643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Leg Sweep
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
@@ -92647,7 +92950,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4338551156720876754
 BoxCollider2D:
@@ -92687,6 +92990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Aerial Axe Kick
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0
@@ -102702,6 +103006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Round Kick
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
@@ -108910,6 +109215,97 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!1 &8303992752302443843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7595343372445247065}
+  - component: {fileID: 3728708344750720666}
+  - component: {fileID: 5621462706986959035}
+  m_Layer: 11
+  m_Name: BoostSlide
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7595343372445247065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8303992752302443843}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &3728708344750720666
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8303992752302443843}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.21328878, y: 0.049182087}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.24592876, y: 0.362611}
+  m_EdgeRadius: 0
+--- !u!114 &5621462706986959035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8303992752302443843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Boost Slide
+  damage: 2
+  cameraShakeIntensity: 2
+  cameraShakeTime: 0.3
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 6132825138956427381, guid: 1c93c76b97477454c87139715f559ee0,
+    type: 3}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.6
+  knockBack: 1
+  knockbackVector: {x: 0, y: 0}
+  inheritMomentum: 1
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.3
+  rotateHitmarker: 0
 --- !u!1 &8356814653729267149
 GameObject:
   m_ObjectHideFlags: 0
@@ -109780,7 +110176,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2679787362227658250
 BoxCollider2D:
@@ -109820,6 +110216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: Flip Kick
   damage: 1
   cameraShakeIntensity: 0.3
   cameraShakeTime: 0.2
@@ -110081,6 +110478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: High Kick
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
