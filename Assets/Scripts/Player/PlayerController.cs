@@ -32,9 +32,10 @@ public class PlayerController : Entity {
 	Vector2 lastSafeOffset;
 	GameObject lastSafeObject;
 	SpeedLimiter speedLimiter;
-	bool canParry = false;
+	public GameObject parryEffect;
+	public bool canParry = false;
 	float parryTimeout = 6f/60f;
-	bool missedParry = false;
+	public bool missedParry = false;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
 	float coyoteTime = 0.1f;
@@ -161,17 +162,19 @@ public class PlayerController : Entity {
 		}
 	}
 
-	public void Parry() {
+	public void Parry(Attack attack) {
 		missedParry = false;
 		CancelInvoke("EndMissedParryWindow");
 		SoundManager.PlaySound(SoundManager.sm.parry);
-		AlerterText.Alert("Executing sequence PARRY");
 		GainEnergy(1);
-		parryParticles.Emit(15);
-		InvincibleFor(0.5f);
-		Hitstop.Run(0.5f);
+		// parryParticles.Emit(15);
+		// Hitstop.Run(0.5f);
+		// InvincibleFor(0.5f);
 		StartCombatCooldown();
-		EndParryWindow();
+		// parries can chain together as long as there's a hit every 0.5 seconds
+		CancelInvoke("EndParryWindow");
+		Invoke("EndParryWindow", 15f);
+		Instantiate(parryEffect, (Vector2) attack.transform.position + Random.insideUnitCircle * 0.1f, Quaternion.identity);
 		anim.SetTrigger("Parry");
 	}
 
@@ -791,12 +794,12 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
+		if (!canParry && invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			return;
 		}
 
-		if (canParry && this.IsFacing(attack.attackerParent.gameObject)) {
-			Parry();
+		if (canParry) {
+			Parry(attack);
 			return;
 		}
 

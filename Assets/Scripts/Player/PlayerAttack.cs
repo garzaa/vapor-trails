@@ -92,7 +92,7 @@ public class PlayerAttack : Attack {
 
 	public void OnDeflect() {
 		attackerParent.GetComponent<PlayerController>().GainEnergy(1);
-		attackerParent.GetComponent<PlayerController>().Parry();
+		attackerParent.GetComponent<PlayerController>().Parry(this);
 	}
 
 	override public int GetDamage() {

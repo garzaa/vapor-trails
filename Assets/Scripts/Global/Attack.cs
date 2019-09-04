@@ -37,9 +37,6 @@ public class Attack : MonoBehaviour {
 	}
 
 	public void OnAttackLand(Entity victim) {
-		if (cameraShakeTime>0f && victim.GetComponent<PlayerController>() != null) {
-			CameraShaker.Shake(cameraShakeIntensity, cameraShakeTime);
-		}
 		if (attackLandTrigger) {
 			attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
 		}
