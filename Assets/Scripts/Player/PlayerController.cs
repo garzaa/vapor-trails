@@ -17,6 +17,7 @@ public class PlayerController : Entity {
 	public int currentEnergy = 5;
 	public int maxEnergy = 5;
 	public int maxHP = 5;
+	private int parryCount = 0;
 	public int baseDamage = 1;
 	float invincibilityLength = .5f;
 	int healCost = 1;
@@ -162,19 +163,33 @@ public class PlayerController : Entity {
 		}
 	}
 
-	public void Parry(Attack attack) {
+	public void Parry() {
+		if (parryCount == 0) {
+			FirstParry();
+		} else {
+		}
+		parryCount += 1;
 		missedParry = false;
 		CancelInvoke("EndMissedParryWindow");
 		SoundManager.PlaySound(SoundManager.sm.parry);
 		GainEnergy(1);
-		// parryParticles.Emit(15);
-		// Hitstop.Run(0.5f);
-		// InvincibleFor(0.5f);
 		StartCombatCooldown();
 		// parries can chain together as long as there's a hit every 0.5 seconds
 		CancelInvoke("EndParryWindow");
-		Invoke("EndParryWindow", 15f);
-		Instantiate(parryEffect, (Vector2) attack.transform.position + Random.insideUnitCircle * 0.1f, Quaternion.identity);
+		Invoke("EndParryWindow", 9.5f);
+		Instantiate(
+			parryEffect, 
+			// move it forward and to the right a bit
+			(Vector2) this.transform.position + (Random.insideUnitCircle * 0.05f) + (Vector2.right*this.ForwardVector()*0.15f), 
+			Quaternion.identity,
+			this.transform
+		);
+	}
+
+	public void FirstParry() {
+		AlerterText.Alert("Autoparry active");
+		parryParticles.Emit(15);
+		Hitstop.Run(0.5f);
 		anim.SetTrigger("Parry");
 	}
 
@@ -269,7 +284,7 @@ public class PlayerController : Entity {
 			float hInput = InputManager.HorizontalInput() * modifier;
 			if (!touchingWall && !wallCheck.TouchingLedge()) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
-			} else if (IsFacing(touchingWall)) {
+			} else if (IsFacing(touchingWall) && MovingForwards()) {
 				anim.SetFloat("Speed", 0);
 			}
 
@@ -449,7 +464,6 @@ public class PlayerController : Entity {
 			SoundManager.ShootSound();
 		}
 		SoundManager.DashSound();
-		StopWallTimeout();
 		InterruptAttack();
 		inMeteor = false;
 		dashing = true;
@@ -799,7 +813,7 @@ public class PlayerController : Entity {
 		}
 
 		if (canParry) {
-			Parry(attack);
+			Parry();
 			return;
 		}
 
@@ -936,7 +950,7 @@ public class PlayerController : Entity {
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(coyoteTime);
+		yield return new WaitForSeconds(coyoteTime * 2);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
 	}
@@ -1236,9 +1250,11 @@ public class PlayerController : Entity {
 
 	public void EndParryWindow() {
 		canParry = false;
+		parryCount = 0;
 	}
 
 	public void EndMissedParryWindow() {
 		missedParry = false;
+		parryCount = 0;
 	}
 }
