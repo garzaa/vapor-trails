@@ -451,7 +451,7 @@ public class PlayerController : Entity {
 
 	public void StartDashAnimation(bool backwards) {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-		float newSpeed = ((backwards ? 0 : dashSpeed) + preDashSpeed);
+		float newSpeed = ((backwards ? 0 : preDashSpeed) + dashSpeed);
 		rb2d.velocity = new Vector2(
 			ForwardScalar() * newSpeed, 
 			Mathf.Max(rb2d.velocity.y, 0)
