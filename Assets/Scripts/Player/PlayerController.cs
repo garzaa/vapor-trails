@@ -221,7 +221,7 @@ public class PlayerController : Entity {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0 && !supercruise && !touchingWall && !grounded) {
+		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0.2f && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
 		}
 	}
@@ -458,8 +458,10 @@ public class PlayerController : Entity {
 			this.GainEnergy(1);
 			SoundManager.ShootSound();
 		}
-		SoundManager.DashSound();
 		InterruptAttack();
+		// if backwards, it'll already have been called
+		// don't want a duplicate sound effect
+		if (!backwards) SoundManager.DashSound();
 		inMeteor = false;
 		dashing = true;
 		if (grounded) {
