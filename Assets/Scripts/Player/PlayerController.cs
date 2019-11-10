@@ -313,13 +313,8 @@ public class PlayerController : Entity {
 
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		}
-
-		if (dashing) {
-			rb2d.velocity = new Vector2(
-				ForwardScalar() * (dashSpeed + preDashSpeed), 
-				Mathf.Max(rb2d.velocity.y, 0)
-			);
-		} else if (supercruise) {
+		
+		 if (supercruise) {
 			float maxV = Mathf.Max(Mathf.Abs(superCruiseSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
 			rb2d.velocity = new Vector2(maxV, 0);
 		}
