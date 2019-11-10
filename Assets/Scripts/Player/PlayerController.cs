@@ -650,9 +650,6 @@ public class PlayerController : Entity {
 		anim.SetBool("TouchingWall", true);
 		if (!grounded) SoundManager.HardLandSound();
 		ResetAirJumps();
-		if (!IsFacing(touchingWall) && !grounded) {
-			ForceFlip();
-		}
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
 			CancelBufferedJump();
