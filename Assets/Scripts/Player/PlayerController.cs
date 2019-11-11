@@ -486,7 +486,7 @@ public class PlayerController : Entity {
 		base.ForceFlip();
 		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
-		Invoke("EndFlipWindow", coyoteTime * 2f);
+		Invoke("EndFlipWindow", coyoteTime);
 	}
 
 	void EndFlipWindow() {
@@ -779,11 +779,6 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (canParry) {
-			Parry();
-			return;
-		}
-
 		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			if (envDmgSusceptible) {
 				OnEnviroDamage(attack.GetComponent<EnviroDamage>());
@@ -794,6 +789,8 @@ public class PlayerController : Entity {
 			} else {
 				return;
 			}
+		} else if (canParry) {
+			Parry();
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
