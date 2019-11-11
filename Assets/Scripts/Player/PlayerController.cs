@@ -786,11 +786,15 @@ public class PlayerController : Entity {
 				if (LayerMask.LayerToName(attack.attackerParent.gameObject.layer) == Layers.Water) {
 					ResetAirJumps();
 				}
+				return;
 			} else {
 				return;
 			}
-		} else if (canParry) {
+		}
+		
+		if (canParry) {
 			Parry();
+			return;
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
