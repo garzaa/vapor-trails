@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Entity {
@@ -58,6 +59,7 @@ public class PlayerController : Entity {
 	PlayerUnlocks unlocks;
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
+	List<SpriteRenderer> spriteRenderers;
 
 	//variables
 	bool grounded = false;
@@ -78,8 +80,6 @@ public class PlayerController : Entity {
 	public bool supercruise = false;
 	Coroutine dashTimeout;
 	bool pressedUpLastFrame = false;
-	bool flashingCyan = false;
-	bool cyanLastFrame = false;
 	bool runningLastFrame = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
@@ -123,11 +123,11 @@ public class PlayerController : Entity {
 		ResetAirJumps();
 		lastSafeOffset = this.transform.position;
 		speedLimiter = GetComponent<SpeedLimiter>();
+		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 	}
 	
 	void Update () {
 		CheckHeal();
-		CheckFlash();
 		UpdateWallSliding();
 		Move();
 		Shoot();
@@ -149,18 +149,6 @@ public class PlayerController : Entity {
 
 	bool IsForcedWalking() {
 		return this.forcedWalking || Input.GetKey(KeyCode.LeftControl);
-	}
-
-	void CheckFlash() {
-		if (flashingCyan) {
-			if (cyanLastFrame) {
-				cyanLastFrame = false;
-				WhiteSprite();
-			} else {
-				cyanLastFrame = true;
-				CyanSprite();
-			}
-		}
 	}
 
 	public void Parry() {
@@ -215,8 +203,12 @@ public class PlayerController : Entity {
 
 		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
 			anim.SetTrigger(Buttons.ATTACK);
+		} else if (InputManager.Button(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
+			if (unlocks.HasAbility(Ability.Dash)) {
+				Dash();
+			} 
 		}
-		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < 0 && !supercruise) {
+		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
@@ -256,12 +248,6 @@ public class PlayerController : Entity {
 
 		if (supercruise && rb2d.velocity.x == 0) {
 			InterruptSupercruise();
-		}
-
-		if (InputManager.Button(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
-			if (unlocks.HasAbility(Ability.Dash)) {
-				Dash();
-			} 
 		}
 
 		if (!movingForwardsLastFrame && MovingForwards() && !missedParry) {
@@ -414,7 +400,7 @@ public class PlayerController : Entity {
 			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
 			y:jumpSpeed + AdditiveJumpSpeed()
 		);
-		Flip();
+		if (!justLeftWall) Flip();
 		anim.SetTrigger("WallJump");
 		currentWallTimeout = StartCoroutine(WallLeaveTimeout());
 	}
@@ -446,7 +432,11 @@ public class PlayerController : Entity {
 
 	public void StartDashAnimation(bool backwards) {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-		float newSpeed = ((backwards ? 0 : preDashSpeed) + dashSpeed);
+		float additive = 0f;
+		if (backwards && preDashSpeed>dashSpeed) {
+			additive = preDashSpeed - dashSpeed;
+		}
+		float newSpeed = ((backwards ? additive : preDashSpeed) + dashSpeed);
 		rb2d.velocity = new Vector2(
 			ForwardScalar() * newSpeed, 
 			Mathf.Max(rb2d.velocity.y, 0)
@@ -515,7 +505,6 @@ public class PlayerController : Entity {
 			StopCoroutine(dashTimeout);
 		}
 		if (dashCooldown) {
-			FlashCyanOnce();
 			dashCooldown = false;
 			perfectDashPossible = true;
 			Invoke("ClosePerfectDashWindow", 0.2f);
@@ -685,32 +674,16 @@ public class PlayerController : Entity {
 		this.frozen = false;
 	}
 
-	public void CyanSprite() {
-		cyan = true;
-        spr.material = cyanMaterial;
-    }
-
-    public void WhiteSprite() {
-		if (this.defaultMaterial != null) spr.material = defaultMaterial;
+	public void FlashCyan() {
+		foreach (SpriteRenderer x in spriteRenderers) {
+			x.material = cyanMaterial;
+		}
+		StartCoroutine(normalSprite());
     }
 
     public void SetInvincible(bool b) {
         this.invincible = b;
     }
-
-	public void FlashCyanOnce() {
-		CyanSprite();
-		Invoke("WhiteSprite", 0.1f);
-	}
-
-	public void FlashCyan() {
-		this.flashingCyan = true;
-	}
-
-	public void StopFlashingCyan() {
-		WhiteSprite();
-		this.flashingCyan = false;
-	}
 
 	void MeteorSlam() {
 		if (inMeteor || dead) return;
@@ -836,7 +809,6 @@ public class PlayerController : Entity {
 			AlerterText.Alert("WAVEFORM CRITICAL");
 		}
 		InvincibleFor(this.invincibilityLength);
-		CyanSprite();
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
@@ -862,7 +834,12 @@ public class PlayerController : Entity {
 
 	IEnumerator normalSprite() {
 		yield return new WaitForSeconds(.1f);
-		spr.material = defaultMaterial;
+		spriteRenderers.ForEach(x => {
+			x.material = defaultMaterial;
+		});
+		if (spr != null) {
+        	spr.material = defaultMaterial;
+		}
 	}
 
 	IEnumerator WaitAndSetVincible(float seconds) {
@@ -876,6 +853,7 @@ public class PlayerController : Entity {
 	}
 
 	void DamageFor(int dmg) {
+		FlashCyan();
 		SoundManager.PlayerHurtSound();
 		currentHP -= dmg;
 		if (currentHP <= 0) {
