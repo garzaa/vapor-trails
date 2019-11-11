@@ -260,7 +260,7 @@ public class PlayerController : Entity {
 			if (InputManager.VerticalInput() < 0 && InputManager.ButtonDown(Buttons.JUMP)) {
 				EdgeCollider2D[] platforms = GetComponent<GroundCheck>().TouchingPlatforms();
 				if (platforms != null && grounded) {
-					DropThroughPlatform(platforms);
+					DropThroughPlatforms(platforms);
 				}
 			}
 
@@ -943,7 +943,8 @@ public class PlayerController : Entity {
 		this.canShoot = false;
 	}
 
-	void DropThroughPlatform(EdgeCollider2D[] platforms) {
+	void DropThroughPlatforms(EdgeCollider2D[] platforms) {
+		print("dropping through platforms");
 		foreach (EdgeCollider2D platform in platforms) {
 			platform.enabled = false;
 			platformTimeout = StartCoroutine(EnableCollider(0.5f, platform));
