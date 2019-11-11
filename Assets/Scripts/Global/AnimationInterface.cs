@@ -28,7 +28,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void SpawnFollowingEffect(int index) {
-		Instantiate(effects[index], effectPoint.transform.position, Quaternion.identity, effectPoint);
+		Instantiate(effects[index], effectPoint.transform.position, Quaternion.identity, this.transform);
 	}
 
 	public void EmitParticles(int p) {
