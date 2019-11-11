@@ -70,7 +70,7 @@ public class GroundCheck : MonoBehaviour {
 		}
 	}
 
-	public EdgeCollider2D TouchingPlatform() {
+	public EdgeCollider2D[] TouchingPlatforms() {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		RaycastHit2D g1 = Physics2D.Raycast(corner1.transform.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
 		RaycastHit2D g2 = Physics2D.Raycast(corner2.transform.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
@@ -89,7 +89,10 @@ public class GroundCheck : MonoBehaviour {
 		}
 		
 		if (grounded1 && grounded2) {
-			return g2.transform.gameObject.GetComponent<EdgeCollider2D>();
+			return new EdgeCollider2D[] {
+				g1.transform.gameObject.GetComponent<EdgeCollider2D>(),
+				g2.transform.gameObject.GetComponent<EdgeCollider2D>()
+			};
 		}
 		return null;
 	}

@@ -258,9 +258,9 @@ public class PlayerController : Entity {
 
 		if (!frozen && !(stunned || dead)) {
 			if (InputManager.VerticalInput() < 0 && InputManager.ButtonDown(Buttons.JUMP)) {
-				EdgeCollider2D platform = GetComponent<GroundCheck>().TouchingPlatform();
-				if (platform != null && grounded) {
-					DropThroughPlatform(platform);
+				EdgeCollider2D[] platforms = GetComponent<GroundCheck>().TouchingPlatforms();
+				if (platforms != null && grounded) {
+					DropThroughPlatform(platforms);
 				}
 			}
 
@@ -943,26 +943,19 @@ public class PlayerController : Entity {
 		this.canShoot = false;
 	}
 
-	void DropThroughPlatform(EdgeCollider2D platform) {
-		UnFreeze();
-		InterruptEverything();
+	void DropThroughPlatform(EdgeCollider2D[] platforms) {
+		foreach (EdgeCollider2D platform in platforms) {
+			platform.enabled = false;
+			platformTimeout = StartCoroutine(EnableCollider(0.5f, platform));
+		}
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
 			hardLandSpeed
 		);
-		platform.enabled = false;
-		platformTimeout = StartCoroutine(EnableCollider(0.1f, platform));
 	}
 
 	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {
 		yield return new WaitForSeconds(seconds);
-		StopPlatformDrop(platform);
-	}
-
-	void StopPlatformDrop(EdgeCollider2D platform) {
-		if (platformTimeout != null) {
-			StopCoroutine(platformTimeout);
-		}
 		platform.enabled = true;
 	}
 
