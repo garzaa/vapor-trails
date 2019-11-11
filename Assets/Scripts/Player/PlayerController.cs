@@ -367,11 +367,6 @@ public class PlayerController : Entity {
 		}
 	}
 
-	float AdditiveJumpSpeed() {
-		// return rb2d.velocity.y > 0 ? rb2d.velocity.y : 0;
-		return 0;
-	}
-
 	void GroundJump() {
 		SaveLastSafePos();
 		if (InputManager.HasHorizontalInput()) {
@@ -381,7 +376,7 @@ public class PlayerController : Entity {
 		}
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed + AdditiveJumpSpeed()
+			y:jumpSpeed
 		);
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
@@ -398,7 +393,7 @@ public class PlayerController : Entity {
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
 			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
-			y:jumpSpeed + AdditiveJumpSpeed()
+			y:jumpSpeed
 		);
 		if (!justLeftWall) Flip();
 		anim.SetTrigger("WallJump");
@@ -411,7 +406,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed + AdditiveJumpSpeed() + jumpSpeed/4
+			y:jumpSpeed * 0.8f
 		);
 		ImpactDust();
 		airJumps--;
@@ -506,6 +501,7 @@ public class PlayerController : Entity {
 		}
 		if (dashCooldown) {
 			dashCooldown = false;
+			FlashCyan();
 			perfectDashPossible = true;
 			Invoke("ClosePerfectDashWindow", 0.2f);
 		}
@@ -522,6 +518,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		SaveLastSafePos();
+		EndDashCooldown();
 		if (rb2d.velocity.y > 0 && InputManager.Button(Buttons.JUMP)) {
 			LedgeBoost();
 			return;
@@ -595,8 +592,7 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundLeave() {
-		float interval = 0;
-		if (rb2d.velocity.y <= 0) interval = coyoteTime;
+		float interval = coyoteTime;
 		StartCoroutine(GroundLeaveTimeout(interval));
 	}
 
@@ -786,13 +782,8 @@ public class PlayerController : Entity {
 				if (LayerMask.LayerToName(attack.attackerParent.gameObject.layer) == Layers.Water) {
 					ResetAirJumps();
 				}
-				return;
-			} else {
-				return;
 			}
-		}
-		
-		if (canParry) {
+		} else if (canParry) {
 			Parry();
 			return;
 		}
@@ -854,7 +845,6 @@ public class PlayerController : Entity {
 	}
 
 	void DamageFor(int dmg) {
-		FlashCyan();
 		SoundManager.PlayerHurtSound();
 		currentHP -= dmg;
 		if (currentHP <= 0) {
