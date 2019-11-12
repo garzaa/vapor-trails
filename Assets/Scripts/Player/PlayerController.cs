@@ -406,7 +406,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed * 0.8f
+			y:jumpSpeed * 0.9f
 		);
 		ImpactDust();
 		airJumps--;
