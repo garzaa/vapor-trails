@@ -1,2 +1,2 @@
 # vapor trails
-![this should be a cool image](https://66.media.tumblr.com/5cb23cf4b5bea1b3f12c4ea28c0e8d2e/tumblr_pp1x5dj40M1x1v7ffo1_1280.gif)
+![this should be a cool image](https://66.media.tumblr.com/65c5e427ce9647127d04dd1d740a383b/b1fa33115f45cf30-1b/s400x600/01fc1a624c70b69f14b1aab556edccdf9cc03803.gif)
