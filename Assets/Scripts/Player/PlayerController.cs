@@ -268,6 +268,8 @@ public class PlayerController : Entity {
 
 			float modifier = IsForcedWalking() ? 0.4f : 1f;
 			float hInput = InputManager.HorizontalInput() * modifier;
+			// you can't push forward + down on sticks, so do this
+			if (hInput >= 0.5f) hInput = 1f;
 			if (!touchingWall && !wallCheck.TouchingLedge()) {
 				anim.SetFloat("Speed", Mathf.Abs(hInput));
 			} else if (IsFacing(touchingWall) && MovingForwards()) {
@@ -321,7 +323,7 @@ public class PlayerController : Entity {
 			anim.SetBool("FastFalling", false);
 		}
 
-		if (wallCheck.TouchingLedge() && !grounded) {
+		if (wallCheck.TouchingLedge() && InputManager.HasHorizontalInput()) {
 			LedgeBoost();
 		}
 
@@ -343,7 +345,7 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.JUMP)) {
-			if (grounded && (InputManager.VerticalInput() >= 0)) {
+			if (grounded && (InputManager.VerticalInput() >= -0.7)) {
 				GroundJump();
 			}
 			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
