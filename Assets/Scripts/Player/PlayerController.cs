@@ -481,7 +481,7 @@ public class PlayerController : Entity {
 		base.ForceFlip();
 		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
-		Invoke("EndFlipWindow", coyoteTime);
+		Invoke("EndFlipWindow", coyoteTime * 1.5f);
 	}
 
 	void EndFlipWindow() {
@@ -592,12 +592,6 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundLeave() {
-		float interval = coyoteTime;
-		StartCoroutine(GroundLeaveTimeout(interval));
-	}
-
-	IEnumerator GroundLeaveTimeout(float interval) {
-		yield return new WaitForSecondsRealtime(interval);
 		grounded = false;
 		anim.SetBool("Grounded", false);
 	}
@@ -935,7 +929,6 @@ public class PlayerController : Entity {
 	}
 
 	void DropThroughPlatforms(EdgeCollider2D[] platforms) {
-		print("dropping through platforms");
 		foreach (EdgeCollider2D platform in platforms) {
 			platform.enabled = false;
 			platformTimeout = StartCoroutine(EnableCollider(0.5f, platform));

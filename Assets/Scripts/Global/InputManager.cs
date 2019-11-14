@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-    static readonly float INPUT_TOLERANCE = 0.1f;
+    static readonly float INPUT_TOLERANCE = 0.2f;
 
     static bool frozenInputs = false;
 

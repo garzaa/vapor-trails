@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class GroundCheck : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class GroundCheck : MonoBehaviour {
 
 	bool groundedCurrentFrame;
 	bool ledgeStepCurrentFrame;
+
+	float coyoteTime = 000f;
 	
 
 	protected void Start() {
@@ -58,7 +61,7 @@ public class GroundCheck : MonoBehaviour {
 		if (!groundedLastFrame && groundedCurrentFrame) {
 			GetComponent<Entity>().OnGroundHit();	
 		} else if (groundedLastFrame && !groundedCurrentFrame) {
-			GetComponent<Entity>().OnGroundLeave();
+			StartCoroutine(GroundLeaveTimeout(coyoteTime));
 		}
 
 		if (GetComponent<PlayerController>() != null) {
@@ -68,6 +71,11 @@ public class GroundCheck : MonoBehaviour {
 				GetComponent<PlayerController>().OnLedgeStep();
 			}
 		}
+	}
+
+	IEnumerator GroundLeaveTimeout(float interval) {
+		yield return new WaitForSecondsRealtime(interval);
+		GetComponent<Entity>().OnGroundLeave();
 	}
 
 	public EdgeCollider2D[] TouchingPlatforms() {
