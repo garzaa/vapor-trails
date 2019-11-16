@@ -73,11 +73,14 @@ GameObject:
   - component: {fileID: 1718787136506604488}
   - component: {fileID: 1718787136506604087}
   - component: {fileID: 1718787136506604086}
+  - component: {fileID: 2887028948641124356}
+  - component: {fileID: 6797276162936200955}
   - component: {fileID: 1718787136506604492}
   - component: {fileID: 1718787136506604491}
   - component: {fileID: 1718787136506604085}
   - component: {fileID: 1718787136506604084}
   - component: {fileID: 1718787136506604490}
+  - component: {fileID: 3636666025062348800}
   m_Layer: 15
   m_Name: Compute Shrine
   m_TagString: Untagged
@@ -126,6 +129,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -189,7 +193,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1018049748467956, guid: b7e72c56eaa0eb64a8916acef7db59ea,
     type: 3}
-  activatable: {fileID: 1718787136506604492}
+  activatable: {fileID: 2887028948641124356}
+--- !u!114 &2887028948641124356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718787136506604083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0352fc3ae975bd24ba0fcba699eb4093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemWanter: {fileID: 6797276162936200955}
+--- !u!114 &6797276162936200955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718787136506604083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d64c39a674dd444927d7b1d5ff7738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wantedItems:
+  - {fileID: 5188554862268351308, guid: 0249e1e96de071743a9e28f54b999b4f, type: 3}
+  yesActivation: {fileID: 1718787136506604492}
+  noActivation: {fileID: 3636666025062348800}
+  consumesItems: 0
 --- !u!114 &1718787136506604492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +267,7 @@ MonoBehaviour:
   anim: {fileID: 1718787136506604084}
   animationName: Save
   isTrigger: 1
+  setBool: 0
   toggleBool: 0
 --- !u!95 &1718787136506604084
 Animator:
@@ -271,6 +306,24 @@ MonoBehaviour:
   activatables: []
   npcs: []
   particleSystems: []
+--- !u!114 &3636666025062348800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718787136506604083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040b0267dc84b8743827ccfd327f3d2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alerts:
+  - Checking for updates
+  - Scanning area
+  - Nearby computing cluster found
+  - Establishing connection...
+  - 'ERROR: Access Denied'
 --- !u!1 &1718787137108928206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1689,6 +1742,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
   UVModule:
+    serializedVersion: 2
     enabled: 0
     mode: 0
     timeMode: 0
@@ -1806,7 +1860,7 @@ ParticleSystem:
     rowIndex: 0
     cycles: 1
     uvChannelMask: -1
-    randomRow: 1
+    rowMode: 1
     sprites:
     - sprite: {fileID: 21300006, guid: 9741244376748b8408fed7c92350c11e, type: 3}
     - sprite: {fileID: 21300000, guid: 9741244376748b8408fed7c92350c11e, type: 3}
@@ -2619,8 +2673,61 @@ ParticleSystem:
     inWorldSpace: 0
     randomizePerFrame: 0
   ExternalForcesModule:
+    serializedVersion: 2
     enabled: 0
-    multiplier: 1
+    multiplierCurve:
+      serializedVersion: 2
+      minMaxState: 0
+      scalar: 1
+      minScalar: 1
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      minCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
     influenceFilter: 0
     influenceMask:
       serializedVersion: 2
@@ -4979,7 +5086,7 @@ ParticleSystem:
 --- !u!199 &1718787137108928192
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5003,6 +5110,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

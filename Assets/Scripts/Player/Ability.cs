@@ -10,5 +10,6 @@ public enum Ability {
 	Parry,
 	None,
 	Heal,
-	Hover
+	Hover,
+	Save
 }
