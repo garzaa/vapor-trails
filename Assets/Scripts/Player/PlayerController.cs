@@ -408,7 +408,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed * 0.9f
+			y:jumpSpeed
 		);
 		ImpactDust();
 		airJumps--;
@@ -537,6 +537,12 @@ public class PlayerController : Entity {
 		if (hardFalling && !bufferedJump) {
 			hardFalling = false;
 			if (InputManager.HasHorizontalInput()) {
+				AlerterText.Alert("Transferring momentum");
+				rb2d.velocity = new Vector2(
+					// the player can be falling backwards
+					rb2d.velocity.x + (2f * InputManager.HorizontalInput()),
+					rb2d.velocity.y
+				);
 				anim.SetTrigger("Roll");
 			} else {
 				anim.SetTrigger("HardLand");
@@ -550,7 +556,8 @@ public class PlayerController : Entity {
 			CameraShaker.Shake(0.1f, 0.1f);
 		}
 		if (terminalFalling) {
-			CameraShaker.Shake(0.1f, 0.1f);
+			AlerterText.Alert("Impact compensation");
+			CameraShaker.Shake(0.2f, 0.1f);
 		}
 		if (bufferedJump) {
 			GroundJump();
