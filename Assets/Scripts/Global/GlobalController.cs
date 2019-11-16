@@ -115,8 +115,9 @@ public class GlobalController : MonoBehaviour {
 			HideAbilityGetUI();
 		}
 
-		if (Input.GetButtonDown("Inventory")) {
-			if (pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown")) {
+		bool inInventory = pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown");
+		if (Input.GetButtonDown("Inventory") || (Input.GetButtonDown(Buttons.SPECIAL) && inInventory)) {
+			if (inInventory) {
 				CloseInventory();
 			} else if (!pc.inCutscene && pc.IsGrounded()) {
 				OpenInventory();
@@ -126,7 +127,7 @@ public class GlobalController : MonoBehaviour {
 		
 		if (
 			dialogueOpen 
-			&& (Input.GetButtonDown("Submit") || Input.GetButtonDown("Jump"))
+			&& (Input.GetButtonDown(Buttons.JUMP) || Input.GetButtonDown(Buttons.SPECIAL))
 			&& !dialogueOpenedThisFrame
 			&& !inCutscene
 			) {
