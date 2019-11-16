@@ -8,7 +8,6 @@ public class AudioFadeIn : MonoBehaviour {
     AudioSource audioSource;
 
     void Start() {
-        print("fadinmg in");
         audioSource = GetComponent<AudioSource>();
         targetVolume = audioSource.volume;
         audioSource.volume = 0;
