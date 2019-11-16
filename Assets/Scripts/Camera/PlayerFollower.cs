@@ -9,7 +9,6 @@ public class PlayerFollower : MonoBehaviour {
 	[HideInInspector]
 	public PlayerController pc;
 	public float smoothAmount;
-	public float lookAhead;
 	public Vector2 initialOffset;
 	Vector2 currentOffset;
 	Vector3 velocity = Vector3.zero;
