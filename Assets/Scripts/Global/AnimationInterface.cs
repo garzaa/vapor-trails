@@ -106,7 +106,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
-		CameraShaker.Shake(0.1f, seconds);
+		CameraShaker.Shake(0.07f, seconds);
 	}
 
 	public void EnterSlowMotion() {

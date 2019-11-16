@@ -547,7 +547,7 @@ public class PlayerController : Entity {
 			} else {
 				ImpactDust();
 			}
-			CameraShaker.Shake(0.05f, 0.1f);
+			CameraShaker.Shake(0.1f, 0.1f);
 		}
 		if (terminalFalling) {
 			CameraShaker.Shake(0.1f, 0.1f);
@@ -623,9 +623,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallHit(GameObject touchingWall) {
-		if (dashCooldown) {
-			EndDashCooldown();
-		}
+		EndDashCooldown();
 		EndSupercruise();
 		//hold to wallclimb
 		anim.SetBool("TouchingWall", true);
