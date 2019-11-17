@@ -483,7 +483,7 @@ public class PlayerController : Entity {
 		base.ForceFlip();
 		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
-		Invoke("EndFlipWindow", coyoteTime * 1.5f);
+		Invoke("EndFlipWindow", coyoteTime);
 	}
 
 	void EndFlipWindow() {
