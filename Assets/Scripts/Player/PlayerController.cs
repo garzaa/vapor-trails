@@ -378,7 +378,7 @@ public class PlayerController : Entity {
 		}
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed
+			y:jumpSpeed + Mathf.Max(rb2d.velocity.y, 0)
 		);
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
@@ -395,7 +395,7 @@ public class PlayerController : Entity {
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
 			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
-			y:jumpSpeed
+			y:jumpSpeed + Mathf.Max(rb2d.velocity.y, 0)
 		);
 		if (!justLeftWall) Flip();
 		anim.SetTrigger("WallJump");
@@ -593,6 +593,7 @@ public class PlayerController : Entity {
 
 
 	void ReturnToSafety() {
+		AlerterText.Alert("Returning to safety");
 		if (this.currentHP <= 0) {
 			return;
 		}

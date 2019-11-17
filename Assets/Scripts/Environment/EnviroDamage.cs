@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnviroDamage : Attack {
 
 	public bool particlesOnImpact;
-	public bool returnPlayerToSafety = false;
+	public bool returnPlayerToSafety = true;
 	public int numParticles;
 	public Transform particleObject;
 	public AudioSource impactSound;
