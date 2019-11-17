@@ -540,7 +540,7 @@ public class PlayerController : Entity {
 				AlerterText.Alert("Transferring momentum");
 				rb2d.velocity = new Vector2(
 					// the player can be falling backwards
-					rb2d.velocity.x + (2f * InputManager.HorizontalInput()),
+					rb2d.velocity.x + (Mathf.Abs(rb2d.velocity.y / 2f) * InputManager.HorizontalInput()),
 					rb2d.velocity.y
 				);
 				anim.SetTrigger("Roll");
