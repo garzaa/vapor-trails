@@ -403,7 +403,7 @@ public class PlayerController : Entity {
 	}
 
 	void AirJump() {
-		SoundManager.JumpSound();
+		SoundManager.SmallJumpSound();
 		EndShortHopWindow();
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
