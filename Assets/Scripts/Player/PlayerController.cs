@@ -203,7 +203,7 @@ public class PlayerController : Entity {
 
 		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
 			anim.SetTrigger(Buttons.ATTACK);
-		} else if (InputManager.Button(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
+		} else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			} 
