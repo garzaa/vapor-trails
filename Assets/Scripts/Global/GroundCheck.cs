@@ -34,8 +34,8 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool LeftGrounded() {
-		Debug.DrawLine(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position);
-		RaycastHit2D hit = Physics2D.Linecast(corner1.transform.position + new Vector3(0, 0.1f, 0), corner1.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		Debug.DrawLine(corner1.transform.position + new Vector3(0, 0.4f, 0), corner1.transform.position);
+		RaycastHit2D hit = Physics2D.Linecast(corner1.transform.position + new Vector3(0, 0.4f, 0), corner1.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 		if (hit) {
 			currentGround = hit.collider.gameObject;
 		}
@@ -43,8 +43,8 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool RightGrounded() {
-		Debug.DrawLine(corner2.transform.position + new Vector3(0, 0.1f, 0), corner2.transform.position);
-		return Physics2D.Linecast(corner2.transform.position + new Vector3(0, 0.1f, 0), corner2.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		Debug.DrawLine(corner2.transform.position + new Vector3(0, 0.4f, 0), corner2.transform.position);
+		return Physics2D.Linecast(corner2.transform.position + new Vector3(0, 0.4f, 0), corner2.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 	}
 
 	public bool IsGrounded() {
