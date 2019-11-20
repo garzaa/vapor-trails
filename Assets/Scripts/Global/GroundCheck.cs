@@ -12,7 +12,7 @@ public class GroundCheck : MonoBehaviour {
 	bool ledgeStepCurrentFrame;
 
 	float coyoteTime = 000f;
-	float raycastLength = 0.7f;
+	float raycastLength = 0.4f;
 
 	int layerMask;
 
@@ -80,19 +80,20 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	public EdgeCollider2D[] TouchingPlatforms() {
-		print("checking fo rplatform touch");
 		RaycastHit2D g1 = DefaultLinecast(corner1);
 		RaycastHit2D g2 = DefaultLinecast(corner2);
-		Debug.DrawLine(corner1.transform.position + GetOffset(), corner1.transform.position, Color.red, 1f);
-		Debug.DrawLine(corner2.transform.position + GetOffset(), corner2.transform.position, Color.green, 1f);
+		Debug.Log("checking for platforms");
 		if (g1.transform == null && g2.transform == null) {
 			//return early to avoid redundant checks
+			print("not touching anything");
 			return null;
 		}
 		bool grounded1 = false;
 		bool grounded2 = false;
 		
 		if (g1.transform != null) {
+			Debug.Log(g1.transform.gameObject.name);
+			Debug.DrawRay(g1.transform.position, Vector3.up, Color.red, 1);
 			grounded1 = g1.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
 		}
 		if (g2.transform != null) {
@@ -100,7 +101,6 @@ public class GroundCheck : MonoBehaviour {
 		}
 		
 		if (grounded1 || grounded2) {
-			print("touching!");
 			return new EdgeCollider2D[] {
 				g1.transform.gameObject.GetComponent<EdgeCollider2D>(),
 				g2.transform.gameObject.GetComponent<EdgeCollider2D>()
@@ -114,7 +114,6 @@ public class GroundCheck : MonoBehaviour {
 		if (hit.transform == null) return 0;
 		Debug.Log(hit.distance);
 		// the raycast extends a bit below the collider's min bounds
-		if (hit.distance < 0.15) return 0;
 		return hit.distance;
 	}
 

@@ -63,7 +63,7 @@ public class PlayerController : Entity {
 	GroundCheck groundCheck;
 
 	//variables
-	bool grounded = false;
+	public bool grounded = false;
 	GameObject touchingWall = null;
 	int airJumps;
 	bool dashCooldown = false;
@@ -241,6 +241,10 @@ public class PlayerController : Entity {
 
 		if (InputManager.ButtonDown(Buttons.JUMP) && supercruise) {
 			EndSupercruise();
+		}
+
+		if (grounded && rb2d.velocity.y < 0 && groundCheck.TouchingPlatforms() != null) {
+			LedgeBoost();
 		}
 
 		if (supercruise && !grounded && !touchingWall && !MovingForwards() && InputManager.HorizontalInput() != 0) {
@@ -526,12 +530,6 @@ public class PlayerController : Entity {
 		if (rb2d.velocity.y > 0 && InputManager.Button(Buttons.JUMP)) {
 			LedgeBoost();
 			return;
-		} else if (groundCheck.TouchingPlatforms() != null) {
-			AlerterText.Alert("snapping to top of platform");
-			this.transform.position = new Vector2(
-				this.transform.position.x,
-				this.transform.position.y + groundCheck.GetGroundDifference()
-			);
 		}
 		ImpactDust();
 		if (inMeteor) {

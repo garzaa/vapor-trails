@@ -4,8 +4,9 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class TextureOutline : MonoBehaviour
 {
-    public Color color = Color.white;
     public bool outline = true;
+    public Color outlineColor = Color.white;
+    public Color textureColor = Color.black;
 
     [Range(0, 16)]
     public int outlineSize = 1;
@@ -34,16 +35,6 @@ public class TextureOutline : MonoBehaviour
         Debug.Log(texture.height);
     }
 
-    void OnDisable()
-    {
-        UpdateOutline();
-    }
-
-    void LateUpdate()
-    {
-        UpdateOutline();
-    }
-
     void UpdateOutline()
     {
         /*
@@ -61,8 +52,9 @@ public class TextureOutline : MonoBehaviour
             rawImage.uvRect.max.x / texture.width,
             rawImage.uvRect.max.y / texture.height
         );
+        mpb.SetColor("_Color", this.textureColor);
         mpb.SetFloat("_Outline", this.outline ? 1f : 0);
-        mpb.SetColor("_OutlineColor", color);
+        mpb.SetColor("_OutlineColor", outlineColor);
         mpb.SetFloat("_OutlineSize", outlineSize);
         mpb.SetVector("_Rect", result);
 
