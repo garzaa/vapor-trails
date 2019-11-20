@@ -100,7 +100,7 @@ public class GroundCheck : MonoBehaviour {
 			grounded2 = g2.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
 		}
 		
-		if (grounded1 || grounded2) {
+		if (grounded1 && grounded2) {
 			return new EdgeCollider2D[] {
 				g1.transform.gameObject.GetComponent<EdgeCollider2D>(),
 				g2.transform.gameObject.GetComponent<EdgeCollider2D>()
