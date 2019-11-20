@@ -1,13 +1,12 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Sprites/Outline"
+Shader "Sprites/TextureOutline"
 {
     Properties
     {
         [PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
         [PerRendererData] _Color("Tint", Color) = (1,1,1,1)
-        [PerRendererData] _FlashColor ("Flash Color", Color) = (1,1,1,1)
-        [PerRendererData] _Outline("Outline", Float) = 0
+        [PerRendererData] _Outline("Outline", Float) = -1
         [PerRendererData] _OutlineColor("Outline Color", Color) = (1,1,1,1)
         [PerRendererData] _OutlineSize("Outline Size", int) = 1
         [PerRendererData] _Rect("Rect Display", Vector) = (0,0,1,1)
@@ -58,7 +57,6 @@ Shader "Sprites/Outline"
     fixed4 _OutlineColor;
     int _OutlineSize;
     fixed4 _Rect;
-    fixed4 _FlashColor;
 
     v2f vert(appdata_t IN)
     {
@@ -115,7 +113,6 @@ Shader "Sprites/Outline"
         }
     }
 
-    c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashColor.a);
     c.rgb *= c.a;
 
     return c;

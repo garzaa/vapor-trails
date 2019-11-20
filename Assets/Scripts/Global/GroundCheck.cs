@@ -12,9 +12,12 @@ public class GroundCheck : MonoBehaviour {
 	bool ledgeStepCurrentFrame;
 
 	float coyoteTime = 000f;
-	
+	float raycastLength = 0.7f;
+
+	int layerMask;
 
 	protected void Start() {
+		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		if (generateFromCollider) {
 			BoxCollider2D bc = GetComponent<BoxCollider2D>();
 			Vector2 center = bc.offset;
@@ -34,8 +37,7 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool LeftGrounded() {
-		Debug.DrawLine(corner1.transform.position + new Vector3(0, 0.4f, 0), corner1.transform.position);
-		RaycastHit2D hit = Physics2D.Linecast(corner1.transform.position + new Vector3(0, 0.4f, 0), corner1.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		RaycastHit2D hit = DefaultLinecast(corner1);
 		if (hit) {
 			currentGround = hit.collider.gameObject;
 		}
@@ -43,8 +45,7 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool RightGrounded() {
-		Debug.DrawLine(corner2.transform.position + new Vector3(0, 0.4f, 0), corner2.transform.position);
-		return Physics2D.Linecast(corner2.transform.position + new Vector3(0, 0.4f, 0), corner2.transform.position, 1 << LayerMask.NameToLayer(Layers.Ground));
+		return DefaultLinecast(corner2);
 	}
 
 	public bool IsGrounded() {
@@ -79,9 +80,11 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	public EdgeCollider2D[] TouchingPlatforms() {
-		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
-		RaycastHit2D g1 = Physics2D.Raycast(corner1.transform.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
-		RaycastHit2D g2 = Physics2D.Raycast(corner2.transform.position + new Vector3(0, .2f), Vector3.down, 1f, layerMask);
+		print("checking fo rplatform touch");
+		RaycastHit2D g1 = DefaultLinecast(corner1);
+		RaycastHit2D g2 = DefaultLinecast(corner2);
+		Debug.DrawLine(corner1.transform.position + GetOffset(), corner1.transform.position, Color.red, 1f);
+		Debug.DrawLine(corner2.transform.position + GetOffset(), corner2.transform.position, Color.green, 1f);
 		if (g1.transform == null && g2.transform == null) {
 			//return early to avoid redundant checks
 			return null;
@@ -96,12 +99,34 @@ public class GroundCheck : MonoBehaviour {
 			grounded2 = g2.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
 		}
 		
-		if (grounded1 && grounded2) {
+		if (grounded1 || grounded2) {
+			print("touching!");
 			return new EdgeCollider2D[] {
 				g1.transform.gameObject.GetComponent<EdgeCollider2D>(),
 				g2.transform.gameObject.GetComponent<EdgeCollider2D>()
 			};
 		}
 		return null;
+	}
+
+	public float GetGroundDifference() {
+		RaycastHit2D hit = DefaultLinecast(corner1);
+		if (hit.transform == null) return 0;
+		Debug.Log(hit.distance);
+		// the raycast extends a bit below the collider's min bounds
+		if (hit.distance < 0.15) return 0;
+		return hit.distance;
+	}
+
+	Vector3 GetOffset() {
+		return new Vector3(0, raycastLength, 0);
+	}
+
+	RaycastHit2D DefaultLinecast(GameObject corner) {
+		return Physics2D.Linecast(
+			corner.transform.position + GetOffset(),
+			corner.transform.position,
+			1 << LayerMask.NameToLayer(Layers.Ground)
+		);
 	}
 }

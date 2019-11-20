@@ -8,7 +8,7 @@ public class WallCheck : MonoBehaviour {
 	public Transform bottomCorner;
 
 	public GameObject CheckPoint(Transform corner) {
-		Vector2 start = new Vector2(transform.position.x, transform.position.y);
+		Vector2 start = new Vector2(transform.position.x, transform.position.y+0.1f);
 		Debug.DrawLine(start, corner.position, Color.red);
 		RaycastHit2D hit = Physics2D.Linecast(start, corner.position, 1 << LayerMask.NameToLayer(Layers.Ground));
 		if (hit.transform != null) {

@@ -60,6 +60,7 @@ public class PlayerController : Entity {
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
+	GroundCheck groundCheck;
 
 	//variables
 	bool grounded = false;
@@ -109,6 +110,7 @@ public class PlayerController : Entity {
 		unlocks = GetComponentInParent<PlayerUnlocks>();
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
+		groundCheck = GetComponent<GroundCheck>();
 		this.facingRight = false;
 		currentHP = unlocks.maxHP;
 		currentEnergy = unlocks.maxEnergy;
@@ -258,7 +260,7 @@ public class PlayerController : Entity {
 
 		if (!frozen && !(stunned || dead)) {
 			if (InputManager.VerticalInput() < 0 && InputManager.ButtonDown(Buttons.JUMP)) {
-				EdgeCollider2D[] platforms = GetComponent<GroundCheck>().TouchingPlatforms();
+				EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
 				if (platforms != null && grounded) {
 					DropThroughPlatforms(platforms);
 				}
@@ -524,6 +526,12 @@ public class PlayerController : Entity {
 		if (rb2d.velocity.y > 0 && InputManager.Button(Buttons.JUMP)) {
 			LedgeBoost();
 			return;
+		} else if (groundCheck.TouchingPlatforms() != null) {
+			AlerterText.Alert("snapping to top of platform");
+			this.transform.position = new Vector2(
+				this.transform.position.x,
+				this.transform.position.y + groundCheck.GetGroundDifference()
+			);
 		}
 		ImpactDust();
 		if (inMeteor) {
@@ -587,7 +595,7 @@ public class PlayerController : Entity {
 
 	void SaveLastSafePos() {
 		// save the safe position as an offset of the groundCheck's last hit ground
-		lastSafeObject = GetComponent<GroundCheck>().currentGround;
+		lastSafeObject = groundCheck.currentGround;
 		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
 	}
 
@@ -977,7 +985,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool IsGrounded() {
-		return GetComponent<GroundCheck>().IsGrounded();
+		return groundCheck.IsGrounded();
 	}
 
 	//called at the start of the supercruiseMid animation

@@ -411,7 +411,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void SavePersistentObject(SerializedPersistentObject o) {
 		if (save == null) {
-			Debug.LogWarning("Save file is null!");
 			return;
 		}
 		save.SavePersistentObject(o);
