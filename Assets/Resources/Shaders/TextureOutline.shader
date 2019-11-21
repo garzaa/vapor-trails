@@ -4,13 +4,13 @@ Shader "Sprites/TextureOutline"
 {
     Properties
     {
-        [PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
-        [PerRendererData] _Color("Tint", Color) = (1,1,1,1)
-        [PerRendererData] _Outline("Outline", Float) = -1
-        [PerRendererData] _OutlineColor("Outline Color", Color) = (1,1,1,1)
-        [PerRendererData] _OutlineSize("Outline Size", int) = 1
-        [PerRendererData] _Rect("Rect Display", Vector) = (0,0,1,1)
-
+        _MainTex("Sprite Texture", 2D) = "white" {}
+        _Color("Tint", Color) = (1,1,1,1)
+        _FlashColor ("Flash Color", Color) = (1,1,1,0)
+        _Outline("Outline", Float) = 0
+        _OutlineColor("Outline Color", Color) = (1,1,1,1)
+        _OutlineSize("Outline Size", int) = 1
+        _Rect("Rect Display", Vector) = (0,0,1,1)
     }
 
         SubShader
@@ -57,6 +57,7 @@ Shader "Sprites/TextureOutline"
     fixed4 _OutlineColor;
     int _OutlineSize;
     fixed4 _Rect;
+    fixed4 _FlashColor;
 
     v2f vert(appdata_t IN)
     {
@@ -85,6 +86,7 @@ Shader "Sprites/TextureOutline"
     fixed4 frag(v2f IN) : SV_Target
     {
         fixed4 c = SampleSpriteTexture(IN.texcoord) * IN.color;
+        c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashColor.a);
 
     // If outline is enabled and there is a pixel, try to draw an outline.
     if (_Outline > 0 && c.a != 0) {
@@ -97,7 +99,7 @@ Shader "Sprites/TextureOutline"
         }
         else
         {
-            [unroll(16)]
+            [unroll(4)]
             for (int i = 1; i < _OutlineSize + 1; i++) {
                 fixed4 pixelUp = tex2D(_MainTex, IN.texcoord + fixed2(0, i * _MainTex_TexelSize.y));
                 fixed4 pixelDown = tex2D(_MainTex, IN.texcoord - fixed2(0, i *  _MainTex_TexelSize.y));
