@@ -82,18 +82,14 @@ public class GroundCheck : MonoBehaviour {
 	public EdgeCollider2D[] TouchingPlatforms() {
 		RaycastHit2D g1 = DefaultLinecast(corner1);
 		RaycastHit2D g2 = DefaultLinecast(corner2);
-		Debug.Log("checking for platforms");
 		if (g1.transform == null && g2.transform == null) {
 			//return early to avoid redundant checks
-			print("not touching anything");
 			return null;
 		}
 		bool grounded1 = false;
 		bool grounded2 = false;
 		
 		if (g1.transform != null) {
-			Debug.Log(g1.transform.gameObject.name);
-			Debug.DrawRay(g1.transform.position, Vector3.up, Color.red, 1);
 			grounded1 = g1.transform.gameObject.GetComponent<PlatformEffector2D>() != null;
 		}
 		if (g2.transform != null) {
@@ -112,7 +108,6 @@ public class GroundCheck : MonoBehaviour {
 	public float GetGroundDifference() {
 		RaycastHit2D hit = DefaultLinecast(corner1);
 		if (hit.transform == null) return 0;
-		Debug.Log(hit.distance);
 		// the raycast extends a bit below the collider's min bounds
 		return hit.distance;
 	}

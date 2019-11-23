@@ -14,7 +14,10 @@ public class NPC : Interactable {
 	protected override void ExtendedStart() {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
-		Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
+		// narsty hack to not display the prompt for multi-box NPC signs
+		if (name.ToLower().Contains("sign")) {
+			Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
+		}
 	}
 
 	public int currentConversation = 0;

@@ -8,7 +8,7 @@ public abstract class PlayerTriggeredObject : MonoBehaviour {
 	public PlayerController player;
 
 
-	void Start() {
+	virtual protected void Start() {
 		gameObject.layer = LayerMask.NameToLayer(Layers.Triggers);
 	}
 
