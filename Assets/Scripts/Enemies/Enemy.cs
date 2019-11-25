@@ -196,7 +196,7 @@ public class Enemy : Entity {
 		Destroy();
 	}
 
-	public override void OnGroundHit() {
+	public override void OnGroundHit(float impactSpeed) {
 		anim.SetBool("Grounded", true);
 		foreach (EnemyBehavior eb in this.behaviors) {
 			eb.OnGroundHit();

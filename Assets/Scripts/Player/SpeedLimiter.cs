@@ -31,4 +31,8 @@ public class SpeedLimiter : MonoBehaviour {
     public bool IsSpeeding() {
         return (Mathf.Abs(rb2d.velocity.x) > maxSpeedX || Mathf.Abs(rb2d.velocity.y) > maxSpeedY);
     }
+
+    public bool IsMovingFast() {
+        return (Mathf.Abs(rb2d.velocity.x) > maxSpeedX || Mathf.Abs(rb2d.velocity.y) > maxSpeedY/6f);
+    }
 }

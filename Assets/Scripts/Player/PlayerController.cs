@@ -519,7 +519,7 @@ public class PlayerController : Entity {
 		SaveLastSafePos();
 	}
 
-	public override void OnGroundHit() {
+	public override void OnGroundHit(float impactSpeed) {
 		grounded = true;
 		canShortHop = true;
 		ResetAirJumps();
@@ -527,7 +527,7 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		SaveLastSafePos();
 		EndDashCooldown();
-		if (rb2d.velocity.y > 0 && InputManager.Button(Buttons.JUMP)) {
+		if (impactSpeed > 0 && InputManager.Button(Buttons.JUMP)) {
 			LedgeBoost();
 			return;
 		}
@@ -542,13 +542,15 @@ public class PlayerController : Entity {
 		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
 			hardFalling = false;
-			if (InputManager.HasHorizontalInput()) {
+			rb2d.velocity = new Vector2(
+				// the player can be falling backwards
+				rb2d.velocity.x + (Mathf.Abs(impactSpeed / 2f) * InputManager.HorizontalInput()),
+				impactSpeed
+			);
+			// if they're in the divekick state
+			if (anim.GetInteger("SubState") == -250 && InputManager.HasHorizontalInput()) {
+			} else if (InputManager.HasHorizontalInput()) {
 				AlerterText.Alert("Transferring momentum");
-				rb2d.velocity = new Vector2(
-					// the player can be falling backwards
-					rb2d.velocity.x + (Mathf.Abs(rb2d.velocity.y / 2f) * InputManager.HorizontalInput()),
-					rb2d.velocity.y
-				);
 				anim.SetTrigger("Roll");
 			} else {
 				anim.SetTrigger("HardLand");

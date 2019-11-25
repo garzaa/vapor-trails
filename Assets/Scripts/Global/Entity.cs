@@ -115,7 +115,7 @@ public class Entity : MonoBehaviour {
 
     }
 
-    public virtual void OnGroundHit() {
+    public virtual void OnGroundHit(float impactSpeed) {
 
     }
 

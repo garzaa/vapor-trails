@@ -13,6 +13,10 @@ public class GroundCheck : MonoBehaviour {
 
 	float coyoteTime = 000f;
 	float raycastLength = 0.4f;
+	float impactSpeed = 0f;
+
+	Rigidbody2D rb2d;
+	Entity entity;
 
 	int layerMask;
 
@@ -33,6 +37,10 @@ public class GroundCheck : MonoBehaviour {
 			corner2.name = "corner2";
 			corner2.transform.parent = this.transform;
 			corner2.transform.localPosition = center - new Vector2(radiusX, radiusY+0.02f);
+		}
+		entity = GetComponent<Entity>();
+		if (entity != null) {
+			rb2d = entity.GetComponent<Rigidbody2D>();
 		}
 	}
 
@@ -60,7 +68,7 @@ public class GroundCheck : MonoBehaviour {
 		bool groundedLastFrame = groundedCurrentFrame;
 		groundedCurrentFrame = IsGrounded();
 		if (!groundedLastFrame && groundedCurrentFrame) {
-			GetComponent<Entity>().OnGroundHit();	
+			GetComponent<Entity>().OnGroundHit(impactSpeed);	
 		} else if (groundedLastFrame && !groundedCurrentFrame) {
 			StartCoroutine(GroundLeaveTimeout(coyoteTime));
 		}
@@ -71,6 +79,9 @@ public class GroundCheck : MonoBehaviour {
 			if (!ledgeStepLastFrame && ledgeStepCurrentFrame) {
 				GetComponent<PlayerController>().OnLedgeStep();
 			}
+		}
+		if (rb2d != null) {
+			impactSpeed = rb2d.velocity.y;
 		}
 	}
 
