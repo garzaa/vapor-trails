@@ -217,6 +217,8 @@ public class PlayerController : Entity {
 		} 
 		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0.2f && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
+		} else if (InputManager.ParryInput()) {
+			AlerterText.Alert("PARRY ACTIVATED");
 		}
 	}
 

@@ -26,6 +26,10 @@ public class InputManager : MonoBehaviour {
         return frozenInputs ? 0 : Input.GetAxis(Buttons.V_AXIS);
     }
 
+    public static bool ParryInput() {
+        return frozenInputs ? false : Input.GetAxis(Buttons.PARRY) > 0.5f;
+    }
+
     public static bool ButtonDown(string buttonName) {
         return CheckFrozenInputs(buttonName) && Input.GetButtonDown(buttonName);
     }

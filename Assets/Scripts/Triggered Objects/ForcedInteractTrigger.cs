@@ -8,7 +8,8 @@ public class ForcedInteractTrigger : PlayerTriggeredObject {
 	bool interactedOnce;
 	public bool unpairAfterInteract = true;
 
-	void Start() {
+	override protected void Start() {
+		base.Start();
 		if (i == null) {
 			i = GetComponentInChildren<Interactable>();
 		}

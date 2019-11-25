@@ -9,6 +9,7 @@ public static class Buttons {
     public static readonly string SPECIAL    = "Special";
     public static readonly string PROJECTILE = "Projectile";
     public static readonly string INTERACT   = "Interact";
+    public static readonly string PARRY      = "Parry";
 
     public static readonly string CONFIRM = "Confirm";
     public static readonly string PAUSE   = "Pause";
@@ -23,7 +24,8 @@ public static class Buttons {
         ATTACK, 
         SPECIAL, 
         PROJECTILE,
-        INTERACT
+        INTERACT,
+        PARRY
     };
 
     private static readonly List<string> metaInputs = new List<string>{
