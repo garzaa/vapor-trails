@@ -36,7 +36,7 @@ public class PlayerController : Entity {
 	SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	public bool canParry = false;
-	float parryTimeout = 6f/60f;
+	float parryTimeout = 20f/60f;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
 	float coyoteTime = 0.1f;

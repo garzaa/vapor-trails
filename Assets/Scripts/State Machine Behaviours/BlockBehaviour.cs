@@ -6,14 +6,11 @@ public class BlockBehaviour : StateMachineBehaviour {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         player = animator.GetComponent<PlayerController>();
-        player.canParry = true;
+        player.StartParryWindow();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         animator.ResetTrigger(Buttons.BLOCK);
-        if (player.parryCount == 0) {
-            player.EndParryWindow();
-        }
     }
 
 }
