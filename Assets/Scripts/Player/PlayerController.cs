@@ -592,6 +592,9 @@ public class PlayerController : Entity {
 
 	void SaveLastSafePos() {
 		// save the safe position as an offset of the groundCheck's last hit ground
+		if (groundCheck.currentGround == null) {
+			return;
+		}
 		lastSafeObject = groundCheck.currentGround;
 		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
 	}
