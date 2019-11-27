@@ -18,7 +18,7 @@ public class PlayerController : Entity {
 	public int currentEnergy = 5;
 	public int maxEnergy = 5;
 	public int maxHP = 5;
-	private int parryCount = 0;
+	public int parryCount = 0;
 	public int baseDamage = 1;
 	float invincibilityLength = .5f;
 	int healCost = 1;
@@ -37,7 +37,6 @@ public class PlayerController : Entity {
 	public GameObject parryEffect;
 	public bool canParry = false;
 	float parryTimeout = 6f/60f;
-	public bool missedParry = false;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
 	float coyoteTime = 0.1f;
@@ -159,14 +158,13 @@ public class PlayerController : Entity {
 		} else {
 		}
 		parryCount += 1;
-		missedParry = false;
-		CancelInvoke("EndMissedParryWindow");
 		SoundManager.PlaySound(SoundManager.sm.parry);
+		canParry = true;
 		GainEnergy(1);
 		StartCombatCooldown();
 		// parries can chain together as long as there's a hit every 0.5 seconds
 		CancelInvoke("EndParryWindow");
-		Invoke("EndParryWindow", 9.5f);
+		Invoke("EndParryWindow", 0.5f);
 		Instantiate(
 			parryEffect, 
 			// move it forward and to the right a bit
@@ -179,6 +177,7 @@ public class PlayerController : Entity {
 	public void FirstParry() {
 		AlerterText.Alert("Autoparry active");
 		parryParticles.Emit(15);
+		CameraShaker.Shake(0.1f, 0.1f);
 		Hitstop.Run(0.5f);
 		anim.SetTrigger("Parry");
 	}
@@ -217,8 +216,8 @@ public class PlayerController : Entity {
 		} 
 		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0.2f && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
-		} else if (InputManager.ParryInput()) {
-			AlerterText.Alert("PARRY ACTIVATED");
+		} else if (InputManager.BlockInput() && !canParry) {
+			anim.SetTrigger(Buttons.BLOCK);
 		}
 	}
 
@@ -256,12 +255,6 @@ public class PlayerController : Entity {
 
 		if (supercruise && rb2d.velocity.x == 0) {
 			InterruptSupercruise();
-		}
-
-		if (!movingForwardsLastFrame && MovingForwards() && !missedParry) {
-			StartParryWindow();
-			missedParry = true;
-			Invoke("EndMissedParryWindow", missedInputCooldown);
 		}
 
 		if (!frozen && !(stunned || dead)) {
@@ -688,7 +681,7 @@ public class PlayerController : Entity {
 		foreach (SpriteRenderer x in spriteRenderers) {
 			x.material = cyanMaterial;
 		}
-		StartCoroutine(normalSprite());
+		StartCoroutine(NormalSprite());
     }
 
     public void SetInvincible(bool b) {
@@ -825,7 +818,7 @@ public class PlayerController : Entity {
 		}
 		if (cyan) {
 			cyan = false;
-			StartCoroutine(normalSprite());
+			StartCoroutine(NormalSprite());
 		}
 		anim.SetTrigger("Hurt");
 	}
@@ -838,8 +831,8 @@ public class PlayerController : Entity {
 		anim.SetBool("Skeleton", false);
 	} 
 
-	IEnumerator normalSprite() {
-		yield return new WaitForSeconds(.1f);
+	IEnumerator NormalSprite() {
+		yield return new WaitForSecondsRealtime(.1f);
 		spriteRenderers.ForEach(x => {
 			x.material = defaultMaterial;
 		});
@@ -1220,11 +1213,6 @@ public class PlayerController : Entity {
 
 	public void EndParryWindow() {
 		canParry = false;
-		parryCount = 0;
-	}
-
-	public void EndMissedParryWindow() {
-		missedParry = false;
 		parryCount = 0;
 	}
 }

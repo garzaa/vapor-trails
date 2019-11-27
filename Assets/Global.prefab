@@ -19088,6 +19088,7 @@ Transform:
   - {fileID: 823046922103804979}
   - {fileID: 8833002391058632556}
   - {fileID: 7595343372445247065}
+  - {fileID: 6173998775327944631}
   m_Father: {fileID: 4078833572404762}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24193,8 +24194,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1545236751
+  m_SortingLayer: 1
   m_SortingOrder: 10
   m_RenderMode: 3
   m_SortMode: 0
@@ -25801,11 +25802,11 @@ MonoBehaviour:
   currentEnergy: 5
   maxEnergy: 5
   maxHP: 5
+  parryCount: 0
   baseDamage: 1
   canInteract: 1
   parryEffect: {fileID: 0}
   canParry: 0
-  missedParry: 0
   wallCheck: {fileID: 114101496514425878}
   hurtboxes: {fileID: 1459500802892718}
   gun: {fileID: 0}
@@ -26029,7 +26030,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814514134950208}
-  m_LocalRotation: {x: -0, y: 0, z: -0.12419905, w: 0.99225736}
+  m_LocalRotation: {x: -0, y: -0, z: 0.00067186553, w: 0.9999998}
   m_LocalPosition: {x: 0.02000046, y: -0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -66820,7 +66821,7 @@ MonoBehaviour:
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 1
-  selfKnockBackVector: {x: 0, y: 4}
+  selfKnockBackVector: {x: 0, y: 4.5}
   forceX: 0
   hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
     type: 3}
@@ -103340,6 +103341,97 @@ MonoBehaviour:
   costsEnergy: 0
   hitstopLength: 0.1
   rotateHitmarker: 1
+--- !u!1 &6990573559059352880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6173998775327944631}
+  - component: {fileID: 4245787930783288000}
+  - component: {fileID: 1975876546853604941}
+  m_Layer: 11
+  m_Name: Elbow7
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6173998775327944631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990573559059352880}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &4245787930783288000
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990573559059352880}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.4091522, y: -0.050473988}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0183045, y: 0.49905193}
+  m_EdgeRadius: 0
+--- !u!114 &1975876546853604941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990573559059352880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Elbow 7
+  damage: 1
+  cameraShakeIntensity: 0.1
+  cameraShakeTime: 0.1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 1
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.3
+  knockBack: 1
+  knockbackVector: {x: 0, y: -3}
+  inheritMomentum: 0
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.1
+  rotateHitmarker: 0
 --- !u!1 &7013808731372737759
 GameObject:
   m_ObjectHideFlags: 0
