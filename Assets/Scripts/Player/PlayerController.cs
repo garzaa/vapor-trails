@@ -1214,5 +1214,6 @@ public class PlayerController : Entity {
 	public void EndParryWindow() {
 		canParry = false;
 		parryCount = 0;
+		AlerterText.Alert("Autoparry inactive");
 	}
 }

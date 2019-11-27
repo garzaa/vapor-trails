@@ -20,9 +20,12 @@ public class GroundCheck : MonoBehaviour {
 
 	int layerMask;
 
+	public bool constantlyUseCollider = false;
+	public BoxCollider2D collidertoUse;
+
 	protected void Start() {
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
-		if (generateFromCollider) {
+		if (generateFromCollider && !constantlyUseCollider) {
 			BoxCollider2D bc = GetComponent<BoxCollider2D>();
 			Vector2 center = bc.offset;
 			float radiusX = bc.bounds.extents.x;
@@ -45,7 +48,8 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool LeftGrounded() {
-		RaycastHit2D hit = DefaultLinecast(corner1);
+		Vector2 pos = constantlyUseCollider ? collidertoUse.BottomLeftCorner() : (Vector2) corner1.transform.position;
+		RaycastHit2D hit = DefaultLinecast(pos);
 		if (hit) {
 			currentGround = hit.collider.gameObject;
 		}
@@ -53,7 +57,8 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	bool RightGrounded() {
-		return DefaultLinecast(corner2);
+		Vector2 pos = constantlyUseCollider ? collidertoUse.BottomRightCorner() : (Vector2) corner2.transform.position;
+		return DefaultLinecast(pos);
 	}
 
 	public bool IsGrounded() {
@@ -91,8 +96,10 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	public EdgeCollider2D[] TouchingPlatforms() {
-		RaycastHit2D g1 = DefaultLinecast(corner1);
-		RaycastHit2D g2 = DefaultLinecast(corner2);
+		Vector2 pos1 = constantlyUseCollider ? collidertoUse.BottomLeftCorner() : (Vector2) corner1.transform.position;
+		Vector2 pos2 = constantlyUseCollider ? collidertoUse.BottomRightCorner() : (Vector2) corner2.transform.position;
+		RaycastHit2D g1 = DefaultLinecast(pos1);
+		RaycastHit2D g2 = DefaultLinecast(pos2);
 		if (g1.transform == null && g2.transform == null) {
 			//return early to avoid redundant checks
 			return null;
@@ -116,21 +123,19 @@ public class GroundCheck : MonoBehaviour {
 		return null;
 	}
 
-	public float GetGroundDifference() {
-		RaycastHit2D hit = DefaultLinecast(corner1);
-		if (hit.transform == null) return 0;
-		// the raycast extends a bit below the collider's min bounds
-		return hit.distance;
-	}
-
 	Vector3 GetOffset() {
 		return new Vector3(0, raycastLength, 0);
 	}
 
-	RaycastHit2D DefaultLinecast(GameObject corner) {
-		return Physics2D.Linecast(
-			corner.transform.position + GetOffset(),
-			corner.transform.position,
+	RaycastHit2D DefaultLinecast(Vector2 cornerPos) {
+		if (!constantlyUseCollider) return Physics2D.Linecast(
+			cornerPos + (Vector2) GetOffset(),
+			cornerPos,
+			1 << LayerMask.NameToLayer(Layers.Ground)
+		);
+		else return Physics2D.Linecast(
+			cornerPos + new Vector2(0, 0.05f),
+			cornerPos - new Vector2(0, 0.03f),
 			1 << LayerMask.NameToLayer(Layers.Ground)
 		);
 	}
