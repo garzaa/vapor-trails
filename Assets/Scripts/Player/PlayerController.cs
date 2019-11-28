@@ -348,7 +348,7 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.JUMP)) {
-			if (grounded && (InputManager.VerticalInput() >= -0.7)) {
+			if ((grounded || justLeftGround) && (InputManager.VerticalInput() >= -0.7)) {
 				GroundJump();
 			}
 			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
@@ -612,6 +612,13 @@ public class PlayerController : Entity {
 	public override void OnGroundLeave() {
 		grounded = false;
 		anim.SetBool("Grounded", false);
+		justLeftGround = true;
+		StartCoroutine(GroundLeaveCheck());
+	}
+
+	IEnumerator GroundLeaveCheck() {
+		yield return new WaitForSecondsRealtime(coyoteTime*2f);
+		justLeftGround = false;
 	}
 
 	void InterruptAttack() {
@@ -1060,7 +1067,7 @@ public class PlayerController : Entity {
 	}
 
 	bool UpButtonPress() {
-		bool upThisFrame = InputManager.VerticalInput() > 0.5;
+		bool upThisFrame = InputManager.VerticalInput() > 0.9;
 		bool b = !pressedUpLastFrame && upThisFrame;
 		pressedUpLastFrame = upThisFrame;
 		return b;
