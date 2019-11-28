@@ -110,9 +110,7 @@ public class Enemy : Entity {
 			if (burstEffect != null) {
 				Burst();
 			} else {
-				if (GetComponent<SelfDestruct>() == null) {
-					Destroy();
-				}
+				Destroy(this.gameObject);
 			}
 		}
 	}

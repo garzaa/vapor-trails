@@ -8,6 +8,7 @@ public class NPC : Interactable {
 	bool interactedFromPlayer = false;
 
 	public bool dialogueAnimationBool = false;
+	public Animator dialogueAnimator;
 	static readonly string DIALOGUE_ANIM_BOOL = "InDialogue";
 
 	public NPC(NPCConversations c) {
@@ -39,7 +40,7 @@ public class NPC : Interactable {
 		base.Interact(player);
 
 		if (dialogueAnimationBool) {
-			GetComponent<Animator>().SetBool(DIALOGUE_ANIM_BOOL, true);
+			dialogueAnimator.SetBool(DIALOGUE_ANIM_BOOL, true);
 		}
 
 		//if there's a sign object attached
@@ -112,7 +113,7 @@ public class NPC : Interactable {
 			AddPrompt();
 		}
 		if (dialogueAnimationBool) {
-			GetComponent<Animator>().SetBool(DIALOGUE_ANIM_BOOL, false);
+			dialogueAnimator.SetBool(DIALOGUE_ANIM_BOOL, false);
 		}
 	}
 

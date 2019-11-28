@@ -35,6 +35,7 @@ public class Breakable : MonoBehaviour {
 		if (brokenSprite != null) {
 			GetComponent<SpriteRenderer>().sprite = brokenSprite;
 		}
+
 		if (particlesOnBreak) {
 			//flip the direction of the emitted particles depending on what side the attck is coming from
 			int xScale = other.transform.position.x > this.transform.position.x ? -1 : 1;
@@ -49,6 +50,10 @@ public class Breakable : MonoBehaviour {
 			if (a.hitmarker != null) {
 				a.MakeHitmarker(this.transform);
 			}
+		}
+
+		if (brokenSprite == null) {
+			Destroy(this.gameObject);
 		}
 	}
 
