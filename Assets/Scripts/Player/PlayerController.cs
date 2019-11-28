@@ -613,11 +613,11 @@ public class PlayerController : Entity {
 		grounded = false;
 		anim.SetBool("Grounded", false);
 		justLeftGround = true;
-		StartCoroutine(GroundLeaveCheck());
+		StartCoroutine(GroundLeaveTimeout());
 	}
 
-	IEnumerator GroundLeaveCheck() {
-		yield return new WaitForSecondsRealtime(coyoteTime*2f);
+	IEnumerator GroundLeaveTimeout() {
+		yield return new WaitForSecondsRealtime(coyoteTime);
 		justLeftGround = false;
 	}
 
