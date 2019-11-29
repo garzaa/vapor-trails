@@ -17,6 +17,7 @@ public class FaceTarget : MonoBehaviour {
 		e = GetComponent<Entity>();
 		isEntity = e != null;
 		if (isEntity) {
+			print($"{gameObject.name} is an enitty");
 			facingRight = e.facingRight;
 		}
 	}

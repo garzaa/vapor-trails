@@ -9,6 +9,8 @@ public class Interactable : MonoBehaviour {
 
 	//editor-linked items
 	public GameObject promptPrefab;
+
+	public Transform optionalPromptTransform;
 	
 	GameObject currentPrompt = null;
 
@@ -41,12 +43,13 @@ public class Interactable : MonoBehaviour {
 			} 
 			//otherwise just do it above the gameobject's center
 			else {
-				currentPrompt = (GameObject) Instantiate(
-					promptPrefab, 
-					new Vector2(
+				Vector2 pos = optionalPromptTransform != null ? (Vector2) optionalPromptTransform.position : new Vector2(
 						this.transform.position.x, 
 						this.transform.position.y + topMargin
-						), 
+						);
+				currentPrompt = (GameObject) Instantiate(
+					promptPrefab, 
+					pos,
 					Quaternion.identity, 
 					this.transform
 				);
