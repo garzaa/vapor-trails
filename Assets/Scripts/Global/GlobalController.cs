@@ -345,6 +345,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	// hide dialogue UI but keep the player frozen
+	// dialogue being open is a prerequisite for the cutscene state :^(
 	public static void EnterCutscene() {
 		inCutscene = true;
 		dialogueUI.Hide();

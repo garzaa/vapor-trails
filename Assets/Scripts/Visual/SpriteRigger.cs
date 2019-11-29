@@ -7,10 +7,10 @@ public class SpriteRigger : MonoBehaviour {
     public void ApplyAtlas() {
         foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>()) {
             Sprite oldSprite = spriteRenderer.sprite;
-            Debug.Log($"{oldSprite.name}, {oldSprite.pivot}");
             Sprite newSprite = Sprite.Create(
                 spriteAtlas,
                 oldSprite.rect,
+                // assume it's a pixel-based pivot, convert it to normalized like the constructor expects
                 oldSprite.pivot / oldSprite.rect.size,
                 oldSprite.pixelsPerUnit,
                 1,
@@ -22,10 +22,5 @@ public class SpriteRigger : MonoBehaviour {
             
         }
 
-    }
-
-    Vector2 convertPivot(Vector2 pivot, Rect rect) {
-        // assume it's a pixel-based pivot, convert it to normalized
-        return pivot / rect.size;
     }
 }

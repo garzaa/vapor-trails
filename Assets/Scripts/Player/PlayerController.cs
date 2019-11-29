@@ -984,11 +984,6 @@ public class PlayerController : Entity {
 	}
 
 	public void ExitDialogue() {
-		StartCoroutine(ActuallyExitDialogue());
-	}
-
-	private IEnumerator ActuallyExitDialogue() {
-		yield return new WaitForEndOfFrame();
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();
