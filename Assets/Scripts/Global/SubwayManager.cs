@@ -16,7 +16,7 @@ public class SubwayManager : MonoBehaviour {
     public List<StationSceneMapping> stationMappings;
 
     void Start() {
-        sm = this;
+        if (sm == null) sm = this;
         mapUI = GlobalController.gc.GetComponentInChildren<SubwayMapUI>(true);
         CloseMapUI();
     }

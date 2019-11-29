@@ -8,7 +8,7 @@ public class Hitstop : MonoBehaviour{
 	public static Hitstop instance;
 
 	void Awake() {
-		instance = this;
+		if (instance == null) instance = this;
 	}
 
 	public static void Run(float seconds) {

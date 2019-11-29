@@ -12,13 +12,17 @@ public class TargetingSystem : MonoBehaviour {
 	Animator targetAnim;
 
 	List<Ability> playerUnlocks;
+	
+	bool onPlayer = false;
 
 	void Start() {
+		onPlayer = gameObject.GetComponentInParent<PlayerUnlocks>() != null;
+		if (!onPlayer) return;
 		playerUnlocks = gameObject.GetComponentInParent<PlayerUnlocks>().unlockedAbilities;
 	}
 
 	bool CanTarget() {
-		return playerUnlocks.Contains(Ability.GunEyes);
+		return !onPlayer || playerUnlocks.Contains(Ability.GunEyes);
 	}
 
 	void OnEnable() {
@@ -62,7 +66,7 @@ public class TargetingSystem : MonoBehaviour {
 	}
 
 	void Update() {
-		if (targetingUI == null || !CanTarget()) {
+		if (onPlayer && (targetingUI == null || !CanTarget())) {
 			targetAnim.SetBool("Locked", false);
 			return;
 		}
@@ -71,9 +75,9 @@ public class TargetingSystem : MonoBehaviour {
 			if (targetingUI.transform.position != closest.transform.position) {
 				targetingUI.transform.position = Vector3.Lerp(targetingUI.transform.position, closest.transform.position, 0.5f);
 			}
-			targetAnim.SetBool("Locked", true);
+			if (onPlayer) targetAnim.SetBool("Locked", true);
 		} else {
-			targetAnim.SetBool("Locked", false);
+			if (onPlayer) targetAnim.SetBool("Locked", false);
 		}
 	}
 
