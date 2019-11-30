@@ -66,7 +66,8 @@ public class TargetingSystem : MonoBehaviour {
 	}
 
 	void Update() {
-		if (onPlayer && (targetingUI == null || !CanTarget())) {
+		if (!onPlayer) return;
+		if (targetingUI == null || !CanTarget()) {
 			targetAnim.SetBool("Locked", false);
 			return;
 		}
