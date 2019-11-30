@@ -545,7 +545,10 @@ public class PlayerController : Entity {
 				impactSpeed
 			);
 			// if they're in the divekick state
-			if (anim.GetInteger("SubState") == -250 && InputManager.HasHorizontalInput()) {
+			if (anim.GetInteger("SubState") == -250) {
+				// animator will transition to slide here
+				// also, don't need to check for horizontal input because a lack of it will immediately go from
+				// the slide kick to idle
 			} else if (InputManager.HasHorizontalInput()) {
 				AlerterText.Alert("Transferring momentum");
 				anim.SetTrigger("Roll");
