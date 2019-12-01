@@ -8,7 +8,7 @@ public class PlayerController : Entity {
 	float jumpSpeed = 4.5f;
 	float jumpCutoff = 2.0f;
 	float hardLandSpeed = -4.5f;
-	public float dashSpeed = 6f;
+	float dashSpeed = 6f;
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
@@ -244,7 +244,7 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (grounded && rb2d.velocity.y < 0 && groundCheck.TouchingPlatforms() != null) {
+		if (!grounded && rb2d.velocity.y < 0 && groundCheck.TouchingPlatforms() != null) {
 			LedgeBoost();
 		}
 
@@ -433,6 +433,7 @@ public class PlayerController : Entity {
 	public void StartDashAnimation(bool backwards) {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 		float additive = 0f;
+		// backdash always comes from initial fdash, so subtract fdash speed if necessary	
 		if (backwards && preDashSpeed>dashSpeed) {
 			additive = preDashSpeed - dashSpeed;
 		}
@@ -517,7 +518,6 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundHit(float impactSpeed) {
-		AlerterText.Alert("ground hit");
 		grounded = true;
 		canShortHop = true;
 		ResetAirJumps();
@@ -542,7 +542,7 @@ public class PlayerController : Entity {
 			hardFalling = false;
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
-				rb2d.velocity.x + (Mathf.Abs(impactSpeed / 2f) * InputManager.HorizontalInput()),
+				rb2d.velocity.x + (Mathf.Abs(impactSpeed / 4f) * InputManager.HorizontalInput()),
 				impactSpeed
 			);
 			// if they're in the divekick state
@@ -551,7 +551,6 @@ public class PlayerController : Entity {
 				// also, don't need to check for horizontal input because a lack of it will immediately go from
 				// the slide kick to idle
 			} else if (InputManager.HasHorizontalInput()) {
-				AlerterText.Alert("Transferring momentum");
 				anim.SetTrigger("Roll");
 			} else {
 				anim.SetTrigger("HardLand");

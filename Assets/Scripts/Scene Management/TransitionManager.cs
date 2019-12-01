@@ -119,7 +119,7 @@ public class TransitionManager : MonoBehaviour {
 		//preserve dash/supercruise state between scenes
 		PlayerController pc = GlobalController.pc;
 		pc.LockInSpace();
-		frozePlayerBeforeTransition = (pc.dashing || pc.supercruise);
+		frozePlayerBeforeTransition = pc.supercruise;
 
 		StartCoroutine(LoadAsync(sceneName));
 	}
