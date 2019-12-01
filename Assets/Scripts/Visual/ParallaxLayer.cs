@@ -12,6 +12,8 @@ public class ParallaxLayer : MonoBehaviour {
 	private bool activeLastFrame;
 	private ParallaxOption options;
 
+	public bool moveInEditor = false;
+
 	void Start() {
 		GameObject gameCamera = GameObject.Find("Main Camera");
 		if (gameCamera == null) return;
@@ -22,6 +24,10 @@ public class ParallaxLayer : MonoBehaviour {
 	}
 
 	public void Update() {
+		#if UNITY_EDITOR
+			if (!moveInEditor) return;
+		#endif
+
 		if (cameraTransform == null ) {
 			return;
 		}

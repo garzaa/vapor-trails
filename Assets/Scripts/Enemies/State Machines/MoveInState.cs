@@ -36,15 +36,13 @@ public class MoveInState : StateMachineBehaviour {
 
 	public virtual void Move(Animator animator) {
 		Rigidbody2D rb2d = animator.GetComponent<Rigidbody2D>();
-		Vector2 newDirection = direction;
-		// if the x or y component of velocity is zero, do you clamp it at zero or leave it alone
-		if (forceZero) {
-			newDirection = new Vector2(
-				direction.x == 0 ? 0 : rb2d.velocity.x,
-				direction.y == 0 ? 0 : rb2d.velocity.y
-			);
-		}
 
-		rb2d.velocity = newDirection * e.ForwardVector();
+		Vector2 newDirection = new Vector2(
+			(direction.x == 0 ? (forceZero ? 0 : rb2d.velocity.x) : direction.x * e.ForwardScalar()),
+			direction.y == 0 ? (forceZero ? 0 : rb2d.velocity.y) : direction.y
+		);
+
+
+		rb2d.velocity = newDirection;
 	}
 }
