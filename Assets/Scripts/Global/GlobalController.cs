@@ -178,6 +178,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterDialogue(NPC npc) {
+		Time.timeScale = 0;
 		if (dialogueOpen) {
 			queuedNPCs.Enqueue(npc);
 			return;
@@ -190,6 +191,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void ExitDialogue() {
+		Time.timeScale = 1;
 		dialogueOpen = false;
 		dialogueUI.Hide();
 		dialogueClosedThisFrame = true;

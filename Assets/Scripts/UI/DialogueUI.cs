@@ -76,7 +76,7 @@ public class DialogueUI : UIComponent {
 			if (isPause(textToRender[letterIndex])) {
 				scalar = 7;
 			}
-			yield return new WaitForSeconds(letterDelay * scalar);
+			yield return new WaitForSecondsRealtime(letterDelay * scalar);
 			letterIndex++;
 			StartCoroutine(SlowRender());
 		} else {
