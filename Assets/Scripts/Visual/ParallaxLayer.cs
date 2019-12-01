@@ -24,9 +24,6 @@ public class ParallaxLayer : MonoBehaviour {
 	}
 
 	public void Update() {
-		#if UNITY_EDITOR
-			if (!moveInEditor) return;
-		#endif
 
 		if (cameraTransform == null ) {
 			return;

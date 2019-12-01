@@ -381,7 +381,7 @@ public class PlayerController : Entity {
 		}
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
-			y:jumpSpeed + Mathf.Max(rb2d.velocity.y, 0)
+			y:jumpSpeed
 		);
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
@@ -525,10 +525,6 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		SaveLastSafePos();
 		EndDashCooldown();
-		if (impactSpeed > 0 && InputManager.Button(Buttons.JUMP)) {
-			LedgeBoost();
-			return;
-		}
 		ImpactDust();
 		if (inMeteor) {
 			LandMeteor();
