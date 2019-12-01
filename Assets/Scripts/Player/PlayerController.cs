@@ -398,7 +398,7 @@ public class PlayerController : Entity {
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
 			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
-			y:jumpSpeed + Mathf.Max(rb2d.velocity.y, 0)
+			y:jumpSpeed
 		);
 		if (!justLeftWall) Flip();
 		anim.SetTrigger("WallJump");
@@ -776,11 +776,11 @@ public class PlayerController : Entity {
 			return;
 		}
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
-		if (movingTowardsLedge && InputManager.VerticalInput() > 0.2f) {
-			anim.SetTrigger(Buttons.JUMP);
+		if (movingTowardsLedge && InputManager.VerticalInput() > -0.1f) {
 			EndDashCooldown();
 			ResetAirJumps();
 			InterruptAttack();
+			InterruptSupercruise();
 			rb2d.velocity = new Vector2(
 				x:(IsSpeeding() ? rb2d.velocity.x : speedLimiter.maxSpeedX * ForwardScalar()),
 				y:ledgeBoostSpeed
