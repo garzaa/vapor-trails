@@ -18,13 +18,15 @@ public class GroundCheck : MonoBehaviour {
 	Rigidbody2D rb2d;
 	Entity entity;
 
-	int layerMask;
+	int defaultLayerMask;
 
 	public bool constantlyUseCollider = false;
 	public BoxCollider2D collidertoUse;
 
+	bool onPlayer = false;
+
 	protected void Start() {
-		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+		defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		if (generateFromCollider && !constantlyUseCollider) {
 			BoxCollider2D bc = GetComponent<BoxCollider2D>();
 			Vector2 center = bc.offset;
@@ -45,6 +47,9 @@ public class GroundCheck : MonoBehaviour {
 		if (entity != null) {
 			rb2d = entity.GetComponent<Rigidbody2D>();
 		}
+		if (GetComponent<PlayerController>() != null) {
+			onPlayer = true;
+		}
 	}
 
 	bool LeftGrounded() {
@@ -62,7 +67,18 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	public bool IsGrounded() {
-		return LeftGrounded() || RightGrounded();
+		if (!constantlyUseCollider) return LeftGrounded() || RightGrounded();
+		else {
+			RaycastHit2D hit = Physics2D.BoxCast(
+				(Vector2) collidertoUse.transform.position + collidertoUse.offset,
+				collidertoUse.size * new Vector2(0.9f, 1f),
+				0f,
+				Vector2.down,
+				0.02f,
+				defaultLayerMask
+			);
+			return hit.transform != null;
+		}
 	}
 
 	public bool OnLedge() {
@@ -78,7 +94,7 @@ public class GroundCheck : MonoBehaviour {
 			StartCoroutine(GroundLeaveTimeout(coyoteTime));
 		}
 
-		if (GetComponent<PlayerController>() != null) {
+		if (onPlayer) {
 			bool ledgeStepLastFrame = ledgeStepCurrentFrame;
 			ledgeStepCurrentFrame = OnLedge();
 			if (!ledgeStepLastFrame && ledgeStepCurrentFrame) {

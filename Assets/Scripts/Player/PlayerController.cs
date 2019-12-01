@@ -209,7 +209,7 @@ public class PlayerController : Entity {
 				Dash();
 			} 
 		}
-		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise) {
+		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
@@ -517,6 +517,7 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundHit(float impactSpeed) {
+		AlerterText.Alert("ground hit");
 		grounded = true;
 		canShortHop = true;
 		ResetAirJumps();
@@ -651,6 +652,7 @@ public class PlayerController : Entity {
 	void OnWallHit(GameObject touchingWall) {
 		EndDashCooldown();
 		EndSupercruise();
+		InterruptMeteor();
 		//hold to wallclimb
 		anim.SetBool("TouchingWall", true);
 		if (!grounded) SoundManager.HardLandSound();
