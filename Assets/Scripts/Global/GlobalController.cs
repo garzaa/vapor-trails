@@ -178,6 +178,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterDialogue(NPC npc) {
+		Hitstop.Interrupt();
 		Time.timeScale = 0;
 		if (dialogueOpen) {
 			queuedNPCs.Enqueue(npc);

@@ -7,6 +7,8 @@ public class AcceleratorController : MonoBehaviour
 
     Animator animator;
 
+    public Vector2 knockback;
+
     void Start() {
         animator = GetComponent<Animator>();
     }
@@ -14,12 +16,8 @@ public class AcceleratorController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) {
         Rigidbody2D rb2d = other.GetComponent<Rigidbody2D>();
         if (rb2d != null) {
-            rb2d.velocity += (rb2d.velocity.normalized * 6f);
-            SoundManager.JumpSound();
+            rb2d.velocity = knockback.Rotate(transform.rotation.z);
             animator.SetTrigger("Boost");
-            if (rb2d.GetComponent<PlayerController>() != null) {
-                rb2d.GetComponent<PlayerController>().EndShortHopWindow();
-            }
         }
     }
 }

@@ -176,10 +176,10 @@ public class PlayerController : Entity {
 
 	public void FirstParry() {
 		AlerterText.Alert("Autoparry active");
+		anim.SetTrigger("Parry");
 		parryParticles.Emit(15);
 		CameraShaker.Shake(0.1f, 0.1f);
 		Hitstop.Run(0.5f);
-		anim.SetTrigger("Parry");
 	}
 
 	public void EndShortHopWindow() {
@@ -1225,5 +1225,11 @@ public class PlayerController : Entity {
 		canParry = false;
 		parryCount = 0;
 		AlerterText.Alert("Autoparry inactive");
+	}
+
+	public void OnAttackLand(Attack attack) {
+		if (attack.name.Equals("OrcaFist")) {
+			canUpSlash = true;
+		}
 	}
 }

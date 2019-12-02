@@ -11,8 +11,13 @@ public class PlayerAttack : Attack {
 	public float hitstopLength = 0.2f;
 	public bool rotateHitmarker = true;
 
+	public bool attackLandEvent = false;
+
+	PlayerController player;
+
 	void Start() {
-		attackerParent = GameObject.Find("Player").GetComponent<PlayerController>();
+		player = GameObject.Find("Player").GetComponent<PlayerController>();
+		attackerParent = player;
 		attackedTags = new List<string>();
 		attackedTags.Add(Tags.EnemyHurtbox);
 		rb2d = attackerParent.GetComponent<Rigidbody2D>();
@@ -31,18 +36,22 @@ public class PlayerAttack : Attack {
 		}
 		//give the player some energy
 		if (gainsEnergy) {
-			attackerParent.GetComponent<PlayerController>().GainEnergy(this.energyGained);
+			player.GainEnergy(this.energyGained);
 		}
 		//deplete energy if necessary
 		if (costsEnergy) {
-			attackerParent.GetComponent<PlayerController>().LoseEnergy(this.energyCost);
+			player.LoseEnergy(this.energyCost);
 		}
 
 		SoundManager.HitSound();
+
+		if (attackLandEvent) {
+			player.OnAttackLand(this);
+		}
 		
 		//run hitstop if it's a player attack
 		if (hitstopLength > 0.0f && this.gameObject.CompareTag(Tags.PlayerHitbox)) {
-			//Hitstop.Run(this.hitstopLength);
+			Hitstop.Run(this.hitstopLength);
 			CameraShaker.TinyShake();
 		}
 	}
@@ -91,8 +100,8 @@ public class PlayerAttack : Attack {
 	}
 
 	public void OnDeflect() {
-		attackerParent.GetComponent<PlayerController>().GainEnergy(1);
-		attackerParent.GetComponent<PlayerController>().Parry();
+		player.GainEnergy(1);
+		player.Parry();
 	}
 
 	override public int GetDamage() {
