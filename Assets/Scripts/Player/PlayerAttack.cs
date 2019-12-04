@@ -80,6 +80,7 @@ public class PlayerAttack : Attack {
                 Vector2.Angle(Vector2.right, knockbackVector)
             );
         }
+		h.transform.parent = null;
 	}
 
 	void EmitHitParticles(Collider2D otherCol) {

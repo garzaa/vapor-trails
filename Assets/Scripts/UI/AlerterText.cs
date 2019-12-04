@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class AlerterText : MonoBehaviour {
     public GameObject textPrefab;
@@ -12,8 +13,8 @@ public class AlerterText : MonoBehaviour {
     static Queue<string> alertQueue = new Queue<string>();
 
     void Start() {
-        at = this;
-        CheckQueue();
+        if (at == null) at = this;
+        StartCoroutine(CheckQueue());
     }
 
     static void DisplayAlert(string alertText) {
@@ -32,13 +33,11 @@ public class AlerterText : MonoBehaviour {
         }
     }
 
-    public void CheckQueue() {
+    public IEnumerator CheckQueue() {
         if (alertQueue.Count > 0) {
             DisplayAlert(alertQueue.Dequeue());
         }
-        if (at == null) {
-            return;
-        }
-        at.Invoke("CheckQueue", at.alertInterval);
+        yield return new WaitForSecondsRealtime(alertInterval);
+        at.StartCoroutine(CheckQueue());
     }
 }
