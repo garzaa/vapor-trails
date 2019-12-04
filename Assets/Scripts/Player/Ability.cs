@@ -11,5 +11,6 @@ public enum Ability {
 	None,
 	Heal,
 	Hover,
-	Save
+	Save,
+	Heartbreaker
 }

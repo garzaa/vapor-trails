@@ -216,7 +216,7 @@ public class PlayerController : Entity {
 		} 
 		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0.2f && !supercruise && !touchingWall && !grounded) {
 			UpSlash();
-		} else if (InputManager.BlockInput() && !canParry) {
+		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			anim.SetTrigger(Buttons.BLOCK);
 		}
 	}
@@ -631,6 +631,7 @@ public class PlayerController : Entity {
 
 	public void ResetAttackTriggers() {
 		anim.ResetTrigger(Buttons.ATTACK);
+		anim.ResetTrigger("Hurt");
 	}
 
 	void UpdateWallSliding() {
@@ -1029,18 +1030,16 @@ public class PlayerController : Entity {
 	}
 
 	public void Heal() {
-		if (healCost > currentEnergy) {
+		if (healCost > currentEnergy || currentHP < maxHP) {
 			return;
 		}
 		
-		if (currentHP < maxHP) {
-			if (grounded) {
-				ImpactDust();
-			}
-			SoundManager.HealSound();
-			currentHP += healAmt;
-			currentEnergy -= healCost;
+		if (grounded) {
+			ImpactDust();
 		}
+		SoundManager.HealSound();
+		currentHP += healAmt;
+		currentEnergy -= healCost;
 	}
 
 	public void CheckHeal() {
@@ -1049,6 +1048,7 @@ public class PlayerController : Entity {
 		} else {
 			anim.SetBool("CanHeal", true);
 		}
+		anim.SetBool("CanHeartbreak", unlocks.HasAbility(Ability.Heartbreaker));
 	}
 
 	public float MoveSpeedRatio() {
