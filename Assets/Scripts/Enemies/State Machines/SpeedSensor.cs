@@ -13,6 +13,7 @@ public class SpeedSensor : Sensor {
 		} else {
 			rb2d = animator.GetComponent<Rigidbody2D>();
 		}
+		animator.logWarnings = false;
 	}
 
 	void Update () {
