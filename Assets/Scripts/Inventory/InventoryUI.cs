@@ -64,7 +64,7 @@ public class InventoryUI : UIComponent {
     }
 
     public void PopulateItems(InventoryList inventoryList) {
-        // don't want to modify things in place, instead copy and iterate through that
+        // don't want to modify the list in place, instead copy and iterate through that
         // it Just Works
         foreach (Transform oldItem in gridHolder.transform.Cast<Transform>().ToArray()) {
             // Destroy is called after the Update loop, which screws up the first child selection logic

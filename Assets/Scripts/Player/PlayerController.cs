@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : Entity {
 	//constants
 	public float moveSpeed = 3.5f;
-	float jumpSpeed = 4.5f;
+	float jumpSpeed = 3.8f;
 	float jumpCutoff = 2.0f;
 	float hardLandSpeed = -4.5f;
 	float dashSpeed = 7f;
@@ -538,7 +538,8 @@ public class PlayerController : Entity {
 			hardFalling = false;
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
-				rb2d.velocity.x + (Mathf.Abs(impactSpeed / 4f) * InputManager.HorizontalInput()),
+				// don't multiply by HInput to be kinder to controller users
+				rb2d.velocity.x + (Mathf.Abs(impactSpeed / 4f)),
 				impactSpeed
 			);
 			// if they're in the divekick state
@@ -560,7 +561,6 @@ public class PlayerController : Entity {
 			CameraShaker.Shake(0.1f, 0.1f);
 		}
 		if (terminalFalling) {
-			AlerterText.Alert("Impact compensation");
 			CameraShaker.Shake(0.2f, 0.1f);
 		}
 		if (bufferedJump) {

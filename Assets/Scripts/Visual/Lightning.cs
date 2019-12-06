@@ -17,12 +17,15 @@ public class Lightning : MonoBehaviour {
 
 	LineRenderer lineRenderer;
 
+	EdgeCollider2D edge;
+
 	void OnEnable() {
 		lineRenderer = GetComponent<LineRenderer>();
 		if (pointA == null || pointB == null) {
 			Debug.Log("brainlet alert");
 		}
 		StartCoroutine(WaitAndDraw());
+		edge = GetComponent<EdgeCollider2D>();
 	}
 
 	IEnumerator WaitAndDraw() {
@@ -33,6 +36,9 @@ public class Lightning : MonoBehaviour {
 
 	void Draw() {
 		float distance = Vector2.Distance(pointA.localPosition, pointB.localPosition);
+		if (distance < 0.01f) return;
+		// don't ask. don't change
+		distance += 1.5f;
 		//want your linerenderer to use world space? too bad idiot, you have to work for it
 		Vector2 normB = pointB.localPosition - pointA.localPosition;
 		int numPoints = (int) (distance * segmentsPerUnit);
@@ -53,11 +59,12 @@ public class Lightning : MonoBehaviour {
 		lineRenderer.positionCount = numPoints;
 		lineRenderer.SetPositions(points);
 		StartCoroutine(WaitAndDraw());
+		if (edge != null) SetEdgePositions();
 	}
 
 	Vector2 Perturbator(int i, int numPoints, float originalAngle) {
 		//first and last points should always be consistent
-		if (i==0 || i==numPoints) {
+		if (i==0 || i==numPoints-1 || perturbation == 0) {
 			return Vector2.zero;
 		} else {
 			//we only want noise perpendicular to A->B
@@ -65,8 +72,11 @@ public class Lightning : MonoBehaviour {
 				Random.Range(-perturbation, perturbation),
 				0
 			);
-			float newAngle = Mathf.PI - originalAngle;
-			return Quaternion.AngleAxis(newAngle, Vector3.back) * originalVector;
+			return originalVector;
 		}
+	}
+
+	void SetEdgePositions() {
+		edge.points = new Vector2[] {pointA.transform.localPosition, pointB.transform.localPosition};
 	}
 }
