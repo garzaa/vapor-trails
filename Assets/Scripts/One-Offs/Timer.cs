@@ -1,12 +1,14 @@
 ﻿ using UnityEngine;
- using System.Collections;
  using UnityEngine.UI;
  
  public class Timer : MonoBehaviour {
 	public Text timerLabel;
 	private float time;
 
+	bool timing = true;
+
 	void Update() {
+		if (!timing) return;
 		time += Time.deltaTime;
 
 		var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
@@ -19,5 +21,9 @@
 
 	public void Reset() {
 		time = 0;
+	}
+
+	public void Stop() {
+		timing = false;
 	}
  }

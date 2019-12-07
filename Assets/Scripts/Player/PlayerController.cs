@@ -87,6 +87,7 @@ public class PlayerController : Entity {
 
 
 	//other misc prefabs
+	public GameObject selfHitmarker;
 	public Transform vaporExplosion;
 	public Transform sparkle;
 	public Transform dust;
@@ -539,7 +540,7 @@ public class PlayerController : Entity {
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
 				// don't multiply by HInput to be kinder to controller users
-				rb2d.velocity.x + (Mathf.Abs(impactSpeed / 4f)),
+				(Mathf.Abs(rb2d.velocity.x) + (Mathf.Abs(impactSpeed / 4f))) * ForwardScalar(),
 				impactSpeed
 			);
 			// if they're in the divekick state
@@ -863,6 +864,7 @@ public class PlayerController : Entity {
 	}
 
 	void DamageFor(int dmg) {
+		Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
 		SoundManager.PlayerHurtSound();
 		currentHP -= dmg;
 		if (currentHP <= 0) {

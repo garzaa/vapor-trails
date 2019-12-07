@@ -103,6 +103,10 @@ public class GlobalController : MonoBehaviour {
             LoadGame();
         }
 
+		if (Input.GetKeyDown(KeyCode.R) && SceneManager.GetActiveScene().name.Equals("TargetTest")) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
+
 		if (Input.GetButtonDown("Start") && pauseEnabled) {
 			if (!paused) {
 				Pause();

@@ -10,6 +10,8 @@ public class ScheduledActivator : Activator {
 	public float lowBound;
 	public float highBound;
 
+	public bool oneShot = false;
+
 	public override void Start() {
 		base.Start();
 		Invoke("InvokedActivation", delay);
@@ -17,6 +19,7 @@ public class ScheduledActivator : Activator {
 
 	void InvokedActivation() {
 		Activate();
+		if (oneShot) return;
 		Invoke("InvokedActivation", timeout);
 	}
 
