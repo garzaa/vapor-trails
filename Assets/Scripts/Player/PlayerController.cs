@@ -605,7 +605,7 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			return;
 		}
-		GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
+		if (lastSafeObject != null)	GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		UnLockInSpace();
 	}
 
@@ -698,6 +698,7 @@ public class PlayerController : Entity {
 
     public void SetInvincible(bool b) {
         this.invincible = b;
+		this.envDmgSusceptible = b;
     }
 
 	void MeteorSlam() {
