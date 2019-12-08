@@ -3,12 +3,19 @@ using System.Collections;
 
 public class AnimationDelay : MonoBehaviour {
     public float delay;
+
+    public bool random;
+    public float lowBound;
+    public float highBound;
     
     Animator animator;
 
     void Start() {
         animator = GetComponent<Animator>();
         bool scaled = !animator.updateMode.Equals(AnimatorUpdateMode.UnscaledTime);
+        if (random) {
+            delay = Random.Range(lowBound, highBound);
+        }
         if (delay > 0) {
             animator.speed = 0;
             if (scaled) {

@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class RigidBodyMover : RigidBodyAffector {
+    [Header("DEPRECATED")]
     public float x;
     public float y;
     public bool forceX;

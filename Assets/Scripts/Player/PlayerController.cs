@@ -92,7 +92,7 @@ public class PlayerController : Entity {
 	public Transform sparkle;
 	public Transform dust;
 	public GameObject impactParticles;
-	public ParticleSystem parryParticles;
+	public GameObject parryParticles;
 	GameObject instantiatedSparkle = null;
 
 	string[] deathText = {
@@ -178,8 +178,8 @@ public class PlayerController : Entity {
 	public void FirstParry() {
 		AlerterText.Alert("Autoparry active");
 		anim.SetTrigger("Parry");
-		parryParticles.Emit(15);
-		CameraShaker.Shake(0.1f, 0.1f);
+		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
+		CameraShaker.Shake(0.2f, 0.2f);
 		Hitstop.Run(0.5f);
 	}
 
