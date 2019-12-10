@@ -69,9 +69,11 @@ public class GroundCheck : MonoBehaviour {
 	public bool IsGrounded() {
 		if (!constantlyUseCollider) return LeftGrounded() || RightGrounded();
 		else {
+			Vector2 origin = (Vector2) collidertoUse.transform.position + collidertoUse.offset;
+			origin.y -= collidertoUse.size.y/2f;
 			RaycastHit2D hit = Physics2D.BoxCast(
-				(Vector2) collidertoUse.transform.position + collidertoUse.offset,
-				collidertoUse.size * new Vector2(0.9f, 1f),
+				origin,
+				collidertoUse.size * new Vector2(0.9f, .1f),
 				0f,
 				Vector2.down,
 				0.02f,
