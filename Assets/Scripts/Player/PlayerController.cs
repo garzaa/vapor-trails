@@ -13,7 +13,7 @@ public class PlayerController : Entity {
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
 	float dodgeSpeed = 5f;
-	public bool hardFalling = false;
+	bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	public int currentHP = 1;
 	public int currentEnergy = 5;
@@ -37,7 +37,7 @@ public class PlayerController : Entity {
 	GameObject lastSafeObject;
 	SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
-	public bool canParry = false;
+	bool canParry = false;
 	float parryTimeout = 20f/60f;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
