@@ -207,7 +207,7 @@ public class PlayerController : Entity {
 
 		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
 			anim.SetTrigger(Buttons.ATTACK);
-		} else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) <= 0.2f) {
+		} else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			} 
@@ -217,7 +217,7 @@ public class PlayerController : Entity {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && InputManager.VerticalInput() > 0.2f && !supercruise && !touchingWall && !grounded) {
+		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
 			UpSlash();
 		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			anim.SetTrigger(Buttons.BLOCK);
@@ -1037,13 +1037,14 @@ public class PlayerController : Entity {
 	}
 
 	public void Heal() {
-		if (healCost > currentEnergy || currentHP < maxHP) {
+		if (healCost > currentEnergy || currentHP >= maxHP) {
 			return;
 		}
 		
 		if (grounded) {
 			ImpactDust();
 		}
+
 		SoundManager.HealSound();
 		currentHP += healAmt;
 		currentEnergy -= healCost;
