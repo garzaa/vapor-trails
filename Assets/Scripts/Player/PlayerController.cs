@@ -12,6 +12,7 @@ public class PlayerController : Entity {
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
+	float dodgeSpeed = 5f;
 	public bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
 	public int currentHP = 1;
@@ -21,6 +22,7 @@ public class PlayerController : Entity {
 	public int parryCount = 0;
 	public int baseDamage = 1;
 	float invincibilityLength = .5f;
+	float selfDamageHitstop = .5f;
 	int healCost = 1;
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
@@ -188,7 +190,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene) {
+		if (inCutscene || dead) {
 			return;
 		}
 
@@ -600,13 +602,15 @@ public class PlayerController : Entity {
 	}
 
 
-	void ReturnToSafety() {
-		AlerterText.Alert("Returning to safety");
+	IEnumerator ReturnToSafety(float delay) {
+		yield return new WaitForSecondsRealtime(delay);
 		if (this.currentHP <= 0) {
-			return;
+			yield break;
 		}
+		AlerterText.Alert("Returning to safety");
 		if (lastSafeObject != null)	GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		UnLockInSpace();
+		StunFor(0.2f);
 	}
 
 	public override void OnGroundLeave() {
@@ -698,7 +702,7 @@ public class PlayerController : Entity {
 
     public void SetInvincible(bool b) {
         this.invincible = b;
-		this.envDmgSusceptible = b;
+		this.envDmgSusceptible = !b;
     }
 
 	void MeteorSlam() {
@@ -809,7 +813,7 @@ public class PlayerController : Entity {
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
-		Hitstop.Run(0.2f);
+		Hitstop.Run(selfDamageHitstop);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
 		if (currentHP > 0) {
@@ -1105,17 +1109,10 @@ public class PlayerController : Entity {
 	}
 
 	void OnEnviroDamage(EnviroDamage e) {
-		this.envDmgSusceptible = false;
 		if (!grounded && e.returnPlayerToSafety) {
 			LockInSpace();
-			Invoke("ReturnToSafety", 0.2f);
+			StartCoroutine(ReturnToSafety(selfDamageHitstop));
 		}
-		StunFor(e.stunLength);
-		Invoke("EnableEnviroDamage", .2f);
-	}
-
-	void EnableEnviroDamage() {
-		this.envDmgSusceptible = true;
 	}
 
 	public void ForceWalking() {
@@ -1234,5 +1231,6 @@ public class PlayerController : Entity {
 		if (attack.name.Equals("OrcaFist")) {
 			canUpSlash = true;
 		}
+		if (airJumps == 0) airJumps++;	
 	}
 }

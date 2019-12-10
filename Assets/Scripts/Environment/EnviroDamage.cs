@@ -31,7 +31,7 @@ public class EnviroDamage : Attack {
 		if (e == null) {
 			return false;
 		}
-		if (e.envDmgSusceptible && !e.stunned) {
+		if (e.envDmgSusceptible) {
 			return true;
 		} else {
 			return false;
