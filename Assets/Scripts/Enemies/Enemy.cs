@@ -43,6 +43,7 @@ public class Enemy : Entity {
 	}
 
 	void OnEnable() {
+		base.OnEnable();
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.Find("Player");
@@ -195,6 +196,7 @@ public class Enemy : Entity {
 	}
 
 	public override void OnGroundHit(float impactSpeed) {
+		base.OnGroundHit(impactSpeed);
 		anim.SetBool("Grounded", true);
 		foreach (EnemyBehavior eb in this.behaviors) {
 			eb.OnGroundHit();

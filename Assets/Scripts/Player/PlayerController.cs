@@ -92,7 +92,6 @@ public class PlayerController : Entity {
 	public GameObject selfHitmarker;
 	public Transform vaporExplosion;
 	public Transform sparkle;
-	public Transform dust;
 	public GameObject impactParticles;
 	public GameObject parryParticles;
 	GameObject instantiatedSparkle = null;
@@ -1051,7 +1050,7 @@ public class PlayerController : Entity {
 	}
 
 	public void CheckHeal() {
-		if (healCost > currentEnergy || currentHP == maxHP || !unlocks.HasAbility(Ability.Heal)) {
+		if (healCost > currentEnergy || currentHP >= maxHP || !unlocks.HasAbility(Ability.Heal)) {
 			anim.SetBool("CanHeal", false);
 		} else {
 			anim.SetBool("CanHeal", true);
@@ -1074,39 +1073,6 @@ public class PlayerController : Entity {
 		bool b = !pressedUpLastFrame && upThisFrame;
 		pressedUpLastFrame = upThisFrame;
 		return b;
-	}
-
-	void ImpactDust() {
-		ForwardDust();
-		BackwardDust();
-	}
-
-	public void ForwardDust() {
- 		GameObject d = Instantiate(dust, new Vector3(
-			this.transform.position.x + 0.32f * ForwardScalar(),
-			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
-			this.transform.position.z
-		), Quaternion.identity).gameObject;
-		d.transform.localScale = new Vector3(-this.transform.localScale.x, 1, 1);
-	}
-
-	public void BackwardDust() {
-		GameObject d = Instantiate(dust, new Vector3(
-			this.transform.position.x - 0.32f * ForwardScalar(),
-			this.transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y + .12f,
-			this.transform.position.z
-		), Quaternion.identity).gameObject;
-		d.transform.localScale = new Vector3(this.transform.localScale.x, 1, 1);
-	}
-
-	void DownDust() {
-		GameObject d = Instantiate(dust, new Vector3(
-			this.transform.position.x + 0.16f * ForwardScalar(),
-			this.transform.position.y - .48f,
-			this.transform.position.z
-		), Quaternion.identity, this.transform).gameObject;
-		d.transform.rotation = Quaternion.Euler(0, 0, 90 * ForwardScalar());
-		d.transform.parent = null;
 	}
 
 	void OnEnviroDamage(EnviroDamage e) {

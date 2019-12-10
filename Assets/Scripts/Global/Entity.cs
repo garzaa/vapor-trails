@@ -17,6 +17,12 @@ public class Entity : MonoBehaviour {
     public bool invincible = false;
     public bool envDmgSusceptible = true;
 
+    GameObject dust;
+
+    protected virtual void OnEnable() {
+        dust = (GameObject) Resources.Load("Effects/dustR");
+    }
+
     public virtual void Flip() {
         if (!canFlip) {
             return;
@@ -116,7 +122,9 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual void OnGroundHit(float impactSpeed) {
-
+        if (impactSpeed < 0) {
+            ImpactDust();
+        }
     }
 
     public virtual void OnGroundLeave() {
@@ -147,4 +155,46 @@ public class Entity : MonoBehaviour {
         return (facingRight && other.transform.position.x > this.transform.position.x) 
             || (!facingRight && other.transform.position.x < this.transform.position.x);
     }
+
+    protected void ImpactDust() {
+		ForwardDust();
+		BackwardDust();
+	}
+
+    float ColliderBottom() {
+        BoxCollider2D bc2d = GetComponent<BoxCollider2D>();
+        if (bc2d == null) {
+            print("PINGAS");
+            return 0;
+        }
+        return bc2d.transform.position.y - bc2d.offset.y - bc2d.size.y / 2;
+    }
+
+	public void ForwardDust() {
+ 		GameObject d = Instantiate(dust, new Vector3(
+			this.transform.position.x + 0.32f * ForwardScalar(),
+            ColliderBottom(),
+			this.transform.position.z
+		), Quaternion.identity).gameObject;
+		d.transform.localScale = new Vector3(ForwardScalar(), 1, 1);
+	}
+
+	public void BackwardDust() {
+		GameObject d = Instantiate(dust, new Vector3(
+			this.transform.position.x - 0.32f * ForwardScalar(),
+            ColliderBottom(),
+			this.transform.position.z
+		), Quaternion.identity).gameObject;
+		d.transform.localScale = new Vector3(-ForwardScalar(), 1, 1);
+	}
+
+    public void DownDust() {
+		GameObject d = Instantiate(dust, new Vector3(
+			this.transform.position.x + 0.16f * ForwardScalar(),
+			this.transform.position.y - .48f,
+			this.transform.position.z
+		), Quaternion.identity, this.transform).gameObject;
+		d.transform.rotation = Quaternion.Euler(0, 0, 90 * ForwardScalar());
+		d.transform.parent = null;
+	}
 }
