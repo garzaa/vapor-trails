@@ -9,8 +9,7 @@
 		[Header(Waves)]
 		_Speed ("Speed", Float) = 64
 		_Amp ("Amplitude", Float) = 2
-		_Width ("Width", Float) = 10
-		_Vertical ("Vertical", Range (0, 10)) = 0
+		_Width ("Wave Width", Float) = 10
 
 		[Header(Movement)]
 		_XSpeed ("X Speed", Float) = 1
@@ -79,7 +78,6 @@
 			uniform float _Speed;
 			uniform float _Amp;
 			uniform float _Width;
-			uniform float _Vertical;
 
 			float _XSpeed;
 			float _YSpeed;
