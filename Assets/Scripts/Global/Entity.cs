@@ -49,7 +49,7 @@ public class Entity : MonoBehaviour {
             return;
         }
         Rigidbody2D rb2d;
-        if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
+        if ((rb2d = GetComponent<Rigidbody2D>()) != null && InputManager.HasHorizontalInput()) {
             if (!facingRight && rb2d.velocity.x > 0 && movingRight)
             {
                 Flip();
