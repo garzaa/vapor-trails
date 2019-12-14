@@ -1200,4 +1200,10 @@ public class PlayerController : Entity {
 		}
 		if (airJumps == 0) airJumps++;	
 	}
+
+	public void OnBoost(AcceleratorController accelerator) {
+		StartCombatCooldown();
+		EndShortHopWindow();
+		rb2d.velocity = accelerator.GetBoostVector();
+	}
 }
