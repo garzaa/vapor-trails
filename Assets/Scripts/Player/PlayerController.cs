@@ -1204,6 +1204,7 @@ public class PlayerController : Entity {
 	public void OnBoost(AcceleratorController accelerator) {
 		StartCombatCooldown();
 		EndShortHopWindow();
+		transform.position = accelerator.transform.position;
 		rb2d.velocity = accelerator.GetBoostVector();
 	}
 }
