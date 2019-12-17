@@ -71,19 +71,19 @@ public class PlayerAttack : Attack {
 	}
 
 	override public void MakeHitmarker(Transform pos) {
-		GameObject h = Instantiate(hitmarker);
-        h.transform.position = pos.position;
-		Vector2 s = h.transform.localScale;
-		s.x = -attackerParent.transform.localScale.x;
-		h.transform.localScale = s;
+		GameObject h = Instantiate(hitmarker, this.transform.position, Quaternion.identity, this.transform);
+		// hitmarker is currently facing the correct direction (left, internally)
+		// so, rotate to match the angle between its initial rotation and the knockback vector
+		float angleDiff = Vector2.Angle(Vector2.left, knockbackVector * attackerParent.ForwardVector());
+		// and then throw all logic out the window because this is what makes it work
+		angleDiff = (angleDiff == 0 ? angleDiff : angleDiff-90f);
+		h.transform.eulerAngles = new Vector3(
+			0,
+			0,
+			angleDiff
+		);
+		// then split it off from the player
 		h.transform.parent = null;
-		if (rotateHitmarker) {
-            h.transform.eulerAngles = new Vector3(
-                0,
-                0,
-                Vector2.Angle(Vector2.right, knockbackVector * attackerParent.ForwardVector())
-            );
-        }
 	}
 
 	void EmitHitParticles(Collider2D otherCol) {
