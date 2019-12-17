@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 90084401}
   - component: {fileID: 90084400}
   - component: {fileID: 90084399}
+  - component: {fileID: 90084405}
   m_Layer: 11
   m_Name: EnvDamage
   m_TagString: EnviroDamage
@@ -261,32 +262,32 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 90084399}
     m_ColliderPaths:
-    - - X: 185599942
+    - - X: 185599971
         Y: 44800000
-      - X: 185599942
+      - X: 185599971
         Y: 64000000
       - X: 179200000
-        Y: 63999942
-      - X: 179200058
+        Y: 63999971
+      - X: 179200029
         Y: 44800000
-    - - X: 108800063
-        Y: 51199959
-      - X: 108800004
-        Y: 57600104
-      - X: 95999892
-        Y: 57600016
-      - X: 95999921
-        Y: 51199959
+    - - X: 108799963
+        Y: 51200000
+      - X: 108799963
+        Y: 57600004
+      - X: 95999992
+        Y: 57599975
+      - X: 96000021
+        Y: 51200000
   m_CompositePaths:
     m_Paths:
-    - - {x: 18.559992, y: 4.48}
-      - {x: 18.559992, y: 6.4}
-      - {x: 17.92, y: 6.3999915}
-      - {x: 17.920008, y: 4.48}
-    - - {x: 10.880003, y: 5.119996}
-      - {x: 10.879997, y: 5.7600102}
-      - {x: 9.599989, y: 5.759999}
-      - {x: 9.599996, y: 5.119996}
+    - - {x: 18.559994, y: 4.48}
+      - {x: 18.559994, y: 6.4}
+      - {x: 17.92, y: 6.3999944}
+      - {x: 17.920006, y: 4.48}
+    - - {x: 10.879993, y: 5.12}
+      - {x: 10.879993, y: 5.7600007}
+      - {x: 9.599999, y: 5.7599945}
+      - {x: 9.600005, y: 5.12}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.000005
 --- !u!50 &90084401
@@ -342,7 +343,7 @@ MonoBehaviour:
   returnPlayerToSafety: 1
   numParticles: 0
   particleObject: {fileID: 0}
-  impactSound: {fileID: 0}
+  impactSound: {fileID: 90084405}
 --- !u!483693784 &90084403
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -499,6 +500,102 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!82 &90084405
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90084397}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a990f36b8af24084ab36ab2506d168d5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &162609466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -615,7 +712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: {x: 0.1, y: 0.1}
   moveInOppositeDirection: 0
-  moveInEditor: 0
+  zeroOnStart: 1
 --- !u!483693784 &185554228
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -16438,7 +16535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: {x: 0.1, y: 0.1}
   moveInOppositeDirection: 0
-  moveInEditor: 0
+  zeroOnStart: 1
 --- !u!483693784 &500874875
 TilemapRenderer:
   m_ObjectHideFlags: 0
