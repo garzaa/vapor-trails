@@ -92,7 +92,6 @@ public class PlayerController : Entity {
 	public GameObject selfHitmarker;
 	public Transform vaporExplosion;
 	public Transform sparkle;
-	public GameObject impactParticles;
 	public GameObject parryParticles;
 	GameObject instantiatedSparkle = null;
 

@@ -14,6 +14,7 @@ public class PlayerAttack : Attack {
 	public bool attackLandEvent = false;
 
 	PlayerController player;
+	BoxCollider2D bc2d;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -21,6 +22,7 @@ public class PlayerAttack : Attack {
 		attackedTags = new List<string>();
 		attackedTags.Add(Tags.EnemyHurtbox);
 		rb2d = attackerParent.GetComponent<Rigidbody2D>();
+		bc2d = GetComponent<BoxCollider2D>();
 	}
 
 	public override void ExtendedAttackLand(Entity e) {
@@ -66,12 +68,16 @@ public class PlayerAttack : Attack {
 				otherCol.GetComponent<Hurtbox>().OnHit(this);
 				OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
 			}
-			EmitHitParticles(otherCol);
 		}
 	}
 
 	override public void MakeHitmarker(Transform pos) {
-		GameObject h = Instantiate(hitmarker, this.transform.position, Quaternion.identity, this.transform);
+		GameObject h = Instantiate(
+			hitmarker,
+			this.transform.position+((Vector3)bc2d.offset*attackerParent.ForwardScalar()),
+			Quaternion.identity,
+			this.transform
+		);
 		// hitmarker is currently facing the correct direction (left, internally)
 		// so, rotate to match the angle between its initial rotation and the knockback vector
 		float angleDiff = Vector2.Angle(Vector2.left, knockbackVector * attackerParent.ForwardVector());
@@ -82,25 +88,7 @@ public class PlayerAttack : Attack {
 			0,
 			angleDiff
 		);
-		// then split it off from the player
 		h.transform.parent = null;
-	}
-
-	void EmitHitParticles(Collider2D otherCol) {
-		// get angle to target and average distance
-		Vector2 halfwayPoint = this.transform.position + ((otherCol.transform.position - this.transform.position)/2);
-		var dir = otherCol.transform.position - this.transform.position;
-		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-		//rotate hit particles
-		GameObject hitparticles = attackerParent.GetComponent<PlayerController>().impactParticles;
-		hitparticles.transform.position = otherCol.transform.position;
-		hitparticles.transform.rotation = Quaternion.AngleAxis(angle+90, Vector3.forward);
-
-		//emit 2 from each
-		foreach (ParticleSystem ps in hitparticles.GetComponentsInChildren<ParticleSystem>()) {
-			ps.Emit(1);
-		}
 	}
 
 	public void OnDeflect() {
