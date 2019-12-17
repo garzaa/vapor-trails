@@ -136,6 +136,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -251,6 +252,8 @@ MonoBehaviour:
   totalHP: 3
   moveForce: 0
   maxSpeed: 0
+  diStrength: 0.5
+  diScaleMagnitude: 0.1
   moneyChance: 0
   moneyPrefab: {fileID: 0}
   playerObject: {fileID: 0}
@@ -258,6 +261,7 @@ MonoBehaviour:
   hasAnimator: 0
   behaviors: []
   spr: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 0e7a36ca62cb22d40b442e369835197c, type: 3}
   burstOnDeath: 1
   burstEffect: {fileID: 4465596146934724, guid: b1eed2ae1dcc59a4195bb7ad94fbc1c0,
     type: 3}
@@ -276,6 +280,9 @@ MonoBehaviour:
   corner1: {fileID: 0}
   corner2: {fileID: 0}
   generateFromCollider: 1
+  currentGround: {fileID: 0}
+  constantlyUseCollider: 0
+  collidertoUse: {fileID: 0}
 --- !u!114 &114067602379542934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,11 +350,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c975df952eed3042983881c6e595036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackName: 
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
   hitmarker: {fileID: 0}
   flipHitmarker: 0
   attackedTags: []
@@ -355,6 +364,8 @@ MonoBehaviour:
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 2, y: 2}
+  inheritMomentum: 0
+  attackLandTrigger: 0
 --- !u!61 &61105004619916658
 BoxCollider2D:
   m_ObjectHideFlags: 0

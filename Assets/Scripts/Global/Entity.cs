@@ -173,7 +173,7 @@ public class Entity : MonoBehaviour {
 	public void ForwardDust() {
  		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * ForwardScalar(),
-            ColliderBottom(),
+            ColliderBottom() + 0.08f,
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
 		d.transform.localScale = new Vector3(ForwardScalar(), 1, 1);
@@ -182,7 +182,7 @@ public class Entity : MonoBehaviour {
 	public void BackwardDust() {
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x - 0.32f * ForwardScalar(),
-            ColliderBottom(),
+            ColliderBottom() + 0.08f,
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
 		d.transform.localScale = new Vector3(-ForwardScalar(), 1, 1);

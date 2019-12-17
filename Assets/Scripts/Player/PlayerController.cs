@@ -1202,6 +1202,7 @@ public class PlayerController : Entity {
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
+		EndDashCooldown();
 		StartCombatCooldown();
 		EndShortHopWindow();
 		transform.position = accelerator.transform.position;

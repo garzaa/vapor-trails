@@ -71,16 +71,19 @@ public class PlayerAttack : Attack {
 	}
 
 	override public void MakeHitmarker(Transform pos) {
-		GameObject h = Instantiate(hitmarker, attackerParent.transform);
+		GameObject h = Instantiate(hitmarker);
         h.transform.position = pos.position;
-        if (rotateHitmarker) {
+		Vector2 s = h.transform.localScale;
+		s.x = -attackerParent.transform.localScale.x;
+		h.transform.localScale = s;
+		h.transform.parent = null;
+		if (rotateHitmarker) {
             h.transform.eulerAngles = new Vector3(
                 0,
                 0,
-                Vector2.Angle(Vector2.right, knockbackVector)
+                Vector2.Angle(Vector2.right, knockbackVector * attackerParent.ForwardVector())
             );
         }
-		h.transform.parent = null;
 	}
 
 	void EmitHitParticles(Collider2D otherCol) {

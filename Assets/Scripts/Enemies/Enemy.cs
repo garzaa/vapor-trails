@@ -35,6 +35,8 @@ public class Enemy : Entity {
 	[HideInInspector] public SpriteRenderer spr;
 	List<SpriteRenderer> spriteRenderers;
 
+	public AudioClip hitSound;
+
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
 
@@ -42,7 +44,7 @@ public class Enemy : Entity {
 		return stunned;
 	}
 
-	void OnEnable() {
+	override protected void OnEnable() {
 		base.OnEnable();
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
@@ -93,6 +95,9 @@ public class Enemy : Entity {
 			}
 		}
 		DamageFor(attack.GetDamage());
+		if (this.hitSound != null) {
+			SoundManager.PlaySound(this.hitSound);
+		}
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
 			KnockBack(attack.GetKnockback());
