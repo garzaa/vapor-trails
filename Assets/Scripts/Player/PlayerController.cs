@@ -15,10 +15,17 @@ public class PlayerController : Entity {
 	float dodgeSpeed = 5f;
 	bool hardFalling = false;
 	float ledgeBoostSpeed = 4f;
+
+	//these will be loaded from the save
+	[HideInInspector]
 	public int currentHP = 1;
+	[HideInInspector]
 	public int currentEnergy = 5;
+	[HideInInspector]
 	public int maxEnergy = 5;
+	[HideInInspector]
 	public int maxHP = 5;
+
 	public int parryCount = 0;
 	public int baseDamage = 1;
 	float invincibilityLength = .5f;
@@ -27,6 +34,7 @@ public class PlayerController : Entity {
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
+	float combatStanceCooldown = 2f;
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
@@ -1152,6 +1160,16 @@ public class PlayerController : Entity {
 
 	public void EndCombatCooldown() {
 		anim.SetBool("CombatMode", false);
+	}
+
+	public void StartCombatStanceCooldown() {
+		if (anim.GetLayerWeight(1) < 1) anim.SetLayerWeight(1, 1);
+		CancelInvoke("EndCombatStanceCooldown");
+		Invoke("EndCombatStanceCooldown", combatStanceCooldown);
+	}
+
+	void EndCombatStanceCooldown() {
+		anim.SetLayerWeight(1, 0);
 	}
 
 	// called from animations

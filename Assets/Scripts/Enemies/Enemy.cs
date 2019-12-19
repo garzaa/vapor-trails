@@ -8,6 +8,7 @@ public class Enemy : Entity {
 	[HideInInspector] public Rigidbody2D rb2d;
 
 	public int hp;
+	[HideInInspector]
 	public int totalHP;
 	public int moveForce;
 	public int maxSpeed;
@@ -31,6 +32,8 @@ public class Enemy : Entity {
 	bool white;
 
 	bool dead = false;
+	Renderer mainChildRenderer;
+	bool fakeDamage = false;
 
 	[HideInInspector] public SpriteRenderer spr;
 	List<SpriteRenderer> spriteRenderers;
@@ -46,6 +49,7 @@ public class Enemy : Entity {
 
 	override protected void OnEnable() {
 		base.OnEnable();
+		fakeDamage = hp < 0;
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.Find("Player");
@@ -67,6 +71,7 @@ public class Enemy : Entity {
 				defaultMaterial = spriteRenderers[0].material;
 		}
 		Initialize();
+		mainChildRenderer = GetComponentInChildren<Renderer>();
 	}
 
 	public virtual void Initialize() {
@@ -80,6 +85,7 @@ public class Enemy : Entity {
 	}
 
 	virtual public void DamageFor(int dmg) {
+		if (fakeDamage) return;
 		this.hp -= dmg;
 		if (this.hp <= 0 && !dead) {
 			Die();
@@ -95,7 +101,7 @@ public class Enemy : Entity {
 			}
 		}
 		DamageFor(attack.GetDamage());
-		if (this.hitSound != null) {
+		if (this.hitSound != null && mainChildRenderer.isVisible) {
 			SoundManager.PlaySound(this.hitSound);
 		}
 		StunFor(attack.GetStunLength());

@@ -10,6 +10,7 @@ public class EnviroDamage : Attack {
 	public Transform particleObject;
 	public AudioSource impactSound;
 	ParticleSystem ps;
+	Renderer thisRenderer;
 
 	void Start() {
 		attackerParent = this.gameObject.AddComponent<Entity>();
@@ -19,6 +20,7 @@ public class EnviroDamage : Attack {
 		if (particlesOnImpact) {
 			ps = GetComponentInChildren<ParticleSystem>();
 		}
+		thisRenderer = GetComponentInChildren<Renderer>();
 	}
 
 	//the main thing for the env damage check is that it ignores invincibility and just checks for susceptibility to env damage
@@ -44,7 +46,7 @@ public class EnviroDamage : Attack {
 			ps.Emit(numParticles);
 		}
 
-		if (impactSound) {
+		if (impactSound && (thisRenderer != null && thisRenderer.isVisible)) {
 			impactSound.PlayOneShot(impactSound.clip);
 		}
 	}

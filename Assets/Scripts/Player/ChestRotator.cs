@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class ChestRotator : MonoBehaviour {
     public int skinNum;
     public int spriteIndex;
@@ -17,6 +18,9 @@ public class ChestRotator : MonoBehaviour {
 
     void Update() {
         if (skinLastFrame != skinNum || indexLastFrame != spriteIndex) {
+            if (skinNum >= skins.Count || spriteIndex >= skins[skinNum].sprites.Count) {
+                return;
+            }
             spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
         }
         skinLastFrame = skinNum;
