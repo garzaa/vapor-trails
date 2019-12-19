@@ -82,6 +82,10 @@ public class PlayerAttack : Attack {
 		// so, rotate to match the angle between its initial rotation and the knockback vector
 		float angleDiff = Vector2.Angle(Vector2.left, knockbackVector * attackerParent.ForwardVector());
 		// and then throw all logic out the window because this is what makes it work
+		// for negative x knockback
+		if (angleDiff == 180) {
+			angleDiff -= 180;
+		}
 		angleDiff = (angleDiff == 0 ? angleDiff : angleDiff-90f);
 		h.transform.eulerAngles = new Vector3(
 			0,

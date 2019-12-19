@@ -819,6 +819,7 @@ public class PlayerController : Entity {
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
+		StartCombatStanceCooldown();
 		Hitstop.Run(selfDamageHitstop);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
