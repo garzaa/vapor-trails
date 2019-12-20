@@ -34,7 +34,7 @@ public class PlayerController : Entity {
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
-	float combatStanceCooldown = 2f;
+	float combatStanceCooldown = 4f;
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
@@ -436,6 +436,7 @@ public class PlayerController : Entity {
 			}
 			return;
 		}
+		EndCombatStanceCooldown();
 		anim.SetTrigger("Dash");
 	}
 

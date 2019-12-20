@@ -106,6 +106,14 @@ public class GroundCheck : MonoBehaviour {
 		if (rb2d != null) {
 			impactSpeed = rb2d.velocity.y;
 		}
+
+
+		// due to frame skips or other weird shit, add a little self-healing here
+		if (!groundedCurrentFrame && rb2d.velocity.y == 0f) {
+			Invoke("HealGroundTimeout", 0.5f);
+		} else if (groundedCurrentFrame || (!groundedCurrentFrame && rb2d.velocity.y != 0f)) {
+			CancelInvoke("HealGroundTimeout");
+		}
 	}
 
 	IEnumerator GroundLeaveTimeout(float interval) {
@@ -156,5 +164,9 @@ public class GroundCheck : MonoBehaviour {
 			cornerPos - new Vector2(0, 0.03f),
 			1 << LayerMask.NameToLayer(Layers.Ground)
 		);
+	}
+
+	void HealGroundTimeout() {
+		entity.OnGroundHit(0f);
 	}
 }
