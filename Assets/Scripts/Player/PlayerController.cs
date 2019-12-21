@@ -342,6 +342,13 @@ public class PlayerController : Entity {
 		}
 
 		movingForwardsLastFrame = MovingForwards();
+
+		// due to frame skips or other weird shit, add a little self-healing here
+		if (!grounded && rb2d.velocity.y == 0f && !supercruise) {
+			Invoke("HealGroundTimeout", 0.5f);
+		} else if (grounded || (!grounded && rb2d.velocity.y != 0f) || supercruise) {
+			CancelInvoke("HealGroundTimeout");
+		}
 	}
 
 	public bool IsSpeeding() {
@@ -1226,5 +1233,9 @@ public class PlayerController : Entity {
 		EndShortHopWindow();
 		transform.position = accelerator.transform.position;
 		rb2d.velocity = accelerator.GetBoostVector();
+	}
+
+	void HealGroundTimeout() {
+		OnGroundHit(0f);
 	}
 }

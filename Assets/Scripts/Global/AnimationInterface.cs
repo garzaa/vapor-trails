@@ -82,7 +82,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void PlaySound(int soundIndex) {
-		SoundManager.PlaySound(this.sounds[soundIndex]);
+	SoundManager.PlaySound(this.sounds[soundIndex]);
 	}
 
 	public void HitActivatable(int index) {
