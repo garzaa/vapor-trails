@@ -16,10 +16,6 @@ public class Enemy : Entity {
 	public float diScaleMagnitude = 0.1f;
 	private int selfJuggleChain;
 
-	public float moneyChance = 0f;
-
-	public GameObject moneyPrefab;
-
 	public GameObject playerObject;
 
 	[HideInInspector] public Animator anim;
@@ -115,7 +111,6 @@ public class Enemy : Entity {
 		this.frozen = true;
 		this.dead = true;
 		Hitstop.Run(.1f);
-		DropPickups();
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("Die");
 		} else {
@@ -151,23 +146,12 @@ public class Enemy : Entity {
 
 	}
 
-	public void DropPickups() {
-		DropMoney();
-	}
-
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
 	public void CloseHurtboxes() {
 		foreach (Transform child in transform) {
 			if (child.gameObject.tag.Equals(Tags.EnemyHurtbox)) {
 				child.GetComponent<Collider2D>().enabled = false;
 			}
-		}
-	}
-
-	public void DropMoney() {
-		if (Random.Range(0f, 1f) < moneyChance) {
-			GameObject m = (GameObject) Instantiate(moneyPrefab, this.transform.position, Quaternion.identity);
-			m.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(3, 5));
 		}
 	}
 
