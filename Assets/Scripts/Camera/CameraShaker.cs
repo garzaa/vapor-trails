@@ -1,32 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraShaker : MonoBehaviour
 {
 	public static Transform camTransform;
 	
-	// How long the object should shake for.
 	public static float shakeDuration = 0f;
+	static bool shaking = false;
 	
-	// Amplitude of the shake. A larger value shakes the camera harder.
 	public static float shakeAmount = 0.1f;
 	public static float decreaseFactor = 1.0f;
 	
 	static Vector3 originalPos;
 
-	public static CameraShaker instance;
-
-	void Awake()
-	{
-		if (camTransform == null)
-		{
-			camTransform = GetComponent(typeof(Transform)) as Transform;
-		}
-		instance = this;
+	void Awake() {
+		if (camTransform == null) camTransform = this.transform;
 	}
 	
-	void OnEnable()
-	{
+	void OnEnable() {
 		originalPos = camTransform.localPosition;
 	}
 
@@ -51,16 +41,11 @@ public class CameraShaker : MonoBehaviour
 		shakeDuration = duration;
 	}
 
-	void Update()
-	{
-		if (shakeDuration > 0)
-		{
+	void Update() {
+		if (shakeDuration > 0 || shaking) {
 			camTransform.localPosition = originalPos + OnUnitCircle()*shakeAmount;
-			
 			shakeDuration -= Time.unscaledDeltaTime * decreaseFactor;
-		}
-		else
-		{
+		} else {
 			shakeDuration = 0f;
 			camTransform.localPosition = originalPos;
 		}
@@ -69,5 +54,14 @@ public class CameraShaker : MonoBehaviour
 	Vector3 OnUnitCircle() {
 		float randomAngle = Random.Range(0f, Mathf.PI * 2f);
 		return (Vector3) new Vector2(Mathf.Sin(randomAngle), Mathf.Cos(randomAngle));
+	}
+
+	public static void StartShaking() {
+		shaking = true;
+	}
+
+	public static void StopShaking() {
+		shaking = false;
+		shakeDuration = 0;
 	}
 }

@@ -1165,7 +1165,7 @@ public class PlayerController : Entity {
 	}
 
 	public void StartCombatStanceCooldown() {
-		if (anim.GetLayerWeight(1) < 1) anim.SetLayerWeight(1, 1);
+		anim.SetLayerWeight(1, 1);
 		CancelInvoke("EndCombatStanceCooldown");
 		Invoke("EndCombatStanceCooldown", combatStanceCooldown);
 	}
