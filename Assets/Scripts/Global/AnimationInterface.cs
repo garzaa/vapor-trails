@@ -23,7 +23,7 @@ public class AnimationInterface : MonoBehaviour {
 		ps = GetComponentInChildren<ParticleSystem>();
 	}
 
-	public void SpawnEffect(int index) {
+	public void SpawnEffaect(int index) {
 		Instantiate(effects[index], effectPoint.transform.position, Quaternion.identity, null);
 	}
 

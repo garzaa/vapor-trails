@@ -28,7 +28,7 @@ public class PlayerController : Entity {
 
 	public int parryCount = 0;
 	public int baseDamage = 1;
-	float invincibilityLength = .5f;
+	float invincibilityLength = 1f;
 	float selfDamageHitstop = .5f;
 	int healCost = 1;
 	int healAmt = 1;
@@ -177,7 +177,7 @@ public class PlayerController : Entity {
 		Instantiate(
 			parryEffect, 
 			// move it forward and to the right a bit
-			(Vector2) this.transform.position + (Random.insideUnitCircle * 0.05f) + (Vector2.right*this.ForwardVector()*0.15f), 
+			(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
 			Quaternion.identity,
 			this.transform
 		);
@@ -185,6 +185,7 @@ public class PlayerController : Entity {
 
 	public void FirstParry() {
 		AlerterText.Alert("Autoparry active");
+		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
 		anim.SetTrigger("Parry");
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
 		CameraShaker.Shake(0.2f, 0.2f);
@@ -1094,6 +1095,7 @@ public class PlayerController : Entity {
 	void OnEnviroDamage(EnviroDamage e) {
 		if (!grounded && e.returnPlayerToSafety) {
 			LockInSpace();
+			InvincibleFor(this.invincibilityLength);	
 			StartCoroutine(ReturnToSafety(selfDamageHitstop));
 		}
 	}
