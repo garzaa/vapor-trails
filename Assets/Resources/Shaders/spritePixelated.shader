@@ -1,11 +1,4 @@
-﻿
-//
-// shader starts here, c# companion script below
-//
-// PS. Make sure to use square texture (sides must be equal)
-//
- 
-Shader "Unlit/spritePixelated"
+﻿Shader "Unlit/spritePixelated"
 {
     Properties
     {
@@ -24,12 +17,18 @@ Shader "Unlit/spritePixelated"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent"
-        "DisableBatching"="True"
-        }
+        Tags
+		{ 
+			"Queue"="Transparent" 
+			"IgnoreProjector"="True" 
+			"RenderType"="Transparent" 
+			"PreviewType"="Plane"
+			"CanUseSpriteAtlas"="True"
+		}
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
         Cull Off
+        ZWrite Off
  
         Pass
         {
