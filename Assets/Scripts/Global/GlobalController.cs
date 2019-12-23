@@ -88,7 +88,7 @@ public class GlobalController : MonoBehaviour {
 
 	static void OpenInventory() {
 		inventory.ShowInventory();
-		pc.EnterDialogue();
+		pc.EnterInventory();
 	}
 
 	static void CloseInventory() {

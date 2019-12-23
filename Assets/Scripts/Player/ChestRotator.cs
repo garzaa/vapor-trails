@@ -17,14 +17,19 @@ public class ChestRotator : MonoBehaviour {
     }
 
     void Update() {
+        if (!Application.isEditor) return;
         if (skinLastFrame != skinNum || indexLastFrame != spriteIndex) {
             if (skinNum >= skins.Count || spriteIndex >= skins[skinNum].sprites.Count) {
                 return;
             }
-            spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
         }
-        skinLastFrame = skinNum;
+        spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
+        skinLastFrame = skinNum;                                                                                                                                                                                    
         indexLastFrame = spriteIndex;
+    }
+
+    void LateUpdate() {
+        Update();
     }
 }
 

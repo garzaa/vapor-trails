@@ -1011,6 +1011,16 @@ public class PlayerController : Entity {
 		SetInvincible(true);
 	}
 
+	// exitDialogue is called instead of exitInventory
+	// the only difference is invincibility
+	public void EnterInventory() {
+		InterruptEverything();
+		Freeze();
+		LockInSpace();
+		DisableShooting();
+		inCutscene = true;
+	}
+
 	public void ExitDialogue() {
 		UnFreeze();
 		UnLockInSpace();

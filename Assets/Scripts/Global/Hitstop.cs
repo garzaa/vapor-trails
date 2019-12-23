@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Hitstop : MonoBehaviour{
+public class Hitstop : MonoBehaviour {
 
 	public static Hitstop instance;
 
