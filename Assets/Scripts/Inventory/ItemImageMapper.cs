@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class ItemImageMapper : MonoBehaviour {
     static Dictionary<string, ItemImageMap> mappings;
 
+    // load all inventory items into memory at runtime
+    // this works because 1. item images are small and 2. computers are fast
     void Start() {
         mappings = new Dictionary<string, ItemImageMap>();
 

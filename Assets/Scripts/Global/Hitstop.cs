@@ -24,5 +24,6 @@ public class Hitstop : MonoBehaviour{
 
 	public static void Interrupt() {
 		if (currentHitstopRoutine != null) instance.StopCoroutine(currentHitstopRoutine);
+		Time.timeScale = 1f;
 	}
 }
