@@ -17,19 +17,18 @@ public class ChestRotator : MonoBehaviour {
     }
 
     void Update() {
-        if (!Application.isEditor) return;
-        if (skinLastFrame != skinNum || indexLastFrame != spriteIndex) {
-            if (skinNum >= skins.Count || spriteIndex >= skins[skinNum].sprites.Count) {
-                return;
-            }
-        }
-        spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
-        skinLastFrame = skinNum;                                                                                                                                                                                    
-        indexLastFrame = spriteIndex;
+        // only call Update if we're modifying things in the editor
+        if (Application.isEditor && !Application.isPlaying) ChangeSkin();
     }
 
     void LateUpdate() {
-        Update();
+        ChangeSkin();
+    }
+
+    void ChangeSkin() {
+        spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
+        skinLastFrame = skinNum;                                                                                                                                                                                    
+        indexLastFrame = spriteIndex; 
     }
 }
 
