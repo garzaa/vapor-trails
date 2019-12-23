@@ -164,7 +164,9 @@ public class GlobalController : MonoBehaviour {
 
 			if (nextLine != null) {
 				dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine());
+				AlerterText.Alert(nextLine.lineText);
 				if (nextLine.activatable != null) {
+					AlerterText.Alert("?????");
 					if (!nextLine.activatesOnLineEnd) {
 						nextLine.activatable.Activate();
 					} else {

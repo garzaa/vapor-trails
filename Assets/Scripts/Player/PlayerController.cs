@@ -773,10 +773,12 @@ public class PlayerController : Entity {
 	}
 
 	public void GainEnergy(int amount) {
+		bool notFull = (currentEnergy < maxEnergy);
 		currentEnergy += amount;
 		if (currentEnergy > maxEnergy) {
 			currentEnergy = maxEnergy;
 		}
+		if (notFull) AlerterText.Alert("Fully charged");
 	}
 
 	public int CheckEnergy() {
@@ -1221,7 +1223,6 @@ public class PlayerController : Entity {
 	public void EndParryWindow() {
 		canParry = false;
 		parryCount = 0;
-		AlerterText.Alert("Autoparry inactive");
 	}
 
 	public void OnAttackLand(Attack attack) {

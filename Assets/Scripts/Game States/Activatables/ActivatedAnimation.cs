@@ -21,6 +21,7 @@ public class ActivatedAnimation : Activatable {
 
     public override void ActivateSwitch(bool b) {
         if (b && isTrigger) {
+            AlerterText.Alert("Setting trigger" + animationName);
             anim.SetTrigger(animationName);
         } else if (setBool != BoolEnum.NONE) {
             anim.SetBool(animationName, setBool == BoolEnum.TRUE);

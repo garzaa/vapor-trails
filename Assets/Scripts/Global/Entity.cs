@@ -164,7 +164,6 @@ public class Entity : MonoBehaviour {
     float ColliderBottom() {
         BoxCollider2D bc2d = GetComponent<BoxCollider2D>();
         if (bc2d == null) {
-            print("PINGAS");
             return 0;
         }
         return bc2d.transform.position.y - bc2d.offset.y - bc2d.size.y / 2;

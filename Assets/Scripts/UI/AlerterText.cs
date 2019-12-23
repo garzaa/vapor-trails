@@ -23,6 +23,10 @@ public class AlerterText : MonoBehaviour {
         g.transform.SetAsFirstSibling();
     }
 
+    public static void Alert(Object o) {
+        alertQueue.Enqueue(o.ToString());
+    }
+
     public static void Alert(string alertText) {
         alertQueue.Enqueue(alertText);
     }
