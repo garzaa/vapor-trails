@@ -103,6 +103,11 @@ public class GlobalController : MonoBehaviour {
             LoadGame();
         }
 
+		if (Input.GetKeyDown(KeyCode.S))
+        {
+            SaveGame();
+        }
+
 		if (Input.GetKeyDown(KeyCode.R) && SceneManager.GetActiveScene().name.Equals("TargetTest")) {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
@@ -164,9 +169,7 @@ public class GlobalController : MonoBehaviour {
 
 			if (nextLine != null) {
 				dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine());
-				AlerterText.Alert(nextLine.lineText);
 				if (nextLine.activatable != null) {
-					AlerterText.Alert("?????");
 					if (!nextLine.activatesOnLineEnd) {
 						nextLine.activatable.Activate();
 					} else {

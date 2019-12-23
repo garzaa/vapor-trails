@@ -29,7 +29,7 @@ public class ForcedInteractTrigger : PlayerTriggeredObject {
 					i.gameObject.GetComponent<BoxCollider2D>().enabled = true;
 				}
 				i.transform.parent = null;
-				Destroy(this.gameObject);
+				gameObject.SetActive(false);
 			}
 		}
 	}
