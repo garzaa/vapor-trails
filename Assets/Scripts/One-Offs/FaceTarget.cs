@@ -40,6 +40,7 @@ public class FaceTarget : MonoBehaviour {
 		if (isEntity) {
 			e.Flip();
 		} else {
+			AlerterText.Alert("Flipping");
 			this.transform.localScale = new Vector2(this.transform.localScale.x * -1, this.transform.localScale.y);
 			facingRight = !facingRight;
 		}

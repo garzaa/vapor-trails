@@ -778,7 +778,7 @@ public class PlayerController : Entity {
 		if (currentEnergy > maxEnergy) {
 			currentEnergy = maxEnergy;
 		}
-		if (notFull) AlerterText.Alert("Fully charged");
+		if (notFull && (currentEnergy == maxEnergy)) AlerterText.Alert("Fully charged");
 	}
 
 	public int CheckEnergy() {

@@ -395,6 +395,7 @@ public class GlobalController : MonoBehaviour {
 		if (pc.inCutscene) {
 			return;
 		}
+		Hitstop.Interrupt();
 		pc.Freeze();
 		pc.inCutscene = true;
 		pauseUI.SetBool("Shown", true);
