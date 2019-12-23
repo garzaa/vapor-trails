@@ -165,6 +165,8 @@ public class PlayerController : Entity {
 		if (parryCount == 0) {
 			FirstParry();
 		} else {
+			Hitstop.Run(0.1f);
+			StartCombatStanceCooldown();
 		}
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
