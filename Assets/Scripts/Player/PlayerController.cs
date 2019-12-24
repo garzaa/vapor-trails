@@ -383,7 +383,7 @@ public class PlayerController : Entity {
 			}
 		}
 
-		//emulate an analog jump
+		// shorthop
 		if (InputManager.ButtonUp(Buttons.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
