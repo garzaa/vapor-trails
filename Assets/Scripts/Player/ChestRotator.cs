@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
@@ -26,9 +27,13 @@ public class ChestRotator : MonoBehaviour {
     }
 
     void ChangeSkin() {
-        spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
-        skinLastFrame = skinNum;                                                                                                                                                                                    
-        indexLastFrame = spriteIndex; 
+        try {
+            spriteRenderer.sprite = skins[skinNum].sprites[spriteIndex];
+            skinLastFrame = skinNum;                                                                                                                                                                                    
+            indexLastFrame = spriteIndex;
+        } catch (ArgumentOutOfRangeException) {
+            // don't do anything :^)
+        }
     }
 }
 

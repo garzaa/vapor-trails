@@ -1007,6 +1007,7 @@ public class PlayerController : Entity {
 		Freeze();
 		LockInSpace();
 		DisableShooting();
+		anim.speed = 0f;
 		inCutscene = true;
 		SetInvincible(true);
 	}
@@ -1016,6 +1017,7 @@ public class PlayerController : Entity {
 	public void EnterInventory() {
 		InterruptEverything();
 		Freeze();
+		anim.speed = 0f;
 		LockInSpace();
 		DisableShooting();
 		inCutscene = true;
@@ -1025,6 +1027,7 @@ public class PlayerController : Entity {
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();
+		anim.speed = 1f;
 		SetInvincible(false);
 		inCutscene = false;
 	}
