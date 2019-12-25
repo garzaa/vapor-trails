@@ -73141,6 +73141,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bd164bbea465847a4df0e20583a376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &794840858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 794840859}
+  - component: {fileID: 794840861}
+  - component: {fileID: 794840860}
+  - component: {fileID: 794840862}
+  m_Layer: 15
+  m_Name: CigaretteGimme
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &794840859
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794840858}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1335522059}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &794840860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794840858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d64c39a674dd444927d7b1d5ff7738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wantedItems:
+  - {fileID: 4256994459843942973, guid: e2fbf5a9596baf141a5b931b24f420cf, type: 3}
+  yesActivation: {fileID: 794840862}
+  noActivation: {fileID: 0}
+  consumesItems: 1
+--- !u!114 &794840861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794840858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0352fc3ae975bd24ba0fcba699eb4093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemWanter: {fileID: 794840860}
+--- !u!114 &794840862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794840858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1f155f183eeec47a9b107d5fe95f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alerts:
+  - Cigarettes removed
 --- !u!1 &810015801
 GameObject:
   m_ObjectHideFlags: 0
@@ -89180,6 +89257,7 @@ Transform:
   m_Children:
   - {fileID: 905973148}
   - {fileID: 18519497}
+  - {fileID: 794840859}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -91293,7 +91371,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
-    - lineText: Care to explain why my wife would let a combat model into town?
+    - lineText: Care to explain why my wife would let a seven-foot tall valentine
+        into town? Don't tell me you're here to spice up my marriage.
       speakerName: Lester
       speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
       voiceSound: 0
@@ -91301,10 +91380,18 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: As thanks for taking care of your sludge problem.
-      speakerName: Val
+    - lineText: I brought these. Heard you're down to your last pack.
+      speakerName: X-404
       speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
       voiceSound: 1
+      activatable: {fileID: 794840861}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
+    - lineText: '...'
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 0
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
       blocking: 0
@@ -91317,8 +91404,16 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
+    - lineText: Thanks, valentine.
+      speakerName: Lester
+      speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
+      voiceSound: 0
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
   - lines:
-    - lineText: I need to get to the surface.
+    - lineText: I'm just passing through, by the way. I need to get to the surface.
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
       voiceSound: 1
@@ -91326,8 +91421,8 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: Yeah, don't we all. There's rumors of an elevator if you get across
-        the lake, but that ain't happening.
+    - lineText: "We all do, val. None of us are here by choice. \nThere's rumors of
+        an elevator if you get across the lake, but that ain't happening."
       speakerName: Lester
       speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
       voiceSound: 0
@@ -91343,7 +91438,8 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: 'There''s an old Prismatic that lives in the lake. '
+    - lineText: There's something old that lives in the lake. Grabs anything that
+        comes close, person or prismatic.
       speakerName: Lester
       speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
       voiceSound: 0
@@ -91370,8 +91466,8 @@ MonoBehaviour:
       blocking: 0
       gameFlag: 0
   - lines:
-    - lineText: Might want to talk to Lauren about that Prismatic. She used to design
-        the damn things.
+    - lineText: Might want to talk to Lauren about the prismatic in the lake. She
+        used to design you damn things.
       speakerName: Lester
       speakerImage: {fileID: 21300000, guid: a2f7f14e05579494a899054f91eed34e, type: 3}
       voiceSound: 0

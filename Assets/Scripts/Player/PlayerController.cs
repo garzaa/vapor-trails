@@ -1239,10 +1239,7 @@ public class PlayerController : Entity {
 	}
 
 	public void OnAttackLand(Attack attack) {
-		if (attack.name.Equals("OrcaFist")) {
-			canUpSlash = true;
-		}
-		if (airJumps == 0) airJumps++;	
+		ResetAirJumps();	
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
