@@ -1033,6 +1033,8 @@ public class PlayerController : Entity {
 	}
 
 	public bool IsGrounded() {
+		// scene load things
+		if (groundCheck == null) return false;
 		return groundCheck.IsGrounded();
 	}
 
