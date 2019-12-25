@@ -13,4 +13,8 @@ public class ItemGiverEditor : MonoBehaviour {
         GetComponent<ItemGiver>().item = this.itemWrapper;
         GetComponentInChildren<SpriteRenderer>().sprite = this.itemWrapper.item.itemIcon;
     }
+
+    void OnValidate() {
+        OnEnable();
+    }
 }
