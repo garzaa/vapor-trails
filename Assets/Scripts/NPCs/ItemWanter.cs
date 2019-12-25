@@ -39,8 +39,9 @@ public class ItemWanter : PersistentObject {
     }
 
     protected override void UpdateObjectState() {
+        if (!persistent) return;
         persistentProperties.Add("Accepted", acceptedItemBefore);
-        if (persistent) SaveObjectState();
+        SaveObjectState();
     }
 
     void AcceptItems() {

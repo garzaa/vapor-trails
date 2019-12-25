@@ -154,6 +154,7 @@ public class PlayerController : Entity {
 	void Interact() {
 		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene && canInteract && grounded) {
 			SoundManager.InteractSound();
+			InterruptEverything();
 			interaction.currentInteractable.InteractFromPlayer(this.gameObject);
 			canInteract = false;
 			StartCoroutine(InteractTimeout());
