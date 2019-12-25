@@ -165,7 +165,7 @@ public class PlayerController : Entity {
 		if (parryCount == 0) {
 			FirstParry();
 		} else {
-			Hitstop.Run(0.1f);
+			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
 		}
 		parryCount += 1;
@@ -190,7 +190,7 @@ public class PlayerController : Entity {
 		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
 		anim.SetTrigger("Parry");
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
-		CameraShaker.Shake(0.2f, 0.2f);
+		CameraShaker.Shake(0.1f, 0.1f);
 		Hitstop.Run(0.5f);
 	}
 

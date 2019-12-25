@@ -10,6 +10,7 @@ public class PlayerAttack : Attack {
 	public bool costsEnergy = false;
 	public float hitstopLength = 0.2f;
 	public bool rotateHitmarker = true;
+	public bool pullInEntity = true;
 
 	public bool attackLandEvent = false;
 
@@ -29,6 +30,12 @@ public class PlayerAttack : Attack {
 		if (e == null) {
 			return;
 		}
+
+		// the succ
+		if (pullInEntity && e.staggerable) {
+			e.transform.position = this.transform.position;
+		}
+
 		//run self knockback
 		if (selfKnockBack) {
 			attackerParent.GetComponent<Rigidbody2D>().velocity = new Vector2(
