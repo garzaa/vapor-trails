@@ -26,9 +26,6 @@ public class ItemWanter : PersistentObject {
     }
 
     public void CheckForItem(InventoryList inventoryToCheck) {
-        if (acceptedItemBefore) {
-            return;
-        }
         List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
         foreach (InventoryItem wantedItem in actualWantedItems) {
             InventoryItem i = inventoryToCheck.GetItem(wantedItem);

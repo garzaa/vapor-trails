@@ -48,11 +48,4 @@ public class PositionMover : MonoBehaviour {
 		    animator.SetFloat("SpeedY", Mathf.Abs(speed * Mathf.Sin(angle)));
         }
     }
-
-    void OnDrawGizmosSelected() {
-        for (int i = 0; i < destinations.Length-1; i++) {
-            Gizmos.DrawRay(destinations[i].position, destinations[i+1].position);
-            Gizmos.DrawCube(destinations[i].position, Vector3.one * 0.05f);
-        }
-    }
 }

@@ -111,7 +111,10 @@ public class PlayerController : Entity {
 		"WARNING: WAVEFORM DESTABILIZED",
 		"Core dumped",
 		"16: 0xD34DB4B3",
-		"ERROR: NO_WAVE"
+		"ERROR: NO_WAVE",
+		"",
+		"LOOKAHEAD BRANCH PRUNED",
+		"RESETTING"
 	};
 
 	void Start() {
@@ -167,6 +170,13 @@ public class PlayerController : Entity {
 		} else {
 			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
+			Instantiate(
+			parryEffect, 
+			// move it forward and to the right a bit
+			(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
+			Quaternion.identity,
+			this.transform
+		);
 		}
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
@@ -176,13 +186,6 @@ public class PlayerController : Entity {
 		// parries can chain together as long as there's a hit every 0.5 seconds
 		CancelInvoke("EndParryWindow");
 		Invoke("EndParryWindow", 0.5f);
-		Instantiate(
-			parryEffect, 
-			// move it forward and to the right a bit
-			(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
-			Quaternion.identity,
-			this.transform
-		);
 	}
 
 	public void FirstParry() {
@@ -910,6 +913,7 @@ public class PlayerController : Entity {
 		anim.SetTrigger("Die");
 		anim.SetBool("TouchingWall", false);
 		InterruptEverything();
+		EndCombatStanceCooldown();
 		ResetAttackTriggers();
 	}
 
@@ -937,6 +941,7 @@ public class PlayerController : Entity {
 		InvincibleFor(1f);
 		FullHeal();
 		this.dead = false;
+		anim.SetTrigger("InstantKneel");
 	}
 
 	public bool IsDead() {
