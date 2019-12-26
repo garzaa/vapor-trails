@@ -15,6 +15,7 @@ public class Attack : MonoBehaviour {
 	public bool forceX = false;
 	public GameObject hitmarker;
 	public bool flipHitmarker = false;
+	[HideInInspector]
 	public List<string> attackedTags;
 	public Entity attackerParent;
 	public float stunLength = 0.2f;
