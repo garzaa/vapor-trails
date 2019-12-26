@@ -555,8 +555,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
-    - lineText: Meet me at the service elevator on the other side of the lake. I need
-        to finish setting up this heart.
+    - lineText: I'll meet you at the service elevator on the other side of the lake.
+        I'm tightening a few things on the baton.
       speakerName: Lauren
       speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -579,6 +579,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!61 &86912831
@@ -849,6 +852,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &237702050
@@ -933,6 +939,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &253045329
@@ -11120,6 +11129,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &510623762
@@ -11158,23 +11170,16 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: "What? Why did you shoot the Lady of the Lake? She was just like me.\r\n"
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: "She was unstable and got retired early. You're polished, especially
-        for an early-model Valkyrie.\r\n"
+    - lineText: 'Huh. Interesting.
+
+        As I suspected, but still interesting.'
       speakerName: Lauren
-      speakerImage: {fileID: 21300000, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
+      speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
+      activatable: {fileID: 1953223470}
+      activatesOnLineEnd: 1
       blocking: 0
-      gameFlag: 0
+      gameFlag: 5
     - lineText: What do you mean?
       speakerName: Val
       speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
@@ -11183,8 +11188,10 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: Your image is a hardened Valentine base that someone hacked a bunch
-        of combat stuff into.
+    - lineText: 'Your image is a hardened Valentine base with a bunch of hacked-in
+        combat stuff.
+
+        Whoever was behind this knew what they were doing.'
       speakerName: Lauren
       speakerImage: {fileID: 21300006, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -11192,8 +11199,8 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: No wonder they sent you to rot down here. Valkyries are supposed to
-        be glorified cops, not war machines.
+    - lineText: No wonder they sent you to rot down here like me. You've got a massive
+        amount of potential, even for an experimental model.
       speakerName: Lauren
       speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -11201,19 +11208,9 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: You're opposed to war machines? I thought you said you worked on the
-        Andromeda project.
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: 'Because I was trying to sabotage it. They exiled me, just like you,
-        but I knew it was coming.
+    - lineText: 'Alright, gun eyes are just about ready.
 
-        Here, I''ve got the driver download on port 8080.'
+        I''ve got the driver download on port 8080, you can force a connection.'
       speakerName: Lauren
       speakerImage: {fileID: 21300006, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -11221,7 +11218,7 @@ MonoBehaviour:
       activatesOnLineEnd: 1
       blocking: 0
       gameFlag: 0
-    - lineText: "Okay, downloading.\r"
+    - lineText: Okay. Installing.
       speakerName: Val
       speakerImage: {fileID: 21300004, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
       voiceSound: 1
@@ -11240,31 +11237,14 @@ MonoBehaviour:
     - lineText: I can't cover the base structures while I reboot them. Most people
         don't like looking down the barrels.
       speakerName: Val
-      speakerImage: {fileID: 21300004, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
-      voiceSound: 1
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: "Ah, the Valentine showmanship finally comes out. Don't worry, I can
-        stomach it.\r"
-      speakerName: Lauren
-      speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
-      voiceSound: 2
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: "Are you sure?\r"
-      speakerName: Val
       speakerImage: {fileID: 21300006, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
       voiceSound: 1
       activatable: {fileID: 0}
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: "Obviously. I saw those eyes every day in the lab. \nAny luck with
-        the targeting system? Is it working?\r\n"
+    - lineText: "There they are. I saw those eyes every day in the lab. Well, eyes
+        like those.\nAny luck with the targeting system? Is it working?\r\n"
       speakerName: Lauren
       speakerImage: {fileID: 21300000, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -11296,8 +11276,8 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: Meet me at the service elevator beyond the lake and we can take it
-        up to the Night Market.
+    - lineText: I'll meet you at the service elevator beyond the lake and we can take
+        it up.
       speakerName: Lauren
       speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -11306,8 +11286,8 @@ MonoBehaviour:
       blocking: 0
       gameFlag: 5
   - lines:
-    - lineText: Meet me by the service elevator at the lake. I'm finishing up the
-        baton schema.
+    - lineText: I'll meet you at the service elevator at the lake. I'm fixing a few
+        things with the baton.
       speakerName: Lauren
       speakerImage: {fileID: 21300002, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
       voiceSound: 2
@@ -11447,6 +11427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1954261337859242, guid: 8a582ce7b9a4a11449d4e87483ccd4c8,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
   activatable: {fileID: 556812642}
 --- !u!1 &574595369
 GameObject:
@@ -12616,6 +12597,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1378176980770694, guid: 36ade65ddb4836745a48cb7e382c62bd,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!1 &882918363
@@ -12749,6 +12733,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!1 &912109088
@@ -12846,6 +12833,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!1 &917713493
@@ -13091,11 +13081,11 @@ MonoBehaviour:
   alerts:
   - Targeting system initializing
   - Targeting system online
-  - Perfoming first time scan
+  - Checking subsystems
   - Heat signatures found
   - Motion signatures found
-  - Bio signature found
-  - HUMAN target acquired
+  - Biometric signature found
+  - HUMAN TARGET ACQUIRED
 --- !u!1 &1011496694
 GameObject:
   m_ObjectHideFlags: 0
@@ -14147,6 +14137,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1954261337859242, guid: 8a582ce7b9a4a11449d4e87483ccd4c8,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!4 &1303516244
@@ -14634,6 +14627,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
+    - lineText: Wonderful. You made it back.
+      speakerName: Lauren
+      speakerImage: {fileID: 21300006, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
+      voiceSound: 2
+      activatable: {fileID: 0}
+      activatesOnLineEnd: 0
+      blocking: 0
+      gameFlag: 0
     - lineText: Just drop her heart in the stabilizer over there.
       speakerName: Lauren
       speakerImage: {fileID: 21300006, guid: f35d5de8df5ec3945aa9b007cffff884, type: 3}
@@ -14656,6 +14657,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &1524652857
@@ -14685,6 +14689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1478557198592126, guid: 56a83d86de818b14fa1981cd98421a5c,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
   activatable: {fileID: 1524652857}
 --- !u!61 &1524652859
 BoxCollider2D:
@@ -14791,11 +14796,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0.66751915
       objectReference: {fileID: 0}
-    - target: {fileID: 6071715836024784466, guid: d514ca4d35012064b90f0936ac25aee3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 130
-      objectReference: {fileID: 0}
     - target: {fileID: 114568043210485488, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: gameFlags.Array.size
@@ -14805,6 +14805,11 @@ PrefabInstance:
         type: 3}
       propertyPath: gameFlags.Array.data[1]
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071715836024784466, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 130
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
@@ -14908,6 +14913,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &1598563363
@@ -16240,5 +16248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 1954261337859242, guid: 8a582ce7b9a4a11449d4e87483ccd4c8,
     type: 3}
+  optionalPromptTransform: {fileID: 0}
+  dialogueAnimationBool: 0
+  dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0

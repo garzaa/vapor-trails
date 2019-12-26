@@ -79,6 +79,7 @@ public class PlayerAttack : Attack {
 	}
 
 	override public void MakeHitmarker(Transform pos) {
+		Vector2 midpoint = Vector2.MoveTowards(this.transform.position, pos.position, Vector2.Distance(this.transform.position, pos.position)/2f);
 		GameObject h = Instantiate(
 			hitmarker,
 			this.transform.position,
