@@ -712,6 +712,7 @@ public class PlayerController : Entity {
 
 	public void UnFreeze() {
 		this.frozen = false;
+		anim.speed = 1f;
 	}
 
 	public void FlashCyan() {
