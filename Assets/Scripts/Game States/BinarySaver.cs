@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System;
 using UnityEngine;
 
 public class BinarySaver : MonoBehaviour
@@ -60,11 +61,12 @@ public class BinarySaver : MonoBehaviour
 
     public bool HasSavedGame(int slot=1) {
         try {
-            LoadCharacter(GetSavePath(slot));
-        } catch (FileNotFoundException) {
+            SerializableSave s = LoadCharacter(GetSavePath(slot));
+            return s != null;
+        } catch (Exception) {
+            // sinful, but it's an easy way to handle save format changes
             return false;
         }
-        return true;
     }
 
     void SaveCharacter(Save save, string path)
