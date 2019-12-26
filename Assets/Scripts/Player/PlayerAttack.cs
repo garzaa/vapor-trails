@@ -81,7 +81,7 @@ public class PlayerAttack : Attack {
 	override public void MakeHitmarker(Transform pos) {
 		GameObject h = Instantiate(
 			hitmarker,
-			this.transform.position+((Vector3)bc2d.offset*attackerParent.ForwardScalar()),
+			this.transform.position,
 			Quaternion.identity,
 			this.transform
 		);
