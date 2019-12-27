@@ -14,4 +14,12 @@ public class IntInState : StateMachineBehaviour {
         if (isStateMachine) animator.SetInteger("SubState", stateNum);
     }
 
+
+    override public void OnStateMachineExit(Animator animator, int stateMachinePathHash) {
+        if (isStateMachine) animator.SetInteger("SubState", -1);
+    }
+
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!isStateMachine) animator.SetInteger("SubState", -1);
+    }
 }
