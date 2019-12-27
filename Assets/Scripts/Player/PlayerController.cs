@@ -203,7 +203,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene || dead) {
+		if (inCutscene || dead || inMeteor) {
 			return;
 		}
 
@@ -218,12 +218,13 @@ public class PlayerController : Entity {
 		}
 
 
-		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
-			anim.SetTrigger(Buttons.ATTACK);
-		} else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
+		if (InputManager.ButtonDown(Buttons.ATTACK)) anim.SetTrigger(Buttons.ATTACK);
+		else if (InputManager.ButtonDown(Buttons.PUNCH)) anim.SetTrigger(Buttons.PUNCH);
+		else if (InputManager.ButtonDown(Buttons.KICK)) anim.SetTrigger(Buttons.KICK);
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
-			} 
+			}
 		}
 		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null) {
 			if (unlocks.HasAbility(Ability.Meteor)) {

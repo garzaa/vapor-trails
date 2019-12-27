@@ -5,6 +5,8 @@ public static class Buttons {
     public static readonly string V_AXIS = "Vertical";
     public static readonly string JUMP   = "Jump";
     public static readonly string ATTACK = "Attack";
+    public static readonly string PUNCH  = "Punch";
+    public static readonly string KICK   = "Kick";
 
     public static readonly string SPECIAL    = "Special";
     public static readonly string PROJECTILE = "Projectile";
@@ -22,7 +24,9 @@ public static class Buttons {
     };
 
     private static readonly List<string> actionInputs = new List<string> {
-        ATTACK, 
+        ATTACK,
+        PUNCH,
+        KICK,
         SPECIAL, 
         PROJECTILE,
         INTERACT,
