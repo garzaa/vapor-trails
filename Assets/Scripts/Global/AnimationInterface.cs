@@ -8,6 +8,7 @@ public class AnimationInterface : MonoBehaviour {
 	ParticleSystem ps;
 
 	public Transform effectPoint;
+	public GameObject fallbackEffectPoint;
 	public List<GameObject> effects;
 
 	public List<AudioClip> sounds;
@@ -24,11 +25,19 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void SpawnEffect(int index) {
-		Instantiate(effects[index], effectPoint.transform.position, Quaternion.identity, null);
+		Transform pos = effectPoint;
+		if (pos == null) {
+			pos = fallbackEffectPoint.transform;
+		}
+		Instantiate(effects[index], pos.position, Quaternion.identity, null);
 	}
 
 	public void SpawnFollowingEffect(int index) {
-		Instantiate(effects[index], effectPoint.transform.position, Quaternion.identity, this.transform);
+		Transform pos = effectPoint;
+		if (pos == null) {
+			pos = fallbackEffectPoint.transform;
+		}
+		Instantiate(effects[index], pos.transform.position, Quaternion.identity, this.transform);
 	}
 
 	public void EmitParticles(int p) {
