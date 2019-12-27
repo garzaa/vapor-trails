@@ -232,7 +232,7 @@ public class PlayerController : Entity {
 			}
 		} 
 		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
-			UpSlash();
+			OrcaFlip();
 		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			anim.SetTrigger(Buttons.BLOCK);
 		}
@@ -594,11 +594,12 @@ public class PlayerController : Entity {
 		}
 	}
 
-	public void UpSlash() {
+	public void OrcaFlip() {
 		if (!unlocks.HasAbility(Ability.UpSlash)) {
 			return;
 		}
 		EndShortHopWindow();
+		EndDashCooldown();
 		ImpactDust();
 		SoundManager.JumpSound();
 		canUpSlash = false;
