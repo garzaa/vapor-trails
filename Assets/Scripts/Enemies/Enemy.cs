@@ -102,7 +102,7 @@ public class Enemy : Entity {
 		}
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
-			KnockBack(attack.GetKnockback());
+		KnockBack(attack.GetKnockback());
 		}
 	}
 
@@ -169,7 +169,7 @@ public class Enemy : Entity {
     }
 
 	IEnumerator normalSprite() {
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSecondsRealtime(.1f);
 		spriteRenderers.ForEach(x => {
 			x.material = defaultMaterial;
 		});
