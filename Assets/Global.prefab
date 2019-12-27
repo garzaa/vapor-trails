@@ -916,7 +916,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &904415963
 BoxCollider2D:
@@ -1448,6 +1448,99 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &473357161769984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3940324786853097775}
+  - component: {fileID: 6445566566992051494}
+  - component: {fileID: 4727512339045166265}
+  m_Layer: 11
+  m_Name: Side Kick
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3940324786853097775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473357161769984}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.762, y: 0.133, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6445566566992051494
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473357161769984}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.283764, y: -0.10199544}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.6300366, y: 0.3274637}
+  m_EdgeRadius: 0
+--- !u!114 &4727512339045166265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473357161769984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Side Kick
+  damage: 1
+  cameraShakeIntensity: 0.1
+  cameraShakeTime: 0.1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.3
+  knockBack: 1
+  knockbackVector: {x: 3, y: 3}
+  inheritMomentum: 0
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.2
+  rotateHitmarker: 1
+  pullInEntity: 1
+  attackLandEvent: 1
 --- !u!1 &1005477610057688
 GameObject:
   m_ObjectHideFlags: 0
@@ -12207,7 +12300,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61998996344265180
 BoxCollider2D:
@@ -13476,7 +13569,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61571123422440548
 BoxCollider2D:
@@ -19107,7 +19200,9 @@ Transform:
   m_Children:
   - {fileID: 4272666302206070}
   - {fileID: 4139839150310634}
+  - {fileID: 5552898510839489558}
   - {fileID: 6268907377787452381}
+  - {fileID: 3940324786853097775}
   - {fileID: 3008678515523752534}
   - {fileID: 2340882430023202027}
   - {fileID: 6629551232949104433}
@@ -19159,7 +19254,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61646847540539000
 BoxCollider2D:
@@ -24692,7 +24787,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61905031991245590
 BoxCollider2D:
@@ -36843,7 +36938,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61313471450201874
 BoxCollider2D:
@@ -42820,7 +42915,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 15
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4085933246619100747
 BoxCollider2D:
@@ -47878,6 +47973,99 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   otherSpriteRenderer: {fileID: 212311699973917672}
+--- !u!1 &713715960152440665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5552898510839489558}
+  - component: {fileID: 6392430622979888880}
+  - component: {fileID: 5001707105407102003}
+  m_Layer: 11
+  m_Name: Round Kick
+  m_TagString: PlayerHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5552898510839489558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713715960152440665}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.405, y: 0.079, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4317679957759178}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &6392430622979888880
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713715960152440665}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.15028322, y: -0.07111558}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.36307502, y: 0.46094447}
+  m_EdgeRadius: 0
+--- !u!114 &5001707105407102003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713715960152440665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackName: Round Kick
+  damage: 1
+  cameraShakeIntensity: 0.1
+  cameraShakeTime: 0.1
+  selfKnockBack: 0
+  selfKnockBackVector: {x: 0, y: 0}
+  forceX: 0
+  hitmarker: {fileID: 1549433810837289022, guid: bf6a53eebfc994547b7e7b82151a0fc9,
+    type: 3}
+  flipHitmarker: 0
+  attackedTags: []
+  attackerParent: {fileID: 0}
+  stunLength: 0.2
+  knockBack: 1
+  knockbackVector: {x: 0, y: 1}
+  inheritMomentum: 0
+  attackLandTrigger: 0
+  gainsEnergy: 1
+  costsEnergy: 0
+  hitstopLength: 0.1
+  rotateHitmarker: 1
+  pullInEntity: 1
+  attackLandEvent: 1
 --- !u!1 &738658338312450435
 GameObject:
   m_ObjectHideFlags: 0
@@ -48124,7 +48312,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 17
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &6057516898668140099
 BoxCollider2D:
@@ -48164,7 +48352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackName: Air High Kick
+  attackName: High Kick
   damage: 1
   cameraShakeIntensity: 0.3
   cameraShakeTime: 0.2
@@ -53150,7 +53338,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &9048497690488974842
 BoxCollider2D:
@@ -53191,8 +53379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Axe Kick
-  damage: 1
-  cameraShakeIntensity: 0.1
+  damage: 2
+  cameraShakeIntensity: 0.2
   cameraShakeTime: 0.1
   selfKnockBack: 0
   selfKnockBackVector: {x: 0, y: 0}
@@ -53202,9 +53390,9 @@ MonoBehaviour:
   flipHitmarker: 1
   attackedTags: []
   attackerParent: {fileID: 0}
-  stunLength: 0.5
+  stunLength: 0.7
   knockBack: 1
-  knockbackVector: {x: 0, y: 3}
+  knockbackVector: {x: 0, y: -10}
   inheritMomentum: 0
   attackLandTrigger: 0
   gainsEnergy: 1
@@ -53284,33 +53472,12 @@ LineRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 2
   m_Positions:
-  - {x: 0, y: 0.51, z: 0}
-  - {x: 0.07785114, y: 0.504023, z: 0}
-  - {x: 0.15387751, y: 0.48623213, z: 0}
-  - {x: 0.22629713, y: 0.45704442, z: 0}
-  - {x: 0.29341254, y: 0.41714394, z: 0}
-  - {x: 0.35365057, y: 0.367466, z: 0}
-  - {x: 0.4055994, y: 0.30917493, z: 0}
-  - {x: 0.44804126, y: 0.24363708, z: 0}
-  - {x: 0.47998142, y: 0.17238858, z: 0}
-  - {x: 0.50067127, y: 0.09709943, z: 0}
-  - {x: 0.50962573, y: 0.019534359, z: 0}
-  - {x: 0.50663507, y: -0.058488585, z: 0}
-  - {x: 0.49176925, y: -0.13514061, z: 0}
-  - {x: 0.46537682, y: -0.20862505, z: 0}
-  - {x: 0.42807633, y: -0.2772195, z: 0}
-  - {x: 0.38074213, y: -0.3393161, z: 0}
-  - {x: 0.32448357, y: -0.39345953, z: 0}
-  - {x: 0.26061952, y: -0.43838048, z: 0}
-  - {x: 0.19064663, y: -0.47302628, z: 0}
-  - {x: 0.116205275, y: -0.49658468, z: 0}
-  - {x: 0.039040048, y: -0.50850356, z: 0}
-  - {x: -0.039040133, y: -0.50850356, z: 0}
-  - {x: -0.116205364, y: -0.49658465, z: 0}
-  - {x: -0.19064672, y: -0.47302625, z: 0}
-  - {x: -0.26061958, y: -0.43838042, z: 0}
-  - {x: -0.32448366, y: -0.39345947, z: 0}
-  - {x: -0.38074222, y: -0.33931604, z: 0}
+  - {x: 0, y: 0.4, z: 0}
+  - {x: 0.06105972, y: 0.39531216, z: 0}
+  - {x: 0.12068825, y: 0.38135856, z: 0}
+  - {x: 0.17748795, y: 0.35846624, z: 0}
+  - {x: 0.23012748, y: 0.32717174, z: 0}
+  - {x: 0.27737302, y: 0.28820863, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.05
@@ -53429,7 +53596,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &8284806745756616020
 BoxCollider2D:
@@ -54284,8 +54451,8 @@ LineRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 10
   m_Positions:
-  - {x: 0, y: 0.464, z: -0.0081}
-  - {x: 0, y: -2.466, z: 0}
+  - {x: 0, y: -0.195, z: -0.54}
+  - {x: 0, y: -2.335, z: 0.033}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.4
@@ -62367,7 +62534,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 16
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &7441046804197957447
 BoxCollider2D:
@@ -63529,7 +63696,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2971342431776641343
 BoxCollider2D:
@@ -89282,7 +89449,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4338551156720876754
 BoxCollider2D:
@@ -94538,7 +94705,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 20
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2208206162830181583
 BoxCollider2D:
@@ -99370,7 +99537,7 @@ GameObject:
   - component: {fileID: 2164334970269259756}
   - component: {fileID: 2206417087345951483}
   m_Layer: 11
-  m_Name: Gentleman
+  m_Name: Hook Kick
   m_TagString: PlayerHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99388,7 +99555,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2164334970269259756
 BoxCollider2D:
@@ -99428,7 +99595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eddcd647d6ccfb47ac7bbeedd61784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackName: Round Kick
+  attackName: Hook Kick
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
@@ -99440,16 +99607,16 @@ MonoBehaviour:
   flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
-  stunLength: 0.8
+  stunLength: 0.2
   knockBack: 1
-  knockbackVector: {x: 3, y: 3}
+  knockbackVector: {x: 0, y: 1}
   inheritMomentum: 0
   attackLandTrigger: 0
   gainsEnergy: 1
   costsEnergy: 0
   hitstopLength: 0.1
   rotateHitmarker: 1
-  pullInEntity: 0
+  pullInEntity: 1
   attackLandEvent: 1
 --- !u!1 &6990573559059352880
 GameObject:
@@ -99481,7 +99648,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 19
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4245787930783288000
 BoxCollider2D:
@@ -105992,7 +106159,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 18
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3728708344750720666
 BoxCollider2D:
@@ -107004,7 +107171,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2679787362227658250
 BoxCollider2D:
@@ -107314,7 +107481,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4317679957759178}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &8072701632121664553
 BoxCollider2D:

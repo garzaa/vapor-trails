@@ -30,10 +30,10 @@ public class MoveXInState : RigidBodyAffector {
             if (entityForward) {
                 baseX *= entity.ForwardScalar();
             }
-            rb2d.velocity = new Vector2(
+        }
+        rb2d.velocity = new Vector2(
                 baseX,
                 rb2d.velocity.y
             );
-        }
     }
 }

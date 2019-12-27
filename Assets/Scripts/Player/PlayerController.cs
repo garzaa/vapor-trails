@@ -218,9 +218,17 @@ public class PlayerController : Entity {
 		}
 
 
-		if (InputManager.ButtonDown(Buttons.ATTACK)) anim.SetTrigger(Buttons.ATTACK);
-		else if (InputManager.ButtonDown(Buttons.PUNCH)) anim.SetTrigger(Buttons.PUNCH);
-		else if (InputManager.ButtonDown(Buttons.KICK)) anim.SetTrigger(Buttons.KICK);
+		if (InputManager.ButtonDown(Buttons.ATTACK)) {
+			anim.SetTrigger(Buttons.ATTACK);
+		} else if (InputManager.ButtonDown(Buttons.PUNCH)) {
+			anim.SetTrigger(Buttons.PUNCH);
+			// use one trigger to get to the attack state machine, because there are a bunch of transitions to it
+			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+		}
+		else if (InputManager.ButtonDown(Buttons.KICK)) {
+			anim.SetTrigger(Buttons.KICK);
+			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+		}
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
@@ -659,6 +667,8 @@ public class PlayerController : Entity {
 
 	public void ResetAttackTriggers() {
 		anim.ResetTrigger(Buttons.ATTACK);
+		anim.ResetTrigger(Buttons.PUNCH);
+		anim.ResetTrigger(Buttons.KICK);
 		anim.ResetTrigger("Hurt");
 	}
 
@@ -1263,5 +1273,10 @@ public class PlayerController : Entity {
 
 	void HealGroundTimeout() {
 		OnGroundHit(0f);
+	}
+
+	public bool InAttackStates() {
+		int currentState = anim.GetInteger("SubState");
+		return (currentState == 110) || (currentState == 210);
 	}
 }
