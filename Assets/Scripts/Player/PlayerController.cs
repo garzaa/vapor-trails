@@ -203,7 +203,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene || dead || inMeteor) {
+		if (inCutscene || dead) {
 			return;
 		}
 
@@ -218,14 +218,14 @@ public class PlayerController : Entity {
 		}
 
 
-		if (InputManager.ButtonDown(Buttons.ATTACK)) {
+		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
 			anim.SetTrigger(Buttons.ATTACK);
 		} else if (InputManager.ButtonDown(Buttons.PUNCH)) {
 			anim.SetTrigger(Buttons.PUNCH);
 			// use one trigger to get to the attack state machine, because there are a bunch of transitions to it
 			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
 		}
-		else if (InputManager.ButtonDown(Buttons.KICK)) {
+		else if (InputManager.ButtonDown(Buttons.KICK) && !inMeteor) {
 			anim.SetTrigger(Buttons.KICK);
 			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
 		}
@@ -234,7 +234,7 @@ public class PlayerController : Entity {
 				Dash();
 			}
 		}
-		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null) {
+		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null && !inMeteor) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
@@ -242,6 +242,7 @@ public class PlayerController : Entity {
 		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
+			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 		}
 	}
@@ -608,6 +609,7 @@ public class PlayerController : Entity {
 		}
 		EndShortHopWindow();
 		EndDashCooldown();
+		InterruptEverything();
 		ImpactDust();
 		SoundManager.JumpSound();
 		canUpSlash = false;
