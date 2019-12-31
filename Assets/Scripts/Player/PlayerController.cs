@@ -558,7 +558,6 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		SaveLastSafePos();
-		EndDashCooldown();
 		ImpactDust();
 		if (inMeteor) {
 			LandMeteor();
