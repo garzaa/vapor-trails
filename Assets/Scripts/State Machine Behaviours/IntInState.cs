@@ -21,10 +21,12 @@ public class IntInState : StateMachineBehaviour {
 
 
     override public void OnStateMachineExit(Animator animator, int stateMachinePathHash) {
-        if (isStateMachine) animator.SetInteger("SubState", 999);
+        if (isStateMachine) animator.SetInteger("SubState", lastEntryState);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!isStateMachine) animator.SetInteger("SubState", 999);
+        if (!isStateMachine) animator.SetInteger("SubState", lastEntryState);
+        // transitioning from a state in a sub-state machine to somewhere else in the sub-state machine
+        else animator.SetInteger("SubState", stateNum);
     }
 }
