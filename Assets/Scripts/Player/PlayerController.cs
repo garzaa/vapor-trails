@@ -139,18 +139,18 @@ public class PlayerController : Entity {
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 	}
 	
-	void Update () {
-		CheckHeal();
+	void Update() {
 		UpdateWallSliding();
 		Move();
 		Shoot();
 		Attack();
 		Jump();
 		Interact();
+		UpdateAnimationParams();
 		UpdateUI();
 		CheckFlip();
 	}
-
+	
 	void Interact() {
 		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene && canInteract && grounded) {
 			SoundManager.InteractSound();
@@ -1106,13 +1106,15 @@ public class PlayerController : Entity {
 		currentEnergy -= healCost;
 	}
 
-	public void CheckHeal() {
+	public void UpdateAnimationParams() {
 		if (healCost > currentEnergy || currentHP >= maxHP || !unlocks.HasAbility(Ability.Heal)) {
 			anim.SetBool("CanHeal", false);
 		} else {
 			anim.SetBool("CanHeal", true);
 		}
 		anim.SetBool("CanHeartbreak", unlocks.HasAbility(Ability.Heartbreaker));
+		anim.SetBool("CanDoubleJump", airJumps > 0);
+		anim.SetBool("CanOrcaFlip", canUpSlash);
 	}
 
 	public float MoveSpeedRatio() {
