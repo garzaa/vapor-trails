@@ -939,6 +939,7 @@ public class PlayerController : Entity {
 
 	public void StartRespawning() {
 		anim.SetTrigger("Respawn");
+		anim.SetBool("Skeleton", false);
 		EndRespawnAnimation();
 	}
 

@@ -127,10 +127,11 @@ public class TargetingSystem : MonoBehaviour {
 
 	bool CheckTargetRaycast(Transform t) {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
-		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, 
-											t.transform.position - this.transform.position, 
-											Vector3.Distance(t.transform.position, this.transform.position), 
-											layerMask);
+		RaycastHit2D hit = Physics2D.Linecast(
+			this.transform.position, 
+			t.transform.position,
+			layerMask
+		);
 		if (hit.transform != null) {
 			return false;
 		}

@@ -6,12 +6,13 @@ public class Hurtbox : MonoBehaviour {
 	public bool overrideTargetPosition;
 
 	void Start() {
-		if (parentObject == null) {
+		if (parentObject == null && GetComponentInParent<Entity>() != null) {
 			parentObject = GetComponentInParent<Entity>().gameObject;
 		}
 	}
 
 	public Entity GetParent() {
+		if (parentObject == null) return null;
 		return parentObject.GetComponent<Entity>();
 	}
 
