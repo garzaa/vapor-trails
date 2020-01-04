@@ -3112,6 +3112,37 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-3717704472707798746
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Grounded
+    m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: SubState
+    m_EventTreshold: 1
+  - m_ConditionMode: 3
+    m_ConditionEvent: SubState
+    m_EventTreshold: -200
+  m_DstStateMachine: {fileID: 1850058509158647940}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!114 &-3686509019273474565
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4193,7 +4224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1da38b054abaa9449bf4faa45556d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateNum: -5
+  stateNum: -300
   isStateMachine: 0
 --- !u!114 &-1648260963900774109
 MonoBehaviour:
@@ -5328,7 +5359,7 @@ AnimatorController:
     m_SyncedLayerIndex: 0
     m_DefaultWeight: 0
     m_IKPass: 0
-    m_SyncedLayerAffectsTiming: 1
+    m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
     m_Name: SpriteHidden
@@ -6493,10 +6524,10 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: SubState
-    m_EventTreshold: -5
+    m_EventTreshold: -666
   - m_ConditionMode: 7
     m_ConditionEvent: SubState
-    m_EventTreshold: -666
+    m_EventTreshold: -300
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102470243827915394}
   m_Solo: 0
@@ -7564,6 +7595,7 @@ AnimatorStateMachine:
   - {fileID: -2220067951830529699}
   - {fileID: 5627147502335348083}
   - {fileID: 4127708098239697190}
+  - {fileID: -3717704472707798746}
   - {fileID: 1101570229217668194}
   - {fileID: 8353294804732555327}
   - {fileID: -4774094615969194943}

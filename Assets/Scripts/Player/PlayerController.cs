@@ -7,7 +7,7 @@ public class PlayerController : Entity {
 	public float moveSpeed = 3.5f;
 	float jumpSpeed = 3.8f;
 	float jumpCutoff = 2.0f;
-	float hardLandSpeed = -4.5f;
+	float hardLandSpeed = -6.5f;
 	float dashSpeed = 7f;
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
