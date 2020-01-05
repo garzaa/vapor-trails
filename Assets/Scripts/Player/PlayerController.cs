@@ -1138,7 +1138,9 @@ public class PlayerController : Entity {
 	void OnEnviroDamage(EnviroDamage e) {
 		if (!grounded && e.returnPlayerToSafety) {
 			LockInSpace();
+			// these two together = ez?
 			InvincibleFor(this.invincibilityLength);	
+			envDmgSusceptible = true;
 			StartCoroutine(ReturnToSafety(selfDamageHitstop));
 		}
 	}
