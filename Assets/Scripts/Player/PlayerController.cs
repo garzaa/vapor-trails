@@ -593,6 +593,7 @@ public class PlayerController : Entity {
 			}
 			CameraShaker.Shake(0.1f, 0.1f);
 		}
+		if (anim.GetInteger("SubState") != -250) anim.SetInteger("SubState", 0);
 		if (terminalFalling) {
 			CameraShaker.Shake(0.2f, 0.1f);
 		}

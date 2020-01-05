@@ -9,7 +9,7 @@ public class BinarySaver : MonoBehaviour
     const string fileExtension = ".dat";
 	Save existingSave;
 
-	void Start() {
+	void OnEnable() {
 		existingSave = GetComponent<Save>();
 	}
 
