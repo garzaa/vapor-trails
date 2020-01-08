@@ -640,10 +640,14 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			yield break;
 		}
-		AlerterText.Alert("Returning to safety");
-		if (lastSafeObject != null)	GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
-		UnLockInSpace();
 		StunFor(0.2f);
+		AlerterText.Alert("Returning to safety");
+		if (lastSafeObject != null)	{
+			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
+		}
+		UnLockInSpace();
+		// override invincibility after the teleport so the player doesn't keep taking env damage
+		envDmgSusceptible = true;
 	}
 
 	public override void OnGroundLeave() {
@@ -864,6 +868,7 @@ public class PlayerController : Entity {
 			AlerterText.Alert("WAVEFORM CRITICAL");
 		}
 		InvincibleFor(this.invincibilityLength);
+		envDmgSusceptible = true;
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
@@ -1140,7 +1145,6 @@ public class PlayerController : Entity {
 			LockInSpace();
 			// these two together = ez?
 			InvincibleFor(this.invincibilityLength);	
-			envDmgSusceptible = true;
 			StartCoroutine(ReturnToSafety(selfDamageHitstop));
 		}
 	}
