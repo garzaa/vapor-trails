@@ -480,7 +480,6 @@ public class PlayerController : Entity {
 			AlerterText.Alert("Recycling DASH velocity");
 			perfectDashPossible = false;
 			CancelInvoke("ClosePerfectDashWindow");
-			this.GainEnergy(1);
 			SoundManager.ShootSound();
 		}
 		InterruptAttack();

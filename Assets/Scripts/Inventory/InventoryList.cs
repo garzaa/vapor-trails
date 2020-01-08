@@ -81,6 +81,9 @@ public class InventoryList : MonoBehaviour {
         }
         if (toRemove.stackable) {
             GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
+            if (GetItem(toRemove).count == 0) {
+                items.Remove(GetItem(toRemove));
+            }
         } else {
             items.Remove(GetItem(toRemove));
         } 
