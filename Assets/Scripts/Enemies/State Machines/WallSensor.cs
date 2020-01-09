@@ -4,11 +4,14 @@ public class WallSensor : Sensor {
 
 	public float distance = 1f;
 	public bool useTrigger = false;
+	public bool autoFlip = false;
 	Vector2 size;
 	int layerMask;
+	Entity e;
 
 	new void Start() {
 		base.Start();
+		e = animator.GetComponent<Entity>();
 		size = GetComponent<BoxCollider2D>().bounds.size * 0.75f;
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 	}
@@ -32,5 +35,8 @@ public class WallSensor : Sensor {
 			animator.SetTrigger("NearWall");
 		}
 		animator.SetBool("NearWall", hit.transform != null);
+		if (autoFlip) {
+			e.Flip();
+		}
 	}
 }
