@@ -72,7 +72,8 @@ public class InventoryUI : UIComponent {
             Destroy(oldItem.gameObject);
             oldItem.parent = null;
         }
-        foreach (InventoryItem item in inventoryList.items) {
+        for (int i=inventoryList.items.Count-1; i>=0; i--) {
+            InventoryItem item = inventoryList.items[i];
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
