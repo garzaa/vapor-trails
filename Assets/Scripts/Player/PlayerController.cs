@@ -818,6 +818,7 @@ public class PlayerController : Entity {
 		if (inMeteor || InputManager.VerticalInput() < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
+		return;
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
 		if (movingTowardsLedge && InputManager.VerticalInput() > -0.1f) {
 			EndDashCooldown();
