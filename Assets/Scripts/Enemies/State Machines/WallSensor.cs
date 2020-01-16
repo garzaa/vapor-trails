@@ -7,11 +7,11 @@ public class WallSensor : Sensor {
 	public bool autoFlip = false;
 	Vector2 size;
 	int layerMask;
-	Entity e;
+	Entity entity;
 
 	new void Start() {
 		base.Start();
-		e = animator.GetComponent<Entity>();
+		entity = animator.GetComponent<Entity>();
 		size = GetComponent<BoxCollider2D>().bounds.size * 0.75f;
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 	}
@@ -36,7 +36,7 @@ public class WallSensor : Sensor {
 		}
 		animator.SetBool("NearWall", hit.transform != null);
 		if (autoFlip) {
-			e.Flip();
+			entity.Flip();
 		}
 	}
 }

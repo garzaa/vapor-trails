@@ -229,7 +229,7 @@ public class PlayerController : Entity {
 			anim.SetTrigger(Buttons.KICK);
 			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
 		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && InputManager.VerticalInput() < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			}
@@ -270,7 +270,7 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (!grounded && rb2d.velocity.y < 0 && groundCheck.TouchingPlatforms() != null) {
+		if (!grounded && rb2d.velocity.y < 0 && groundCheck.TouchingPlatforms() != null && rb2d.velocity.y > 0) {
 			LedgeBoost();
 		}
 
@@ -350,7 +350,7 @@ public class PlayerController : Entity {
 			anim.SetBool("FastFalling", false);
 		}
 
-		if (wallCheck.TouchingLedge() && InputManager.HasHorizontalInput()) {
+		if (wallCheck.TouchingLedge() && InputManager.HasHorizontalInput() && rb2d.velocity.y > 0) {
 			LedgeBoost();
 		}
 
@@ -818,7 +818,6 @@ public class PlayerController : Entity {
 		if (inMeteor || InputManager.VerticalInput() < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
-		return;
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
 		if (movingTowardsLedge && InputManager.VerticalInput() > -0.1f) {
 			EndDashCooldown();

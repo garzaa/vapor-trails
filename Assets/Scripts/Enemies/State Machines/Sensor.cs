@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sensor : MonoBehaviour {
 
 	public Animator animator;
-	public Enemy e;
+	protected Enemy e;
 	protected GameObject player;
 	protected PlayerController pc;
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedLimiter : MonoBehaviour {
@@ -12,7 +10,7 @@ public class SpeedLimiter : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    void LateUpdate() {
+    void FixedUpdate() {
         SlowRigidBody();
     }
 

@@ -65,7 +65,6 @@ public class GlobalController : MonoBehaviour {
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
 		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
-		Application.targetFrameRate = 60;
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
