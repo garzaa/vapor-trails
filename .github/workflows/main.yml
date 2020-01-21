@@ -4,7 +4,7 @@ on:
   pull_request: {}
   push: {
     # TODO: change this to release
-    branches: [master]
+    branches: [release]
   }
 
 env:
@@ -43,10 +43,6 @@ jobs:
           projectPath: vapor-trails
           unityVersion: 2019.2.11f1
           targetPlatform: StandaloneOSX 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -65,10 +61,6 @@ jobs:
           projectPath: vapor-trails
           unityVersion: 2019.2.11f1
           targetPlatform: StandaloneLinux64 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -86,15 +78,11 @@ jobs:
         with:
           projectPath: vapor-trails
           unityVersion: 2019.2.11f1
-          targetPlatform: WebGL 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
+          targetPlatform: WebGL
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: WebGL
+          CHANNEL: webgl
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/WebGL-2019.2.11f1
+          PACKAGE: /github/workspace/build/webgl-2019.2.11f1
