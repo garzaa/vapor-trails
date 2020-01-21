@@ -18,7 +18,6 @@ public class InventoryController : MonoBehaviour {
         items = items ?? new InventoryList();
         UpdateMoneyUI();
     }
-    
 
     public void ReactToItemSelect(InventoryItem item) {
         if (this.currentMerchant == null)  {
