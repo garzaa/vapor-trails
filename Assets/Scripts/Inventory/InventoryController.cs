@@ -14,7 +14,7 @@ public class InventoryController : MonoBehaviour {
     public AudioSource itemBuy;
 
 
-    void Start () {
+    void Start() {
         items = items ?? new InventoryList();
         UpdateMoneyUI();
     }
