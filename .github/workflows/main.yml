@@ -9,7 +9,6 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  UNITY_VERSION: 2019.2.11f1
 
 jobs:
   buildForWindows:
@@ -32,7 +31,7 @@ jobs:
           CHANNEL: win-exe
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/StandaloneWindows64-$UNITY_VERSION
+          PACKAGE: /github/workspace/build/StandaloneWindows64-2019.2.11f1
 
   buildForMac:
     name: Build for MacOS
@@ -42,7 +41,7 @@ jobs:
       - uses: webbertakken/unity-builder@v0.5
         with:
           projectPath: vapor-trails
-          unityVersion: $UNITY_VERSION
+          unityVersion: 2019.2.11f1
           targetPlatform: StandaloneOSX 
       - uses: actions/upload-artifact@v1
         with:
@@ -54,7 +53,7 @@ jobs:
           CHANNEL: osx
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/StandaloneOSX-$UNITY_VERSION
+          PACKAGE: /github/workspace/build/StandaloneOSX-2019.2.11f1
 
   buildForLinux:
     name: Build for GNU-Linux
@@ -64,7 +63,7 @@ jobs:
       - uses: webbertakken/unity-builder@v0.5
         with:
           projectPath: vapor-trails
-          unityVersion: $UNITY_VERSION
+          unityVersion: 2019.2.11f1
           targetPlatform: StandaloneLinux64 
       - uses: actions/upload-artifact@v1
         with:
@@ -76,7 +75,7 @@ jobs:
           CHANNEL: gnu-linux
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/StandaloneLinux64-$UNITY_VERSION
+          PACKAGE: /github/workspace/build/StandaloneLinux64-2019.2.11f1
 
   buildForWeb:
     name: Build for WebGL
@@ -86,7 +85,7 @@ jobs:
       - uses: webbertakken/unity-builder@v0.5
         with:
           projectPath: vapor-trails
-          unityVersion: $UNITY_VERSION
+          unityVersion: 2019.2.11f1
           targetPlatform: WebGL 
       - uses: actions/upload-artifact@v1
         with:
@@ -98,4 +97,4 @@ jobs:
           CHANNEL: WebGL
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/WebGL-$UNITY_VERSION
+          PACKAGE: /github/workspace/build/WebGL-2019.2.11f1
