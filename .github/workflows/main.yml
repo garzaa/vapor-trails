@@ -1,0 +1,26 @@
+name: Actions
+
+on:
+  pull_request: {
+
+  }
+  push: {
+    # TODO: change this to release
+    branches: [master]
+  }
+
+jobs:
+  buildForWindows:
+    name: Build for Windows x64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: webbertakken/unity-builder@v0.5
+        with:
+          projectPath: vapor-trails
+          unityVersion: 2019.2.11f1
+          targetPlatform: StandaloneWindows64
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
