@@ -9,6 +9,7 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_VERSION: 2019.2.11f1
 
 jobs:
   buildForWindows:
@@ -31,4 +32,70 @@ jobs:
           CHANNEL: win-exe
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/StandaloneWindows64-2019.2.11f1
+          PACKAGE: /github/workspace/build/StandaloneWindows64-$UNITY_VERSION
+
+  buildForMac:
+    name: Build for MacOS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: webbertakken/unity-builder@v0.5
+        with:
+          projectPath: vapor-trails
+          unityVersion: $UNITY_VERSION
+          targetPlatform: StandaloneOSX 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
+      - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: osx
+          ITCH_GAME: vapor-trails
+          ITCH_USER: sevencrane
+          PACKAGE: /github/workspace/build/StandaloneOSX-$UNITY_VERSION
+
+  buildForLinux:
+    name: Build for GNU-Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: webbertakken/unity-builder@v0.5
+        with:
+          projectPath: vapor-trails
+          unityVersion: $UNITY_VERSION
+          targetPlatform: StandaloneLinux64 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
+      - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: gnu-linux
+          ITCH_GAME: vapor-trails
+          ITCH_USER: sevencrane
+          PACKAGE: /github/workspace/build/StandaloneLinux64-$UNITY_VERSION
+
+  buildForWeb:
+    name: Build for WebGL
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: webbertakken/unity-builder@v0.5
+        with:
+          projectPath: vapor-trails
+          unityVersion: $UNITY_VERSION
+          targetPlatform: WebGL 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
+      - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: WebGL
+          ITCH_GAME: vapor-trails
+          ITCH_USER: sevencrane
+          PACKAGE: /github/workspace/build/WebGL-$UNITY_VERSION
