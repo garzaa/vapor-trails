@@ -3,7 +3,6 @@ name: Build (all platforms)
 on:
   pull_request: {}
   push: {
-    # TODO: change this to release
     branches: [release]
   }
 
@@ -75,6 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: webbertakken/unity-builder@v0.5
+        continue-on-error: true
         with:
           projectPath: vapor-trails
           unityVersion: 2019.2.11f1
