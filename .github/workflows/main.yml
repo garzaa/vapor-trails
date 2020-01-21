@@ -66,22 +66,3 @@ jobs:
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
           PACKAGE: /github/workspace/build/StandaloneLinux64-2019.2.11f1
-
-  buildForWeb:
-    name: Build for WebGL
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: webbertakken/unity-builder@v0.5
-        continue-on-error: true
-        with:
-          projectPath: vapor-trails
-          unityVersion: 2019.2.11f1
-          targetPlatform: WebGL
-      - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: webgl
-          ITCH_GAME: vapor-trails
-          ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/webgl-2019.2.11f1
