@@ -3,7 +3,7 @@ name: Build (all platforms)
 on:
   push:
     branches:
-      - release
+      - master
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -20,13 +20,17 @@ jobs:
           unityVersion: 2019.2.11f1
           targetPlatform: StandaloneWindows64
           buildName: vapor-trails-win.exe
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: win-exe
           ITCH_GAME: vapor-trails
           ITCH_USER: sevencrane
-          PACKAGE: /github/workspace/build/
+          PACKAGE: build
   buildForMac:
     name: Build for MacOS
     runs-on: ubuntu-latest
