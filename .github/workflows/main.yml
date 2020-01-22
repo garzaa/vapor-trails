@@ -19,10 +19,7 @@ jobs:
           projectPath: vapor-trails
           unityVersion: 2019.2.11f1
           targetPlatform: StandaloneWindows64
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
+          buildName: vapor-trails-win.exe
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
