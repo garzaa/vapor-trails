@@ -24,7 +24,7 @@ jobs:
           name: Build
           path: build
       - name: Add the .exe extension to the player
-        run: mv build/StandaloneWindows64-2019.2.11f1\StandaloneWindows64 build/StandaloneWindows64-2019.2.11f1\StandaloneWindows64.exe
+        run: find -name "StandaloneWindows64"; mv StandaloneWindows64-2019.2.11f1/StandaloneWindows64 StandaloneWindows64-2019.2.11f1/StandaloneWindows64.exe
         shell: bash
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.0
         env:
