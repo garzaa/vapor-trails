@@ -17,6 +17,9 @@ public class CameraOffset : MonoBehaviour {
 
 	public bool following = true;
 
+	public bool stickOffset;
+	float stickOffsetMultiplier = .05f;
+
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
 	}
@@ -53,6 +56,8 @@ public class CameraOffset : MonoBehaviour {
 			ref velocity,
 			smoothAmount * Time.deltaTime
 		);
+
+		if (stickOffset) transform.position += (Vector3) InputManager.RightStick() * stickOffsetMultiplier; 
 	}
 
 	public void SetOffset(Vector2 newOffset) {

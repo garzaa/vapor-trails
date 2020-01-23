@@ -49,4 +49,12 @@ public class InputManager : MonoBehaviour {
     public static void UnfreezeInputs() {
         frozenInputs = false;
     }
+
+    public static Vector2 RightStick() {
+        // cant push all the way to the edge on a joystick for some reason
+        return new Vector2(
+            Input.GetAxis("Right-Horizontal"),
+            -Input.GetAxis("Right-Vertical")
+        ).normalized;
+    }
 }
