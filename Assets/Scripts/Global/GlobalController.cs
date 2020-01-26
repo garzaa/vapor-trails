@@ -109,7 +109,7 @@ public class GlobalController : MonoBehaviour {
 			}
 		}
 
-		if (inAbilityGetUI && Input.GetButtonDown("Jump")) {
+		if (inAbilityGetUI && InputManager.ButtonDown(Buttons.JUMP)) {
 			HideAbilityGetUI();
 		}
 

@@ -126,13 +126,18 @@ public class TransitionManager : MonoBehaviour {
 
 	IEnumerator LoadAsync(string sceneName)
     {
-        // The Application loads the Scene in the background at the same time as the current Scene.
-        //This is particularly good for creating loading screens. You could also load the Scene by build //number.
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+		// https://docs.unity3d.com/ScriptReference/AsyncOperation-allowSceneActivation.html
+		yield return null;
 
-        //Wait until the last operation fully loads to return anything
-        while (!asyncLoad.isDone)
-        {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+		asyncLoad.allowSceneActivation = false;
+		
+        //wait until the last operation fully loads to return anything
+        while (!asyncLoad.isDone) {
+			if (asyncLoad.progress >= 0.9f) {
+				asyncLoad.allowSceneActivation = true;
+			}
+
             yield return null;
         }
     }
