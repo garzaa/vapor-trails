@@ -17,6 +17,8 @@ public class PlayerAttack : Attack {
 	PlayerController player;
 	BoxCollider2D bc2d;
 
+	public GameObject[] baseDamageHitmarkers;
+
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackerParent = player;
@@ -78,29 +80,35 @@ public class PlayerAttack : Attack {
 		}
 	}
 
-	override public void MakeHitmarker(Transform pos) {
-		Vector2 midpoint = Vector2.MoveTowards(this.transform.position, pos.position, Vector2.Distance(this.transform.position, pos.position)/2f);
+	override public void MakeHitmarker(Transform hurtboxPos) {
+		// Vector2 midpoint = Vector2.MoveTowards(this.transform.position, hurtboxPos.position, Vector2.Distance(this.transform.position, hurtboxPos.position)/2f);
+		
 		GameObject h = Instantiate(
 			hitmarker,
-			this.transform.position,
-			Quaternion.identity,
 			this.transform
 		);
-		// hitmarker is currently facing the correct direction (left, internally)
-		// so, rotate to match the angle between its initial rotation and the knockback vector
-		float angleDiff = Vector2.Angle(Vector2.left, knockbackVector * attackerParent.ForwardVector());
-		// and then throw all logic out the window because this is what makes it work
-		// for negative x knockback
-		if (angleDiff == 180) {
-			angleDiff -= 180;
+		TransformHitmarker(h);
+
+		// other level hitmarkers
+		// base dmg starts at 1, if so we don't need to spawn any extra hitmarkers
+		for (int i=0; (i<baseDamageHitmarkers.Length) && (i<player.baseDamage-1); i++) {
+			GameObject g = Instantiate(
+				baseDamageHitmarkers[i],
+				this.transform
+			);
+			TransformHitmarker(g);
 		}
-		angleDiff = (angleDiff == 0 ? angleDiff : angleDiff-90f);
-		h.transform.eulerAngles = new Vector3(
-			0,
-			0,
-			angleDiff
-		);
-		h.transform.parent = null;
+				
+	}
+
+	void TransformHitmarker(GameObject h) {
+		if (rotateHitmarker) {
+			h.transform.eulerAngles = new Vector3(
+				0,
+				0,
+				Vector2.Angle(Vector3.right, knockbackVector)
+			);
+		}
 	}
 
 	public void OnDeflect() {

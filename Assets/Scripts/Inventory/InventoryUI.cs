@@ -87,7 +87,7 @@ public class InventoryUI : UIComponent {
         GridLayoutGroup grid = g.GetComponent<GridLayoutGroup>();
 
         int numRows = Mathf.Max(itemCount / numColumns, 1);
-        //max with the height of the viewport
+        // max with the height of the viewport
         s.y = Mathf.Max(
             grid.padding.top + grid.padding.bottom
             + (numRows * (int)grid.cellSize.y)
