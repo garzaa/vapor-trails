@@ -64,6 +64,10 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.transform.position = Vector2.zero;
 	}
 
+	public void MoveToEffectPoint() {
+		this.transform.position = effectPoint.transform.position;
+	}
+
 	virtual public void HidePlayer() {
 		GlobalController.pc.LockInSpace();
 		GlobalController.pc.Freeze();
