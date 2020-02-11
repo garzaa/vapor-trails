@@ -122,7 +122,7 @@ public class Enemy : Entity {
 		}
 	}
 
-	//for each added behavior, call it
+	// for each added behavior, call it
 	public void Update() {
 		if (!stunned) {
 			foreach (EnemyBehavior eb in this.behaviors) {

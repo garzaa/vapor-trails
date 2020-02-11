@@ -365,6 +365,7 @@ public class GlobalController : MonoBehaviour {
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
 		}
+		inventory.UpdateMoneyUI();
  	}
 
 	public static bool SavedInOtherScene() {

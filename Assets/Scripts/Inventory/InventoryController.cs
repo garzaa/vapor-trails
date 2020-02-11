@@ -61,7 +61,7 @@ public class InventoryController : MonoBehaviour {
         return 0;
     }
 
-    void UpdateMoneyUI() {
+    public void UpdateMoneyUI() {
         moneyUI.text = "$ " + CheckMoney().ToString();
     }
 

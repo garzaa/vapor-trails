@@ -123,8 +123,6 @@ public class PlayerController : Entity {
 		anim = GetComponent<Animator>();
 		groundCheck = GetComponent<GroundCheck>();
 		this.facingRight = false;
-		currentHP = unlocks.maxHP;
-		currentEnergy = unlocks.maxEnergy;
 		maxEnergy = 5;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
@@ -162,7 +160,7 @@ public class PlayerController : Entity {
 	}
 
 	bool IsForcedWalking() {
-		return this.forcedWalking || Input.GetKey(KeyCode.LeftControl);
+		return this.forcedWalking;
 	}
 
 	public void Parry() {
@@ -1187,6 +1185,7 @@ public class PlayerController : Entity {
 		this.maxHP = s.maxHP;
 		this.currentEnergy = s.currentEnergy;
 		this.currentHP = s.currentHP;
+		this.baseDamage = s.basePlayerDamage;
 		UpdateUI();
 	}
 

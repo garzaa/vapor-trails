@@ -19,7 +19,7 @@ public class MovingObject : MonoBehaviour {
 	}
 
 	//moves from point A to point B and then back	
-	void Update () {
+	void FixedUpdate () {
 		Move();
 		if (!returning) {
 			if (mainObject.transform.position == pointB.transform.position) {

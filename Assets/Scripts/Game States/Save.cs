@@ -51,6 +51,8 @@ public class Save : MonoBehaviour {
         return new SerializableSave(this);
     }
 
+    // this could be generalized, but eh
+    // also maybe need some error handling in here for previous, now-invalid save files
     public void LoadFromSerializableSave(SerializableSave s) {
         this.slotNum = s.slotNum;
         this.gameFlags = s.gameFlags;
@@ -61,6 +63,9 @@ public class Save : MonoBehaviour {
         this.sceneName = s.sceneName;
         this.playerPosition = new Vector2(s.xPos, s.yPos);
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
+        this.maxEnergy = s.maxEnergy;
+        this.maxHP = s.maxHP;
+        this.basePlayerDamage = s.baseDamage;
         GlobalController.inventory.items.LoadFromSerializableInventoryList(s.playerItems);
 
         if (Application.isEditor && !loadSceneInEditor) {
@@ -68,9 +73,6 @@ public class Save : MonoBehaviour {
         } else {
             GlobalController.LoadSceneToPosition(sceneName, playerPosition);
         }
-        GlobalController.pc.maxHP = s.maxHP;
-        GlobalController.pc.maxEnergy = s.maxEnergy;
-        GlobalController.pc.baseDamage = s.baseDamage;
     }
 
     public void UnlockAbility(Ability a) {
