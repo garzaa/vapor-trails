@@ -5,7 +5,6 @@ using UnityEngine;
 public class Lever : ActivationCriteria {
 	public bool flipped = false;
 	public bool active = true;
-	public string flagName;
 	public bool flipToInactive = false;
 	bool satisfied = false;
 

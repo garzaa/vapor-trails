@@ -45,7 +45,7 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void OpenMapUI(LocalSubwayController lc) {
-        GlobalController.pc.EnterDialogue();
+        GlobalController.pc.EnterCutscene();
         localSubway = lc;
         mapUI.gameObject.SetActive(true);
         mapUI.UpdateDiscoveredStops();

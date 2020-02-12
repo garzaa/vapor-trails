@@ -17,13 +17,9 @@ public class PlayerController : Entity {
 	float ledgeBoostSpeed = 4f;
 
 	//these will be loaded from the save
-	[HideInInspector]
 	public int currentHP = 1;
-	[HideInInspector]
 	public int currentEnergy = 5;
-	[HideInInspector]
 	public int maxEnergy = 5;
-	[HideInInspector]
 	public int maxHP = 5;
 
 	public int parryCount = 0;
@@ -1026,17 +1022,17 @@ public class PlayerController : Entity {
 		InterruptSupercruise();
 	}
 
-	public void EnterDialogue() {
+	public void EnterCutscene(bool invincible = true) {
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
 		DisableShooting();
 		anim.speed = 0f;
 		inCutscene = true;
-		SetInvincible(true);
+		SetInvincible(invincible);
 	}
 
-	// exitDialogue is called instead of exitInventory
+	// exitCutscene is called instead of exitInventory
 	// the only difference is invincibility
 	public void EnterInventory() {
 		InterruptEverything();
@@ -1047,7 +1043,7 @@ public class PlayerController : Entity {
 		inCutscene = true;
 	}
 
-	public void ExitDialogue() {
+	public void ExitCutscene() {
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();

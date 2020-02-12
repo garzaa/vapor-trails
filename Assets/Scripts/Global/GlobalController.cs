@@ -23,7 +23,7 @@ public class GlobalController : MonoBehaviour {
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
 	public static Save save;
-	static Animator pauseUI;
+	static CloseableUI pauseUI;
 	static bool inCutscene;
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
@@ -44,6 +44,9 @@ public class GlobalController : MonoBehaviour {
 	public GameObject talkPrompt;
 	public GameObject newDialoguePrompt;
 
+	public bool uiClosedThisFrame = false;
+	public bool hasOpenUI = false;
+
 	void Awake() {
 		if (gc == null) {
 			gc = this;
@@ -61,7 +64,7 @@ public class GlobalController : MonoBehaviour {
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
 		save = gc.GetComponent<Save>();
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
-		pauseUI = gc.transform.Find("PixelCanvas").transform.Find("PauseUI").GetComponent<Animator>();
+		pauseUI = GetComponentInChildren<PauseUI>();
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
 		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
@@ -88,12 +91,12 @@ public class GlobalController : MonoBehaviour {
 
 	static void OpenInventory() {
 		inventory.ShowInventory();
-		pc.EnterInventory();
+		pc.EnterCutscene(invincible:false);
 	}
 
 	static void CloseInventory() {
 		inventory.HideInventory();
-		pc.ExitDialogue();
+		pc.ExitCutscene();
 	}
 
 	void LateUpdate() {
@@ -181,8 +184,7 @@ public class GlobalController : MonoBehaviour {
 			queuedNPCs.Enqueue(npc);
 			return;
 		}
-		dialogueUI.Show();
-		pc.EnterDialogue();
+		dialogueUI.Open();
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
@@ -190,9 +192,8 @@ public class GlobalController : MonoBehaviour {
 
 	public static void ExitDialogue() {
 		dialogueOpen = false;
-		dialogueUI.Hide();
+		dialogueUI.Close();
 		dialogueClosedThisFrame = true;
-		pc.ExitDialogue();
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
 		}
@@ -334,10 +335,11 @@ public class GlobalController : MonoBehaviour {
 
 	//called from a cutscene animation to finish it and resume dialogue
 	public static void CutsceneCallback() {
+		if (!dialogueOpen) return;
 		// show the dialogue UI if there's a next line
 		// catch NPC being hidden by an activated animation
 		if (currentNPC != null && currentNPC.hasNextLine()) {
-			dialogueUI.Show();
+			dialogueUI.Open();
 		} else {
 			ExitDialogue();
 		}
@@ -347,7 +349,9 @@ public class GlobalController : MonoBehaviour {
 	// dialogue being open is a prerequisite for the cutscene state :^(
 	public static void EnterCutscene() {
 		inCutscene = true;
-		dialogueUI.Hide();
+		if (dialogueOpen) {
+			dialogueUI.Close();
+		}
 	}
 
 	public static void EnterSlowMotion() {
@@ -385,23 +389,13 @@ public class GlobalController : MonoBehaviour {
 		if (pc.inCutscene) {
 			return;
 		}
-		Hitstop.Interrupt();
-		pc.Freeze();
-		pc.inCutscene = true;
-		pauseUI.SetBool("Shown", true);
-		//manually first select
-		pauseUI.transform.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(pauseUI.transform.Find("Resume").gameObject);
 		paused = true;
-		SoundManager.InteractSound();
-		Time.timeScale = 0f;
+		pauseUI.Open();
 	}
 
 	public static void Unpause() {
 		paused = false;
-		Time.timeScale = 1;
-		pc.inCutscene = false;
-		pauseUI.SetBool("Shown", false);
-		pc.UnFreeze();
+		pauseUI.Close();
 	}
 
 	public static SerializedPersistentObject GetPersistentObject(string id) {
@@ -445,7 +439,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void ShowAbilityGetUI() {
 		abilityUIAnimator.SetTrigger("Show");
-		pc.EnterDialogue();
+		pc.EnterCutscene();
 		// to keep the player from accidentally skipping the animation early
 		gc.Invoke("EnterAbilityUI", 1f);
 	}
@@ -455,7 +449,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void HideAbilityGetUI() {
-		pc.ExitDialogue();
+		pc.ExitCutscene();
 		SoundManager.InteractSound();
 		abilityUIAnimator.SetTrigger("Hide");
 		inAbilityGetUI = false;

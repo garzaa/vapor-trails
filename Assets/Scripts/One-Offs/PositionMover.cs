@@ -19,7 +19,11 @@ public class PositionMover : MonoBehaviour {
         }
     }
 
-    void Update() {
+    void OnDisable() {
+        currentDestination = 0;
+    }
+
+    void FixedUpdate() {
         if (currentDestination >= destinations.Length) {
             return;
         }

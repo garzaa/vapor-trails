@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class DialogueUI : UIComponent {
+public class DialogueUI : CloseableUI {
 
 	public Animator anim;
 	public Text speakerName;
@@ -21,13 +20,15 @@ public class DialogueUI : UIComponent {
 
 	Sprite nextImage;
 
-	public override void Show() {
+	public override void Open() {
+		base.Open();
 		anim.SetBool("LastLine", false);
 		ClearDialogue();
 		anim.SetBool("Letterboxed", true);
 	}
 
-	public override void Hide() {
+	public override void Close() {
+		base.Close();
 		anim.SetBool("Letterboxed", false);
 	}
 
@@ -37,7 +38,7 @@ public class DialogueUI : UIComponent {
 		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text && !fromCutscene) {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
-				//anim.SetTrigger("SwitchSpeakerImage");
+				// anim.SetTrigger("SwitchSpeakerImage");
 				SwitchSpeakerImage();
 			}	
 		} else {
