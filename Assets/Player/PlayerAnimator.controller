@@ -893,6 +893,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &-7975226537120634982
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AxeKickCancel
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Kick
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: AttackLand
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -6923892573038674316}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.3
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-7871735992781414352
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1604,6 +1632,7 @@ AnimatorState:
   - {fileID: 734227581713680160}
   - {fileID: 6849749311572550627}
   - {fileID: -7325809689209778440}
+  - {fileID: 1468957947035283954}
   m_StateMachineBehaviours:
   - {fileID: 5408745634885845041}
   m_Position: {x: 50, y: 50, z: 0}
@@ -3713,7 +3742,7 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4248426842769418982}
-    m_Position: {x: 540, y: 60, z: 0}
+    m_Position: {x: 560, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7615917805185640385}
     m_Position: {x: 190, y: 220, z: 0}
@@ -7923,6 +7952,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateNum: -200
   isStateMachine: 0
+--- !u!1101 &1468957947035283954
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KickCancel
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Kick
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: AttackLand
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 6499429488818656878}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.3
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!114 &1500263194119725244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10679,6 +10736,7 @@ AnimatorState:
   - {fileID: -8806486373012652609}
   - {fileID: -5600146889259358169}
   - {fileID: -5963110466693825911}
+  - {fileID: -7975226537120634982}
   m_StateMachineBehaviours:
   - {fileID: -7310497501327251654}
   m_Position: {x: 50, y: 50, z: 0}

@@ -8,7 +8,7 @@ public class PauseUI : CloseableUI {
 
     void Start() {
         animator = GetComponent<Animator>();
-        eventSystem = GetComponentInParent<EventSystem>();
+        eventSystem = GetComponentInChildren<EventSystem>();
         firstSelected = transform.GetChild(0).gameObject;
     }
 

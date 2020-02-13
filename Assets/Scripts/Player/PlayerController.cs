@@ -455,6 +455,7 @@ public class PlayerController : Entity {
 			return;
 		}
 		EndCombatStanceCooldown();
+		CameraShaker.MedShake();
 		anim.SetTrigger("Dash");
 	}
 
@@ -829,6 +830,8 @@ public class PlayerController : Entity {
 		if (dead) {
 			return;
 		}
+		
+		CombatMusic.EnterCombat();
 
 		if (!canParry && invincible && !attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
 			return;

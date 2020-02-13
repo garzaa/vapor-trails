@@ -55,4 +55,14 @@
     public static int Sign(bool b) {
         return b ? 1 : -1;
     }
+
+    public static string GetHierarchicalName (this GameObject go) {
+		string name = go.name;
+		while (go.transform.parent != null) {
+
+			go = go.transform.parent.gameObject;
+			name = go.name + "/" + name;
+		}
+		return name;
+	}
  }

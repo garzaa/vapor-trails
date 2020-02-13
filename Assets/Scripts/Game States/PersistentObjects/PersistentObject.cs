@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +10,7 @@ public class PersistentObject : MonoBehaviour {
 
 	public string GetID() {
 		if (id == null) {
-			id = SceneManager.GetActiveScene().path + "/" + this.name;;
+			id = SceneManager.GetActiveScene().path + "/" + gameObject.GetHierarchicalName();
 		}
 		return id;
 	}

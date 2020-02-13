@@ -22,7 +22,6 @@ public class Attack : MonoBehaviour {
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
 	public bool inheritMomentum = false;
-	public bool attackLandTrigger = false;
 
 	protected Rigidbody2D rb2d;
 
@@ -39,9 +38,7 @@ public class Attack : MonoBehaviour {
 
 	public void OnAttackLand(Entity victim) {
 		ExtendedAttackLand(victim);
-		if (attackLandTrigger) {
-			attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
-		}
+		attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
 	}
 
 	public virtual void MakeHitmarker(Transform pos) {

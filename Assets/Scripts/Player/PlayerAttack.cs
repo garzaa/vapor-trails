@@ -86,7 +86,7 @@ public class PlayerAttack : Attack {
 		GameObject h = Instantiate(
 			hitmarker,
 			this.transform
-		);
+		) as GameObject;
 		TransformHitmarker(h);
 
 		// other level hitmarkers
