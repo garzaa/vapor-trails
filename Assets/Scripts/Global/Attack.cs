@@ -38,7 +38,10 @@ public class Attack : MonoBehaviour {
 
 	public void OnAttackLand(Entity victim) {
 		ExtendedAttackLand(victim);
-		attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
+		Animator a;
+		if ((a = attackerParent.GetComponent<Animator>()) != null) {
+			a.SetTrigger("AttackLand");
+		}
 	}
 
 	public virtual void MakeHitmarker(Transform pos) {
