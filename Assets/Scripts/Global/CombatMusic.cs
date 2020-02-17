@@ -35,4 +35,10 @@ public class CombatMusic : MonoBehaviour {
         musics = GameObject.FindObjectsOfType<AudioFade>().Where(x => x.combatMusic).ToList();
     }
 
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.CompareTag(Tags.EnemyHitbox)) {
+            CombatMusic.EnterCombat();
+        }
+    }
+
 }
