@@ -1,5 +1,7 @@
 ﻿ using UnityEngine;
  using UnityEngine.UI;
+ using System.Collections.Generic;
+ using System.Collections;
  
  static class UtilityMethods {
     /// <summary>
