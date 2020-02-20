@@ -157,6 +157,9 @@ public class Enemy : Entity {
 	}
 
 	public void WhiteSprite() {
+		if (spriteRenderers == null) {
+			return;
+		}
 		white = true;
 		foreach (SpriteRenderer x in spriteRenderers) {
 			x.material = whiteMaterial;
