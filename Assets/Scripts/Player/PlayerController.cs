@@ -156,7 +156,7 @@ public class PlayerController : Entity {
 	}
 
 	bool IsForcedWalking() {
-		return this.forcedWalking;
+		return this.forcedWalking || Input.GetKey(KeyCode.LeftControl);
 	}
 
 	public void Parry() {
