@@ -8,7 +8,7 @@ public class ToonMotion : MonoBehaviour
     {
         public Transform transform;
         public Vector3 localPosition;
-        public Quaternion rotation;
+        public Quaternion localRotation;
         public Vector3 scale;
 
         public Snapshot(Transform transform)
@@ -20,7 +20,7 @@ public class ToonMotion : MonoBehaviour
         public void Update()
         {
             this.localPosition = this.transform.localPosition;
-            this.rotation = this.transform.rotation;
+            this.localRotation = this.transform.localRotation;
             this.scale = this.transform.localScale;
         }
     }
@@ -43,7 +43,7 @@ public class ToonMotion : MonoBehaviour
             if (item.Value.transform != null)
             {
                 item.Value.transform.localPosition = item.Value.localPosition;
-                item.Value.transform.rotation = item.Value.rotation;
+                item.Value.transform.localRotation = item.Value.localRotation;
                 item.Value.transform.localScale = item.Value.scale;
             }
         }

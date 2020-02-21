@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class ChildCycler : Activatable {
-    List<GameObject> children;
+    List<GameObject> children = new List<GameObject>();
     int currentIndex;
 
     public bool savePositionOnDeactivate;

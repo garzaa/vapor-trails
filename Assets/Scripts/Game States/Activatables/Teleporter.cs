@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Teleporter : Activatable {
 
-	GameObject target;	
+	public GameObject target;	
 
 	void Start() {
 		Instantiate(Resources.Load("DoorIcon"), transform.position, Quaternion.identity, this.transform);

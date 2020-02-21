@@ -12,7 +12,6 @@ public class PlayerController : Entity {
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
 	float dashCooldownLength = .5f;
-	float dodgeSpeed = 5f;
 	bool hardFalling = false;
 	float ledgeBoostSpeed = 2f;
 

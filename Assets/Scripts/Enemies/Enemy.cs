@@ -25,7 +25,6 @@ public class Enemy : Entity {
 
 	Material whiteMaterial;
 	Material defaultMaterial;
-	bool white;
 
 	bool dead = false;
 	Renderer mainChildRenderer;
@@ -131,10 +130,6 @@ public class Enemy : Entity {
 			}
 		}
 		CheckFlip();
-		if (white) {
-			white = false;
-			StartCoroutine(normalSprite());
-		}
 		ExtendedUpdate();
 	}
 
@@ -160,7 +155,6 @@ public class Enemy : Entity {
 		if (spriteRenderers == null) {
 			return;
 		}
-		white = true;
 		foreach (SpriteRenderer x in spriteRenderers) {
 			x.material = whiteMaterial;
 		}
@@ -170,6 +164,7 @@ public class Enemy : Entity {
 		if (spr != null) {
         	spr.material = whiteMaterial;
 		}
+		StartCoroutine(normalSprite());
     }
 
 	IEnumerator normalSprite() {
