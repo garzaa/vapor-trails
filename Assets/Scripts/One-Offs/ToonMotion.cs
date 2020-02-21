@@ -30,7 +30,7 @@ public class ToonMotion : MonoBehaviour
 
     public int fps = 20;
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (Time.time - this.updateTime > 1f/this.fps)
         {
