@@ -94,7 +94,8 @@ public class PlayerAttack : Attack {
 		for (int i=0; (i<baseDamageHitmarkers.Length) && (i<player.baseDamage-1); i++) {
 			GameObject g = Instantiate(
 				baseDamageHitmarkers[i],
-				this.transform
+				this.transform.position,
+				Quaternion.identity
 			);
 			TransformHitmarker(g);
 		}
