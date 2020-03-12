@@ -8,10 +8,10 @@ public class PositionMover : MonoBehaviour {
     public bool flipToMovement = false;
     public Transform target;
     public bool sendSpeedToAnimator;
-
+    
     int currentDestination = 0;
     Animator animator;
-    
+
     void Start() {
         if (target == null) { target = this.transform; }
         if (sendSpeedToAnimator) {
@@ -36,7 +36,7 @@ public class PositionMover : MonoBehaviour {
             );
         }
         target.transform.position = Vector2.MoveTowards(target.transform.position, dt.position, speed * Time.deltaTime);
-        if (target.transform.position.Equals(dt.position)) {
+        if (Vector2.Distance(target.transform.position, dt.transform.position) < Vector2.kEpsilon) {
             currentDestination += 1;
             if (loop && currentDestination >= destinations.Length) {
                 currentDestination = 0;
@@ -47,7 +47,7 @@ public class PositionMover : MonoBehaviour {
         }
 
         if (sendSpeedToAnimator) {
-            float angle = Vector2.Angle(dt.transform.position - target.transform.position, Vector2.right);
+            float angle = Vector2.Angle(dt.transform.position - target.transform.position, Vector2.right) * Mathf.Deg2Rad;
             animator.SetFloat("SpeedX", Mathf.Abs(speed * Mathf.Cos(angle)));
 		    animator.SetFloat("SpeedY", Mathf.Abs(speed * Mathf.Sin(angle)));
         }

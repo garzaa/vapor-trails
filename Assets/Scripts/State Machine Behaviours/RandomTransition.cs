@@ -7,6 +7,6 @@ public class RandomTransition : StateMachineBehaviour {
     public string[] transitions;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        animator.SetTrigger(transitions[Random.Range(0, transitions.Length)]);
+        animator.Play(transitions[Random.Range(0, transitions.Length)]);
     }
 }
