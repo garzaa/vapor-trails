@@ -69,21 +69,11 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	virtual public void HidePlayer() {
-		GlobalController.pc.LockInSpace();
-		GlobalController.pc.Freeze();
-		GlobalController.pc.DisableShooting();
-		GlobalController.pc.Hide();
-		GlobalController.pc.inCutscene = true;
-		GlobalController.pc.SetInvincible(true);
+		GlobalController.HidePlayer();
 	}
 
 	virtual public void ShowPlayer() {
-		GlobalController.pc.UnLockInSpace();
-		GlobalController.pc.UnFreeze();
-		GlobalController.pc.EnableShooting();
-		GlobalController.pc.Show();
-		GlobalController.pc.SetInvincible(false);
-		GlobalController.pc.inCutscene = false;
+		GlobalController.ShowPlayer();
 	}
 
 	public void Alert(string alertText) {

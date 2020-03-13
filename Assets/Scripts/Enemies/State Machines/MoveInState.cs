@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class MoveInState : StateMachineBehaviour {
 
-    [Header("DEPRECATED")]
 	public bool onEnter;
 	public bool onUpdate;
 	public bool onExit;
 
 	public Vector2 direction;
+	public string overrideName;
 	public bool forceZero;
 
 	Entity e;
 
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		e = animator.GetComponent<Entity>();
+		if (!string.IsNullOrEmpty(overrideName)) {
+			direction = e.GetComponent<MoveSpeedOverride>().overrides[overrideName];
+		}
 		if (onEnter) {
 			Move(animator);
 		} else if (!onUpdate && !onExit) {

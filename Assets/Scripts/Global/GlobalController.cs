@@ -499,4 +499,14 @@ public class GlobalController : MonoBehaviour {
 	public static void DisableParallax() {
 		parallaxOption.moveParallax = false;
 	}
+
+	public static void HidePlayer() {
+		pc.EnterCutscene();
+		pc.Hide();
+	}
+
+	public static void ShowPlayer() {
+		pc.ExitCutscene();
+		pc.Show();
+	}
 }
