@@ -287,13 +287,26 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
 
-	public static void MovePlayerTo(Vector2 position) {
+	public static void MovePlayerTo(Vector2 position, bool fade=false) {
+		if (fade) {
+			gc.StartCoroutine(gc.MovePlayerWithFade(position));
+			return;
+		}
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		pc.transform.position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		playerFollower.EnableSmoothing();
+	}
+
+	public IEnumerator MovePlayerWithFade(Vector2 position) {
+		pc.EnterCutscene();
+		FadeToBlack();
+		yield return new WaitForSeconds(0.5f);
+		pc.transform.position = position;
+		UnFadeToBlack();
+		pc.ExitCutscene();
 	}
 
 	public static void MovePlayerToBeacon(Beacon beacon) {
