@@ -22,6 +22,7 @@ public class HidePlayerInState : StateMachineBehaviour {
 
     override public void OnStateMachineExit(Animator animator, int stateMachinePathHash) {
         if (stateMachine) {
+            Debug.Log("showing player");
             GlobalController.ShowPlayer();
         }
     }
