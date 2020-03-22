@@ -5,12 +5,10 @@ public class HidePlayerInState : StateMachineBehaviour {
     public bool stateMachine;
     
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (stateMachine) return;
         GlobalController.HidePlayer();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (stateMachine) return;
         GlobalController.ShowPlayer();
     }
 

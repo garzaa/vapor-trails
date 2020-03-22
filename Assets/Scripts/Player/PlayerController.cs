@@ -1029,7 +1029,6 @@ public class PlayerController : Entity {
 		Freeze();
 		LockInSpace();
 		DisableShooting();
-		anim.speed = 0f;
 		inCutscene = true;
 		SetInvincible(invincible);
 	}
@@ -1039,7 +1038,6 @@ public class PlayerController : Entity {
 	public void EnterInventory() {
 		InterruptEverything();
 		Freeze();
-		anim.speed = 0f;
 		LockInSpace();
 		DisableShooting();
 		inCutscene = true;
