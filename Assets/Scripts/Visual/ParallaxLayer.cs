@@ -24,7 +24,7 @@ public class ParallaxLayer : MonoBehaviour {
 		if (zeroOnStart) transform.position = Vector2.zero;
 	}
 
-	public void Update() {
+	public void LateUpdate() {
 
 		if (cameraTransform == null ) {
 			return;
