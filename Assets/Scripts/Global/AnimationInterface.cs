@@ -147,6 +147,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void MovePlayerToEffectPoint() {
-		GlobalController.MovePlayerTo(effectPoint.position);
+		Transform target = (effectPoint != null ? effectPoint : fallbackEffectPoint.transform);
+		GlobalController.MovePlayerTo(target.position);
 	}
 }

@@ -6,7 +6,7 @@ using System.Collections;
 public class AlerterText : MonoBehaviour {
     public GameObject textPrefab;
     public Transform textParent;
-    float alertInterval = .08f;
+    float alertInterval = .2f;
     
     static AlerterText at;
 

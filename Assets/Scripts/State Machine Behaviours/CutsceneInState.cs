@@ -16,6 +16,7 @@ public class CutsceneInState : StateMachineBehaviour {
 
     override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash) {
         if (stateMachine) {
+            Debug.Log("entering cutscene");
             GlobalController.pc.EnterCutscene();
         }
     }
