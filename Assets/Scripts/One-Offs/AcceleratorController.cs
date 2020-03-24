@@ -25,6 +25,6 @@ public class AcceleratorController : MonoBehaviour
     }
 
     public Vector2 GetBoostVector() {
-        return boostVector;
+        return boostVector.Rotate(transform.eulerAngles.z);
     }
 }

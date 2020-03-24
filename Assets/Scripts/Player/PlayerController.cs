@@ -7,7 +7,7 @@ public class PlayerController : Entity {
 	public float moveSpeed = 3.5f;
 	float jumpSpeed = 3.8f;
 	float jumpCutoff = 2.0f;
-	float hardLandSpeed = -6.5f;
+	float hardLandSpeed = -4f;
 	float dashSpeed = 7f;
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
@@ -89,6 +89,7 @@ public class PlayerController : Entity {
 	bool forcedWalking = false;
 	bool bufferedJump = false;
 	bool justFlipped = false;
+	public ActiveInCombat[] combatActives;
 
 
 	//other misc prefabs
@@ -130,6 +131,7 @@ public class PlayerController : Entity {
 		lastSafeOffset = this.transform.position;
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
+		combatActives = GetComponentsInChildren<ActiveInCombat>(includeInactive:true);
 	}
 	
 	void Update() {
@@ -486,6 +488,8 @@ public class PlayerController : Entity {
 			BackwardDust();
 		}
 		Freeze();
+		if (dashTimeout != null) StopCoroutine(dashTimeout);
+        dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 	}
 
 	private void EndEarlyDashInput() {
@@ -1216,14 +1220,21 @@ public class PlayerController : Entity {
 		anim.SetBool("CombatMode", false);
 	}
 
+	// called from PlayerCombatBehaviour
 	public void StartCombatStanceCooldown() {
 		anim.SetLayerWeight(1, 1);
 		CancelInvoke("EndCombatStanceCooldown");
 		Invoke("EndCombatStanceCooldown", combatStanceCooldown);
+		for (int i=0; i<combatActives.Length; i++) {
+			combatActives[i].gameObject.SetActive(true);
+		}
 	}
 
-	void EndCombatStanceCooldown() {
+	public void EndCombatStanceCooldown() {
 		anim.SetLayerWeight(1, 0);
+		for (int i=0; i<combatActives.Length; i++) {
+			combatActives[i].gameObject.SetActive(false);
+		}
 	}
 
 	// called from animations
@@ -1272,8 +1283,12 @@ public class PlayerController : Entity {
 		EndDashCooldown();
 		StartCombatCooldown();
 		EndShortHopWindow();
-		transform.position = accelerator.transform.position;
-		rb2d.velocity = accelerator.GetBoostVector();
+		anim.SetTrigger(Buttons.JUMP);
+		Vector2 v = accelerator.GetBoostVector();
+		rb2d.velocity = new Vector2(
+			v.x == 0 ? rb2d.velocity.x : v.x,
+			v.y
+		);
 	}
 
 	void HealGroundTimeout() {

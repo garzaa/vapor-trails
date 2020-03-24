@@ -13,7 +13,15 @@ public class StreakRenderer : LineRendererEditor {
         line.useWorldSpace = false;
     }
 
+    void Update() {
+        SetPoints();
+    }
+
     void LateUpdate() {
+        SetPoints();
+    }
+
+    void SetPoints() {
         if (start == null || end == null) return;
         Vector3[] points = new Vector3[2];
         points[0] = start.localPosition;

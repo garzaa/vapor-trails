@@ -5,64 +5,41 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
 
 	public bool impactShake;
-	public GameObject burstPrefab;
+	public GameObject hitEffect;
 
-	GameObject impactDust;
-
-	public bool ignorePlayer = false;
-
-	void Start() {
-		this.transform.parent = null;
-		impactDust = (GameObject) Resources.Load("ImpactDustPrefab");
-	}
+	public LayerMask collisionLayers;
+	public List<string> collisionTags;
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (ignorePlayer && other.tag.ToLower().Contains("player")) {
+		if (
+			!collisionTags.Contains(other.tag)
+			|| (collisionLayers != (collisionLayers | (1 << other.gameObject.layer)))
+		){
 			return;
 		}
 
-		if (other.CompareTag(Tags.EnemyHitbox)) {
-			return;
-		}
+		if (impactShake) CameraShaker.TinyShake();
 
-		if (impactShake) {
-			CameraShaker.TinyShake();
-		}
-		OnImpact(other);
-	}
-
-	public void OnImpact(Collider2D other) {
-		if (burstPrefab != null) {
-			GameObject go = Instantiate(burstPrefab, transform.position, Quaternion.identity);
-		}
-
-		if (other.GetComponent<PlayerAttack>() != null) {
-			other.GetComponent<PlayerAttack>().OnDeflect();
-			SoundManager.HitSound();
-			Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
-			Vector2 flipped = Vector2.Reflect(originalMotion, Vector2.up);
-			float newAngle = Vector2.Angle(Vector2.left, flipped);
-			GameObject g = (GameObject) Instantiate(impactDust, this.transform.position, Quaternion.Euler(0, 0, newAngle), null);
-		} else {
+		if (hitEffect != null) {
+			// first, try to get an impact point
 			RaycastHit2D hit = Physics2D.CircleCast(
 				this.transform.position, 
 				0.5f, 
 				Vector2.up, 
 				0, 
-				1 << LayerMask.NameToLayer(Layers.Ground) | 1 << LayerMask.NameToLayer(Layers.HitHurtboxes));
+				collisionLayers);
 			if (hit.transform != null) {
 				Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 				Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
 				float newAngle = Vector2.Angle(Vector2.left, flipped);
-				GameObject g = (GameObject) Instantiate(impactDust, hit.point, Quaternion.Euler(0, 0, newAngle+90), null);
+				Instantiate(hitEffect, hit.point, Quaternion.Euler(0, 0, newAngle), null);
+			} else {
+				Instantiate(hitEffect, this.transform.position, Quaternion.identity, null);
 			}
 		}
 
-		GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-		SoundManager.ExplosionSound();
-		//remove the collider/sprites/etc and stop particle emission
-		GetComponent<Collider2D>().enabled = false;
-		GetComponent<SpriteRenderer>().enabled = false;
-		GetComponent<SelfDestruct>().Destroy(2f);
+		Destroy(this.gameObject);
+
 	}
+
 }

@@ -11,16 +11,14 @@ public class PrefabSpawner : Activatable {
         if (b) {
             GameObject g;
 
-            if (!inheritRotation) {
-            g = Instantiate(prefab, this.transform.position, Quaternion.identity, null).gameObject;
-            } else {
+            if (inheritRotation) {
                 g = Instantiate(prefab, this.transform.position, this.transform.rotation, null).gameObject;
+            } else {
+                g = Instantiate(prefab, this.transform.position, Quaternion.identity, null).gameObject;
             }
 
             if (g.GetComponent<Rigidbody2D>() != null) {
-                Rigidbody2D r = g.GetComponent<Rigidbody2D>();
-                Vector3 v = this.transform.rotation.eulerAngles;
-                r.velocity = v;
+                g.GetComponent<Rigidbody2D>().velocity = transform.rotation.eulerAngles.normalized * velocity;
             } else if (Mathf.Abs(velocity) > float.Epsilon) {
                 Debug.Log("brainlet alert");
             }
