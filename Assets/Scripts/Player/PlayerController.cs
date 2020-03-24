@@ -1294,8 +1294,7 @@ public class PlayerController : Entity {
 
 	void HealGroundTimeout() {
 		anim.SetInteger("SubState", 200);
-		OnGroundHit(0f);
-	}
+		OnGroundHit(0f);	}
 
 	public bool InAttackStates() {
 		int currentState = anim.GetInteger("SubState");
