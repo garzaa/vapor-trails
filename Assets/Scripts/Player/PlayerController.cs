@@ -376,7 +376,7 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.JUMP)) {
-			if ((grounded || justLeftGround) && (InputManager.VerticalInput() >= -0.7)) {
+			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput() >= -0.7)) {
 				GroundJump();
 			}
 			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
@@ -1214,9 +1214,15 @@ public class PlayerController : Entity {
 		anim.SetBool("CombatMode", true);
 		CancelInvoke("EndCombatCooldown");
 		Invoke("EndCombatCooldown", combatCooldown);
+		for (int i=0; i<combatActives.Length; i++) {
+			combatActives[i].gameObject.SetActive(true);
+		}
 	}
 
 	public void EndCombatCooldown() {
+		for (int i=0; i<combatActives.Length; i++) {
+			combatActives[i].gameObject.SetActive(false);
+		}
 		anim.SetBool("CombatMode", false);
 	}
 
@@ -1225,16 +1231,10 @@ public class PlayerController : Entity {
 		anim.SetLayerWeight(1, 1);
 		CancelInvoke("EndCombatStanceCooldown");
 		Invoke("EndCombatStanceCooldown", combatStanceCooldown);
-		for (int i=0; i<combatActives.Length; i++) {
-			combatActives[i].gameObject.SetActive(true);
-		}
 	}
 
 	public void EndCombatStanceCooldown() {
 		anim.SetLayerWeight(1, 0);
-		for (int i=0; i<combatActives.Length; i++) {
-			combatActives[i].gameObject.SetActive(false);
-		}
 	}
 
 	// called from animations
@@ -1267,6 +1267,7 @@ public class PlayerController : Entity {
 	public void StartParryWindow() {
 		CancelInvoke("EndParryWindow");
 		canParry = true;
+		StartCombatCooldown();	
 		Invoke("EndParryWindow", parryTimeout);
 	}
 
@@ -1280,7 +1281,7 @@ public class PlayerController : Entity {
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
-		EndDashCooldown();
+		ResetAirJumps();
 		StartCombatCooldown();
 		EndShortHopWindow();
 		anim.SetTrigger(Buttons.JUMP);

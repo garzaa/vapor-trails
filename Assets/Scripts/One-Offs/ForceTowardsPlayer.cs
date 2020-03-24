@@ -14,7 +14,7 @@ public class ForceTowardsPlayer : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        rb2d.AddForce(pc.transform.position - transform.position);
+        rb2d.AddForce((pc.transform.position - transform.position).normalized * force);
         if (maxSpeed > float.Epsilon && rb2d.velocity.magnitude > maxSpeed) {
             rb2d.velocity = rb2d.velocity.normalized * maxSpeed;
         }

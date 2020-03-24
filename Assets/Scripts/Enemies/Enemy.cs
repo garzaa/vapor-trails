@@ -38,6 +38,9 @@ public class Enemy : Entity {
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
 
+	GameObject bossResources;
+	[SerializeField] bool dropBossResources;
+
 	public bool IsStunned() {
 		return stunned;
 	}
@@ -67,6 +70,10 @@ public class Enemy : Entity {
 		}
 		Initialize();
 		mainChildRenderer = GetComponentInChildren<Renderer>();
+
+		if (dropBossResources) {
+			bossResources = Resources.Load<GameObject>("Effects/BossResources");
+		}
 	}
 
 	public virtual void Initialize() {
@@ -111,6 +118,11 @@ public class Enemy : Entity {
 		this.frozen = true;
 		this.dead = true;
 		Hitstop.Run(.1f);
+		if (dropBossResources) {
+			for (int i=0; i<20; i++) {
+				Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
+			}
+		}
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("Die");
 		} else {

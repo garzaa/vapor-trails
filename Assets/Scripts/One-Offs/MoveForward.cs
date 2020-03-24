@@ -10,10 +10,6 @@ public class MoveForward : MonoBehaviour {
 
     void Update() {
         float degZ = transform.eulerAngles.z;
-        rb2d.velocity = new Vector3(
-            speed * Mathf.Cos(degZ) * transform.localScale.x,
-            speed * Mathf.Sin(degZ),
-            0
-        );
+        rb2d.velocity = Vector2.right.Rotate(degZ) * speed;
     }
 }
