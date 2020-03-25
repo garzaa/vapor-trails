@@ -17,6 +17,7 @@ public abstract class Layers {
 	public const string SpriteMasks = "Sprite Masks";
 	public const string Minimap = "Minimap";
 	public const string EditorUI = "Editor UI";
+	public const string PlayerParticles = "PlayerParticles";
 
 	public const int DefaultMask = 1;
 	public const int TransparentFXMask = 1 << 1;
@@ -35,6 +36,7 @@ public abstract class Layers {
 	public const int SpriteMasksMask = 1 << 17;
 	public const int MinimapMask = 1 << 18;
 	public const int EditorUIMask = 1 << 19;
+	public const int PlayerParticlesMask = 1 << 20;
 
 	public const int DefaultNumber = 0;
 	public const int TransparentFXNumber = 1;
@@ -53,4 +55,5 @@ public abstract class Layers {
 	public const int SpriteMasksNumber = 17;
 	public const int MinimapNumber = 18;
 	public const int EditorUINumber = 19;
+	public const int PlayerParticlesNumber = 20;
 }

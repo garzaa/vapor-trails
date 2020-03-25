@@ -11,7 +11,7 @@ public class PlayerController : Entity {
 	float dashSpeed = 7f;
 	float terminalSpeed = -10f;
 	float superCruiseSpeed = 12f;
-	float dashCooldownLength = .5f;
+	float dashCooldownLength = .6f;
 	bool hardFalling = false;
 	float ledgeBoostSpeed = 2f;
 
@@ -473,7 +473,7 @@ public class PlayerController : Entity {
 			Mathf.Max(rb2d.velocity.y, 0)
 		);
 		if (perfectDashPossible && !earlyDashInput) {
-			AlerterText.Alert("Recycling DASH velocity");
+			AlerterText.Alert("Recycling boost");
 			perfectDashPossible = false;
 			CancelInvoke("ClosePerfectDashWindow");
 			SoundManager.ShootSound();
@@ -678,7 +678,7 @@ public class PlayerController : Entity {
 	void UpdateWallSliding() {
 		GameObject touchingLastFrame = touchingWall;
 		touchingWall = wallCheck.TouchingWall();
-		if (!touchingLastFrame && touchingWall && !justLeftWall) {
+		if (!touchingLastFrame && touchingWall) {
 			OnWallHit(touchingWall);
 		}
 		else if (touchingLastFrame && !touchingWall) {
@@ -1285,6 +1285,7 @@ public class PlayerController : Entity {
 		StartCombatCooldown();
 		EndShortHopWindow();
 		anim.SetTrigger(Buttons.JUMP);
+		rb2d.MovePosition((Vector2) accelerator.transform.position + (Vector2.up * 0.32f));
 		Vector2 v = accelerator.GetBoostVector();
 		rb2d.velocity = new Vector2(
 			v.x == 0 ? rb2d.velocity.x : v.x,

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class ForceTowardsPlayer : MonoBehaviour {
     public float force;
@@ -15,7 +14,7 @@ public class ForceTowardsPlayer : MonoBehaviour {
 
     void FixedUpdate() {
         rb2d.AddForce((pc.transform.position - transform.position).normalized * force);
-        if (maxSpeed > float.Epsilon && rb2d.velocity.magnitude > maxSpeed) {
+        if (maxSpeed > 0 && rb2d.velocity.magnitude > maxSpeed) {
             rb2d.velocity = rb2d.velocity.normalized * maxSpeed;
         }
     }

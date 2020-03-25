@@ -3,7 +3,7 @@ using UnityEngine;
 public class RandomFlipper : MonoBehaviour {
     void Start() {
         if (Random.value > 0.5f) {
-            this.transform.localScale = new Vector2(-1, 1);
+            this.transform.localScale.Scale(new Vector2(-1, 1));
         }
     }
 }

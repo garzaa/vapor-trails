@@ -46,7 +46,7 @@ public class EnviroDamage : Attack {
 			ps.Emit(numParticles);
 		}
 
-		if (impactSound && (thisRenderer != null && thisRenderer.isVisible)) {
+		if (impactSound && (thisRenderer == null || thisRenderer.isVisible)) {
 			impactSound.PlayOneShot(impactSound.clip);
 		}
 	}

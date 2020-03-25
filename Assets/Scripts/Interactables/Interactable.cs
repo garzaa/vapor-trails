@@ -51,7 +51,7 @@ public class Interactable : MonoBehaviour {
 					promptPrefab, 
 					pos,
 					Quaternion.identity, 
-					this.transform
+					null
 				);
 			}
 		}
