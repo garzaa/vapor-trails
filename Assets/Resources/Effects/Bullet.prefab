@@ -226,9 +226,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impactShake: 1
-  burstPrefab: {fileID: 1960851481158688, guid: c39f8940216112a438ac2dcdbdd418a1,
-    type: 3}
-  ignorePlayer: 1
+  hitEffect: {fileID: 0}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 2048
+  collisionTags:
+  - EnemyHurtbox
 --- !u!50 &50713390377025236
 Rigidbody2D:
   serializedVersion: 4
@@ -293,11 +296,13 @@ MonoBehaviour:
   knockBack: 1
   knockbackVector: {x: 3, y: 0}
   inheritMomentum: 0
-  attackLandTrigger: 0
   gainsEnergy: 0
   costsEnergy: 0
   hitstopLength: 0
   rotateHitmarker: 1
+  pullInEntity: 1
+  attackLandEvent: 0
+  baseDamageHitmarkers: []
 --- !u!61 &61266208343776382
 BoxCollider2D:
   m_ObjectHideFlags: 0

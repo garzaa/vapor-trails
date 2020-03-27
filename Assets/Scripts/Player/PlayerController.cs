@@ -91,6 +91,8 @@ public class PlayerController : Entity {
 	bool justFlipped = false;
 	public ActiveInCombat[] combatActives;
 
+	public PlayerStates currentState;
+
 
 	//other misc prefabs
 	public GameObject selfHitmarker;
@@ -161,18 +163,18 @@ public class PlayerController : Entity {
 	}
 
 	public void Parry() {
-		if (parryCount == 0) {
+		if (parryCount == 0) {	
 			FirstParry();
 		} else {
 			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
-			Instantiate(
-			parryEffect, 
-			// move it forward and to the right a bit
-			(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
-			Quaternion.identity,
-			this.transform
-		);
+			Instantiate( 
+				parryEffect, 
+				// move it forward and to the right a bit
+				(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
+				Quaternion.identity,
+				this.transform
+			);
 		}
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
@@ -265,11 +267,11 @@ public class PlayerController : Entity {
 			EndSupercruise();
 		}
 
-		if (!grounded && rb2d.velocity.y < 0 && groundCheck.TouchingPlatforms() != null && rb2d.velocity.y > 0) {
+		if (grounded && rb2d.velocity.y > 0 && (groundCheck.TouchingPlatforms() != null)) {
 			LedgeBoost();
 		}
 
-		if (supercruise && !grounded && !touchingWall && !MovingForwards() && InputManager.HorizontalInput() != 0) {
+		if (supercruise && InputBackwards()) {
 			Airbrake();
 			return;
 		}
@@ -572,11 +574,9 @@ public class PlayerController : Entity {
 				(Mathf.Abs(rb2d.velocity.x) + (Mathf.Abs(impactSpeed / 4f))) * ForwardScalar(),
 				impactSpeed
 			);
-			// if they're in the divekick state
-			if (anim.GetInteger("SubState") == -250) {
-				// animator will transition to slide here
-				// also, don't need to check for horizontal input because a lack of it will immediately go from
-				// the slide kick to idle
+			if (currentState == PlayerStates.DIVEKICK) {
+				currentState = PlayerStates.NORMAL;
+				anim.SetInteger("StateNum", 100);
 			} else if (InputManager.HasHorizontalInput()) {
 				anim.SetTrigger("Roll");
 			} else {
@@ -590,7 +590,6 @@ public class PlayerController : Entity {
 			}
 			CameraShaker.Shake(0.1f, 0.1f);
 		}
-		if (anim.GetInteger("SubState") != -250) anim.SetInteger("SubState", 0);
 		if (terminalFalling) {
 			CameraShaker.Shake(0.2f, 0.1f);
 		}
@@ -739,6 +738,7 @@ public class PlayerController : Entity {
 
     public void SetInvincible(bool b) {
         this.invincible = b;
+		// the opposite of invincible - damage susceptible
 		this.envDmgSusceptible = !b;
     }
 
@@ -867,7 +867,6 @@ public class PlayerController : Entity {
 			AlerterText.Alert("WAVEFORM CRITICAL");
 		}
 		InvincibleFor(this.invincibilityLength);
-		envDmgSusceptible = true;
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
@@ -1295,7 +1294,8 @@ public class PlayerController : Entity {
 
 	void HealGroundTimeout() {
 		anim.SetInteger("SubState", 200);
-		OnGroundHit(0f);	}
+		OnGroundHit(0f);
+	}
 
 	public bool InAttackStates() {
 		int currentState = anim.GetInteger("SubState");

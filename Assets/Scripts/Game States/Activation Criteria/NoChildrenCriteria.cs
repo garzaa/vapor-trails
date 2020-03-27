@@ -4,8 +4,16 @@ public class NoChildrenCriteria : ActivationCriteria {
 
 	public GameObject optionalContainer;
 
-	public override bool CheckSatisfied() {
-		if (optionalContainer != null) return optionalContainer.transform.childCount == 0;
-		return transform.childCount == 0;
+	override protected void UpdateSatisfied() {
+		if (optionalContainer != null) {
+			satisfied = optionalContainer.transform.childCount == 0;
+		} else {
+			satisfied = transform.childCount == 0;
+		}
+		base.UpdateSatisfied();
     }
+
+	void FixedUpdate() {
+		UpdateSatisfied();
+	}
 }

@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class NPCLineCriteria : ActivationCriteria {
 	
+	[Header("DEPRECATED")]
 	public NPC npc;
 	public int conversationNum;
 	public int lineNum;
 
-	public override bool CheckSatisfied() {
+	override protected void UpdateSatisfied() {
 		if (npc.currentConversation >= conversationNum
 		&& npc.currentDialogueLine >= lineNum) {
-			return true;
+			satisfied = true;
 		} else {
-			return false;
+			satisfied = false;
 		}
+	}
+
+	void FixedUpdate() {
+		UpdateSatisfied();
 	}
 }

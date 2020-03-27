@@ -6,22 +6,24 @@ public class Lever : ActivationCriteria {
 	public bool flipped = false;
 	public bool active = true;
 	public bool flipToInactive = false;
-	bool satisfied = false;
+	Animator animator;
 
 	bool hitTimeout = false;
 
-	public override bool CheckSatisfied() {
-		Animator anim;
-		if ((anim = GetComponent<Animator>()) != null) {
-			anim.SetBool("Active", active);
+	void Start() {
+		animator = GetComponent<Animator>();
+	}
+
+	void Update() {
+		if (animator != null) {
+			animator.SetBool("Active", active);
 		}
-		bool preSatisfied = this.satisfied;
-		this.satisfied = false;
-		return preSatisfied;
 	}
 
 	void ReEnableHitting() {
 		hitTimeout = false;
+		satisfied = false;
+		UpdateSatisfied();
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
@@ -42,24 +44,19 @@ public class Lever : ActivationCriteria {
 
 			//then at the end of the flip, reset
 			satisfied = true;
+			base.UpdateSatisfied();
 		}
 	}
 
 	public void Flip() {
 		flipped = !flipped;
-		if (flipToInactive) active = false;
-
-		Animator anim;
-		if ((anim = GetComponent<Animator>()) != null) {
-			anim.SetBool("Flipped", flipped);
+		
+		if (animator != null) {
+			animator.SetBool("Flipped", flipped);
 			if (flipToInactive) {
-				anim.SetBool("Active", false);
+				animator.SetBool("Active", false);
+				active = false;
 			}
 		}
-	}
-
-	public void FlipOff() {
-		Flip();
-		satisfied = false;
 	}
 }
