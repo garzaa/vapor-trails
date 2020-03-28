@@ -8,7 +8,7 @@ public class GenericEnterCriteria : Activator {
     public List<string> tags = new List<string>();
 
     void OnTriggerEnter2d(Collider2D other) {
-        if (other.gameObject == seek.gameObject || tags.Contains(other.gameObject.tag)) {
+        if (other.gameObject == seek.gameObject || (tags.Count == 0 || tags.Contains(other.gameObject.tag))) {
             Activate();
         }
     }

@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (
-			!collisionTags.Contains(other.tag)
+			(collisionTags.Count == 0 || !collisionTags.Contains(other.tag))
 			|| (collisionLayers != (collisionLayers | (1 << other.gameObject.layer)))
 		){
 			return;
