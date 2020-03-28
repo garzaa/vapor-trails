@@ -4,6 +4,7 @@ public class PositionMover : MonoBehaviour {
     public Transform[] destinations;
     public float speed = 1f;
     public bool loop = true;
+    public bool closeLoop = true;
     public Activatable callback;
     public bool flipToMovement = false;
     public Transform target;
@@ -38,8 +39,12 @@ public class PositionMover : MonoBehaviour {
         target.transform.position = Vector2.MoveTowards(target.transform.position, dt.position, speed * Time.deltaTime);
         if (Vector2.Distance(target.transform.position, dt.transform.position) < Vector2.kEpsilon) {
             currentDestination += 1;
-            if (loop && currentDestination >= destinations.Length) {
-                currentDestination = 0;
+            if (currentDestination >= destinations.Length && loop) {
+                if (closeLoop) {
+                    currentDestination = 0;
+                } else {
+                    currentDestination = 1;
+                }
             }
             if (callback != null) {
                 callback.Activate();
