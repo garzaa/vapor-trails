@@ -1296,6 +1296,7 @@ public class PlayerController : Entity {
 
 	public void OnBoost(AcceleratorController accelerator) {
 		ResetAirJumps();
+		InterruptMeteor();
 		StartCombatCooldown();
 		EndShortHopWindow();
 		anim.SetTrigger(Buttons.JUMP);
