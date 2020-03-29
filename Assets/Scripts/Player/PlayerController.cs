@@ -745,7 +745,6 @@ public class PlayerController : Entity {
 	void MeteorSlam() {
 		if (inMeteor || dead) return;
 		inMeteor = true;
-		SetInvincible(true);
 		anim.SetTrigger("Meteor");
 		anim.SetBool("InMeteor", true);
 		SoundManager.DashSound();
@@ -760,7 +759,6 @@ public class PlayerController : Entity {
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;
-		SetInvincible(false);
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		SoundManager.ExplosionSound();
