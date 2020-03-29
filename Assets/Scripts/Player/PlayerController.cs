@@ -478,6 +478,7 @@ public class PlayerController : Entity {
 			AlerterText.Alert("Recycling boost");
 			perfectDashPossible = false;
 			CancelInvoke("ClosePerfectDashWindow");
+			GainEnergy(1); 
 			SoundManager.ShootSound();
 		}
 		InterruptAttack();
