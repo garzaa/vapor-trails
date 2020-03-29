@@ -33,8 +33,8 @@ public class LocalSubwayController : AnimationInterface {
         if (holdingPlayer) {
             if (InputManager.ButtonDown(Buttons.SPECIAL) || Input.GetKeyDown(KeyCode.Escape)) {
                 OpenDoors();
-                ShowPlayer();
                 SubwayManager.CloseMapUI();
+                Invoke("ShowPlayer", 1f);
                 Invoke("EnableDoorInteracts", 2f);
             }
         }

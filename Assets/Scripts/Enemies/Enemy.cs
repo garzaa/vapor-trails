@@ -141,7 +141,6 @@ public class Enemy : Entity {
 				eb.Move();
 			}
 		}
-		CheckFlip();
 		ExtendedUpdate();
 	}
 

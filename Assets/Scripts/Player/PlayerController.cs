@@ -226,12 +226,12 @@ public class PlayerController : Entity {
 			anim.SetTrigger(Buttons.KICK);
 			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
 		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && InputManager.VerticalInput() < 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			}
 		}
-		else if (!grounded && InputManager.Button(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null && !inMeteor) {
+		else if (!grounded && InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null && !inMeteor) {
 			if (unlocks.HasAbility(Ability.Meteor)) {
 				MeteorSlam();
 			}
@@ -599,6 +599,23 @@ public class PlayerController : Entity {
 		}
 	}
 
+	public void CheckFlip() {
+        if (frozen || lockedInSpace) {
+            return;
+        }
+        Rigidbody2D rb2d;
+        if ((rb2d = GetComponent<Rigidbody2D>()) != null && InputManager.HasHorizontalInput()) {
+            if (!facingRight && rb2d.velocity.x > 0 && movingRight)
+            {
+                Flip();
+            }
+            else if (facingRight && rb2d.velocity.x < 0 && !movingRight)
+            {
+                Flip();
+            }
+        }
+    }
+
 	public void OrcaFlip() {
 		if (!unlocks.HasAbility(Ability.UpSlash)) {
 			return;
@@ -762,7 +779,7 @@ public class PlayerController : Entity {
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		SoundManager.ExplosionSound();
-		CameraShaker.Shake(0.2f, 0.2f);
+		CameraShaker.MedShake();
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}
