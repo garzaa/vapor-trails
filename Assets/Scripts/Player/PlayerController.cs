@@ -34,7 +34,7 @@ public class PlayerController : Entity {
 	bool perfectDashPossible;
 	bool earlyDashInput;
 	public bool canInteract = true;
-	bool canUpSlash = true;
+	bool canFlipKick = true;
 	bool canShortHop = true;
 	Vector2 lastSafeOffset;
 	GameObject lastSafeObject;
@@ -236,7 +236,7 @@ public class PlayerController : Entity {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Buttons.SPECIAL) && canUpSlash && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
+		else if (InputManager.Button(Buttons.SPECIAL) && canFlipKick && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			InterruptEverything();
@@ -626,7 +626,7 @@ public class PlayerController : Entity {
 		InterruptEverything();
 		ImpactDust();
 		SoundManager.JumpSound();
-		canUpSlash = false;
+		canFlipKick = false;
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
 			jumpSpeed * 1.3f
@@ -635,7 +635,7 @@ public class PlayerController : Entity {
 	}
 
 	void ResetAirJumps() {
-		canUpSlash = true;
+		canFlipKick = true;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 	}
 
@@ -1132,7 +1132,7 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("CanHeartbreak", unlocks.HasAbility(Ability.Heartbreaker));
 		anim.SetBool("CanDoubleJump", airJumps > 0);
-		anim.SetBool("CanOrcaFlip", canUpSlash);
+		anim.SetBool("CanOrcaFlip", canFlipKick);
 	}
 
 	public float MoveSpeedRatio() {
@@ -1298,11 +1298,11 @@ public class PlayerController : Entity {
 	public void OnBoost(AcceleratorController accelerator) {
 		ResetAirJumps();
 		InterruptMeteor();
-		StartCombatCooldown();
+		StartCombatCooldown(); 
 		EndShortHopWindow();
 		anim.SetTrigger(Buttons.JUMP);
-		rb2d.MovePosition((Vector2) accelerator.transform.position + (Vector2.up * 0.32f));
-		Vector2 v = accelerator.GetBoostVector();
+		rb2d.MovePosition((Vector2) accelerator.transform.position + (Vector2.up * 0.32f).Rotate(accelerator.transform.rotation.eulerAngles.z));
+		Vector2 v  = accelerator.GetBoostVector();
 		rb2d.velocity = new Vector2(
 			v.x == 0 ? rb2d.velocity.x : v.x,
 			v.y
