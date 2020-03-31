@@ -279,6 +279,18 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
+	public static void AddState(GameState state) {
+		save.gameStates.Add(state.stateName);
+	}
+
+	public static bool HasState(GameState state) {
+		return save.gameStates.Contains(state.stateName);
+	}
+
+	public static void RemoveState(GameState state) {
+		save.gameStates.Remove(state.stateName);
+	}
+
 	public static void LoadScene(string sceneName, Beacon beacon=Beacon.None) {
 		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 	}

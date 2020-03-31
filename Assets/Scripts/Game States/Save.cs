@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ public class Save : MonoBehaviour {
     public int maxEnergy = 5;
     public int basePlayerDamage = 1;
     public List<GameFlag> gameFlags = new List<GameFlag>();
+    public List<string> gameStates = new List<string>();
     public PlayerUnlocks unlocks;
     public Dictionary<string, SerializedPersistentObject> persistentObjects;
     public string sceneName;
@@ -87,6 +89,7 @@ public class Save : MonoBehaviour {
 public class SerializableSave {
     public int slotNum = 1;
     public List<GameFlag> gameFlags;
+    public List<string> gameStates;
     public SerializableUnlocks unlocks;
     public int currentHP = 5;
     public int maxHP = 5;
@@ -102,6 +105,7 @@ public class SerializableSave {
 
     public SerializableSave(Save s) {
         this.slotNum = s.slotNum;
+        this.gameStates = s.gameStates;
         this.gameFlags = s.gameFlags;
         this.unlocks = s.unlocks.MakeSerializableUnlocks();
         this.currentEnergy = s.currentEnergy;
