@@ -35,7 +35,6 @@ public class InventoryController : MonoBehaviour {
     }
 
     public void ShowInventory() {
-        SoundManager.InteractSound();
         if (currentMerchant != null) {
             inventoryUI.PopulateItems(currentMerchant.baseInventory);
             inventoryUI.PropagateMerchantInfo(currentMerchant);

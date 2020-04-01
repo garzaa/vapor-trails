@@ -655,7 +655,6 @@ public class PlayerController : Entity {
 			yield break;
 		}
 		StunFor(0.2f);
-		AlerterText.Alert("Returning to safety");
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
@@ -874,7 +873,7 @@ public class PlayerController : Entity {
 		Hitstop.Run(selfDamageHitstop);
 		InterruptSupercruise();
 		DamageFor(attack.GetDamage());
-		if (currentHP > 0) {
+		if (currentHP > 0 && attack.GetDamage() > 0) {
 			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
 		}
 		if (this.currentHP == 0) {

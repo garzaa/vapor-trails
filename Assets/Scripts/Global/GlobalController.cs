@@ -252,11 +252,11 @@ public class GlobalController : MonoBehaviour {
 	public static void AddGameFlag(GameFlag f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
-			PropagateStateChange();
+			PropagateFlagChange();
 		}
 	}
 
-	public static void PropagateStateChange() {
+	public static void PropagateFlagChange() {
 		foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
 			i.ReactToStateChange();
 		}
@@ -268,7 +268,7 @@ public class GlobalController : MonoBehaviour {
 	public static void RemoveGameFlag(GameFlag f) {
 		if (save.gameFlags.Contains(f)) {
 			save.gameFlags.Remove(f);
-			PropagateStateChange();
+			PropagateFlagChange();
 		}
 	}
 
@@ -279,16 +279,27 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
+	static void PropagateStateChange() {
+		// all loaded objects, including inactive ones
+		List<EnableOnGameState> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnGameState)) as EnableOnGameState[])
+			.Where(x => x.immediate).ToList();
+		foreach (EnableOnGameState i in immediates) {
+			i.CheckState();
+		}
+	}
+
 	public static void AddState(GameState state) {
 		save.gameStates.Add(state.stateName);
+		PropagateStateChange();
 	}
 
 	public static bool HasState(GameState state) {
-		return save.gameStates.Contains(state.stateName);
+		return !save || save.gameStates.Contains(state.stateName);
 	}
 
 	public static void RemoveState(GameState state) {
 		save.gameStates.Remove(state.stateName);
+		PropagateStateChange();
 	}
 
 	public static void LoadScene(string sceneName, Beacon beacon=Beacon.None) {

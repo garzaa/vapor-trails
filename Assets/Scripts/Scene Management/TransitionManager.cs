@@ -8,6 +8,11 @@ public class TransitionManager : MonoBehaviour {
 	bool frozePlayerBeforeTransition = false;
 	bool toPosition = false;
 	Vector2 position = Vector2.zero;
+	float targetVolume = 1f;
+	float originalVolume = 1f;
+	readonly float FADE_TIME = 1f;
+	float elapsedTime;
+	float transitionEndTime;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -17,8 +22,23 @@ public class TransitionManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+	void Update() {
+		if (Time.time < transitionEndTime) {
+			elapsedTime += Time.deltaTime;
+			AudioListener.volume = Mathf.Lerp(originalVolume, targetVolume, elapsedTime/FADE_TIME);
+		}
+	}
+
+	void FadeAudio(float targetVolume) {
+		this.targetVolume = targetVolume;
+		originalVolume = AudioListener.volume;
+		elapsedTime = 0;
+		transitionEndTime = Time.time + FADE_TIME;
+	}
+
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		// reset everything and then re-enable according to scene data
+		FadeAudio(1);
 		PlayerController pc = GlobalController.pc;
 		pc.StopForcedWalking();
 		pc.inCutscene = false;
@@ -121,13 +141,15 @@ public class TransitionManager : MonoBehaviour {
 		pc.LockInSpace();
 		frozePlayerBeforeTransition = pc.supercruise;
 
-		StartCoroutine(LoadAsync(sceneName));
+		StartCoroutine(LoadAsync(sceneName, fade));
 	}
 
-	IEnumerator LoadAsync(string sceneName)
+	IEnumerator LoadAsync(string sceneName, bool waitForFade)
     {
-		// https://docs.unity3d.com/ScriptReference/AsyncOperation-allowSceneActivation.html
-		yield return null;
+		if (waitForFade) {
+			FadeAudio(0);
+			yield return new WaitForSeconds(1);
+		}
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 		asyncLoad.allowSceneActivation = false;
