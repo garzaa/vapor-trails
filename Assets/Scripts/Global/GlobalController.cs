@@ -286,6 +286,14 @@ public class GlobalController : MonoBehaviour {
 		foreach (EnableOnGameState i in immediates) {
 			i.CheckState();
 		}
+
+		Animator playerAnimator = pc.GetComponent<Animator>();
+		playerAnimator.logWarnings = true;
+		foreach (string s in save.gameStates) {
+			if (s.StartsWith("anim_")) {
+				playerAnimator.SetBool(s, true);
+			}
+		}
 	}
 
 	public static void AddState(GameState state) {

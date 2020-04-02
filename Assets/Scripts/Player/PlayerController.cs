@@ -430,7 +430,6 @@ public class PlayerController : Entity {
 			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
 			y:jumpSpeed
 		);
-		if (!justLeftWall) Flip();
 		anim.SetTrigger("WallJump");
 		currentWallTimeout = StartCoroutine(WallLeaveTimeout());
 	}
@@ -457,7 +456,7 @@ public class PlayerController : Entity {
 			}
 			return;
 		}
-		EndCombatStanceCooldown();
+		StartCombatStanceCooldown();
 		CameraShaker.MedShake();
 		anim.SetTrigger("Dash");
 	}
@@ -718,6 +717,7 @@ public class PlayerController : Entity {
 
 	void OnWallLeave() {
 		anim.SetBool("TouchingWall", false);
+		Flip();
 
 		//if the player just left the wall, they input the opposite direction for a walljump
 		//so give them a split second to use a walljump when they're not technically touching the wall

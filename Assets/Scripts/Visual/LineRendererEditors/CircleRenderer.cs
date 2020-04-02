@@ -20,14 +20,10 @@ public class CircleRenderer : LineRendererEditor {
 		DrawCircle(segments);
 	}
 
-	void Update() {
-		DrawCircle(segments);
-	}
-	
-	void LateUpdate () {
-		if (Changed() && segments > 0) {
+	void LateUpdate() {
+		//if (Changed() && segments > 0) {
 			DrawCircle(segments);
-		}
+		//}
 		segmentsLastFrame = segments;
 		radiusLastFrame = radius;
 		arcFractionLastFrame = arcFraction;
