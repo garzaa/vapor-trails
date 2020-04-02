@@ -12,7 +12,7 @@ public class WallSensor : Sensor {
 	new void Start() {
 		base.Start();
 		entity = animator.GetComponent<Entity>();
-		size = GetComponent<BoxCollider2D>().bounds.size * 0.75f;
+		size = GetComponent<BoxCollider2D>().bounds.size * 0.35f;
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 	}
 
@@ -22,6 +22,7 @@ public class WallSensor : Sensor {
 			this.transform.position + new Vector3((Vector2.right * e.ForwardScalar()).x, (Vector2.right * e.ForwardScalar()).y),
 			Color.red
 		);
+		Debug.DrawLine(transform.position, transform.position - (Vector3) size);
 		RaycastHit2D hit = Physics2D.BoxCast(
 			this.transform.position,
 			size,
