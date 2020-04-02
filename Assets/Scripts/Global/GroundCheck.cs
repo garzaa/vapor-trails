@@ -146,15 +146,21 @@ public class GroundCheck : MonoBehaviour {
 	}
 
 	RaycastHit2D DefaultLinecast(Vector2 cornerPos) {
-		if (!constantlyUseCollider) return Physics2D.Linecast(
-			cornerPos + (Vector2) GetOffset(),
-			cornerPos,
-			1 << LayerMask.NameToLayer(Layers.Ground)
-		);
-		else return Physics2D.Linecast(
-			cornerPos + new Vector2(0, 0.05f),
-			cornerPos - new Vector2(0, 0.03f),
-			1 << LayerMask.NameToLayer(Layers.Ground)
-		);
+		if (!constantlyUseCollider) {
+			Debug.DrawLine(cornerPos, cornerPos + (Vector2) GetOffset());
+			return Physics2D.Linecast(
+				cornerPos + (Vector2) GetOffset(),
+				cornerPos,
+				1 << LayerMask.NameToLayer(Layers.Ground)
+			);
+		}
+		else {
+			Debug.DrawLine(cornerPos + new Vector2(0, 0.05f), cornerPos - new Vector2(0, 0.03f));
+			return Physics2D.Linecast(
+				cornerPos + new Vector2(0, 0.05f),
+				cornerPos - new Vector2(0, 0.03f),
+				1 << LayerMask.NameToLayer(Layers.Ground)
+			);
+		}
 	}
 }

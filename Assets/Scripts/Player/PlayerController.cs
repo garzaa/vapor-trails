@@ -503,7 +503,13 @@ public class PlayerController : Entity {
         dashing = false;
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
-		if (MovingForwards() && InputManager.Button(Buttons.SPECIAL) && unlocks.HasAbility(Ability.Supercruise) && !InputManager.Button(Buttons.ATTACK) && !justFlipped) {
+		if (
+			MovingForwards()
+			&& InputManager.Button(Buttons.SPECIAL)
+			&& unlocks.HasAbility(Ability.Supercruise)
+			&& !InputManager.Button(Buttons.PUNCH) && !InputManager.Button(Buttons.KICK)
+			&& !justFlipped
+		) {
 			anim.SetTrigger("StartSupercruise");
 		}
     }
