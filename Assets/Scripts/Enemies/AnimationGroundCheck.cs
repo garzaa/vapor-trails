@@ -7,19 +7,23 @@ public class AnimationGroundCheck : GroundCheck {
 
 	Animator animator;
 	bool touchingLedgeLastFrame;
+	public bool flipOnLedgeStep;
 
 	new void Start() {
 		base.Start();
 		animator = GetComponent<Animator>();
 		animator.logWarnings = false;
+		entity = animator.GetComponent<Entity>();
 	}
 	
 	void Update() {
-		if (!touchingLedgeLastFrame && OnLedge()) {
+		bool onLedge = OnLedge();
+		if (!touchingLedgeLastFrame && onLedge) {
 			animator.SetTrigger("LedgeStep");
 		}
 		animator.SetBool("Grounded", IsGrounded());
-		animator.SetBool("TouchingLedge", OnLedge());
-		touchingLedgeLastFrame = OnLedge();
+		animator.SetBool("TouchingLedge", onLedge);
+		if (flipOnLedgeStep && onLedge) entity.Flip();
+		touchingLedgeLastFrame = onLedge;
 	}
 }

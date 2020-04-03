@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour {
 
@@ -13,9 +14,12 @@ public class TransitionManager : MonoBehaviour {
 	readonly float FADE_TIME = 1f;
 	float elapsedTime;
 	float transitionEndTime;
+	public GameObject loadTextUI;
+	public Text loadProgressText;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+		loadTextUI.SetActive(false);
 	}
 
 	void OnEnable() {
@@ -38,6 +42,7 @@ public class TransitionManager : MonoBehaviour {
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		// reset everything and then re-enable according to scene data
+		loadTextUI.SetActive(false);
 		FadeAudio(1);
 		PlayerController pc = GlobalController.pc;
 		pc.StopForcedWalking();
@@ -152,11 +157,13 @@ public class TransitionManager : MonoBehaviour {
 		}
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+		loadTextUI.SetActive(true);
 		asyncLoad.allowSceneActivation = false;
 		
         //wait until the last operation fully loads to return anything
         while (!asyncLoad.isDone) {
-			if (asyncLoad.progress >= 0.9f) {
+			loadProgressText.text = asyncLoad.progress.ToString("P");
+			if (asyncLoad.progress >= .9f) {
 				asyncLoad.allowSceneActivation = true;
 			}
 

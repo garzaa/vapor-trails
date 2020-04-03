@@ -102,10 +102,6 @@ public class PlayerController : Entity {
 	GameObject instantiatedSparkle = null;
 
 	string[] deathText = {
-		"WARNING: WAVEFORM UNSTABLE",
-		"Attempting backup",
-		"Backup failed!",
-		"Critical degradation detected",
 		"WARNING: WAVEFORM DESTABILIZED",
 		"Core dumped",
 		"16: 0xD34DB4B3",
@@ -878,7 +874,7 @@ public class PlayerController : Entity {
 		StartCombatStanceCooldown();
 		Hitstop.Run(selfDamageHitstop);
 		InterruptSupercruise();
-		DamageFor(attack.GetDamage());
+		DamageBy(attack);
 		if (currentHP > 0 && attack.GetDamage() > 0) {
 			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
 		}
@@ -931,17 +927,19 @@ public class PlayerController : Entity {
 		StartCoroutine(WaitAndSetVincible(seconds));
 	}
 
-	void DamageFor(int dmg) {
+	void DamageBy(Attack attack) {
 		Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
 		SoundManager.PlayerHurtSound();
-		currentHP -= dmg;
+		currentHP -= attack.GetDamage();
 		if (currentHP <= 0) {
-			Die();
+			Die(attack);
 		}
 	}
 
-	void Die() {
+	void Die(Attack fatalBlow) {
 		AlerterText.AlertList(deathText);
+		AlerterText.Alert("CAUSE OF DEATH:");
+		AlerterText.Alert(fatalBlow.attackName);
 		// if the animation gets interrupted or something, use this as a failsafe
 		Invoke("FinishDyingAnimation", 3f);
 		this.dead = true;

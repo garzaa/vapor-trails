@@ -16,7 +16,7 @@ public class GroundCheck : MonoBehaviour {
 	float impactSpeed = 0f;
 
 	Rigidbody2D rb2d;
-	Entity entity;
+	protected Entity entity;
 
 	int defaultLayerMask;
 
