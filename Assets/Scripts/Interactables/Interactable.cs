@@ -57,6 +57,10 @@ public class Interactable : MonoBehaviour {
 		}
 	}
 
+	void OnDisable() {
+		RemovePrompt();
+	}
+
 	public void RemovePrompt() {
 		if (currentPrompt != null) {
 			Destroy(currentPrompt.gameObject);

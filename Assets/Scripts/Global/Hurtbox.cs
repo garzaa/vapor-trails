@@ -3,6 +3,8 @@
 public class Hurtbox : MonoBehaviour {
 
 	public GameObject parentObject;
+	
+	[Header("For Targeting Systems")]
 	public bool overrideTargetPosition;
 
 	void Start() {
