@@ -232,7 +232,7 @@ public class PlayerController : Entity {
 				MeteorSlam();
 			}
 		} 
-		else if (InputManager.Button(Buttons.SPECIAL) && canFlipKick && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			InterruptEverything();
@@ -630,7 +630,7 @@ public class PlayerController : Entity {
 		canFlipKick = false;
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
-			jumpSpeed * 1.3f
+			jumpSpeed * 1.5f
 		);
 		anim.SetTrigger("UpSlash");
 	}

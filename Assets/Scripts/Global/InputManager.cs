@@ -14,6 +14,24 @@ public class InputManager : MonoBehaviour {
             );
     }
 
+    public static bool dpadUp;
+    public static bool dpadDown;
+    public static bool dpadLeft;
+    public static bool dpadRight;
+
+    float lastX;
+    float lastY;
+ 
+    void Update() {
+        dpadRight = (Input.GetAxis(Buttons.XTAUNT) == 1 && lastX != 1);
+        dpadLeft = (Input.GetAxis (Buttons.XTAUNT) == -1 && lastX != -1);
+        dpadUp = (Input.GetAxis (Buttons.YTAUNT) == 1 && lastY != 1);
+        dpadDown = (Input.GetAxis (Buttons.YTAUNT) == -1 && lastY != -1);
+
+        lastX = Input.GetAxis(Buttons.XTAUNT);
+        lastY = Input.GetAxis(Buttons.YTAUNT);
+    }
+
     public static bool HasHorizontalInput() {
         return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE;
     }
