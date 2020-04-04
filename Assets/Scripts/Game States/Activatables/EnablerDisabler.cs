@@ -9,6 +9,6 @@ public class EnablerDisabler : Activatable {
 	}
 
 	public void Disable() {
-		this.enabled = false;
+		target.SetActive(false);
 	}
 }

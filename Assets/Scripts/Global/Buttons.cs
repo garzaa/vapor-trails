@@ -32,6 +32,8 @@ public static class Buttons {
         PROJECTILE,
         INTERACT,
         BLOCK,
+        XTAUNT,
+        YTAUNT
     };
 
     private static readonly List<string> metaInputs = new List<string>{
