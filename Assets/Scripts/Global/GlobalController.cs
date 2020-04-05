@@ -287,6 +287,11 @@ public class GlobalController : MonoBehaviour {
 			i.CheckState();
 		}
 
+		// don't need inactive ones here?
+		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
+			n.ReactToStateChange();
+		}
+
 		Animator playerAnimator = pc.GetComponent<Animator>();
 		playerAnimator.logWarnings = true;
 		foreach (string s in save.gameStates) {
