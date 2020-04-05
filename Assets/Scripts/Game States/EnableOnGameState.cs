@@ -4,11 +4,14 @@ public class EnableOnGameState : MonoBehaviour {
     [SerializeField] GameState wantedState;
     public bool immediate = false;
 
+    public bool setDisabled = false;
+
     void Start() {
         CheckState();
     }
 
     public void CheckState() {
-        gameObject.SetActive(GlobalController.HasState(wantedState));
+        if (GlobalController.HasState(wantedState)) gameObject.SetActive(setDisabled);
+        else gameObject.SetActive(!setDisabled);
     }
 }
