@@ -12,7 +12,8 @@ public class Save : MonoBehaviour {
     public int maxEnergy = 5;
     public int basePlayerDamage = 1;
     public List<GameFlag> gameFlags = new List<GameFlag>();
-    public List<string> gameStates = new List<string>();
+    [HideInInspector] public List<string> gameStates = new List<string>();
+    [SerializeField] List<GameState> editorGameStates;
     public PlayerUnlocks unlocks;
     public Dictionary<string, SerializedPersistentObject> persistentObjects;
     public string sceneName;
@@ -24,6 +25,12 @@ public class Save : MonoBehaviour {
     void Awake() {
         this.unlocks = GetComponent<PlayerUnlocks>();
         persistentObjects = new Dictionary<string, SerializedPersistentObject>();
+    }
+
+    void Start() {
+        foreach (GameState s in editorGameStates) {
+           GlobalController.AddState(s);
+        }
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {

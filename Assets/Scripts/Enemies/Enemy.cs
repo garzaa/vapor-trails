@@ -89,6 +89,7 @@ public class Enemy : Entity {
 	virtual public void DamageFor(int dmg) {
 		CombatMusic.EnterCombat();
 		if (fakeDamage) return;
+		OnDamage();
 		this.hp -= dmg;
 		if (this.hp <= 0 && !dead) {
 			Die();

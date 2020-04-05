@@ -11,7 +11,8 @@ public class EnableOnGameState : MonoBehaviour {
     }
 
     public void CheckState() {
-        if (GlobalController.HasState(wantedState)) gameObject.SetActive(setDisabled);
-        else gameObject.SetActive(!setDisabled);
+        bool hasState = GlobalController.HasState(wantedState);
+        if (setDisabled) gameObject.SetActive(!hasState);
+        else gameObject.SetActive(hasState);
     }
 }
