@@ -75,4 +75,8 @@ public class InputManager : MonoBehaviour {
             -Input.GetAxis("Right-Vertical")
         ).normalized;
     }
+
+    public static bool TauntInput() {
+        return dpadDown || dpadLeft || dpadRight || dpadUp;
+    }
 }

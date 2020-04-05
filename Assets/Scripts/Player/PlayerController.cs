@@ -139,9 +139,18 @@ public class PlayerController : Entity {
 		Attack();
 		Jump();
 		Interact();
+		Taunt();
 		UpdateAnimationParams();
 		UpdateUI();
 		CheckFlip();
+	}
+
+	void Taunt() {
+		anim.SetFloat(Buttons.XTAUNT, Input.GetAxis(Buttons.XTAUNT));
+		anim.SetFloat(Buttons.YTAUNT, Input.GetAxis(Buttons.YTAUNT));
+		if (InputManager.TauntInput()) {
+			anim.SetTrigger("Taunt");
+		}
 	}
 	
 	void Interact() {
@@ -322,7 +331,7 @@ public class PlayerController : Entity {
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 
 			// fast falling
-			if (!grounded && inputDown && rb2d.velocity.y < 0) {
+			if (!grounded && InputManager.VerticalInput() < -0.9f && rb2d.velocity.y < 0) {
 				rb2d.velocity = new Vector2(
 					rb2d.velocity.x,
 					Mathf.Min(rb2d.velocity.y, terminalFallSpeed/2f)
