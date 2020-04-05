@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerController : Entity {
 	//constants
-	public float moveSpeed = 3.5f;
-	float jumpSpeed = 3.8f;
-	float jumpCutoff = 2.0f;
-	float hardLandSpeed = -4f;
-	float dashSpeed = 7f;
-	float terminalSpeed = -10f;
-	float superCruiseSpeed = 12f;
-	float dashCooldownLength = .6f;
+	readonly public float moveSpeed = 3.5f;
+	readonly float jumpSpeed = 3.8f;
+	readonly float jumpCutoff = 2.0f;
+	readonly float hardLandSpeed = -4f;
+	readonly float dashSpeed = 7f;
+	readonly float terminalFallSpeed = -10f;
+	readonly float superCruiseSpeed = 12f;
+	readonly float dashCooldownLength = .6f;
+	readonly float ledgeBoostSpeed = 2f;
 	bool hardFalling = false;
-	float ledgeBoostSpeed = 2f;
 
 	//these will be loaded from the save
 	public int currentHP = 1;
@@ -258,6 +258,7 @@ public class PlayerController : Entity {
 
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
+		bool inputDown = InputManager.VerticalInput() < 0;
 
 		if (InputManager.ButtonDown(Buttons.JUMP) && supercruise) {
 			EndSupercruise();
@@ -277,7 +278,7 @@ public class PlayerController : Entity {
 		}
 
 		if (!frozen && !(stunned || dead)) {
-			if (InputManager.VerticalInput() < 0 && InputManager.ButtonDown(Buttons.JUMP)) {
+			if (inputDown && InputManager.ButtonDown(Buttons.JUMP)) {
 				EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
 				if (platforms != null && grounded) {
 					DropThroughPlatforms(platforms);
@@ -318,8 +319,15 @@ public class PlayerController : Entity {
 				}
 				HairBackwards();
 			}
-
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
+
+			// fast falling
+			if (!grounded && inputDown && rb2d.velocity.y < 0) {
+				rb2d.velocity = new Vector2(
+					rb2d.velocity.x,
+					Mathf.Min(rb2d.velocity.y, terminalFallSpeed/2f)
+				);
+			}
 		}
 		
 		 if (supercruise) {
@@ -327,9 +335,9 @@ public class PlayerController : Entity {
 			rb2d.velocity = new Vector2(maxV, 0);
 		}
 
-		if (rb2d.velocity.y < terminalSpeed) {
+		if (rb2d.velocity.y < terminalFallSpeed) {
 			terminalFalling = true;
-			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalSpeed);
+			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalFallSpeed);
 		} else {
 			terminalFalling = false;
 		}
@@ -769,7 +777,7 @@ public class PlayerController : Entity {
 		SoundManager.DashSound();
 		rb2d.velocity = new Vector2(
 			x:0,
-			y:terminalSpeed
+			y:terminalFallSpeed
 		);
 		StartCombatCooldown();
 	}
