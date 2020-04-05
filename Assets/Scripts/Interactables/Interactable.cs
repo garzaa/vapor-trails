@@ -39,7 +39,7 @@ public class Interactable : MonoBehaviour {
 				SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
 				float upperBound = spr.bounds.max.y;
 				float yPos = upperBound + topMargin + promptPrefab.GetComponent<SpriteRenderer>().bounds.extents.y;
-				currentPrompt = (GameObject) Instantiate(promptPrefab, new Vector2(this.transform.position.x, yPos), Quaternion.identity);
+				currentPrompt = (GameObject) Instantiate(promptPrefab, new Vector2(this.transform.position.x, yPos), Quaternion.identity, this.transform);
 			} 
 			//otherwise just do it above the gameobject's center
 			else {
@@ -51,14 +51,10 @@ public class Interactable : MonoBehaviour {
 					promptPrefab, 
 					pos,
 					Quaternion.identity, 
-					null
+					this.transform
 				);
 			}
 		}
-	}
-
-	void OnDisable() {
-		RemovePrompt();
 	}
 
 	public void RemovePrompt() {
