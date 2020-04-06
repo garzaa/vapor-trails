@@ -93,11 +93,12 @@ public class Enemy : Entity {
 		this.hp -= dmg;
 		if (this.hp <= 0 && !dead) {
 			Die();
+		} else {
+			WhiteSprite();
 		}
 	}
 
 	public override void OnHit(Attack attack) {
-		WhiteSprite();
 		if (attack.GetComponent<PlayerAttack>() != null) {
 			PlayerAttack a = attack.GetComponent<PlayerAttack>();
 			if (a.hitstopLength > 0 && this.hp > attack.GetDamage()) {
@@ -120,7 +121,7 @@ public class Enemy : Entity {
 		this.dead = true;
 		Hitstop.Run(.1f);
 		if (dropBossResources) {
-			for (int i=0; i<20; i++) {
+			for (int i=0; i<1; i++) {
 				Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
 			}
 		}
@@ -169,9 +170,6 @@ public class Enemy : Entity {
 		}
 		foreach (SpriteRenderer x in spriteRenderers) {
 			x.material = whiteMaterial;
-		}
-		if (anim != null) {
-			anim.SetBool("WhiteSprite", true);
 		}
 		if (spr != null) {
         	spr.material = whiteMaterial;

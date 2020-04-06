@@ -302,6 +302,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddState(GameState state) {
+		if (state == null) return;
 		save.gameStates.Add(state.stateName);
 		PropagateStateChange();
 	}
