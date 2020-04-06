@@ -10,9 +10,9 @@ public class PlayerAttack : Attack {
 	public bool costsEnergy = false;
 	public float hitstopLength = 0.2f;
 	public bool rotateHitmarker = true;
-	public bool pullInEntity = true;
+	public bool pullInEntity = false;
 
-	public bool attackLandEvent = false;
+	public bool attackLandEvent = true;
 
 	PlayerController player;
 	BoxCollider2D bc2d;
