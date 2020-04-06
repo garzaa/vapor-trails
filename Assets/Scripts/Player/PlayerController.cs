@@ -331,12 +331,14 @@ public class PlayerController : Entity {
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 
 			// fast falling
+			/*
 			if (!grounded && InputManager.VerticalInput() < -0.9f && rb2d.velocity.y < 0) {
 				rb2d.velocity = new Vector2(
 					rb2d.velocity.x,
 					Mathf.Min(rb2d.velocity.y, terminalFallSpeed/2f)
 				);
 			}
+			*/
 		}
 		
 		 if (supercruise) {

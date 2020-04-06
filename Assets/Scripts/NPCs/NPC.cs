@@ -19,7 +19,7 @@ public class NPC : Interactable {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
 		// narsty hack to not display the prompt for multi-box NPC signs
-		if (name.ToLower().Contains("sign")) {
+		if (!name.ToLower().Contains("sign")) {
 			Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
 		}
 	}

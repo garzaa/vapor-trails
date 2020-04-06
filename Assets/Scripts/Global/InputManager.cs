@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour {
     }
 
     public static bool HasHorizontalInput() {
-        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE;
+        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE/4f;
     }
 
     public static float HorizontalInput() {

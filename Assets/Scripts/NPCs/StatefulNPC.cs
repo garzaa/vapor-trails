@@ -15,6 +15,10 @@ public class StatefulNPC : NPC {
 		this.conversations = possibleConversations[possibleConversations.Length-1];
 		this.currentConversation = 0;
 		this.currentDialogueLine = 0;
+		if (!name.ToLower().Contains("sign")) {
+			Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
+		}
+
 	}
 
 	public void ReactToStateChange() {
