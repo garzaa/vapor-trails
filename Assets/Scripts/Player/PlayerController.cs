@@ -41,7 +41,7 @@ public class PlayerController : Entity {
 	SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	bool canParry = false;
-	float parryTimeout = 20f/60f;
+	float parryTimeout = 30f/60f;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
 	float coyoteTime = 0.1f;
@@ -146,6 +146,7 @@ public class PlayerController : Entity {
 	}
 
 	void Taunt() {
+		if (frozen) return;
 		anim.SetFloat(Buttons.XTAUNT, Input.GetAxis(Buttons.XTAUNT));
 		anim.SetFloat(Buttons.YTAUNT, Input.GetAxis(Buttons.YTAUNT));
 		if (InputManager.TauntInput()) {
@@ -794,6 +795,7 @@ public class PlayerController : Entity {
 	}
 
 	void LandMeteor() {
+		AlerterText.Alert("landing meteor");
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;
@@ -803,6 +805,7 @@ public class PlayerController : Entity {
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}
+		CameraShaker.BigShake();
 	}
 
 	public void Sparkle() {

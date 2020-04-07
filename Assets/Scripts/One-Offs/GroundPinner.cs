@@ -12,7 +12,7 @@ public class GroundPinner : MonoBehaviour {
 	void Update() {
 		RaycastHit2D hit = Physics2D.Raycast(
 			transform.position, 
-			direction.normalized.Rotate(this.transform.rotation.z), 
+			direction.normalized.Rotate(this.transform.rotation.z), 		
 			maxDistance,
 			1 << LayerMask.NameToLayer(Layers.Ground)
 		);
@@ -22,7 +22,7 @@ public class GroundPinner : MonoBehaviour {
 			target.transform.position = hit.point;
 		} else {
 			target.SetActive(false);
-			Debug.DrawRay(this.transform.position, direction.Rotate(this.transform.rotation.z), Color.red);
+			Debug.DrawRay(this.transform.position, direction.Rotate(this.transform.rotation.eulerAngles.z), Color.red);
 		}
 	}
 }
