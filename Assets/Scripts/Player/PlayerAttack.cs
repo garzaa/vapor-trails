@@ -110,6 +110,7 @@ public class PlayerAttack : Attack {
 				Vector2.Angle(Vector3.right, knockbackVector)
 			);
 		}
+		h.transform.parent = null;
 	}
 
 	public void OnDeflect() {
