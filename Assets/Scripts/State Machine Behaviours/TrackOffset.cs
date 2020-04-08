@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class TrackOffset : StateMachineBehaviour {
-    public string anchorName;
+    public string anchorName = "Hips";
 
     GameObject parentContainer;
     GameObject anchor;
