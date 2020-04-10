@@ -72,9 +72,10 @@ public class Entity : MonoBehaviour {
         );
     }
 
-    public void StunFor(float seconds) {
+    virtual public void StunFor(float seconds) {
 		if (staggerable) {
 			//if the enemy is already stunned, then restart the stun period
+            stunned = true;
             CancelInvoke("UnStun");
             if (this.GetComponent<Animator>() != null) {
                 Animator anim = GetComponent<Animator>();

@@ -13,6 +13,7 @@ public class PlayerController : Entity {
 	readonly float superCruiseSpeed = 12f;
 	readonly float dashCooldownLength = .6f;
 	readonly float ledgeBoostSpeed = 2f;
+	readonly float stunLength = 0.4f;
 	bool hardFalling = false;
 
 	//these will be loaded from the save
@@ -41,7 +42,7 @@ public class PlayerController : Entity {
 	SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	bool canParry = false;
-	float parryTimeout = 30f/60f;
+	float parryTimeout = 20f/60f;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
 	float coyoteTime = 0.1f;
@@ -146,7 +147,7 @@ public class PlayerController : Entity {
 	}
 
 	void Taunt() {
-		if (frozen) return;
+		if (frozen || stunned) return;
 		anim.SetFloat(Buttons.XTAUNT, Input.GetAxis(Buttons.XTAUNT));
 		anim.SetFloat(Buttons.YTAUNT, Input.GetAxis(Buttons.YTAUNT));
 		if (InputManager.TauntInput()) {
@@ -155,6 +156,7 @@ public class PlayerController : Entity {
 	}
 	
 	void Interact() {
+		if (stunned) return;
 		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene && canInteract && grounded) {
 			SoundManager.InteractSound();
 			InterruptEverything();
@@ -206,7 +208,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene || dead) {
+		if (inCutscene || dead || stunned) {
 			return;
 		}
 
@@ -247,6 +249,7 @@ public class PlayerController : Entity {
 		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
+			// i made the poor decision to track the timings with BlockBehaviour.cs
 		}
 	}
 
@@ -675,7 +678,7 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			yield break;
 		}
-		StunFor(0.2f);
+		FreezeFor(0.4f);
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
@@ -893,7 +896,6 @@ public class PlayerController : Entity {
 
 		CameraShaker.Shake(0.2f, 0.1f);
 		StartCombatStanceCooldown();
-		Hitstop.Run(selfDamageHitstop);
 		InterruptSupercruise();
 		DamageBy(attack);
 		if (currentHP > 0 && attack.GetDamage() > 0) {
@@ -905,7 +907,7 @@ public class PlayerController : Entity {
 			AlerterText.Alert("WAVEFORM CRITICAL");
 		}
 		InvincibleFor(this.invincibilityLength);
-		StunFor(attack.GetStunLength());
+		StunFor(stunLength);
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
 			Vector2 kv = attack.GetKnockback();
@@ -913,11 +915,20 @@ public class PlayerController : Entity {
 			kv.x *= attackerToLeft ? 1 : -1;
 			KnockBack(kv);
 		}
-		if (cyan) {
-			cyan = false;
-			StartCoroutine(NormalSprite());
+		Hitstop.Run(selfDamageHitstop);
+	}
+
+	override public void StunFor(float seconds) {
+		if (staggerable) {
+            stunned = true;
+            CancelInvoke("UnStun");
+            if (this.GetComponent<Animator>() != null) {
+                Animator anim = GetComponent<Animator>();
+                anim.SetTrigger("OnHit");
+                anim.SetBool("Stunned", true);
+            }
+            Invoke("UnStun", seconds);
 		}
-		anim.SetTrigger("Hurt");
 	}
 
 	public void EnableSkeleton() {
