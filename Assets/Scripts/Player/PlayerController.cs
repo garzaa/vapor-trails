@@ -898,7 +898,7 @@ public class PlayerController : Entity {
 		StartCombatStanceCooldown();
 		InterruptSupercruise();
 		DamageBy(attack);
-		if (currentHP > 0 && attack.GetDamage() > 0) {
+		if (currentHP > 0 && attack.GetDamage() > 0) {	
 			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
 		}
 		if (this.currentHP == 0) {
@@ -911,7 +911,8 @@ public class PlayerController : Entity {
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
 			Vector2 kv = attack.GetKnockback();
-			bool attackerToLeft = attack.transform.position.x < this.transform.position.x;
+			bool attackerToLeft = attack.attackerParent.transform.position.x < this.transform.position.x;
+			if ((attackerToLeft && facingRight) || (!attackerToLeft && !facingRight)) ForceFlip();
 			kv.x *= attackerToLeft ? 1 : -1;
 			KnockBack(kv);
 		}
@@ -926,6 +927,8 @@ public class PlayerController : Entity {
                 Animator anim = GetComponent<Animator>();
                 anim.SetTrigger("OnHit");
                 anim.SetBool("Stunned", true);
+				// play immediate in hitstun
+				anim.Update(1f);
             }
             Invoke("UnStun", seconds);
 		}

@@ -32,10 +32,10 @@ public class ToonMotion : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Time.time - this.updateTime > 1f/this.fps)
+        if (Time.unscaledTime - this.updateTime > 1f/this.fps)
         {
             this.SaveSnapshot(transform);
-            this.updateTime = Time.time;
+            this.updateTime = Time.unscaledTime;
         }
 
         foreach(KeyValuePair<int, Snapshot> item in this.snapshots)
