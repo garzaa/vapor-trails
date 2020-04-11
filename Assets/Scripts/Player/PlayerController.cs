@@ -59,6 +59,7 @@ public class PlayerController : Entity {
 	public Gun gun;
 	public ContainerUI healthUI;
 	public ContainerUI energyUI;
+	public BarUI healthBarUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
 	PlayerUnlocks unlocks;
@@ -1032,6 +1033,8 @@ public class PlayerController : Entity {
 		healthUI.SetCurrent(currentHP);
 		energyUI.SetMax(maxEnergy);
 		energyUI.SetCurrent(currentEnergy);
+		healthBarUI.current = currentHP;
+		healthBarUI.max = maxHP;
 	}
 
 	IEnumerator WallLeaveTimeout() {
