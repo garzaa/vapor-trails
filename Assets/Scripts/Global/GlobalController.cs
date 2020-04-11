@@ -27,6 +27,7 @@ public class GlobalController : MonoBehaviour {
 	static bool inCutscene;
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
+	public static BarUI bossHealthUI;
 
 	public static bool xboxController = false;
 	public static bool psController = false;
@@ -68,6 +69,8 @@ public class GlobalController : MonoBehaviour {
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
 		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
+		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
+		bossHealthUI.gameObject.SetActive(false);
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {

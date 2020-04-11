@@ -68,16 +68,11 @@ public class Enemy : Entity {
 		} else {
 				defaultMaterial = spriteRenderers[0].material;
 		}
-		Initialize();
 		mainChildRenderer = GetComponentInChildren<Renderer>();
 
 		if (dropBossResources) {
 			bossResources = Resources.Load<GameObject>("Effects/BossResources");
 		}
-	}
-
-	public virtual void Initialize() {
-
 	}
 
 	override public void KnockBack(Vector2 kv) {
@@ -115,7 +110,7 @@ public class Enemy : Entity {
 		}
 	}
 
-	public void Die(){
+	protected virtual void Die(){
 		CloseHurtboxes();
 		this.frozen = true;
 		this.dead = true;
@@ -137,22 +132,17 @@ public class Enemy : Entity {
 	}
 
 	// for each added behavior, call it
-	public void Update() {
+	virtual protected void Update() {
 		if (!stunned) {
 			foreach (EnemyBehavior eb in this.behaviors) {
 				eb.Move();
 			}
 		}
-		ExtendedUpdate();
 	}
 
 	override protected void UnStun() {
 		selfJuggleChain = 0;
 		base.UnStun();
-	}
-
-	public virtual void ExtendedUpdate() {
-
 	}
 
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes

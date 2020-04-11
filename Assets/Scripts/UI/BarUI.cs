@@ -23,7 +23,6 @@ public class BarUI : MonoBehaviour {
         get { return _current; }
         set {
             _current = value;
-            if (_current > _max) _max = current;
             RedrawUI(value - _current);
         }
     }

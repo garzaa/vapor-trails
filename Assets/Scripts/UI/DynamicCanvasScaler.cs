@@ -8,7 +8,6 @@ public class DynamicCanvasScaler : MonoBehaviour {
     void Update() {
         int lastPixelScale = pixelScale;
         pixelScale = GetPixelScale(); 
-        Debug.Log(pixelScale);
         if (pixelScale != lastPixelScale) {
             targetCanvas.scaleFactor = pixelScale;
         }
