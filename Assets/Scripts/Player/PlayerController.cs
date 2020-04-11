@@ -17,10 +17,10 @@ public class PlayerController : Entity {
 	bool hardFalling = false;
 
 	//these will be loaded from the save
-	public int currentHP = 1;
-	public int currentEnergy = 5;
-	public int maxEnergy = 5;
-	public int maxHP = 5;
+	public int currentHP;
+	public int currentEnergy;
+	public int maxEnergy;
+	public int maxHP;
 
 	public int parryCount = 0;
 	public int baseDamage = 1;
@@ -57,9 +57,9 @@ public class PlayerController : Entity {
     Material cyanMaterial;
 	Transform gunEyes;
 	public Gun gun;
-	public ContainerUI healthUI;
 	public ContainerUI energyUI;
 	public BarUI healthBarUI;
+	public BarUI energyBarUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
 	PlayerUnlocks unlocks;
@@ -119,7 +119,6 @@ public class PlayerController : Entity {
 		anim = GetComponent<Animator>();
 		groundCheck = GetComponent<GroundCheck>();
 		this.facingRight = false;
-		maxEnergy = 5;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
         defaultMaterial = GetComponent<SpriteRenderer>().material;
@@ -799,7 +798,6 @@ public class PlayerController : Entity {
 	}
 
 	void LandMeteor() {
-		AlerterText.Alert("landing meteor");
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;
@@ -830,7 +828,7 @@ public class PlayerController : Entity {
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
-			LoseEnergy(1);
+			LoseEnergy(4);
 		}
 	}
 
@@ -1029,10 +1027,8 @@ public class PlayerController : Entity {
 	}
 
 	void UpdateUI() {
-		healthUI.SetMax(maxHP);
-		healthUI.SetCurrent(currentHP);
-		energyUI.SetMax(maxEnergy);
-		energyUI.SetCurrent(currentEnergy);
+		energyBarUI.current = currentEnergy;
+		energyBarUI.max = maxEnergy;
 		healthBarUI.current = currentHP;
 		healthBarUI.max = maxHP;
 	}
@@ -1236,6 +1232,9 @@ public class PlayerController : Entity {
 	}
 
 	public void LoadFromSaveData(Save s) {
+		Debug.Log("loading from save");
+		Debug.Log(s.currentEnergy);
+		Debug.Log(s.maxEnergy);
 		this.unlocks = s.unlocks;
 		this.maxEnergy = s.maxEnergy;
 		this.maxHP = s.maxHP;
