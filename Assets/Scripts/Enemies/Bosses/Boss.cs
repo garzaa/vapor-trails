@@ -5,9 +5,11 @@ public class Boss : Enemy {
 
     BarUI bossHealthUI;
 
-    override protected void OnEnable() {
-        base.OnEnable();
+    void Start() {
         bossHealthUI = GlobalController.bossHealthUI;
+    }
+
+    public void StartFight() {
         bossHealthUI.gameObject.SetActive(true);
     }
 
@@ -19,7 +21,7 @@ public class Boss : Enemy {
 
     override protected void Die() {
         bossHealthUI.gameObject.SetActive(false);
-        deathActivatable.Activate();
+        if (deathActivatable != null) deathActivatable.Activate();
         base.Die();
     }
 }

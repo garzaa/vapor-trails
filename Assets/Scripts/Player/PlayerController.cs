@@ -820,7 +820,7 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.GunEyes) || inCutscene) {
 			return;
 		}
-		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= 1) {
+		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= 4) {
 			Sparkle();
 			SoundManager.ShootSound();
 			BackwardDust();
