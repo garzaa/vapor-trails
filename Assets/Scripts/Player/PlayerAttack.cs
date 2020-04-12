@@ -4,10 +4,10 @@ using UnityEngine;
 public class PlayerAttack : Attack {
 	
 	int energyGained = 1;
-	int energyCost = 1;
 
 	public bool gainsEnergy = false;
 	public bool costsEnergy = false;
+	public int energyCost = 1;
 	public float hitstopLength = 0.2f;
 	public bool rotateHitmarker = true;
 	public bool pullInEntity = false;

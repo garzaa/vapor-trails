@@ -1232,9 +1232,6 @@ public class PlayerController : Entity {
 	}
 
 	public void LoadFromSaveData(Save s) {
-		Debug.Log("loading from save");
-		Debug.Log(s.currentEnergy);
-		Debug.Log(s.maxEnergy);
 		this.unlocks = s.unlocks;
 		this.maxEnergy = s.maxEnergy;
 		this.maxHP = s.maxHP;
