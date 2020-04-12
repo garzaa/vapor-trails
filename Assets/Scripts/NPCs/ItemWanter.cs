@@ -49,7 +49,6 @@ public class ItemWanter : PersistentObject {
         if (consumesItems) {
             List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
             foreach (InventoryItem wantedItem in actualWantedItems) {
-                Debug.Log(wantedItem.itemName);
                 GlobalController.inventory.items.RemoveItem(wantedItem);
             }
         }

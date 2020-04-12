@@ -187,6 +187,7 @@ public class GlobalController : MonoBehaviour {
 			queuedNPCs.Enqueue(npc);
 			return;
 		}
+		pc.EndCombatStanceCooldown();
 		dialogueUI.Open();
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
