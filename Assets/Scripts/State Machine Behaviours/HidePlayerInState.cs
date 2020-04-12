@@ -10,6 +10,9 @@ public class HidePlayerInState : StateMachineBehaviour {
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         GlobalController.ShowPlayer();
+        if (GlobalController.dialogueOpen) {
+            GlobalController.pc.EnterCutscene();
+        }
     }
 
     override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash) {
@@ -22,6 +25,9 @@ public class HidePlayerInState : StateMachineBehaviour {
         if (stateMachine) {
             Debug.Log("showing player");
             GlobalController.ShowPlayer();
+            if (GlobalController.dialogueOpen) {
+                GlobalController.pc.EnterCutscene();
+            }
         }
     }
 

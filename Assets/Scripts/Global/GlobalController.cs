@@ -15,7 +15,7 @@ public class GlobalController : MonoBehaviour {
 	static BlackFadeUI blackoutUI;
 	static DialogueUI dialogueUI;
 	public static PlayerController pc;
-	static bool dialogueOpen;
+	public static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
 	public static bool pauseEnabled = true;
 	static bool paused = false;
