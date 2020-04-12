@@ -9,8 +9,8 @@ public class BarUI : MonoBehaviour {
     [SerializeField] Image background;
     [SerializeField] float pixelsPerUnit;
 
-    [SerializeField] int _max;
-    [SerializeField] int _current;
+    int _max;
+    int _current;
 
     public int max {
         get { return _max; }
@@ -25,6 +25,10 @@ public class BarUI : MonoBehaviour {
             _current = value;
             RedrawUI(value - _current);
         }
+    }
+
+    public void SetBarColor(Color color) {
+        indicator.color = color;
     }
 
     void RedrawUI(int delta) {
