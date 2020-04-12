@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ public class ItemWanter : PersistentObject {
     public Activatable noActivation;
 
     bool acceptedItemBefore;
-    bool persistent = false;
+    public bool persistent = false;
     public bool consumesItems = false;
 
     override public void Start() {
@@ -48,7 +49,7 @@ public class ItemWanter : PersistentObject {
         if (consumesItems) {
             List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
             foreach (InventoryItem wantedItem in actualWantedItems) {
-                AlerterText.Alert(wantedItem.itemName);
+                Debug.Log(wantedItem.itemName);
                 GlobalController.inventory.items.RemoveItem(wantedItem);
             }
         }

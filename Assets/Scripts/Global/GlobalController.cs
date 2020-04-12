@@ -485,7 +485,10 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddItem(InventoryItem item) {
 		if (!item.IsAbility()) {
-			AlerterText.Alert(item.itemName + " acquired");
+			if (item.count != 1)
+				AlerterText.Alert($"{item.itemName} ({item.count}) acquired");
+			else 
+				AlerterText.Alert(item.itemName + " acquired");
 		}
 		inventory.AddItem(item);
 	}
