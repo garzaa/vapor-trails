@@ -283,10 +283,10 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
-	static void PropagateStateChange() {
+	public static void PropagateStateChange(bool immediateOnly=true) {
 		// all loaded objects, including inactive ones
 		List<EnableOnGameState> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnGameState)) as EnableOnGameState[])
-			.Where(x => x.immediate).ToList();
+			.Where(x => immediateOnly ? x.immediate : true).ToList();
 		foreach (EnableOnGameState i in immediates) {
 			i.CheckState();
 		}
