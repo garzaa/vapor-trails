@@ -45,6 +45,7 @@ public class InventoryUI : UIComponent {
         b.Select();
         b.OnSelect(new BaseEventData(eventSystem));
         ReactToItemHover(b.GetComponent<ItemPane>());
+        scrollView.content.localPosition = Vector2.zero;
     }
 
     public void ReactToItemHover(ItemPane itemPane) {

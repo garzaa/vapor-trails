@@ -51,6 +51,7 @@
             0 - (viewportLocalPosition.x + childLocalPosition.x),
             0 - (viewportLocalPosition.y + childLocalPosition.y)
         );
+        Canvas.ForceUpdateCanvases();
         return result;
     }
 
