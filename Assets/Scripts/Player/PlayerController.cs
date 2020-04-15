@@ -25,7 +25,7 @@ public class PlayerController : Entity {
 	public int parryCount = 0;
 	public int baseDamage = 1;
 	float invincibilityLength = 1f;
-	float selfDamageHitstop = .5f;
+	float selfDamageHitstop = .3f;
 	int healCost = 1;
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
@@ -42,7 +42,7 @@ public class PlayerController : Entity {
 	SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	bool canParry = false;
-	float parryTimeout = 20f/60f;
+	float parryLength = 10f/60f;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
 	float coyoteTime = 0.1f;
@@ -880,7 +880,9 @@ public class PlayerController : Entity {
 			return;
 		}
 
-		if (attack.attackerParent.CompareTag(Tags.EnviroDamage)) {
+		bool isEnvDmg = attack.attackerParent.CompareTag(Tags.EnviroDamage);
+
+		if (isEnvDmg) {
 			if (envDmgSusceptible) {
 				OnEnviroDamage(attack.GetComponent<EnviroDamage>());
 				InterruptMeteor();
@@ -902,10 +904,12 @@ public class PlayerController : Entity {
 		}
 		if (this.currentHP == 0) {
 			return;
-		} else if (currentHP == 1) {
-			AlerterText.Alert("WAVEFORM CRITICAL");
+		} else if (currentHP < 4) {
+        	AlerterText.Alert("<color=red>WAVEFORM CRITICAL</color>");
 		}
-		InvincibleFor(this.invincibilityLength);
+		
+		if (isEnvDmg) InvincibleFor(this.invincibilityLength);
+
 		StunFor(stunLength);
 		if (attack.knockBack) {
 			//knockback based on the position of the attack
@@ -922,13 +926,11 @@ public class PlayerController : Entity {
 		if (staggerable) {
             stunned = true;
             CancelInvoke("UnStun");
-            if (this.GetComponent<Animator>() != null) {
-                Animator anim = GetComponent<Animator>();
-                anim.SetTrigger("OnHit");
-                anim.SetBool("Stunned", true);
-				// play immediate in hitstun
-				anim.Update(1f);
-            }
+			Animator anim = GetComponent<Animator>();
+			anim.SetTrigger("OnHit");
+			anim.SetBool("Stunned", true);
+			// play immediate in hitstun1
+			anim.Update(0.1f);
             Invoke("UnStun", seconds);
 		}
 	}
@@ -1320,7 +1322,7 @@ public class PlayerController : Entity {
 		CancelInvoke("EndParryWindow");
 		canParry = true;
 		StartCombatCooldown();	
-		Invoke("EndParryWindow", parryTimeout);
+		Invoke("EndParryWindow", parryLength);
 	}
 
 	public void EndParryWindow() {

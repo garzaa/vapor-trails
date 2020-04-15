@@ -36,7 +36,7 @@ public class Attack : MonoBehaviour {
 		return this.damage;
 	}
 
-	public void OnAttackLand(Entity victim) {
+	public virtual void OnAttackLand(Entity victim) {
 		ExtendedAttackLand(victim);
 		Animator a;
 		if ((a = attackerParent.GetComponent<Animator>()) != null) {
