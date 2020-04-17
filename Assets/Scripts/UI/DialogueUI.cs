@@ -43,7 +43,7 @@ public class DialogueUI : CloseableUI {
 			}	
 		} else {
 			speakerImage.sprite = line.speakerImage;
-		} 
+		}
 		speakerName.text = line.speakerName;
 		this.voiceIndex = (int) line.voiceSound;
 		string controllerFriendlyText = ControllerTextChanger.ReplaceText(line.lineText);
