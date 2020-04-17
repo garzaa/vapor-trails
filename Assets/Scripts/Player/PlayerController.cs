@@ -583,14 +583,15 @@ public class PlayerController : Entity {
 		StopWallTimeout();
 		SaveLastSafePos();
 		ImpactDust();
+		anim.SetBool("Grounded", true);
 		if (inMeteor) {
 			LandMeteor();
+			return;
 		}
 		if (touchingWall) {
 			// wall touching reverses the player rig
 			Flip();
 		}
-		anim.SetBool("Grounded", true);
 		if (hardFalling && !bufferedJump) {
 			hardFalling = false;
 			rb2d.velocity = new Vector2(

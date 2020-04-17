@@ -7,13 +7,13 @@ public class DynamicCanvasScaler : MonoBehaviour {
 
     void Update() {
         int lastPixelScale = pixelScale;
-        pixelScale = GetPixelScale(); 
+        pixelScale = GetPixelScale();
         if (pixelScale != lastPixelScale) {
             targetCanvas.scaleFactor = pixelScale;
         }
     }
 
     int GetPixelScale() {
-        return (Screen.height / 720) + 1;
+        return Mathf.CeilToInt((float)Screen.height / 720f);
     }
 }

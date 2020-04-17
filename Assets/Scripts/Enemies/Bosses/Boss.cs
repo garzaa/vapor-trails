@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Boss : Enemy {
     public Activatable deathActivatable;
-    public Color healthColor = new Color(221, 82, 82, 255);
+    public Color healthColor; //= new Color(221, 82, 82, 255);
 
     BarUI bossHealthUI;
 

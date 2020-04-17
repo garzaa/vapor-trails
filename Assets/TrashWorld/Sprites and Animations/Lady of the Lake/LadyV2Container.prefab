@@ -2058,11 +2058,12 @@ MonoBehaviour:
   hitmarker: {fileID: 0}
   flipHitmarker: 0
   attackedTags: []
-  attackerParent: {fileID: 7698159567160256841}
+  attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 0
   knockbackVector: {x: 0, y: 0}
   inheritMomentum: 0
+  attackLandEvent: 0
 --- !u!61 &7698159565929728518
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10177,10 +10178,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7698159567160256840}
   - component: {fileID: 7698159567160256838}
-  - component: {fileID: 7698159567160256841}
   - component: {fileID: 7698159567160256837}
   - component: {fileID: 7698159567160256836}
   - component: {fileID: 7698159567160256839}
+  - component: {fileID: 7597362149142171230}
   m_Layer: 0
   m_Name: LadyOfLakev2
   m_TagString: Untagged
@@ -10226,44 +10227,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7698159567160256841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7698159567160256843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be9ee8ca185a704cb4176c2e3dc51cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  facingRight: 0
-  canFlip: 1
-  movingRight: 0
-  frozen: 0
-  lockedInSpace: 0
-  stunned: 0
-  staggerable: 1
-  invincible: 0
-  envDmgSusceptible: 0
-  rb2d: {fileID: 0}
-  hp: 20
-  totalHP: 0
-  moveForce: 0
-  maxSpeed: 0
-  diStrength: 0.5
-  diScaleMagnitude: 0.1
-  playerObject: {fileID: 0}
-  anim: {fileID: 0}
-  hasAnimator: 0
-  behaviors: []
-  spr: {fileID: 0}
-  hitSound: {fileID: 0}
-  burstOnDeath: 0
-  burstEffect: {fileID: 4465596146934724, guid: b1eed2ae1dcc59a4195bb7ad94fbc1c0,
-    type: 3}
-  dropBossResources: 0
 --- !u!114 &7698159567160256837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10321,6 +10284,45 @@ MonoBehaviour:
   facingRight: 0
   target: {fileID: 0}
   threshold: 0
+--- !u!114 &7597362149142171230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7698159567160256843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ec8192172380b4d970eb58a657ef73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  facingRight: 0
+  canFlip: 1
+  movingRight: 0
+  frozen: 0
+  lockedInSpace: 0
+  stunned: 0
+  staggerable: 0
+  invincible: 0
+  envDmgSusceptible: 0
+  rb2d: {fileID: 0}
+  hp: 30
+  totalHP: 0
+  moveForce: 0
+  maxSpeed: 0
+  diStrength: 0.5
+  diScaleMagnitude: 0.1
+  playerObject: {fileID: 0}
+  anim: {fileID: 0}
+  hasAnimator: 0
+  behaviors: []
+  spr: {fileID: 0}
+  hitSound: {fileID: 0}
+  burstOnDeath: 0
+  burstEffect: {fileID: 0}
+  dropBossResources: 1
+  deathActivatable: {fileID: 0}
+  healthColor: {r: 0.7490196, g: 0.2784314, b: 0.2784314, a: 1}
 --- !u!1 &7698159567171134251
 GameObject:
   m_ObjectHideFlags: 0
