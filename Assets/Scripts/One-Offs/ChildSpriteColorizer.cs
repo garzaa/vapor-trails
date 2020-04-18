@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
+using System.Linq;
 
 [ExecuteInEditMode]
 public class ChildSpriteColorizer : MonoBehaviour {
@@ -10,7 +10,9 @@ public class ChildSpriteColorizer : MonoBehaviour {
     SpriteRenderer[] sprites;
 
     void OnEnable() {
-        sprites = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+        sprites = GetComponentsInChildren<SpriteRenderer>(includeInactive: true)
+            .Where(x => x.GetComponent<IgnoreSpriteColorization>()==null)
+            .ToArray();
     }
 
     void Update() {
