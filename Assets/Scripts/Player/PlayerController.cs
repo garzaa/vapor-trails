@@ -25,12 +25,13 @@ public class PlayerController : Entity {
 	public int parryCount = 0;
 	public int baseDamage = 1;
 	float invincibilityLength = 1f;
-	float selfDamageHitstop = .3f;
+	float selfDamageHitstop = .2f;
 	int healCost = 1;
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
 	float combatStanceCooldown = 4f;
+	float sdiMultiplier = 0.1f;
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
@@ -920,6 +921,8 @@ public class PlayerController : Entity {
 			kv.x *= attackerToLeft ? 1 : -1;
 			KnockBack(kv);
 		}
+		//sdi
+		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*sdiMultiplier));
 		Hitstop.Run(selfDamageHitstop);
 	}
 

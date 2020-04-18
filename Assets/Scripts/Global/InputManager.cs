@@ -79,4 +79,8 @@ public class InputManager : MonoBehaviour {
     public static bool TauntInput() {
         return dpadDown || dpadLeft || dpadRight || dpadUp;
     }
+
+    public static Vector2 MoveVector() {
+        return new Vector2(HorizontalInput(), VerticalInput());
+    }
 }
