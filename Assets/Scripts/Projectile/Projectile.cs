@@ -21,6 +21,7 @@ public class Projectile : MonoBehaviour {
 		if (impactShake) CameraShaker.TinyShake();
 
 		if (hitEffect != null) {
+			/*
 			// first, try to get an impact point
 			RaycastHit2D hit = Physics2D.CircleCast(
 				this.transform.position, 
@@ -28,14 +29,15 @@ public class Projectile : MonoBehaviour {
 				Vector2.up, 
 				0, 
 				collisionLayers);
-			if (hit.transform != null) {
+			if (hit.transform != null ) {
 				Vector2 originalMotion = this.GetComponent<Rigidbody2D>().velocity;
 				Vector2 flipped = Vector2.Reflect(originalMotion, hit.normal);
 				float newAngle = Vector2.Angle(Vector2.left, flipped);
 				Instantiate(hitEffect, hit.point, Quaternion.Euler(0, 0, newAngle), null);
 			} else {
 				Instantiate(hitEffect, this.transform.position, Quaternion.identity, null);
-			}
+			}*/
+			Instantiate(hitEffect, this.transform.position, Quaternion.identity, null);
 		}
 
 		Destroy(this.gameObject);
