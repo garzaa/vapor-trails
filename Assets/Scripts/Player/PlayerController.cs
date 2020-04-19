@@ -240,14 +240,19 @@ public class PlayerController : Entity {
 				Dash();
 			}
 		}
-		else if (!grounded && InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && !supercruise && touchingWall == null && !inMeteor) {
-			if (unlocks.HasAbility(Ability.Meteor)) {
-				MeteorSlam();
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && touchingWall == null && !inMeteor) {
+			if (!grounded) {
+				if (unlocks.HasAbility(Ability.Meteor)) {
+					MeteorSlam();
+				}
+			} else {
+				Reflect();
 			}
 		} 
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
-		} else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
+		} 
+		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
@@ -786,6 +791,10 @@ public class PlayerController : Entity {
 		this.envDmgSusceptible = !b;
     }
 
+	void Reflect() {
+		anim.SetTrigger("Reflect");
+	}
+
 	void MeteorSlam() {
 		if (inMeteor || dead) return;
 		inMeteor = true;
@@ -901,6 +910,7 @@ public class PlayerController : Entity {
 		StartCombatStanceCooldown();
 		InterruptSupercruise();
 		DamageBy(attack);
+		CancelInvoke("StartParryWindow");
 		if (currentHP > 0 && attack.GetDamage() > 0) {	
 			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
 		}
@@ -968,7 +978,7 @@ public class PlayerController : Entity {
 	}
 
 	void DamageBy(Attack attack) {
-		Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
+		if (attack.damage > 0) Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
 		SoundManager.PlayerHurtSound();
 		currentHP -= attack.GetDamage();
 		if (currentHP <= 0) {
