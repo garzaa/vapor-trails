@@ -42406,6 +42406,7 @@ GameObject:
   - component: {fileID: 448228461}
   - component: {fileID: 448228460}
   - component: {fileID: 448228459}
+  - component: {fileID: 448228462}
   m_Layer: 0
   m_Name: Penelope Fight
   m_TagString: Untagged
@@ -42506,6 +42507,26 @@ MonoBehaviour:
   wantedState: {fileID: 11400000, guid: 940856efbd127474eb1be18a11987a40, type: 2}
   immediate: 1
   setDisabled: 1
+--- !u!114 &448228462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448228457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e2dd39ac477df2459651082cd61a600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPoint: {fileID: 0}
+  fallbackEffectPoint: {fileID: 0}
+  effects: []
+  sounds: []
+  activatables:
+  - {fileID: 1575438651}
+  npcs: []
+  particleSystems: []
 --- !u!4 &469474450 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3435544967606329272, guid: 9aa81bed533bf9f4e9b968e464378cec,
@@ -43130,6 +43151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 641515536}
   - component: {fileID: 641515539}
+  - component: {fileID: 641515540}
   - component: {fileID: 641515538}
   - component: {fileID: 641515537}
   m_Layer: 0
@@ -43222,8 +43244,42 @@ MonoBehaviour:
       activatesOnLineEnd: 1
       blocking: 0
       gameFlag: 0
+  - lines:
+    - lineText: Spare me the monologue, I've run the sims already. Draw.
+      speakerName: Val
+      speakerImage: {fileID: 21300006, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
+      voiceSound: 1
+      activatable: {fileID: 810409632}
+      activatesOnLineEnd: 1
+      blocking: 0
+      gameFlag: 0
   auxConversations: []
 --- !u!114 &641515538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641515535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bd164bbea465847a4df0e20583a376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &641515539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641515535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590e06d2b3407f24181363f3b55e5ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npc: {fileID: 0}
+--- !u!114 &641515540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43241,19 +43297,6 @@ MonoBehaviour:
   dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
---- !u!114 &641515539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 641515535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590e06d2b3407f24181363f3b55e5ddb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npc: {fileID: 641515538}
 --- !u!1 &647116258
 GameObject:
   m_ObjectHideFlags: 0
