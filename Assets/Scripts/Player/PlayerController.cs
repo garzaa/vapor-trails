@@ -911,14 +911,8 @@ public class PlayerController : Entity {
 		InterruptSupercruise();
 		DamageBy(attack);
 		CancelInvoke("StartParryWindow");
-		if (currentHP > 0 && attack.GetDamage() > 0) {	
-			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
-		}
-		if (this.currentHP == 0) {
-			return;
-		} else if (currentHP < 4) {
-        	AlerterText.Alert("<color=red>WAVEFORM CRITICAL</color>");
-		}
+
+		if (this.currentHP == 0) return;
 		
 		if (isEnvDmg) InvincibleFor(this.invincibilityLength);
 
@@ -933,7 +927,6 @@ public class PlayerController : Entity {
 		}
 		//sdi
 		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*sdiMultiplier));
-		Hitstop.Run(selfDamageHitstop);
 	}
 
 	override public void StunFor(float seconds) {
@@ -978,12 +971,22 @@ public class PlayerController : Entity {
 	}
 
 	void DamageBy(Attack attack) {
-		if (attack.damage > 0) Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
+		if (attack.damage == 0) return;
+
+		Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
 		SoundManager.PlayerHurtSound();
 		currentHP -= attack.GetDamage();
+
+		Hitstop.Run(selfDamageHitstop);
+
 		if (currentHP <= 0) {
 			Die(attack);
+		} else if (currentHP > 0 && attack.GetDamage() > 0) {	
+			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
+		} else if (currentHP < 4) {
+        	AlerterText.Alert("<color=red>WAVEFORM CRITICAL</color>");
 		}
+
 	}
 
 	void Die(Attack fatalBlow) {
