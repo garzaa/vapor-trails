@@ -410,7 +410,6 @@ public class PlayerController : Entity {
 				WallJump();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
-				AlerterText.Alert("air jumping");
 				AirJump();
 			}
 			else if (!grounded) {
