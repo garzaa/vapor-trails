@@ -136,10 +136,10 @@ public class PlayerController : Entity {
 	
 	void Update() {
 		UpdateWallSliding();
+		Jump();
 		Move();
 		Shoot();
 		Attack();
-		Jump();
 		Interact();
 		Taunt();
 		UpdateAnimationParams();
@@ -403,13 +403,14 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.JUMP)) {
-			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput() >= -0.7)) {
+			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundCheck.TouchingPlatforms() == null)) {
 				GroundJump();
 			}
 			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
 				WallJump();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
+				AlerterText.Alert("air jumping");
 				AirJump();
 			}
 			else if (!grounded) {
