@@ -209,7 +209,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene || dead || stunned) {
+		if (inCutscene || dead || stunned || touchingWall) {
 			return;
 		}
 
@@ -351,7 +351,7 @@ public class PlayerController : Entity {
 			*/
 		}
 		
-		 if (supercruise) {
+		if (supercruise) {
 			float maxV = Mathf.Max(Mathf.Abs(superCruiseSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
 			rb2d.velocity = new Vector2(maxV, 0);
 		}
@@ -374,10 +374,6 @@ public class PlayerController : Entity {
 
 		if (wallCheck.TouchingLedge() && InputManager.HasHorizontalInput() && rb2d.velocity.y > 0) {
 			LedgeBoost();
-		}
-
-		if (touchingWall && !grounded && !InputManager.HasHorizontalInput()) {
-			rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 		}
 
 		movingForwardsLastFrame = MovingForwards();
@@ -448,7 +444,6 @@ public class PlayerController : Entity {
 		SoundManager.SmallJumpSound();
 		InterruptMeteor();
 		if (touchingWall) DownDust();
-		InterruptAttack();
 		FreezeFor(.1f);
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
@@ -735,11 +730,11 @@ public class PlayerController : Entity {
 
 	void OnWallHit(GameObject touchingWall) {
 		EndDashCooldown();
+		UnFreeze();
 		EndSupercruise();
 		InterruptMeteor();
 		//hold to wallclimb
 		anim.SetBool("TouchingWall", true);
-		if (!grounded) SoundManager.HardLandSound();
 		ResetAirJumps();
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
@@ -749,8 +744,7 @@ public class PlayerController : Entity {
 
 	void OnWallLeave() {
 		anim.SetBool("TouchingWall", false);
-		Flip();
-
+		ForceFlip();
 		//if the player just left the wall, they input the opposite direction for a walljump
 		//so give them a split second to use a walljump when they're not technically touching the wall
 		if (!grounded) {
