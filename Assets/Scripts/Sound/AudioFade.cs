@@ -5,7 +5,7 @@ public class AudioFade : MonoBehaviour {
     public bool disableAtStart;
     public bool combatMusic;
 
-    float targetVolume;
+    float maxVolume;
     AudioSource audioSource;
     float startTime;
 
@@ -16,7 +16,7 @@ public class AudioFade : MonoBehaviour {
     void Start() {
         audioSource = GetComponent<AudioSource>();
         // it might have been set from the editor to a non-1 value
-        targetVolume = audioSource.volume;
+        maxVolume = audioSource.volume;
         if (disableAtStart) audioSource.volume = 0;
     }
 
@@ -36,14 +36,14 @@ public class AudioFade : MonoBehaviour {
 
     void FixedUpdate() {
         if (fadingIn) {
-            if (audioSource.volume < targetVolume) {
-                audioSource.volume = ((Time.time-startTime) / fadeTime) * targetVolume;
+            if (audioSource.volume < maxVolume) {
+                audioSource.volume = ((Time.time-startTime) / fadeTime) * maxVolume;
             } else {
                 fadingIn = false;
             }
         } else if (fadingOut) {
             if (audioSource.volume > 0) {
-                audioSource.volume = targetVolume - (((Time.time-startTime) / fadeTime) * targetVolume);
+                audioSource.volume = maxVolume - (((Time.time-startTime) / fadeTime) * maxVolume);
             } else {
                 fadingOut = false;
             }

@@ -869,7 +869,7 @@ public class PlayerController : Entity {
 			InterruptSupercruise();
 			rb2d.velocity = new Vector2(
 				x:(IsSpeeding() ? rb2d.velocity.x : speedLimiter.maxSpeedX * ForwardScalar()),
-				y:ledgeBoostSpeed
+				y:Mathf.Max(ledgeBoostSpeed, rb2d.velocity.y)
 			);
 		}
 	}
