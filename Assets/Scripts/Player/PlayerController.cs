@@ -607,6 +607,10 @@ public class PlayerController : Entity {
 			} else if (InputManager.HasHorizontalInput()) {
 				anim.SetTrigger("Roll");
 			} else {
+				rb2d.velocity = new Vector2(
+					0,
+					rb2d.velocity.y
+				);
 				anim.SetTrigger("HardLand");
 			}
 			SoundManager.HardLandSound();
