@@ -10,7 +10,7 @@ public class PositionMover : MonoBehaviour {
     public Transform target;
     public bool sendSpeedToAnimator;
     
-    int currentDestination = 0;
+    [SerializeField] int currentDestination = 0;
     Animator animator;
 
     void Start() {
@@ -43,6 +43,8 @@ public class PositionMover : MonoBehaviour {
                 if (closeLoop) {
                     currentDestination = 0;
                 } else {
+                    // just move back to the starting point
+                    target.transform.position = destinations[0].position;
                     currentDestination = 1;
                 }
             }
