@@ -130,8 +130,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7660535}
   - component: {fileID: 7660534}
+  - component: {fileID: 7660538}
+  - component: {fileID: 7660537}
   - component: {fileID: 7660536}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: City Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +269,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7660536
+--- !u!61 &7660536
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7660533}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -15.470249, y: 7.344845}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 86.394936, y: 18.764793}
+  m_EdgeRadius: 0
+--- !u!114 &7660537
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,16 +304,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7660533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac6dea8fcec4ff4dae14aecf1f428ea, type: 3}
+  m_Script: {fileID: 11500000, guid: d58a694fe79e00749a457f7aa593830c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  pc: {fileID: 0}
-  smoothAmount: 0
-  initialOffset: {x: 0, y: 0}
-  followX: 1
-  followY: 0
-  target: {fileID: 0}
+  audioFade: {fileID: 7660538}
+--- !u!114 &7660538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7660533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118fa9f89459f134a8c30fc00ecf28f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableAtStart: 0
+  combatMusic: 0
 --- !u!1 &8614805
 GameObject:
   m_ObjectHideFlags: 0
@@ -7128,8 +7165,10 @@ GameObject:
   m_Component:
   - component: {fileID: 56103144}
   - component: {fileID: 56103143}
-  - component: {fileID: 56103145}
-  m_Layer: 0
+  - component: {fileID: 56103148}
+  - component: {fileID: 56103147}
+  - component: {fileID: 56103146}
+  m_Layer: 10
   m_Name: Ocean Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7208,15 +7247,6 @@ AudioSource:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1.1
-      inSlope: 0.085039616
-      outSlope: 0.085039616
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.23424096
-      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -7264,7 +7294,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &56103145
+--- !u!61 &56103146
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56103142}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 3.9501038}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 117.33543, y: 25.554276}
+  m_EdgeRadius: 0
+--- !u!114 &56103147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7273,16 +7329,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 56103142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac6dea8fcec4ff4dae14aecf1f428ea, type: 3}
+  m_Script: {fileID: 11500000, guid: d58a694fe79e00749a457f7aa593830c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  pc: {fileID: 0}
-  smoothAmount: 0
-  initialOffset: {x: 0, y: 0}
-  followX: 1
-  followY: 0
-  target: {fileID: 0}
+  audioFade: {fileID: 56103148}
+--- !u!114 &56103148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56103142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118fa9f89459f134a8c30fc00ecf28f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableAtStart: 0
+  combatMusic: 0
 --- !u!1 &57175519
 GameObject:
   m_ObjectHideFlags: 0
@@ -7723,16 +7788,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 79506502576146887, guid: d514ca4d35012064b90f0936ac25aee3,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.6077223
-      objectReference: {fileID: 0}
-    - target: {fileID: 79506502576146887, guid: d514ca4d35012064b90f0936ac25aee3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7941497
-      objectReference: {fileID: 0}
     - target: {fileID: 2930188405151899367, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
       propertyPath: m_Sprite
@@ -7767,6 +7822,16 @@ PrefabInstance:
     - target: {fileID: 203497602, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 79506502576146887, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6077223
+      objectReference: {fileID: 0}
+    - target: {fileID: 79506502576146887, guid: d514ca4d35012064b90f0936ac25aee3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7941497
       objectReference: {fileID: 0}
     - target: {fileID: 1463394769140318, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_IsActive

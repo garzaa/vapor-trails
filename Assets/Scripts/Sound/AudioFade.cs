@@ -22,7 +22,7 @@ public class AudioFade : MonoBehaviour {
 
     public void FadeIn(float time) {
         fadingOut = false;
-        fadingOut = true;
+        fadingIn = true;
         fadeTime = time;
         startTime = Time.time;
     }

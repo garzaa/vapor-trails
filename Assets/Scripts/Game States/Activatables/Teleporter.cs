@@ -13,7 +13,10 @@ public class Teleporter : Activatable {
     public override void ActivateSwitch(bool b) {
 		if (b) {
 			GlobalController.MovePlayerTo(target.transform.position, fade:this.fade);
-			if (triggerStateCheck) GlobalController.PropagateStateChange(immediateOnly:false);
+			if (triggerStateCheck) {
+				GlobalController.PropagateStateChange(immediateOnly:false);
+				GlobalController.PropagateItemChange(immediateOnly:false);
+			}
 		}
 	}
 

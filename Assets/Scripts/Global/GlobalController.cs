@@ -291,10 +291,7 @@ public class GlobalController : MonoBehaviour {
 			i.CheckState();
 		}
 
-		// don't need inactive ones here?
-		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
-			n.ReactToStateChange();
-		}
+		UpdateStatefulNPCs();
 
 		Animator playerAnimator = pc.GetComponent<Animator>();
 		playerAnimator.logWarnings = true;
@@ -492,6 +489,22 @@ public class GlobalController : MonoBehaviour {
 				AlerterText.Alert(item.itemName + " acquired");
 		}
 		inventory.AddItem(item);
+		PropagateItemChange();
+	}
+
+	public static void PropagateItemChange(bool immediateOnly=true) {
+		List<EnableOnItem> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnItem)) as EnableOnItem[])
+			.Where(x => immediateOnly ? x.immediate : true).ToList();
+		foreach (EnableOnItem i in immediates) {
+			i.CheckState();
+		}
+		UpdateStatefulNPCs();
+	}
+
+	static void UpdateStatefulNPCs() {
+		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
+			n.ReactToStateChange();
+		}
 	}
 
 	public static void ShowAbilityGetUI() {

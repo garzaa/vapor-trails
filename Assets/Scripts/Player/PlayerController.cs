@@ -839,7 +839,7 @@ public class PlayerController : Entity {
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
-			LoseEnergy(4);
+			LoseEnergy(2);
 		}
 	}
 

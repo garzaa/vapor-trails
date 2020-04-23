@@ -11,7 +11,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
     public string originalText;
     bool startedBefore = false;
 
-    bool discovered;
+    public bool discovered;
 
     public bool IsDiscovered() {
         return discovered;
@@ -33,17 +33,17 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
         anim = anim ?? GetComponent<Animator>();
         if (requiredGameFlag != GameFlag.None && !GlobalController.HasFlag(requiredGameFlag)) {
             GetComponentInChildren<Text>().text = "???";
-            anim.SetBool("Interactable", false);
+            // anim.SetBool("Interactable", false);
             discovered = false;
         } else {
             GetComponentInChildren<Text>().text = originalText;
-            anim.SetBool("Interactable", true);
+            // anim.SetBool("Interactable", true);
             discovered = true;
         }
     }
 
     void OnClick() {
-        SubwayManager.ReactToStationSelect(this.stop);
+        SubwayManager.ReactToStationSelect(this);
     }
 
     public void OnSelect(BaseEventData eventData) {
