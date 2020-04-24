@@ -15,7 +15,6 @@ public class PlayerGrabber : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D c) {
 		if (c.gameObject.CompareTag(Tags.Player)) {
-			AlerterText.Alert("benis");
 			c.transform.parent = lastParent;
 		}
 	}

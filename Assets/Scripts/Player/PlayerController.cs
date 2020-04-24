@@ -26,6 +26,7 @@ public class PlayerController : Entity {
 	public int baseDamage = 1;
 	float invincibilityLength = 1f;
 	float selfDamageHitstop = .2f;
+	float airControlAmount = 12f;
 	int healCost = 1;
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
@@ -317,13 +318,20 @@ public class PlayerController : Entity {
 			}
 
 			if (InputManager.HorizontalInput() != 0) {
-				float xVec= hInput * moveSpeed;
+				float targetXSpeed = hInput * moveSpeed;
+				
+				// if moving above max speed and not decelerating
 				if (IsSpeeding() && MovingForwards()) {
-					xVec = rb2d.velocity.x;
+					targetXSpeed = rb2d.velocity.x;
 				}
-				rb2d.velocity = (new Vector2(
-					xVec, 
-					rb2d.velocity.y)
+				// if decelerating in the air:
+				else if (!grounded) {
+					targetXSpeed = Mathf.Lerp(rb2d.velocity.x, targetXSpeed, Time.deltaTime * airControlAmount);
+				}
+
+				rb2d.velocity = new Vector2(
+					targetXSpeed, 
+					rb2d.velocity.y
 				);
 				movingRight = InputManager.HorizontalInput() > 0;
 			}
@@ -463,6 +471,22 @@ public class PlayerController : Entity {
 		airJumps--;
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
+		ChangeAirspeed();		
+	}
+
+	// instantly change airspeed this frame, for air jumps and other abilitites
+	void ChangeAirspeed() {
+		// allow instant delta-v on air jump, like in smash bruddas
+		float targetXSpeed = InputManager.HorizontalInput() * moveSpeed;
+		// if moving above max speed and not decelerating
+		if (IsSpeeding() && MovingForwards()) {
+			targetXSpeed = rb2d.velocity.x;
+		}
+		rb2d.velocity = new Vector2(
+			targetXSpeed, 
+			rb2d.velocity.y
+		);
+		movingRight = InputManager.HorizontalInput() > 0;
 	}
 
 	public void Dash() {
@@ -659,6 +683,7 @@ public class PlayerController : Entity {
 			jumpSpeed * 1.5f
 		);
 		anim.SetTrigger("UpSlash");
+		ChangeAirspeed();
 	}
 
 	void ResetAirJumps() {
