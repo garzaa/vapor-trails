@@ -387,10 +387,7 @@ public class PlayerController : Entity {
 	}
 
 	public bool IsSpeeding() {
-		if (rb2d == null) {
-			return false;
-		}
-		return speedLimiter.IsSpeeding();
+		return rb2d != null && speedLimiter.IsSpeeding();
 	}
 
 	void Jump() {
