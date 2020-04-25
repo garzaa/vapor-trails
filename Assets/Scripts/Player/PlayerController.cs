@@ -348,7 +348,7 @@ public class PlayerController : Entity {
 				HairBackwards();
 			}
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
-	
+
 			// fast falling
 			/*
 			if (!grounded && InputManager.VerticalInput() < -0.9f && rb2d.velocity.y < 0) {
@@ -623,6 +623,17 @@ public class PlayerController : Entity {
 				(Mathf.Abs(rb2d.velocity.x) + (Mathf.Abs(impactSpeed / 4f))) * ForwardScalar(),
 				impactSpeed
 			);
+
+			if (currentState != PlayerStates.DIVEKICK) {
+				CameraShaker.Shake(0.1f, 0.1f);
+				SoundManager.HardLandSound();
+				if (InputManager.HasHorizontalInput()) {
+					BackwardDust();
+				} else {
+					ImpactDust();
+				}
+			}
+
 			if (currentState == PlayerStates.DIVEKICK) {
 				currentState = PlayerStates.NORMAL;
 				anim.SetInteger("StateNum", 100);
@@ -635,13 +646,6 @@ public class PlayerController : Entity {
 				);
 				anim.SetTrigger("HardLand");
 			}
-			SoundManager.HardLandSound();
-			if (InputManager.HasHorizontalInput()) {
-				BackwardDust();
-			} else {
-				ImpactDust();
-			}
-			CameraShaker.Shake(0.1f, 0.1f);
 		}
 		if (terminalFalling) {
 			CameraShaker.Shake(0.2f, 0.1f);
