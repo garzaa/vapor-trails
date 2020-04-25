@@ -342,7 +342,12 @@ public class GlobalController : MonoBehaviour {
 		pc.EnterCutscene();
 		FadeToBlack();
 		yield return new WaitForSeconds(0.5f);
+		playerFollower.DisableSmoothing();
+		pc.DisableTrails();
 		pc.transform.position = position;
+		pc.EnableTrails();
+		playerFollower.SnapToPlayer();
+		playerFollower.EnableSmoothing();
 		UnFadeToBlack();
 		pc.ExitCutscene();
 	}

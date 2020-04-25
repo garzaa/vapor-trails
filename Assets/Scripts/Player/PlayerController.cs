@@ -324,7 +324,7 @@ public class PlayerController : Entity {
 				if (IsSpeeding() && MovingForwards()) {
 					targetXSpeed = rb2d.velocity.x;
 				}
-				// if decelerating in the air:
+				// if decelerating in the air
 				else if (!grounded) {
 					targetXSpeed = Mathf.Lerp(rb2d.velocity.x, targetXSpeed, Time.deltaTime * airControlAmount);
 				}
@@ -333,8 +333,9 @@ public class PlayerController : Entity {
 					targetXSpeed, 
 					rb2d.velocity.y
 				);
-				movingRight = InputManager.HorizontalInput() > 0;
 			}
+			
+			movingRight = InputManager.HorizontalInput() > 0;
 
 			//if they've just started running
 			if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !IsFacing(touchingWall)) {
@@ -347,7 +348,7 @@ public class PlayerController : Entity {
 				HairBackwards();
 			}
 			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
-
+	
 			// fast falling
 			/*
 			if (!grounded && InputManager.VerticalInput() < -0.9f && rb2d.velocity.y < 0) {
