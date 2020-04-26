@@ -24,7 +24,7 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerFollower playerFollower;
 	public static Save save;
 	static CloseableUI pauseUI;
-	static bool inCutscene;
+	static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
 	public static BarUI bossHealthUI;
@@ -129,56 +129,59 @@ public class GlobalController : MonoBehaviour {
 			
 		}
 		
-		if (
-			dialogueOpen 
-			&& (Input.GetButtonDown(Buttons.JUMP) || Input.GetButtonDown(Buttons.SPECIAL))
-			&& !dialogueOpenedThisFrame
-			&& !inCutscene
-			) {
-
-			if (dialogueUI.slowRendering) {
-				dialogueUI.CancelSlowRender();
-				return;
-			}
-
-			if (dialogueUI.switchingImage) {
-				dialogueUI.SwitchSpeakerImage();
-			}
-
-			//advance dialogue line or close
-			//if necessary, hit the activatable from the previous line
-			//and block dialogue/enter cutscene if necessary
-			if (toActivate != null) {
-				toActivate.activatable.Activate();
-				if (toActivate.blocking) {
-					//block dialogue line rendering and hide dialogue UI
-					EnterCutscene();
-					//don't render the dialogue
-					toActivate = null;
-					return;
-				}
-				toActivate = null;
-			}
-
-			DialogueLine nextLine = currentNPC.GetNextLine();
-
-			if (nextLine != null) {
-				dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine());
-				if (nextLine.activatable != null) {
-					if (!nextLine.activatesOnLineEnd) {
-						nextLine.activatable.Activate();
-					} else {
-						toActivate = nextLine;
-					}
-				}
-			} else {
-				ExitDialogue();
-			}
+		if (InputManager.GenericContinueInput()) {
+			GlobalController.OnDialogueSkip();
 		}
+
 		dialogueOpenedThisFrame = false;
 		dialogueClosedThisFrame = false;
 
 		UpdateControllerStatus();
+	}
+
+	public static void OnDialogueSkip() {
+		if (!dialogueOpen || dialogueOpenedThisFrame || inAnimationCutscene) {
+			return;
+		}
+
+		if (dialogueUI.slowRendering) {
+			dialogueUI.CancelSlowRender();
+			return;
+		}
+
+		if (dialogueUI.switchingImage) {
+			dialogueUI.SwitchSpeakerImage();
+		}
+
+		//advance dialogue line or close
+		//if necessary, hit the activatable from the previous line
+		//and block dialogue/enter cutscene if necessary
+		if (toActivate != null) {
+			toActivate.activatable.Activate();
+			if (toActivate.blocking) {
+				//block dialogue line rendering and hide dialogue UI
+				EnterCutscene();
+				//don't render the dialogue
+				toActivate = null;
+				return;
+			}
+			toActivate = null;
+		}
+
+		DialogueLine nextLine = currentNPC.GetNextLine();
+
+		if (nextLine != null) {
+			dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine());
+			if (nextLine.activatable != null) {
+				if (!nextLine.activatesOnLineEnd) {
+					nextLine.activatable.Activate();
+				} else {
+					toActivate = nextLine;
+				}
+			}
+		} else {
+			ExitDialogue();
+		}
 	}
 
 	public static void EnterDialogue(NPC npc) {
@@ -206,7 +209,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void FinishOpeningLetterboxes() {
 		dialogueOpen = true;
-		inCutscene = false;
+		inAnimationCutscene = false;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {
 			dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine(), fromCutscene: true);
@@ -404,7 +407,7 @@ public class GlobalController : MonoBehaviour {
 	// hide dialogue UI but keep the player frozen
 	// dialogue being open is a prerequisite for the cutscene state :^(
 	public static void EnterCutscene() {
-		inCutscene = true;
+		inAnimationCutscene = true;
 		if (dialogueOpen) {
 			dialogueUI.Close();
 		}

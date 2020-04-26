@@ -68,6 +68,14 @@ public class InputManager : MonoBehaviour {
         frozenInputs = false;
     }
 
+    public static bool GenericContinueInput() {
+        return (
+            Input.GetButtonDown(Buttons.JUMP)
+            || Input.GetButtonDown(Buttons.SPECIAL)
+            || Input.GetKeyDown(KeyCode.Escape)
+        );
+    }
+
     public static Vector2 RightStick() {
         // cant push all the way to the edge on a joystick for some reason
         return new Vector2(

@@ -11,7 +11,12 @@ public class ChoiceBox : MonoBehaviour {
     }
 
     public void OnSubmit() {
-        activatable.Activate();
+        // in the case of a generic "exit" button
+        if (activatable != null) activatable.Activate();
         ChoiceUI.CloseChoices();
+        // if clicked this frame, mimic a dialogue skip input
+        if (!InputManager.GenericContinueInput()) {
+            GlobalController.OnDialogueSkip();
+        }
     }
 }
