@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class InventoryUI : UIComponent {
+public class InventoryUI : CloseableUI {
     public Animator animator;
     InventoryController inventoryController;
     
@@ -29,12 +29,14 @@ public class InventoryUI : UIComponent {
         gridRect = gridHolder.GetComponent<RectTransform>();
     }
 
-    public override void Show() {
+    public void Show() {
         animator.SetBool("Shown", true);
+        base.Open();
     }
 
-    public override void Hide() {
+    public void Hide() {
         animator.SetBool("Shown", false);
+        base.Close();
     }
 
     void SelectFirstChild() {

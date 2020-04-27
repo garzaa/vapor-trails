@@ -30,5 +30,4 @@ public class CloseableUI : MonoBehaviour {
         if (targetUI != null) targetUI.SetActive(false);
         if (exclusive) GlobalController.gc.hasOpenUI = false;
     }
-
 }

@@ -1146,6 +1146,7 @@ public class PlayerController : Entity {
 	}
 
 	public void ExitCutscene() {
+		Debug.Log("Exited cutscene");
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();

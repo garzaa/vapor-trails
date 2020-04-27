@@ -15,8 +15,7 @@ public class ChoiceUI : MonoBehaviour {
     }
 
     public static void OpenChoices(List<Choice> choiceList) {
-        // set a small delay to prevent accidental misinput
-        choiceUI.StartCoroutine(choiceUI.OpenSelfChoices(choiceList));
+        choiceUI.OpenSelfChoices(choiceList);
     }
 
     public static void CloseChoices() {
@@ -26,8 +25,7 @@ public class ChoiceUI : MonoBehaviour {
         }
     }
 
-    IEnumerator OpenSelfChoices(List<Choice> choiceList) {
-    yield return new WaitForSeconds(0.3f);
+    void OpenSelfChoices(List<Choice> choiceList) {
         choices.SetActive(true);
         foreach (Choice choice in choiceList) {
             ChoiceBox box = Instantiate(

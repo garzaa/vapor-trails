@@ -107,14 +107,6 @@ public class GlobalController : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 
-		if (Input.GetButtonDown("Start") && pauseEnabled) {
-			if (!paused) {
-				Pause();
-			} else {
-				Unpause();
-			}
-		}
-
 		if (inAbilityGetUI && InputManager.ButtonDown(Buttons.JUMP)) {
 			HideAbilityGetUI();
 		}
@@ -127,6 +119,15 @@ public class GlobalController : MonoBehaviour {
 				OpenInventory();
 			}
 			
+		}
+
+		
+		if (Input.GetButtonDown("Start") && pauseEnabled && !inInventory) {
+			if (!paused) {
+				Pause();
+			} else {
+				Unpause();
+			}
 		}
 		
 		if (InputManager.GenericContinueInput()) {
@@ -171,7 +172,10 @@ public class GlobalController : MonoBehaviour {
 		DialogueLine nextLine = currentNPC.GetNextLine();
 
 		if (nextLine != null) {
-			dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine());
+			dialogueUI.RenderDialogueLine(
+				nextLine, 
+				currentNPC.hasNextLine() || queuedNPCs.Count>0
+			);
 			if (nextLine.activatable != null) {
 				if (!nextLine.activatesOnLineEnd) {
 					nextLine.activatable.Activate();
@@ -199,12 +203,17 @@ public class GlobalController : MonoBehaviour {
 
 	public static void ExitDialogue() {
 		dialogueOpen = false;
-		dialogueUI.Close();
 		dialogueClosedThisFrame = true;
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
 		}
 		currentNPC = null;
+		if (queuedNPCs.Count != 0) {
+			EnterDialogue(queuedNPCs.Dequeue());
+			FinishOpeningLetterboxes();
+		} else {
+			dialogueUI.Close();
+		}
 	}
 
 	public static void FinishOpeningLetterboxes() {
@@ -226,9 +235,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void FinishClosingLetterboxes() {
-		if (queuedNPCs.Count != 0) {
-			EnterDialogue(queuedNPCs.Dequeue());
-		}
+
 	}
 
 	public static void OpenSign(string text, Vector2 position) {
@@ -552,6 +559,8 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterMerchantDialogue(Merchant merchant) {
+		pc.EnterCutscene();
+		print("entering pc cutscene");
 		inventory.currentMerchant = merchant;
 		OpenInventory();
 	}
