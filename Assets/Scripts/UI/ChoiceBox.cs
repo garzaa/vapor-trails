@@ -11,6 +11,10 @@ public class ChoiceBox : MonoBehaviour {
     }
 
     public void OnSubmit() {
+        if (!DialogueUI.LineFullyRendered()) {
+            return;
+        }
+
         // in the case of a generic "exit" button
         if (activatable != null) activatable.Activate();
         ChoiceUI.CloseChoices();

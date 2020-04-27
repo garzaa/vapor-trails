@@ -14,11 +14,21 @@ public class DialogueUI : CloseableUI {
 	int letterIndex;
 	string textToRender;
 	public bool switchingImage;
-	float letterDelay = 0.03f;
+	float letterDelay = 0.01f;
 
 	int voiceIndex = 0;
 
 	Sprite nextImage;
+
+	static DialogueUI dialogueUI;
+
+	void Start() {
+		dialogueUI = this;
+	}
+
+	public static bool LineFullyRendered() {
+		return !dialogueUI.slowRendering;
+	}
 
 	public override void Open() {
 		base.Open();

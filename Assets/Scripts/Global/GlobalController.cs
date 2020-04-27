@@ -111,14 +111,16 @@ public class GlobalController : MonoBehaviour {
 			HideAbilityGetUI();
 		}
 
-		bool inInventory = pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown");
-		if (Input.GetButtonDown("Inventory") || (Input.GetButtonDown(Buttons.SPECIAL) && inInventory)) {
+		bool inInventory = inventory.inventoryUI.animator.GetBool("Shown");
+		if ((Input.GetButtonDown("Inventory") || (Input.GetButtonDown(Buttons.SPECIAL)) && inInventory)) {
 			if (inInventory) {
 				CloseInventory();
 			} else if (!pc.inCutscene && pc.IsGrounded()) {
 				OpenInventory();
 			}
-			
+		} else if (inInventory) {
+			// avoid any pre-late update weirdness
+			pc.EnterCutscene();
 		}
 
 		
