@@ -14,6 +14,9 @@ public class PlayerController : Entity {
 	readonly float dashCooldownLength = .6f;
 	readonly float ledgeBoostSpeed = 2f;
 	readonly float stunLength = 0.4f;
+	readonly float parryLength = 10f/60f;
+	readonly float coyoteTime = 0.1f;
+	readonly float airControlAmount = 12f;
 	bool hardFalling = false;
 
 	//these will be loaded from the save
@@ -26,7 +29,6 @@ public class PlayerController : Entity {
 	public int baseDamage = 1;
 	float invincibilityLength = 1f;
 	float selfDamageHitstop = .2f;
-	float airControlAmount = 12f;
 	int healCost = 1;
 	int healAmt = 1;
 	float jumpBufferDuration = 0.1f;
@@ -44,10 +46,8 @@ public class PlayerController : Entity {
 	SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	bool canParry = false;
-	float parryLength = 10f/60f;
 	bool movingForwardsLastFrame;
 	float missedInputCooldown = 20f/60f;
-	float coyoteTime = 0.1f;
 
 	//linked components
 	Rigidbody2D rb2d;
@@ -127,7 +127,6 @@ public class PlayerController : Entity {
 		gunEyes = transform.Find("GunEyes").transform;
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
-		Flip();
 		ResetAirJumps();
 		lastSafeOffset = this.transform.position;
 		speedLimiter = GetComponent<SpeedLimiter>();
