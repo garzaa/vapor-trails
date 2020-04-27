@@ -444,7 +444,6 @@ GameObject:
   - component: {fileID: 70041348}
   - component: {fileID: 70041350}
   - component: {fileID: 70041349}
-  - component: {fileID: 70041351}
   m_Layer: 15
   m_Name: interact
   m_TagString: Untagged
@@ -463,8 +462,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.736, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 159093811}
-  - {fileID: 1727581123}
+  - {fileID: 213242220}
   m_Father: {fileID: 1929849474766417168}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -513,7 +511,7 @@ MonoBehaviour:
       speakerImage: {fileID: -2293493736513936948, guid: 768720ab16a575d4d9a15ee13e430e99,
         type: 3}
       voiceSound: 0
-      activatable: {fileID: 70041351}
+      activatable: {fileID: 213242221}
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
@@ -536,25 +534,6 @@ MonoBehaviour:
   dialogueAnimator: {fileID: 0}
   currentConversation: 0
   currentDialogueLine: 0
---- !u!114 &70041351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70041346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e986edf4971517b4289743bfb47c5125, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  choices:
-  - choiceText: Talk
-    activatable: {fileID: 159093813}
-  - choiceText: Shop
-    activatable: {fileID: 1727581128}
-  - choiceText: Leave
-    activatable: {fileID: 0}
 --- !u!1 &78891577
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,12 +918,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159093810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1391807942}
-  m_Father: {fileID: 70041347}
+  m_Children: []
+  m_Father: {fileID: 213242220}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &159093812
@@ -1054,6 +1032,56 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 170849319}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &213242219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213242220}
+  - component: {fileID: 213242221}
+  m_Layer: 15
+  m_Name: choice
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &213242220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213242219}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 159093811}
+  - {fileID: 1391807942}
+  - {fileID: 1727581123}
+  - {fileID: 1502354326}
+  - {fileID: 793131278}
+  m_Father: {fileID: 70041347}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &213242221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213242219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e986edf4971517b4289743bfb47c5125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useNamedChildren: 1
+  choices: []
 --- !u!1001 &214259857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91428,6 +91456,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bd164bbea465847a4df0e20583a376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &793131277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 793131278}
+  m_Layer: 15
+  m_Name: Leave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &793131278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793131277}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 213242220}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &794840858
 GameObject:
   m_ObjectHideFlags: 0
@@ -110221,6 +110279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e986edf4971517b4289743bfb47c5125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useNamedChildren: 0
   choices:
   - choiceText: be mean
     activatable: {fileID: 2146625090}
@@ -112911,12 +112970,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1391807941}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 159093811}
-  m_RootOrder: 0
+  m_Father: {fileID: 213242220}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1391807943
 MonoBehaviour:
@@ -114227,12 +114286,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1502354325}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0870018, y: -0.78599995, z: -0.026123047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1727581123}
-  m_RootOrder: 0
+  m_Father: {fileID: 213242220}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1502354327
 MonoBehaviour:
@@ -116075,6 +116134,61 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1716960719}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1718872273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1718872275}
+  - component: {fileID: 1718872274}
+  m_Layer: 0
+  m_Name: Vapor Plasma
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1718872274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718872273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8956c5a454f2ba14eace889b47ad8e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    itemName: Vapor Plasma
+    itemIcon: {fileID: 0}
+    detailedIcon: {fileID: 0}
+    stackable: 0
+    count: 0
+    cost: 0
+    itemDescription: 
+    isAbilityItem: 0
+    ability: 9
+    instructions: 
+    activatesOnPickup: {fileID: 0}
+--- !u!4 &1718872275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718872273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 39.412884, y: -1.532119, z: -7.9290013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 40
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1721105622
 GameObject:
   m_ObjectHideFlags: 0
@@ -116344,10 +116458,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0870018, y: -0.78599995, z: -0.026123047}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1502354326}
-  m_Father: {fileID: 70041347}
-  m_RootOrder: 1
+  m_Children: []
+  m_Father: {fileID: 213242220}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1727581124
 MonoBehaviour:

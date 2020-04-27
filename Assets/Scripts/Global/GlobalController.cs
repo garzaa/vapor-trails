@@ -562,7 +562,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void EnterMerchantDialogue(Merchant merchant) {
 		pc.EnterCutscene();
-		print("entering pc cutscene");
 		inventory.currentMerchant = merchant;
 		OpenInventory();
 	}
