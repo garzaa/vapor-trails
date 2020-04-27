@@ -11,7 +11,6 @@ public class ActivatedChoice : Activatable {
             if (useNamedChildren) {
                 List<Choice> childChoices = new List<Choice>();
                 foreach (Transform t in transform) {
-                    AlerterText.Alert(t.gameObject.name);
                     if (t.gameObject.activeSelf) {
                         childChoices.Add(new Choice(
                             t.name,
