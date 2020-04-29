@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class TransitionManager : MonoBehaviour {
 
 	Beacon currentBeacon = Beacon.None;
-	bool frozePlayerBeforeTransition = false;
 	bool toPosition = false;
 	Vector2 position = Vector2.zero;
 	float targetVolume = 1f;
@@ -48,18 +47,8 @@ public class TransitionManager : MonoBehaviour {
 		pc.StopForcedWalking();
 		pc.inCutscene = false;
 		GlobalController.UnFadeToBlack();
-		GlobalController.playerFollower.EnableFollowing();
-		GlobalController.playerFollower.FollowPlayer();
-		GlobalController.playerFollower.EnableSmoothing();
 		GlobalController.pauseEnabled = true;
 		pc.UnLockInSpace();
-		// if the PC wasn't dashing or in supercruise
-		if (!frozePlayerBeforeTransition) {
-			pc.SetInvincible(false);
-			pc.UnFreeze();
-			//and reset to wait for the next transition
-			frozePlayerBeforeTransition = false;
-		}
 		pc.Show();
 		pc.EnableShooting();
 
@@ -67,18 +56,12 @@ public class TransitionManager : MonoBehaviour {
 
 		if (currentBeacon != Beacon.None) {
 			GlobalController.MovePlayerToBeacon(currentBeacon);
-			GlobalController.playerFollower.SnapToPlayer();
-			GlobalController.playerFollower.EnableFollowing();
-			GlobalController.playerFollower.FollowPlayer();
 			currentBeacon = Beacon.None;
 		} else if (SubwayManager.playerOnSubway) {
 			SubwayManager.ArriveWithPlayer();
 		} else if (toPosition) {
 			GlobalController.MovePlayerTo(position);
 			toPosition = false;
-			GlobalController.playerFollower.SnapToPlayer();
-			GlobalController.playerFollower.EnableFollowing();
-			GlobalController.playerFollower.FollowPlayer();
 		}
 
 		SceneData sd;
@@ -138,13 +121,9 @@ public class TransitionManager : MonoBehaviour {
 	public void LoadScene(string sceneName, Beacon beacon, bool fade = true) {
 		if (fade) GlobalController.FadeToBlack();
 		this.currentBeacon = beacon;
-		GlobalController.playerFollower.DisableFollowing();
-		GlobalController.playerFollower.DisableSmoothing();
 
-		//preserve dash/supercruise state between scenes
 		PlayerController pc = GlobalController.pc;
 		pc.LockInSpace();
-		frozePlayerBeforeTransition = pc.supercruise;
 
 		StartCoroutine(LoadAsync(sceneName, fade));
 	}

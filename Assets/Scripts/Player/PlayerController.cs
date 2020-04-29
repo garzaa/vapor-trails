@@ -10,7 +10,6 @@ public class PlayerController : Entity {
 	readonly float hardLandSpeed = -4f;
 	readonly float dashSpeed = 7f;
 	readonly float terminalFallSpeed = -10f;
-	readonly float superCruiseSpeed = 12f;
 	readonly float dashCooldownLength = .6f;
 	readonly float ledgeBoostSpeed = 2f;
 	readonly float stunLength = 0.4f;
@@ -86,7 +85,6 @@ public class PlayerController : Entity {
 	Coroutine platformTimeout;
 	public bool inCutscene;
 	bool dead = false;
-	public bool supercruise = false;
 	Coroutine dashTimeout;
 	bool pressedUpLastFrame = false;
 	bool runningLastFrame = false;
@@ -249,7 +247,7 @@ public class PlayerController : Entity {
 				Reflect();
 			}
 		} 
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && !supercruise && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} 
 		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
@@ -257,12 +255,6 @@ public class PlayerController : Entity {
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
 		}
-	}
-
-	void Airbrake() {
-		rb2d.velocity = Vector2.zero;
-		SoundManager.JumpSound();
-		EndSupercruise();
 	}
 
 	void Move() {
@@ -279,21 +271,8 @@ public class PlayerController : Entity {
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 		bool inputDown = InputManager.VerticalInput() < 0;
 
-		if (InputManager.ButtonDown(Buttons.JUMP) && supercruise) {
-			EndSupercruise();
-		}
-
 		if (grounded && rb2d.velocity.y > 0 && (groundCheck.TouchingPlatforms() != null)) {
 			LedgeBoost();
-		}
-
-		if (supercruise && InputBackwards()) {
-			Airbrake();
-			return;
-		}
-
-		if (supercruise && rb2d.velocity.x == 0) {
-			InterruptSupercruise();
 		}
 
 		if (!frozen && !(stunned || dead)) {
@@ -359,11 +338,6 @@ public class PlayerController : Entity {
 			*/
 		}
 		
-		if (supercruise) {
-			float maxV = Mathf.Max(Mathf.Abs(superCruiseSpeed), Mathf.Abs(rb2d.velocity.x)) * ForwardScalar();
-			rb2d.velocity = new Vector2(maxV, 0);
-		}
-
 		if (rb2d.velocity.y < terminalFallSpeed) {
 			terminalFalling = true;
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalFallSpeed);
@@ -387,9 +361,9 @@ public class PlayerController : Entity {
 		movingForwardsLastFrame = MovingForwards();
 
 		// due to frame skips or other weird shit, add a little self-healing here
-		if (!grounded && rb2d.velocity.y == 0f && !supercruise) {
+		if (!grounded && rb2d.velocity.y == 0f) {
 			Invoke("HealGroundTimeout", 0.5f);
-		} else if (grounded || (!grounded && rb2d.velocity.y != 0f) || supercruise) {
+		} else if (grounded || (!grounded && rb2d.velocity.y != 0f)) {
 			CancelInvoke("HealGroundTimeout");
 		}
 	}
@@ -544,15 +518,6 @@ public class PlayerController : Entity {
         dashing = false;
         dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
-		if (
-			MovingForwards()
-			&& InputManager.Button(Buttons.SPECIAL)
-			&& unlocks.HasAbility(Ability.Supercruise)
-			&& !InputManager.Button(Buttons.PUNCH) && !InputManager.Button(Buttons.KICK)
-			&& !justFlipped
-		) {
-			anim.SetTrigger("StartSupercruise");
-		}
     }
 
 	private void ClosePerfectDashWindow() {
@@ -763,7 +728,6 @@ public class PlayerController : Entity {
 	void OnWallHit(GameObject touchingWall) {
 		EndDashCooldown();
 		UnFreeze();
-		EndSupercruise();
 		InterruptMeteor();
 		//hold to wallclimb
 		anim.SetBool("TouchingWall", true);
@@ -890,7 +854,7 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
-		if (inMeteor || InputManager.VerticalInput() < 0 || supercruise || rb2d.velocity.y > jumpSpeed) {
+		if (inMeteor || InputManager.VerticalInput() < 0 || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
 		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
@@ -898,7 +862,6 @@ public class PlayerController : Entity {
 			EndDashCooldown();
 			ResetAirJumps();
 			InterruptAttack();
-			InterruptSupercruise();
 			rb2d.velocity = new Vector2(
 				x:(IsSpeeding() ? rb2d.velocity.x : speedLimiter.maxSpeedX * ForwardScalar()),
 				y:Mathf.Max(ledgeBoostSpeed, rb2d.velocity.y)
@@ -934,7 +897,6 @@ public class PlayerController : Entity {
 
 		CameraShaker.Shake(0.2f, 0.1f);
 		StartCombatStanceCooldown();
-		InterruptSupercruise();
 		DamageBy(attack);
 		CancelInvoke("StartParryWindow");
 
@@ -1122,7 +1084,6 @@ public class PlayerController : Entity {
 		ResetAttackTriggers();
 		InterruptAttack();
 		InterruptMeteor();
-		InterruptSupercruise();
 	}
 
 	public void EnterCutscene(bool invincible = true) {
@@ -1157,39 +1118,6 @@ public class PlayerController : Entity {
 		// scene load things
 		if (groundCheck == null) return false;
 		return groundCheck.IsGrounded();
-	}
-
-	//called at the start of the supercruiseMid animation
-	public void StartSupercruise() {
-		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-		SoundManager.DashSound();
-		this.supercruise = true;
-		anim.ResetTrigger("EndSupercruise");
-		BackwardDust();
-		Freeze();
-		CameraShaker.Shake(0.1f, 0.1f);
-		//keep them level
-		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
-	}
-
-	public void EndSupercruise() {
-		if (!supercruise) return;		
-		StartCombatCooldown();
-		supercruise = false;
-		UnFreeze();
-		rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
-		anim.SetTrigger("EndSupercruise");
-	}
-
-	//when the player hits a wall or dies 
-	public void InterruptSupercruise() {
-		if (!supercruise) return;
-		StartCombatCooldown();
-		CameraShaker.Shake(0.1f, 0.1f);
-		supercruise = false;
-		UnFreeze();
-		rb2d.constraints = rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
-		anim.SetTrigger("EndSupercruise");
 	}
 
 	public void Heal() {
