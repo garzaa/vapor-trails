@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveInState : StateMachineBehaviour {
 
+	[Header("DEPRECATED (use axis-specific variants)")]
 	public bool onEnter;
 	public bool onUpdate;
 	public bool onExit;

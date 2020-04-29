@@ -21,7 +21,6 @@ public class InventoryUI : CloseableUI {
     public Text merchantName;
     public Text merchantLine;
 
-    int NUM_COLUMNS = 3;
     RectTransform gridRect;
 
     void Start() {
@@ -45,7 +44,7 @@ public class InventoryUI : CloseableUI {
         }
         Button b = gridHolder.GetChild(0).GetComponent<Button>();
         b.Select();
-        b.OnSelect(new BaseEventData(eventSystem));
+        b.OnSelect(null);
         ReactToItemHover(b.GetComponent<ItemPane>());
         scrollView.content.localPosition = Vector2.zero;
     }
