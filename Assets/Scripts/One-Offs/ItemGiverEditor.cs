@@ -12,6 +12,7 @@ public class ItemGiverEditor : MonoBehaviour {
         // thumbnail for sprite mask, will propagate to link automatically
         GetComponent<ItemGiver>().item = this.itemWrapper;
         GetComponentInChildren<SpriteRenderer>().sprite = this.itemWrapper.item.itemIcon;
+        gameObject.name = "Floating "+itemWrapper.item.itemName;
     }
 
     void OnValidate() {
