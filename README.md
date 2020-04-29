@@ -8,3 +8,5 @@ If you are here from a work presentation, here are some handy links to my implem
 - [Hitmarkers](https://github.com/garzaa/vapor-trails/blob/master/Assets/Scripts/Global/Attack.cs#L47)
 - [Camera Shake](https://github.com/garzaa/vapor-trails/blob/master/Assets/Scripts/Camera/CameraShaker.cs)
 - [White Flash](https://github.com/garzaa/vapor-trails/blob/master/Assets/Scripts/Enemies/Enemy.cs#L158)
+
+All rights reserved. Please get my permission if you're going to publish a mod.
