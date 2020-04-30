@@ -10,7 +10,7 @@ public class ChoiceUI : MonoBehaviour {
     static ChoiceUI choiceUI;
 
     void Start() {
-        choiceUI = this;
+        if (choiceUI == null) choiceUI = this;
         CloseChoices();
     }
 

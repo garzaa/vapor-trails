@@ -16,6 +16,7 @@ public class PlayerController : Entity {
 	readonly float parryLength = 10f/60f;
 	readonly float coyoteTime = 0.1f;
 	readonly float airControlAmount = 12f;
+	readonly float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
 
 	//these will be loaded from the save
@@ -385,7 +386,11 @@ public class PlayerController : Entity {
 				WallJump();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
-				AirJump();
+				if (anim.GetFloat("GroundDistance") > restingGroundDistance+0.5f) {
+					GroundJump();
+				} else {
+					AirJump();
+				}
 			}
 			else if (!grounded) {
 				//buffer a jump for a short amount of time for when the player hits the ground/wall
