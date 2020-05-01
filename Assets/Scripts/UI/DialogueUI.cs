@@ -38,7 +38,7 @@ public class DialogueUI : CloseableUI {
 	}
 
 	public override void Close() {
-		base.Close();
+		if (!GlobalController.inAnimationCutscene) base.Close();
 		anim.SetBool("Letterboxed", false);
 	}
 

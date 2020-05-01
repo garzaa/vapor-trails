@@ -8,6 +8,10 @@ public class HidePlayerInState : StateMachineBehaviour {
         GlobalController.HidePlayer();
     }
 
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        GlobalController.pc.EnterCutscene();
+    }
+
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         GlobalController.ShowPlayer();
         if (GlobalController.dialogueOpen) {

@@ -24,13 +24,13 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerFollower playerFollower;
 	public static Save save;
 	static CloseableUI pauseUI;
-	static bool inAnimationCutscene;
+	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
 	public static BarUI bossHealthUI;
 
 	public static bool xboxController = false;
-	public static bool psController = false;
+	public static bool playstationController = false;
 
 	static DialogueLine toActivate = null;
 
@@ -486,12 +486,12 @@ public class GlobalController : MonoBehaviour {
 		{
 			if (names[x].Length == 19)
 			{
-				psController = true;
+				playstationController = true;
 				xboxController = false;
 			}
 			if (names[x].Length == 33)
 			{
-				psController = false;
+				playstationController = false;
 				xboxController = true;
 
 			}
@@ -569,7 +569,9 @@ public class GlobalController : MonoBehaviour {
 	public static void BoostStat(StatType statType, int amount) {
 		switch (statType) {
 			case StatType.HEALTH:
+				int missing = pc.maxHP-pc.currentHP;
 				pc.maxHP += amount;
+				pc.currentHP = pc.maxHP-missing;
 				break;
 			case StatType.ENERGY:
 				pc.maxEnergy += amount;
@@ -578,6 +580,7 @@ public class GlobalController : MonoBehaviour {
 				pc.baseDamage += amount;
 				break;
 		}
+		StatBoostUI.ReactToBoost(statType, amount);
 	}
 
 	public static void EnableParallax() {

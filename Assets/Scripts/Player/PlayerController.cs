@@ -245,7 +245,7 @@ public class PlayerController : Entity {
 					MeteorSlam();
 				}
 			} else {
-				Reflect();
+				//Reflect();
 			}
 		} 
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
