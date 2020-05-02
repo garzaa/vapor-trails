@@ -50,6 +50,7 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.pauseEnabled = true;
 		pc.UnLockInSpace();
 		pc.Show();
+		pc.ExitCutscene();
 		pc.EnableShooting();
 
 		GlobalController.ShowUI();
@@ -95,6 +96,7 @@ public class TransitionManager : MonoBehaviour {
 
 			if (sd.hidePlayer) {
 				pc.Hide();
+				pc.EnterCutscene();
 			}
 
 			if (sd.forceFaceRight && !pc.facingRight) {

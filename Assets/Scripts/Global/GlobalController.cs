@@ -384,15 +384,16 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void ShowUI() {
-		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
-			c.Show();
+		foreach (BarUI b in gc.GetComponentsInChildren<BarUI>(includeInactive:true)) {
+			b.gameObject.SetActive(true);
 		}
+		bossHealthUI.gameObject.SetActive(false);
 		inventory.moneyUI.gameObject.SetActive(true);
 	}
 
 	public static void HideUI() {
-		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
-			c.Hide();
+		foreach (BarUI b in gc.GetComponentsInChildren<BarUI>()) {
+			b.gameObject.SetActive(false);
 		}
 		inventory.moneyUI.gameObject.SetActive(false);
 	}

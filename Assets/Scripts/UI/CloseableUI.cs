@@ -25,6 +25,7 @@ public class CloseableUI : MonoBehaviour {
     }
 
     virtual public void Close() {
+        this.open = false;
         if (stopTime) Time.timeScale = 1f;
         GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
