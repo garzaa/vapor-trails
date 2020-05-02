@@ -140,6 +140,14 @@ public class GlobalController : MonoBehaviour {
 		dialogueClosedThisFrame = false;
 
 		UpdateControllerStatus();
+
+		/*
+		if (Input.GetKeyDown(KeyCode.S)) {
+			GlobalController.SaveGame(false);
+		} else if (Input.GetKeyDown(KeyCode.L)) {
+			GlobalController.LoadGame();
+		}
+		*/
 	}
 
 	public static void OnDialogueSkip() {

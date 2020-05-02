@@ -270,14 +270,13 @@ public class PlayerController : Entity {
 
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
-		bool inputDown = InputManager.VerticalInput() < 0;
 
 		if (grounded && rb2d.velocity.y > 0 && (groundCheck.TouchingPlatforms() != null)) {
 			LedgeBoost();
 		}
 
 		if (!frozen && !(stunned || dead)) {
-			if (inputDown && InputManager.ButtonDown(Buttons.JUMP)) {
+			if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
 				EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
 				if (platforms != null && grounded) {
 					DropThroughPlatforms(platforms);
@@ -1326,6 +1325,8 @@ public class PlayerController : Entity {
 	}
 
 	void HealGroundTimeout() {
+		AlerterText.Alert("player falsely judged as in the air");
+		AlerterText.Alert("yell at the dev about this");
 		anim.SetInteger("SubState", 200);
 		OnGroundHit(0f);
 	}
