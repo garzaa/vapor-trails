@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Teleporter : Activatable {
 
-	GameObject target;	
+	public GameObject target;
+	public bool fade = true;
+	public bool triggerStateCheck = true;
 
 	void Start() {
 		Instantiate(Resources.Load("DoorIcon"), transform.position, Quaternion.identity, this.transform);
@@ -10,8 +12,15 @@ public class Teleporter : Activatable {
 
     public override void ActivateSwitch(bool b) {
 		if (b) {
-			GlobalController.MovePlayerTo(target.transform.position);
+			GlobalController.MovePlayerTo(target.transform.position, fade:this.fade);
+			if (triggerStateCheck) {
+				GlobalController.PropagateStateChange(immediateOnly:false);
+				GlobalController.PropagateItemChange(immediateOnly:false);
+			}
 		}
 	}
 
+
 }
+
+

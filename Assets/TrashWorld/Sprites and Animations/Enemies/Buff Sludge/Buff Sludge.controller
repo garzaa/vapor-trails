@@ -16,6 +16,7 @@ MonoBehaviour:
   onUpdate: 0
   onExit: 0
   direction: {x: 0, y: 0}
+  overrideName: 
   forceZero: 0
 --- !u!114 &-6807595205193423736
 MonoBehaviour:
@@ -131,6 +132,7 @@ MonoBehaviour:
   onUpdate: 1
   onExit: 0
   direction: {x: 1.5, y: 0}
+  overrideName: 
   forceZero: 0
 --- !u!114 &-3966209409435795883
 MonoBehaviour:
@@ -192,6 +194,7 @@ MonoBehaviour:
   onUpdate: 1
   onExit: 0
   direction: {x: 1.5, y: 0}
+  overrideName: 
   forceZero: 0
 --- !u!1101 &-1837996911624767138
 AnimatorStateTransition:
@@ -268,7 +271,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -593980958970009193}
-    m_Position: {x: 380, y: 40, z: 0}
+    m_Position: {x: 370, y: 40, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -415,7 +418,7 @@ AnimatorStateMachine:
     m_Position: {x: -70, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1330740621618886797}
-    m_Position: {x: 220, y: -60, z: 0}
+    m_Position: {x: 220, y: -70, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -1500208722301104741}
@@ -503,7 +506,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New State
+  m_Name: Air Hurt
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -686,6 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d6916ef6dbff43855ef9644bc1f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateNames: []
   range: 0
 --- !u!1101 &6416643308833791036
 AnimatorStateTransition:
@@ -697,7 +701,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: PlayerXDist
-    m_EventTreshold: 10
+    m_EventTreshold: 2
   - m_ConditionMode: 4
     m_ConditionEvent: PlayerYDist
     m_EventTreshold: 3

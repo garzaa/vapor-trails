@@ -6,6 +6,7 @@ public class FaceTarget : MonoBehaviour {
 
 	public bool facingRight;
 	public GameObject target;
+	public float threshold;
 
 	bool isEntity;
 	Entity e;
@@ -16,12 +17,12 @@ public class FaceTarget : MonoBehaviour {
 		}
 		e = GetComponent<Entity>();
 		isEntity = e != null;
-		if (isEntity) {
-			facingRight = e.facingRight;
-		}
 	}
 
 	void Update() {
+		if (Mathf.Abs(target.transform.position.x - transform.position.x) < threshold) {
+			return;
+		}
 		if (isEntity) {	
 			facingRight = e.facingRight;
 		}

@@ -1,5 +1,7 @@
 ﻿ using UnityEngine;
  using UnityEngine.UI;
+ using System.Collections.Generic;
+ using System.Collections;
  
  static class UtilityMethods {
     /// <summary>
@@ -49,10 +51,21 @@
             0 - (viewportLocalPosition.x + childLocalPosition.x),
             0 - (viewportLocalPosition.y + childLocalPosition.y)
         );
+        Canvas.ForceUpdateCanvases();
         return result;
     }
 
     public static int Sign(bool b) {
         return b ? 1 : -1;
     }
+
+    public static string GetHierarchicalName (this GameObject go) {
+		string name = go.name;
+		while (go.transform.parent != null) {
+
+			go = go.transform.parent.gameObject;
+			name = go.name + "/" + name;
+		}
+		return name;
+	}
  }

@@ -25,7 +25,6 @@ public class Enemy : Entity {
 
 	Material whiteMaterial;
 	Material defaultMaterial;
-	bool white;
 
 	bool dead = false;
 	Renderer mainChildRenderer;
@@ -38,6 +37,9 @@ public class Enemy : Entity {
 
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
+
+	GameObject bossResources;
+	[SerializeField] bool dropBossResources;
 
 	public bool IsStunned() {
 		return stunned;
@@ -58,20 +60,20 @@ public class Enemy : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
 		
 		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
-        // vile, but easier than redoing the entire lady of the lake boss fight
-		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true))
-			.Where(x => x.GetComponent<IgnoreWhiteFlash>() == null).ToList();
+		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
+			// update, the lady of the lake was actually entirely redone so here we are
+        	// vile, but easier than redoing the entire lady of the lake boss fight
+			//.Where(x => x.GetComponent<IgnoreWhiteFlash>() == null).ToList();
 		if (spr != null) {
 				defaultMaterial = spr.material;
 		} else {
 				defaultMaterial = spriteRenderers[0].material;
 		}
-		Initialize();
 		mainChildRenderer = GetComponentInChildren<Renderer>();
-	}
 
-	public virtual void Initialize() {
-
+		if (dropBossResources) {
+			bossResources = Resources.Load<GameObject>("Effects/BossResources");
+		}
 	}
 
 	override public void KnockBack(Vector2 kv) {
@@ -81,15 +83,18 @@ public class Enemy : Entity {
 	}
 
 	virtual public void DamageFor(int dmg) {
+		CombatMusic.EnterCombat();
 		if (fakeDamage) return;
+		OnDamage();
 		this.hp -= dmg;
 		if (this.hp <= 0 && !dead) {
 			Die();
+		} else {
+			WhiteSprite();
 		}
 	}
 
 	public override void OnHit(Attack attack) {
-		WhiteSprite();
 		if (attack.GetComponent<PlayerAttack>() != null) {
 			PlayerAttack a = attack.GetComponent<PlayerAttack>();
 			if (a.hitstopLength > 0 && this.hp > attack.GetDamage()) {
@@ -106,11 +111,16 @@ public class Enemy : Entity {
 		}
 	}
 
-	public void Die(){
+	protected virtual void Die(){
 		CloseHurtboxes();
 		this.frozen = true;
 		this.dead = true;
 		Hitstop.Run(.1f);
+		if (dropBossResources) {
+			for (int i=0; i<1; i++) {
+				Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
+			}
+		}
 		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("Die");
 		} else {
@@ -122,28 +132,18 @@ public class Enemy : Entity {
 		}
 	}
 
-	//for each added behavior, call it
-	public void Update() {
+	// for each added behavior, call it
+	virtual protected void Update() {
 		if (!stunned) {
 			foreach (EnemyBehavior eb in this.behaviors) {
 				eb.Move();
 			}
 		}
-		CheckFlip();
-		if (white) {
-			white = false;
-			StartCoroutine(normalSprite());
-		}
-		ExtendedUpdate();
 	}
 
 	override protected void UnStun() {
 		selfJuggleChain = 0;
 		base.UnStun();
-	}
-
-	public virtual void ExtendedUpdate() {
-
 	}
 
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
@@ -156,16 +156,16 @@ public class Enemy : Entity {
 	}
 
 	public void WhiteSprite() {
-		white = true;
+		if (spriteRenderers == null) {
+			return;
+		}
 		foreach (SpriteRenderer x in spriteRenderers) {
 			x.material = whiteMaterial;
-		}
-		if (anim != null) {
-			anim.SetBool("WhiteSprite", true);
 		}
 		if (spr != null) {
         	spr.material = whiteMaterial;
 		}
+		StartCoroutine(normalSprite());
     }
 
 	IEnumerator normalSprite() {
@@ -182,7 +182,7 @@ public class Enemy : Entity {
 	}
 
 	public virtual void OnDamage() {
-		anim.SetTrigger("Hurt");
+		if (anim != null) anim.SetTrigger("Hurt");
 	}
 
 	public void Burst() {

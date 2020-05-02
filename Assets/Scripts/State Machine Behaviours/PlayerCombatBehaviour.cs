@@ -7,6 +7,10 @@ public class PlayerCombatBehaviour : StateMachineBehaviour {
         Enter(animator);
     } 
 
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        animator.ResetTrigger("AttackLand");
+    }
+
     public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash) {
         Enter(animator);
     }

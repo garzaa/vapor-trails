@@ -16,7 +16,6 @@ public class PlayerGrabber : MonoBehaviour {
 	void OnCollisionExit2D(Collision2D c) {
 		if (c.gameObject.CompareTag(Tags.Player)) {
 			c.transform.parent = lastParent;
-			c.transform.rotation = Quaternion.identity;
 		}
 	}
 }

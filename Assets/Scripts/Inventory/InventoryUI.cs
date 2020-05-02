@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class InventoryUI : UIComponent {
+public class InventoryUI : CloseableUI {
     public Animator animator;
     InventoryController inventoryController;
     
@@ -21,7 +21,6 @@ public class InventoryUI : UIComponent {
     public Text merchantName;
     public Text merchantLine;
 
-    int NUM_COLUMNS = 3;
     RectTransform gridRect;
 
     void Start() {
@@ -29,12 +28,14 @@ public class InventoryUI : UIComponent {
         gridRect = gridHolder.GetComponent<RectTransform>();
     }
 
-    public override void Show() {
+    public void Show() {
         animator.SetBool("Shown", true);
+        base.Open();
     }
 
-    public override void Hide() {
+    public void Hide() {
         animator.SetBool("Shown", false);
+        base.Close();
     }
 
     void SelectFirstChild() {
@@ -43,8 +44,9 @@ public class InventoryUI : UIComponent {
         }
         Button b = gridHolder.GetChild(0).GetComponent<Button>();
         b.Select();
-        b.OnSelect(new BaseEventData(eventSystem));
+        b.OnSelect(null);
         ReactToItemHover(b.GetComponent<ItemPane>());
+        scrollView.content.localPosition = Vector2.zero;
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
@@ -78,24 +80,7 @@ public class InventoryUI : UIComponent {
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
-        SetGridHeight(gridRect, inventoryList.items.Count, NUM_COLUMNS);
         SelectFirstChild();
-    }
-
-    public void SetGridHeight(RectTransform g, int itemCount, int numColumns) {
-        Vector2 s = g.sizeDelta; 
-        GridLayoutGroup grid = g.GetComponent<GridLayoutGroup>();
-
-        int numRows = Mathf.Max(itemCount / numColumns, 1);
-        //max with the height of the viewport
-        s.y = Mathf.Max(
-            grid.padding.top + grid.padding.bottom
-            + (numRows * (int)grid.cellSize.y)
-            // muh fencepost error
-            + ((numRows-1) * grid.spacing.y)
-        , 261);
-
-        g.sizeDelta = s;
     }
 
     public void PropagateMerchantInfo(Merchant merchant) {

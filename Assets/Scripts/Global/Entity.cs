@@ -44,23 +44,6 @@ public class Entity : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
-    public void CheckFlip() {
-        if (frozen || lockedInSpace) {
-            return;
-        }
-        Rigidbody2D rb2d;
-        if ((rb2d = GetComponent<Rigidbody2D>()) != null && InputManager.HasHorizontalInput()) {
-            if (!facingRight && rb2d.velocity.x > 0 && movingRight)
-            {
-                Flip();
-            }
-            else if (facingRight && rb2d.velocity.x < 0 && !movingRight)
-            {
-                Flip();
-            }
-        }
-    }
-
     public void LockInSpace() {
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
@@ -89,9 +72,10 @@ public class Entity : MonoBehaviour {
         );
     }
 
-    public void StunFor(float seconds) {
+    virtual public void StunFor(float seconds) {
 		if (staggerable) {
 			//if the enemy is already stunned, then restart the stun period
+            stunned = true;
             CancelInvoke("UnStun");
             if (this.GetComponent<Animator>() != null) {
                 Animator anim = GetComponent<Animator>();

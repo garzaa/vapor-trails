@@ -4,18 +4,20 @@ using UnityEngine;
 public class PlayerAttack : Attack {
 	
 	int energyGained = 1;
-	int energyCost = 1;
 
 	public bool gainsEnergy = false;
 	public bool costsEnergy = false;
+	public int energyCost = 1;
 	public float hitstopLength = 0.2f;
 	public bool rotateHitmarker = true;
-	public bool pullInEntity = true;
+	public bool pullInEntity = false;
 
-	public bool attackLandEvent = false;
+	public bool attackLandEvent = true;
 
 	PlayerController player;
 	BoxCollider2D bc2d;
+
+	public GameObject[] baseDamageHitmarkers;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -78,28 +80,36 @@ public class PlayerAttack : Attack {
 		}
 	}
 
-	override public void MakeHitmarker(Transform pos) {
-		Vector2 midpoint = Vector2.MoveTowards(this.transform.position, pos.position, Vector2.Distance(this.transform.position, pos.position)/2f);
+	override public void MakeHitmarker(Transform hurtboxPos) {
+		// Vector2 midpoint = Vector2.MoveTowards(this.transform.position, hurtboxPos.position, Vector2.Distance(this.transform.position, hurtboxPos.position)/2f);
+		
 		GameObject h = Instantiate(
 			hitmarker,
-			this.transform.position,
-			Quaternion.identity,
 			this.transform
-		);
-		// hitmarker is currently facing the correct direction (left, internally)
-		// so, rotate to match the angle between its initial rotation and the knockback vector
-		float angleDiff = Vector2.Angle(Vector2.left, knockbackVector * attackerParent.ForwardVector());
-		// and then throw all logic out the window because this is what makes it work
-		// for negative x knockback
-		if (angleDiff == 180) {
-			angleDiff -= 180;
+		) as GameObject;
+		TransformHitmarker(h);
+
+		// other level hitmarkers
+		// base dmg starts at 1, if so we don't need to spawn any extra hitmarkers
+		for (int i=0; (i<baseDamageHitmarkers.Length) && (i<player.baseDamage-1); i++) {
+			GameObject g = Instantiate(
+				baseDamageHitmarkers[i],
+				this.transform.position,
+				Quaternion.identity
+			);
+			TransformHitmarker(g);
 		}
-		angleDiff = (angleDiff == 0 ? angleDiff : angleDiff-90f);
-		h.transform.eulerAngles = new Vector3(
-			0,
-			0,
-			angleDiff
-		);
+				
+	}
+
+	void TransformHitmarker(GameObject h) {
+		if (rotateHitmarker) {
+			h.transform.eulerAngles = new Vector3(
+				0,
+				0,
+				Vector2.Angle(Vector3.right, knockbackVector)
+			);
+		}
 		h.transform.parent = null;
 	}
 

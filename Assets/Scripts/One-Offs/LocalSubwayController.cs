@@ -25,8 +25,19 @@ public class LocalSubwayController : AnimationInterface {
         doors = GetComponentsInChildren<Animator>().ToList();
         doorInteracts = GetComponentsInChildren<Interactable>().ToList();
         animator = GetComponent<Animator>();
-        DisableDoors();
+        DisableDoorInteracts();
         subwayCars = transform.Find("Cars").gameObject;
+    }
+
+    void Update() {
+        if (holdingPlayer) {
+            if (InputManager.ButtonDown(Buttons.SPECIAL) || Input.GetKeyDown(KeyCode.Escape)) {
+                OpenDoors();
+                SubwayManager.CloseMapUI();
+                Invoke("ShowPlayer", 1f);
+                Invoke("EnableDoorInteracts", 2f);
+            }
+        }
     }
 
     public void FinishDeparting() {
@@ -46,9 +57,9 @@ public class LocalSubwayController : AnimationInterface {
 
     public void OpenDoors() {
         if (holdingPlayer) {
-            DisableDoors();
+            DisableDoorInteracts();
         } else {
-            EnableDoors();
+            EnableDoorInteracts();
         }
         doorsOpening.PlayOneShot(doorsOpening.clip);
         foreach (Animator a in doors) {
@@ -78,7 +89,7 @@ public class LocalSubwayController : AnimationInterface {
     }
 
     public void CloseDoors() {
-        DisableDoors();
+        DisableDoorInteracts();
         Invoke("PlayDoorCloseSound", .7f);
         foreach (Animator a in doors) {
             a.SetBool("Open", false);
@@ -115,13 +126,13 @@ public class LocalSubwayController : AnimationInterface {
         animator.SetBool("PlayerHidden", false);
     }
 
-    void EnableDoors() {
+    void EnableDoorInteracts() {
         foreach (Interactable i in doorInteracts) {
             i.gameObject.SetActive(true);
         }
     }
 
-    void DisableDoors() {
+    void DisableDoorInteracts() {
         foreach (Interactable i in doorInteracts) {
             i.gameObject.SetActive(false);
         }

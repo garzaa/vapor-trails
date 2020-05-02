@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// these are deprecated, have been replaced by GameStates (scriptaleObjects instead of this mess)
 public enum GameFlag {
 	None,
 	BeatRichter,

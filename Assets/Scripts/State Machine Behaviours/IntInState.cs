@@ -4,6 +4,7 @@ public class IntInState : StateMachineBehaviour {
 
     public int stateNum;
     public bool isStateMachine;
+    public bool onUpdate;
 
     int lastEntryState = 0;
 
@@ -27,5 +28,9 @@ public class IntInState : StateMachineBehaviour {
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         //if (!isStateMachine) animator.SetInteger("SubState", lastEntryState); 
+    }
+
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (onUpdate) animator.SetInteger("SubState", stateNum);    
     }
 }

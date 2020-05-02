@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerUnlocks : MonoBehaviour {
-	public int maxHP = 3;
-	public int maxEnergy = 5;
 	public int baseDamage = 1;
 
 	public List<Ability> unlockedAbilities = new List<Ability> {
@@ -28,8 +26,6 @@ public class PlayerUnlocks : MonoBehaviour {
 
 	public void LoadFromSerializableUnlocks(SerializableUnlocks p) {
 		this.unlockedAbilities = p.unlockedAbilities;
-		maxHP = p.maxHP;
-		maxEnergy = p.maxEnergy;
 		baseDamage = p.baseDamage;
 	}
 
@@ -37,15 +33,11 @@ public class PlayerUnlocks : MonoBehaviour {
 
 [System.Serializable]
 public class SerializableUnlocks {
-	public int maxHP = 3;
-	public int maxEnergy = 5;
 	public int baseDamage = 1;
 	public List<Ability> unlockedAbilities;
 
 	public SerializableUnlocks(PlayerUnlocks p) {
 		this.unlockedAbilities = p.unlockedAbilities;
-		maxHP = p.maxHP;
-		maxEnergy = p.maxEnergy;
 		baseDamage = p.baseDamage;
 	}
 }

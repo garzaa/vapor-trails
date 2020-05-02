@@ -226,9 +226,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impactShake: 1
-  burstPrefab: {fileID: 1960851481158688, guid: c39f8940216112a438ac2dcdbdd418a1,
-    type: 3}
-  ignorePlayer: 1
+  hitEffect: {fileID: 1960851481158688, guid: c39f8940216112a438ac2dcdbdd418a1, type: 3}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 2304
+  collisionTags:
+  - EnemyHurtbox
+  - Untagged
 --- !u!50 &50713390377025236
 Rigidbody2D:
   serializedVersion: 4
@@ -262,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22b4c73cff5e4ed4b8cba14ae1256714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 2
+  timer: 20
   randRange: 0
   loBound: 0
   hiBound: 0
@@ -289,15 +293,17 @@ MonoBehaviour:
   flipHitmarker: 0
   attackedTags: []
   attackerParent: {fileID: 0}
-  stunLength: 0.2
-  knockBack: 1
-  knockbackVector: {x: 3, y: 0}
+  stunLength: 0.1
+  knockBack: 0
+  knockbackVector: {x: 0, y: 0}
   inheritMomentum: 0
-  attackLandTrigger: 0
   gainsEnergy: 0
   costsEnergy: 0
   hitstopLength: 0
-  rotateHitmarker: 1
+  rotateHitmarker: 0
+  pullInEntity: 0
+  attackLandEvent: 0
+  baseDamageHitmarkers: []
 --- !u!61 &61266208343776382
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -311,16 +317,16 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.15602458, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.7, y: 0.03}
+    oldSize: {x: 1.41, y: 0.03}
     newSize: {x: 0.1, y: 0.01}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.01}
+  m_Size: {x: 0.41204906, y: 0.01}
   m_EdgeRadius: 0

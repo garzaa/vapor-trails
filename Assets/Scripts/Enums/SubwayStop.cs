@@ -1,6 +1,6 @@
 public enum SubwayStop {
     NIGHT_MARKET,
-    WEATHER_STATION_7,
+    WEATHER_STATION,
     DEEP_TOWN,
     CERULEAN_COVE,
     TERMINAL,

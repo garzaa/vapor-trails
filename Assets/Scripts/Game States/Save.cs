@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,8 @@ public class Save : MonoBehaviour {
     public int maxEnergy = 5;
     public int basePlayerDamage = 1;
     public List<GameFlag> gameFlags = new List<GameFlag>();
+    [HideInInspector] public List<string> gameStates = new List<string>();
+    [SerializeField] List<GameState> editorGameStates;
     public PlayerUnlocks unlocks;
     public Dictionary<string, SerializedPersistentObject> persistentObjects;
     public string sceneName;
@@ -22,6 +25,12 @@ public class Save : MonoBehaviour {
     void Awake() {
         this.unlocks = GetComponent<PlayerUnlocks>();
         persistentObjects = new Dictionary<string, SerializedPersistentObject>();
+    }
+
+    void Start() {
+        foreach (GameState s in editorGameStates) {
+           GlobalController.AddState(s);
+        }
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {
@@ -51,6 +60,8 @@ public class Save : MonoBehaviour {
         return new SerializableSave(this);
     }
 
+    // this could be generalized, but eh
+    // also maybe need some error handling in here for previous, now-invalid save files
     public void LoadFromSerializableSave(SerializableSave s) {
         this.slotNum = s.slotNum;
         this.gameFlags = s.gameFlags;
@@ -61,6 +72,9 @@ public class Save : MonoBehaviour {
         this.sceneName = s.sceneName;
         this.playerPosition = new Vector2(s.xPos, s.yPos);
         this.unlocks.LoadFromSerializableUnlocks(s.unlocks);
+        this.maxEnergy = s.maxEnergy;
+        this.maxHP = s.maxHP;
+        this.basePlayerDamage = s.baseDamage;
         GlobalController.inventory.items.LoadFromSerializableInventoryList(s.playerItems);
 
         if (Application.isEditor && !loadSceneInEditor) {
@@ -68,9 +82,6 @@ public class Save : MonoBehaviour {
         } else {
             GlobalController.LoadSceneToPosition(sceneName, playerPosition);
         }
-        GlobalController.pc.maxHP = s.maxHP;
-        GlobalController.pc.maxEnergy = s.maxEnergy;
-        GlobalController.pc.baseDamage = s.baseDamage;
     }
 
     public void UnlockAbility(Ability a) {
@@ -85,6 +96,7 @@ public class Save : MonoBehaviour {
 public class SerializableSave {
     public int slotNum = 1;
     public List<GameFlag> gameFlags;
+    public List<string> gameStates;
     public SerializableUnlocks unlocks;
     public int currentHP = 5;
     public int maxHP = 5;
@@ -100,6 +112,7 @@ public class SerializableSave {
 
     public SerializableSave(Save s) {
         this.slotNum = s.slotNum;
+        this.gameStates = s.gameStates;
         this.gameFlags = s.gameFlags;
         this.unlocks = s.unlocks.MakeSerializableUnlocks();
         this.currentEnergy = s.currentEnergy;

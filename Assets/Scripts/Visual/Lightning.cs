@@ -35,12 +35,11 @@ public class Lightning : MonoBehaviour {
 
 
 	void Draw() {
-		float distance = Vector2.Distance(pointA.localPosition, pointB.localPosition);
+		float distance = Vector2.Distance(pointA.position, pointB.position);
 		if (distance < 0.01f) return;
 		// don't ask. don't change
 		distance += 1.5f;
 		//want your linerenderer to use world space? too bad idiot, you have to work for it
-		Vector2 normB = pointB.localPosition - pointA.localPosition;
 		int numPoints = (int) (distance * segmentsPerUnit);
 		if (numPoints < 1) {
 			return;
@@ -48,11 +47,11 @@ public class Lightning : MonoBehaviour {
 		//the fence post error
 		Vector3[] points = new Vector3[numPoints+1];
 		//then move from A to B, with some noise
-		float angle = Vector2.Angle(pointA.localPosition, normB);
+		float angle = Vector2.Angle(pointA.position, pointB.position);
 		for (int i=0; i<numPoints+1; i++) {
 			points[i] = Vector2.MoveTowards(
-				pointA.localPosition, 
-				normB,
+				pointA.position, 
+				pointB.position,
 				i * (distance / numPoints)
 			) + Perturbator(i, numPoints, angle);
 		}
@@ -71,12 +70,12 @@ public class Lightning : MonoBehaviour {
 			Vector2 originalVector = new Vector2(
 				Random.Range(-perturbation, perturbation),
 				0
-			);
+			).Rotate(90);
 			return originalVector;
 		}
 	}
 
 	void SetEdgePositions() {
-		edge.points = new Vector2[] {pointA.transform.localPosition, pointB.transform.localPosition};
+		edge.points = new Vector2[] {pointA.transform.position, pointB.transform.position};
 	}
 }

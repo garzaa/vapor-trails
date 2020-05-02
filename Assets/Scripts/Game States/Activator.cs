@@ -16,21 +16,25 @@ public class Activator : MonoBehaviour {
 		foreach (Activatable a in objectsToActivate) {
 			if (!switchOnActivation) a.ActivateSwitch(true);
 		}
+		foreach (ActivationCriteria c in criteria) {
+			c.OnRegister(this);
+		}
 	}
 
-	void FixedUpdate() {
+	public void CheckCriteria() {
 		if (singleActivation && activated) return;
 
 		bool allSatisfied = false;
 		if (criteria.Count > 0) {
 			allSatisfied = true;
 			foreach (ActivationCriteria c in criteria) {
-				if (!c.CheckSatisfied()) {
+				if (!c.satisfied) {
 					allSatisfied = false;
 					break;
 				}
 			}
 		}
+
 
 		if (allSatisfied) {
 			activated = true;

@@ -1,11 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class ActivationCriteria : MonoBehaviour {
 
-	[HideInInspector]
-	public bool isSatisfied = false;
+	public bool satisfied;
+	Activator activator;
 
-	public abstract bool CheckSatisfied();
+	private bool satisfiedLastCheck;
+
+	protected virtual void UpdateSatisfied() {
+		if (!satisfiedLastCheck && satisfied) {
+			activator.CheckCriteria();
+		}
+		satisfiedLastCheck = satisfied;
+	}
+
+	public void OnRegister(Activator activator) {
+		this.activator = activator;
+		UpdateSatisfied();
+	}
 }

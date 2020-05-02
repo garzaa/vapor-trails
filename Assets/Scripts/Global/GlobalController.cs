@@ -15,7 +15,7 @@ public class GlobalController : MonoBehaviour {
 	static BlackFadeUI blackoutUI;
 	static DialogueUI dialogueUI;
 	public static PlayerController pc;
-	static bool dialogueOpen;
+	public static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
 	public static bool pauseEnabled = true;
 	static bool paused = false;
@@ -23,13 +23,14 @@ public class GlobalController : MonoBehaviour {
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
 	public static Save save;
-	static Animator pauseUI;
-	static bool inCutscene;
+	static CloseableUI pauseUI;
+	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
+	public static BarUI bossHealthUI;
 
 	public static bool xboxController = false;
-	public static bool psController = false;
+	public static bool playstationController = false;
 
 	static DialogueLine toActivate = null;
 
@@ -43,6 +44,9 @@ public class GlobalController : MonoBehaviour {
 
 	public GameObject talkPrompt;
 	public GameObject newDialoguePrompt;
+
+	public bool uiClosedThisFrame = false;
+	public bool hasOpenUI = false;
 
 	void Awake() {
 		if (gc == null) {
@@ -61,10 +65,12 @@ public class GlobalController : MonoBehaviour {
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
 		save = gc.GetComponent<Save>();
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
-		pauseUI = gc.transform.Find("PixelCanvas").transform.Find("PauseUI").GetComponent<Animator>();
+		pauseUI = GetComponentInChildren<PauseUI>();
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
 		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
+		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
+		bossHealthUI.gameObject.SetActive(false);
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -88,12 +94,12 @@ public class GlobalController : MonoBehaviour {
 
 	static void OpenInventory() {
 		inventory.ShowInventory();
-		pc.EnterInventory();
+		pc.EnterCutscene(invincible:false);
 	}
 
 	static void CloseInventory() {
 		inventory.HideInventory();
-		pc.ExitDialogue();
+		pc.ExitCutscene();
 	}
 
 	void LateUpdate() {
@@ -101,78 +107,87 @@ public class GlobalController : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 
-		if (Input.GetButtonDown("Start") && pauseEnabled) {
+		if (inAbilityGetUI && InputManager.ButtonDown(Buttons.JUMP)) {
+			HideAbilityGetUI();
+		}
+
+		bool inInventory = inventory.inventoryUI.animator.GetBool("Shown");
+		if ((Input.GetButtonDown("Inventory") || (Input.GetButtonDown(Buttons.SPECIAL)) && inInventory)) {
+			if (inInventory) {
+				CloseInventory();
+			} else if (!pc.inCutscene && pc.IsGrounded()) {
+				OpenInventory();
+			}
+		} else if (inInventory) {
+			// avoid any pre-late update weirdness
+			pc.EnterCutscene();
+		}
+
+		
+		if (Input.GetButtonDown("Start") && pauseEnabled && !inInventory) {
 			if (!paused) {
 				Pause();
 			} else {
 				Unpause();
 			}
 		}
-
-		if (inAbilityGetUI && Input.GetButtonDown("Jump")) {
-			HideAbilityGetUI();
-		}
-
-		bool inInventory = pc.inCutscene && inventory.inventoryUI.animator.GetBool("Shown");
-		if (Input.GetButtonDown("Inventory") || (Input.GetButtonDown(Buttons.SPECIAL) && inInventory)) {
-			if (inInventory) {
-				CloseInventory();
-			} else if (!pc.inCutscene && pc.IsGrounded()) {
-				OpenInventory();
-			}
-			
-		}
 		
-		if (
-			dialogueOpen 
-			&& (Input.GetButtonDown(Buttons.JUMP) || Input.GetButtonDown(Buttons.SPECIAL))
-			&& !dialogueOpenedThisFrame
-			&& !inCutscene
-			) {
-
-			if (dialogueUI.slowRendering) {
-				dialogueUI.CancelSlowRender();
-				return;
-			}
-
-			if (dialogueUI.switchingImage) {
-				dialogueUI.SwitchSpeakerImage();
-			}
-
-			//advance dialogue line or close
-			//if necessary, hit the activatable from the previous line
-			//and block dialogue/enter cutscene if necessary
-			if (toActivate != null) {
-				toActivate.activatable.Activate();
-				if (toActivate.blocking) {
-					//block dialogue line rendering and hide dialogue UI
-					EnterCutscene();
-					//don't render the dialogue
-					toActivate = null;
-					return;
-				}
-				toActivate = null;
-			}
-
-			DialogueLine nextLine = currentNPC.GetNextLine();
-
-			if (nextLine != null) {
-				dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine());
-				if (nextLine.activatable != null) {
-					if (!nextLine.activatesOnLineEnd) {
-						nextLine.activatable.Activate();
-					} else {
-						toActivate = nextLine;
-					}
-				}
-			} else {
-				ExitDialogue();
-			}
+		if (InputManager.GenericContinueInput()) {
+			GlobalController.OnDialogueSkip();
 		}
+
 		dialogueOpenedThisFrame = false;
 		dialogueClosedThisFrame = false;
 
 		UpdateControllerStatus();
+	}
+
+	public static void OnDialogueSkip() {
+		if (!dialogueOpen || dialogueOpenedThisFrame || inAnimationCutscene) {
+			return;
+		}
+
+		if (dialogueUI.slowRendering) {
+			dialogueUI.CancelSlowRender();
+			return;
+		}
+
+		if (dialogueUI.switchingImage) {
+			dialogueUI.SwitchSpeakerImage();
+		}
+
+		//advance dialogue line or close
+		//if necessary, hit the activatable from the previous line
+		//and block dialogue/enter cutscene if necessary
+		if (toActivate != null) {
+			toActivate.activatable.Activate();
+			if (toActivate.blocking) {
+				//block dialogue line rendering and hide dialogue UI
+				EnterCutscene();
+				//don't render the dialogue
+				toActivate = null;
+				return;
+			}
+			toActivate = null;
+		}
+
+		DialogueLine nextLine = currentNPC.GetNextLine();
+
+		if (nextLine != null) {
+			dialogueUI.RenderDialogueLine(
+				nextLine, 
+				currentNPC.hasNextLine() || queuedNPCs.Count>0
+			);
+			if (nextLine.activatable != null) {
+				if (!nextLine.activatesOnLineEnd) {
+					nextLine.activatable.Activate();
+				} else {
+					toActivate = nextLine;
+				}
+			}
+		} else {
+			ExitDialogue();
+		}
 	}
 
 	public static void EnterDialogue(NPC npc) {
@@ -181,8 +196,8 @@ public class GlobalController : MonoBehaviour {
 			queuedNPCs.Enqueue(npc);
 			return;
 		}
-		dialogueUI.Show();
-		pc.EnterDialogue();
+		pc.EndCombatStanceCooldown();
+		dialogueUI.Open();
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
@@ -190,18 +205,22 @@ public class GlobalController : MonoBehaviour {
 
 	public static void ExitDialogue() {
 		dialogueOpen = false;
-		dialogueUI.Hide();
 		dialogueClosedThisFrame = true;
-		pc.ExitDialogue();
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
 		}
 		currentNPC = null;
+		if (queuedNPCs.Count != 0) {
+			EnterDialogue(queuedNPCs.Dequeue());
+			FinishOpeningLetterboxes();
+		} else {
+			dialogueUI.Close();
+		}
 	}
 
 	public static void FinishOpeningLetterboxes() {
 		dialogueOpen = true;
-		inCutscene = false;
+		inAnimationCutscene = false;
 		DialogueLine nextLine = currentNPC.GetNextLine();
 		if (nextLine != null) {
 			dialogueUI.RenderDialogueLine(nextLine, currentNPC.hasNextLine(), fromCutscene: true);
@@ -218,9 +237,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void FinishClosingLetterboxes() {
-		if (queuedNPCs.Count != 0) {
-			EnterDialogue(queuedNPCs.Dequeue());
-		}
+
 	}
 
 	public static void OpenSign(string text, Vector2 position) {
@@ -251,11 +268,11 @@ public class GlobalController : MonoBehaviour {
 	public static void AddGameFlag(GameFlag f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
-			PropagateStateChange();
+			PropagateFlagChange();
 		}
 	}
 
-	public static void PropagateStateChange() {
+	public static void PropagateFlagChange() {
 		foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
 			i.ReactToStateChange();
 		}
@@ -267,7 +284,7 @@ public class GlobalController : MonoBehaviour {
 	public static void RemoveGameFlag(GameFlag f) {
 		if (save.gameFlags.Contains(f)) {
 			save.gameFlags.Remove(f);
-			PropagateStateChange();
+			PropagateFlagChange();
 		}
 	}
 
@@ -278,6 +295,40 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
+	public static void PropagateStateChange(bool immediateOnly=true) {
+		// all loaded objects, including inactive ones
+		List<EnableOnGameState> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnGameState)) as EnableOnGameState[])
+			.Where(x => immediateOnly ? x.immediate : true).ToList();
+		foreach (EnableOnGameState i in immediates) {
+			i.CheckState();
+		}
+
+		UpdateStatefulNPCs();
+
+		Animator playerAnimator = pc.GetComponent<Animator>();
+		playerAnimator.logWarnings = true;
+		foreach (string s in save.gameStates) {
+			if (s.StartsWith("anim_")) {
+				playerAnimator.SetBool(s, true);
+			}
+		}
+	}
+
+	public static void AddState(GameState state) {
+		if (state == null) return;
+		save.gameStates.Add(state.stateName);
+		PropagateStateChange();
+	}
+
+	public static bool HasState(GameState state) {
+		return !save || save.gameStates.Contains(state.stateName);
+	}
+
+	public static void RemoveState(GameState state) {
+		save.gameStates.Remove(state.stateName);
+		PropagateStateChange();
+	}
+
 	public static void LoadScene(string sceneName, Beacon beacon=Beacon.None) {
 		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 	}
@@ -286,13 +337,31 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
 
-	public static void MovePlayerTo(Vector2 position) {
+	public static void MovePlayerTo(Vector2 position, bool fade=false) {
+		if (fade) {
+			gc.StartCoroutine(gc.MovePlayerWithFade(position));
+			return;
+		}
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		pc.transform.position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		playerFollower.EnableSmoothing();
+	}
+
+	public IEnumerator MovePlayerWithFade(Vector2 position) {
+		pc.EnterCutscene();
+		FadeToBlack();
+		yield return new WaitForSeconds(0.5f);
+		playerFollower.DisableSmoothing();
+		pc.DisableTrails();
+		pc.transform.position = position;
+		pc.EnableTrails();
+		playerFollower.SnapToPlayer();
+		playerFollower.EnableSmoothing();
+		UnFadeToBlack();
+		pc.ExitCutscene();
 	}
 
 	public static void MovePlayerToBeacon(Beacon beacon) {
@@ -315,15 +384,16 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void ShowUI() {
-		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
-			c.Show();
+		foreach (BarUI b in gc.GetComponentsInChildren<BarUI>(includeInactive:true)) {
+			b.gameObject.SetActive(true);
 		}
+		bossHealthUI.gameObject.SetActive(false);
 		inventory.moneyUI.gameObject.SetActive(true);
 	}
 
 	public static void HideUI() {
-		foreach (ContainerUI c in gc.GetComponentsInChildren<ContainerUI>()) {
-			c.Hide();
+		foreach (BarUI b in gc.GetComponentsInChildren<BarUI>()) {
+			b.gameObject.SetActive(false);
 		}
 		inventory.moneyUI.gameObject.SetActive(false);
 	}
@@ -334,10 +404,11 @@ public class GlobalController : MonoBehaviour {
 
 	//called from a cutscene animation to finish it and resume dialogue
 	public static void CutsceneCallback() {
+		if (!dialogueOpen) return;
 		// show the dialogue UI if there's a next line
 		// catch NPC being hidden by an activated animation
 		if (currentNPC != null && currentNPC.hasNextLine()) {
-			dialogueUI.Show();
+			dialogueUI.Open();
 		} else {
 			ExitDialogue();
 		}
@@ -346,8 +417,10 @@ public class GlobalController : MonoBehaviour {
 	// hide dialogue UI but keep the player frozen
 	// dialogue being open is a prerequisite for the cutscene state :^(
 	public static void EnterCutscene() {
-		inCutscene = true;
-		dialogueUI.Hide();
+		inAnimationCutscene = true;
+		if (dialogueOpen) {
+			dialogueUI.Close();
+		}
 	}
 
 	public static void EnterSlowMotion() {
@@ -365,6 +438,7 @@ public class GlobalController : MonoBehaviour {
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
 		}
+		inventory.UpdateMoneyUI();
  	}
 
 	public static bool SavedInOtherScene() {
@@ -384,23 +458,13 @@ public class GlobalController : MonoBehaviour {
 		if (pc.inCutscene) {
 			return;
 		}
-		Hitstop.Interrupt();
-		pc.Freeze();
-		pc.inCutscene = true;
-		pauseUI.SetBool("Shown", true);
-		//manually first select
-		pauseUI.transform.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(pauseUI.transform.Find("Resume").gameObject);
 		paused = true;
-		SoundManager.InteractSound();
-		Time.timeScale = 0f;
+		pauseUI.Open();
 	}
 
 	public static void Unpause() {
 		paused = false;
-		Time.timeScale = 1;
-		pc.inCutscene = false;
-		pauseUI.SetBool("Shown", false);
-		pc.UnFreeze();
+		pauseUI.Close();
 	}
 
 	public static SerializedPersistentObject GetPersistentObject(string id) {
@@ -423,12 +487,12 @@ public class GlobalController : MonoBehaviour {
 		{
 			if (names[x].Length == 19)
 			{
-				psController = true;
+				playstationController = true;
 				xboxController = false;
 			}
 			if (names[x].Length == 33)
 			{
-				psController = false;
+				playstationController = false;
 				xboxController = true;
 
 			}
@@ -437,14 +501,33 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddItem(InventoryItem item) {
 		if (!item.IsAbility()) {
-			AlerterText.Alert(item.itemName + " acquired");
+			if (item.count != 1)
+				AlerterText.Alert($"{item.itemName} ({item.count}) acquired");
+			else 
+				AlerterText.Alert(item.itemName + " acquired");
 		}
 		inventory.AddItem(item);
+		PropagateItemChange();
+	}
+
+	public static void PropagateItemChange(bool immediateOnly=true) {
+		List<EnableOnItem> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnItem)) as EnableOnItem[])
+			.Where(x => immediateOnly ? x.immediate : true).ToList();
+		foreach (EnableOnItem i in immediates) {
+			i.CheckState();
+		}
+		UpdateStatefulNPCs();
+	}
+
+	static void UpdateStatefulNPCs() {
+		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
+			n.ReactToStateChange();
+		}
 	}
 
 	public static void ShowAbilityGetUI() {
 		abilityUIAnimator.SetTrigger("Show");
-		pc.EnterDialogue();
+		pc.EnterCutscene();
 		// to keep the player from accidentally skipping the animation early
 		gc.Invoke("EnterAbilityUI", 1f);
 	}
@@ -454,7 +537,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void HideAbilityGetUI() {
-		pc.ExitDialogue();
+		pc.ExitCutscene();
 		SoundManager.InteractSound();
 		abilityUIAnimator.SetTrigger("Hide");
 		inAbilityGetUI = false;
@@ -479,6 +562,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterMerchantDialogue(Merchant merchant) {
+		pc.EnterCutscene();
 		inventory.currentMerchant = merchant;
 		OpenInventory();
 	}
@@ -486,7 +570,9 @@ public class GlobalController : MonoBehaviour {
 	public static void BoostStat(StatType statType, int amount) {
 		switch (statType) {
 			case StatType.HEALTH:
+				int missing = pc.maxHP-pc.currentHP;
 				pc.maxHP += amount;
+				pc.currentHP = pc.maxHP-missing;
 				break;
 			case StatType.ENERGY:
 				pc.maxEnergy += amount;
@@ -495,6 +581,7 @@ public class GlobalController : MonoBehaviour {
 				pc.baseDamage += amount;
 				break;
 		}
+		StatBoostUI.ReactToBoost(statType, amount);
 	}
 
 	public static void EnableParallax() {
@@ -503,5 +590,15 @@ public class GlobalController : MonoBehaviour {
 
 	public static void DisableParallax() {
 		parallaxOption.moveParallax = false;
+	}
+
+	public static void HidePlayer() {
+		pc.EnterCutscene();
+		pc.Hide();
+	}
+
+	public static void ShowPlayer() {
+		pc.ExitCutscene();
+		pc.Show();
 	}
 }

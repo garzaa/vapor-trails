@@ -23,7 +23,7 @@ public class ControllerTextChanger : MonoBehaviour {
 
 	string ButtonExtractor(Match match) {
 		string[] matchedString = match.Value.Replace("(","").Replace(")","").Split('|');
-		if (!GlobalController.xboxController && !GlobalController.psController) {
+		if (!GlobalController.xboxController && !GlobalController.playstationController) {
 			return matchedString[0];
 		} else if (GlobalController.xboxController) {
 			return matchedString[1];

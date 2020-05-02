@@ -7,4 +7,8 @@ public class EnablerDisabler : Activatable {
 	public override void ActivateSwitch(bool b) {
 		target.SetActive(!target.activeSelf);
 	}
+
+	public void Disable() {
+		target.SetActive(false);
+	}
 }

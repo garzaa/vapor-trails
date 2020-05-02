@@ -1,19 +1,20 @@
 using UnityEngine;
 
 public class DynamicCanvasScaler : MonoBehaviour {
-    int pixelScale = 3;
+    static int pixelScale = 3;
     public Camera _camera;
     public Canvas targetCanvas;
 
-    void Update() {
-        int lastPixelScale = pixelScale;
-        pixelScale = GetPixelScale(); 
-        if (pixelScale != lastPixelScale) {
-            targetCanvas.scaleFactor = pixelScale;
-        }
+    void LateUpdate() {
+        pixelScale = ComputePixelScale();
+        targetCanvas.scaleFactor = pixelScale;
     }
 
-    int GetPixelScale() {
-        return (Screen.height / 720) + 1;
+    int ComputePixelScale() {
+        return Mathf.CeilToInt((float)Screen.height / 720f);
+    }
+
+    public static int GetPixelScale() {
+        return pixelScale;
     }
 }

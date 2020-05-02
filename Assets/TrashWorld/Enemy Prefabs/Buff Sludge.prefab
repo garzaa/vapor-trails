@@ -99,9 +99,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1545236751
+  m_SortingLayer: 1
+  m_SortingOrder: 50
   m_Positions:
   - {x: 0.52, y: 0.035, z: 0}
   - {x: 0.192, y: 0.069, z: 0}
@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c975df952eed3042983881c6e595036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackName: 
+  attackName: Sludge Punch
   damage: 1
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
@@ -503,9 +503,9 @@ MonoBehaviour:
   attackerParent: {fileID: 0}
   stunLength: 0
   knockBack: 1
-  knockbackVector: {x: 0, y: 0}
+  knockbackVector: {x: 0.5, y: 0}
   inheritMomentum: 0
-  attackLandTrigger: 0
+  attackLandEvent: 0
 --- !u!1 &5693195812945340101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,7 +1330,7 @@ MonoBehaviour:
   invincible: 0
   envDmgSusceptible: 1
   rb2d: {fileID: 0}
-  hp: 10
+  hp: 20
   totalHP: 10
   moveForce: 0
   maxSpeed: 0
@@ -1341,10 +1341,11 @@ MonoBehaviour:
   hasAnimator: 0
   behaviors: []
   spr: {fileID: 0}
-  hitSound: {fileID: 8300000, guid: 0e7a36ca62cb22d40b442e369835197c, type: 3}
+  hitSound: {fileID: 0}
   burstOnDeath: 1
   burstEffect: {fileID: 4465596146934724, guid: b1eed2ae1dcc59a4195bb7ad94fbc1c0,
     type: 3}
+  dropBossResources: 0
 --- !u!114 &5693195814457667949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,10 +1424,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5693195814457667951}
-  e: {fileID: 5693195814457667922}
   distance: 1
   useTrigger: 0
   autoFlip: 1
+  nearWall: 0
 --- !u!50 &5693195814457667950
 Rigidbody2D:
   serializedVersion: 4
@@ -1455,13 +1456,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5693195814457667921}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2ce4292ac924d0429de853c23a7a169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   facingRight: 1
   target: {fileID: 0}
+  threshold: 0
 --- !u!114 &3009124688874464407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,7 +1477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5693195814457667951}
-  e: {fileID: 5693195814457667922}
+  absoluteX: 1
 --- !u!114 &4339381593510908640
 MonoBehaviour:
   m_ObjectHideFlags: 0

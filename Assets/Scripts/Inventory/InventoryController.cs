@@ -35,7 +35,6 @@ public class InventoryController : MonoBehaviour {
     }
 
     public void ShowInventory() {
-        SoundManager.InteractSound();
         if (currentMerchant != null) {
             inventoryUI.PopulateItems(currentMerchant.baseInventory);
             inventoryUI.PropagateMerchantInfo(currentMerchant);
@@ -61,7 +60,7 @@ public class InventoryController : MonoBehaviour {
         return 0;
     }
 
-    void UpdateMoneyUI() {
+    public void UpdateMoneyUI() {
         moneyUI.text = "$ " + CheckMoney().ToString();
     }
 

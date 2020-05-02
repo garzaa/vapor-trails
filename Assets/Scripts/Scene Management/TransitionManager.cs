@@ -1,59 +1,68 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour {
 
 	Beacon currentBeacon = Beacon.None;
-	bool frozePlayerBeforeTransition = false;
 	bool toPosition = false;
 	Vector2 position = Vector2.zero;
+	float targetVolume = 1f;
+	float originalVolume = 1f;
+	readonly float FADE_TIME = 1f;
+	float elapsedTime;
+	float transitionEndTime;
+	public GameObject loadTextUI;
+	public Text loadProgressText;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+		loadTextUI.SetActive(false);
 	}
 
 	void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+	void Update() {
+		if (Time.time < transitionEndTime) {
+			elapsedTime += Time.deltaTime;
+			AudioListener.volume = Mathf.Lerp(originalVolume, targetVolume, elapsedTime/FADE_TIME);
+		}
+	}
+
+	void FadeAudio(float targetVolume) {
+		this.targetVolume = targetVolume;
+		originalVolume = AudioListener.volume;
+		elapsedTime = 0;
+		transitionEndTime = Time.time + FADE_TIME;
+	}
+
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		// reset everything and then re-enable according to scene data
+		loadTextUI.SetActive(false);
+		FadeAudio(1);
 		PlayerController pc = GlobalController.pc;
 		pc.StopForcedWalking();
 		pc.inCutscene = false;
 		GlobalController.UnFadeToBlack();
-		GlobalController.playerFollower.EnableFollowing();
-		GlobalController.playerFollower.FollowPlayer();
-		GlobalController.playerFollower.EnableSmoothing();
 		GlobalController.pauseEnabled = true;
 		pc.UnLockInSpace();
-		// if the PC wasn't dashing or in supercruise
-		if (!frozePlayerBeforeTransition) {
-			pc.SetInvincible(false);
-			pc.UnFreeze();
-			//and reset to wait for the next transition
-			frozePlayerBeforeTransition = false;
-		}
 		pc.Show();
+		pc.ExitCutscene();
 		pc.EnableShooting();
 
 		GlobalController.ShowUI();
 
 		if (currentBeacon != Beacon.None) {
 			GlobalController.MovePlayerToBeacon(currentBeacon);
-			GlobalController.playerFollower.SnapToPlayer();
-			GlobalController.playerFollower.EnableFollowing();
-			GlobalController.playerFollower.FollowPlayer();
 			currentBeacon = Beacon.None;
 		} else if (SubwayManager.playerOnSubway) {
 			SubwayManager.ArriveWithPlayer();
 		} else if (toPosition) {
 			GlobalController.MovePlayerTo(position);
 			toPosition = false;
-			GlobalController.playerFollower.SnapToPlayer();
-			GlobalController.playerFollower.EnableFollowing();
-			GlobalController.playerFollower.FollowPlayer();
 		}
 
 		SceneData sd;
@@ -87,6 +96,7 @@ public class TransitionManager : MonoBehaviour {
 
 			if (sd.hidePlayer) {
 				pc.Hide();
+				pc.EnterCutscene();
 			}
 
 			if (sd.forceFaceRight && !pc.facingRight) {
@@ -113,26 +123,31 @@ public class TransitionManager : MonoBehaviour {
 	public void LoadScene(string sceneName, Beacon beacon, bool fade = true) {
 		if (fade) GlobalController.FadeToBlack();
 		this.currentBeacon = beacon;
-		GlobalController.playerFollower.DisableFollowing();
-		GlobalController.playerFollower.DisableSmoothing();
 
-		//preserve dash/supercruise state between scenes
 		PlayerController pc = GlobalController.pc;
 		pc.LockInSpace();
-		frozePlayerBeforeTransition = pc.supercruise;
 
-		StartCoroutine(LoadAsync(sceneName));
+		StartCoroutine(LoadAsync(sceneName, fade));
 	}
 
-	IEnumerator LoadAsync(string sceneName)
+	IEnumerator LoadAsync(string sceneName, bool waitForFade)
     {
-        // The Application loads the Scene in the background at the same time as the current Scene.
-        //This is particularly good for creating loading screens. You could also load the Scene by build //number.
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+		if (waitForFade) {
+			FadeAudio(0);
+			yield return new WaitForSeconds(1);
+		}
 
-        //Wait until the last operation fully loads to return anything
-        while (!asyncLoad.isDone)
-        {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+		loadTextUI.SetActive(true);
+		asyncLoad.allowSceneActivation = false;
+		
+        //wait until the last operation fully loads to return anything
+        while (!asyncLoad.isDone) {
+			loadProgressText.text = asyncLoad.progress.ToString("P");
+			if (asyncLoad.progress >= .9f) {
+				asyncLoad.allowSceneActivation = true;
+			}
+
             yield return null;
         }
     }

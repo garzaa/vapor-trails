@@ -35,6 +35,7 @@ public class SubwayMapUI : UIComponent {
 
     public void ReactToItemHover(SubwayStop stop) {
         if (audioSource != null) audioSource.PlayOneShot(audioSource.clip);
+        // TODO: move to the stop's relative position (or lerp to reduce motion sickness)       
     }
 
     public void PropagateCurrentStopInfo(SubwayStop localStop) {
@@ -42,10 +43,9 @@ public class SubwayMapUI : UIComponent {
         foreach (SubwayStopButton b in buttons) {
             // reset from the last station
             b.GetComponent<Animator>().SetBool("ThisStop", false);
-            if (b.IsDiscovered()) b.GetComponent<Animator>().SetBool("Interactable", true);
+            b.GetComponent<Animator>().SetBool("Interactable", true);
             if (b.stop == localStop) {
                 b.GetComponent<Animator>().SetBool("ThisStop", true);
-                // b.GetComponent<Animator>().SetBool("Interactable", false);
             }
         }
     }

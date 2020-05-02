@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TurnToVelocity : MonoBehaviour {
     public Rigidbody2D rb2d;
+    public float offset;
 
     void Start() {
         if (rb2d == null) {
@@ -13,7 +14,10 @@ public class TurnToVelocity : MonoBehaviour {
         this.transform.eulerAngles = new Vector3(
             0,
             0,
-            Vector2.Angle(Vector2.right, rb2d.velocity)
+            Vector2.Angle(
+                Vector2.right,
+                rb2d.velocity
+            ) + offset
         );
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class DialogueUI : UIComponent {
+public class DialogueUI : CloseableUI {
 
 	public Animator anim;
 	public Text speakerName;
@@ -15,19 +14,31 @@ public class DialogueUI : UIComponent {
 	int letterIndex;
 	string textToRender;
 	public bool switchingImage;
-	float letterDelay = 0.03f;
+	float letterDelay = 0.01f;
 
 	int voiceIndex = 0;
 
 	Sprite nextImage;
 
-	public override void Show() {
+	static DialogueUI dialogueUI;
+
+	void Start() {
+		dialogueUI = this;
+	}
+
+	public static bool LineFullyRendered() {
+		return !dialogueUI.slowRendering;
+	}
+
+	public override void Open() {
+		base.Open();
 		anim.SetBool("LastLine", false);
 		ClearDialogue();
 		anim.SetBool("Letterboxed", true);
 	}
 
-	public override void Hide() {
+	public override void Close() {
+		if (!GlobalController.inAnimationCutscene) base.Close();
 		anim.SetBool("Letterboxed", false);
 	}
 
@@ -37,12 +48,12 @@ public class DialogueUI : UIComponent {
 		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text && !fromCutscene) {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
-				//anim.SetTrigger("SwitchSpeakerImage");
+				// anim.SetTrigger("SwitchSpeakerImage");
 				SwitchSpeakerImage();
 			}	
 		} else {
 			speakerImage.sprite = line.speakerImage;
-		} 
+		}
 		speakerName.text = line.speakerName;
 		this.voiceIndex = (int) line.voiceSound;
 		string controllerFriendlyText = ControllerTextChanger.ReplaceText(line.lineText);

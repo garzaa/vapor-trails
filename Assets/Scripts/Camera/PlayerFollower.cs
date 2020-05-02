@@ -35,7 +35,6 @@ public class PlayerFollower : MonoBehaviour {
 		);
 		pc = player.GetComponent<PlayerController>();
 		this.target = player;
-		smoothing = (smoothAmount != 0);
 	}
 	
 	void FixedUpdate() {

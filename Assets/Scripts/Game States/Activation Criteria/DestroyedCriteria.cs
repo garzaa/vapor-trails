@@ -6,10 +6,20 @@ public class DestroyedCriteria : ActivationCriteria {
 
 	public List<GameObject> destroyedCheck;
 
-	public override bool CheckSatisfied() {
+	int childrenLastFrame = 0;
+
+	override protected void UpdateSatisfied() {
 		foreach (GameObject g in destroyedCheck) {
-			if (g != null) return false;
+			if (g != null) satisfied = false;
 		}
-		return true;
+		satisfied = true;
+		base.UpdateSatisfied();
+	}
+
+	void FixedUpdate() {
+		if (childrenLastFrame != transform.childCount || transform.childCount == 0) {
+			UpdateSatisfied();
+		}
+		childrenLastFrame = transform.childCount;
 	}
 }

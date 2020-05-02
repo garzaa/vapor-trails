@@ -27,12 +27,4 @@ public class BezierLineRenderer : MonoBehaviour {
         lineRenderer.positionCount = pointList.Count;
         lineRenderer.SetPositions(pointList.ToArray());
     }
-
-    void OnDrawGizmos() {
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(point1.position, point2.position);
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawLine(point2.position, point3.position);
-    }
 }

@@ -11,7 +11,7 @@ public class DialogueLine : System.Object {
 	public Activatable activatable;
 	public bool activatesOnLineEnd;
 	public bool blocking;
-	public GameFlag gameFlag;
+	[HideInInspector] public GameFlag gameFlag;
 }
 
 public enum Voice : int {

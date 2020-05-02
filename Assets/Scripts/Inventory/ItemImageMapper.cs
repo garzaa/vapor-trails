@@ -7,6 +7,8 @@ public class ItemImageMapper : MonoBehaviour {
 
     // load all inventory items into memory at runtime
     // this works because 1. item images are small and 2. computers are fast
+    // at some point, refactor this to load whatever's requested and cache it
+    // (see github issue #283)
     void Start() {
         mappings = new Dictionary<string, ItemImageMap>();
 

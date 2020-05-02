@@ -21,10 +21,10 @@ public class ParallaxLayer : MonoBehaviour {
 		cameraTransform = gameCamera.transform;
 		previousCameraPosition = Vector2.zero;
 		RoundChildren(this.transform);
-		if (zeroOnStart) transform.position = Vector2.zero;
+		if (zeroOnStart) transform.localPosition = Vector2.zero;
 	}
 
-	public void Update() {
+	public void LateUpdate() {
 
 		if (cameraTransform == null ) {
 			return;

@@ -19,11 +19,11 @@ public class CircleRenderer : LineRendererEditor {
 		base.Start();
 		DrawCircle(segments);
 	}
-	
-	void LateUpdate () {
-		if (Changed() && segments > 0) {
+
+	void LateUpdate() {
+		//if (Changed() && segments > 0) {
 			DrawCircle(segments);
-		}
+		//}
 		segmentsLastFrame = segments;
 		radiusLastFrame = radius;
 		arcFractionLastFrame = arcFraction;

@@ -45,7 +45,7 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void OpenMapUI(LocalSubwayController lc) {
-        GlobalController.pc.EnterDialogue();
+        GlobalController.pc.EnterCutscene();
         localSubway = lc;
         mapUI.gameObject.SetActive(true);
         mapUI.UpdateDiscoveredStops();
@@ -57,9 +57,9 @@ public class SubwayManager : MonoBehaviour {
         mapUI.gameObject.SetActive(false);
     }
 
-    public static void ReactToStationSelect(SubwayStop stop) {
-        if (stop == localSubway.stop) return;
-        destination = stop;
+    public static void ReactToStationSelect(SubwayStopButton stopButton) {
+        if (stopButton.stop == localSubway.stop || !stopButton.discovered) return;
+        destination = stopButton.stop;
         CloseMapUI();
         localSubway.GetComponent<Animator>().SetTrigger("Depart");
     }

@@ -2,25 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class PlayerEnterCriteria : ActivationCriteria {
-
-	bool containsPlayer = false;
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.CompareTag(Tags.Player)) {
-			this.containsPlayer = true;
+			satisfied = true;
+			UpdateSatisfied();
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
 		if (other.gameObject.CompareTag(Tags.Player)) {
-			this.containsPlayer = true;
+			satisfied = false;
+			UpdateSatisfied();
 		}
-	}
-
-	override public bool CheckSatisfied() {
-		return containsPlayer;
 	}
 	
 }

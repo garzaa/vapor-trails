@@ -64,22 +64,16 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.pc.transform.position = Vector2.zero;
 	}
 
+	public void MoveToEffectPoint() {
+		this.transform.position = effectPoint.transform.position;
+	}
+
 	virtual public void HidePlayer() {
-		GlobalController.pc.LockInSpace();
-		GlobalController.pc.Freeze();
-		GlobalController.pc.DisableShooting();
-		GlobalController.pc.Hide();
-		GlobalController.pc.inCutscene = true;
-		GlobalController.pc.SetInvincible(true);
+		GlobalController.HidePlayer();
 	}
 
 	virtual public void ShowPlayer() {
-		GlobalController.pc.UnLockInSpace();
-		GlobalController.pc.UnFreeze();
-		GlobalController.pc.EnableShooting();
-		GlobalController.pc.Show();
-		GlobalController.pc.SetInvincible(false);
-		GlobalController.pc.inCutscene = false;
+		GlobalController.ShowPlayer();
 	}
 
 	public void Alert(string alertText) {
@@ -115,7 +109,9 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
-		CameraShaker.Shake(0.07f, seconds);
+		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < 8f) {
+			CameraShaker.Shake(0.07f, seconds);
+		}
 	}
 
 	public void EnterSlowMotion() {
@@ -153,6 +149,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void MovePlayerToEffectPoint() {
-		GlobalController.MovePlayerTo(effectPoint.position);
+		Transform target = (effectPoint != null ? effectPoint : fallbackEffectPoint.transform);
+		GlobalController.MovePlayerTo(target.position);
 	}
 }

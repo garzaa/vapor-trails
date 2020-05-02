@@ -17,6 +17,13 @@ public class CameraOffset : MonoBehaviour {
 
 	public bool following = true;
 
+	public bool stickOffset;
+	float stickOffsetMultiplier = .05f;
+	float speedRamp = 2f;
+
+	public bool clampPosition;
+	public Vector2 maxLookahead;
+
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
 	}
@@ -31,9 +38,16 @@ public class CameraOffset : MonoBehaviour {
 
 		if (lookingAhead) {
 			//first offset based on player orientation
-			float newX = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookAhead;
+			float newX = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookAhead * speedRamp;
 			float scalar = pc.IsGrounded() ? 1 : 0;
 			float newY = scalar * lookUp;
+
+			// but actually no
+			if (clampPosition) {
+					newX = Mathf.Clamp(newX, -maxLookahead.x, maxLookahead.x);
+					newY = Mathf.Clamp(newY, -maxLookahead.y, maxLookahead.y);
+			}
+			
 			newPosition = new Vector3(
 				newPosition.x + newX,
 				newPosition.y + newY,
@@ -53,6 +67,8 @@ public class CameraOffset : MonoBehaviour {
 			ref velocity,
 			smoothAmount * Time.deltaTime
 		);
+
+		if (stickOffset) transform.position += (Vector3) InputManager.RightStick() * stickOffsetMultiplier; 
 	}
 
 	public void SetOffset(Vector2 newOffset) {

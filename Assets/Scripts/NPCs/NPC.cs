@@ -6,6 +6,7 @@ public class NPC : Interactable {
 	protected PersistentNPC persistence;
 
 	bool interactedFromPlayer = false;
+	protected bool inDialogue = false;
 
 	public bool dialogueAnimationBool = false;
 	public Animator dialogueAnimator;
@@ -19,7 +20,7 @@ public class NPC : Interactable {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
 		// narsty hack to not display the prompt for multi-box NPC signs
-		if (name.ToLower().Contains("sign")) {
+		if (!name.ToLower().Contains("sign")) {
 			Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
 		}
 	}
@@ -53,6 +54,7 @@ public class NPC : Interactable {
 
 		//no need to restart the last conversation if it's been reached
 		//the NPC conversation will take care of it
+		inDialogue = true;
 		GlobalController.EnterDialogue(this);
 	}
 
@@ -105,7 +107,8 @@ public class NPC : Interactable {
 		return conversations[currentConversation][currentDialogueLine];
 	}
 
-	public void CloseDialogue() {
+	virtual public void CloseDialogue() {
+		inDialogue = false;
 		if (persistence) {
 			persistence.ReactToDialogueClose();
 		}

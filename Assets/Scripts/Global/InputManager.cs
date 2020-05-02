@@ -14,8 +14,26 @@ public class InputManager : MonoBehaviour {
             );
     }
 
+    public static bool dpadUp;
+    public static bool dpadDown;
+    public static bool dpadLeft;
+    public static bool dpadRight;
+
+    float lastX;
+    float lastY;
+ 
+    void Update() {
+        dpadRight = (Input.GetAxis(Buttons.XTAUNT) == 1 && lastX != 1);
+        dpadLeft = (Input.GetAxis (Buttons.XTAUNT) == -1 && lastX != -1);
+        dpadUp = (Input.GetAxis (Buttons.YTAUNT) == 1 && lastY != 1);
+        dpadDown = (Input.GetAxis (Buttons.YTAUNT) == -1 && lastY != -1);
+
+        lastX = Input.GetAxis(Buttons.XTAUNT);
+        lastY = Input.GetAxis(Buttons.YTAUNT);
+    }
+
     public static bool HasHorizontalInput() {
-        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE;
+        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE/4f;
     }
 
     public static float HorizontalInput() {
@@ -48,5 +66,29 @@ public class InputManager : MonoBehaviour {
 
     public static void UnfreezeInputs() {
         frozenInputs = false;
+    }
+
+    public static bool GenericContinueInput() {
+        return (
+            Input.GetButtonDown(Buttons.JUMP)
+            || Input.GetButtonDown(Buttons.SPECIAL)
+            || Input.GetKeyDown(KeyCode.Escape)
+        );
+    }
+
+    public static Vector2 RightStick() {
+        // cant push all the way to the edge on a joystick for some reason
+        return new Vector2(
+            Input.GetAxis("Right-Horizontal"),
+            -Input.GetAxis("Right-Vertical")
+        ).normalized;
+    }
+
+    public static bool TauntInput() {
+        return dpadDown || dpadLeft || dpadRight || dpadUp;
+    }
+
+    public static Vector2 MoveVector() {
+        return new Vector2(HorizontalInput(), VerticalInput());
     }
 }
