@@ -386,7 +386,7 @@ public class PlayerController : Entity {
 				WallJump();
 			}
 			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
-				if (anim.GetFloat("GroundDistance") > restingGroundDistance+0.5f) {
+				if (anim.GetFloat("GroundDistance") < restingGroundDistance+0.05f) {
 					GroundJump();
 				} else {
 					AirJump();
