@@ -736,6 +736,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		//hold to wallclimb
 		anim.SetBool("TouchingWall", true);
+		anim.Update(0.2f);
 		ResetAirJumps();
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
