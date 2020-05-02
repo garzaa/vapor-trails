@@ -6,11 +6,8 @@ public class DynamicCanvasScaler : MonoBehaviour {
     public Canvas targetCanvas;
 
     void LateUpdate() {
-        int lastPixelScale = pixelScale;
         pixelScale = ComputePixelScale();
-        if (pixelScale != lastPixelScale) {
-            targetCanvas.scaleFactor = pixelScale;
-        }
+        targetCanvas.scaleFactor = pixelScale;
     }
 
     int ComputePixelScale() {
