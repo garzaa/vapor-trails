@@ -457,8 +457,8 @@ public class PlayerController : Entity {
 	void ChangeAirspeed() {
 		// allow instant delta-v on air jump, like in smash bruddas
 		float targetXSpeed = InputManager.HorizontalInput() * moveSpeed;
-		// if moving above max speed and not decelerating
-		if (IsSpeeding() && MovingForwards()) {
+		// if moving above max speed and not decelerating, or no input
+		if ((IsSpeeding() && MovingForwards()) || targetXSpeed == 0) {
 			targetXSpeed = rb2d.velocity.x;
 		}
 		rb2d.velocity = new Vector2(
