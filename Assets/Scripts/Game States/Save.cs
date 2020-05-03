@@ -65,6 +65,7 @@ public class Save : MonoBehaviour {
     public void LoadFromSerializableSave(SerializableSave s) {
         this.slotNum = s.slotNum;
         this.gameFlags = s.gameFlags;
+        this.gameStates = s.gameStates;
         this.persistentObjects = new Dictionary<string, SerializedPersistentObject>();
         for (int i=0; i<s.persistentObjectKeys.Count; i++) {
             this.persistentObjects[s.persistentObjectKeys[i]] = s.persistentObjectValues[i];

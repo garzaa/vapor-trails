@@ -259,7 +259,7 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
-		if (inCutscene) {
+		if (inCutscene || dead) {
 			anim.SetFloat("Speed", 0f);
 			if (grounded) rb2d.velocity = Vector2.zero;
 			anim.SetFloat("VerticalInput", 0f);

@@ -42,9 +42,9 @@ public class DialogueUI : CloseableUI {
 		anim.SetBool("Letterboxed", false);
 	}
 
-	public void RenderDialogueLine(DialogueLine line, bool showArrow, bool fromCutscene = false) {
+	public void RenderDialogueLine(DialogueLine line, bool hasMoreLines, bool fromCutscene = false) {
 		anim.SetBool("IsSign", line.speakerImage == null);
-		anim.SetBool("LastLine", showArrow);
+		anim.SetBool("LastLine", !hasMoreLines);
 		if (line.speakerImage != speakerImage.sprite && line.speakerName != speakerName.text && !fromCutscene) {
 			nextImage = line.speakerImage;
 			if (!switchingImage) {
