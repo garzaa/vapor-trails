@@ -141,13 +141,13 @@ public class GlobalController : MonoBehaviour {
 
 		UpdateControllerStatus();
 
-		
+		/*
 		if (Input.GetKeyDown(KeyCode.S)) {
 			GlobalController.SaveGame(false);
 		} else if (Input.GetKeyDown(KeyCode.L)) {
 			GlobalController.LoadGame();
 		}
-		
+		*/
 	}
 
 	public static void OnDialogueSkip() {
