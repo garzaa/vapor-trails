@@ -8,8 +8,8 @@ public class NPCConversations : MonoBehaviour {
 
 	public List<Conversation> conversations;
 
-	[HideInInspector]
 	// bury the sins
+	[HideInInspector]
 	public List<Conversation> auxConversations = new List<Conversation>();
 
 	public int Count() {

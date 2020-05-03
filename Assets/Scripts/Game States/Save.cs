@@ -20,8 +20,6 @@ public class Save : MonoBehaviour {
     public Vector2 playerPosition;
     public SerializableInventoryList playerItems;
 
-    public bool loadSceneInEditor = false;
-
     void Awake() {
         this.unlocks = GetComponent<PlayerUnlocks>();
         persistentObjects = new Dictionary<string, SerializedPersistentObject>();
@@ -78,11 +76,7 @@ public class Save : MonoBehaviour {
         this.basePlayerDamage = s.baseDamage;
         GlobalController.inventory.items.LoadFromSerializableInventoryList(s.playerItems);
 
-        if (Application.isEditor && !loadSceneInEditor) {
-            GlobalController.MovePlayerTo(playerPosition);
-        } else {
-            GlobalController.LoadSceneToPosition(sceneName, playerPosition);
-        }
+        GlobalController.LoadSceneToPosition(sceneName, playerPosition);
     }
 
     public void UnlockAbility(Ability a) {

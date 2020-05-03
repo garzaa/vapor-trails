@@ -31,10 +31,5 @@ public class RespawnManager : MonoBehaviour {
 		toRespawn = true;
 		GetComponentInChildren<PlayerFollower>().DisableSmoothing();
 		GlobalController.LoadGame();
-
-		if (!GlobalController.SavedInOtherScene()) {
-			GlobalController.StartPlayerRespawning();
-			toRespawn = false;
-		}
 	}
 }

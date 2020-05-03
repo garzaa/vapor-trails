@@ -141,13 +141,13 @@ public class GlobalController : MonoBehaviour {
 
 		UpdateControllerStatus();
 
-		/*
+		
 		if (Input.GetKeyDown(KeyCode.S)) {
 			GlobalController.SaveGame(false);
 		} else if (Input.GetKeyDown(KeyCode.L)) {
 			GlobalController.LoadGame();
 		}
-		*/
+		
 	}
 
 	public static void OnDialogueSkip() {
@@ -440,6 +440,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadGame() {
+		FadeToBlack();
 		gc.GetComponent<BinarySaver>().LoadGame();
 		Save s = gc.GetComponent<Save>();
 		pc.LoadFromSaveData(s);
@@ -448,10 +449,6 @@ public class GlobalController : MonoBehaviour {
 		}
 		inventory.UpdateMoneyUI();
  	}
-
-	public static bool SavedInOtherScene() {
-		return save.sceneName != SceneManager.GetActiveScene().path;
-	}
 
 	public static void SaveGame(bool autosave=false) {
 		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {
