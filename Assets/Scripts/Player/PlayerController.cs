@@ -1323,8 +1323,6 @@ public class PlayerController : Entity {
 	}
 
 	void HealGroundTimeout() {
-		AlerterText.Alert("player falsely judged as in the air");
-		AlerterText.Alert("yell at the dev about this");
 		anim.SetInteger("SubState", 200);
 		OnGroundHit(0f);
 	}
