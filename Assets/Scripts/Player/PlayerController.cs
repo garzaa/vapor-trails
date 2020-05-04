@@ -911,11 +911,9 @@ public class PlayerController : Entity {
 
 		StunFor(stunLength);
 		if (attack.knockBack) {
-			//knockback based on the position of the attack
 			Vector2 kv = attack.GetKnockback();
 			bool attackerToLeft = attack.attackerParent.transform.position.x < this.transform.position.x;
 			if ((attackerToLeft && facingRight) || (!attackerToLeft && !facingRight)) ForceFlip();
-			kv.x *= attackerToLeft ? 1 : -1;
 			KnockBack(kv);
 		}
 		//sdi
