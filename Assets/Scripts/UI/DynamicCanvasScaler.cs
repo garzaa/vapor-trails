@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DynamicCanvasScaler : MonoBehaviour {
     static int pixelScale = 3;
-    public Camera _camera;
     public Canvas targetCanvas;
 
     void LateUpdate() {

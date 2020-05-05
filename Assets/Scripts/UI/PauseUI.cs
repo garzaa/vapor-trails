@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class PauseUI : CloseableUI {
     Animator animator;
@@ -19,7 +20,19 @@ public class PauseUI : CloseableUI {
     }
 
     override public void Close() {
+        StartCoroutine(_Close());
+    }
+
+    public IEnumerator _Close() {
+        yield return new WaitForEndOfFrame();
         base.Close();
+        GlobalController.Unpause();
         animator.SetBool("Shown", false);
+    }
+
+    void Update() {
+        if (open && Input.GetButtonDown("Start")) {
+            Close();
+        }
     }
 }

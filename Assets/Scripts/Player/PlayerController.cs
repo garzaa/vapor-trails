@@ -144,6 +144,7 @@ public class PlayerController : Entity {
 		UpdateAnimationParams();
 		UpdateUI();
 		CheckFlip();
+		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
 	}
 
 	void Taunt() {

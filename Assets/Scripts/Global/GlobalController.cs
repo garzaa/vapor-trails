@@ -124,12 +124,9 @@ public class GlobalController : MonoBehaviour {
 		}
 
 		
-		if (Input.GetButtonDown("Start") && pauseEnabled && !inInventory) {
-			if (!paused) {
-				Pause();
-			} else {
-				Unpause();
-			}
+		if (Input.GetButtonDown("Start") && pauseEnabled && !inInventory && !paused) {
+			// pauseUI takes care of unpausing
+			Pause();
 		}
 		
 		if (InputManager.GenericContinueInput()) {
@@ -469,7 +466,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void Unpause() {
 		paused = false;
-		pauseUI.Close();
 	}
 
 	public static SerializedPersistentObject GetPersistentObject(string id) {

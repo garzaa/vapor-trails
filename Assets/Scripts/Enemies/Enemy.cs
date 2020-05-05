@@ -27,6 +27,7 @@ public class Enemy : Entity {
 	Material defaultMaterial;
 
 	bool dead = false;
+	bool hasSprites = false;
 	Renderer mainChildRenderer;
 	bool fakeDamage = false;
 
@@ -65,11 +66,13 @@ public class Enemy : Entity {
         	// vile, but easier than redoing the entire lady of the lake boss fight
 			//.Where(x => x.GetComponent<IgnoreWhiteFlash>() == null).ToList();
 		if (spr != null) {
-				defaultMaterial = spr.material;
-		} else {
-				defaultMaterial = spriteRenderers[0].material;
+			defaultMaterial = spr.material;
+		} else if (spriteRenderers.Count > 0) {
+			defaultMaterial = spriteRenderers[0].material;
 		}
 		mainChildRenderer = GetComponentInChildren<Renderer>();
+
+		hasSprites = (spr != null || spriteRenderers.Count > 0 || mainChildRenderer != null);
 
 		if (dropBossResources) {
 			bossResources = Resources.Load<GameObject>("Effects/BossResources");
@@ -156,7 +159,7 @@ public class Enemy : Entity {
 	}
 
 	public void WhiteSprite() {
-		if (spriteRenderers == null) {
+		if (!hasSprites) {
 			return;
 		}
 		foreach (SpriteRenderer x in spriteRenderers) {
