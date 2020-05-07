@@ -10,12 +10,10 @@ public class CloseableUI : MonoBehaviour {
     protected bool open;
 
     virtual public void Open() {
-        if (exclusive) {
-            if (GlobalController.gc.hasOpenUI) {
-                return;
-            }
-            GlobalController.gc.hasOpenUI = true;
+        if (exclusive && GlobalController.openUIs > 0) {
+            return;
         }
+        GlobalController.openUIs += 1;
         this.open = true;
         Hitstop.Interrupt();
         if (interactSound) SoundManager.InteractSound();
@@ -27,8 +25,9 @@ public class CloseableUI : MonoBehaviour {
     virtual public void Close() {
         this.open = false;
         if (stopTime) Time.timeScale = 1f;
-        GlobalController.pc.ExitCutscene();
+        GlobalController.openUIs -= 1;
+        Debug.Log(GlobalController.openUIs);
+        if (GlobalController.openUIs == 0) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
-        if (exclusive) GlobalController.gc.hasOpenUI = false;
     }
 }

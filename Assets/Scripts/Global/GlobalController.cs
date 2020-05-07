@@ -46,7 +46,7 @@ public class GlobalController : MonoBehaviour {
 	public GameObject newDialoguePrompt;
 
 	public bool uiClosedThisFrame = false;
-	public bool hasOpenUI = false;
+	public static int openUIs = 0;
 
 	void Awake() {
 		if (gc == null) {
@@ -195,14 +195,14 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void EnterDialogue(NPC npc) {
+	public static void EnterDialogue(NPC npc, bool fromQueue=false) {
 		Hitstop.Interrupt();
 		if (dialogueOpen) {
 			queuedNPCs.Enqueue(npc);
 			return;
 		}
 		pc.EndCombatStanceCooldown();
-		dialogueUI.Open();
+		if (!fromQueue) dialogueUI.Open();
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
@@ -216,7 +216,7 @@ public class GlobalController : MonoBehaviour {
 		}
 		currentNPC = null;
 		if (queuedNPCs.Count != 0) {
-			EnterDialogue(queuedNPCs.Dequeue());
+			EnterDialogue(queuedNPCs.Dequeue(), fromQueue: true);
 			FinishOpeningLetterboxes();
 		} else {
 			dialogueUI.Close();
