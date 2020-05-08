@@ -9,7 +9,6 @@ public class SelectFirstChild : MonoBehaviour {
 
     IEnumerator SelectChild() {
         yield return new WaitForEndOfFrame();
-        Debug.Log("benis");
         Button b = GetComponentInChildren<Button>();
         b.Select();
         b.OnSelect(null);

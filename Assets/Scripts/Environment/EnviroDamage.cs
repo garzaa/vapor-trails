@@ -24,13 +24,12 @@ public class EnviroDamage : Attack {
 	}
 
 	//the main thing for the env damage check is that it ignores invincibility and just checks for susceptibility to env damage
-	//meteor & dash both make the player invincible, but only dash lets them bypass enviro damage
 	public override bool ExtendedAttackCheck(Collider2D col) {
 		if (col.GetComponent<Hurtbox>() == null) {
 			return false;
 		}
 		Entity e = col.GetComponent<Hurtbox>().GetParent().GetComponent<Entity>();
-		if (e == null) {
+	if (e == null) {
 			return false;
 		}
 		if (e.envDmgSusceptible) {

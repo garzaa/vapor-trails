@@ -15,7 +15,7 @@ public class PlayerController : Entity {
 	readonly float stunLength = 0.4f;
 	readonly float parryLength = 10f/60f;
 	readonly float coyoteTime = 0.1f;
-	readonly float airControlAmount = 12f;
+	readonly float airControlAmount = 10f;
 	readonly float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
 
@@ -260,7 +260,7 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
-		if (inCutscene || dead) {
+		if (inCutscene || dead || stunned) {
 			anim.SetFloat("Speed", 0f);
 			if (grounded) rb2d.velocity = Vector2.zero;
 			anim.SetFloat("VerticalInput", 0f);
