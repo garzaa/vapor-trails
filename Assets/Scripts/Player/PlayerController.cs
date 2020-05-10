@@ -72,7 +72,7 @@ public class PlayerController : Entity {
 
 	//variables
 	public bool grounded = false;
-	GameObject touchingWall = null;
+	WallCheckData wall = null;
 	int airJumps;
 	bool dashCooldown = false;
 	public bool dashing = false;
@@ -134,7 +134,6 @@ public class PlayerController : Entity {
 	}
 	
 	void Update() {
-		UpdateWallSliding();
 		Jump();
 		Move();
 		Shoot();
@@ -144,6 +143,7 @@ public class PlayerController : Entity {
 		UpdateAnimationParams();
 		UpdateUI();
 		CheckFlip();
+		UpdateWallSliding();
 		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
 	}
 
@@ -209,7 +209,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene || dead || stunned || touchingWall) {
+		if (inCutscene || dead || stunned || wall != null) {
 			return;
 		}
 
@@ -240,7 +240,7 @@ public class PlayerController : Entity {
 				Dash();
 			}
 		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && touchingWall == null && !inMeteor) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && wall == null && !inMeteor) {
 			if (!grounded) {
 				if (unlocks.HasAbility(Ability.Meteor)) {
 					MeteorSlam();
@@ -249,7 +249,7 @@ public class PlayerController : Entity {
 				//Reflect();
 			}
 		} 
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && !touchingWall && !grounded && InputManager.VerticalInput() > 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall != null) && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} 
 		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
@@ -260,9 +260,9 @@ public class PlayerController : Entity {
 	}
 
 	void Move() {
-		if (inCutscene || dead || stunned) {
+		if (inCutscene || dead || stunned || frozen) {
 			anim.SetFloat("Speed", 0f);
-			if (grounded) rb2d.velocity = Vector2.zero;
+			//if (grounded) rb2d.velocity = Vector2.zero;
 			anim.SetFloat("VerticalInput", 0f);
 			anim.SetBool("HorizontalInput", false);
 			anim.SetFloat("VerticalSpeed", 0f);
@@ -276,68 +276,56 @@ public class PlayerController : Entity {
 			LedgeBoost();
 		}
 
-		if (!frozen && !(stunned || dead)) {
-			if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
-				EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
-				if (platforms != null && grounded) {
-					DropThroughPlatforms(platforms);
-				}
+		if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
+			EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
+			if (platforms != null && grounded) {
+				DropThroughPlatforms(platforms);
 			}
-
-			anim.SetBool("InputBackwards", InputBackwards());
-
-			float modifier = IsForcedWalking() ? 0.4f : 1f;
-			float hInput = InputManager.HorizontalInput() * modifier;
-			// you can't push forward + down on sticks, so do this
-			if (hInput >= 0.5f) hInput = 1f;
-			if (!touchingWall && !wallCheck.TouchingLedge()) {
-				anim.SetFloat("Speed", Mathf.Abs(hInput));
-			} else if (IsFacing(touchingWall) && MovingForwards()) {
-				anim.SetFloat("Speed", 0);
-			}
-
-			if (InputManager.HorizontalInput() != 0) {
-				float targetXSpeed = hInput * moveSpeed;
-				
-				// if moving above max speed and not decelerating
-				if (IsSpeeding() && MovingForwards()) {
-					targetXSpeed = rb2d.velocity.x;
-				}
-				// if decelerating in the air
-				else if (!grounded) {
-					targetXSpeed = Mathf.Lerp(rb2d.velocity.x, targetXSpeed, Time.deltaTime * airControlAmount);
-				}
-
-				rb2d.velocity = new Vector2(
-					targetXSpeed, 
-					rb2d.velocity.y
-				);
-			}
-			
-			movingRight = InputManager.HorizontalInput() > 0;
-
-			//if they've just started running
-			if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f && !IsFacing(touchingWall)) {
-				int scalar = rb2d.velocity.x > 0 ? 1 : -1;
-				if (scalar * ForwardScalar() > 0) {
-					BackwardDust();
-				} else {
-					ForwardDust();
-				}
-				HairBackwards();
-			}
-			runningLastFrame = Mathf.Abs(hInput) > 0.6f;
-
-			// fast falling
-			/*
-			if (!grounded && InputManager.VerticalInput() < -0.9f && rb2d.velocity.y < 0) {
-				rb2d.velocity = new Vector2(
-					rb2d.velocity.x,
-					Mathf.Min(rb2d.velocity.y, terminalFallSpeed/2f)
-				);
-			}
-			*/
 		}
+
+		anim.SetBool("InputBackwards", InputBackwards());
+
+		float modifier = IsForcedWalking() ? 0.4f : 1f;
+		float hInput = InputManager.HorizontalInput() * modifier;
+		// you can't push forward + down on sticks, so do this
+		if (hInput >= 0.5f) hInput = 1f;
+		if (wall == null) {
+			anim.SetFloat("Speed", Mathf.Abs(hInput));
+		} else if (wall.direction==ForwardScalar()) {
+			anim.SetFloat("Speed", 0);
+		}
+
+		if (InputManager.HorizontalInput() != 0) {
+			float targetXSpeed = hInput * moveSpeed;
+			
+			// if moving above max speed and not decelerating
+			if (IsSpeeding() && MovingForwards()) {
+				targetXSpeed = rb2d.velocity.x;
+			}
+			// if decelerating in the air
+			else if (!grounded) {
+				targetXSpeed = Mathf.Lerp(rb2d.velocity.x, targetXSpeed, Time.deltaTime * airControlAmount);
+			}
+
+			rb2d.velocity = new Vector2(
+				targetXSpeed,
+				rb2d.velocity.y
+			);
+		}
+		
+		movingRight = InputManager.HorizontalInput() > 0;
+
+		//if they've just started running
+		if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f) {
+			int scalar = rb2d.velocity.x > 0 ? 1 : -1;
+			if (scalar * ForwardScalar() > 0) {
+				BackwardDust();
+			} else {
+				ForwardDust();
+			}
+			HairBackwards();
+		}
+		runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		
 		if (rb2d.velocity.y < terminalFallSpeed) {
 			terminalFalling = true;
@@ -355,15 +343,15 @@ public class PlayerController : Entity {
 			anim.SetBool("FastFalling", false);
 		}
 
-		if (wallCheck.TouchingLedge() && InputManager.HasHorizontalInput() && rb2d.velocity.y > 0) {
+		if (wall != null && InputManager.HasHorizontalInput() && rb2d.velocity.y > 0) {
 			LedgeBoost();
 		}
 
 		movingForwardsLastFrame = MovingForwards();
 
 		// due to frame skips or other weird shit, add a little self-healing here
-		if (!grounded && rb2d.velocity.y == 0f) {
-			Invoke("HealGroundTimeout", 0.5f);
+		if (!grounded && rb2d.velocity.y == 0f && !frozen) {
+			//Invoke("HealGroundTimeout", 0.5f);
 		} else if (grounded || (!grounded && rb2d.velocity.y != 0f)) {
 			CancelInvoke("HealGroundTimeout");
 		}
@@ -374,28 +362,35 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if ((frozen && !dashing) || (wallCheck.TouchingLedge() && !grounded) || lockedInSpace) {
+		if ((frozen && !dashing) || lockedInSpace) {
 			return;
 		}
 
-		if (InputManager.ButtonDown(Buttons.JUMP)) {
+		if (InputManager.ButtonDown(Buttons.JUMP)) {			
 			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundCheck.TouchingPlatforms() == null)) {
 				GroundJump();
+				return;
 			}
-			else if (unlocks.HasAbility(Ability.WallClimb) && (touchingWall || justLeftWall)) {
+
+			if (unlocks.HasAbility(Ability.WallClimb) && (wall != null)) {
 				WallJump();
+				return;
 			}
-			else if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
+
+			if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
 				if (anim.GetFloat("GroundDistance") < restingGroundDistance+0.05f) {
 					GroundJump();
 				} else {
 					AirJump();
 				}
+				return;
 			}
-			else if (!grounded) {
+
+			if (!grounded) {
 				//buffer a jump for a short amount of time for when the player hits the ground/wall
 				bufferedJump = true;
 				Invoke("CancelBufferedJump", jumpBufferDuration);
+				return;
 			}
 		}
 
@@ -427,15 +422,15 @@ public class PlayerController : Entity {
 		EndShortHopWindow();
 		SoundManager.SmallJumpSound();
 		InterruptMeteor();
-		if (touchingWall) DownDust();
-		FreezeFor(.1f);
+		FreezeFor(0.1f);
+		if (wall!=null) DownDust();
 		rb2d.velocity = new Vector2(
 			//we don't want to boost the player back to the wall if they just input a direction away from it
-			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1), 
+			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1) * 1.2f, 
 			y:jumpSpeed
 		);
 		anim.SetTrigger("WallJump");
-		currentWallTimeout = StartCoroutine(WallLeaveTimeout());
+		StopWallTimeout();
 	}
 
 	void AirJump() {
@@ -469,7 +464,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dead || touchingWall || frozen) {
+		if (dashCooldown || dead || frozen || stunned) {
 			if (dashCooldown) {
 				earlyDashInput = true;
 				Invoke("EndEarlyDashInput", missedInputCooldown);
@@ -580,8 +575,7 @@ public class PlayerController : Entity {
 			LandMeteor();
 			return;
 		}
-		if (touchingWall) {
-			// wall touching reverses the player rig
+		if (wall!=null && wall.direction==ForwardScalar()) {
 			Flip();
 		}
 		if (hardFalling && !bufferedJump) {
@@ -720,23 +714,21 @@ public class PlayerController : Entity {
 	}
 
 	void UpdateWallSliding() {
-		GameObject touchingLastFrame = touchingWall;
-		touchingWall = wallCheck.TouchingWall();
-		if (!touchingLastFrame && touchingWall) {
-			OnWallHit(touchingWall);
+		bool touchingLastFrame = wall!=null;
+		wall = wallCheck.GetWall();
+		if (!touchingLastFrame && (wall!=null)) {
+			OnWallHit(wall);
 		}
-		else if (touchingLastFrame && !touchingWall) {
+		else if (touchingLastFrame && (wall==null)) {
 			OnWallLeave();
 		}
+
 	}
 
-	void OnWallHit(GameObject touchingWall) {
+	void OnWallHit(WallCheckData wall) {
 		EndDashCooldown();
-		UnFreeze();
 		InterruptMeteor();
-		//hold to wallclimb
 		anim.SetBool("TouchingWall", true);
-		anim.Update(0.2f);
 		ResetAirJumps();
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
@@ -746,11 +738,14 @@ public class PlayerController : Entity {
 
 	void OnWallLeave() {
 		anim.SetBool("TouchingWall", false);
-		ForceFlip();
 		//if the player just left the wall, they input the opposite direction for a walljump
 		//so give them a split second to use a walljump when they're not technically touching the wall
 		if (!grounded) {
 			currentWallTimeout = StartCoroutine(WallLeaveTimeout());
+		}
+		// they'll end up jumping backwards away from the wall, that's dumb
+		if (!InputManager.HasHorizontalInput() && !MovingForwards()) {
+			ForceFlip();
 		}
 	}
 
@@ -860,6 +855,7 @@ public class PlayerController : Entity {
 	}
 
 	void LedgeBoost() {
+		return;
 		if (inMeteor || InputManager.VerticalInput() < 0 || rb2d.velocity.y > jumpSpeed) {
 			return;
 		}
@@ -1046,8 +1042,9 @@ public class PlayerController : Entity {
 
 	IEnumerator WallLeaveTimeout() {
 		justLeftWall = true;
+		// for wall jump animations
 		anim.SetBool("JustLeftWall", true);
-		yield return new WaitForSeconds(coyoteTime * 2);
+		yield return new WaitForSeconds(coyoteTime * 2f);
 		justLeftWall = false;
 		anim.SetBool("JustLeftWall", false);
 	}

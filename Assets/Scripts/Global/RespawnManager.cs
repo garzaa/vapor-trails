@@ -29,7 +29,6 @@ public class RespawnManager : MonoBehaviour {
 			player.GetComponent<Entity>().Flip();
 		}
 		toRespawn = true;
-		GetComponentInChildren<PlayerFollower>().DisableSmoothing();
 		GlobalController.LoadGame();
 	}
 }
