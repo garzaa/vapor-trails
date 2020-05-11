@@ -249,7 +249,7 @@ public class PlayerController : Entity {
 				//Reflect();
 			}
 		} 
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall != null) && !grounded && InputManager.VerticalInput() > 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} 
 		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
@@ -289,9 +289,10 @@ public class PlayerController : Entity {
 		float hInput = InputManager.HorizontalInput() * modifier;
 		// you can't push forward + down on sticks, so do this
 		if (hInput >= 0.5f) hInput = 1f;
+
 		if (wall == null) {
 			anim.SetFloat("Speed", Mathf.Abs(hInput));
-		} else if (wall.direction==ForwardScalar()) {
+		} else if (wall != null && wall.direction==ForwardScalar()) {
 			anim.SetFloat("Speed", 0);
 		}
 
