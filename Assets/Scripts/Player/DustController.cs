@@ -20,7 +20,7 @@ public class DustController : MonoBehaviour {
 		var emission = dustParticles.emission;
 		bool movingFast = speedLimiter.MovingFastX();
 		if (movingFast && (wallCheck.GetWall() == null)) {
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.28f, 1 << LayerMask.NameToLayer(Layers.Ground));
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, .64f, 1 << LayerMask.NameToLayer(Layers.Ground));
 			if (hit.transform != null) {
 				var pos = dustParticles.transform.position;
 				pos.y = hit.point.y;
