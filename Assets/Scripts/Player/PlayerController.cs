@@ -404,7 +404,6 @@ public class PlayerController : Entity {
 	}
 
 	void GroundJump() {
-		SaveLastSafePos();
 		if (InputManager.HasHorizontalInput()) {
 			BackwardDust();
 		} else {
@@ -560,7 +559,6 @@ public class PlayerController : Entity {
 	}
 
 	public void OnLedgeStep() {
-		SaveLastSafePos();
 	}
 
 	public override void OnGroundHit(float impactSpeed) {
