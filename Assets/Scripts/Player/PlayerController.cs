@@ -717,13 +717,17 @@ public class PlayerController : Entity {
 	void UpdateWallSliding() {
 		bool touchingLastFrame = wall!=null;
 		wall = wallCheck.GetWall();
+
 		if (!touchingLastFrame && (wall!=null)) {
 			OnWallHit(wall);
-		}
-		else if (touchingLastFrame && (wall==null)) {
+		} else if (touchingLastFrame && (wall==null)) {
 			OnWallLeave();
+			return;
 		}
-
+		
+		if (wall != null) {
+			FlipToWall(wall);
+		}
 	}
 
 	void OnWallHit(WallCheckData wall) {
@@ -734,6 +738,12 @@ public class PlayerController : Entity {
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
 			CancelBufferedJump();
+		}
+	}
+
+	void FlipToWall(WallCheckData wall) {
+		if (wall.direction != ForwardScalar()) {
+			ForceFlip();
 		}
 	}
 

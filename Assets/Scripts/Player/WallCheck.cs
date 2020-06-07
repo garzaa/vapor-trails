@@ -38,7 +38,7 @@ public class WallCheck : MonoBehaviour {
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, hit.transform.position),
-				-1
+				1
 			);
 		}
 
