@@ -152,6 +152,10 @@ public class GlobalController : MonoBehaviour {
 			return;
 		}
 
+		if (dialogueOpen && openUIs > 1) {
+			return;
+		}
+
 		if (dialogueUI.slowRendering) {
 			dialogueUI.CancelSlowRender();
 			return;

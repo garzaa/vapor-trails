@@ -465,7 +465,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dead || frozen || stunned) {
+		if (dashCooldown || dead || frozen || stunned || inCutscene) {
 			if (dashCooldown) {
 				earlyDashInput = true;
 				Invoke("EndEarlyDashInput", missedInputCooldown);

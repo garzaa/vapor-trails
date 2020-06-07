@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ChoiceUI : MonoBehaviour {
+public class ChoiceUI : CloseableUI {
     [SerializeField] GameObject choices;
     [SerializeField] GameObject choiceTemplate;
 
@@ -19,13 +19,11 @@ public class ChoiceUI : MonoBehaviour {
     }
 
     public static void CloseChoices() {
-        choiceUI.choices.SetActive(false);
-        foreach (Transform child in choiceUI.choices.transform) {
-            GameObject.Destroy(child.gameObject);
-        }
+        choiceUI.CloseSelfChoices();
     }
 
     void OpenSelfChoices(List<Choice> choiceList) {
+        base.Open();
         choices.SetActive(true);
         foreach (Choice choice in choiceList) {
             ChoiceBox box = Instantiate(
@@ -42,5 +40,13 @@ public class ChoiceUI : MonoBehaviour {
         b.Select();
         // then highlight it (??????)
         b.OnSelect(null);
+    }
+
+    void CloseSelfChoices() {
+        base.Close();
+        choices.SetActive(false);
+        foreach (Transform child in choices.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
     }
 }
