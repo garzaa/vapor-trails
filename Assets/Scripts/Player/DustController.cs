@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DustController : MonoBehaviour {
 
-	public WallCheck wallCheck;
 	public ParticleSystem dustParticles;
 	PlayerSpeedLimiter speedLimiter;
 
@@ -18,8 +17,8 @@ public class DustController : MonoBehaviour {
 
 	void Update() {
 		var emission = dustParticles.emission;
-		bool movingFast = speedLimiter.MovingFastX();
-		if (movingFast && (wallCheck.GetWall() == null)) {
+		bool movingFast = speedLimiter.MovingFast();
+		if (movingFast) {
 			RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, .64f, 1 << LayerMask.NameToLayer(Layers.Ground));
 			if (hit.transform != null) {
 				var pos = dustParticles.transform.position;

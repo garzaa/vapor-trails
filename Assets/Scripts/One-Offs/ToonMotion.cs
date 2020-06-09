@@ -28,9 +28,11 @@ public class ToonMotion : MonoBehaviour
 
     public int fps = 20;
 
+    bool forceUpdateThisFrame = false;
+
     private void LateUpdate()
     {
-        if (Time.unscaledTime - this.updateTime > 1f/this.fps)
+        if (forceUpdateThisFrame || Time.unscaledTime - this.updateTime > 1f/this.fps)
         {
             this.SaveSnapshot(transform);
             this.updateTime = Time.unscaledTime;
@@ -44,6 +46,8 @@ public class ToonMotion : MonoBehaviour
                 item.Value.transform.localRotation = item.Value.localRotation;
             }
         }
+
+        forceUpdateThisFrame = false;
     }
 
     private void SaveSnapshot(Transform parent)
@@ -59,5 +63,9 @@ public class ToonMotion : MonoBehaviour
             this.snapshots[uid] = new Snapshot(target);
             this.SaveSnapshot(target);
         }
+    }
+
+    public void ForceUpdate() {
+        forceUpdateThisFrame = true;
     }
 }
