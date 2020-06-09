@@ -598,7 +598,7 @@ public class PlayerController : Entity {
 
 			if (currentState == PlayerStates.DIVEKICK) {
 				currentState = PlayerStates.NORMAL;
-				anim.SetInteger("SubState", 100);
+				//anim.SetInteger("SubState", 100);
 			} else if (InputManager.HasHorizontalInput()) {
 				anim.SetTrigger("Roll");
 			} else {

@@ -74,8 +74,9 @@ public class PlayerAttack : Attack {
 				return;
 			}
 			if (otherCol.GetComponent<Hurtbox>() != null) {
-				otherCol.GetComponent<Hurtbox>().OnHit(this);
-				OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+				if (otherCol.GetComponent<Hurtbox>().OnHit(this)) {
+					OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+				}
 			}
 		}
 	}

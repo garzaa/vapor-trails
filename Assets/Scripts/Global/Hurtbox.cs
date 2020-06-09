@@ -18,10 +18,11 @@ public class Hurtbox : MonoBehaviour {
 		return parentObject.GetComponent<Entity>();
 	}
 
-	public virtual void OnHit(Attack a) {
+	virtual public bool OnHit(Attack a) {
 		if (parentObject != null) {
 			parentObject.GetComponent<Entity>().OnHit(a);
 		}
 		if (a.hitmarker != null) a.MakeHitmarker(this.transform);
+		return true;
 	}
 }

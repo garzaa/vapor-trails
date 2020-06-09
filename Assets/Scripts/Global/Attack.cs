@@ -57,8 +57,9 @@ public class Attack : MonoBehaviour {
 			if (otherCol.GetComponent<Hurtbox>() == null) {
 				return;
 			}
-			otherCol.GetComponent<Hurtbox>().OnHit(this);
-			this.OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+			if (otherCol.GetComponent<Hurtbox>().OnHit(this)) {
+				OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+			}
 		}
 	}
 
