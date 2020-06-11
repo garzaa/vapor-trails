@@ -23,13 +23,13 @@ public class InventoryItem : System.Object {
     public Activatable activatesOnPickup;
 
     public virtual void OnPickup() {
-        if (IsAbility()) {
+        /*if (IsAbility()) {
             GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
             GlobalController.UnlockAbility(this.ability);
         }
         if (activatesOnPickup != null) {
             activatesOnPickup.Activate();   
-        }
+        }*/
     }
 
     public bool IsAbility() {
@@ -40,6 +40,7 @@ public class InventoryItem : System.Object {
         return (InventoryItem) this.MemberwiseClone();
     }
 
+/*
     public SerializableItem MakeSerialized() {
         return new SerializableItem(this);
     }
@@ -57,28 +58,5 @@ public class InventoryItem : System.Object {
         this.itemIcon = m.itemThumbnail;
         this.detailedIcon = m.itemDetail;
     }
-}
-
-
-[System.Serializable]
-public class SerializableItem {
-    public string itemName = "New Item";
-    public bool stackable = false;
-    public int count = 1;
-    public int cost;
-    public string itemDescription = "";
-    public bool isAbilityItem;
-    public Ability ability;
-	public string instructions;
-
-    public SerializableItem(InventoryItem i) {
-        this.itemName = i.itemName;
-        this.stackable = i.stackable;
-        this.count = i.count;
-        this.cost = i.cost;
-        this.itemDescription = i.itemDescription;
-        this.isAbilityItem = i.isAbilityItem;
-        this.ability = i.ability;
-        this.instructions = i.instructions;
-    }
+*/
 }

@@ -138,13 +138,11 @@ public class GlobalController : MonoBehaviour {
 
 		UpdateControllerStatus();
 
-		/*
 		if (Input.GetKeyDown(KeyCode.S)) {
 			GlobalController.SaveGame(false);
 		} else if (Input.GetKeyDown(KeyCode.L)) {
 			GlobalController.LoadGame();
 		}
-		*/
 	}
 
 	public static void OnDialogueSkip() {
@@ -329,6 +327,13 @@ public class GlobalController : MonoBehaviour {
 		PropagateStateChange();
 	}
 
+	public static void AddStates(List<GameState> states) {
+		foreach (GameState state in states) {
+			save.gameStates.Add(state.stateName);
+		}
+		PropagateStateChange();
+	}
+
 	public static bool HasState(GameState state) {
 		return !save || save.gameStates.Contains(state.stateName);
 	}
@@ -504,12 +509,15 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void AddItem(InventoryItem item) {
+	public static void AddItem(Item item) {
 		if (!item.IsAbility()) {
 			if (item.count != 1)
-				AlerterText.Alert($"{item.itemName} ({item.count}) acquired");
+				AlerterText.Alert($"{item.name} ({item.count}) acquired");
 			else 
-				AlerterText.Alert(item.itemName + " acquired");
+				AlerterText.Alert(item.name + " acquired");
+		}
+		if (item.gameStates != null) {
+			AddStates(item.gameStates);
 		}
 		inventory.AddItem(item);
 		PropagateItemChange();
@@ -552,11 +560,11 @@ public class GlobalController : MonoBehaviour {
 		save.UnlockAbility(a);
 	}
 
-	static NPC MakeItemPickupDialogue(InventoryItem item) { 
+	static NPC MakeItemPickupDialogue(Item item) { 
 		NPCConversations conversations = new NPCConversations();
 		DialogueLine line = new DialogueLine();
 
-		line.lineText = "You got the <color=aqua>" + item.itemName + "</color>.";
+		line.lineText = "You got the <color=aqua>" + item.name + "</color>.";
 		line.speakerImage = item.detailedIcon;
 		line.speakerName = "";
 

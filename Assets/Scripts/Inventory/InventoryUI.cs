@@ -55,13 +55,16 @@ public class InventoryUI : CloseableUI {
         ShowItemInfo(itemPane.inventoryItem);
     }
 
-    void ShowItemInfo(InventoryItem item) {
+    void ShowItemInfo(Item item) {
         itemImage.sprite = item.detailedIcon;
-        itemTitle.text = item.itemName.ToUpper();
-        itemDescription.text = item.itemDescription;
+        itemTitle.text = item.name.ToUpper();
+        itemDescription.text = item.description;
         itemCost.text = "$"+item.cost.ToString();
         if (item.IsAbility()) {
-            itemDescription.text += "\n\n<color=white>" + ControllerTextChanger.ReplaceText(item.instructions) + "</color>";
+            itemDescription.text += 
+                "\n\n<color=white>"
+                + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions)
+                + "</color>";
         }
     }
 
@@ -75,7 +78,7 @@ public class InventoryUI : CloseableUI {
             oldItem.parent = null;
         }
         for (int i=inventoryList.items.Count-1; i>=0; i--) {
-            InventoryItem item = inventoryList.items[i];
+            Item item = inventoryList.items[i];
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);

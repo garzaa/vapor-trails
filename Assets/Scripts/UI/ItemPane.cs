@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class ItemPane : MonoBehaviour, ISelectHandler {
     InventoryUI inventoryUI;
-    public InventoryItem inventoryItem;
+    public Item inventoryItem;
 
     public Image itemImage;
     public Text itemCount;
@@ -25,7 +25,7 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
         GlobalController.inventory.ReactToItemSelect(this.inventoryItem);
     }
 
-    public void PopulateSelfInfo(InventoryItem item) {
+    public void PopulateSelfInfo(Item item) {
         itemImage.sprite = item.itemIcon;
         this.inventoryItem = item;
         itemCount.text = (item.count > 1 ? item.count.ToString() : "");

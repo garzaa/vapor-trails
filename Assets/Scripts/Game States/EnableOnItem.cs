@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnableOnItem : MonoBehaviour {
     [SerializeField] ItemWrapper wantedItem;
+    [SerializeField] Item wanted;
     public bool immediate = true;
 
     public bool setDisabled = false;
@@ -11,7 +13,7 @@ public class EnableOnItem : MonoBehaviour {
     }
 
     public void CheckState() {
-        InventoryItem i = GlobalController.inventory.items.GetItem(wantedItem.item.itemName);
+        Item i = GlobalController.inventory.items.GetItem(wanted);
         bool hasItem = (i != null && i.count >= wantedItem.item.count);
         if (setDisabled) gameObject.SetActive(!hasItem);
         else gameObject.SetActive(hasItem);

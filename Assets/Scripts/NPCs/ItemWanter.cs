@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ItemWanter : PersistentObject {
-    public List<ItemWrapper> wantedItems;
+    public List<Item> wanted;
     public Activatable yesActivation;
     public Activatable noActivation;
 
@@ -27,9 +27,8 @@ public class ItemWanter : PersistentObject {
     }
 
     public void CheckForItem(InventoryList inventoryToCheck) {
-        List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
-        foreach (InventoryItem wantedItem in actualWantedItems) {
-            InventoryItem i = inventoryToCheck.GetItem(wantedItem);
+        foreach (Item wantedItem in wanted) {
+            Item i = inventoryToCheck.GetItem(wantedItem);
             if (!(i != null && i.count >= wantedItem.count)) {
                 //reject if even one item is missing
                 RejectItems();
@@ -47,8 +46,7 @@ public class ItemWanter : PersistentObject {
 
     void AcceptItems() {
         if (consumesItems) {
-            List<InventoryItem> actualWantedItems = wantedItems.Select(x => x.GetItem()).ToList();
-            foreach (InventoryItem wantedItem in actualWantedItems) {
+            foreach (Item wantedItem in wanted) {
                 GlobalController.inventory.items.RemoveItem(wantedItem);
             }
         }

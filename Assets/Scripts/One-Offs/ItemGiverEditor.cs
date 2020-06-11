@@ -2,17 +2,15 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class ItemGiverEditor : MonoBehaviour {
-    public ItemWrapper itemWrapper;
+    public Item toGive;
 
     void OnEnable() {
-        if (itemWrapper == null) {
+        if (toGive == null) {
             return;
         }
-        // need to update: item giver's item
-        // thumbnail for sprite mask, will propagate to link automatically
-        GetComponent<ItemGiver>().item = this.itemWrapper;
-        GetComponentInChildren<SpriteRenderer>().sprite = this.itemWrapper.item.itemIcon;
-        gameObject.name = "Floating "+itemWrapper.item.itemName;
+        GetComponent<ItemGiver>().toGive = this.toGive;
+        GetComponentInChildren<SpriteRenderer>().sprite = this.toGive.itemIcon;
+        gameObject.name = "Floating "+toGive.name;
     }
 
     void OnValidate() {

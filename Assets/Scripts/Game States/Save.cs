@@ -80,6 +80,7 @@ public class Save : MonoBehaviour {
     }
 
     public void UnlockAbility(Ability a) {
+        AlerterText.Alert("added ability "+ a);
         if (!unlocks.unlockedAbilities.Contains(a)) {
             unlocks.unlockedAbilities.Add(a);
         }

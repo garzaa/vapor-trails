@@ -8,7 +8,7 @@ public class InventoryController : MonoBehaviour {
     public InventoryUI inventoryUI;
     bool inInventory = false;
 
-    public ItemWrapper moneyItem;
+    public Item moneyItem;
     public Merchant currentMerchant;
     public Text moneyUI;
     public AudioSource itemBuy;
@@ -19,14 +19,14 @@ public class InventoryController : MonoBehaviour {
         UpdateMoneyUI();
     }
 
-    public void ReactToItemSelect(InventoryItem item) {
+    public void ReactToItemSelect(Item item) {
         if (this.currentMerchant == null)  {
             return;
         }
         TryToBuy(item);
     }
 
-    public void AddItem(InventoryItem item) {
+    public void AddItem(Item item) {
         SoundManager.ItemGetSound();
 		items.AddItem(item);
         if (inInventory) inventoryUI.PopulateItems(this.items);
@@ -54,8 +54,8 @@ public class InventoryController : MonoBehaviour {
     }
 
     public int CheckMoney() {
-        if (items.GetItem(moneyItem.GetItem()) != null) {
-            return items.GetItem(moneyItem.GetItem()).count;
+        if (items.GetItem(moneyItem) != null) {
+            return items.GetItem(moneyItem).count;
         }
         return 0;
     }
@@ -65,23 +65,23 @@ public class InventoryController : MonoBehaviour {
     }
 
     public void TakeMoney(int amount) {
-        items.GetItem(moneyItem.GetItem()).count -= amount;
+        items.GetItem(moneyItem).count -= amount;
     }
 
-    void TryToBuy(InventoryItem item) {
+    void TryToBuy(Item item) {
         InventoryList merchantInventory = currentMerchant.baseInventory;
         bool hasMoney = item.cost <= GlobalController.inventory.CheckMoney();
         if (hasMoney) {
-            InventoryItem toAdd = merchantInventory.GetItem(item).Clone();
+            Item toAdd = merchantInventory.GetItem(item).Instance();
             TakeMoney(item.cost);
             if (merchantInventory.GetItem(item).stackable) {
-               if (merchantInventory.GetItem(item).count > 1) {
+                if (merchantInventory.GetItem(item).count > 1) {
                     merchantInventory.GetItem(item).count -= 1;
-               } else {
+                } else {
                     merchantInventory.RemoveItem(item);
-               }
+                }
             } else {
-                    merchantInventory.RemoveItem(item);
+                merchantInventory.RemoveItem(item);
             }
             toAdd.count = 1;
             AddItem(toAdd);

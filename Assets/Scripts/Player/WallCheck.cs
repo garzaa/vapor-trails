@@ -6,14 +6,14 @@ public class WallCheck : MonoBehaviour {
 
 	[SerializeField] BoxCollider2D targetCollider;
 	[SerializeField] float castDistance = 0.01f;
-	[SerializeField] float toeGap = 0.06f;
+	[SerializeField] float groundGap = 0.06f;
 	[SerializeField] bool drawDebug = false;
 
 	public bool touchingWall;
 
 	public WallCheckData GetWall() {
-		Vector2 startPoint = new Vector2(targetCollider.bounds.center.x, targetCollider.bounds.center.y+toeGap);
-		Vector2 actualSize = new Vector2(targetCollider.bounds.size.x, targetCollider.bounds.size.y-toeGap);
+		Vector2 startPoint = new Vector2(targetCollider.bounds.center.x, targetCollider.bounds.center.y);
+		Vector2 actualSize = new Vector2(targetCollider.bounds.size.x, targetCollider.bounds.size.y-(2*groundGap));
 
 		Debug.DrawLine(startPoint+actualSize/2, startPoint-actualSize/2, Color.blue);
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);

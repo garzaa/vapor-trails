@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Merchant : PersistentObject {
-    public List<ItemWrapper> startingInventory;
+    public List<Item> startingInventory;
     public InventoryList baseInventory;
     List<GameFlag> gameFlagsHit = new List<GameFlag>();
 
@@ -20,9 +20,7 @@ public class Merchant : PersistentObject {
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
         this.baseInventory = new InventoryList();
         if (s == null) {
-            this.baseInventory.AddAll(startingInventory.Select(
-                x => x.GetItem()
-            ).ToList());
+            this.baseInventory.AddAll(startingInventory);
             return;
         }
 
@@ -41,7 +39,7 @@ public class Merchant : PersistentObject {
         if (gameFlagsHit.Contains(i.flag)) {
             return;
         }
-        baseInventory.AddAll(i.items.Select(x => x.GetItem()).ToList());
+        baseInventory.AddAll(i.items);
         gameFlagsHit.Add(i.flag);
     }
 
