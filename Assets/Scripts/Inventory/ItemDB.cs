@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ItemDB {
     readonly static string itemPath = "ScriptableObjects/InventoryItems/";
-    static Dictionary<string, Item> itemCache;
+    static Dictionary<string, Item> itemCache = new Dictionary<string, Item>();
 
     public static Item GetItem(string itemName) {
         if (itemCache.ContainsKey(itemName)) {

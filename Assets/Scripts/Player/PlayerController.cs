@@ -78,7 +78,6 @@ public class PlayerController : Entity {
 	public bool dashing = false;
 	bool inMeteor = false;
 	bool terminalFalling = false;
-	bool cyan = false;
 	public bool justLeftWall = false;
 	bool justLeftGround = false;
 	Coroutine currentWallTimeout;

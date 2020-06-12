@@ -560,20 +560,6 @@ public class GlobalController : MonoBehaviour {
 		save.UnlockAbility(a);
 	}
 
-	static NPC MakeItemPickupDialogue(Item item) { 
-		NPCConversations conversations = new NPCConversations();
-		DialogueLine line = new DialogueLine();
-
-		line.lineText = "You got the <color=aqua>" + item.name + "</color>.";
-		line.speakerImage = item.detailedIcon;
-		line.speakerName = "";
-
-		//this was never meant to happen
-		conversations.conversations = new List<Conversation>();
-		conversations.conversations.Add(new Conversation(line));
-		return new NPC(conversations);
-	}
-
 	public static void EnterMerchantDialogue(Merchant merchant) {
 		pc.EnterCutscene();
 		inventory.currentMerchant = merchant;

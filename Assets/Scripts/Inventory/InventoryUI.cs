@@ -30,7 +30,12 @@ public class InventoryUI : CloseableUI {
 
     public void Show() {
         animator.SetBool("Shown", true);
+        itemImage.color = new Color(1, 1, 1, 0);
+        itemTitle.text = "";
+        itemDescription.text = "";
+        itemCost.text = "";
         base.Open();
+        SelectFirstChild();
     }
 
     public void Hide() {
@@ -56,6 +61,7 @@ public class InventoryUI : CloseableUI {
     }
 
     void ShowItemInfo(Item item) {
+        itemImage.color = new Color(1, 1, 1, 1);
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.name.ToUpper();
         itemDescription.text = item.description;
@@ -80,7 +86,7 @@ public class InventoryUI : CloseableUI {
         for (int i=inventoryList.items.Count-1; i>=0; i--) {
             Item item = inventoryList.items[i];
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
-            g.transform.parent = gridHolder;
+            g.transform.SetParent(gridHolder);
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
         SelectFirstChild();

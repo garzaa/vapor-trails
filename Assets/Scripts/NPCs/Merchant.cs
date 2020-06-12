@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(InventoryList))]
 public class Merchant : PersistentObject {
     public List<Item> startingInventory;
     public InventoryList baseInventory;
@@ -18,7 +19,7 @@ public class Merchant : PersistentObject {
     public string thanksDialogue;
 
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
-        this.baseInventory = new InventoryList();
+        this.baseInventory = GetComponent<InventoryList>();
         if (s == null) {
             this.baseInventory.AddAll(startingInventory);
             return;

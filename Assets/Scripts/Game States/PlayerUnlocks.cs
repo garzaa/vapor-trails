@@ -5,16 +5,7 @@ using UnityEngine;
 public class PlayerUnlocks : MonoBehaviour {
 	public int baseDamage = 1;
 
-	public List<Ability> unlockedAbilities = new List<Ability> {
-		Ability.Dash,
-		Ability.DamageDash,
-		Ability.GunEyes,
-		Ability.DoubleJump,
-		Ability.WallClimb,
-		Ability.Meteor,
-		Ability.Supercruise,
-		Ability.UpSlash
-	};
+	public List<Ability> unlockedAbilities = new List<Ability>();
 
 	public bool HasAbility(Ability a) {
 		return unlockedAbilities.Contains(a);

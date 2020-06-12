@@ -15,7 +15,6 @@ public class InventoryController : MonoBehaviour {
 
 
     void Start() {
-        items = items ?? new InventoryList();
         UpdateMoneyUI();
     }
 

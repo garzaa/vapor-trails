@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RandomChildOnLoad : MonoBehaviour {
 	void Start () {
-		List<GameObject> children  = new List<GameObject>();
+		List<GameObject> children = new List<GameObject>();
 		foreach (Transform child in this.transform) {
 			children.Add(child.gameObject);
 			child.gameObject.SetActive(false);
