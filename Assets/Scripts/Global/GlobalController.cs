@@ -112,7 +112,7 @@ public class GlobalController : MonoBehaviour {
 		}
 
 		bool inInventory = inventory.inventoryUI.animator.GetBool("Shown");
-		if ((Input.GetButtonDown("Inventory") || (Input.GetButtonDown(Buttons.SPECIAL)) && inInventory)) {
+		if ((Input.GetButtonDown("Inventory") || (InputManager.GenericContinueInput()) && inInventory)) {
 			if (inInventory) {
 				CloseInventory();
 			} else if (!pc.inCutscene && pc.IsGrounded()) {

@@ -86,7 +86,7 @@ public class InventoryUI : CloseableUI {
         for (int i=inventoryList.items.Count-1; i>=0; i--) {
             Item item = inventoryList.items[i];
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
-            g.transform.SetParent(gridHolder);
+            g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
         SelectFirstChild();
