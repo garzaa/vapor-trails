@@ -3,8 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization;
 
-public class Save : MonoBehaviour {
+public class Save : MonoBehaviour, ISerializationCallbackReceiver {
     public int slotNum = 1;
     public int currentHP = 5;
     public int maxHP = 5;
@@ -12,13 +13,24 @@ public class Save : MonoBehaviour {
     public int maxEnergy = 5;
     public int basePlayerDamage = 1;
     public List<GameFlag> gameFlags = new List<GameFlag>();
+
     [HideInInspector] public List<string> gameStates = new List<string>();
     [SerializeField] List<GameState> editorGameStates;
+
     public PlayerUnlocks unlocks;
-    public Dictionary<string, SerializedPersistentObject> persistentObjects;
+    
+    
     public string sceneName;
-    public Vector2 playerPosition;
     public SerializableInventoryList playerItems;
+    
+    public Vector2 playerPosition;
+    float playerX;
+    float playerY;
+
+    [System.NonSerialized]
+    public Dictionary<string, SerializedPersistentObject> persistentObjects;
+    public List<string> persistentObjectKeys = new List<string>();
+    public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
 
     void Awake() {
         this.unlocks = GetComponent<PlayerUnlocks>();
@@ -74,16 +86,30 @@ public class Save : MonoBehaviour {
         this.maxEnergy = s.maxEnergy;
         this.maxHP = s.maxHP;
         this.basePlayerDamage = s.baseDamage;
-        GlobalController.inventory.items.LoadFromSerializableInventoryList(s.playerItems);
-
-        GlobalController.LoadSceneToPosition(sceneName, playerPosition);
     }
 
     public void UnlockAbility(Ability a) {
-        AlerterText.Alert("added ability "+ a);
         if (!unlocks.unlockedAbilities.Contains(a)) {
             unlocks.unlockedAbilities.Add(a);
         }
+    }
+
+    public void OnBeforeSerialize() {
+        persistentObjectKeys.Clear();
+        persistentObjectValues.Clear();
+        foreach (KeyValuePair<string, SerializedPersistentObject> kv in persistentObjects) {
+            persistentObjectKeys.Add(kv.Key);
+            persistentObjectValues.Add(kv.Value);
+        }
+    }
+
+    public void OnAfterDeserialize() {
+        this.persistentObjects = new Dictionary<string, SerializedPersistentObject>();
+        for (int i=0; i<persistentObjectKeys.Count; i++) {
+            this.persistentObjects.Add(persistentObjectKeys[i], persistentObjectValues[i]);
+        }
+        GlobalController.inventory.items.LoadFromSerializableInventoryList(playerItems);
+        GlobalController.LoadSceneToPosition(sceneName, playerPosition);
     }
 }
 

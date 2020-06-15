@@ -510,7 +510,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddItem(Item item) {
-		if (!item.IsAbility()) {
+		if (!item.type.Contains(ItemType.ABILITY)) {
 			if (item.count != 1)
 				AlerterText.Alert($"{item.name} ({item.count}) acquired");
 			else 

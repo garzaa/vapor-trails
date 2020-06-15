@@ -9,10 +9,14 @@ public class Item : ScriptableObject {
     public int count = 1;
     public int cost = 0;
 
+    public List<ItemType> type;
+
     [TextArea]
     public string description;
 
     public List<GameState> gameStates;
+
+    public Event testEvent;
 
     [SerializeField]
     public List<ItemEffect> itemEffects;
@@ -27,9 +31,5 @@ public class Item : ScriptableObject {
 
     public Item Instance() {
         return (Item) this.MemberwiseClone();
-    }
-
-    virtual public bool IsAbility() {
-        return false;
     }
 }
