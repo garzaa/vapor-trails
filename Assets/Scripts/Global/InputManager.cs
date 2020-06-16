@@ -70,9 +70,20 @@ public class InputManager : MonoBehaviour {
 
     public static bool GenericContinueInput() {
         return (
-            Input.GetButtonDown(Buttons.JUMP)
-            || Input.GetButtonDown(Buttons.SPECIAL)
-            || Input.GetKeyDown(KeyCode.Escape)
+            Input.GetButtonDown(Buttons.JUMP) || GenericEscapeInput() || AttackInput()
+        );
+    }
+
+    public static bool AttackInput() {
+        return (
+            Input.GetButtonDown(Buttons.PUNCH)
+            || Input.GetButtonDown(Buttons.KICK)
+        );
+    }
+
+    public static bool GenericEscapeInput() {
+        return (
+            Input.GetButtonDown(Buttons.SPECIAL)
         );
     }
 

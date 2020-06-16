@@ -103,13 +103,14 @@ public class Save : MonoBehaviour, ISerializationCallbackReceiver {
         }
     }
 
+    // TODO: call globalController method after this finishes
     public void OnAfterDeserialize() {
         this.persistentObjects = new Dictionary<string, SerializedPersistentObject>();
         for (int i=0; i<persistentObjectKeys.Count; i++) {
             this.persistentObjects.Add(persistentObjectKeys[i], persistentObjectValues[i]);
         }
-        GlobalController.inventory.items.LoadFromSerializableInventoryList(playerItems);
-        GlobalController.LoadSceneToPosition(sceneName, playerPosition);
+        // GlobalController.inventory.items.LoadFromSerializableInventoryList(playerItems);
+        // GlobalController.LoadSceneToPosition(sceneName, playerPosition);
     }
 }
 
