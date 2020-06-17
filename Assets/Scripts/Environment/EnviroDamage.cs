@@ -9,6 +9,8 @@ public class EnviroDamage : Attack {
 	public int numParticles;
 	public Transform particleObject;
 	public AudioSource impactSound;
+	// this was added later
+	public AudioClip impactSoundClip;
 	ParticleSystem ps;
 	Renderer thisRenderer;
 
@@ -47,6 +49,10 @@ public class EnviroDamage : Attack {
 
 		if (impactSound) {
 			impactSound.PlayOneShot(impactSound.clip);
+		}
+
+		if (impactSoundClip) {
+			SoundManager.PlaySound(impactSoundClip);
 		}
 	}
 }

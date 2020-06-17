@@ -62,7 +62,7 @@ Shader "Custom/GrabPassTest" {
                     // uvgrab is the screen position
                     // the 0.4 value has to change
                     // dependent on the material position relative to the camera
-                    // can this be donew s
+                    // can this be done at all?
                     i.uvgrab.y -= 0.4;
 
                     // flip the texture
