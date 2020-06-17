@@ -637,7 +637,6 @@ public class PlayerController : Entity {
 		EndShortHopWindow();
 		EndDashCooldown();
 		InterruptEverything();
-		ImpactDust();
 		SoundManager.JumpSound();
 		canFlipKick = false;
 		rb2d.velocity = new Vector2(
