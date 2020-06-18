@@ -4,6 +4,7 @@ public class AudioFade : MonoBehaviour {
 
     public bool disableAtStart;
     public bool combatMusic;
+    public bool restartOnFadeIn;
 
     float maxVolume;
     AudioSource audioSource;
@@ -12,6 +13,7 @@ public class AudioFade : MonoBehaviour {
     bool fadingOut;
     bool fadingIn;
     float fadeTime;
+
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -25,6 +27,7 @@ public class AudioFade : MonoBehaviour {
         fadingIn = true;
         fadeTime = time;
         startTime = Time.time;
+        if (restartOnFadeIn) audioSource.time = 0;
     }
 
     public void FadeOut(float time) {
