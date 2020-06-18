@@ -10,7 +10,7 @@ public class EditorCameraFollower : MonoBehaviour {
     }
 
     void Update() {
-        if (!Application.isPlaying && Camera.current != null) {
+        if (!Application.isPlaying && Camera.current != null && Camera.current.transform != null) {
             this.transform.position = (Vector2) Camera.current.transform.position;
         }
     }

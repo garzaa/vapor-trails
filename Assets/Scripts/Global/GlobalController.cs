@@ -115,12 +115,12 @@ public class GlobalController : MonoBehaviour {
 		if ((Input.GetButtonDown("Inventory") || InputManager.GenericEscapeInput()) && inInventory) {
 			if (inInventory) {
 				CloseInventory();
-			} else if (!pc.inCutscene && pc.IsGrounded()) {
-				OpenInventory();
 			}
 		} else if (inInventory) {
 			// avoid any pre-late update weirdness
 			pc.EnterCutscene();
+		} else if (Input.GetButtonDown("Inventory") && !pc.inCutscene && pc.IsGrounded()) {
+			OpenInventory();
 		}
 
 		

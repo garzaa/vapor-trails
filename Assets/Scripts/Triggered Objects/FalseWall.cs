@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class FalseWall : PlayerTriggeredObject {
 
 	public override void OnPlayerEnter() {

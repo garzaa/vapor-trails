@@ -4,9 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerTriggeredObject : MonoBehaviour {
 
-	[HideInInspector]
-	public PlayerController player;
-
+	protected PlayerController player;
 
 	virtual protected void Start() {
 		gameObject.layer = LayerMask.NameToLayer(Layers.Triggers);
