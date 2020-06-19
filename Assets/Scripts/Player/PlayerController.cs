@@ -669,6 +669,7 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			yield break;
 		}
+		rb2d.velocity = Vector2.zero;
 		FreezeFor(0.4f);
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
@@ -1085,7 +1086,6 @@ public class PlayerController : Entity {
 	}
 
 	void InterruptEverything() {
-		ResetAttackTriggers();
 		InterruptAttack();
 		InterruptMeteor();
 	}
@@ -1097,6 +1097,8 @@ public class PlayerController : Entity {
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
+		anim.Update(0.5f);
+		anim.speed = 0f;
 	}
 
 	// exitCutscene is called instead of exitInventory
@@ -1116,6 +1118,7 @@ public class PlayerController : Entity {
 		anim.speed = 1f;
 		SetInvincible(false);
 		inCutscene = false;
+		anim.speed = 1f;
 	}
 
 	public bool IsGrounded() {
