@@ -83,15 +83,9 @@ public class TransitionManager : MonoBehaviour {
 			}
 
 			if (sd.lockPlayer) {
-				pc.LockInSpace();
-				pc.SetInvincible(true);
-				pc.Freeze();
-				pc.DisableShooting();
+				pc.EnterCutscene();
 			} else if (sd.unlockPlayer) {
-				pc.UnLockInSpace();
-				pc.SetInvincible(false);
-				pc.UnFreeze();
-				pc.EnableShooting();
+				pc.ExitCutscene();
 			}
 
 			if (sd.hidePlayer) {
