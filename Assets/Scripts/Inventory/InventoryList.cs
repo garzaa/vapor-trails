@@ -47,7 +47,6 @@ public class InventoryList : MonoBehaviour {
     }
 
     public void AddItem(Item item) {
-        item = item.Instance();
         if (item.stackable && HasItem(item)) {
             GetItem(item).count += item.count;
         } else {

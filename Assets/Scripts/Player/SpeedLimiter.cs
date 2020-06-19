@@ -33,6 +33,6 @@ public class SpeedLimiter : MonoBehaviour {
     public bool MovingFast() {
         // scene load transitions
         if (rb2d == null) return false;
-        return (Mathf.Abs(rb2d.velocity.x) > maxSpeedX || Mathf.Abs(rb2d.velocity.y) > Mathf.Abs(maxSpeedY/2f)) ;
+        return (Mathf.Abs(rb2d.velocity.x) > maxSpeedX || Mathf.Abs(rb2d.velocity.y) > 4) ;
     }
 }

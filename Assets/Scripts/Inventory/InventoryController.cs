@@ -84,7 +84,7 @@ public class InventoryController : MonoBehaviour {
             }
             toAdd.count = 1;
             AddItem(toAdd);
-            inventoryUI.merchantLine.text = currentMerchant.thanksDialogue;
+            inventoryUI.merchantLine.text = currentMerchant.GetThanksDialogue(item);
             itemBuy.PlayOneShot(itemBuy.clip);
             UpdateMoneyUI();
             currentMerchant.ReactToBuy();

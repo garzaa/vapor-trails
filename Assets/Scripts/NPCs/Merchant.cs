@@ -1,22 +1,25 @@
 using UnityEngine;
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(InventoryList))]
 public class Merchant : PersistentObject {
+
     public List<Item> startingInventory;
     public InventoryList baseInventory;
     List<GameFlag> gameFlagsHit = new List<GameFlag>();
 
     public string merchantName;
-    public Sprite merchantPortrit;
+    public Sprite merchantPortrait;
     [TextArea]
     public string greetingDialogue;
     [TextArea]
     public string notEnoughMoneyDialogue;
     [TextArea]
     public string thanksDialogue;
+
 
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
         this.baseInventory = GetComponent<InventoryList>();
@@ -56,5 +59,9 @@ public class Merchant : PersistentObject {
 
     public void ReactToBuy() {
         this.UpdateObjectState();
+    }
+
+    public string GetThanksDialogue(Item item) {
+        return thanksDialogue;
     }
 }

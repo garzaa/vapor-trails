@@ -93,7 +93,7 @@ public class InventoryUI : CloseableUI {
     }
 
     public void PropagateMerchantInfo(Merchant merchant) {
-        merchantPortrait.sprite = merchant.merchantPortrit;
+        merchantPortrait.sprite = merchant.merchantPortrait;
         merchantName.text = merchant.merchantName;
         merchantLine.text = merchant.greetingDialogue;
     }
