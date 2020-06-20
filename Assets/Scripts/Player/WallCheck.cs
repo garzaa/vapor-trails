@@ -19,7 +19,10 @@ public class WallCheck : MonoBehaviour {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 
 		// cast left and right
-		RaycastHit2D hit = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, castDistance, layerMask);
+		RaycastHit2D hit;
+
+		// left
+		hit = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, castDistance, layerMask);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.left*(actualSize.x/2f + castDistance), Color.red);
 		if (hit.transform != null) {
 			if (drawDebug) {
@@ -32,6 +35,7 @@ public class WallCheck : MonoBehaviour {
 			);
 		}
 
+		// right
 		hit = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, castDistance, layerMask);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+castDistance), Color.green);
 		if (hit.transform != null) {

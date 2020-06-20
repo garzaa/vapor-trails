@@ -124,14 +124,13 @@ public class Enemy : Entity {
 				Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
 			}
 		}
-		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
-			this.GetComponent<Animator>().SetTrigger("Die");
+		if (!burstOnDeath && anim != null) {
+			anim.SetTrigger("Die");
 		} else {
 			if (burstEffect != null) {
 				Burst();
-			} else {
-				Destroy(this.gameObject);
 			}
+			Destroy(this.gameObject);
 		}
 	}
 

@@ -509,8 +509,8 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void AddItem(Item item) {
-		if (!item.type.Contains(ItemType.ABILITY)) {
+	public static void AddItem(Item item, bool quiet=false) {
+		if (!item.type.Contains(ItemType.ABILITY) && !quiet) {
 			if (item.count != 1)
 				AlerterText.Alert($"{item.name} ({item.count}) acquired");
 			else 
@@ -519,7 +519,7 @@ public class GlobalController : MonoBehaviour {
 		if (item.gameStates != null) {
 			AddStates(item.gameStates);
 		}
-		inventory.AddItem(item);
+		inventory.AddItem(item, quiet);
 		PropagateItemChange();
 	}
 

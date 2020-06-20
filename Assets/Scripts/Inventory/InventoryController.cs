@@ -13,8 +13,18 @@ public class InventoryController : MonoBehaviour {
     public Text moneyUI;
     public AudioSource itemBuy;
 
+    public List<Item> startingItems;
 
     void Start() {
+        // will be overwritten by deserialization, so it's OK
+                                        // hmmgh
+        if (startingItems == null || this.items.items.Count > 0) return;
+        if (startingItems != null) {
+            foreach (Item item in startingItems) {
+                // get around me being lazy in the editor
+                if (item != null) GlobalController.AddItem(item, quiet:true);
+            }
+        }
         UpdateMoneyUI();
     }
 
@@ -25,11 +35,11 @@ public class InventoryController : MonoBehaviour {
         TryToBuy(item);
     }
 
-    public void AddItem(Item item) {
-        SoundManager.ItemGetSound();
+    public void AddItem(Item item, bool quiet) {
+        if (!quiet) SoundManager.ItemGetSound();
 		items.AddItem(item);
         if (inInventory) inventoryUI.PopulateItems(this.items);
-		item.OnPickup();
+		item.OnPickup(quiet);
         UpdateMoneyUI();
     }
 
@@ -83,7 +93,7 @@ public class InventoryController : MonoBehaviour {
                 merchantInventory.RemoveItem(item);
             }
             toAdd.count = 1;
-            AddItem(toAdd);
+            AddItem(toAdd, false);
             inventoryUI.merchantLine.text = currentMerchant.GetThanksDialogue(item);
             itemBuy.PlayOneShot(itemBuy.clip);
             UpdateMoneyUI();

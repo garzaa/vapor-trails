@@ -4,21 +4,10 @@ using System.Linq;
 using UnityEngine;
 
 public class InventoryList : MonoBehaviour {
-    public List<Item> startingItems;
     public List<Item> items;
 
     public InventoryList() {
         this.items = new List<Item>();
-    }
-
-    void Start() {
-        // will be overwritten by deserialization, so it's OK
-        if (startingItems == null || this.items.Count > 0) return;
-        if (startingItems != null) {
-            foreach (Item item in startingItems) {
-                items.Add(item);
-            }
-        }
     }
 
     public Item GetItem(string itemName) {

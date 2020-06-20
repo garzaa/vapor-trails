@@ -55,7 +55,7 @@ public class TargetingSystem : MonoBehaviour {
 		}
 		
 		if (nearest == null) {
-			return nearest;
+			return null;
 		}
 
 		if (nearest.GetComponent<Hurtbox>() != null && !nearest.GetComponent<Hurtbox>().overrideTargetPosition) {

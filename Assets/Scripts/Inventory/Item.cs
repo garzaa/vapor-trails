@@ -25,7 +25,7 @@ public class Item : ScriptableObject {
         return new SerializableItem(this.name, this.count);
     }
 
-    public virtual void OnPickup(bool quiet=false) {
+    public virtual void OnPickup(bool quiet) {
 
     }
 
