@@ -5,6 +5,7 @@ public class UILerper : MonoBehaviour {
     [SerializeField]
     float lerpSpeed = 0.2f;
     public bool xOnly = false;
+    public bool yOnly = false;
 
     RectTransform target;
     Vector3 originalPos;
@@ -38,6 +39,11 @@ public class UILerper : MonoBehaviour {
             selfTransform.position = new Vector2(
                 selfTransform.position.x,
                 originalPos.y
+            );
+        } else if (yOnly) {
+            selfTransform.position = new Vector2(
+                originalPos.x,
+                selfTransform.position.y
             );
         }
     }

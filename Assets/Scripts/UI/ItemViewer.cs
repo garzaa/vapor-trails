@@ -9,20 +9,35 @@ public class ItemViewer : MonoBehaviour {
     public Image itemImage;
     public Text itemTitle;
     public Text itemDescription;
-    public Text itemCost;
     public ScrollRect scrollView;
     public AudioClip selectSound;
 
+    [SerializeField] InventoryList editorInventoryLink;
+
+    bool started = false;
+
     void OnEnable() {
+        if (!started) return;
         itemImage.color = new Color(1, 1, 1, 0);
         itemTitle.text = "";
         itemDescription.text = "";
-        itemCost.text = "";
+
+        if (editorInventoryLink != null) {
+            PopulateItems(editorInventoryLink);
+        }
+    }
+
+    void Start() {
+        started = true;
+        OnEnable();
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
-        SoundManager.PlaySound(selectSound);
-        scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>());
+        if (selectSound != null) SoundManager.PlaySound(selectSound);
+        scrollView.content.localPosition = new Vector2(
+            scrollView.content.localPosition.x,
+            scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>()).y
+        );
         ShowItemInfo(itemPane.inventoryItem);
     }
 
@@ -31,7 +46,7 @@ public class ItemViewer : MonoBehaviour {
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.name.ToUpper();
         itemDescription.text = item.description;
-        itemCost.text = "$"+item.cost.ToString();
+        //itemCost.text = "$"+item.cost.ToString();
         if (item.type.Contains(ItemType.ABILITY)) {
             itemDescription.text += 
                 "\n\n<color=white>"
@@ -55,6 +70,6 @@ public class ItemViewer : MonoBehaviour {
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
-        GetComponent<SelectFirstChild>().OnEnable();
+        gridHolder.GetComponent<SelectFirstChild>().OnEnable();
     }
 }
