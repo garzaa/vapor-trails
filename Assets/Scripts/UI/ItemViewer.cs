@@ -62,12 +62,16 @@ public class ItemViewer : MonoBehaviour {
             // Destroy is called after the Update loop, which screws up the first child selection logic
             // so we do this so it's not shown
             Destroy(oldItem.gameObject);
-            oldItem.parent = null;
+            oldItem.SetParent(null, false);
         }
         for (int i=inventoryList.items.Count-1; i>=0; i--) {
             Item item = inventoryList.items[i];
-            GameObject g = (GameObject) Instantiate(itemPaneTemplate);
-            g.transform.parent = gridHolder;
+            GameObject g = Instantiate(
+                itemPaneTemplate,
+                Vector2.zero,
+                Quaternion.identity,
+                gridHolder
+            );
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);
         }
         gridHolder.GetComponent<SelectFirstChild>().OnEnable();
