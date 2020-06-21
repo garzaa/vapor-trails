@@ -138,9 +138,9 @@ public class GlobalController : MonoBehaviour {
 
 		UpdateControllerStatus();
 
-		if (Input.GetKeyDown(KeyCode.S)) {
+		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
 			GlobalController.SaveGame(false);
-		} else if (Input.GetKeyDown(KeyCode.L)) {
+		} else if (Input.GetKeyDown(KeyCode.RightBracket)) {
 			GlobalController.LoadGame();
 		}
 	}

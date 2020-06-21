@@ -34,9 +34,4 @@ public class UILerper : MonoBehaviour {
             );
         }
     }
-
-    void OnDisable() {
-        selfTransform.position = originalPos;
-    }
-
 }
