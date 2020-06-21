@@ -17,7 +17,7 @@ public static class Buttons {
     public static readonly string BLOCK      = "Block";
 
     public static readonly string CONFIRM = "Confirm";
-    public static readonly string PAUSE   = "Pause";
+    public static readonly string PAUSE   = "Start";
 
     private static readonly List<string> moveInputs = new List<string> {
         H_AXIS,

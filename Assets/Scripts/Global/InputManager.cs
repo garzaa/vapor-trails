@@ -85,15 +85,22 @@ public class InputManager : MonoBehaviour {
         return (
             Input.GetButtonDown(Buttons.SPECIAL)
             || Input.GetButtonDown(Buttons.INVENTORY)
+            || Input.GetButton(Buttons.PAUSE)
         );
     }
 
     public static Vector2 RightStick() {
-        // cant push all the way to the edge on a joystick for some reason
         return new Vector2(
             Input.GetAxis("Right-Horizontal"),
             -Input.GetAxis("Right-Vertical")
-        ).normalized;
+        );
+    }
+
+    public static Vector2 LeftStick() {
+        return new Vector2(
+            Input.GetAxis("Horizontal"),
+            Input.GetAxis("Vertical")
+        );
     }
 
     public static bool TauntInput() {

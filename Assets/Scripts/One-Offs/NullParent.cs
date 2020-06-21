@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NullParent : MonoBehaviour {
     
-    void OnEnable() {
+    void Start() {
         transform.parent = null;
     }
 

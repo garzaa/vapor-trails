@@ -9,6 +9,6 @@ public class MapCamera : MonoBehaviour {
     }
 
     void Update() {
-        transform.localPosition += moveSpeed * Time.deltaTime * (Vector3) InputManager.RightStick();
+        transform.localPosition += moveSpeed * Time.deltaTime * (Vector3) InputManager.LeftStick();
     }
 }
