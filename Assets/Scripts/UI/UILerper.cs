@@ -15,6 +15,11 @@ public class UILerper : MonoBehaviour {
         originalPos = selfTransform.position;
     }
 
+    void OnEnable() {
+        selfTransform.position = originalPos;
+        this.target = null;
+    }
+
     public void SetTarget(RectTransform transform) {
         this.target = transform;
     }
