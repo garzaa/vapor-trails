@@ -4,7 +4,7 @@ Shader "Sprites/TextureOutline"
 {
     Properties
     {
-        _MainTex("Sprite Texture", 2D) = "white" {}
+        [PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
         _Color("Tint", Color) = (1,1,1,1)
         _FlashColor ("Flash Color", Color) = (1,1,1,0)
         _Outline("Outline", Float) = 0
