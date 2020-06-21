@@ -5,7 +5,6 @@ using System.Linq;
 
 public class InventoryUI : CloseableUI {
     public Animator animator;
-    InventoryController inventoryController;
     
     public GameObject itemPaneTemplate;
     public Transform gridHolder;
@@ -16,7 +15,6 @@ public class InventoryUI : CloseableUI {
     public Text itemCost;
     public ScrollRect scrollView;
     public AudioSource audioSource;
-    public EventSystem eventSystem;
     public Image merchantPortrait;
     public Text merchantName;
     public Text merchantLine;

@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 
 public class TabUI : MonoBehaviour {
     bool started;
@@ -36,7 +35,6 @@ public class TabUI : MonoBehaviour {
     }
 
     void InitializeUI() {
-        Debug.Log("initializing ui");
         ClearTabs();
         LinkSubscreens();
         ShowTab(currentTab);
@@ -78,7 +76,6 @@ public class TabUI : MonoBehaviour {
     }
 
     void ShowTab(int tabNumber) {
-        Debug.Log("showing tab " + tabNumber +  ": " + screens[tabNumber]);
         HideAll();
         DeselectOtherTabs();
 
@@ -89,7 +86,6 @@ public class TabUI : MonoBehaviour {
         Button b = tabContainer.transform.GetChild(currentTab).GetComponent<Button>();
         b.Select();
         b.OnSelect(null);
-        Debug.Log("setting active=true for tab "+ b.name);
         b.GetComponent<Animator>().SetBool("Active", true);
     }
 

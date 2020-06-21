@@ -25,6 +25,8 @@ public class SoundManager : MonoBehaviour {
 	public static SoundManager sm;
 	public AudioSource a;
 
+	public AudioSource uiAudio;
+
 	void Start() {
 		if (sm == null) sm = this;
 		a = GetComponent<AudioSource>();

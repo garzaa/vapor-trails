@@ -7,11 +7,11 @@ public class InputManager : MonoBehaviour {
     static bool frozenInputs = false;
 
     private static bool CheckFrozenInputs(string buttonName) {
-        return !frozenInputs
+        return !(frozenInputs
             && (
                 Buttons.IsType(buttonName, InputType.MOVE)
                 || Buttons.IsType(buttonName, InputType.ACTION)
-            );
+            ));
     }
 
     public static bool dpadUp;
