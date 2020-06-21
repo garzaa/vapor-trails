@@ -84,6 +84,7 @@ public class InputManager : MonoBehaviour {
     public static bool GenericEscapeInput() {
         return (
             Input.GetButtonDown(Buttons.SPECIAL)
+            || Input.GetButtonDown(Buttons.INVENTORY)
         );
     }
 

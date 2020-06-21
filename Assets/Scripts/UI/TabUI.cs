@@ -1,34 +1,42 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class TabUI : MonoBehaviour {
-    bool firstEnable = true;
+    bool started;
 
     [SerializeField] Transform tabContainer;
     [SerializeField] GameObject tabPrefab;
     [SerializeField] Transform screenContainer;
 
-    List<GameObject> activeTabs;
+    public List<GameObject> screens = new List<GameObject>();
 
-    int currentTab = 0;
-    UILerper lerper;
+    public int currentTab = 1;
+
+    void Start() {
+        // called once! after every game object is loaded, after first OnEnable
+        started = true;
+        OnEnable();
+    }
 
     // called whenever enabled
     void OnEnable() {
-        if (firstEnable) {
-            firstEnable = false;
-            return;
-        }
-        InitializeUI();
-    }
-    
-    void Start() {
-        // called once! after every game object is loaded, after first OnEnable
+        if (!started) return;
         InitializeUI();
     }
 
+    void OnDisable() {
+        foreach (Transform t in screenContainer) {
+            if (screens.Contains(t.gameObject)) {
+                t.gameObject.SetActive(true);
+            }
+        }
+        ClearTabs();
+    }
+
     void InitializeUI() {
+        Debug.Log("initializing ui");
         ClearTabs();
         LinkSubscreens();
         ShowTab(currentTab);
@@ -41,12 +49,12 @@ public class TabUI : MonoBehaviour {
     }
 
     void LinkSubscreens() {
-        activeTabs = new List<GameObject>();
+        screens.Clear();
         int currentChild = 0;
         foreach (Transform child in screenContainer) {
             GameObject g = child.gameObject;
             if (g.activeSelf) {
-                activeTabs.Add(g);
+                screens.Add(g);
                 AddTab(g.name, currentChild);
             }
             currentChild++;
@@ -54,7 +62,6 @@ public class TabUI : MonoBehaviour {
     }
 
     void AddTab(string tabName, int tabNum) {
-        lerper = GetComponent<UILerper>();
         GameObject t = Instantiate(tabPrefab, Vector3.zero, Quaternion.identity, tabContainer);
         t.name = tabName;
         t.GetComponentInChildren<Text>().text = tabName;
@@ -71,18 +78,30 @@ public class TabUI : MonoBehaviour {
     }
 
     void ShowTab(int tabNumber) {
-        currentTab = tabNumber % activeTabs.Count;
+        Debug.Log("showing tab " + tabNumber +  ": " + screens[tabNumber]);
         HideAll();
-        activeTabs[currentTab].gameObject.SetActive(true);
-        GameObject currentTabObj = tabContainer.transform.GetChild(currentTab).gameObject;
-        Button b = currentTabObj.GetComponent<Button>();
+        DeselectOtherTabs();
+
+        currentTab = tabNumber % screens.Count;
+        GameObject currentTabObj = screens[currentTab];
+        currentTabObj.SetActive(true);
+
+        Button b = tabContainer.transform.GetChild(currentTab).GetComponent<Button>();
         b.Select();
         b.OnSelect(null);
+        Debug.Log("setting active=true for tab "+ b.name);
+        b.GetComponent<Animator>().SetBool("Active", true);
     }
 
     void HideAll() {
         foreach (Transform t in screenContainer) {
             t.gameObject.SetActive(false);
+        }
+    }
+
+    void DeselectOtherTabs() {
+        foreach (Transform tab in tabContainer) {
+            tab.GetComponent<Animator>().SetBool("Active", false);
         }
     }
 

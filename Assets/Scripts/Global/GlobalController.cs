@@ -48,6 +48,8 @@ public class GlobalController : MonoBehaviour {
 	public bool uiClosedThisFrame = false;
 	public static int openUIs = 0;
 
+	static GameObject playerMenu;
+
 	void Awake() {
 		if (gc == null) {
 			gc = this;
@@ -71,6 +73,7 @@ public class GlobalController : MonoBehaviour {
 		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
 		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
 		bossHealthUI.gameObject.SetActive(false);
+		playerMenu = GameObject.Find("PlayerMenu");
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -102,6 +105,12 @@ public class GlobalController : MonoBehaviour {
 		pc.ExitCutscene();
 	}
 
+	// don't close menus if the close button is the same
+	IEnumerator OpenMenu(GameObject menuTarget) {
+		yield return new WaitForEndOfFrame();
+		menuTarget.SetActive(true);
+	}
+
 	void LateUpdate() {
 		if (Input.GetKeyDown(KeyCode.R) && SceneManager.GetActiveScene().name.Equals("TargetTest")) {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -112,7 +121,7 @@ public class GlobalController : MonoBehaviour {
 		}
 
 		bool inInventory = inventory.inventoryUI.animator.GetBool("Shown");
-		if ((Input.GetButtonDown("Inventory") || InputManager.GenericEscapeInput()) && inInventory) {
+		if ((InputManager.ButtonDown(Buttons.INVENTORY) || InputManager.GenericEscapeInput()) && inInventory) {
 			if (inInventory) {
 				CloseInventory();
 			}
@@ -120,7 +129,8 @@ public class GlobalController : MonoBehaviour {
 			// avoid any pre-late update weirdness
 			pc.EnterCutscene();
 		} else if (Input.GetButtonDown("Inventory") && !pc.inCutscene && pc.IsGrounded()) {
-			OpenInventory();
+			gc.StartCoroutine(OpenMenu(playerMenu));
+			//OpenInventory();
 		}
 
 		

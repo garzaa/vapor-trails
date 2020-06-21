@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GameEventListener : MonoBehaviour {
     public GameEvent gameEvent;
-    public UnityEvent[] responses;
+    public UnityEvent response;
 
     void OnEnable() {
         gameEvent.Register(this);
@@ -15,8 +15,6 @@ public class GameEventListener : MonoBehaviour {
     }
 
     public void OnEventRaised() {
-        foreach (UnityEvent response in responses) {
-            response.Invoke();
-        }
+        response.Invoke();
     }
 }

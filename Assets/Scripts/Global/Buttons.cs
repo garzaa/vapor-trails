@@ -9,6 +9,7 @@ public static class Buttons {
     public static readonly string KICK   = "Kick";
     public static readonly string XTAUNT = "Horizontal Taunt";
     public static readonly string YTAUNT = "Vertical Taunt";
+    public static readonly string INVENTORY = "Inventory";
 
     public static readonly string SPECIAL    = "Special";
     public static readonly string PROJECTILE = "Projectile";

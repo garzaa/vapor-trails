@@ -16,7 +16,7 @@ public class StatefulNPC : NPC {
 	override protected void ExtendedStart() {
 		persistence = GetComponent<PersistentNPC>();
 		if (!name.ToLower().Contains("sign")) {
-			Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
+			Instantiate(Resources.Load("NPCIcon"), GetPromptPosition(), Quaternion.identity, this.transform);
 		}
 		PickFirstConversation();
 

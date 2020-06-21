@@ -12,6 +12,8 @@ public class NPC : Interactable {
 	public Animator dialogueAnimator;
 	static readonly string DIALOGUE_ANIM_BOOL = "InDialogue";
 
+	public bool generateMapIcon = true;
+
 	public NPC(NPCConversations c) {
 		this.conversations = c;
 	}
@@ -20,8 +22,8 @@ public class NPC : Interactable {
 		conversations = GetComponent<NPCConversations>();
 		persistence = GetComponent<PersistentNPC>();
 		// narsty hack to not display the prompt for multi-box NPC signs
-		if (!name.ToLower().Contains("sign")) {
-			Instantiate(Resources.Load("NPCIcon"), transform.position, Quaternion.identity, this.transform);
+		if (generateMapIcon && !name.ToLower().Contains("sign")) {
+			Instantiate(Resources.Load("NPCIcon"), GetPromptPosition(), Quaternion.identity, this.transform);
 		}
 	}
 

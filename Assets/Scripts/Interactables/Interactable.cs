@@ -34,27 +34,32 @@ public class Interactable : MonoBehaviour {
 		}
 
 		if (currentPrompt == null && promptPrefab != null) {
-			//if there's a sprite renderer on this object, stick a prompt a little ways on top of it
-			if (gameObject.GetComponent<SpriteRenderer>() != null) {
-				SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
-				float upperBound = spr.bounds.max.y;
-				float yPos = upperBound + topMargin + promptPrefab.GetComponent<SpriteRenderer>().bounds.extents.y;
-				currentPrompt = (GameObject) Instantiate(promptPrefab, new Vector2(this.transform.position.x, yPos), Quaternion.identity, this.transform);
-			} 
-			//otherwise just do it above the gameobject's center
-			else {
-				Vector2 pos = optionalPromptTransform != null ? (Vector2) optionalPromptTransform.position : new Vector2(
-						this.transform.position.x, 
-						this.transform.position.y + topMargin
-						);
-				currentPrompt = (GameObject) Instantiate(
-					promptPrefab, 
-					pos,
-					Quaternion.identity, 
-					this.transform
-				);
-			}
+			currentPrompt = Instantiate(
+				promptPrefab,
+				GetPromptPosition(),
+				Quaternion.identity,
+				this.transform
+			);
 		}
+	}
+
+	protected Vector2 GetPromptPosition() {
+		if (optionalPromptTransform != null) return optionalPromptTransform.position;
+
+		//if there's a sprite renderer on this object, stick a prompt a little ways on top of it
+		if (gameObject.GetComponent<SpriteRenderer>() != null) {
+			SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+			float upperBound = spr.bounds.max.y;
+			float yPos = upperBound + topMargin + promptPrefab.GetComponent<SpriteRenderer>().bounds.extents.y;
+			return new Vector2(this.transform.position.x, yPos);
+		} 
+		//otherwise just do it above the gameobject's center
+		else {
+			return new Vector2(
+				this.transform.position.x, 
+				this.transform.position.y + topMargin
+			);
+		}			
 	}
 
 	public void RemovePrompt() {
