@@ -60,7 +60,6 @@ public class TabUI : MonoBehaviour {
         t.GetComponentInChildren<Text>().text = tabName;
         Button b = t.GetComponentInChildren<Button>();
         b.onClick.AddListener(delegate { ShowTab(tabNum); });
-        
     }
 
     public void NextTab() {

@@ -18796,8 +18796,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4793285143551312}
-  - {fileID: 1372906137600594928}
-  - {fileID: 1369979865698471003}
   m_Father: {fileID: 4907328520807726}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24476,6 +24474,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4088767658945308}
+  - {fileID: 1372906137600594928}
+  - {fileID: 1369979865698471003}
   m_Father: {fileID: 4823699093169772}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56057,7 +56057,7 @@ GameObject:
   - component: {fileID: 1372906137600594928}
   - component: {fileID: 1863174506747125155}
   m_Layer: 0
-  m_Name: Map Camera
+  m_Name: Minimap Ground Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56074,7 +56074,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4088767658945308}
+  m_Father: {fileID: 4907328520807726}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &1863174506747125155
@@ -56108,7 +56108,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 272
+    m_Bits: 256
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7b226f172389a4b4c9efe66fd886d21a, type: 2}
   m_TargetDisplay: 0
@@ -56850,7 +56850,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4088767658945308}
+  m_Father: {fileID: 4907328520807726}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2211864908897954916
@@ -62995,6 +62995,7 @@ GameObject:
   - component: {fileID: 8299660186074813981}
   - component: {fileID: 2756017666579627174}
   - component: {fileID: 881847172217333340}
+  - component: {fileID: 9176794293088303791}
   m_Layer: 5
   m_Name: Tabs
   m_TagString: Untagged
@@ -63112,6 +63113,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lerpSpeed: 0.1
   xOnly: 1
+--- !u!114 &9176794293088303791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573373562317788330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5605119d02ff20479745eaee0d43f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5576716951390480182
 GameObject:
   m_ObjectHideFlags: 0
@@ -91860,8 +91873,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e0858a42b9b2da942b7e9ef389a282e0, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 7d8ad8eade8f9694ea4260e8b22610b6, type: 3}
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
