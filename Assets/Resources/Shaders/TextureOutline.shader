@@ -85,39 +85,27 @@ Shader "Sprites/TextureOutline"
 
     fixed4 frag(v2f IN) : SV_Target
     {
-        fixed4 c = SampleSpriteTexture(IN.texcoord) * IN.color;
-        c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashColor.a);
+        fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
+            
+                c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashColor.a);
 
-    // If outline is enabled and there is a pixel, try to draw an outline.
-    if (_Outline > 0 && c.a != 0) {
-        float totalAlpha = 1.0;
+                // If outline is enabled and there is a pixel, try to draw an outline.
+                if (_Outline > 0 && c.a != 0) {
+                    // Get the neighbouring four pixels.
+                    fixed4 pixelUp = tex2D(_MainTex, IN.texcoord + fixed2(0, _MainTex_TexelSize.y));
+                    fixed4 pixelDown = tex2D(_MainTex, IN.texcoord - fixed2(0, _MainTex_TexelSize.y));
+                    fixed4 pixelRight = tex2D(_MainTex, IN.texcoord + fixed2(_MainTex_TexelSize.x, 0));
+                    fixed4 pixelLeft = tex2D(_MainTex, IN.texcoord - fixed2(_MainTex_TexelSize.x, 0));
 
-        if (IN.texcoord.x < _Rect.x + _MainTex_TexelSize.x || IN.texcoord.y < _Rect.y + _MainTex_TexelSize.y ||
-            IN.texcoord.x > _Rect.z - _MainTex_TexelSize.x || IN.texcoord.y > _Rect.w - _MainTex_TexelSize.y)
-        {
-            totalAlpha = 0;
-        }
-        else
-        {
-            [unroll(4)]
-            for (int i = 1; i < _OutlineSize + 1; i++) {
-                fixed4 pixelUp = tex2D(_MainTex, IN.texcoord + fixed2(0, i * _MainTex_TexelSize.y));
-                fixed4 pixelDown = tex2D(_MainTex, IN.texcoord - fixed2(0, i *  _MainTex_TexelSize.y));
-                fixed4 pixelRight = tex2D(_MainTex, IN.texcoord + fixed2(i * _MainTex_TexelSize.x, 0));
-                fixed4 pixelLeft = tex2D(_MainTex, IN.texcoord - fixed2(i * _MainTex_TexelSize.x, 0));
+                    // If one of the neighbouring pixels is invisible, we render an outline.
+                    if (pixelUp.a * pixelDown.a * pixelRight.a * pixelLeft.a == 0) {
+                        c.rgba = fixed4(1, 1, 1, 1) * _OutlineColor;
+                    }
+                }
 
-                totalAlpha = totalAlpha * pixelUp.a * pixelDown.a * pixelRight.a * pixelLeft.a;
-            }
-        }
+                c.rgb *= c.a;
 
-        if (totalAlpha == 0) {
-            c.rgba = fixed4(1, 1, 1, 1) * _OutlineColor;
-        }
-    }
-
-    c.rgb *= c.a;
-
-    return c;
+                return c;
     }
         ENDCG
     }

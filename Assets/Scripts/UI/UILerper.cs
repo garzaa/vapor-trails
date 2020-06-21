@@ -3,13 +3,14 @@ using UnityEngine;
 public class UILerper : MonoBehaviour {
 
     [SerializeField]
-    float lerpSpeed;
+    float lerpSpeed = 0.2f;
+    public bool xOnly = false;
 
     RectTransform target;
     Vector3 originalPos;
     RectTransform selfTransform;
 
-    void Start() {
+    void Awake() {
         selfTransform = GetComponent<RectTransform>();
         originalPos = selfTransform.position;
     }
@@ -24,6 +25,12 @@ public class UILerper : MonoBehaviour {
                 selfTransform.position,
                 originalPos - target.localPosition,
                 lerpSpeed
+            );
+        }
+        if (xOnly) {
+            selfTransform.position = new Vector2(
+                selfTransform.position.x,
+                originalPos.y
             );
         }
     }

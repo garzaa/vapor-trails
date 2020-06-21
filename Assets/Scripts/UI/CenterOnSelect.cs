@@ -10,6 +10,7 @@ public class CenterOnSelect : MonoBehaviour, ISelectHandler {
     }
 
     public void OnSelect(BaseEventData eventData) {
+        if (lerper == null) Start();
         lerper.SetTarget(this.GetComponent<RectTransform>());
     }
 }

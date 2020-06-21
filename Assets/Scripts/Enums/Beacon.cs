@@ -5,5 +5,6 @@ public enum Beacon {
     C,
     D,
     E,
-    F
+    F,
+    G
 }
