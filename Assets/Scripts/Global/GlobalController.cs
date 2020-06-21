@@ -148,11 +148,13 @@ public class GlobalController : MonoBehaviour {
 
 		UpdateControllerStatus();
 
+#if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
 			GlobalController.SaveGame(false);
 		} else if (Input.GetKeyDown(KeyCode.RightBracket)) {
 			GlobalController.LoadGame();
 		}
+#endif
 	}
 
 	public static void OnDialogueSkip() {

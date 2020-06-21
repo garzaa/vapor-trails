@@ -10,6 +10,8 @@ public class UILerper : MonoBehaviour {
     Vector3 originalPos;
     RectTransform selfTransform;
 
+    public bool resetOnEnable = false;
+
     void Awake() {
         selfTransform = GetComponent<RectTransform>();
         originalPos = selfTransform.position;

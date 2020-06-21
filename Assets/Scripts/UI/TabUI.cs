@@ -13,6 +13,15 @@ public class TabUI : MonoBehaviour {
 
     public int currentTab = 1;
 
+    void Update() {
+        if (Input.GetButtonDown("Tab Left")) {
+            PreviousTab();
+        }
+        else if (Input.GetButtonDown("Tab Right")) {
+            NextTab();
+        }
+    }
+
     void Start() {
         // called once! after every game object is loaded, after first OnEnable
         started = true;
@@ -68,11 +77,11 @@ public class TabUI : MonoBehaviour {
     }
 
     public void NextTab() {
-        ShowTab(currentTab++);
+        ShowTab(++currentTab);
     }
 
     public void PreviousTab() {
-        ShowTab(currentTab--);
+        ShowTab(--currentTab);
     }
 
     void ShowTab(int tabNumber) {
@@ -80,6 +89,7 @@ public class TabUI : MonoBehaviour {
         DeselectOtherTabs();
 
         currentTab = tabNumber % screens.Count;
+        if (currentTab < 0) currentTab = screens.Count-1;
         GameObject currentTabObj = screens[currentTab];
         currentTabObj.SetActive(true);
 

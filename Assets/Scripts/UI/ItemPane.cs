@@ -4,12 +4,16 @@ using UnityEngine.EventSystems;
 
 public class ItemPane : MonoBehaviour, ISelectHandler {
     InventoryUI inventoryUI;
+    ItemViewer itemViewer;
+    
     public Item inventoryItem;
+
 
     public Image itemImage;
     public Text itemCount;
 
     void Start() {
+        itemViewer = GetComponentInParent<ItemViewer>();
         inventoryUI = GetComponentInParent<InventoryUI>();
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
@@ -18,6 +22,9 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     {
         if (inventoryUI != null) {
             inventoryUI.ReactToItemHover(this);
+        }
+        if (itemViewer != null) {
+            itemViewer.ReactToItemHover(this);
         }
     }
 

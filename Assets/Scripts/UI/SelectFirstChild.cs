@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class SelectFirstChild : MonoBehaviour {
-    void OnEnable() {
+    public void OnEnable() {
         StartCoroutine(SelectChild());
     }
 

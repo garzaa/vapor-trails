@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ItemViewer : MonoBehaviour {
     public GameObject itemPaneTemplate;
@@ -11,6 +12,13 @@ public class ItemViewer : MonoBehaviour {
     public Text itemCost;
     public ScrollRect scrollView;
     public AudioClip selectSound;
+
+    void OnEnable() {
+        itemImage.color = new Color(1, 1, 1, 0);
+        itemTitle.text = "";
+        itemDescription.text = "";
+        itemCost.text = "";
+    }
 
     public void ReactToItemHover(ItemPane itemPane) {
         SoundManager.PlaySound(selectSound);
@@ -30,5 +38,23 @@ public class ItemViewer : MonoBehaviour {
                 + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions)
                 + "</color>";
         }
+    }
+
+    public void PopulateItems(InventoryList inventoryList) {
+        // don't want to modify the list in place, instead copy and iterate through that
+        // it Just Works
+        foreach (Transform oldItem in gridHolder.transform.Cast<Transform>().ToArray()) {
+            // Destroy is called after the Update loop, which screws up the first child selection logic
+            // so we do this so it's not shown
+            Destroy(oldItem.gameObject);
+            oldItem.parent = null;
+        }
+        for (int i=inventoryList.items.Count-1; i>=0; i--) {
+            Item item = inventoryList.items[i];
+            GameObject g = (GameObject) Instantiate(itemPaneTemplate);
+            g.transform.parent = gridHolder;
+            g.GetComponent<ItemPane>().PopulateSelfInfo(item);
+        }
+        GetComponent<SelectFirstChild>().OnEnable();
     }
 }

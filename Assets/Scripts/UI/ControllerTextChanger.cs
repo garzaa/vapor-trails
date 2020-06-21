@@ -14,6 +14,7 @@ public class ControllerTextChanger : MonoBehaviour {
 	}
 
 	public static string ReplaceText(string target) {
+		if (evaluator == null) evaluator = new MatchEvaluator(ButtonExtractor);
 		return Regex.Replace(
 			target,
 			pattern,
@@ -21,7 +22,7 @@ public class ControllerTextChanger : MonoBehaviour {
 		);
 	}
 
-	string ButtonExtractor(Match match) {
+	static string ButtonExtractor(Match match) {
 		string[] matchedString = match.Value.Replace("(","").Replace(")","").Split('|');
 		if (!GlobalController.xboxController && !GlobalController.playstationController) {
 			return matchedString[0];
