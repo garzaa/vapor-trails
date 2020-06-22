@@ -45,6 +45,9 @@ public class ItemViewer : MonoBehaviour {
         itemImage.color = new Color(1, 1, 1, 1);
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.name.ToUpper();
+        if (item.count > 1) {
+            itemTitle.text += ": " + item.count;
+        }
         itemDescription.text = item.description;
         //itemCost.text = "$"+item.cost.ToString();
         if (item.type.Contains(ItemType.ABILITY)) {
