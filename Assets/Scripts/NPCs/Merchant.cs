@@ -20,6 +20,15 @@ public class Merchant : PersistentObject {
     [TextArea]
     public string thanksDialogue;
 
+    public bool generateMapIcon = true;
+
+
+    override public void Start() {
+        base.Start();
+        if (generateMapIcon) {
+			Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);
+		}
+    }
 
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
         this.baseInventory = GetComponent<InventoryList>();
