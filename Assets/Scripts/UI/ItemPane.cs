@@ -12,10 +12,13 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     public Image itemImage;
     public Text itemCount;
 
+    Button b;
+
     void Start() {
         itemViewer = GetComponentInParent<ItemViewer>();
         inventoryUI = GetComponentInParent<InventoryUI>();
-        GetComponent<Button>().onClick.AddListener(OnClick);
+        b = GetComponent<Button>();
+        if (b != null) b.onClick.AddListener(OnClick);
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -29,6 +32,7 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     }
 
     void OnClick() {
+        // for merchants
         GlobalController.inventory.ReactToItemSelect(this.inventoryItem);
     }
 

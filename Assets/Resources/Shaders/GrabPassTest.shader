@@ -65,6 +65,11 @@ Shader "Custom/GrabPassTest" {
                     // can this be done at all?
                     i.uvgrab.y -= 0.4;
 
+                    // https://docs.unity3d.com/Manual/SL-UnityShaderVariables.html
+                    // https://github.com/gamedevserj/Shader-Graph-Experiments
+                    // Offset.Y = CameraPosition.Y * (-1/cameraOrthographicSize) + ObjectPosition.Y * (1/cameraOrthographicSize)
+
+
                     // flip the texture
                     i.uvgrab.y = 1 - i.uvgrab.y;
 
