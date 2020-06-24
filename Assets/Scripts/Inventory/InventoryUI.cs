@@ -62,7 +62,7 @@ public class InventoryUI : CloseableUI {
         itemImage.color = new Color(1, 1, 1, 1);
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.name.ToUpper();
-        itemDescription.text = item.description;
+        itemDescription.text = item.GetDescription();
         itemCost.text = "$"+item.cost.ToString();
         if (item.type.Contains(ItemType.ABILITY)) {
             itemDescription.text += 

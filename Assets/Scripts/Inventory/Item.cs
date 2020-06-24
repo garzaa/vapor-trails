@@ -11,8 +11,8 @@ public class Item : ScriptableObject {
 
     public List<ItemType> type;
 
-    [TextArea]
-    public string description;
+    [TextArea] [SerializeField]
+    string description;
 
     public List<GameState> gameStates;
 
@@ -31,5 +31,9 @@ public class Item : ScriptableObject {
 
     public Item Instance() {
         return (Item) this.MemberwiseClone();
+    }
+
+    virtual public string GetDescription() {
+        return ControllerTextChanger.ReplaceText(description);
     }
 }

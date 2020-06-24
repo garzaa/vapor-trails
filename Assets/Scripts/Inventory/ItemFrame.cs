@@ -3,17 +3,22 @@ using UnityEngine.UI;
 
 public class ItemFrame : MonoBehaviour {
     [SerializeField]
-    InventoryList inventory;
-
-    [SerializeField]
     Item targetItem;
 
-    Image itemImage;
+    [SerializeField] Image itemImage;
+    bool initialized;
+
+    void Start() {
+        itemImage.sprite = targetItem.itemIcon;
+        initialized = true;
+    }
     
     void OnEnable() {
-        if (itemImage == null) itemImage = GetComponentInChildren<Image>();
-        if (inventory.HasItem(targetItem)) {
-            itemImage.sprite = targetItem.itemIcon;
+        if (!initialized) Start();
+        if (GlobalController.inventory.items.HasItem(targetItem)) {
+            itemImage.enabled = true;
+        } else {
+            itemImage.enabled = false;
         }
     }
 }

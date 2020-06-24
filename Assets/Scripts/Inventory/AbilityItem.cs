@@ -9,4 +9,11 @@ public class AbilityItem : Item {
         if (!quiet) GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
         GlobalController.UnlockAbility(this.ability);
     }
+
+    override public string GetDescription() {
+        return base.GetDescription() 
+            + "\n\n<color=white>"
+            + ControllerTextChanger.ReplaceText(instructions)
+            + "</color>";
+    }
 }

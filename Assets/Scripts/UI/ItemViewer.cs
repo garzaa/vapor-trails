@@ -48,14 +48,7 @@ public class ItemViewer : MonoBehaviour {
         if (item.count > 1) {
             itemTitle.text += ": " + item.count;
         }
-        itemDescription.text = item.description;
         //itemCost.text = "$"+item.cost.ToString();
-        if (item.type.Contains(ItemType.ABILITY)) {
-            itemDescription.text += 
-                "\n\n<color=white>"
-                + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions)
-                + "</color>";
-        }
     }
 
     public void PopulateItems(InventoryList inventoryList) {
