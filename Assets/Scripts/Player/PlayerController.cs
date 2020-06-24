@@ -681,13 +681,15 @@ public class PlayerController : Entity {
 
 	public override void OnGroundLeave() {
 		grounded = false;
-		anim.SetBool("Grounded", false);
 		justLeftGround = true;
+		anim.SetBool("Grounded", false);
+		anim.SetBool("JustLeftGround", true);
 		StartCoroutine(GroundLeaveTimeout());
 	}
 
 	IEnumerator GroundLeaveTimeout() {
 		yield return new WaitForSecondsRealtime(coyoteTime);
+		anim.SetBool("JustLeftGround", false);
 		justLeftGround = false;
 	}
 

@@ -21,8 +21,7 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
         if (b != null) b.onClick.AddListener(OnClick);
     }
 
-    public void OnSelect(BaseEventData eventData)
-    {
+    public void OnSelect(BaseEventData eventData) {
         if (inventoryUI != null) {
             inventoryUI.ReactToItemHover(this);
         }
