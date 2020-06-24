@@ -108,6 +108,7 @@ Shader "UI/CustomUI"
                 // move pixel-perfect
                 // texelsize.z: width
                 uv.x = floor((uv.x + (_Time * _XSpeed)) * _MainTex_TexelSize.z) / _MainTex_TexelSize.z;
+                uv.y = floor((uv.y + (_Time * _YSpeed)) * _MainTex_TexelSize.w) / _MainTex_TexelSize.w;
 
                 half4 color = (tex2D(_MainTex, uv) + _TextureSampleAdd) * IN.color;
 
