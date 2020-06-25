@@ -23,4 +23,8 @@ public class EnableDisableOnSubmit : MonoBehaviour, ISubmitHandler, IDeselectHan
     public void ButtonClick() {
         target.SetActive(!target.activeSelf);
     }
+
+    public void OnDisable() {
+        target.SetActive(false);
+    }
 }

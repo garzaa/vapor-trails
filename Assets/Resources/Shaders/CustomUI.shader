@@ -17,6 +17,8 @@ Shader "UI/CustomUI"
 
         _XSpeed ("X Scroll Speed", Float) = 0
         _YSpeed ("Y Scroll Speed", Float) = 0
+
+        _Offset ("Position Texture Offset", Vector) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -87,6 +89,8 @@ Shader "UI/CustomUI"
             uniform float _XSpeed;
             uniform float _YSpeed;
 
+            uniform float4 _Offset;
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -109,6 +113,9 @@ Shader "UI/CustomUI"
                 // texelsize.z: width
                 uv.x = floor((uv.x + (_Time * _XSpeed)) * _MainTex_TexelSize.z) / _MainTex_TexelSize.z;
                 uv.y = floor((uv.y + (_Time * _YSpeed)) * _MainTex_TexelSize.w) / _MainTex_TexelSize.w;
+
+                uv.x += _Offset.x;
+                uv.y += _Offset.y;
 
                 half4 color = (tex2D(_MainTex, uv) + _TextureSampleAdd) * IN.color;
 

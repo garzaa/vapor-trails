@@ -49,6 +49,7 @@ public class ItemViewer : MonoBehaviour {
             itemTitle.text += ": " + item.count;
         }
         //itemCost.text = "$"+item.cost.ToString();
+        itemDescription.text = item.GetDescription();
     }
 
     public void PopulateItems(InventoryList inventoryList) {
