@@ -26,7 +26,7 @@ public class Merchant : PersistentObject {
     override public void Start() {
         base.Start();
         if (generateMapIcon) {
-			Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);
+			//Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);
 		}
     }
 
