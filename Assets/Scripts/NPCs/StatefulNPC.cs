@@ -15,8 +15,8 @@ public class StatefulNPC : NPC {
 
 	override protected void ExtendedStart() {
 		persistence = GetComponent<PersistentNPC>();
-		if (!name.ToLower().Contains("sign")) {
-			Instantiate(Resources.Load("NPCIcon"), GetPromptPosition(), Quaternion.identity, this.transform);
+		if (generateMapIcon && !name.ToLower().Contains("sign")) {
+			SpawnMapIcon();
 		}
 		PickFirstConversation();
 
