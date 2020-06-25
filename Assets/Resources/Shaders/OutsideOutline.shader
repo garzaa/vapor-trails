@@ -19,6 +19,8 @@ Shader "Sprites/OutsideOutline"
 		}
  
 		Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
+        ZWrite Off
  
         Pass
         {

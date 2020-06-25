@@ -5,15 +5,18 @@ using UnityEngine;
 public class PlayerFlipMatcher : MonoBehaviour {
 
 	GameObject player;
+	float originalXScale;
 
 	void Start () {
-		if (player == null) {
-			player = GameObject.Find("Player");
-		}
+		player = GlobalController.pc.gameObject;
+		originalXScale = transform.localScale.x;
 	}
 	
 	void FixedUpdate() {
-		this.transform.localScale = player.transform.localScale;
+		transform.localScale = new Vector2(
+			originalXScale * player.transform.localScale.x,
+			transform.localScale.y
+		);
 	}
 	
 }
