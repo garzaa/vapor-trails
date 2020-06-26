@@ -1286,7 +1286,7 @@ public class PlayerController : Entity {
 	}
 
 	public void OnAttackLand(Attack attack) {
-		ResetAirJumps();	
+		// ResetAirJumps();	
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
