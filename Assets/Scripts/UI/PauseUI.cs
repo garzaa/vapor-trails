@@ -1,22 +1,20 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PauseUI : CloseableUI {
     Animator animator;
-    EventSystem eventSystem;
     GameObject firstSelected;
 
     void Start() {
         animator = GetComponent<Animator>();
-        eventSystem = GetComponentInChildren<EventSystem>();
         firstSelected = transform.GetChild(0).gameObject;
     }
 
     override public void Open() {
         base.Open();
         animator.SetBool("Shown", true);
-        eventSystem.SetSelectedGameObject(firstSelected);
+        StartCoroutine(SelectChild());
     }
 
     override public void Close() {
@@ -34,5 +32,13 @@ public class PauseUI : CloseableUI {
         if (open && Input.GetButtonDown("Start")) {
             Close();
         }
+    }
+
+    IEnumerator SelectChild() {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        Button b = GetComponentInChildren<Button>();
+        b.Select();
+        b.OnSelect(null);
     }
 }

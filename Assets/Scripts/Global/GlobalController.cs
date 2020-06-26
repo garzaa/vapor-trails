@@ -128,9 +128,8 @@ public class GlobalController : MonoBehaviour {
 		} else if (inInventory) {
 			// avoid any pre-late update weirdness
 			pc.EnterCutscene();
-		} else if (InputManager.ButtonDown(Buttons.INVENTORY) && !pc.inCutscene && pc.IsGrounded()) {
+		} else if (pauseEnabled && InputManager.ButtonDown(Buttons.INVENTORY) && !pc.inCutscene && pc.IsGrounded()) {
 			gc.StartCoroutine(OpenMenu(playerMenu));
-			//OpenInventory();
 		}
 
 		
