@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour {
 
-	Beacon currentBeacon = Beacon.None;
+	Beacon currentBeacon;
 	bool toPosition = false;
 	Vector2 position = Vector2.zero;
 	float targetVolume = 1f;
@@ -55,9 +55,9 @@ public class TransitionManager : MonoBehaviour {
 
 		GlobalController.ShowUI();
 
-		if (currentBeacon != Beacon.None) {
+		if (currentBeacon != null) {
 			GlobalController.MovePlayerToBeacon(currentBeacon);
-			currentBeacon = Beacon.None;
+			currentBeacon = null;
 		} else if (SubwayManager.playerOnSubway) {
 			SubwayManager.ArriveWithPlayer();
 		} else if (toPosition) {
@@ -70,7 +70,7 @@ public class TransitionManager : MonoBehaviour {
 			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
 
 			if (sd.loadOtherSceneAtStart) {
-				LoadScene(sd.otherSceneName, Beacon.None, fade:false);
+				LoadScene(sd.otherSceneName, null, fade:false);
 				return;
 			}
 
@@ -111,7 +111,7 @@ public class TransitionManager : MonoBehaviour {
 	public void LoadSceneToPosition(string sceneName, Vector2 position) {
 		this.toPosition = true;
 		this.position = position;
-		LoadScene(sceneName, Beacon.None);
+		LoadScene(sceneName, null);
 	}
 
 	public void LoadScene(string sceneName, Beacon beacon, bool fade = true) {

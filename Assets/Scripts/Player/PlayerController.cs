@@ -271,10 +271,6 @@ public class PlayerController : Entity {
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
-		if (grounded && rb2d.velocity.y > 0 && (groundCheck.TouchingPlatforms() != null)) {
-			LedgeBoost();
-		}
-
 		if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
 			EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
 			if (platforms != null && grounded) {
@@ -337,10 +333,6 @@ public class PlayerController : Entity {
 		else if (!IsGrounded()) {
 			hardFalling = false;
 			anim.SetBool("FastFalling", false);
-		}
-
-		if (wall != null && InputManager.HasHorizontalInput() && rb2d.velocity.y > 0) {
-			LedgeBoost();
 		}
 
 		movingForwardsLastFrame = MovingForwards();
@@ -857,23 +849,6 @@ public class PlayerController : Entity {
 		currentEnergy -= amount;
 		if (currentEnergy < 0) {
 			currentEnergy = 0;
-		}
-	}
-
-	void LedgeBoost() {
-		return;
-		if (inMeteor || InputManager.VerticalInput() < 0 || rb2d.velocity.y > jumpSpeed) {
-			return;
-		}
-		bool movingTowardsLedge = (InputManager.HorizontalInput() * ForwardScalar()) > 0;
-		if (movingTowardsLedge && InputManager.VerticalInput() > -0.1f) {
-			EndDashCooldown();
-			ResetAirJumps();
-			InterruptAttack();
-			rb2d.velocity = new Vector2(
-				x:(IsSpeeding() ? rb2d.velocity.x : speedLimiter.maxSpeedX * ForwardScalar()),
-				y:Mathf.Max(ledgeBoostSpeed, rb2d.velocity.y)
-			);
 		}
 	}
 

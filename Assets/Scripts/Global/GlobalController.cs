@@ -354,7 +354,7 @@ public class GlobalController : MonoBehaviour {
 		PropagateStateChange();
 	}
 
-	public static void LoadScene(string sceneName, Beacon beacon=Beacon.None) {
+	public static void LoadScene(string sceneName, Beacon beacon=null) {
 		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 	}
 

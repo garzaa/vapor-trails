@@ -31,7 +31,7 @@ public class HeadspaceController : MonoBehaviour {
     }
 
     public void AnimationEnterHeadspace() {
-        GlobalController.LoadScene("Headspace/Headspace", Beacon.A);
+        GlobalController.LoadScene("Headspace/Headspace", null);
     }
 
     public void LeaveHeadspace() {
