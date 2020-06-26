@@ -10,6 +10,19 @@ public class WallCheck : MonoBehaviour {
 	[SerializeField] bool drawDebug = false;
 
 	public bool touchingWall;
+	ContactFilter2D filter;
+
+	int numHits;
+	RaycastHit2D[] hits = new RaycastHit2D[1];
+	RaycastHit2D hit;
+
+	void Start() {
+		filter = new ContactFilter2D();
+		// no upward-facing normals, so no platforms
+		filter.SetNormalAngle(0, 180);
+		filter.layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+		filter.useLayerMask = true;
+	}
 
 	public WallCheckData GetWall() {
 		Vector2 startPoint = new Vector2(targetCollider.bounds.center.x, targetCollider.bounds.center.y);
@@ -19,12 +32,11 @@ public class WallCheck : MonoBehaviour {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 
 		// cast left and right
-		RaycastHit2D hit;
-
 		// left
-		hit = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, castDistance, layerMask);
+		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, filter, hits, castDistance);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.left*(actualSize.x/2f + castDistance), Color.red);
-		if (hit.transform != null) {
+		if (numHits != 0) {
+			hit = hits[0];
 			if (drawDebug) {
 				Debug.DrawLine(startPoint, hit.transform.position, Color.magenta);
 			}
@@ -36,10 +48,14 @@ public class WallCheck : MonoBehaviour {
 		}
 
 		// right
-		hit = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, castDistance, layerMask);
+		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, filter, hits, castDistance);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+castDistance), Color.green);
-		if (hit.transform != null) {
+		if (numHits != 0) {
+			hit = hits[0];
 			touchingWall = true;
+			if (drawDebug) {
+				Debug.DrawLine(startPoint, hit.transform.position, Color.magenta);
+			}
 			return new WallCheckData(
 				Vector2.Distance(startPoint, hit.transform.position),
 				1

@@ -8,12 +8,13 @@ public class TabUI : MonoBehaviour {
     [SerializeField] Transform tabContainer;
     [SerializeField] GameObject tabPrefab;
     [SerializeField] Transform screenContainer;
+    [SerializeField] bool keyNav = true;
 
-    public List<GameObject> screens = new List<GameObject>();
-
-    public int currentTab = 1;
+    List<GameObject> screens = new List<GameObject>();
+    int currentTab = 1;
 
     void Update() {
+        if (!keyNav) return;
         if (Input.GetButtonDown("Tab Left")) {
             PreviousTab();
         }
