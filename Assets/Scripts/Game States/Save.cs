@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SaveObject : ISerializationCallbackReceiver {
+public class Save : ISerializationCallbackReceiver {
     public int slotNum = 1;
     public int currentHP = 5;
     public int maxHP = 5;
@@ -13,7 +13,7 @@ public class SaveObject : ISerializationCallbackReceiver {
 
     [HideInInspector] public List<string> gameStates = new List<string>();
 
-    public PlayerUnlocksObject unlocks;    
+    public PlayerUnlocks unlocks;    
     
     public string sceneName;
     public SerializableInventoryList playerItems;
@@ -42,7 +42,7 @@ public class SaveObject : ISerializationCallbackReceiver {
         return o;
     }
 
-    public void LoadNewGamePlus(SaveObject s, int slotNum) {
+    public void LoadNewGamePlus(Save s, int slotNum) {
         this.unlocks = s.unlocks;
         GlobalController.pc.maxHP = s.maxHP;
         GlobalController.pc.maxEnergy = s.maxEnergy;

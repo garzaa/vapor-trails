@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerUnlocksObject {
+public class PlayerUnlocks {
 	public int baseDamage = 1;
 
 	public List<Ability> unlockedAbilities = new List<Ability>();

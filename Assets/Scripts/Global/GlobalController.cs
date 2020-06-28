@@ -22,7 +22,7 @@ public class GlobalController : MonoBehaviour {
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
-	public static SaveObject save;
+	public static Save save;
 	static CloseableUI pauseUI;
 	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
@@ -86,7 +86,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void NewGamePlus() {
 		gc.GetComponent<BinarySaver>().NewGamePlus();
-		SaveObject s = gc.GetComponent<SaveWrapper>().save;
+		Save s = gc.GetComponent<SaveWrapper>().save;
 		pc.LoadFromSaveData(s);
 		LoadScene("Paradise/Tutorial");
 	}
@@ -463,7 +463,7 @@ public class GlobalController : MonoBehaviour {
 	public static void LoadGame() {
 		FadeToBlack();
 		gc.GetComponent<BinarySaver>().LoadGame();
-		SaveObject s = gc.GetComponent<SaveWrapper>().save;
+		Save s = gc.GetComponent<SaveWrapper>().save;
 		pc.LoadFromSaveData(s);
 		inventory.items.LoadFromSerializableInventoryList(s.playerItems);
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {

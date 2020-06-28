@@ -11,7 +11,7 @@ public class TargetingSystem : MonoBehaviour {
 	public GameObject targetingUI;
 	Animator targetAnim;
 
-	PlayerUnlocksObject playerUnlocks;
+	PlayerUnlocks playerUnlocks;
 	
 	bool onPlayer = false;
 

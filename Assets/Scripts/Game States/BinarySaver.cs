@@ -7,7 +7,7 @@ public class BinarySaver : MonoBehaviour
 {
     const string folderName = "saveData";
     const string fileExtension = ".dat";
-	SaveObject existingSave;
+	Save existingSave;
 
 	void OnEnable() {
 		existingSave = GetComponent<SaveWrapper>().save;
@@ -38,7 +38,7 @@ public class BinarySaver : MonoBehaviour
 			Directory.CreateDirectory(folderPath);
 
 		string dataPath = GetSavePath(slot);
-		SaveObject s = LoadCharacter(dataPath);
+		Save s = LoadCharacter(dataPath);
         return s.gameFlags.Contains(GameFlag.BeatGame);
     }
 
@@ -61,7 +61,7 @@ public class BinarySaver : MonoBehaviour
 
     public bool HasSavedGame(int slot=1) {
         try {
-            SaveObject s = LoadCharacter(GetSavePath(slot));
+            Save s = LoadCharacter(GetSavePath(slot));
             return s != null;
         } catch (Exception) {
             // sinful, but it's an easy way to handle save format changes
@@ -69,7 +69,7 @@ public class BinarySaver : MonoBehaviour
         }
     }
 
-    void SaveCharacter(SaveObject save, string path)
+    void SaveCharacter(Save save, string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
@@ -79,13 +79,13 @@ public class BinarySaver : MonoBehaviour
         }
     }
 
-    SaveObject LoadCharacter(string path)
+    Save LoadCharacter(string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
         using (FileStream fileStream = File.Open(path, FileMode.Open))
         {
-            return (SaveObject) binaryFormatter.Deserialize(fileStream);
+            return (Save) binaryFormatter.Deserialize(fileStream);
         }
     }
 
