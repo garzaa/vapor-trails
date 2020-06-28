@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class DynamicCanvasScaler : MonoBehaviour {
     static int pixelScale = 3;
-    public Canvas targetCanvas;
+    Canvas targetCanvas;
+
+    void Start() {
+        targetCanvas = GetComponent<Canvas>();
+    }
 
     void LateUpdate() {
         pixelScale = ComputePixelScale();

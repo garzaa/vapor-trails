@@ -68,7 +68,7 @@ public class GlobalController : MonoBehaviour {
 		save = gc.GetComponent<SaveWrapper>().save;
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = GetComponentInChildren<PauseUI>();
-		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
+		abilityUIAnimator = GameObject.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
 		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
 		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
