@@ -1,7 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class EnableDisableOnSubmit : MonoBehaviour, ISubmitHandler, IDeselectHandler, ISelectHandler {
+public class EnableDisableOnSubmit : MonoBehaviour,
+    ISubmitHandler,
+    IDeselectHandler,
+    ISelectHandler,
+    IPointerDownHandler {
     
     public GameObject target;
 
@@ -20,7 +25,7 @@ public class EnableDisableOnSubmit : MonoBehaviour, ISubmitHandler, IDeselectHan
         if (onDeselect) target.SetActive(false);
     }
 
-    public void ButtonClick() {
+    public void OnPointerDown(PointerEventData eventData) {
         target.SetActive(!target.activeSelf);
     }
 

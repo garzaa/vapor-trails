@@ -6,10 +6,13 @@ public class ItemFrame : MonoBehaviour {
     Item targetItem;
 
     [SerializeField] Image itemImage;
-    bool initialized;
+
+    Button button;
+    bool initialized = false;
 
     void Start() {
         itemImage.sprite = targetItem.itemIcon;
+        button = GetComponent<Button>();
         initialized = true;
     }
     
@@ -17,8 +20,10 @@ public class ItemFrame : MonoBehaviour {
         if (!initialized) Start();
         if (GlobalController.inventory.items.HasItem(targetItem)) {
             itemImage.enabled = true;
+            button.interactable = true;
         } else {
             itemImage.enabled = false;
+            button.interactable = false;
         }
     }
 }
