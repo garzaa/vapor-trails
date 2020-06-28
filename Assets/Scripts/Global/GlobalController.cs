@@ -22,7 +22,7 @@ public class GlobalController : MonoBehaviour {
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
-	public static Save save;
+	public static SaveObject save;
 	static CloseableUI pauseUI;
 	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
@@ -65,7 +65,7 @@ public class GlobalController : MonoBehaviour {
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
-		save = gc.GetComponent<Save>();
+		save = gc.GetComponent<SaveWrapper>().save;
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = GetComponentInChildren<PauseUI>();
 		abilityUIAnimator = gc.transform.Find("PixelCanvas").transform.Find("AbilityGetUI").GetComponent<Animator>();
@@ -86,7 +86,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void NewGamePlus() {
 		gc.GetComponent<BinarySaver>().NewGamePlus();
-		Save s = gc.GetComponent<Save>();
+		SaveObject s = gc.GetComponent<SaveWrapper>().save;
 		pc.LoadFromSaveData(s);
 		LoadScene("Paradise/Tutorial");
 	}
@@ -149,9 +149,13 @@ public class GlobalController : MonoBehaviour {
 
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
+			AlerterText.Alert("Saving game...");
 			GlobalController.SaveGame(false);
+			AlerterText.Alert("Game saved");
 		} else if (Input.GetKeyDown(KeyCode.RightBracket)) {
+			AlerterText.Alert("Loading game...");
 			GlobalController.LoadGame();
+			AlerterText.Alert("Game loaded");
 		}
 #endif
 	}
@@ -346,7 +350,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static bool HasState(GameState state) {
-		return !save || save.gameStates.Contains(state.stateName);
+		return save.gameStates.Contains(state.stateName);
 	}
 
 	public static void RemoveState(GameState state) {
@@ -459,12 +463,14 @@ public class GlobalController : MonoBehaviour {
 	public static void LoadGame() {
 		FadeToBlack();
 		gc.GetComponent<BinarySaver>().LoadGame();
-		Save s = gc.GetComponent<Save>();
+		SaveObject s = gc.GetComponent<SaveWrapper>().save;
 		pc.LoadFromSaveData(s);
+		inventory.items.LoadFromSerializableInventoryList(s.playerItems);
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
 		}
 		inventory.UpdateMoneyUI();
+		LoadSceneToPosition(s.sceneName, s.playerPosition);
  	}
 
 	public static void SaveGame(bool autosave=false) {
@@ -473,6 +479,13 @@ public class GlobalController : MonoBehaviour {
 			pc.FullHeal();
 			AlerterText.Alert("Done");
 		}
+		save.playerItems = inventory.items.MakeSerializableInventory();
+		save.maxHP = pc.maxHP;
+		save.maxEnergy = pc.maxEnergy;
+		save.basePlayerDamage = pc.baseDamage;
+		save.playerPosition = pc.transform.position;
+		save.sceneName = SceneManager.GetActiveScene().path;
+
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}
 

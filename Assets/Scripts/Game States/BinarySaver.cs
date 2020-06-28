@@ -7,10 +7,10 @@ public class BinarySaver : MonoBehaviour
 {
     const string folderName = "saveData";
     const string fileExtension = ".dat";
-	Save existingSave;
+	SaveObject existingSave;
 
 	void OnEnable() {
-		existingSave = GetComponent<Save>();
+		existingSave = GetComponent<SaveWrapper>().save;
 	}
 
 	public void SaveGame(int slot=1) {
@@ -28,7 +28,7 @@ public class BinarySaver : MonoBehaviour
 			Directory.CreateDirectory(folderPath);
 
 		string dataPath = GetSavePath(slot);
-		this.existingSave.LoadFromSerializableSave(LoadCharacter(dataPath));
+		this.existingSave = LoadCharacter(dataPath);
 	}
 
     public bool HasFinishedGame(int slot=1) {
@@ -38,7 +38,7 @@ public class BinarySaver : MonoBehaviour
 			Directory.CreateDirectory(folderPath);
 
 		string dataPath = GetSavePath(slot);
-		SerializableSave s = LoadCharacter(dataPath);
+		SaveObject s = LoadCharacter(dataPath);
         return s.gameFlags.Contains(GameFlag.BeatGame);
     }
 
@@ -61,7 +61,7 @@ public class BinarySaver : MonoBehaviour
 
     public bool HasSavedGame(int slot=1) {
         try {
-            SerializableSave s = LoadCharacter(GetSavePath(slot));
+            SaveObject s = LoadCharacter(GetSavePath(slot));
             return s != null;
         } catch (Exception) {
             // sinful, but it's an easy way to handle save format changes
@@ -69,23 +69,23 @@ public class BinarySaver : MonoBehaviour
         }
     }
 
-    void SaveCharacter(Save save, string path)
+    void SaveCharacter(SaveObject save, string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
         using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
         {
-            binaryFormatter.Serialize(fileStream, save.MakeSerializableSave());
+            binaryFormatter.Serialize(fileStream, save);
         }
     }
 
-    SerializableSave LoadCharacter(string path)
+    SaveObject LoadCharacter(string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
 
         using (FileStream fileStream = File.Open(path, FileMode.Open))
         {
-            return (SerializableSave)binaryFormatter.Deserialize(fileStream);
+            return (SaveObject) binaryFormatter.Deserialize(fileStream);
         }
     }
 

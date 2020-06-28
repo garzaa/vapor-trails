@@ -64,7 +64,7 @@ public class PlayerController : Entity {
 	public BarUI energyBarUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
-	PlayerUnlocks unlocks;
+	PlayerUnlocksObject unlocks;
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
@@ -114,7 +114,7 @@ public class PlayerController : Entity {
 	};
 
 	void Start() {
-		unlocks = GetComponentInParent<PlayerUnlocks>();
+		unlocks = GetComponentInParent<SaveWrapper>().save.unlocks;
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		groundCheck = GetComponent<GroundCheck>();
@@ -1188,7 +1188,7 @@ public class PlayerController : Entity {
 		this.transform.rotation = Quaternion.identity;
 	}
 
-	public void LoadFromSaveData(Save s) {
+	public void LoadFromSaveData(SaveObject s) {
 		this.unlocks = s.unlocks;
 		this.maxEnergy = s.maxEnergy;
 		this.maxHP = s.maxHP;
