@@ -485,7 +485,7 @@ public class GlobalController : MonoBehaviour {
 		save.basePlayerDamage = pc.baseDamage;
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
-
+		gc.GetComponent<MapFog>().SaveCurrentMap();
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}
 

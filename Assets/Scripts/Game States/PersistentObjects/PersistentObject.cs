@@ -6,9 +6,9 @@ public class PersistentObject : MonoBehaviour {
 
 	public Hashtable persistentProperties;
 
-	string id;
+	protected string id;
 
-	public string GetID() {
+	virtual public string GetID() {
 		if (id == null) {
 			id = SceneManager.GetActiveScene().path + "/" + gameObject.GetHierarchicalName();
 		}
