@@ -15,6 +15,8 @@ public class TransitionManager : MonoBehaviour {
 	float transitionEndTime;
 	public GameObject loadTextUI;
 	public Text loadProgressText;
+	
+	public static SceneData sceneData;
 
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -41,6 +43,7 @@ public class TransitionManager : MonoBehaviour {
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		// reset everything and then re-enable according to scene data
+		sceneData = null;
 		loadTextUI.SetActive(false);
 		FadeAudio(1);
 		PlayerController pc = GlobalController.pc;
@@ -68,6 +71,7 @@ public class TransitionManager : MonoBehaviour {
 		SceneData sd;
 		if (GameObject.Find("SceneData") != null) {
 			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
+			sceneData = sd;
 
 			if (sd.loadOtherSceneAtStart) {
 				LoadScene(sd.otherSceneName, null, fade:false);

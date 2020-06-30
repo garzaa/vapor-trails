@@ -1068,6 +1068,7 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterCutscene(bool invincible = true) {
+		Debug.Log("Entering Cutscene");
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
@@ -1089,6 +1090,11 @@ public class PlayerController : Entity {
 	}
 
 	public void ExitCutscene() {
+		if (TransitionManager.sceneData != null) {
+			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.hidePlayer) {
+				return;
+			}
+		}
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();

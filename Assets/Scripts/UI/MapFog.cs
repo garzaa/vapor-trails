@@ -50,11 +50,9 @@ public class MapFog : PersistentObject {
     bool[] EncodeMap() {
         Color32[] pixels = fog.GetPixels32();
         bool[] alphas = new bool[pixels.Length];
-
         for (int i=0; i<pixels.Length; i++) {
-            alphas[i] = ToBool(pixels[i].a);
+            alphas[i] = pixels[i].a > 0;
         }
-
         return alphas;
     }
 
@@ -65,6 +63,10 @@ public class MapFog : PersistentObject {
         }
         fog.SetPixels32(colors);
         fog.Apply();
+    }
+
+    byte ToByte(bool b) {
+        return b ? (byte) 1 : (byte) 0;
     }
 
     void WipeMap() {
@@ -103,13 +105,5 @@ public class MapFog : PersistentObject {
 
     override public string GetID() {
         return "MapFog/"+currentScene;
-    }
-
-    byte ToByte(bool b) {
-        return b ? (byte) 1 : (byte) 0;
-    }
-    
-    bool ToBool(byte b) {
-        return b > 0;
-    }
+    }    
 }
