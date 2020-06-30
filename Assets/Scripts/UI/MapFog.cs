@@ -7,9 +7,12 @@ public class MapFog : PersistentObject {
     [SerializeField] Texture2D fog;
     [SerializeField] GameObject cameraTarget;
 
-    string scene;
+    string currentScene;
     string mapProp = "Map";
     SpriteRenderer spriteRenderer;
+
+    float texturePPU = 1f/8f;
+    float updateInterval = 0.5f;
 
     void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoad;
@@ -26,29 +29,25 @@ public class MapFog : PersistentObject {
     }
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode) {
-        StopUpdating();
+        StopUpdatingMap();
 
-        // save if it's not the first load
-        if (!string.IsNullOrEmpty(this.scene)) {
+        if (!string.IsNullOrEmpty(currentScene)) {
             SaveCurrentMap();
         } 
 
-        // then initialize for a new scene
-        WipeMap();
-        this.scene = SceneManager.GetActiveScene().name;
+        currentScene = scene.name;
 
-        // try to load a texture from the current path
-        SerializedPersistentObject o = LoadObjectState();
-        if (o != null) {
-            // update the texture with these
-            DecodeAndUpdateMap((bool[]) o.persistentProperties[mapProp]);
-        } 
+        SerializedPersistentObject savedState = LoadObjectState();
+        if (savedState != null) {
+            DecodeAndUpdateMap((bool[]) savedState.persistentProperties[mapProp]);
+        } else {
+            WipeMap();
+        }
 
-        StartUpdating();
+        StartUpdatingMap();
     }
 
     bool[] EncodeMap() {
-        // array of bits
         Color32[] pixels = fog.GetPixels32();
         bool[] alphas = new bool[pixels.Length];
 
@@ -60,56 +59,50 @@ public class MapFog : PersistentObject {
     }
 
     void DecodeAndUpdateMap(bool[] map) {
-        // from a bool array to an image
         Color32[] colors = new Color32[map.Length];
         for (int i=0; i<map.Length; i++) {
             colors[i] = new Color(0, 0, 0, ToByte(map[i]));
         }
-        fog.SetPixels32(colors, 0);
+        fog.SetPixels32(colors);
         fog.Apply();
     }
 
     void WipeMap() {
-        int numPixels = fog.width * fog.height;
-        Color32[] colors = new Color32[numPixels];
-        for (int i=0; i<numPixels; i++) {
+        Color32[] colors = new Color32[fog.width*fog.height];
+        for (int i=0; i<colors.Length; i++) {
             colors[i] = new Color(0, 0, 0, 1);
         }
-        fog.SetPixels32(colors, 0);
+        fog.SetPixels32(colors);
         fog.Apply();
     }
 
-    void StopUpdating() {
+    void StopUpdatingMap() {
         StopAllCoroutines();
     }
 
-    void StartUpdating() {
+    void StartUpdatingMap() {
         StartCoroutine(UpdateMap());
     }
 
     IEnumerator UpdateMap() {
-        // put this at the start to deal with camera snapping (everyone starts at (0,0))
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(updateInterval);
 
         Vector2 pos = cameraTarget.transform.position;
-
-        // divide by texture ppu
-        pos /= 8f;
-
-        // texture (0, 0) is actually size/2, size/2
+        pos *= texturePPU;
         pos += new Vector2(fog.width/2, fog.height/2);
-        
-        int x = Mathf.FloorToInt(pos.x);
-        int y = Mathf.FloorToInt(pos.y);
 
-        fog.SetPixel(x, y, new Color32(0, 0, 0, 0));
+        fog.SetPixel(
+            Mathf.FloorToInt(pos.x),
+            Mathf.FloorToInt(pos.y),
+            new Color32(0, 0, 0, 0)
+        );
         fog.Apply();
 
         StartCoroutine(UpdateMap());
     }
 
     override public string GetID() {
-        return "MapFog/"+scene;
+        return "MapFog/"+currentScene;
     }
 
     byte ToByte(bool b) {
