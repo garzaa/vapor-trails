@@ -1068,7 +1068,6 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterCutscene(bool invincible = true) {
-		Debug.Log("Entering Cutscene");
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
@@ -1081,6 +1080,7 @@ public class PlayerController : Entity {
 
 	// exitCutscene is called instead of exitInventory
 	// the only difference is invincibility
+	// this is now only called by the merchant UI
 	public void EnterInventory() {
 		InterruptEverything();
 		Freeze();
