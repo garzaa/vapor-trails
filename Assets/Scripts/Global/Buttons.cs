@@ -15,6 +15,7 @@ public static class Buttons {
     public static readonly string PROJECTILE = "Projectile";
     public static readonly string INTERACT   = "Interact";
     public static readonly string BLOCK      = "Block";
+    public static readonly string SURF       = "Surf";
 
     public static readonly string CONFIRM = "Confirm";
     public static readonly string PAUSE   = "Start";

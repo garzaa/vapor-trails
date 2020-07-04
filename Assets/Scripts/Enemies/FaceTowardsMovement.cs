@@ -1,19 +1,19 @@
 using UnityEngine;
 
 public class FaceTowardsMovement : MonoBehaviour {
-    public Enemy enemy;
+    public Entity entity;
     Rigidbody2D rb2d;
 
     void Start() {
-        enemy = enemy ?? GetComponent<Enemy>();
-        rb2d = enemy.GetComponent<Rigidbody2D>();
+        entity = entity ?? GetComponent<Entity>();
+        rb2d = entity.GetComponent<Rigidbody2D>();
     }
 
     void LateUpdate() {
-        if (enemy.facingRight && rb2d.velocity.x < 0) {
-            enemy.Flip();
-        } else if (!enemy.facingRight && rb2d.velocity.x > 0) {
-            enemy.Flip();
+        if (entity.facingRight && rb2d.velocity.x < 0) {
+            entity.Flip();
+        } else if (!entity.facingRight && rb2d.velocity.x > 0) {
+            entity.Flip();
         }
     }
 }

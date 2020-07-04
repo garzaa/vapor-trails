@@ -13,5 +13,6 @@ public enum Ability {
 	Hover,
 	Save,
 	Heartbreaker,
-	JumpRefund
+	JumpRefund,
+	Surf
 }

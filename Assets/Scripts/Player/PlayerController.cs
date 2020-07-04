@@ -268,6 +268,17 @@ public class PlayerController : Entity {
 			return;
 		}
 
+		if (InputManager.Button(Buttons.SURF) 
+			&& unlocks.HasAbility(Ability.Surf)
+			&& !grounded
+			&& Mathf.Abs(rb2d.velocity.x) > 0.02f
+		) {
+			anim.SetBool("Surf", true);
+			return;
+		} 
+
+		anim.SetBool("Surf", false);
+
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
