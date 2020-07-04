@@ -12,6 +12,8 @@ public class Boss : Enemy {
     }
 
     public void StartFight() {
+        // state machine bugs
+        if (this.hp <= 0) return;
         bossHealthUI.gameObject.SetActive(true);
     }
 
