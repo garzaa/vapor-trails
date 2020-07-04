@@ -462,13 +462,16 @@ public class PlayerController : Entity {
 	}
 
 	public void Dash() {
-		if (dashCooldown || dead || frozen || stunned || inCutscene) {
-			if (dashCooldown) {
-				earlyDashInput = true;
-				Invoke("EndEarlyDashInput", missedInputCooldown);
-			}
+		if (dead || frozen || stunned || inCutscene || currentState.Equals(PlayerStates.SURF)) {
 			return;
 		}
+
+		if (dashCooldown) {
+			earlyDashInput = true;
+			Invoke("EndEarlyDashInput", missedInputCooldown);
+			return;
+		}
+
 		StartCombatStanceCooldown();
 		CameraShaker.MedShake();
 		anim.SetTrigger("Dash");

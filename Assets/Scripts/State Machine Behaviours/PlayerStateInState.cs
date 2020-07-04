@@ -9,4 +9,9 @@ public class PlayerStateInState : StateMachineBehaviour {
         if (pc == null) pc = animator.GetComponent<PlayerController>();
         pc.currentState = this.state;
     }
+
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (pc == null) pc = animator.GetComponent<PlayerController>();
+        pc.currentState = PlayerStates.NORMAL; 
+    }
 }
