@@ -5,7 +5,6 @@ using UnityEngine;
 public class WallCheck : MonoBehaviour {
 
 	[SerializeField] BoxCollider2D targetCollider;
-	[SerializeField] float castDistance = 0.01f;
 	[SerializeField] float groundGap = 0.06f;
 	[SerializeField] bool drawDebug = false;
 
@@ -16,10 +15,11 @@ public class WallCheck : MonoBehaviour {
 	RaycastHit2D[] hits = new RaycastHit2D[1];
 	RaycastHit2D hit;
 
+	const float castDistance = 0.05f;
+	const float normalTolerance = -15f;
+
 	void Start() {
 		filter = new ContactFilter2D();
-		// no upward-facing normals, so no platforms
-		filter.SetNormalAngle(0, 180);
 		filter.layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		filter.useLayerMask = true;
 	}
@@ -32,7 +32,8 @@ public class WallCheck : MonoBehaviour {
 		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 
 		// cast left and right
-		// left
+		// left normals
+		filter.SetNormalAngle(-180+normalTolerance, 0-normalTolerance);
 		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, filter, hits, castDistance);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.left*(actualSize.x/2f + castDistance), Color.red);
 		if (numHits != 0) {
@@ -48,6 +49,8 @@ public class WallCheck : MonoBehaviour {
 		}
 
 		// right
+		// right normals
+		filter.SetNormalAngle(180-normalTolerance, 0+normalTolerance);
 		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, filter, hits, castDistance);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+castDistance), Color.green);
 		if (numHits != 0) {
