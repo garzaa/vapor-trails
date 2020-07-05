@@ -253,7 +253,7 @@ public class PlayerController : Entity {
 		} 
 		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			InterruptEverything();
-			anim.SetTrigger(Buttons.BLOCK);i
+			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
 		}
 	}

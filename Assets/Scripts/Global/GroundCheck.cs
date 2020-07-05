@@ -156,10 +156,10 @@ public class GroundCheck : MonoBehaviour {
 		}
 		else {
 			// start 15 pixels above the collider edge
-			Debug.DrawLine(cornerPos + new Vector2(0, 0.15f), cornerPos - new Vector2(0, 0.1f));
+			Debug.DrawLine(cornerPos + new Vector2(0, 0.05f), cornerPos - new Vector2(0, 0.02f));
 			return Physics2D.Linecast(
 				cornerPos + new Vector2(0, 0.05f),
-				cornerPos - new Vector2(0, 0.03f),
+				cornerPos - new Vector2(0, 0.02f),
 				1 << LayerMask.NameToLayer(Layers.Ground)
 			);
 		}
