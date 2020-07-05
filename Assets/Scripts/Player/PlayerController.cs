@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Entity {
-	//constants
-	readonly public float moveSpeed = 3.5f;
-	readonly float jumpSpeed = 3.8f;
-	readonly float jumpCutoff = 2.0f;
-	readonly float hardLandSpeed = -4f;
-	readonly float dashSpeed = 7f;
-	readonly float terminalFallSpeed = -10f;
-	readonly float dashCooldownLength = .6f;
-	readonly float ledgeBoostSpeed = 2f;
-	readonly float stunLength = 0.4f;
-	readonly float parryLength = 10f/60f;
-	readonly float coyoteTime = 0.1f;
-	readonly float airControlAmount = 10f;
-	readonly float restingGroundDistance = 0.3f;
+	public const float moveSpeed = 3.5f;
+	const float jumpSpeed = 3.8f;
+	const float jumpCutoff = 2.0f;
+	const float hardLandSpeed = -4f;
+	const float dashSpeed = 7f;
+	const float terminalFallSpeed = -10f;
+	const float dashCooldownLength = .6f;
+	const float ledgeBoostSpeed = 2f;
+	const float stunLength = 0.4f;
+	const float parryLength = 10f/60f;
+	const float coyoteTime = 0.1f;
+	const float airControlAmount = 10f;
+	const float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
 
 	//these will be loaded from the save
@@ -74,6 +73,7 @@ public class PlayerController : Entity {
 	public bool grounded = false;
 	WallCheckData wall = null;
 	int airJumps;
+	int airDashes = 1;
 	bool dashCooldown = false;
 	public bool dashing = false;
 	bool inMeteor = false;
@@ -94,7 +94,6 @@ public class PlayerController : Entity {
 	public ActiveInCombat[] combatActives;
 
 	public PlayerStates currentState;
-
 
 	//other misc prefabs
 	public GameObject selfHitmarker;
@@ -125,7 +124,7 @@ public class PlayerController : Entity {
 		gunEyes = transform.Find("GunEyes").transform;
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
-		ResetAirJumps();
+		RefreshAirMovement();
 		lastSafeOffset = this.transform.position;
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
@@ -471,6 +470,13 @@ public class PlayerController : Entity {
 			return;
 		}
 
+		/*
+		if (!grounded && airDashes < 1) {
+			return;
+		}
+		airDashes--;
+		*/
+
 		StartCombatStanceCooldown();
 		CameraShaker.MedShake();
 		anim.SetTrigger("Dash");
@@ -564,7 +570,7 @@ public class PlayerController : Entity {
 	public override void OnGroundHit(float impactSpeed) {
 		grounded = true;
 		canShortHop = true;
-		ResetAirJumps();
+		RefreshAirMovement();
 		InterruptAttack();
 		StopWallTimeout();
 		SaveLastSafePos();
@@ -652,8 +658,9 @@ public class PlayerController : Entity {
 		ChangeAirspeed();
 	}
 
-	void ResetAirJumps() {
+	void RefreshAirMovement() {
 		canFlipKick = true;
+		airDashes = 1;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 	}
 
@@ -734,7 +741,7 @@ public class PlayerController : Entity {
 		EndDashCooldown();
 		InterruptMeteor();
 		anim.SetBool("TouchingWall", true);
-		ResetAirJumps();
+		RefreshAirMovement();
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
 			CancelBufferedJump();
@@ -883,7 +890,7 @@ public class PlayerController : Entity {
 				OnEnviroDamage(attack.GetComponent<EnviroDamage>());
 				InterruptMeteor();
 				if (LayerMask.LayerToName(attack.attackerParent.gameObject.layer) == Layers.Water) {
-					ResetAirJumps();
+					RefreshAirMovement();
 				}
 			}
 		} else if (canParry) {
@@ -1007,7 +1014,7 @@ public class PlayerController : Entity {
 
 	public void EndRespawnAnimation() {
 		ResetAttackTriggers();
-		ResetAirJumps();
+		RefreshAirMovement();
 		UnFreeze();
 		InputManager.UnfreezeInputs();
 		UnLockInSpace();
@@ -1309,7 +1316,7 @@ public class PlayerController : Entity {
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
-		ResetAirJumps();
+		RefreshAirMovement();
 		InterruptMeteor();
 		StartCombatCooldown(); 
 		EndShortHopWindow();
