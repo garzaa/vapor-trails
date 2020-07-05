@@ -253,7 +253,7 @@ public class PlayerController : Entity {
 		} 
 		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
 			InterruptEverything();
-			anim.SetTrigger(Buttons.BLOCK);
+			anim.SetTrigger(Buttons.BLOCK);i
 			// i made the poor decision to track the timings with BlockBehaviour.cs
 		}
 	}
@@ -270,8 +270,7 @@ public class PlayerController : Entity {
 
 		if (InputManager.Button(Buttons.SURF) 
 			&& unlocks.HasAbility(Ability.Surf)
-			&& !grounded
-			&& Mathf.Abs(rb2d.velocity.x) > 0.02f
+			&& Mathf.Abs(rb2d.velocity.x) > 2f
 		) {
 			anim.SetBool("Surf", true);
 			return;
