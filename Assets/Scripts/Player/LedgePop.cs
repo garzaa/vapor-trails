@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class LedgePop : MonoBehaviour {
     const float popDistance = 0.10f;
@@ -9,23 +7,18 @@ public class LedgePop : MonoBehaviour {
 
     BoxCollider2D box;
     Rigidbody2D rb;
-
     int layerMask;
-
     Vector2 boxPos;
 
     void Start() {
         box = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
-
         layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
     }
 
     void Update() {
         if (Mathf.Abs(rb.velocity.x) < 0.2f) return;
-
         boxPos = (Vector2) box.transform.position + box.offset;
-
         CheckPopX();
     }
 
@@ -53,7 +46,7 @@ public class LedgePop : MonoBehaviour {
         if (hit.transform == null) return;
         
         // if upcoming hit, then cast in the same direction with lower tolerance applied
-        Vector2 pop = popDirection*popDistance;
+        Vector2 pop = popDirection * popDistance;
 
         hit = Physics2D.BoxCast(
             origin: boxPos + pop*2,
