@@ -6,7 +6,7 @@ public class WallCheck : MonoBehaviour {
 
 	[SerializeField] BoxCollider2D targetCollider;
 	[SerializeField] float groundGap = 0.06f;
-	[SerializeField] bool drawDebug = false;
+	const bool drawDebug = false;
 
 	public bool touchingWall;
 	ContactFilter2D filter;
