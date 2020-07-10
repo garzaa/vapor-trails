@@ -161,12 +161,13 @@ Shader "Custom/FBMWater"
                 if (compareColor(color, _MaskColor, 0.1)) {
                   fixed2 worldPos = IN.worldPos.xy;
                   ColorResult r = fbmChain(worldPos * 3.0);
-                  float3 fbmColor = lerp(
+                  float4 fbmColor = lerp(
                     lerp(col1, col2, length(r.q)),
                     lerp(col3, col4, r.r.x),
                     r.t
                   );
-                  color.rgb = fbmColor;
+                  color.rgba = fbmColor;
+                  return color;
                 }
 
                 color.rgb = lerp(color.rgb,_FlashColor.rgb,_FlashColor.a);
