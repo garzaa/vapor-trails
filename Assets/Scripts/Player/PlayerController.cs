@@ -81,6 +81,7 @@ public class PlayerController : Entity {
 	public bool justLeftWall = false;
 	bool justLeftGround = false;
 	Coroutine currentWallTimeout;
+	Coroutine coyoteTimeout;
 	bool canShoot = true;
 	Coroutine platformTimeout;
 	public bool inCutscene;
@@ -593,7 +594,7 @@ public class PlayerController : Entity {
 				impactSpeed
 			);
 
-			if (currentState != PlayerStates.DIVEKICK) {
+			if (currentState != PlayerStates.DIVEKICK && !inMeteor) {
 				CameraShaker.Shake(0.1f, 0.1f);
 				SoundManager.HardLandSound();
 				if (InputManager.HasHorizontalInput()) {
@@ -696,12 +697,22 @@ public class PlayerController : Entity {
 		grounded = false;
 		justLeftGround = true;
 		anim.SetBool("Grounded", false);
-		anim.SetBool("JustLeftGround", true);
-		StartCoroutine(GroundLeaveTimeout());
+		if (rb2d.velocity.y <= 0) {
+			coyoteTimeout = StartCoroutine(GroundLeaveTimeout());
+		}
 	}
 
 	IEnumerator GroundLeaveTimeout() {
+		anim.SetBool("JustLeftGround", true);
 		yield return new WaitForSecondsRealtime(coyoteTime);
+		anim.SetBool("JustLeftGround", false);
+		justLeftGround = false;
+	}
+
+	void StopCoyoteTimeout() {
+		if (coyoteTimeout != null) {
+			StopCoroutine(coyoteTimeout);
+		}
 		anim.SetBool("JustLeftGround", false);
 		justLeftGround = false;
 	}
@@ -828,7 +839,7 @@ public class PlayerController : Entity {
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}
-		CameraShaker.BigShake();
+		CameraShaker.MedShake();
 	}
 
 	public void Sparkle() {

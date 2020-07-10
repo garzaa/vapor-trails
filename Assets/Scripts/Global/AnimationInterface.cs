@@ -29,7 +29,7 @@ public class AnimationInterface : MonoBehaviour {
 		if (pos == null) {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.position, Quaternion.identity, null);
+		Instantiate(effects[index], pos.position, effectPoint.transform.rotation, null);
 	}
 
 	public void SpawnFollowingEffect(int index) {
@@ -37,7 +37,7 @@ public class AnimationInterface : MonoBehaviour {
 		if (pos == null) {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.transform.position, Quaternion.identity, this.transform);
+		Instantiate(effects[index], pos.transform.position, effectPoint.transform.rotation, this.transform);
 	}
 
 	public void EmitParticles(int p) {
