@@ -4,6 +4,7 @@ public class LedgePop : MonoBehaviour {
     const float popDistance = 0.10f;
     const float castDistance = 0.05f;
     const float speedMultiplier = 0.5f;
+    const float yspeedCutoff = 2.5f;
 
     BoxCollider2D box;
     Rigidbody2D rb;
@@ -61,7 +62,7 @@ public class LedgePop : MonoBehaviour {
         // if no hit with inner tolerance, then pop the rb2d in that direction
         if (hit.transform == null) {
             rb.MovePosition(rb.position+pop);
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            if (rb.velocity.y < yspeedCutoff) rb.velocity = new Vector2(rb.velocity.x, 0f);
         }
     }
 }

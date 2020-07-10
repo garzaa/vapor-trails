@@ -19,8 +19,4 @@ public class PlayerCombatBehaviour : StateMachineBehaviour {
         if (player == null) player = animator.GetComponent<PlayerController>();
         player.StartCombatStanceCooldown();
     }
-
-    override public void OnStateMachineExit(Animator animator, int stateMachinePathHash, UnityEngine.Animations.AnimatorControllerPlayable controller) {
-        player.ResetAttackTriggers();
-    }
 }

@@ -1892,12 +1892,12 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 1407950412535847891}
-  - {fileID: -4428815054739826911}
-  - {fileID: 734227581713680160}
-  - {fileID: 6849749311572550627}
-  - {fileID: 1468957947035283954}
   - {fileID: -2631404796386614116}
+  - {fileID: 1407950412535847891}
+  - {fileID: 6849749311572550627}
+  - {fileID: 734227581713680160}
+  - {fileID: 1468957947035283954}
+  - {fileID: -4428815054739826911}
   m_StateMachineBehaviours:
   - {fileID: 5408745634885845041}
   m_Position: {x: 50, y: 50, z: 0}
@@ -2961,6 +2961,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3efeaf384862c694cb1b989b20fb526d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1101 &-5238903170093789427
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: -453516480743512718}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.01
+  m_HasExitTime: 1
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-5164489567201007944
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -4243,7 +4265,7 @@ AnimatorStateMachine:
     m_Position: {x: 700, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6499429488818656878}
-    m_Position: {x: 530, y: 80, z: 0}
+    m_Position: {x: 500, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5553321296362238297}
     m_Position: {x: 1000, y: 100, z: 0}
@@ -10498,6 +10520,18 @@ MonoBehaviour:
   pickMax: 0
   onEnter: 0
   onUpdate: 1
+--- !u!114 &2978661871078804322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab785aa1e73554ee18bc6c66ec24572c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1102 &2993374381295624120
 AnimatorState:
   serializedVersion: 5
@@ -14289,6 +14323,7 @@ AnimatorState:
   - {fileID: 1126375438028685870}
   - {fileID: -3092396629114352696}
   - {fileID: 190272017414182159}
+  - {fileID: -5238903170093789427}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -14621,7 +14656,8 @@ AnimatorState:
   - {fileID: 5145474465726434052}
   - {fileID: -8810275806728093707}
   - {fileID: -6133945966353134993}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 2978661871078804322}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

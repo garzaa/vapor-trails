@@ -431,6 +431,7 @@ public class PlayerController : Entity {
 
 	void AirJump() {
 		SoundManager.SmallJumpSound();
+		CameraShaker.TinyShake();
 		EndShortHopWindow();
 		InterruptMeteor();
 		rb2d.velocity = new Vector2(
