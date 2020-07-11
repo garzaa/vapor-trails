@@ -6,7 +6,7 @@ public class WallCheck : MonoBehaviour {
 
 	[SerializeField] BoxCollider2D targetCollider;
 	[SerializeField] float groundGap = 0.06f;
-	const bool drawDebug = false;
+	const bool drawDebug = true;
 
 	public bool touchingWall;
 	ContactFilter2D filter;
@@ -24,6 +24,7 @@ public class WallCheck : MonoBehaviour {
 		filter.useLayerMask = true;
 	}
 
+	// TODO: reuse some of the ledge pop code because that was some good shit
 	public WallCheckData GetWall() {
 		Vector2 startPoint = new Vector2(targetCollider.bounds.center.x, targetCollider.bounds.center.y);
 		Vector2 actualSize = new Vector2(targetCollider.bounds.size.x, targetCollider.bounds.size.y-(2*groundGap));

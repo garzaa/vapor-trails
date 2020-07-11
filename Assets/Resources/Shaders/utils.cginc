@@ -36,6 +36,23 @@ float fbm( float2 uv )
 }
 
 int compareColor(fixed4 c1, fixed4 c2, float tolerance) {
-    half3 delta = abs(c1.rgb - c2.rgb);
-    return length(delta) < tolerance ? 1 : 0;
+    float delta = length(abs(c1.rgb - c2.rgb));
+    return delta < tolerance ? 1 : 0;
+}
+
+// rotate a uv around (0.5, 0.5)
+float2 rotateUV(float2 uv, float deg) {
+    uv -= 0.5;
+    float s = sin(deg);
+    float c = cos(deg);
+
+    float2x2 rotationMatrix = float2x2(c, -s, s, c);
+    rotationMatrix *= 0.5;
+    rotationMatrix += 0.5;
+    rotationMatrix = (rotationMatrix*2)-1;
+
+    uv = mul(uv, rotationMatrix);
+    uv += 0.5;
+
+    return uv;
 }

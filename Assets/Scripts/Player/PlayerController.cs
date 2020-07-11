@@ -15,6 +15,8 @@ public class PlayerController : Entity {
 	const float parryLength = 10f/60f;
 	const float coyoteTime = 0.1f;
 	const float airControlAmount = 10f;
+	const float peakJumpControl = 1.5f;
+	const float peakJumpCutoff = -2f;
 	const float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
 
@@ -304,9 +306,18 @@ public class PlayerController : Entity {
 			if (IsSpeeding() && MovingForwards()) {
 				targetXSpeed = rb2d.velocity.x;
 			}
-			// if decelerating in the air
-			else if (!grounded) {
-				targetXSpeed = Mathf.Lerp(rb2d.velocity.x, targetXSpeed, Time.deltaTime * airControlAmount);
+
+			// if in the air, without coyote time
+			else if (!grounded && !justLeftGround) {
+				// better air control at the jump peak
+				float controlMod = 1f;
+				if (rb2d.velocity.y < 0 && rb2d.velocity.y > peakJumpCutoff) controlMod *= peakJumpControl;
+
+				targetXSpeed = Mathf.Lerp(
+					rb2d.velocity.x,
+					targetXSpeed,
+					Time.deltaTime * airControlAmount * controlMod
+				);
 			}
 
 			rb2d.velocity = new Vector2(
@@ -743,16 +754,17 @@ public class PlayerController : Entity {
 			OnWallLeave();
 			return;
 		}
-		
+
 		if (wall != null) {
 			FlipToWall(wall);
 		}
+
+		anim.SetBool("TouchingWall", touchingLastFrame);
 	}
 
 	void OnWallHit(WallCheckData wall) {
 		EndDashCooldown();
 		InterruptMeteor();
-		anim.SetBool("TouchingWall", true);
 		RefreshAirMovement();
 		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
 			WallJump();
@@ -767,7 +779,6 @@ public class PlayerController : Entity {
 	}
 
 	void OnWallLeave() {
-		anim.SetBool("TouchingWall", false);
 		//if the player just left the wall, they input the opposite direction for a walljump
 		//so give them a split second to use a walljump when they're not technically touching the wall
 		if (!grounded) {
