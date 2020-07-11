@@ -10,13 +10,14 @@ public class PlayerController : Entity {
 	const float dashSpeed = 7f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
-	const float ledgeBoostSpeed = 2f;
 	const float stunLength = 0.4f;
 	const float parryLength = 10f/60f;
 	const float coyoteTime = 0.1f;
+
 	const float airControlAmount = 10f;
-	const float peakJumpControl = 1.5f;
-	const float peakJumpCutoff = -2f;
+	const float peakJumpControlMod = 1.5f;
+	const float peakJumpCutoff = -1f;
+
 	const float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
 
@@ -311,7 +312,7 @@ public class PlayerController : Entity {
 			else if (!grounded && !justLeftGround) {
 				// better air control at the jump peak
 				float controlMod = 1f;
-				if (rb2d.velocity.y < 0 && rb2d.velocity.y > peakJumpCutoff) controlMod *= peakJumpControl;
+				if (rb2d.velocity.y < 0 && rb2d.velocity.y > peakJumpCutoff) controlMod *= peakJumpControlMod;
 
 				targetXSpeed = Mathf.Lerp(
 					rb2d.velocity.x,

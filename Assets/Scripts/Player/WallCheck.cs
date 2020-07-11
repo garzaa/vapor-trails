@@ -15,7 +15,7 @@ public class WallCheck : MonoBehaviour {
 	RaycastHit2D[] hits = new RaycastHit2D[1];
 	RaycastHit2D hit;
 
-	const float extendDistance = 0.03f;
+	const float extendDistance = 0.01f;
 	const float normalTolerance = -15f;
 
 	void Start() {
