@@ -376,13 +376,13 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.JUMP)) {			
-			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundCheck.TouchingPlatforms() == null)) {
-				GroundJump();
+			if (unlocks.HasAbility(Ability.WallClimb) && (wall != null)) {
+				WallJump();
 				return;
 			}
 
-			if (unlocks.HasAbility(Ability.WallClimb) && (wall != null)) {
-				WallJump();
+			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundCheck.TouchingPlatforms() == null)) {
+				GroundJump();
 				return;
 			}
 
@@ -433,8 +433,8 @@ public class PlayerController : Entity {
 		FreezeFor(0.1f);
 		if (wall!=null) DownDust();
 		rb2d.velocity = new Vector2(
-			//we don't want to boost the player back to the wall if they just input a direction away from it
-			x:moveSpeed * ForwardScalar() * (justLeftWall ? 1 : -1) * 1.2f, 
+			// boost the player away from the wall
+			x:moveSpeed * -wall.direction * 1.2f, 
 			y:jumpSpeed
 		);
 		anim.SetTrigger("WallJump");
@@ -454,7 +454,7 @@ public class PlayerController : Entity {
 		airJumps--;
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
-		ChangeAirspeed();		
+		ChangeAirspeed();
 	}
 
 	// instantly change airspeed this frame, for air jumps and other abilitites
@@ -784,10 +784,7 @@ public class PlayerController : Entity {
 		if (!grounded) {
 			currentWallTimeout = StartCoroutine(WallLeaveTimeout());
 		}
-		// they'll end up jumping backwards away from the wall, that's dumb
-		if (!InputManager.HasHorizontalInput() && !MovingForwards()) {
-			ForceFlip();
-		}
+		ForceFlip();
 	}
 
 	void FreezeFor(float seconds) {

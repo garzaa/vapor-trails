@@ -15,33 +15,44 @@ public class WallCheck : MonoBehaviour {
 	RaycastHit2D[] hits = new RaycastHit2D[1];
 	RaycastHit2D hit;
 
-	const float castDistance = 0.05f;
+	const float extendDistance = 0.03f;
 	const float normalTolerance = -15f;
 
 	void Start() {
 		filter = new ContactFilter2D();
 		filter.layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		filter.useLayerMask = true;
+		filter.useNormalAngle = false;
 	}
 
-	// TODO: reuse some of the ledge pop code because that was some good shit
 	public WallCheckData GetWall() {
-		Vector2 startPoint = new Vector2(targetCollider.bounds.center.x, targetCollider.bounds.center.y);
-		Vector2 actualSize = new Vector2(targetCollider.bounds.size.x, targetCollider.bounds.size.y-(2*groundGap));
+		Vector2 startPoint = (Vector2) targetCollider.transform.position + targetCollider.offset;
+		Vector2 actualSize = new Vector2(targetCollider.size.x, targetCollider.bounds.size.y-(2*groundGap));
 
 		Debug.DrawLine(startPoint+actualSize/2, startPoint-actualSize/2, Color.blue);
-		int layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+
+		float distance = targetCollider.size.x/2f + extendDistance;
 
 		// cast left and right
 		// left normals
-		filter.SetNormalAngle(-180+normalTolerance, 0-normalTolerance);
-		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, filter, hits, castDistance);
-		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.left*(actualSize.x/2f + castDistance), Color.red);
+		// filter.SetNormalAngle(-180+normalTolerance, 0-normalTolerance);
+		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, filter, hits, distance);
+		if (drawDebug) {
+			// top edge
+			Debug.DrawLine(
+				new Vector2(startPoint.x, startPoint.y + (targetCollider.size.y/2f)),
+				new Vector2(startPoint.x-distance, startPoint.y + (targetCollider.size.y/2f)),
+				Color.red
+			);
+			// bottom edge
+			Debug.DrawLine(
+				new Vector2(startPoint.x, startPoint.y - (targetCollider.size.y/2f)),
+				new Vector2(startPoint.x-distance, startPoint.y - (targetCollider.size.y/2f)),
+				Color.red
+			);
+		}
 		if (numHits != 0) {
 			hit = hits[0];
-			if (drawDebug) {
-				Debug.DrawLine(startPoint, hit.transform.position, Color.magenta);
-			}
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, hit.transform.position),
@@ -51,9 +62,9 @@ public class WallCheck : MonoBehaviour {
 
 		// right
 		// right normals
-		filter.SetNormalAngle(180-normalTolerance, 0+normalTolerance);
-		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, filter, hits, castDistance);
-		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+castDistance), Color.green);
+		// filter.SetNormalAngle(180-normalTolerance, 0+normalTolerance);
+		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, filter, hits, distance);
+		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+distance), Color.green);
 		if (numHits != 0) {
 			hit = hits[0];
 			touchingWall = true;
