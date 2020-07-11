@@ -588,7 +588,9 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		SaveLastSafePos();
-		if (rb2d.velocity.y < -1.5f) ImpactDust();
+		if (rb2d.velocity.y < -1.5f) {
+			ImpactDust();
+		}
 		anim.SetBool("Grounded", true);
 		if (inMeteor) {
 			LandMeteor();
