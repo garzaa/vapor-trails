@@ -36,7 +36,7 @@ public class PlayerController : Entity {
 	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
 	float combatStanceCooldown = 4f;
-	float sdiMultiplier = 0.1f;
+	float sdiMultiplier = 0.2f;
 	float preDashSpeed;
 	bool perfectDashPossible;
 	bool earlyDashInput;
@@ -670,7 +670,7 @@ public class PlayerController : Entity {
 		canFlipKick = false;
 		rb2d.velocity = new Vector2(
 			rb2d.velocity.x,
-			jumpSpeed * 1.5f
+			jumpSpeed * 1.2f
 		);
 		anim.SetTrigger("UpSlash");
 		ChangeAirspeed();
@@ -705,8 +705,6 @@ public class PlayerController : Entity {
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
-		// override invincibility after the teleport so the player doesn't keep taking env damage
-		envDmgSusceptible = true;
 	}
 
 	public override void OnGroundLeave() {
@@ -928,16 +926,16 @@ public class PlayerController : Entity {
 
 		if (this.currentHP == 0) return;
 		
-		if (isEnvDmg) InvincibleFor(this.invincibilityLength);
-
 		StunFor(stunLength);
+
+		//flip to attacker
 		if (attack.knockBack) {
 			Vector2 kv = attack.GetKnockback();
 			bool attackerToLeft = attack.attackerParent.transform.position.x < this.transform.position.x;
 			if ((attackerToLeft && facingRight) || (!attackerToLeft && !facingRight)) ForceFlip();
 			KnockBack(kv);
 		}
-		//sdi
+		// sdi
 		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*sdiMultiplier));
 	}
 
@@ -1198,8 +1196,6 @@ public class PlayerController : Entity {
 	void OnEnviroDamage(EnviroDamage e) {
 		if (!grounded && e.returnPlayerToSafety) {
 			LockInSpace();
-			// these two together = ez?
-			InvincibleFor(this.invincibilityLength);	
 			StartCoroutine(ReturnToSafety(selfDamageHitstop));
 		}
 	}

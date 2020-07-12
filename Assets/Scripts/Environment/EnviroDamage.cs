@@ -14,6 +14,8 @@ public class EnviroDamage : Attack {
 	ParticleSystem ps;
 	Renderer thisRenderer;
 
+	Collider2D thisCollider;
+
 	void Start() {
 		attackerParent = this.gameObject.AddComponent<Entity>();
 		attackedTags = new List<string>();
@@ -23,6 +25,7 @@ public class EnviroDamage : Attack {
 			ps = GetComponentInChildren<ParticleSystem>();
 		}
 		thisRenderer = GetComponentInChildren<Renderer>();
+		thisCollider = GetComponent<Collider2D>();
 	}
 
 	//the main thing for the env damage check is that it ignores invincibility and just checks for susceptibility to env damage
@@ -54,5 +57,13 @@ public class EnviroDamage : Attack {
 		if (impactSoundClip) {
 			SoundManager.PlaySound(impactSoundClip);
 		}
+
+		thisCollider.enabled = false;
+		// keep the player from walking through spikes
+		Invoke("ReenableCollider", 0.2f);
+	}
+
+	void ReenableCollider() {
+		thisCollider.enabled = true;
 	}
 }
