@@ -133,6 +133,10 @@ Shader "Custom/FBMWater"
             }
 
             ColorResult fbmChain(in float2 uv) {
+
+                uv.x += _Time.w * _XSpeed;
+                uv.y += _Time.w * _YSpeed;
+
                 float2 q = float2(
                   fbm( uv ),
                   fbm( uv + uv)

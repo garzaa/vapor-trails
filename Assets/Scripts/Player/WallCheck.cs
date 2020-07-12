@@ -54,7 +54,6 @@ public class WallCheck : MonoBehaviour {
 		}
 		if (numHits != 0) {
 			hit = hits[0];
-			Debug.Log(hit.normal);
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, hit.transform.position),
@@ -68,7 +67,6 @@ public class WallCheck : MonoBehaviour {
 		if (numHits != 0) {
 			hit = hits[0];
 			touchingWall = true;
-			Debug.Log(hit.normal);
 			if (drawDebug) {
 				Debug.DrawLine(startPoint, hit.transform.position, Color.magenta);
 			}
