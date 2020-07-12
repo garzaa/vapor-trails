@@ -16,13 +16,16 @@ public class WallCheck : MonoBehaviour {
 	RaycastHit2D hit;
 
 	const float extendDistance = 0.01f;
-	const float normalTolerance = -15f;
+	// TODO: what the fuck? redo this the right way with normals logging
+	// ok so normals are either (-1, 0) for a left wall or (1, 0) for a right wall
+	// what the fuck angle does that translate to
+	// ok it's the angle against the cast distance
+	const float normalTolerance = 5f;
 
 	void Start() {
 		filter = new ContactFilter2D();
 		filter.layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		filter.useLayerMask = true;
-		filter.useNormalAngle = false;
 	}
 
 	public WallCheckData GetWall() {
@@ -34,8 +37,6 @@ public class WallCheck : MonoBehaviour {
 		float distance = targetCollider.size.x/2f + extendDistance;
 
 		// cast left and right
-		// left normals
-		filter.SetNormalAngle(-180+normalTolerance, 0-normalTolerance);
 		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, filter, hits, distance);
 		if (drawDebug) {
 			// top edge
@@ -53,6 +54,7 @@ public class WallCheck : MonoBehaviour {
 		}
 		if (numHits != 0) {
 			hit = hits[0];
+			Debug.Log(hit.normal);
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, hit.transform.position),
@@ -61,13 +63,12 @@ public class WallCheck : MonoBehaviour {
 		}
 
 		// right
-		// right normals
-		filter.SetNormalAngle(180-normalTolerance, 0+normalTolerance);
 		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, filter, hits, distance);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+distance), Color.green);
 		if (numHits != 0) {
 			hit = hits[0];
 			touchingWall = true;
+			Debug.Log(hit.normal);
 			if (drawDebug) {
 				Debug.DrawLine(startPoint, hit.transform.position, Color.magenta);
 			}

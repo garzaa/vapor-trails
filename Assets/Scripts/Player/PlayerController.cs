@@ -388,7 +388,8 @@ public class PlayerController : Entity {
 			}
 
 			if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
-				if (anim.GetFloat("GroundDistance") < restingGroundDistance+0.05f) {
+				// player can "ground" jump a little before they hit the ground
+				if (anim.GetFloat("GroundDistance") < restingGroundDistance+0.05f && !justLeftGround) {
 					GroundJump();
 				} else {
 					AirJump();
@@ -443,6 +444,7 @@ public class PlayerController : Entity {
 	}
 
 	void AirJump() {
+		StopCoyoteTimeout();
 		SoundManager.SmallJumpSound();
 		CameraShaker.TinyShake();
 		EndShortHopWindow();
@@ -711,9 +713,7 @@ public class PlayerController : Entity {
 		grounded = false;
 		justLeftGround = true;
 		anim.SetBool("Grounded", false);
-		if (rb2d.velocity.y <= 0) {
-			coyoteTimeout = StartCoroutine(GroundLeaveTimeout());
-		}
+		coyoteTimeout = StartCoroutine(GroundLeaveTimeout());
 	}
 
 	IEnumerator GroundLeaveTimeout() {
