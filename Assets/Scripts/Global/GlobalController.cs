@@ -338,23 +338,23 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddState(GameState state) {
 		if (state == null) return;
-		save.gameStates.Add(state.stateName);
+		save.gameStates.Add(state.name);
 		PropagateStateChange();
 	}
 
 	public static void AddStates(List<GameState> states) {
 		foreach (GameState state in states) {
-			save.gameStates.Add(state.stateName);
+			save.gameStates.Add(state.name);
 		}
 		PropagateStateChange();
 	}
 
 	public static bool HasState(GameState state) {
-		return save.gameStates.Contains(state.stateName);
+		return save.gameStates.Contains(state.name);
 	}
 
 	public static void RemoveState(GameState state) {
-		save.gameStates.Remove(state.stateName);
+		save.gameStates.Remove(state.name);
 		PropagateStateChange();
 	}
 
