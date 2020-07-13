@@ -170,8 +170,7 @@ Shader "Custom/FBMWater"
                     lerp(col3, col4, r.r.x),
                     r.t
                   );
-                  color.rgba = fbmColor;
-                  return color;
+                  color.rgb = fbmColor.rgb;
                 }
 
                 color.rgb = lerp(color.rgb,_FlashColor.rgb,_FlashColor.a);
