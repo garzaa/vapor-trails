@@ -6,7 +6,7 @@ public class AbilityItem : Item {
     [TextArea] public string instructions;
 
     override public void OnPickup(bool quiet = false) {
-        if (!quiet) GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
+        if (!quiet && ability!=Ability.None) GlobalController.abilityUIAnimator.GetComponent<AbilityGetUI>().GetItem(this);
         GlobalController.UnlockAbility(this.ability);
     }
 
