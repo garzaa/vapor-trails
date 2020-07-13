@@ -26,6 +26,7 @@ public class PlayerController : Entity {
 	public int maxHP;
 	public int currentEnergy;
 	public int maxEnergy;
+	public GameOptions options;
 
 	public int parryCount = 0;
 	public int baseDamage = 1;
@@ -406,7 +407,7 @@ public class PlayerController : Entity {
 		}
 
 		// shorthop
-		if (InputManager.ButtonUp(Buttons.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
+		if (options.shortHop && InputManager.ButtonUp(Buttons.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
@@ -1240,6 +1241,7 @@ public class PlayerController : Entity {
 		this.currentEnergy = s.currentEnergy;
 		this.currentHP = s.currentHP;
 		this.baseDamage = s.basePlayerDamage;
+		this.options = s.options;
 		UpdateUI();
 	}
 

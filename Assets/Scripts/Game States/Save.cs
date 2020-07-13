@@ -28,6 +28,8 @@ public class Save : ISerializationCallbackReceiver {
     public List<string> persistentObjectKeys = new List<string>();
     public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
 
+    public GameOptions options;
+
     void Awake() {
         persistentObjects = new Dictionary<string, SerializedPersistentObject>();
     }
