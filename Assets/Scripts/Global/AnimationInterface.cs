@@ -37,7 +37,7 @@ public class AnimationInterface : MonoBehaviour {
 		if (pos == null) {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.transform.position, effectPoint.transform.rotation, this.transform);
+		Instantiate(effects[index], pos.transform.position, pos.transform.rotation, pos.transform);
 	}
 
 	public void EmitParticles(int p) {

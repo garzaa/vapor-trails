@@ -23,9 +23,9 @@ public class PlayerController : Entity {
 
 	//these will be loaded from the save
 	public int currentHP;
+	public int maxHP;
 	public int currentEnergy;
 	public int maxEnergy;
-	public int maxHP;
 
 	public int parryCount = 0;
 	public int baseDamage = 1;
