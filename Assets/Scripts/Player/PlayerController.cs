@@ -705,6 +705,7 @@ public class PlayerController : Entity {
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
+		rb2d.velocity = Vector2.zero;
 	}
 
 	public override void OnGroundLeave() {

@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateNum: -200
   isStateMachine: 1
-  onUpdate: 0
+  onUpdate: 1
 --- !u!1102 &-6539940007063571146
 AnimatorState:
   serializedVersion: 5
@@ -4335,6 +4335,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 7
+    m_ConditionEvent: SubState
+    m_EventTreshold: -200
   - m_ConditionMode: 1
     m_ConditionEvent: SpecialHeld
     m_EventTreshold: 0
@@ -4359,9 +4362,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: VerticalInput
     m_EventTreshold: -0.1
-  - m_ConditionMode: 7
-    m_ConditionEvent: SubState
-    m_EventTreshold: -200
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4179131367142997565}
   m_Solo: 0
@@ -9220,7 +9220,6 @@ AnimatorStateMachine:
   - {fileID: 8203876379946726014}
   - {fileID: -3400327136951876280}
   - {fileID: 3292806635444391576}
-  - {fileID: -2846929445943401772}
   - {fileID: 639290390680567089}
   - {fileID: 4461243467358886987}
   - {fileID: 2867034911738053413}
@@ -9233,13 +9232,14 @@ AnimatorStateMachine:
   - {fileID: 8562753589423112367}
   - {fileID: -751564916017177841}
   - {fileID: -1538902964214151260}
+  - {fileID: -2846929445943401772}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 8524085863538671849}
+  - first: {fileID: -8573113015386023930}
     second: []
   - first: {fileID: 1850058509158647940}
     second: []
-  - first: {fileID: -8573113015386023930}
+  - first: {fileID: 8524085863538671849}
     second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 510, y: -40, z: 0}
