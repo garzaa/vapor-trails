@@ -514,7 +514,6 @@ public class PlayerController : Entity {
 			AlerterText.Alert("Recycling boost");
 			perfectDashPossible = false;
 			CancelInvoke("ClosePerfectDashWindow");
-			GainEnergy(1); 
 			SoundManager.ShootSound();
 		}
 		InterruptAttack();
@@ -1194,6 +1193,7 @@ public class PlayerController : Entity {
 	}
 
 	void OnEnviroDamage(EnviroDamage e) {
+		rb2d.velocity = Vector2.zero;
 		if (!grounded && e.returnPlayerToSafety) {
 			LockInSpace();
 			StartCoroutine(ReturnToSafety(selfDamageHitstop));
