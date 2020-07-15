@@ -62,6 +62,6 @@ public class ParallaxLayer : MonoBehaviour {
 	void Move() {
 		Vector3 distance = cameraTransform.position - previousCameraPosition;
 		float direction = (moveInOppositeDirection) ? -1f : 1f;
-		transform.position += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
+		transform.localPosition += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
 	}
 }
