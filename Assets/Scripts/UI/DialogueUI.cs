@@ -21,6 +21,7 @@ public class DialogueUI : CloseableUI {
 	Sprite nextImage;
 
 	static DialogueUI dialogueUI;
+	char[] pauses = {'.', '!', ',', '?', '\n'};
 
 	void Start() {
 		dialogueUI = this;
@@ -84,7 +85,7 @@ public class DialogueUI : CloseableUI {
 				SoundManager.VoiceSound(voiceIndex);
 			}
 			int scalar = 1;
-			if (isPause(textToRender[letterIndex])) {
+			if (IsPause(textToRender[letterIndex])) {
 				scalar = 7;
 			}
 			yield return new WaitForSecondsRealtime(letterDelay * scalar);
@@ -96,8 +97,7 @@ public class DialogueUI : CloseableUI {
 		}
 	}
 
-	bool isPause(char c) {
-		char[] pauses = {'.', '!', ',', '?'};
+	bool IsPause(char c) {
 		return pauses.Contains(c);
 	}
 

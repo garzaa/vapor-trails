@@ -25,11 +25,13 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void SpawnEffect(int index) {
-		Transform pos = effectPoint;
-		if (pos == null) {
+		Transform pos;
+		if (effectPoint != null) {
+			pos = effectPoint;
+		} else {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.position, effectPoint.transform.rotation, null);
+		Instantiate(effects[index], pos.position, pos.rotation, null);
 	}
 
 	public void SpawnFollowingEffect(int index) {
@@ -37,7 +39,7 @@ public class AnimationInterface : MonoBehaviour {
 		if (pos == null) {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.transform.position, pos.transform.rotation, pos.transform);
+		Instantiate(effects[index], pos.position, pos.rotation, pos.transform);
 	}
 
 	public void EmitParticles(int p) {

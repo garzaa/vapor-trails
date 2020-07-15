@@ -10,8 +10,8 @@ public class GameStateWanter : Activatable {
             if (!GlobalController.HasState(s)) {
                 if (noActivatable != null) {
                     noActivatable.Activate();
-                    return;
                 }
+                return;
             }
             yesActivatable.Activate();
         }
