@@ -18,6 +18,8 @@ public class PlayerController : Entity {
 	const float peakJumpControlMod = 1.5f;
 	const float peakJumpCutoff = -1f;
 
+	const int gunCost = 2;
+
 	const float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
 
@@ -866,7 +868,7 @@ public class PlayerController : Entity {
 		if (!unlocks.HasAbility(Ability.GunEyes) || inCutscene) {
 			return;
 		}
-		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= 4) {
+		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= gunCost) {
 			Sparkle();
 			SoundManager.ShootSound();
 			BackwardDust();
@@ -874,7 +876,7 @@ public class PlayerController : Entity {
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
-			LoseEnergy(2);
+			LoseEnergy(gunCost);
 		}
 	}
 

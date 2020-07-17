@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Saver : Activatable {
+
+	public bool autosave = true;
+
 	override public void Activate() {
-		GlobalController.SaveGame(true);
+		GlobalController.SaveGame(autosave: autosave);
 	}
 
 	override public void ActivateSwitch(bool b) {

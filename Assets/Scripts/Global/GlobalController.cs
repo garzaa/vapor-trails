@@ -486,7 +486,7 @@ public class GlobalController : MonoBehaviour {
 		save.maxEnergy = pc.maxEnergy;
 		save.basePlayerDamage = pc.baseDamage;
 		save.playerPosition = pc.transform.position;
-		save.sceneName = SceneManager.GetActiveScene().path;
+		save.sceneName = SceneManager.GetActiveScene().name;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}
@@ -536,12 +536,15 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddItem(Item item, bool quiet=false) {
-		if (!item.type.Contains(ItemType.ABILITY) && !quiet) {
-			if (item.count != 1)
-				AlerterText.Alert($"{item.name} ({item.count}) acquired");
-			else 
-				AlerterText.Alert(item.name + " acquired");
-		}
+		if (!quiet) {
+            SoundManager.ItemGetSound();
+			if (!item.type.Contains(ItemType.ABILITY)) {
+				if (item.count != 1)
+					AlerterText.Alert($"{item.name} ({item.count}) acquired");
+				else 
+					AlerterText.Alert(item.name + " acquired");
+			}
+        }
 		if (item.gameStates != null) {
 			AddStates(item.gameStates);
 		}
