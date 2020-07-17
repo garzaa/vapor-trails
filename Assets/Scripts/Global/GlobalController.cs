@@ -480,7 +480,9 @@ public class GlobalController : MonoBehaviour {
 			AlerterText.Alert("Done");
 		}
 		save.playerItems = inventory.items.MakeSerializableInventory();
+		save.currentHP = pc.currentHP;
 		save.maxHP = pc.maxHP;
+		save.currentEnergy = pc.currentEnergy;
 		save.maxEnergy = pc.maxEnergy;
 		save.basePlayerDamage = pc.baseDamage;
 		save.playerPosition = pc.transform.position;

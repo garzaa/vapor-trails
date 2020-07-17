@@ -260,7 +260,6 @@ public class PlayerController : Entity {
 			OrcaFlip();
 		} 
 		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
-			currentEnergy--;
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs

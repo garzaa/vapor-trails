@@ -9,6 +9,9 @@ public class BlockBehaviour : StateMachineBehaviour {
         // parry window comes out two frames after the stance is initiated
         // two actual frames, not two animation frames (slightly before the white flash)
         player.Invoke("StartParryWindow", 2/60f);
+        // call this here, otherwise it activates as long as the block button is held
+        // "why does the block button need to be held" because it's a trigger and I don't want to code triggerDown logic
+        player.currentEnergy--;
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
