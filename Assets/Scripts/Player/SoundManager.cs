@@ -93,7 +93,6 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	public static void ItemGetSound() {
-		// TODO: fix the weird audio clipping issues on this sound
-		// sm.a.PlayOneShot(sm.itemGet);
+		sm.a.PlayOneShot(sm.itemGet);
 	}
 }

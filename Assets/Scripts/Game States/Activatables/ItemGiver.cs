@@ -6,6 +6,6 @@ public class ItemGiver : Activatable {
 	public Item toGive;
 
 	public override void ActivateSwitch(bool b) {
-		GlobalController.AddItem(this.toGive.Instance());
+		if (b) GlobalController.AddItem(this.toGive.Instance());
 	}
 }

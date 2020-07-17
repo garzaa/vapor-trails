@@ -37,7 +37,9 @@ public class InventoryController : MonoBehaviour {
     }
 
     public void AddItem(Item item, bool quiet) {
-        if (!quiet) SoundManager.ItemGetSound();
+        if (!quiet) {
+            SoundManager.ItemGetSound();
+        }
 		items.AddItem(item);
         if (inInventory) inventoryUI.PopulateItems(this.items);
 		item.OnPickup(quiet);

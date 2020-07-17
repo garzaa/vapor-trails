@@ -35,11 +35,13 @@ public class InventoryList : MonoBehaviour {
         return items[index];
     }
 
+    // don't double items when added to the inventory
     public void AddItem(Item item) {
-        if (item.stackable && HasItem(item)) {
-            GetItem(item).count += item.count;
+        Item instance = item.Instance();
+        if (instance.stackable && HasItem(instance)) {
+            GetItem(instance).count += instance.count;
         } else {
-            items.Add(item);
+            items.Add(instance);
         }
     }
 

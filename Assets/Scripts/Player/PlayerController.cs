@@ -175,9 +175,13 @@ public class PlayerController : Entity {
 	}
 
 	public void Parry() {
+		if (currentEnergy <= 0) {
+			return;
+		}
 		if (parryCount == 0) {	
 			FirstParry();
 		} else {
+			currentEnergy--;
 			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
 			Instantiate( 
@@ -255,7 +259,8 @@ public class PlayerController : Entity {
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} 
-		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry)) {
+		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
+			currentEnergy--;
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
