@@ -11,6 +11,7 @@ public class Door : Interactable {
 
 	override protected void ExtendedStart() {
 		Instantiate(Resources.Load("DoorIcon"), transform.position, Quaternion.identity, this.transform);
+		if (beacon == null) Debug.LogWarning("Door "+gameObject.GetHierarchicalName()+" has no target beacon!");
 	}
 
 	public override void Interact(GameObject player) {

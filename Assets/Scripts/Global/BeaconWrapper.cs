@@ -6,7 +6,7 @@ public class BeaconWrapper : MonoBehaviour {
     
     #if UNITY_EDITOR
     void Start() {
-        if (beacon == null) Debug.LogWarning("Beaconwrapper "+ name + " has no beacon!");
+        if (beacon == null) Debug.LogWarning("Beaconwrapper "+ gameObject.GetHierarchicalName() + " has no beacon!");
     }
     #endif
 }

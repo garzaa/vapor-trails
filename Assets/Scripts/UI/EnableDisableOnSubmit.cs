@@ -12,24 +12,37 @@ public class EnableDisableOnSubmit : MonoBehaviour,
 
     public bool onDeselect;
     public bool onSelect;
+    public AudioClip sound;
     
     public void OnSubmit(BaseEventData eventData) {
+        PlaySound();
         target.SetActive(!target.activeSelf);
     }
 
     public void OnSelect(BaseEventData eventData) {
-        if (onSelect) target.SetActive(true);
+        if (onSelect) {
+            PlaySound();
+            target.SetActive(true);
+        }
     }
 
     public void OnDeselect(BaseEventData eventData) {
-        if (onDeselect) target.SetActive(false);
+        if (onDeselect){
+            PlaySound();
+            target.SetActive(false);   
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData) {
+        PlaySound();
         target.SetActive(!target.activeSelf);
     }
 
     public void OnDisable() {
         target.SetActive(false);
+    }
+
+    void PlaySound() {
+        if (sound != null) SoundManager.PlaySound(sound);
     }
 }

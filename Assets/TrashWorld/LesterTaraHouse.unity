@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -151,6 +152,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -358,8 +360,9 @@ PrefabInstance:
     - target: {fileID: 114314759951430532, guid: 7053f547b5584b040b69a67a973265b3,
         type: 3}
       propertyPath: beacon
-      value: 4
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: bafec9087ee4ba0488427300e63649fc,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7053f547b5584b040b69a67a973265b3, type: 3}
 --- !u!1001 &393518103
@@ -605,7 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe138e9573022044bb135b0ac3678ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beacon: 1
+  beacon: {fileID: 11400000, guid: bafec9087ee4ba0488427300e63649fc, type: 2}
 --- !u!1001 &1071154046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -699,6 +702,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.084
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.023
+      objectReference: {fileID: 0}
     - target: {fileID: 4823699093169772, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.25
@@ -730,14 +741,6 @@ PrefabInstance:
     - target: {fileID: 4823699093169772, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.084
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078833572404762, guid: d514ca4d35012064b90f0936ac25aee3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -3.023
       objectReference: {fileID: 0}
     - target: {fileID: 114568043210485488, guid: d514ca4d35012064b90f0936ac25aee3,
         type: 3}
@@ -1013,6 +1016,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1210,6 +1214,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1315,7 +1320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9035a6cdcc0cb154ab3d62efbc6c73e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!4 &2090133922
 Transform:
   m_ObjectHideFlags: 0

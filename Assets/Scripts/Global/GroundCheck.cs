@@ -23,7 +23,7 @@ public class GroundCheck : MonoBehaviour {
 	public bool constantlyUseCollider = false;
 	public BoxCollider2D collidertoUse;
 
-	bool onPlayer = false;
+	PlayerController player;
 
 	protected void Start() {
 		defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
@@ -48,7 +48,7 @@ public class GroundCheck : MonoBehaviour {
 			rb2d = entity.GetComponent<Rigidbody2D>();
 		}
 		if (GetComponent<PlayerController>() != null) {
-			onPlayer = true;
+			player = GetComponent<PlayerController>();
 		}
 	}
 
@@ -91,14 +91,15 @@ public class GroundCheck : MonoBehaviour {
 		bool groundedLastFrame = groundedCurrentFrame;
 		groundedCurrentFrame = IsGrounded();
 		if (!groundedLastFrame && groundedCurrentFrame) {
-			GetComponent<Entity>().OnGroundHit(impactSpeed);	
+			entity.OnGroundHit(impactSpeed);	
 		} else if (groundedLastFrame && !groundedCurrentFrame) {
-			StartCoroutine(GroundLeaveTimeout(coyoteTime));
+			entity.OnGroundLeave();
 		}
 
-		if (onPlayer) {
+		if (player != null) {
 			bool ledgeStepLastFrame = ledgeStepCurrentFrame;
 			ledgeStepCurrentFrame = OnLedge();
+
 			if (!ledgeStepLastFrame && ledgeStepCurrentFrame) {
 				GetComponent<PlayerController>().OnLedgeStep();
 			}
@@ -106,11 +107,6 @@ public class GroundCheck : MonoBehaviour {
 		if (rb2d != null) {
 			impactSpeed = rb2d.velocity.y;
 		}
-	}
-
-	IEnumerator GroundLeaveTimeout(float interval) {
-		yield return new WaitForSecondsRealtime(interval);
-		GetComponent<Entity>().OnGroundLeave();
 	}
 
 	public EdgeCollider2D[] TouchingPlatforms() {

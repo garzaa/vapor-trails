@@ -212,7 +212,7 @@ public class PlayerController : Entity {
 	}
 
 	void Attack() {
-		if (inCutscene || dead || stunned || wall != null) {
+		if (inCutscene || dead || stunned) {
 			return;
 		}
 
@@ -1349,11 +1349,6 @@ public class PlayerController : Entity {
 			v.x == 0 ? rb2d.velocity.x : v.x,
 			v.y
 		);
-	}
-
-	void HealGroundTimeout() {
-		anim.SetInteger("SubState", 200);
-		OnGroundHit(0f);
 	}
 
 	public bool InAttackStates() {

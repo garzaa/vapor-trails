@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public class TabUI : MonoBehaviour {
     bool started;
 
-    [SerializeField] Transform tabContainer;
-    [SerializeField] GameObject tabPrefab;
-    [SerializeField] Transform screenContainer;
-    [SerializeField] bool keyNavigation = true;
+    public Transform tabContainer;
+    public GameObject tabPrefab;
+    public Transform screenContainer;
+    public bool keyNavigation = true;
+    public AudioClip tabSwitchSound;
 
     List<GameObject> screens = new List<GameObject>();
     int currentTab = 1;
@@ -47,7 +48,7 @@ public class TabUI : MonoBehaviour {
     void InitializeUI() {
         ClearTabs();
         LinkSubscreens();
-        ShowTab(currentTab);
+        ShowTab(currentTab, quiet: true);
     }
 
     void ClearTabs() {
@@ -85,7 +86,8 @@ public class TabUI : MonoBehaviour {
         ShowTab(--currentTab);
     }
 
-    void ShowTab(int tabNumber) {
+    void ShowTab(int tabNumber, bool quiet=false) {
+        if (!quiet && tabSwitchSound!=null) SoundManager.PlaySound(tabSwitchSound);
         HideAll();
         DeselectOtherTabs();
 
