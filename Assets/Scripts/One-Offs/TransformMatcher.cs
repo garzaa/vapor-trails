@@ -8,7 +8,7 @@ public class TransformMatcher : MonoBehaviour {
     public bool matchRotation = true;
     public bool matchPosition = true;
     
-    void Update() {
+    void LateUpdate() {
         if (matchScale) transform.localScale = toMatchWith.localScale;
         if (matchRotation) transform.localRotation = toMatchWith.localRotation;
         if (matchPosition) transform.localPosition = toMatchWith.localPosition;

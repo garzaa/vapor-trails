@@ -7,11 +7,11 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
     SubwayMapUI mapUI;
     Animator anim;
 
-    public GameFlag requiredGameFlag = GameFlag.None;
-    public string originalText;
+    public GameState requiredState;
     bool startedBefore = false;
 
-    public bool discovered;
+    string originalText;
+    bool discovered;
 
     public bool IsDiscovered() {
         return discovered;
@@ -31,7 +31,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
             Start();
         }
         anim = anim ?? GetComponent<Animator>();
-        if (requiredGameFlag != GameFlag.None && !GlobalController.HasFlag(requiredGameFlag)) {
+        if (requiredState!=null && !GlobalController.HasState(requiredState)) {
             GetComponentInChildren<Text>().text = "???";
             // anim.SetBool("Interactable", false);
             discovered = false;

@@ -871,7 +871,7 @@ public class PlayerController : Entity {
 		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= gunCost) {
 			Sparkle();
 			SoundManager.ShootSound();
-			BackwardDust();
+			if (grounded) BackwardDust();
 			gun.Fire(
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
@@ -942,7 +942,7 @@ public class PlayerController : Entity {
 			if ((attackerToLeft && facingRight) || (!attackerToLeft && !facingRight)) ForceFlip();
 			KnockBack(kv);
 		}
-		// sdi
+		// asdi
 		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*sdiMultiplier));
 	}
 
@@ -1139,7 +1139,7 @@ public class PlayerController : Entity {
 
 	public void ExitCutscene() {
 		if (TransitionManager.sceneData != null) {
-			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.hidePlayer) {
+			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
 				return;
 			}
 		}

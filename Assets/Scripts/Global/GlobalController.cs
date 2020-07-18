@@ -218,6 +218,9 @@ public class GlobalController : MonoBehaviour {
 			queuedNPCs.Enqueue(npc);
 			return;
 		}
+		if (!pc.IsFacing(npc.gameObject)) {
+			pc.ForceFlip();
+		}
 		pc.EndCombatStanceCooldown();
 		if (!fromQueue) dialogueUI.Open();
 		currentNPC = npc;
@@ -486,7 +489,7 @@ public class GlobalController : MonoBehaviour {
 		save.maxEnergy = pc.maxEnergy;
 		save.basePlayerDamage = pc.baseDamage;
 		save.playerPosition = pc.transform.position;
-		save.sceneName = SceneManager.GetActiveScene().name;
+		save.sceneName = SceneManager.GetActiveScene().path       ;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}

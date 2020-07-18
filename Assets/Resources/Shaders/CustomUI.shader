@@ -111,8 +111,8 @@ Shader "UI/CustomUI"
 
                 // move pixel-perfect
                 // texelsize.z: width
-                uv.x = floor((uv.x + (_Time * _XSpeed)) * _MainTex_TexelSize.z) / _MainTex_TexelSize.z;
-                uv.y = floor((uv.y + (_Time * _YSpeed)) * _MainTex_TexelSize.w) / _MainTex_TexelSize.w;
+                uv.x =((uv.x + (_Time * _XSpeed)) * _MainTex_TexelSize.z) / _MainTex_TexelSize.z;
+                uv.y =((uv.y + (_Time * _YSpeed)) * _MainTex_TexelSize.w) / _MainTex_TexelSize.w;
 
                 uv.x += _Offset.x;
                 uv.y += _Offset.y;
