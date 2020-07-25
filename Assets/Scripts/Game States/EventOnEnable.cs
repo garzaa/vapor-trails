@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class EventOnEnable : MonoBehaviour {
-    [SerializeField] GameEvent gameEvent;
+    public GameEvent gameEvent;
 
     void OnEnable() {
         gameEvent.Raise();

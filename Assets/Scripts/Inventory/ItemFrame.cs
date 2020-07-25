@@ -2,10 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemFrame : MonoBehaviour {
-    [SerializeField]
-    Item targetItem;
-
-    [SerializeField] Image itemImage;
+    public Item targetItem;
+    public Image itemImage;
 
     Button button;
     bool initialized = false;

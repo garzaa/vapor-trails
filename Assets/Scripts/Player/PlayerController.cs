@@ -75,7 +75,6 @@ public class PlayerController : Entity {
 	List<SpriteRenderer> spriteRenderers;
 	GroundCheck groundCheck;
 
-	//variables
 	public bool grounded = false;
 	WallCheckData wall = null;
 	int airJumps;
@@ -98,6 +97,7 @@ public class PlayerController : Entity {
 	bool forcedWalking = false;
 	bool bufferedJump = false;
 	bool justFlipped = false;
+	int panicJumpInputs = 0;
 	public ActiveInCombat[] combatActives;
 
 	public PlayerStates currentState;
@@ -404,6 +404,14 @@ public class PlayerController : Entity {
 				return;
 			}
 
+			if (airJumps <= 0) {
+				panicJumpInputs++;
+				// only set the trigger once
+				if (panicJumpInputs == 3) {
+					anim.SetTrigger("Flail");
+				}
+			}
+
 			if (!grounded) {
 				//buffer a jump for a short amount of time for when the player hits the ground/wall
 				bufferedJump = true;
@@ -686,6 +694,8 @@ public class PlayerController : Entity {
 		canFlipKick = true;
 		airDashes = 1;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
+		anim.ResetTrigger("Flail");
+		panicJumpInputs = 0;
 	}
 
 	void SaveLastSafePos() {

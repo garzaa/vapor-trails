@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class EnableOnItem : MonoBehaviour {
-    [SerializeField] Item wanted;
+    public Item wanted;
     public bool immediate = true;
 
     public bool setDisabled = false;

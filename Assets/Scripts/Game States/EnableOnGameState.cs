@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class EnableOnGameState : MonoBehaviour {
-    [SerializeField] GameState wantedState;
+    public GameState wantedState;
     public bool immediate = true;
 
     public bool setDisabled = false;

@@ -374,8 +374,15 @@ public class GlobalController : MonoBehaviour {
 			gc.StartCoroutine(gc.MovePlayerWithFade(position));
 			return;
 		}
+		gc.StartCoroutine(gc.MovePlayerNextFrame(position));
+		playerFollower.DisableSmoothing();
+	}
+
+	// make sure the trail renderers don't emit
+	IEnumerator MovePlayerNextFrame(Vector2 position) {
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
+		yield return new WaitForEndOfFrame();
 		pc.transform.position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
@@ -386,14 +393,7 @@ public class GlobalController : MonoBehaviour {
 		pc.EnterCutscene();
 		FadeToBlack();
 		yield return new WaitForSeconds(0.5f);
-		playerFollower.DisableSmoothing();
-		pc.DisableTrails();
-		pc.transform.position = position;
-		pc.EnableTrails();
-		playerFollower.SnapToPlayer();
-		playerFollower.EnableSmoothing();
-		UnFadeToBlack();
-		pc.ExitCutscene();
+		StartCoroutine(MovePlayerNextFrame(position));
 	}
 
 	public static void MovePlayerToBeacon(Beacon beacon) {
@@ -541,7 +541,7 @@ public class GlobalController : MonoBehaviour {
 	public static void AddItem(Item item, bool quiet=false) {
 		if (!quiet) {
             SoundManager.ItemGetSound();
-			if (!item.type.Contains(ItemType.ABILITY)) {
+			if (!item.IsType(ItemType.ABILITY)) {
 				if (item.count != 1)
 					AlerterText.Alert($"{item.name} ({item.count}) acquired");
 				else 

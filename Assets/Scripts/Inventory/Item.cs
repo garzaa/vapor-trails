@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "GameState", menuName = "Item", order = 1)]
+[CreateAssetMenu]
 public class Item : ScriptableObject {
     public Sprite itemIcon;
     public Sprite detailedIcon;
@@ -9,14 +9,12 @@ public class Item : ScriptableObject {
     public int count = 1;
     public int cost = 0;
 
-    public List<ItemType> type;
+    [SerializeField] List<ItemType> type;
 
     [TextArea] [SerializeField]
     string description;
 
     public List<GameState> gameStates;
-
-    public Event testEvent;
 
     [SerializeField]
     public List<ItemEffect> itemEffects;
@@ -35,5 +33,9 @@ public class Item : ScriptableObject {
 
     virtual public string GetDescription() {
         return ControllerTextChanger.ReplaceText(description);
+    }
+
+    virtual public bool IsType(ItemType t) {
+        return type.Contains(t);
     }
 }

@@ -4,8 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ChoiceUI : CloseableUI {
-    [SerializeField] GameObject choices;
-    [SerializeField] GameObject choiceTemplate;
+    public GameObject choices;
+    public GameObject choiceTemplate;
 
     static ChoiceUI choiceUI;
 
