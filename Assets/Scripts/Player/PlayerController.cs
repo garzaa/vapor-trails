@@ -406,7 +406,7 @@ public class PlayerController : Entity {
 
 			if (airJumps <= 0) {
 				panicJumpInputs++;
-				// only set the trigger once
+				// only set the trigger once to keep it from lingering in flail animation and queuing up another transition
 				if (panicJumpInputs == 3) {
 					anim.SetTrigger("Flail");
 				}

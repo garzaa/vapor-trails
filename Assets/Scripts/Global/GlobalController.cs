@@ -150,7 +150,7 @@ public class GlobalController : MonoBehaviour {
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
 			AlerterText.Alert("Saving game...");
-			GlobalController.SaveGame(false);
+			GlobalController.SaveGame(autosave:false);
 			AlerterText.Alert("Game saved");
 		} else if (Input.GetKeyDown(KeyCode.RightBracket)) {
 			AlerterText.Alert("Loading game...");
@@ -473,6 +473,7 @@ public class GlobalController : MonoBehaviour {
 			o.Start();
 		}
 		inventory.UpdateMoneyUI();
+		Debug.Log(s.sceneName);
 		LoadSceneToPosition(s.sceneName, s.playerPosition);
  	}
 
@@ -489,7 +490,7 @@ public class GlobalController : MonoBehaviour {
 		save.maxEnergy = pc.maxEnergy;
 		save.basePlayerDamage = pc.baseDamage;
 		save.playerPosition = pc.transform.position;
-		save.sceneName = SceneManager.GetActiveScene().path       ;
+		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
 		gc.GetComponent<BinarySaver>().SaveGame();
 	}

@@ -37,6 +37,7 @@ public class WallCheck : MonoBehaviour {
 		float distance = targetCollider.size.x/2f + extendDistance;
 
 		// cast left and right
+		// filter.SetNormalAngle(180-normalTolerance, 180+normalTolerance);
 		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.left, filter, hits, distance);
 		if (drawDebug) {
 			// top edge
@@ -62,6 +63,7 @@ public class WallCheck : MonoBehaviour {
 		}
 
 		// right
+		// filter.SetNormalAngle(180-normalTolerance, 180+normalTolerance);
 		numHits = Physics2D.BoxCast(startPoint, actualSize, 0, Vector2.right, filter, hits, distance);
 		if (drawDebug) Debug.DrawLine(startPoint, startPoint + Vector2.right*(actualSize.x/2f+distance), Color.green);
 		if (numHits != 0) {
