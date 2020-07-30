@@ -473,7 +473,6 @@ public class GlobalController : MonoBehaviour {
 			o.Start();
 		}
 		inventory.UpdateMoneyUI();
-		Debug.Log(s.sceneName);
 		LoadSceneToPosition(s.sceneName, s.playerPosition);
  	}
 
