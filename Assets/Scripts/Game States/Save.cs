@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Save : ISerializationCallbackReceiver {
+public class Save {
     public int slotNum = 1;
     public int currentHP = 5;
     public int maxHP = 5;
@@ -20,11 +20,13 @@ public class Save : ISerializationCallbackReceiver {
     
     [System.NonSerialized]
     public Vector2 playerPosition;
+
     float playerX;
     float playerY;
 
     [System.NonSerialized]
     public Dictionary<string, SerializedPersistentObject> persistentObjects = new Dictionary<string, SerializedPersistentObject>();
+    
     public List<string> persistentObjectKeys = new List<string>();
     public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
 
@@ -57,7 +59,7 @@ public class Save : ISerializationCallbackReceiver {
         }
     }
 
-    public void OnBeforeSerialize() {
+    public void BeforeSerialize() {
         playerX = playerPosition.x;
         playerY = playerPosition.y;
 
@@ -69,10 +71,12 @@ public class Save : ISerializationCallbackReceiver {
         }
     }
 
-    public void OnAfterDeserialize() {
+    public void AfterDeserialize() {
         this.persistentObjects = new Dictionary<string, SerializedPersistentObject>();
         for (int i=0; i<persistentObjectKeys.Count; i++) {
             this.persistentObjects.Add(persistentObjectKeys[i], persistentObjectValues[i]);
         }
+
+        playerPosition = new Vector2(playerX, playerY);
     }
 }

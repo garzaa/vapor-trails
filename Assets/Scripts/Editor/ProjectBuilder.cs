@@ -1,24 +1,43 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
+using UnityEditor.Build.Reporting;
 
 public class ProjectBuilder {
 
+    static EditorBuildSettingsScene[] enabledScenes;
+
     public static void BuildAll() {
-        BuildWebGL();
+        enabledScenes = GetEnabledScenes();
+        Build(BuildTarget.WebGL, "webgl");
+        Build(BuildTarget.StandaloneWindows64, "win-exe", extension: ".exe");
+        Build(BuildTarget.StandaloneWindows, "win32-exe", extension: ".exe");
+        Build(BuildTarget.StandaloneOSX, "osx");
+        Build(BuildTarget.StandaloneLinux64, "gnu-linux", extension: ".x86");
     }
 
-    static void BuildWebGL() {
-        BuildPipeline.BuildPlayer(GetEnabledScenes(), "Bin/webgl/", BuildTarget.WebGL, BuildOptions.None);
+    public static void BuildWindows() {
+        enabledScenes = GetEnabledScenes();
+        Build(BuildTarget.StandaloneWindows64, "win-exe", extension: ".exe");
+    }
+
+    static void Build(BuildTarget target, string folderSuffix, string extension="") {
+        Debug.Log($"Starting build for {folderSuffix}");
+        BuildReport report = BuildPipeline.BuildPlayer(enabledScenes, BuildFolder(folderSuffix.ToString(), extension), target, BuildOptions.None);
+        if (report.summary.result.Equals(BuildResult.Succeeded)) {
+            Debug.Log($"Build for {folderSuffix} succeeded with size {report.summary.totalSize}");
+        } else {
+            Debug.Log($"Build for {folderSuffix} finished with result: {report.summary.result}");
+            Debug.Log($"Total errors: {report.summary.totalErrors}");
+        }
+    }
+
+    static string BuildFolder(string platform, string extension) {
+        return $"../demos/vapor-trails-{platform}/Vapor Trails{extension}";
     }
 
     static EditorBuildSettingsScene[] GetEnabledScenes() {
-        List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>();
-        foreach(EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
-        {
-            if(scene.enabled)
-                scenes.Add(scene);
-        }
-        return scenes.ToArray();
+        return EditorBuildSettings.scenes.Where(scene => scene.enabled).ToArray();
     }
 }

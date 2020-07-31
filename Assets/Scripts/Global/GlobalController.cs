@@ -49,6 +49,8 @@ public class GlobalController : MonoBehaviour {
 	public static int openUIs = 0;
 
 	static GameObject playerMenu;
+	static BinarySaver binarySaver;
+	static SaveWrapper saveWrapper;
 
 	void Awake() {
 		if (gc == null) {
@@ -74,6 +76,8 @@ public class GlobalController : MonoBehaviour {
 		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
 		bossHealthUI.gameObject.SetActive(false);
 		playerMenu = GameObject.Find("PlayerMenu");
+		binarySaver = gc.GetComponent<BinarySaver>();
+		saveWrapper = gc.GetComponent<SaveWrapper>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -81,18 +85,15 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static bool HasSavedGame() {
-		return gc.GetComponent<BinarySaver>().HasSavedGame(saveSlot);
+		return binarySaver.HasFile(saveSlot); 
 	}
 
 	public static void NewGamePlus() {
-		gc.GetComponent<BinarySaver>().NewGamePlus();
-		Save s = gc.GetComponent<SaveWrapper>().save;
-		pc.LoadFromSaveData(s);
-		LoadScene("Paradise/Tutorial");
+		return;
 	}
 
 	public static bool HasBeatGame() {
-		return gc.GetComponent<BinarySaver>().HasFinishedGame();
+		return false;
 	}
 
 	static void OpenInventory() {
@@ -465,15 +466,19 @@ public class GlobalController : MonoBehaviour {
 
 	public static void LoadGame() {
 		FadeToBlack();
-		gc.GetComponent<BinarySaver>().LoadGame();
-		Save s = gc.GetComponent<SaveWrapper>().save;
-		pc.LoadFromSaveData(s);
-		inventory.items.LoadFromSerializableInventoryList(s.playerItems);
+		saveWrapper.save = binarySaver.LoadFile(saveSlot);
+		// refresh????? fucking GC languages
+		save = saveWrapper.save;
+		pc.LoadFromSaveData(saveWrapper.save);
+		inventory.items.Empty();
+		foreach (SerializableItem s in save.playerItems.items) {
+			GlobalController.AddItem(ItemDB.GetItem(s), quiet:true);
+		}
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
 		}
 		inventory.UpdateMoneyUI();
-		LoadSceneToPosition(s.sceneName, s.playerPosition);
+		LoadSceneToPosition(save.sceneName, save.playerPosition);
  	}
 
 	public static void SaveGame(bool autosave=false) {
@@ -491,7 +496,7 @@ public class GlobalController : MonoBehaviour {
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
-		gc.GetComponent<BinarySaver>().SaveGame();
+		binarySaver.SaveFile(saveWrapper.save, saveSlot);
 	}
 
 	public static void Pause() {

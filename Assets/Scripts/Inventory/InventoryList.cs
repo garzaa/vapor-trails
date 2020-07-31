@@ -19,6 +19,10 @@ public class InventoryList : MonoBehaviour {
         return null;
     }
 
+    public void Empty() {
+        items.Clear();
+    }
+
     public Item GetItem(Item item) {
         return GetItem(item.name);
     }
