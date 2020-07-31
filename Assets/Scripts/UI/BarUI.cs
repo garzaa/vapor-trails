@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class BarUI : MonoBehaviour {
-    [SerializeField] Image indicator;
-    [SerializeField] Image container;
-    [SerializeField] Image background;
-    [SerializeField] Image deltaIndicator;
-    [SerializeField] float pixelsPerUnit;
+    public Image indicator;
+    public Image container;
+    public Image background;
+    public Image deltaIndicator;
+    public float pixelsPerUnit;
 
     int _max;
     int _current;

@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class TemporaryActivatable : Activatable {
-    [SerializeField] float duration;
-    [SerializeField] Activatable target;
-    [SerializeField] bool realTime;
+    public float duration;
+    public Activatable target;
+    public bool realTime;
 
     override public void ActivateSwitch(bool b) {
         if (b) {

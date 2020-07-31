@@ -1,97 +1,64 @@
-﻿using System.IO;
+﻿using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
-using UnityEngine;
+using System.IO;
+using System.Text;
 
-public class BinarySaver : MonoBehaviour
-{
-    const string folderName = "saveData";
-    const string fileExtension = ".dat";
-	Save existingSave;
+public class BinarySaver : MonoBehaviour {
+    const string folder = "saves";
+    const string extension = ".dat";
 
-	void OnEnable() {
-		existingSave = GetComponent<SaveWrapper>().save;
-	}
+    BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-	public void SaveGame(int slot=1) {
-		string folderPath = GetFolderPath();
-		if (!Directory.Exists(folderPath))
-			Directory.CreateDirectory(folderPath);
-
-		string dataPath = Path.Combine(folderPath, slot + fileExtension);
-		SaveCharacter(existingSave, dataPath);
-	}
-
-	public void LoadGame(int slot=1) {
-		string folderPath = GetFolderPath();
-		if (!Directory.Exists(folderPath))
-			Directory.CreateDirectory(folderPath);
-
-		string dataPath = GetSavePath(slot);
-		this.existingSave = LoadCharacter(dataPath);
-	}
-
-    public bool HasFinishedGame(int slot=1) {
-        if (!HasSavedGame()) return false;
-        string folderPath = GetFolderPath();
-		if (!Directory.Exists(folderPath))
-			Directory.CreateDirectory(folderPath);
-
-		string dataPath = GetSavePath(slot);
-		Save s = LoadCharacter(dataPath);
-        return s.gameFlags.Contains(GameFlag.BeatGame);
-    }
-
-    public void NewGamePlus(int slot=1) {
-        string folderPath = GetFolderPath();
-		if (!Directory.Exists(folderPath))
-			Directory.CreateDirectory(folderPath);
-
-		string dataPath = GetSavePath(slot);
-		this.existingSave.LoadNewGamePlus(LoadCharacter(dataPath), slot);
-    }
-
-    string GetFolderPath() {
-        return Path.Combine(Application.persistentDataPath, folderName);
-    }
-
-    string GetSavePath(int slot) {
-        return Path.Combine(GetFolderPath(), slot + fileExtension);
-    }
-
-    public bool HasSavedGame(int slot=1) {
-        try {
-            Save s = LoadCharacter(GetSavePath(slot));
-            return s != null;
-        } catch (Exception) {
-            // sinful, but it's an easy way to handle save format changes
-            return false;
+    void OnEnable() {
+        if (!Directory.Exists(GetFolderPath())) {
+            Directory.CreateDirectory(GetFolderPath());
         }
     }
 
-    void SaveCharacter(Save save, string path)
-    {
-        BinaryFormatter binaryFormatter = new BinaryFormatter();
+    public void SaveFile(Save save, int slot) {
+        save.BeforeSerialize();
 
-        using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate))
+        using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.OpenOrCreate))
         {
             binaryFormatter.Serialize(fileStream, save);
         }
     }
 
-    Save LoadCharacter(string path)
-    {
-        BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-        using (FileStream fileStream = File.Open(path, FileMode.Open))
+    public Save LoadFile(int slot) {
+        Save save;
+        using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.Open))
         {
-            return (Save) binaryFormatter.Deserialize(fileStream);
+            save = (Save) binaryFormatter.Deserialize(fileStream);
+        }
+        save.AfterDeserialize();
+        return save;
+    }
+
+    public bool HasFile(int slot) {
+        if (!File.Exists(GetSavePath(slot))) return false;
+        try {
+            Save s = LoadFile(slot);
+            return true;
+        } catch (Exception) {
+            // deal with legacy saves/changed formats
+            return false;
         }
     }
 
-    static string[] GetFilePaths()
-    {
-        string folderPath = Path.Combine(Application.persistentDataPath, folderName);
-        return Directory.GetFiles(folderPath, "*" + fileExtension);
+    string GetFolderPath() {
+        return Path.Combine(Application.persistentDataPath, folder);
+    }
+    
+    string GetSavePath(int slot) {
+        return Path.Combine(GetFolderPath(), slot+extension);
+    }
+
+    public bool HasFinishedGame() {
+        return false;
+    }
+
+    public void NewGamePlus() {
+
     }
 }

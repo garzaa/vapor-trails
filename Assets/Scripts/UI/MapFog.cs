@@ -11,7 +11,7 @@ public class MapFog : PersistentObject {
     string mapProp = "Map";
     SpriteRenderer spriteRenderer;
 
-    float texturePPU = 1f/8f;
+    float texturePPU = 1f/12f;
     float updateInterval = 0.5f;
 
     void OnEnable() {

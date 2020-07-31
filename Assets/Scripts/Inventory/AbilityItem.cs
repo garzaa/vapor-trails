@@ -16,4 +16,9 @@ public class AbilityItem : Item {
             + ControllerTextChanger.ReplaceText(instructions)
             + "</color>";
     }
+
+    override public bool IsType(ItemType t) {
+        if (t==ItemType.ABILITY) return true;
+        else return base.IsType(t);
+    }
 }

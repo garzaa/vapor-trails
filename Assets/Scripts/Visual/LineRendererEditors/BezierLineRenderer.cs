@@ -11,7 +11,7 @@ public class BezierLineRenderer : MonoBehaviour {
     public LineRenderer lineRenderer;
     public int vertexCount = 12;
 
-    void Update() {
+    void DrawBezier() {
         var pointList = new List<Vector3>();
         if (vertexCount < 2) {
             Debug.Log("brainlet alert");
@@ -27,4 +27,16 @@ public class BezierLineRenderer : MonoBehaviour {
         lineRenderer.positionCount = pointList.Count;
         lineRenderer.SetPositions(pointList.ToArray());
     }
+
+#if UNITY_EDITOR
+    void Update() {
+        DrawBezier();
+    }
+#endif
+
+    // draw AFTER the parallax layers are updated
+    void LateUpdate() {
+        DrawBezier();
+    }
+
 }

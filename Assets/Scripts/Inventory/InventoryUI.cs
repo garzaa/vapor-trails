@@ -64,7 +64,7 @@ public class InventoryUI : CloseableUI {
         itemTitle.text = item.name.ToUpper();
         itemDescription.text = item.GetDescription();
         itemCost.text = "$"+item.cost.ToString();
-        if (item.type.Contains(ItemType.ABILITY)) {
+        if (item.IsType(ItemType.ABILITY)) {
             itemDescription.text += 
                 "\n\n<color=white>"
                 + ControllerTextChanger.ReplaceText(((AbilityItem) item).instructions)
