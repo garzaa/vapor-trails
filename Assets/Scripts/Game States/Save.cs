@@ -60,6 +60,8 @@ public class Save {
     }
 
     public void BeforeSerialize() {
+        options.Apply();
+
         playerX = playerPosition.x;
         playerY = playerPosition.y;
 
@@ -78,5 +80,6 @@ public class Save {
         }
 
         playerPosition = new Vector2(playerX, playerY);
+        options.Load();
     }
 }

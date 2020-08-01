@@ -4,13 +4,13 @@ using UnityEngine;
 public class GameOptions {
     public bool shortHop = true;
 
-    public void Refresh() {
+    public void Load() {
         shortHop = LoadBool("shortHop");
     }
 
-    public void Save() {
+    public void Apply() {
         PlayerPrefs.Save();
-        Refresh();
+        Load();
     }
 
     bool LoadBool(string boolName) {

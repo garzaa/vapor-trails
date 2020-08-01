@@ -12,7 +12,7 @@ public class WallCheck : MonoBehaviour {
 
 	int layerMask;
 
-	const float extendDistance = 0.03f;
+	const float extendDistance = 0.02f;
 
 	void Start() {		
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);

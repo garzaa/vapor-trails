@@ -28,6 +28,7 @@ public class GlobalController : MonoBehaviour {
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
 	public static BarUI bossHealthUI;
+	public static AudioListener audioListener;
 
 	public static bool xboxController = false;
 	public static bool playstationController = false;
@@ -78,6 +79,7 @@ public class GlobalController : MonoBehaviour {
 		playerMenu = GameObject.Find("PlayerMenu");
 		binarySaver = gc.GetComponent<BinarySaver>();
 		saveWrapper = gc.GetComponent<SaveWrapper>();
+		audioListener = gc.GetComponentInChildren<AudioListener>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -384,7 +386,7 @@ public class GlobalController : MonoBehaviour {
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		yield return new WaitForEndOfFrame();
-		pc.transform.position = position;
+		pc.GetComponent<Rigidbody2D>().position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		playerFollower.EnableSmoothing();

@@ -3,14 +3,15 @@ using System.Collections;
 
 public class CloseableUI : MonoBehaviour {
     
-    [SerializeField] bool invincibleDuring;
-    [SerializeField] GameObject targetUI;
-    [SerializeField] bool interactSound = true;
-    [SerializeField] bool stopTime = false;
-    [SerializeField] bool exclusive = true;
-    [SerializeField] bool closeOnGenericEscape = false;
-    [SerializeField] bool useSelf = false;
-    [SerializeField] bool closeAtStart = false;
+    public bool invincibleDuring;
+    public GameObject targetUI;
+    public bool interactSound = true;
+    public bool stopTime = false;
+    [Tooltip("Only allow this CloseableUI to be open")]
+    public bool exclusive = true;
+    public bool closeOnGenericEscape = false;
+    public bool useSelf = false;
+    public bool closeAtStart = false;
 
     protected bool open;
     protected bool started;

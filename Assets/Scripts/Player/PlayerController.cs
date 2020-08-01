@@ -875,10 +875,10 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (!unlocks.HasAbility(Ability.GunEyes) || inCutscene) {
+		if (!unlocks.HasAbility(Ability.GunEyes) || frozen || !canShoot || stunned) {
 			return;
 		}
-		if (InputManager.ButtonDown(Buttons.PROJECTILE) && canShoot && CheckEnergy() >= gunCost) {
+		if (InputManager.ButtonDown(Buttons.PROJECTILE) && CheckEnergy() >= gunCost) {
 			Sparkle();
 			SoundManager.ShootSound();
 			if (grounded) BackwardDust();

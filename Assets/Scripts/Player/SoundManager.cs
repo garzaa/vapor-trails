@@ -21,6 +21,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip itemGet;
 	public AudioClip parry;
 	public List<AudioClip> voices;
+	static readonly float soundRadius = 0.64f * 8f; 
 
 	public static SoundManager sm;
 	public AudioSource a;
@@ -94,5 +95,11 @@ public class SoundManager : MonoBehaviour {
 
 	public static void ItemGetSound() {
 		sm.a.PlayOneShot(sm.itemGet);
+	}
+
+	public static void PlayIfClose(AudioClip s, GameObject g) {
+		if (Vector2.Distance(g.transform.position, GlobalController.audioListener.transform.position) < soundRadius) {
+			PlaySound(s);
+		}
 	}
 }
