@@ -3,11 +3,14 @@ using UnityEngine;
 [System.Serializable]
 public class GameOptions {
     public bool shortHop = true;
+    public bool gameJournalist = false;
 
     public void Load() {
-        shortHop = LoadBool("shortHop");
+        shortHop = LoadBool("ShortHop");
+        gameJournalist = LoadBool("GameJournalist");
     }
 
+    // player pref changes will be done externally
     public void Apply() {
         PlayerPrefs.Save();
         Load();
