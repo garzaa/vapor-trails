@@ -124,6 +124,7 @@ public class PlayerController : Entity {
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		groundCheck = GetComponent<GroundCheck>();
+		options = GlobalController.save.options;
 		this.facingRight = false;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
@@ -421,7 +422,7 @@ public class PlayerController : Entity {
 		}
 
 		// shorthop
-		if (options.shortHop && InputManager.ButtonUp(Buttons.JUMP) && rb2d.velocity.y > jumpCutoff && canShortHop) {
+		if (InputManager.ButtonUp(Buttons.JUMP) && options.shortHop  && rb2d.velocity.y > jumpCutoff && canShortHop) {
 			//if the jump button is released
 			//then decrease the y velocity to the jump cutoff
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpCutoff);
@@ -1017,6 +1018,13 @@ public class PlayerController : Entity {
 	}
 
 	void Die(Attack fatalBlow) {
+		if (options.gameJournalist) {
+			AlerterText.Alert("<color=magenta>SECOND WIND</color>");
+			SoundManager.HealSound();
+			FullHeal();
+			return;
+		}
+
 		AlerterText.AlertList(deathText);
 		AlerterText.Alert("CAUSE OF DEATH:");
 		AlerterText.Alert(fatalBlow.attackName);

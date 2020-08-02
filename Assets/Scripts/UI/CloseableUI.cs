@@ -40,7 +40,7 @@ public class CloseableUI : MonoBehaviour {
     void Start() {
         started = true;
         OnEnable();
-        gameObject.SetActive(false);
+        if (closeAtStart) gameObject.SetActive(false);
     }
 
     void OnEnable() {
