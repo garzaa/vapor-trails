@@ -5,6 +5,6 @@ public class SoundOnSubmit : MonoBehaviour, ISubmitHandler {
     public AudioClip sound;
 
     public void OnSubmit(BaseEventData eventData) {
-        SoundManager.PlaySound(sound);
+        SoundManager.UISound(sound);
     }
 }

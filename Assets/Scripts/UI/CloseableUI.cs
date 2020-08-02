@@ -7,7 +7,6 @@ public class CloseableUI : MonoBehaviour {
     public GameObject targetUI;
     public bool interactSound = true;
     public bool stopTime = false;
-    [Tooltip("Only allow this CloseableUI to be open")]
     public bool exclusive = true;
     public bool closeOnGenericEscape = false;
     public bool useSelf = false;

@@ -16,7 +16,7 @@ public class SettingsToggle : MonoBehaviour {
 
     public void HandleValueChanged(bool val) {
         SetBool(prefName, val);
-        if (!quiet) SoundManager.PlaySound(changeSound);
+        if (!quiet) SoundManager.UISound(changeSound);
     }
 
     static void SetBool(string boolName, bool val) {

@@ -33,7 +33,7 @@ public class ItemViewer : MonoBehaviour {
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
-        if (selectSound != null) SoundManager.PlaySound(selectSound);
+        if (selectSound != null) SoundManager.UISound(selectSound);
         scrollView.content.localPosition = new Vector2(
             scrollView.content.localPosition.x,
             scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>()).y

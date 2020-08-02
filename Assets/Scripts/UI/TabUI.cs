@@ -88,7 +88,7 @@ public class TabUI : MonoBehaviour {
 
     void ShowTab(int tabNumber, bool quiet=false) {
         if (!quiet && tabSwitchSound!=null) {
-            SoundManager.PlaySound(tabSwitchSound);
+            SoundManager.UISound(tabSwitchSound);
         }
         HideAll();
         DeselectOtherTabs();
