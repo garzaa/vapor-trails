@@ -27,10 +27,21 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource a;
 
 	public AudioSource uiAudio;
+	public AudioSource worldAudio;
 
 	void Start() {
 		if (sm == null) sm = this;
 		a = GetComponent<AudioSource>();
+		uiAudio = transform.Find("Audio Sources/UI").GetComponent<AudioSource>();
+		worldAudio = transform.Find("Audio Sources/World").GetComponent<AudioSource>();
+	}
+
+	public static void UISound(AudioClip s) {
+		sm.uiAudio.PlayOneShot(s);
+	}
+
+	public static void WorldSound(AudioClip s) {
+		sm.worldAudio.PlayOneShot(s);
 	}
 
 	public static void PlaySound(AudioClip s) {
