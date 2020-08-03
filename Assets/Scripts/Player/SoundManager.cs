@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour {
 
@@ -29,7 +30,10 @@ public class SoundManager : MonoBehaviour {
 	AudioSource uiAudio;
 	AudioSource worldAudio;
 
-	void Start() {
+	public AudioMixerSnapshot defaultSnapshot;
+	public AudioMixerSnapshot soloUISnapshot;
+
+	void OnEnable() {
 		if (sm == null) sm = this;
 		a = GetComponent<AudioSource>();
 		uiAudio = transform.Find("Audio Sources/UI").GetComponent<AudioSource>();
@@ -112,5 +116,13 @@ public class SoundManager : MonoBehaviour {
 		if (Vector2.Distance(g.transform.position, GlobalController.audioListener.transform.position) < soundRadius) {
 			PlaySound(s);
 		}
+	}
+
+	public static void SoloUIAudio() {
+		sm.soloUISnapshot.TransitionTo(0.5f);
+	}
+
+	public static void DefaultAudio() {
+		sm.defaultSnapshot.TransitionTo(0.5f);
 	}
 }

@@ -11,6 +11,7 @@ public class CloseableUI : MonoBehaviour {
     public bool closeOnGenericEscape = false;
     public bool useSelf = false;
     public bool closeAtStart = false;
+    public bool soloUISound = false;
 
     protected bool open;
     protected bool started;
@@ -26,6 +27,7 @@ public class CloseableUI : MonoBehaviour {
         GlobalController.pc.EnterCutscene(invincible:invincibleDuring);
         if (targetUI != null) targetUI.SetActive(true);
         if (stopTime) Time.timeScale = 0f;
+        if (soloUISound) SoundManager.SoloUIAudio();
     }
 
     virtual public void Close() {
@@ -34,6 +36,7 @@ public class CloseableUI : MonoBehaviour {
         this.open = false;
         if (GlobalController.openUIs == 0) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
+        if (soloUISound) SoundManager.DefaultAudio();
     }
 
     void Start() {
