@@ -42,7 +42,7 @@ public class WallCheck : MonoBehaviour {
 		);
 		Debug.DrawLine(topStart, topStart+(Vector2.left*distance), Color.cyan);
 		Debug.DrawLine(bottomStart, bottomStart+(Vector2.left*distance), Color.cyan);
-		if (topHit.collider!=null && bottomHit.collider!=null) {
+		if (topHit.collider!=null || bottomHit.collider!=null) {
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, topHit.point),
@@ -63,7 +63,7 @@ public class WallCheck : MonoBehaviour {
 			distance: distance,
 			layerMask: layerMask
 		);
-		if (topHit.collider!=null && bottomHit.collider!=null) {
+		if (topHit.collider!=null || bottomHit.collider!=null) {
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, topHit.point),

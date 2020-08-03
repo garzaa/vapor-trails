@@ -3,19 +3,19 @@ using UnityEngine;
 public class IntInState : StateMachineBehaviour {
 
     public int stateNum;
-    public bool isStateMachine;
+    // public bool isStateMachine;
     public bool onUpdate;
 
     int lastEntryState = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (isStateMachine) return;
+        // if (isStateMachine) return;
         lastEntryState = animator.GetInteger("SubState");
         animator.SetInteger("SubState", stateNum);
     }
 
     override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash) {
-        if (!isStateMachine) return;
+        // if (!isStateMachine) return;
         lastEntryState = animator.GetInteger("SubState");
         animator.SetInteger("SubState", stateNum);
     }
