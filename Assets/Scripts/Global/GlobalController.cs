@@ -367,6 +367,10 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 	}
 
+	public static void LoadScene(SceneContainer sceneContainer, Beacon beacon=null) {
+		LoadScene(sceneContainer.scene.name, beacon:beacon);
+	}
+
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
