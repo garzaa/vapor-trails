@@ -9,6 +9,7 @@ public class ItemViewer : MonoBehaviour {
     public Image itemImage;
     public Text itemTitle;
     public Text itemDescription;
+    public Text itemCost;
     public ScrollRect scrollView;
     public AudioClip selectSound;
 
@@ -33,22 +34,23 @@ public class ItemViewer : MonoBehaviour {
     }
 
     public void ReactToItemHover(ItemPane itemPane) {
-        if (selectSound != null) SoundManager.PlaySound(selectSound);
+        if (selectSound != null) SoundManager.UISound(selectSound);
         scrollView.content.localPosition = new Vector2(
             scrollView.content.localPosition.x,
             scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>()).y
         );
-        ShowItemInfo(itemPane.inventoryItem);
+        ShowItemInfo(itemPane.storedItem);
     }
 
-    void ShowItemInfo(Item item) {
+    void ShowItemInfo(StoredItem s) {
+        Item item = s.item;
         itemImage.color = new Color(1, 1, 1, 1);
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.name.ToUpper();
-        if (item.count > 1) {
-            itemTitle.text += ": " + item.count;
+        if (s.count > 1) {
+            itemTitle.text += ": " + s.count;
         }
-        //itemCost.text = "$"+item.cost.ToString();
+        if (itemCost != null) itemCost.text = "$"+item.cost.ToString();
         itemDescription.text = item.GetDescription();
     }
 
@@ -62,14 +64,14 @@ public class ItemViewer : MonoBehaviour {
             oldItem.SetParent(null, false);
         }
         for (int i=inventoryList.items.Count-1; i>=0; i--) {
-            Item item = inventoryList.items[i];
+            StoredItem storedItem = inventoryList.items[i];
             GameObject g = Instantiate(
                 itemPaneTemplate,
                 Vector2.zero,
                 Quaternion.identity,
                 gridHolder
             );
-            g.GetComponent<ItemPane>().PopulateSelfInfo(item);
+            g.GetComponent<ItemPane>().PopulateSelfInfo(storedItem);
         }
         gridHolder.GetComponent<SelectFirstChild>().OnEnable();
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour {
 
@@ -21,15 +22,30 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip itemGet;
 	public AudioClip parry;
 	public List<AudioClip> voices;
+	static readonly float soundRadius = 0.64f * 8f; 
 
 	public static SoundManager sm;
 	public AudioSource a;
 
-	public AudioSource uiAudio;
+	AudioSource uiAudio;
+	AudioSource worldAudio;
 
-	void Start() {
+	public AudioMixerSnapshot defaultSnapshot;
+	public AudioMixerSnapshot soloUISnapshot;
+
+	void OnEnable() {
 		if (sm == null) sm = this;
 		a = GetComponent<AudioSource>();
+		uiAudio = transform.Find("Audio Sources/UI").GetComponent<AudioSource>();
+		worldAudio = transform.Find("Audio Sources/World").GetComponent<AudioSource>();
+	}
+
+	public static void UISound(AudioClip s) {
+		sm.uiAudio.PlayOneShot(s);
+	}
+
+	public static void WorldSound(AudioClip s) {
+		sm.worldAudio.PlayOneShot(s);
 	}
 
 	public static void PlaySound(AudioClip s) {
@@ -94,5 +110,19 @@ public class SoundManager : MonoBehaviour {
 
 	public static void ItemGetSound() {
 		sm.a.PlayOneShot(sm.itemGet);
+	}
+
+	public static void PlayIfClose(AudioClip s, GameObject g) {
+		if (Vector2.Distance(g.transform.position, GlobalController.audioListener.transform.position) < soundRadius) {
+			PlaySound(s);
+		}
+	}
+
+	public static void SoloUIAudio() {
+		sm.soloUISnapshot.TransitionTo(0f);
+	}
+
+	public static void DefaultAudio() {
+		sm.defaultSnapshot.TransitionTo(0.5f);
 	}
 }

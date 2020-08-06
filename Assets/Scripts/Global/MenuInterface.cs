@@ -33,4 +33,12 @@ public class MenuInterface : MonoBehaviour {
 	public void NewGamePlus() {
 		GlobalController.NewGamePlus();
 	}
+
+	public void ApplyGameOptions() {
+		GlobalController.save.options.Apply();
+	}
+
+	public void LoadGameOptions() {
+		GlobalController.save.options.Load();
+	}
 }

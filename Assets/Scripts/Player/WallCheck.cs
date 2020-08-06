@@ -12,7 +12,7 @@ public class WallCheck : MonoBehaviour {
 
 	int layerMask;
 
-	const float extendDistance = 0.03f;
+	const float extendDistance = 0.02f;
 
 	void Start() {		
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
@@ -42,7 +42,7 @@ public class WallCheck : MonoBehaviour {
 		);
 		Debug.DrawLine(topStart, topStart+(Vector2.left*distance), Color.cyan);
 		Debug.DrawLine(bottomStart, bottomStart+(Vector2.left*distance), Color.cyan);
-		if (topHit.collider!=null && bottomHit.collider!=null) {
+		if (topHit.collider!=null || bottomHit.collider!=null) {
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, topHit.point),
@@ -63,7 +63,7 @@ public class WallCheck : MonoBehaviour {
 			distance: distance,
 			layerMask: layerMask
 		);
-		if (topHit.collider!=null && bottomHit.collider!=null) {
+		if (topHit.collider!=null || bottomHit.collider!=null) {
 			touchingWall = true;
 			return new WallCheckData(
 				Vector2.Distance(startPoint, topHit.point),

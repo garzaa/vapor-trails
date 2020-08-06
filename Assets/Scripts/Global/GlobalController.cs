@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
@@ -28,6 +27,7 @@ public class GlobalController : MonoBehaviour {
 	static bool inAbilityGetUI;
 	public static Animator abilityUIAnimator;
 	public static BarUI bossHealthUI;
+	public static AudioListener audioListener;
 
 	public static bool xboxController = false;
 	public static bool playstationController = false;
@@ -78,6 +78,7 @@ public class GlobalController : MonoBehaviour {
 		playerMenu = GameObject.Find("PlayerMenu");
 		binarySaver = gc.GetComponent<BinarySaver>();
 		saveWrapper = gc.GetComponent<SaveWrapper>();
+		audioListener = gc.GetComponentInChildren<AudioListener>();
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -366,6 +367,10 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 	}
 
+	public static void LoadScene(SceneContainer sceneContainer, Beacon beacon=null) {
+		LoadScene(sceneContainer.scene.SceneName, beacon:beacon);
+	}
+
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
@@ -384,10 +389,12 @@ public class GlobalController : MonoBehaviour {
 		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		yield return new WaitForEndOfFrame();
-		pc.transform.position = position;
+		pc.GetComponent<Rigidbody2D>().position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		playerFollower.EnableSmoothing();
+		pc.ExitCutscene();
+		UnFadeToBlack();
 	}
 
 	public IEnumerator MovePlayerWithFade(Vector2 position) {
@@ -471,8 +478,8 @@ public class GlobalController : MonoBehaviour {
 		save = saveWrapper.save;
 		pc.LoadFromSaveData(saveWrapper.save);
 		inventory.items.Empty();
-		foreach (SerializableItem s in save.playerItems.items) {
-			GlobalController.AddItem(ItemDB.GetItem(s), quiet:true);
+		foreach (StoredItem s in save.playerItems.items) {
+			GlobalController.AddItem(s, quiet:true);
 		}
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
@@ -543,12 +550,13 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void AddItem(Item item, bool quiet=false) {
+	public static void AddItem(StoredItem s, bool quiet=false) {
+		Item item = s.item;
 		if (!quiet) {
             SoundManager.ItemGetSound();
 			if (!item.IsType(ItemType.ABILITY)) {
-				if (item.count != 1)
-					AlerterText.Alert($"{item.name} ({item.count}) acquired");
+				if (s.count != 1)
+					AlerterText.Alert($"{item.name} ({s.count}) acquired");
 				else 
 					AlerterText.Alert(item.name + " acquired");
 			}
@@ -556,7 +564,7 @@ public class GlobalController : MonoBehaviour {
 		if (item.gameStates != null) {
 			AddStates(item.gameStates);
 		}
-		inventory.AddItem(item, quiet);
+		inventory.AddItem(s, quiet);
 		PropagateItemChange();
 	}
 

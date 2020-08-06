@@ -55,10 +55,11 @@ public class InventoryUI : CloseableUI {
     public void ReactToItemHover(ItemPane itemPane) {
         audioSource.PlayOneShot(audioSource.clip);
         scrollView.content.localPosition = scrollView.GetSnapToPositionToBringChildIntoView(itemPane.GetComponent<RectTransform>());
-        ShowItemInfo(itemPane.inventoryItem);
+        ShowItemInfo(itemPane.storedItem);
     }
 
-    void ShowItemInfo(Item item) {
+    void ShowItemInfo(StoredItem s) {
+        Item item = s.item;
         itemImage.color = new Color(1, 1, 1, 1);
         itemImage.sprite = item.detailedIcon;
         itemTitle.text = item.name.ToUpper();
@@ -82,7 +83,7 @@ public class InventoryUI : CloseableUI {
             oldItem.parent = null;
         }
         for (int i=inventoryList.items.Count-1; i>=0; i--) {
-            Item item = inventoryList.items[i];
+            StoredItem item = inventoryList.items[i];
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);

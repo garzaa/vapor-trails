@@ -50,12 +50,8 @@ public class EnviroDamage : Attack {
 			ps.Emit(numParticles);
 		}
 
-		if (impactSound) {
-			impactSound.PlayOneShot(impactSound.clip);
-		}
-
 		if (impactSoundClip) {
-			SoundManager.PlaySound(impactSoundClip);
+			SoundManager.PlayIfClose(impactSoundClip, e.gameObject);
 		}
 
 		thisCollider.enabled = false;

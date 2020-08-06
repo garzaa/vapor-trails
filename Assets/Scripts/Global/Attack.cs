@@ -6,6 +6,8 @@ public class Attack : MonoBehaviour {
 
 	public string attackName;
 	public int damage = 1;
+	public AudioClip attackLandSound;
+	public AudioClip swingSound;
 	[Range(0, 2f)]
 	public float cameraShakeIntensity = .1f;
 	[Range(0, 2f)]
@@ -38,6 +40,11 @@ public class Attack : MonoBehaviour {
 
 	public virtual void OnAttackLand(Entity victim) {
 		ExtendedAttackLand(victim);
+
+		if (attackLandSound != null) {
+			SoundManager.PlayIfClose(attackLandSound, victim.gameObject);
+		}
+
 		Animator a;
 		if ((a = attackerParent.GetComponent<Animator>()) != null) {
 			a.SetTrigger("AttackLand");
@@ -87,5 +94,11 @@ public class Attack : MonoBehaviour {
 
 	public virtual void ExtendedAttackLand(Entity e) {
 
+	}
+	
+	void OnEnable() {
+		if (swingSound != null) {
+			SoundManager.PlayIfClose(swingSound, gameObject);
+		}
 	}
 }

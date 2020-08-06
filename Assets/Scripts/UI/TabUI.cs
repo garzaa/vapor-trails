@@ -12,7 +12,7 @@ public class TabUI : MonoBehaviour {
     public AudioClip tabSwitchSound;
 
     List<GameObject> screens = new List<GameObject>();
-    int currentTab = 1;
+    int currentTab = 0;
 
     void Update() {
         if (!keyNavigation) return;
@@ -87,7 +87,9 @@ public class TabUI : MonoBehaviour {
     }
 
     void ShowTab(int tabNumber, bool quiet=false) {
-        if (!quiet && tabSwitchSound!=null) SoundManager.PlaySound(tabSwitchSound);
+        if (!quiet && tabSwitchSound!=null) {
+            SoundManager.UISound(tabSwitchSound);
+        }
         HideAll();
         DeselectOtherTabs();
 

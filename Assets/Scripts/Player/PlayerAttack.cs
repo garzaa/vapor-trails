@@ -54,8 +54,6 @@ public class PlayerAttack : Attack {
 			player.LoseEnergy(this.energyCost);
 		}
 
-		SoundManager.HitSound();
-
 		if (attackLandEvent) {
 			player.OnAttackLand(this);
 		}

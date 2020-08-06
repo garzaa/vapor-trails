@@ -23,23 +23,23 @@ public class InventoryController : MonoBehaviour {
         if (startingItems != null) {
             foreach (Item item in startingItems) {
                 // get around me being lazy in the editor
-                if (item != null) GlobalController.AddItem(item, quiet:true);
+                if (item != null) GlobalController.AddItem(new StoredItem(item), quiet:true);
             }
         }
         UpdateMoneyUI();
     }
 
-    public void ReactToItemSelect(Item item) {
+    public void ReactToItemSelect(StoredItem item) {
         if (this.currentMerchant == null)  {
             return;
         }
         TryToBuy(item);
     }
 
-    public void AddItem(Item item, bool quiet) {
-		items.AddItem(item);
+    public void AddItem(StoredItem s, bool quiet) {
+		items.AddItem(s);
         if (inInventory) inventoryUI.PopulateItems(this.items);
-		item.OnPickup(quiet);
+		s.item.OnPickup(quiet);
         UpdateMoneyUI();
     }
 
@@ -77,22 +77,23 @@ public class InventoryController : MonoBehaviour {
         items.GetItem(moneyItem).count -= amount;
     }
 
-    void TryToBuy(Item item) {
+    void TryToBuy(StoredItem s) {
         InventoryList merchantInventory = currentMerchant.baseInventory;
+        Item item = s.item;
         bool hasMoney = item.cost <= GlobalController.inventory.CheckMoney();
         if (hasMoney) {
-            Item toAdd = merchantInventory.GetItem(item).Instance();
+            // copy
+            StoredItem toAdd = new StoredItem(merchantInventory.GetItem(item).item);
             TakeMoney(item.cost);
-            if (merchantInventory.GetItem(item).stackable) {
-                if (merchantInventory.GetItem(item).count > 1) {
-                    merchantInventory.GetItem(item).count -= 1;
+            if (merchantInventory.GetItem(item).item.stackable) {
+                if (merchantInventory.GetItem(s).count > 1) {
+                    merchantInventory.GetItem(s).count -= 1;
                 } else {
-                    merchantInventory.RemoveItem(item);
+                    merchantInventory.RemoveItem(s);
                 }
             } else {
-                merchantInventory.RemoveItem(item);
+                merchantInventory.RemoveItem(s);
             }
-            toAdd.count = 1;
             AddItem(toAdd, false);
             inventoryUI.merchantLine.text = currentMerchant.GetThanksDialogue(item);
             itemBuy.PlayOneShot(itemBuy.clip);

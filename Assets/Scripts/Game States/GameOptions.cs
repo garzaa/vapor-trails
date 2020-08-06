@@ -1,23 +1,28 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 [System.Serializable]
 public class GameOptions {
     public bool shortHop = true;
+    public bool gameJournalist = false;
 
-    public void Refresh() {
-        shortHop = LoadBool("shortHop");
+    public void Load() {
+        shortHop = LoadBool("ShortHop");
+        gameJournalist = LoadBool("GameJournalist");
+        QualitySettings.vSyncCount = LoadInt("VSync");
     }
 
-    public void Save() {
+    // player pref changes will be done via scripts attached to buttons
+    public void Apply() {
         PlayerPrefs.Save();
-        Refresh();
+        Load();
     }
 
-    bool LoadBool(string boolName) {
-        return PlayerPrefs.GetInt(boolName) == 1;
+    public static bool LoadBool(string boolName, bool defaultValue = false) {
+        return PlayerPrefs.GetInt(boolName, defaultValue ? 1 : 0) == 1;
     }
 
-    void SetBool(string boolName, bool val) {
-        PlayerPrefs.SetInt(boolName, val ? 1 : 0);
+    static int LoadInt(string intName, int defaultValue = 0) {
+        return PlayerPrefs.GetInt(intName, defaultValue);
     }
 }

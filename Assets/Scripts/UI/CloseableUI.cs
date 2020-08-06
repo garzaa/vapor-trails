@@ -3,14 +3,15 @@ using System.Collections;
 
 public class CloseableUI : MonoBehaviour {
     
-    [SerializeField] bool invincibleDuring;
-    [SerializeField] GameObject targetUI;
-    [SerializeField] bool interactSound = true;
-    [SerializeField] bool stopTime = false;
-    [SerializeField] bool exclusive = true;
-    [SerializeField] bool closeOnGenericEscape = false;
-    [SerializeField] bool useSelf = false;
-    [SerializeField] bool closeAtStart = false;
+    public bool invincibleDuring;
+    public GameObject targetUI;
+    public bool interactSound = true;
+    public bool stopTime = false;
+    public bool exclusive = true;
+    public bool closeOnGenericEscape = false;
+    public bool useSelf = false;
+    public bool closeAtStart = false;
+    public bool soloUISound = false;
 
     protected bool open;
     protected bool started;
@@ -26,6 +27,7 @@ public class CloseableUI : MonoBehaviour {
         GlobalController.pc.EnterCutscene(invincible:invincibleDuring);
         if (targetUI != null) targetUI.SetActive(true);
         if (stopTime) Time.timeScale = 0f;
+        if (soloUISound) SoundManager.SoloUIAudio();
     }
 
     virtual public void Close() {
@@ -34,12 +36,13 @@ public class CloseableUI : MonoBehaviour {
         this.open = false;
         if (GlobalController.openUIs == 0) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
+        if (soloUISound) SoundManager.DefaultAudio();
     }
 
     void Start() {
         started = true;
         OnEnable();
-        gameObject.SetActive(false);
+        if (closeAtStart) gameObject.SetActive(false);
     }
 
     void OnEnable() {
