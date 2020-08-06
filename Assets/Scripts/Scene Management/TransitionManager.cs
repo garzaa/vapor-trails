@@ -64,7 +64,7 @@ public class TransitionManager : MonoBehaviour {
 		} else if (SubwayManager.playerOnSubway) {
 			SubwayManager.ArriveWithPlayer();
 		} else if (toPosition) {
-			GlobalController.MovePlayerTo(position);
+			GlobalController.MovePlayerTo(position, fade: true);
 			toPosition = false;
 		}
 

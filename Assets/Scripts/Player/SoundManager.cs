@@ -119,7 +119,7 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	public static void SoloUIAudio() {
-		sm.soloUISnapshot.TransitionTo(0.5f);
+		sm.soloUISnapshot.TransitionTo(0f);
 	}
 
 	public static void DefaultAudio() {

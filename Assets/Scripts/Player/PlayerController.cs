@@ -461,7 +461,7 @@ public class PlayerController : Entity {
 
 	void AirJump() {
 		StopCoyoteTimeout();
-		SoundManager.SmallJumpSound();
+		SoundManager.JumpSound();
 		CameraShaker.TinyShake();
 		EndShortHopWindow();
 		InterruptMeteor();
@@ -760,6 +760,7 @@ public class PlayerController : Entity {
 		anim.ResetTrigger(Buttons.ATTACK);
 		anim.ResetTrigger(Buttons.PUNCH);
 		anim.ResetTrigger(Buttons.KICK);
+		anim.ResetTrigger(Buttons.BLOCK);
 		anim.ResetTrigger("Hurt");
 	}
 

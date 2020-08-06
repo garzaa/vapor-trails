@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utilities;
 
 public class SceneContainer : ScriptableObject {
-    public Scene scene;
+    public SceneField scene;
 }

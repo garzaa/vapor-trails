@@ -368,7 +368,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadScene(SceneContainer sceneContainer, Beacon beacon=null) {
-		LoadScene(sceneContainer.scene.name, beacon:beacon);
+		LoadScene(sceneContainer.scene.SceneName, beacon:beacon);
 	}
 
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
@@ -393,6 +393,8 @@ public class GlobalController : MonoBehaviour {
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
 		playerFollower.EnableSmoothing();
+		pc.ExitCutscene();
+		UnFadeToBlack();
 	}
 
 	public IEnumerator MovePlayerWithFade(Vector2 position) {
