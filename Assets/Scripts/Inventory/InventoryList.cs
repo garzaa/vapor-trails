@@ -4,14 +4,14 @@ using System.Linq;
 using UnityEngine;
 
 public class InventoryList : MonoBehaviour {
-    public List<Item> items;
+    public List<StoredItem> items;
 
     public InventoryList() {
-        this.items = new List<Item>();
+        this.items = new List<StoredItem>();
     }
 
-    public Item GetItem(string itemName) {
-        foreach (Item i in items) {
+    public StoredItem GetItem(string itemName) {
+        foreach (StoredItem i in items) {
             if (i.name.Equals(itemName)) {
                 return i;
             }
@@ -23,7 +23,11 @@ public class InventoryList : MonoBehaviour {
         items.Clear();
     }
 
-    public Item GetItem(Item item) {
+    public StoredItem GetItem(Item item) {
+        return GetItem(item.name);
+    }
+
+    public StoredItem GetItem(StoredItem item) {
         return GetItem(item.name);
     }
 
@@ -32,21 +36,27 @@ public class InventoryList : MonoBehaviour {
     }
 
     public bool HasItem(Item item) {
-        return GetItem(item) != null;
+        return HasItem(item.name);
+    }
+
+    public bool HasItem(StoredItem stored) {
+        return HasItem(stored.name);
     }
 
     public Item GetItemByIndex(int index) {
-        return items[index];
+        return items[index].item;
     }
 
-    // don't double items when added to the inventory
-    public void AddItem(Item item) {
-        Item instance = item.Instance();
-        if (instance.stackable && HasItem(instance)) {
-            GetItem(instance).count += instance.count;
+    public void AddItem(StoredItem s) {
+        if (s.item.stackable && HasItem(s)) {
+            GetItem(s).count += s.count;
         } else {
-            items.Add(instance);
+            items.Add(s);
         }
+    }
+
+    public void AddItem(Item s) {
+        AddItem(new StoredItem(s));
     }
 
     public void AddAll(InventoryList inventoryList) {
@@ -58,20 +68,26 @@ public class InventoryList : MonoBehaviour {
             AddItem(i);
         }
     }
+
+    public void AddAll(List<StoredItem> items) {
+        foreach (StoredItem i in items) {
+            AddItem(i.item);
+        }
+    }
     
     public SerializableInventoryList MakeSerializableInventory() {
         return new SerializableInventoryList(items);
     }
 
     public void LoadFromSerializableInventoryList(SerializableInventoryList i) {
-        this.items = i.items.Select(x => ItemDB.GetItem(x)).ToList();
+        this.items = i.items;
     }
 
-    public void RemoveItem(Item toRemove) {
+    public void RemoveItem(StoredItem toRemove) {
         if (GetItem(toRemove) == null) {
             Debug.Log("RemoveItem isn't nullsafe you brainlet");
         }
-        if (toRemove.stackable) {
+        if (toRemove.item.stackable) {
             GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
             if (GetItem(toRemove).count == 0) {
                 items.Remove(GetItem(toRemove));
@@ -85,9 +101,9 @@ public class InventoryList : MonoBehaviour {
 
 [System.Serializable]
 public class SerializableInventoryList {
-    public List<SerializableItem> items;
+    public List<StoredItem> items;
     
-    public SerializableInventoryList(List<Item> items) {
-        this.items = items.Select(x => x.MakeSerialized()).ToList();
+    public SerializableInventoryList(List<StoredItem> items) {
+        this.items = items;
     }
 }

@@ -28,8 +28,8 @@ public class ItemWanter : PersistentObject {
 
     public void CheckForItem(InventoryList inventoryToCheck) {
         foreach (Item wantedItem in wanted) {
-            Item i = inventoryToCheck.GetItem(wantedItem);
-            if (!(i != null && i.count >= wantedItem.count)) {
+            StoredItem i = inventoryToCheck.GetItem(wantedItem.name);
+            if (i == null) {
                 //reject if even one item is missing
                 RejectItems();
                 return;
@@ -47,7 +47,7 @@ public class ItemWanter : PersistentObject {
     void AcceptItems() {
         if (consumesItems) {
             foreach (Item wantedItem in wanted) {
-                GlobalController.inventory.items.RemoveItem(wantedItem);
+                GlobalController.inventory.items.RemoveItem(new StoredItem(wantedItem));
             }
         }
         acceptedItemBefore = true;

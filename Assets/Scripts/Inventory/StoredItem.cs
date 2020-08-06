@@ -9,4 +9,10 @@ public class StoredItem {
         }
     }
 
+
+    public StoredItem(Item i) {
+        this.name = i.name;
+        this.count = 1;
+    }
+
 }

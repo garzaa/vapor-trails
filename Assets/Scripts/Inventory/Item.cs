@@ -6,7 +6,6 @@ public class Item : ScriptableObject {
     public Sprite itemIcon;
     public Sprite detailedIcon;
     public bool stackable;
-    public int count = 1;
     public int cost = 0;
 
     [SerializeField] List<ItemType> type;
@@ -18,10 +17,6 @@ public class Item : ScriptableObject {
 
     [SerializeField]
     public List<ItemEffect> itemEffects;
-
-    public SerializableItem MakeSerialized() {
-        return new SerializableItem(this.name, this.count);
-    }
 
     public virtual void OnPickup(bool quiet) {
 

@@ -14,11 +14,4 @@ public class ItemDB {
         itemCache.Add(itemName, item);
         return item.Instance();
     }
-
-    public static Item GetItem(SerializableItem serializableItem) {
-        Item item = GetItem(serializableItem.name);
-        item.count = serializableItem.count;
-        
-        return item;
-    }
 }

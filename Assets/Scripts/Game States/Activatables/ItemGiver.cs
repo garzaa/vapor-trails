@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class ItemGiver : Activatable {
 	public Item toGive;
-	public StoredItem storedItem;
+	public List<Item> items;
 	public bool quiet;
 
 	public override void ActivateSwitch(bool b) {
 		if (b) {
-			if (toGive != null) GlobalController.AddItem(this.toGive.Instance(), quiet: quiet);
-			else GlobalController.AddItem(storedItem.item, quiet: quiet);
+			if (toGive != null) GlobalController.AddItem(new StoredItem(toGive), quiet: this.quiet);
+			else {
+				foreach (Item i in items) {
+					GlobalController.AddItem(new StoredItem(i), quiet: this.quiet);
+				}
+			}
 		}
 	}
 }

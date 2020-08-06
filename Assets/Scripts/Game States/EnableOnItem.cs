@@ -1,8 +1,9 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using System.Collections.Generic;
 
 public class EnableOnItem : MonoBehaviour {
     public Item wanted;
+    public List<Item> wantedItems;
     public bool immediate = true;
 
     public bool setDisabled = false;
@@ -12,9 +13,22 @@ public class EnableOnItem : MonoBehaviour {
     }
 
     public void CheckState() {
-        Item i = GlobalController.inventory.items.GetItem(wanted);
-        bool hasItem = (i != null && i.count >= wanted.count);
-        if (setDisabled) gameObject.SetActive(!hasItem);
-        else gameObject.SetActive(hasItem);
+        if (wanted != null) {
+            StoredItem i = GlobalController.inventory.items.GetItem(wanted);
+            bool hasItem = (i != null);
+            if (setDisabled) gameObject.SetActive(!hasItem);
+            else gameObject.SetActive(hasItem);
+        } else {
+            bool satisfied = true;
+            foreach (Item i in wantedItems) {
+                if (!GlobalController.inventory.items.HasItem(i)) {
+                    satisfied = false;
+                    break;
+                }
+            }
+            if (setDisabled) gameObject.SetActive(!satisfied);
+            else gameObject.SetActive(satisfied);
+        }
     }
+
 }

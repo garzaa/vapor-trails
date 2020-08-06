@@ -478,8 +478,8 @@ public class GlobalController : MonoBehaviour {
 		save = saveWrapper.save;
 		pc.LoadFromSaveData(saveWrapper.save);
 		inventory.items.Empty();
-		foreach (SerializableItem s in save.playerItems.items) {
-			GlobalController.AddItem(ItemDB.GetItem(s), quiet:true);
+		foreach (StoredItem s in save.playerItems.items) {
+			GlobalController.AddItem(s, quiet:true);
 		}
 		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
 			o.Start();
@@ -550,12 +550,13 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void AddItem(Item item, bool quiet=false) {
+	public static void AddItem(StoredItem s, bool quiet=false) {
+		Item item = s.item;
 		if (!quiet) {
             SoundManager.ItemGetSound();
 			if (!item.IsType(ItemType.ABILITY)) {
-				if (item.count != 1)
-					AlerterText.Alert($"{item.name} ({item.count}) acquired");
+				if (s.count != 1)
+					AlerterText.Alert($"{item.name} ({s.count}) acquired");
 				else 
 					AlerterText.Alert(item.name + " acquired");
 			}
@@ -563,7 +564,7 @@ public class GlobalController : MonoBehaviour {
 		if (item.gameStates != null) {
 			AddStates(item.gameStates);
 		}
-		inventory.AddItem(item, quiet);
+		inventory.AddItem(s, quiet);
 		PropagateItemChange();
 	}
 

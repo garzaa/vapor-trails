@@ -6,7 +6,7 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
     InventoryUI inventoryUI;
     ItemViewer itemViewer;
     
-    public Item inventoryItem;
+    public StoredItem storedItem;
 
 
     public Image itemImage;
@@ -32,13 +32,13 @@ public class ItemPane : MonoBehaviour, ISelectHandler {
 
     void OnClick() {
         // for merchants
-        GlobalController.inventory.ReactToItemSelect(this.inventoryItem);
+        GlobalController.inventory.ReactToItemSelect(this.storedItem);
     }
 
-    public void PopulateSelfInfo(Item item) {
-        itemImage.sprite = item.itemIcon;
-        this.inventoryItem = item;
-        itemCount.text = (item.count > 1 ? item.count.ToString() : "");
+    public void PopulateSelfInfo(StoredItem s) {
+        itemImage.sprite = s.item.itemIcon;
+        this.storedItem = s;
+        itemCount.text = (s.count > 1 ? s.count.ToString() : "");
     }
 
 }
