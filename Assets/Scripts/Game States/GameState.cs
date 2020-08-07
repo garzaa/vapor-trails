@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameState", menuName = "ScriptableObjects/GameState", order = 1)]
+[CreateAssetMenu()]
 public class GameState : ScriptableObject {
     [TextArea] public string description;
 }

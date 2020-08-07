@@ -42,7 +42,6 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 8916182635264570385}
   - {fileID: 6097346669259660679}
   m_StateMachineBehaviours:
   - {fileID: -757855247638080120}
@@ -54,7 +53,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 32086f41541e6c649b6ee33e034cdd03, type: 2}
+  m_Motion: {fileID: 7400000, guid: 27d5f61a8b2958b4595e9ac6a1db059e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -88,6 +87,23 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-5902588401554208823
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d84615413be6384fa3bc8d8ccd92566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  entityForward: 1
+  pickMax: 0
+  onEnter: 0
+  onUpdate: 1
 --- !u!1101 &-4166348778770423140
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -116,24 +132,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
---- !u!114 &-3972298900867879898
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88d5273c25ba30c448fb95fae4f1fcbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onEnter: 0
-  onUpdate: 1
-  onExit: 0
-  direction: {x: 2, y: 0}
-  overrideName: 
-  forceZero: 0
 --- !u!114 &-3966209409435795883
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,14 +154,14 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WalkTowardsPlayer
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -602965994433837787}
   - {fileID: -6384348015474622186}
   m_StateMachineBehaviours:
   - {fileID: -6807595205193423736}
-  - {fileID: -2223191517958919405}
+  - {fileID: -5902588401554208823}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -172,30 +170,12 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f3985748e0496f646a8d269ee380247d, type: 2}
+  m_Motion: {fileID: 7400000, guid: c4f62333d1381b449a1c84b9917b4361, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &-2223191517958919405
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88d5273c25ba30c448fb95fae4f1fcbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onEnter: 0
-  onUpdate: 1
-  onExit: 0
-  direction: {x: 2, y: 0}
-  overrideName: WalkTowardsPlayer
-  forceZero: 0
 --- !u!1101 &-1837996911624767138
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -307,6 +287,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &-1026871884061234574
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Grounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -593980958970009193}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!114 &-757855247638080120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -319,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24e59133b63bc74a9368e5d473bc66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setEnabled: 1
+  setEnabled: 0
 --- !u!1101 &-602965994433837787
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -356,13 +361,13 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Walking
-  m_Speed: 1
+  m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6416643308833791036}
   m_StateMachineBehaviours:
-  - {fileID: -3972298900867879898}
   - {fileID: 725450154131217814}
+  - {fileID: -452988115093885612}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -371,12 +376,29 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f3985748e0496f646a8d269ee380247d, type: 2}
+  m_Motion: {fileID: 7400000, guid: c4f62333d1381b449a1c84b9917b4361, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-452988115093885612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d84615413be6384fa3bc8d8ccd92566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  entityForward: 1
+  pickMax: 0
+  onEnter: 0
+  onUpdate: 1
 --- !u!114 &-249518744572845644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -419,13 +441,17 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1330740621618886797}
     m_Position: {x: 220, y: -70, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2158141680445611898}
+    m_Position: {x: 180, y: 10, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -1500208722301104741}
-    m_Position: {x: 370, y: 10, z: 0}
+    m_Position: {x: 470, y: -20, z: 0}
   m_AnyStateTransitions:
   - {fileID: 2869733644406193829}
   - {fileID: -4166348778770423140}
+  - {fileID: 809545596711368348}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
@@ -440,7 +466,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Buff Sludge
+  m_Name: Headfooter
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: NearWall
@@ -499,6 +525,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setEnabled: 0
+--- !u!1101 &809545596711368348
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Stunned
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Grounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2158141680445611898}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!1102 &1330740621618886797
 AnimatorState:
   serializedVersion: 5
@@ -520,7 +574,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8ba016b12768e434e9dbe44274a05984, type: 2}
+  m_Motion: {fileID: 7400000, guid: 9063ad299419270418d35aa4c8b18f4f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -544,6 +598,33 @@ MonoBehaviour:
   forceY: 0
   entityForward: 0
   pickMax: 0
+--- !u!1102 &2158141680445611898
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Falling
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -1026871884061234574}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!114 &2322601454568481992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -649,7 +730,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 12c7f3d8dd832b84bb816658e8e408c3, type: 2}
+  m_Motion: {fileID: 0}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -755,31 +836,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lo: {fileID: 0}
   setEnabled: 0
---- !u!1101 &8916182635264570385
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 4
-    m_ConditionEvent: PlayerXDist
-    m_EventTreshold: 1
-  - m_ConditionMode: 4
-    m_ConditionEvent: PlayerYDist
-    m_EventTreshold: 1
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -6629273894934960219}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0
-  m_TransitionOffset: 0.35
-  m_ExitTime: 0.78
-  m_HasExitTime: 1
-  m_HasFixedDuration: 0
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1

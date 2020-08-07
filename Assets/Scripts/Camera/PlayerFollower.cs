@@ -66,7 +66,9 @@ public class PlayerFollower : MonoBehaviour {
 	}
 
 	public void SnapToPlayer() {
+		DisableSmoothing();
 		this.transform.position = player.transform.position;
+		EnableSmoothing();
 	}
 
 	public void EnableSmoothing() {

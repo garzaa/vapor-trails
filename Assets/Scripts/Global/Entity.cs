@@ -150,13 +150,13 @@ public class Entity : MonoBehaviour {
         if (bc2d == null) {
             return 0;
         }
-        return bc2d.transform.position.y - bc2d.offset.y - bc2d.size.y / 2;
+        return bc2d.bounds.min.y;
     }
 
 	public void ForwardDust() {
  		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x + 0.32f * ForwardScalar(),
-            ColliderBottom() + 0.08f,
+            ColliderBottom() + 0.12f,
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
 		d.transform.localScale = new Vector3(ForwardScalar(), 1, 1);
@@ -165,7 +165,7 @@ public class Entity : MonoBehaviour {
 	public void BackwardDust() {
 		GameObject d = Instantiate(dust, new Vector3(
 			this.transform.position.x - 0.32f * ForwardScalar(),
-            ColliderBottom() + 0.08f,
+            ColliderBottom() + 0.12f,
 			this.transform.position.z
 		), Quaternion.identity).gameObject;
 		d.transform.localScale = new Vector3(-ForwardScalar(), 1, 1);

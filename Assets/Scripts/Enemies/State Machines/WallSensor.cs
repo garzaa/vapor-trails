@@ -18,16 +18,20 @@ public class WallSensor : Sensor {
 	void Update() {
 		RaycastHit2D hit = Physics2D.BoxCast(
 			this.transform.position,
-			size,
+			// don't touch floor/ceiling
+			size * 0.8f,
 			0,
 			Vector2.right * e.ForwardScalar(),
 			distance,
 			layerMask
 		);
-		nearWall = hit.transform != null;
+		nearWall = hit.collider != null;
 		if (nearWall) {
 			if (useTrigger) animator.SetTrigger("NearWall");
-			if (autoFlip) e.Flip();
+			if (autoFlip) {
+				Debug.Log("asdh");
+				e.Flip();
+			}
 		}
 		animator.SetBool("NearWall", nearWall);
 	}

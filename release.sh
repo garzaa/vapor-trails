@@ -1,3 +1,5 @@
+alias butler="D:/Program\ Files/butler-windows-amd64/butler.exe"
+
 function gitrelease() {
     git add -A
     git commit -m "release commit"
