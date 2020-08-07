@@ -6,30 +6,30 @@ public class WallSensor : Sensor {
 	public bool useTrigger = false;
 	public bool autoFlip = false;
 	public bool nearWall;
-	Vector2 size;
+
+	BoxCollider2D bc;
 	int layerMask;
 
 	new void Start() {
 		base.Start();
-		size = GetComponent<BoxCollider2D>().bounds.size * 0.75f;
+		bc = GetComponent<BoxCollider2D>();
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 	}
 
-	void Update() {
-		RaycastHit2D hit = Physics2D.BoxCast(
-			this.transform.position,
-			// don't touch floor/ceiling
-			size * 0.8f,
-			0,
+	void LateUpdate() {
+		Vector2 start = new Vector2(bc.transform.position.x+bc.offset.x, bc.bounds.min.y+0.05f);
+
+		RaycastHit2D hit = Physics2D.Raycast(
+			start,
 			Vector2.right * e.ForwardScalar(),
 			distance,
 			layerMask
 		);
-		nearWall = hit.collider != null;
+		nearWall = (hit.transform != null);
 		if (nearWall) {
+			Debug.DrawLine(transform.position, hit.point, Color.cyan);
 			if (useTrigger) animator.SetTrigger("NearWall");
 			if (autoFlip) {
-				Debug.Log("asdh");
 				e.Flip();
 			}
 		}
