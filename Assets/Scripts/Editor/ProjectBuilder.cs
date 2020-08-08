@@ -26,7 +26,7 @@ public class ProjectBuilder {
         Debug.Log($"Starting build for {folderSuffix}");
         BuildReport report = BuildPipeline.BuildPlayer(enabledScenes, BuildFolder(folderSuffix.ToString(), extension), target, BuildOptions.None);
         if (report.summary.result.Equals(BuildResult.Succeeded)) {
-            Debug.Log($"Build for {folderSuffix} succeeded with size {report.summary.totalSize}");
+            Debug.Log($"Finished! Build for {folderSuffix} succeeded with size {report.summary.totalSize}");
         } else {
             Debug.Log($"Build for {folderSuffix} finished with result: {report.summary.result}");
             Debug.Log($"Total errors: {report.summary.totalErrors}");

@@ -392,9 +392,10 @@ public class GlobalController : MonoBehaviour {
 		pc.GetComponent<Rigidbody2D>().position = position;
 		pc.EnableTrails();
 		playerFollower.SnapToPlayer();
+		yield return new WaitForSecondsRealtime(0.5f);
 		playerFollower.EnableSmoothing();
-		pc.ExitCutscene();
 		UnFadeToBlack();
+		pc.ExitCutscene();
 	}
 
 	public IEnumerator MovePlayerWithFade(Vector2 position) {

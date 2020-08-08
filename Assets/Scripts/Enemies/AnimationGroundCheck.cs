@@ -23,7 +23,9 @@ public class AnimationGroundCheck : GroundCheck {
 		}
 		animator.SetBool("Grounded", IsGrounded());
 		animator.SetBool("TouchingLedge", onLedge);
-		if (flipOnLedgeStep && onLedge) entity.Flip();
+		if (flipOnLedgeStep && onLedge) {
+			entity.Flip();
+		}
 		touchingLedgeLastFrame = onLedge;
 	}
 }
