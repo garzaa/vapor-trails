@@ -61,10 +61,8 @@ public class Enemy : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
 		
 		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
-		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
-			// update, the lady of the lake was actually entirely redone so here we are
-        	// vile, but easier than redoing the entire lady of the lake boss fight
-			//.Where(x => x.GetComponent<IgnoreWhiteFlash>() == null).ToList();
+		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true))
+			.Where(x => x.GetComponent<IgnoreWhiteFlash>() == null).ToList();
 		if (spr != null) {
 			defaultMaterial = spr.material;
 		} else if (spriteRenderers.Count > 0) {
