@@ -11,7 +11,7 @@ public class PlayerController : Entity {
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
 	const float stunLength = 0.4f;
-	const float parryLength = 10f/60f;
+	const float parryWindowLength = 4f/16f;
 	const float coyoteTime = 0.1f;
 
 	const float airControlAmount = 10f;
@@ -195,10 +195,10 @@ public class PlayerController : Entity {
 				this.transform
 			);
 		}
+		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
 		canParry = true;
-		GainEnergy(1);
 		StartCombatCooldown();
 		// parries can chain together as long as there's a hit every 0.5 seconds
 		CancelInvoke("EndParryWindow");
@@ -207,7 +207,6 @@ public class PlayerController : Entity {
 
 	public void FirstParry() {
 		AlerterText.Alert("Autoparry active");
-		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
 		anim.SetTrigger("Parry");
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
 		CameraShaker.Shake(0.1f, 0.1f);
@@ -1019,15 +1018,15 @@ public class PlayerController : Entity {
 
 	void Die(Attack fatalBlow) {
 		if (options.gameJournalist) {
-			AlerterText.Alert("<color=magenta>SECOND WIND</color>");
+			AlerterText.Alert("<color=cyan>SECOND WIND</color>");
 			SoundManager.HealSound();
 			FullHeal();
 			return;
 		}
 
 		AlerterText.AlertList(deathText);
-		AlerterText.Alert("CAUSE OF DEATH:");
-		AlerterText.Alert(fatalBlow.attackName);
+		AlerterText.Alert($"<color=red>CAUSE OF DEATH:</color>");
+		AlerterText.Alert($"<color=red>{fatalBlow.attackName}</color>");
 		// if the animation gets interrupted or something, use this as a failsafe
 		Invoke("FinishDyingAnimation", 3f);
 		this.dead = true;
@@ -1349,7 +1348,7 @@ public class PlayerController : Entity {
 		CancelInvoke("EndParryWindow");
 		canParry = true;
 		StartCombatCooldown();	
-		Invoke("EndParryWindow", parryLength);
+		Invoke("EndParryWindow", parryWindowLength);
 	}
 
 	public void EndParryWindow() {
