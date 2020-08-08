@@ -121,7 +121,7 @@ public class Enemy : Entity {
 		Hitstop.Run(.1f);
 		if (dropBossResources) {
 			for (int i=0; i<1; i++) {
-				Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
+				// Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
 			}
 		}
 		if (!burstOnDeath && anim != null) {
