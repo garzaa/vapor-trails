@@ -714,13 +714,12 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			yield break;
 		}
-		rb2d.velocity = Vector2.zero;
 		FreezeFor(0.4f);
+		LockInSpace();
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
-		rb2d.velocity = Vector2.zero;
 	}
 
 	public override void OnGroundLeave() {
