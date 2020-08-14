@@ -3824,6 +3824,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -3894235085937519270}
   - {fileID: -8333766858877174579}
+  - {fileID: 7945700725529668933}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -4986,7 +4987,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: Air -> AirAttacks 2xx
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Attack
@@ -5565,7 +5566,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: 3xx -> Aerial 2xx
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: Grounded
@@ -10064,7 +10065,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: ground (no attacks) -> Aerial 2xx
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: Grounded
@@ -10078,6 +10079,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: SubState
     m_EventTreshold: -250
+  - m_ConditionMode: 7
+    m_ConditionEvent: SubState
+    m_EventTreshold: 110
   m_DstStateMachine: {fileID: -453516480743512718}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -14191,6 +14195,22 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &7945700725529668933
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05e8c85239a728468731b5dbf04a065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  pickMax: 0
+  onEnter: 1
+  onUpdate: 0
 --- !u!1101 &7971978033697460959
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
