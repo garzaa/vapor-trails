@@ -29,7 +29,7 @@ public class PauseUI : CloseableUI {
     }
 
     void Update() {
-        if (open && Input.GetButtonDown("Start")) {
+        if (open && InputManager.ButtonDown(Buttons.PAUSE)) {
             Close();
         }
     }

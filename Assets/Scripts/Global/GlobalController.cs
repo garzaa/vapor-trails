@@ -135,7 +135,7 @@ public class GlobalController : MonoBehaviour {
 		}
 
 		
-		if (Input.GetButtonDown("Start") && pauseEnabled && !inInventory && !paused) {
+		if (InputManager.ButtonDown(Buttons.PAUSE) && pauseEnabled && !inInventory && !paused) {
 			// pauseUI takes care of unpausing
 			Pause();
 		}

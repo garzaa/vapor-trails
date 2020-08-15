@@ -19,6 +19,8 @@ public static class Buttons {
 
     public static readonly string CONFIRM = "Confirm";
     public static readonly string PAUSE   = "Start";
+    public static readonly string TABLEFT = "Tab Left";
+    public static readonly string TABRIGHT = "Tab Right";
 
     private static readonly List<string> moveInputs = new List<string> {
         H_AXIS,
