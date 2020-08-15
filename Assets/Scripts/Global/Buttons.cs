@@ -10,6 +10,7 @@ public static class Buttons {
     public static readonly string XTAUNT = "Horizontal Taunt";
     public static readonly string YTAUNT = "Vertical Taunt";
     public static readonly string INVENTORY = "Inventory";
+    public static readonly string WALK = "Walk";
 
     public static readonly string SPECIAL    = "Special";
     public static readonly string PROJECTILE = "Projectile";
@@ -21,43 +22,4 @@ public static class Buttons {
     public static readonly string PAUSE   = "Start";
     public static readonly string TABLEFT = "Tab Left";
     public static readonly string TABRIGHT = "Tab Right";
-
-    private static readonly List<string> moveInputs = new List<string> {
-        H_AXIS,
-        V_AXIS,
-        JUMP
-    };
-
-    private static readonly List<string> actionInputs = new List<string> {
-        ATTACK,
-        PUNCH,
-        KICK,
-        SPECIAL, 
-        PROJECTILE,
-        INTERACT,
-        BLOCK,
-        XTAUNT,
-        YTAUNT
-    };
-
-    private static readonly List<string> metaInputs = new List<string>{
-        CONFIRM,
-        PAUSE
-    };
-
-    private static readonly Dictionary<InputType, List<string>> inputMap = new Dictionary<InputType, List<string>> {
-        { InputType.MOVE, moveInputs },
-        { InputType.ACTION, actionInputs },
-        { InputType.META, metaInputs }
-    };
-
-    public static bool IsType(string inputName, InputType inputType) {
-        return inputMap[inputType].Contains(inputName);
-    }
-}
-
-public enum InputType {
-    MOVE,
-    ACTION,
-    META
 }

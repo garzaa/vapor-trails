@@ -164,7 +164,13 @@ public class PlayerController : Entity {
 	
 	void Interact() {
 		if (stunned) return;
-		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene && canInteract && grounded) {
+
+		if (InputManager.ButtonDown(Buttons.INTERACT)
+			&& interaction.currentInteractable != null
+			&& !inCutscene
+			&& canInteract
+			&& grounded
+		) {
 			SoundManager.InteractSound();
 			InterruptEverything();
 			interaction.currentInteractable.InteractFromPlayer(this.gameObject);
@@ -174,7 +180,7 @@ public class PlayerController : Entity {
 	}
 
 	bool IsForcedWalking() {
-		return this.forcedWalking || Input.GetKey(KeyCode.LeftControl);
+		return this.forcedWalking || InputManager.Button(Buttons.WALK);
 	}
 
 	public void Parry() {
@@ -233,9 +239,7 @@ public class PlayerController : Entity {
 		}
 
 
-		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
-			anim.SetTrigger(Buttons.ATTACK);
-		} else if (InputManager.ButtonDown(Buttons.PUNCH)) {
+		if (InputManager.ButtonDown(Buttons.PUNCH)) {
 			anim.SetTrigger(Buttons.PUNCH);
 			// use one trigger to get to the attack state machine, because there are a bunch of transitions to it
 			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
@@ -261,7 +265,7 @@ public class PlayerController : Entity {
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} 
-		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
+		else if (InputManager.ButtonDown(Buttons.BLOCK) && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
@@ -284,7 +288,7 @@ public class PlayerController : Entity {
 		) {
 			anim.SetBool("Surf", true);
 			return;
-		} 
+		}
 
 		anim.SetBool("Surf", false);
 
@@ -1060,7 +1064,6 @@ public class PlayerController : Entity {
 		ResetAttackTriggers();
 		RefreshAirMovement();
 		UnFreeze();
-		InputManager.UnfreezeInputs();
 		UnLockInSpace();
 		EnableShooting();
 		InvincibleFor(1f);
