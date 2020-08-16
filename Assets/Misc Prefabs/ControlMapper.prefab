@@ -945,7 +945,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -80, y: -80}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7336587614678428494
 GameObject:
@@ -1313,7 +1313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7336587615067549012}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 800, y: 450, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7336587615716667277}
@@ -1363,11 +1363,11 @@ MonoBehaviour:
   _controllerColMaxWidth: 200
   _inputRowHeight: 40
   _inputRowPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  _inputRowFieldSpacing: 0
+    m_Left: 2
+    m_Right: 2
+    m_Top: 2
+    m_Bottom: 2
+  _inputRowFieldSpacing: 1
   _inputColumnSpacing: 40
   _inputRowCategorySpacing: 20
   _invertToggleWidth: 40
@@ -2479,9 +2479,8 @@ GameObject:
   - component: {fileID: 7336587615716667277}
   - component: {fileID: 7336587615716667273}
   - component: {fileID: 7336587615716667278}
-  - component: {fileID: 7336587615716667279}
-  - component: {fileID: 7336587615716667276}
   - component: {fileID: 2701273959980786201}
+  - component: {fileID: 1322465748424149989}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2521,7 +2520,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -2547,80 +2546,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7336587615716667279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7336587615716667266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d5765b502c6a5e4ab9dfff21808a241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
---- !u!114 &7336587615716667276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7336587615716667266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b7420df3cab0ff46a7188a17749d1cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  breakPoints:
-  - name: 2:1
-    screenAspectRatio: 2
-    referenceResolution: {x: 2110, y: 600}
-  - name: 16:9
-    screenAspectRatio: 1.777
-    referenceResolution: {x: 1885, y: 600}
-  - name: 16:10
-    screenAspectRatio: 1.6
-    referenceResolution: {x: 1694, y: 600}
-  - name: 3:2
-    screenAspectRatio: 1.5
-    referenceResolution: {x: 1530, y: 600}
-  - name: 4:3
-    screenAspectRatio: 1.333
-    referenceResolution: {x: 1360, y: 600}
-  - name: 5:4
-    screenAspectRatio: 1.25
-    referenceResolution: {x: 1280, y: 600}
-  - name: Square
-    screenAspectRatio: 1
-    referenceResolution: {x: 1020, y: 600}
-  - name: 4:5
-    screenAspectRatio: 0.8
-    referenceResolution: {x: 920, y: 600}
-  - name: 3:4
-    screenAspectRatio: 0.75
-    referenceResolution: {x: 880, y: 600}
-  - name: 2:3
-    screenAspectRatio: 0.666
-    referenceResolution: {x: 960, y: 600}
-  - name: 10:16
-    screenAspectRatio: 0.625
-    referenceResolution: {x: 960, y: 600}
-  - name: 9:16
-    screenAspectRatio: 0.5625
-    referenceResolution: {x: 880, y: 600}
-  - name: 1:2
-    screenAspectRatio: 0.5
-    referenceResolution: {x: 840, y: 600}
 --- !u!114 &2701273959980786201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2642,6 +2567,19 @@ MonoBehaviour:
   useSelf: 1
   closeAtStart: 0
   soloUISound: 1
+--- !u!114 &1322465748424149989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7336587615716667266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e84ac0b3b5050d408263150d1aa9302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplier: 0.5
 --- !u!1 &7336587615727440553
 GameObject:
   m_ObjectHideFlags: 0
@@ -2819,7 +2757,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -100, y: -140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &7336587615813679319
 CanvasGroup:

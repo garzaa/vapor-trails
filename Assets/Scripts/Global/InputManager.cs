@@ -17,6 +17,8 @@ public class InputManager : MonoBehaviour {
 
     static InputManager im;
 
+    static bool polling = false;
+
     void Start() {
         if (im == null) im = this;
         rewiredPlayer = ReInput.players.GetPlayer(0);
@@ -45,15 +47,15 @@ public class InputManager : MonoBehaviour {
     }
 
     public static bool ButtonDown(string buttonName) {
-        return rewiredPlayer.GetButtonDown(buttonName);
+        return !polling && rewiredPlayer.GetButtonDown(buttonName);
     }
 
     public static bool Button(string buttonName) {
-        return rewiredPlayer.GetButton(buttonName);
+        return !polling && rewiredPlayer.GetButton(buttonName);
     }
 
     public static bool ButtonUp(string buttonName) {
-        return Input.GetButtonUp(buttonName);
+        return !polling && rewiredPlayer.GetButtonUp(buttonName);
     }
 
     public static bool GenericContinueInput() {
@@ -97,5 +99,13 @@ public class InputManager : MonoBehaviour {
 
     public static Vector2 MoveVector() {
         return new Vector2(HorizontalInput(), VerticalInput());
+    }
+
+    public void OnButtonPollStart() {
+        InputManager.polling = true;    
+    }
+
+    public void OnButtonPollEnd() {
+        InputManager.polling = false;
     }
 }
