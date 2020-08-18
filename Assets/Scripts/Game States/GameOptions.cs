@@ -5,14 +5,17 @@ using UnityEngine.Audio;
 public class GameOptions {
     public bool shortHop = true;
     public bool gameJournalist = false;
+    public bool slideDrop = false;
 
     public void Load() {
         shortHop = LoadBool("ShortHop");
         gameJournalist = LoadBool("GameJournalist");
         QualitySettings.vSyncCount = LoadInt("VSync");
+        slideDrop = LoadBool("SlideDrop");
+        GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
     }
 
-    // player pref changes will be done via scripts attached to buttons
+    // player pref changes are done via scripts attached to buttons
     public void Apply() {
         PlayerPrefs.Save();
         Load();
