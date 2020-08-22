@@ -12,6 +12,7 @@ public class CloseableUI : MonoBehaviour {
     public bool useSelf = false;
     public bool closeAtStart = false;
     public bool soloUISound = false;
+    public bool freezePlayer = true;
 
     protected bool open;
     protected bool started;
@@ -24,7 +25,7 @@ public class CloseableUI : MonoBehaviour {
         this.open = true;
         Hitstop.Interrupt();
         if (interactSound) SoundManager.InteractSound();
-        GlobalController.pc.EnterCutscene(invincible:invincibleDuring);
+        if (freezePlayer) GlobalController.pc.EnterCutscene(invincible:invincibleDuring);
         if (targetUI != null) targetUI.SetActive(true);
         if (stopTime) Time.timeScale = 0f;
         if (soloUISound) SoundManager.SoloUIAudio();
@@ -34,7 +35,7 @@ public class CloseableUI : MonoBehaviour {
         if (stopTime) Time.timeScale = 1f;
         if (open) GlobalController.openUIs -= 1;
         this.open = false;
-        if (GlobalController.openUIs == 0) GlobalController.pc.ExitCutscene();
+        if (freezePlayer && GlobalController.openUIs == 0) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
         if (soloUISound) SoundManager.DefaultAudio();
     }
