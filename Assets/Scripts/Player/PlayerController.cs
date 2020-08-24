@@ -99,6 +99,7 @@ public class PlayerController : Entity {
 	bool justFlipped = false;
 	int panicJumpInputs = 0;
 	public ActiveInCombat[] combatActives;
+	public PlayerAttackGraph attackGraph;
 
 	public PlayerStates currentState;
 
@@ -137,6 +138,7 @@ public class PlayerController : Entity {
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 		combatActives = GetComponentsInChildren<ActiveInCombat>(includeInactive:true);
+		attackGraph.Initialize(anim, GetComponent<AttackBuffer>());
 	}
 	
 	void Update() {
@@ -238,17 +240,25 @@ public class PlayerController : Entity {
 			anim.SetBool("SpecialHeld", false);
 		}
 
+		UpdateAttackGraph();
 
-		if (InputManager.ButtonDown(Buttons.PUNCH)) {
-			anim.SetTrigger(Buttons.PUNCH);
-			// use one trigger to get to the attack state machine, because there are a bunch of transitions to it
-			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+		if (!attackGraph.IsActive() && grounded) {
+			if (InputManager.ButtonDown(Buttons.PUNCH) || InputManager.ButtonDown(Buttons.KICK)) {
+				Debug.Log("Entering graph from player controller");
+				attackGraph.EnterGraph();
+			}
+		} else if (!grounded) {
+			if (InputManager.ButtonDown(Buttons.PUNCH)) {
+				anim.SetTrigger(Buttons.PUNCH);
+				if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+			}
+			else if (InputManager.ButtonDown(Buttons.KICK) && !inMeteor) {
+				anim.SetTrigger(Buttons.KICK);
+				if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+			}
 		}
-		else if (InputManager.ButtonDown(Buttons.KICK) && !inMeteor) {
-			anim.SetTrigger(Buttons.KICK);
-			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
-		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
+
+		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			}
@@ -1359,7 +1369,10 @@ public class PlayerController : Entity {
 	}
 
 	public void OnAttackLand(Attack attack) {
-		// ResetAirJumps();	
+		// ResetAirJumps();
+		if (attackGraph.IsActive()) {
+			attackGraph.OnAttackLand();
+		}
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
@@ -1379,5 +1392,9 @@ public class PlayerController : Entity {
 	public bool InAttackStates() {
 		int currentState = anim.GetInteger("SubState");
 		return (currentState == 110) || (currentState == 210);
+	}
+
+	void UpdateAttackGraph() {
+		attackGraph.Update();
 	}
 }

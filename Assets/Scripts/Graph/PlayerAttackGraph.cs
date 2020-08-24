@@ -2,64 +2,77 @@ using UnityEngine;
 using XNode;
 
 public class PlayerAttackGraph : NodeGraph {
-    const float buffer = 0.1f;
+    AttackBuffer buffer;
     const int attackFramerate = 16;
+    bool active;
 
     Animator anim;
     float clipTime;
     float clipLength;
     int currentFrame; // 16 fps
 
-    AttackNode currentNode;
-    AttackLink bufferedInput;
+    AttackNode currentNode = null;
 
-    public void Initialize(Animator animator) {
-        anim = animator;
+    public void Initialize(Animator anim, AttackBuffer buffer) {
+        this.anim = anim;
+        this.buffer = buffer;
+        active = false;
     }
 
-    public void Enter() {
+    public void EnterGraph() {
+        Debug.Log("Entering Graph internally");
         currentNode = GetRootNode();
+        currentNode.OnNodeEnter();
+        active = true;
     }
 
-    public void Exit() {
+    public void ExitGraph() {
+        currentNode.OnNodeExit();
         currentNode = null;
-        bufferedInput = null;
+        active = false;
+        Debug.Log("Exiting graph internally");
     }
 
     public void Update() {
         // if player is out of the attack graph
-        if (currentNode == null) return;
+        if (!IsActive()) return;
 
-        clipLength = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        // assume there aren't any blend states on the animator
+        AnimatorClipInfo[] clipInfo = anim.GetCurrentAnimatorClipInfo(layerIndex:0);
+        clipLength = (clipInfo.Length > 0 ? clipInfo[0].clip.length : 1);
         clipTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-        currentFrame = (int) ((clipTime/clipLength) * 16f);        
+        currentFrame = (int) ((clipTime/clipLength) * 16f);
 
-        if (bufferedInput != null && currentFrame >= currentNode.IASA) {
-            // if possible, consume input and switch nodes
+        Debug.Log("Buffer ready: "+buffer.ready);
+        Debug.Log(currentFrame);
+
+        if (buffer.ready && (currentNode.IASA==0 || currentFrame>=currentNode.IASA)) {
+            MoveNextNode();
         }
-        
-        // grab and buffer inputs
 
-    }
-
-    void UpdateInputs() {
-        bool punch = Input.GetButtonDown(Buttons.PUNCH);
-        bool kick = Input.GetButtonDown(Buttons.KICK);
-        if (punch | kick) {
-            bufferedInput = new AttackLink(
-                AttackType.PUNCH,
-                AttackDirection.FORWARD
-            );
+        if (clipTime/clipLength > 1) {
+            ExitGraph();
         }
     }
 
-    void ClearBuffer() {
-
+    void MoveNextNode() {
+        AttackNode next = currentNode.GetNextAttack(buffer);
+        if (next != null) {
+            MoveNode(next);
+            return;
+        }
     }
 
-    void SwitchNode(AttackNode node) {
-        bufferedInput = null;
-        anim.Play(GetAnimationName(node));
+    void MoveNode(AttackNode node) {
+        Debug.Log("Switching node from "+currentNode.attackName);
+        buffer.Clear();
+
+        currentNode.OnNodeExit();
+        currentNode = node;
+        currentNode.OnNodeEnter();
+
+        anim.Play(GetStateName(currentNode));
+        Debug.Log("Playing animation "+GetStateName(currentNode));
     }
 
     AttackNode GetRootNode() {
@@ -69,8 +82,16 @@ public class PlayerAttackGraph : NodeGraph {
         return null;
     }
 
-    string GetAnimationName(AttackNode node) {
-        return "Player"+node.attackName.Replace(" ", "");
+    string GetStateName(AttackNode node) {
+        return node.attackName;
+    }
+
+    public bool IsActive() {
+        return active;
+    }
+
+    public void OnAttackLand() {
+        MoveNextNode();
     }
 
 }

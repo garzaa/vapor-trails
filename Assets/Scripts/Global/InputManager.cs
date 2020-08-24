@@ -88,8 +88,8 @@ public class InputManager : MonoBehaviour {
 
     public static Vector2 LeftStick() {
         return new Vector2(
-            Input.GetAxis("Horizontal"),
-            Input.GetAxis("Vertical")
+            rewiredPlayer.GetAxis(Buttons.H_AXIS),
+            rewiredPlayer.GetAxis(Buttons.V_AXIS)
         );
     }
 
