@@ -138,7 +138,6 @@ public class PlayerController : Entity {
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 		combatActives = GetComponentsInChildren<ActiveInCombat>(includeInactive:true);
-		attackGraph.Initialize(anim, GetComponent<AttackBuffer>());
 	}
 	
 	void Update() {
@@ -242,12 +241,11 @@ public class PlayerController : Entity {
 
 		UpdateAttackGraph();
 
-		if (!attackGraph.IsActive() && grounded) {
-			if (InputManager.ButtonDown(Buttons.PUNCH) || InputManager.ButtonDown(Buttons.KICK)) {
-				Debug.Log("Entering graph from player controller");
-				attackGraph.EnterGraph();
+		if (grounded) {
+			if (InputManager.AttackInput() && !InAttackStates()) {
+				anim.SetTrigger(Buttons.ATTACK);
 			}
-		} else if (!grounded) {
+		} else {
 			if (InputManager.ButtonDown(Buttons.PUNCH)) {
 				anim.SetTrigger(Buttons.PUNCH);
 				if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
@@ -1370,7 +1368,7 @@ public class PlayerController : Entity {
 
 	public void OnAttackLand(Attack attack) {
 		// ResetAirJumps();
-		if (attackGraph.IsActive()) {
+		if (attackGraph != null) {
 			attackGraph.OnAttackLand();
 		}
 	}
@@ -1395,6 +1393,19 @@ public class PlayerController : Entity {
 	}
 
 	void UpdateAttackGraph() {
-		attackGraph.Update();
+		if (attackGraph != null) attackGraph.Update();
+	}
+
+	public void EnterAttackGraph(PlayerAttackGraph graph) {
+		if (this.attackGraph != null && this.attackGraph == graph) {
+			return;
+		}
+		attackGraph = graph;
+		attackGraph.Initialize(anim, GetComponent<AttackBuffer>());
+		attackGraph.EnterGraph();
+	}
+
+	public void ExitAttackGraph() {
+		attackGraph = null;
 	}
 }

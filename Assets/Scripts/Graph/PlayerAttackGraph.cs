@@ -4,7 +4,6 @@ using XNode;
 public class PlayerAttackGraph : NodeGraph {
     AttackBuffer buffer;
     const int attackFramerate = 16;
-    bool active;
 
     Animator anim;
     float clipTime;
@@ -16,37 +15,27 @@ public class PlayerAttackGraph : NodeGraph {
     public void Initialize(Animator anim, AttackBuffer buffer) {
         this.anim = anim;
         this.buffer = buffer;
-        active = false;
     }
 
     public void EnterGraph() {
-        Debug.Log("Entering Graph internally");
         currentNode = GetRootNode();
         currentNode.OnNodeEnter();
-        active = true;
     }
 
     public void ExitGraph() {
         currentNode.OnNodeExit();
         currentNode = null;
-        active = false;
-        Debug.Log("Exiting graph internally");
+        GlobalController.pc.ExitAttackGraph(); // bad
     }
 
     public void Update() {
-        // if player is out of the attack graph
-        if (!IsActive()) return;
-
         // assume there aren't any blend states on the animator
         AnimatorClipInfo[] clipInfo = anim.GetCurrentAnimatorClipInfo(layerIndex:0);
         clipLength = (clipInfo.Length > 0 ? clipInfo[0].clip.length : 1);
         clipTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
         currentFrame = (int) ((clipTime/clipLength) * 16f);
 
-        Debug.Log("Buffer ready: "+buffer.ready);
-        Debug.Log(currentFrame);
-
-        if (buffer.ready && (currentNode.IASA==0 || currentFrame>=currentNode.IASA)) {
+        if (buffer.ready && currentFrame>=currentNode.IASA) {
             MoveNextNode();
         }
 
@@ -64,7 +53,6 @@ public class PlayerAttackGraph : NodeGraph {
     }
 
     void MoveNode(AttackNode node) {
-        Debug.Log("Switching node from "+currentNode.attackName);
         buffer.Clear();
 
         currentNode.OnNodeExit();
@@ -72,7 +60,6 @@ public class PlayerAttackGraph : NodeGraph {
         currentNode.OnNodeEnter();
 
         anim.Play(GetStateName(currentNode));
-        Debug.Log("Playing animation "+GetStateName(currentNode));
     }
 
     AttackNode GetRootNode() {
@@ -84,10 +71,6 @@ public class PlayerAttackGraph : NodeGraph {
 
     string GetStateName(AttackNode node) {
         return node.attackName;
-    }
-
-    public bool IsActive() {
-        return active;
     }
 
     public void OnAttackLand() {

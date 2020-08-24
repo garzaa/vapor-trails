@@ -66,8 +66,8 @@ public class InputManager : MonoBehaviour {
 
     public static bool AttackInput() {
         return (
-            Input.GetButtonDown(Buttons.PUNCH)
-            || Input.GetButtonDown(Buttons.KICK)
+            ButtonDown(Buttons.PUNCH)
+            || ButtonDown(Buttons.KICK)
         );
     }
 

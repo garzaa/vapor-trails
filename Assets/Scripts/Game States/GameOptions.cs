@@ -6,6 +6,7 @@ public class GameOptions {
     public bool shortHop = true;
     public bool gameJournalist = false;
     public bool slideDrop = false;
+    public int attackBuffer = 1;
 
     public void Load() {
         shortHop = LoadBool("ShortHop");
@@ -13,6 +14,7 @@ public class GameOptions {
         QualitySettings.vSyncCount = LoadInt("VSync");
         slideDrop = LoadBool("SlideDrop");
         GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
+        attackBuffer = LoadInt("AttackBuffer");
     }
 
     // player pref changes are done via scripts attached to buttons

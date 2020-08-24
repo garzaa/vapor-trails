@@ -2,11 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 public class AttackBuffer : MonoBehaviour {
-    const float buffer = 0.1f;
-    [SerializeField, NodeEnum] AttackType attackType = AttackType.NONE;
-    [SerializeField, NodeEnum] Vector2 direction = Vector2.zero;
+    [SerializeField] AttackType attackType = AttackType.NONE;
+    [SerializeField] Vector2 direction = Vector2.zero;
 
     Coroutine clearBuffer;
+
+    bool punch, kick;
 
     public AttackType type {
         get {
@@ -22,25 +23,27 @@ public class AttackBuffer : MonoBehaviour {
     }
 
     void Update() {
-        bool punch = Input.GetButtonDown(Buttons.PUNCH);
-        bool kick = Input.GetButtonDown(Buttons.KICK);
+        punch = Input.GetButtonDown(Buttons.PUNCH);
+        kick = Input.GetButtonDown(Buttons.KICK);
         if (punch || kick) {
             ResetBufferTimeout();
             
             if (punch) attackType = AttackType.PUNCH;
             else attackType = AttackType.KICK;
 
-            direction = InputManager.LeftStick().normalized * GlobalController.pc.ForwardVector() * new Vector2(1, 2);
+            Vector2 ls = InputManager.LeftStick();
 
-            Debug.Log("Setting attack buffer");
-            Debug.Log(direction.ToString());
+            direction = new Vector2(
+                    Mathf.Sign(ls.x),
+                    Mathf.Approximately(ls.y, 0) ? 0 : Mathf.Sign(ls.y)
+                ) * GlobalController.pc.ForwardVector() * new Vector2(1, 2);
 
-            //StartBufferTimeout();
+            StartBufferTimeout();
         }
     }
 
     IEnumerator ClearInputs() {
-        yield return new WaitForSecondsRealtime(buffer);
+        yield return new WaitForSecondsRealtime(GlobalController.save.options.attackBuffer * (1f/16f));
         Clear();
     }
 

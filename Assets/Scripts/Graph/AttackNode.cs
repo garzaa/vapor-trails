@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 using XNode;
 
@@ -6,7 +8,7 @@ using XNodeEditor;
 using UnityEditor;
 #endif
 
-[NodeWidth(250)]
+[NodeWidth(270)]
 public class AttackNode : Node {
     public string attackName;
     // TODO: also make horizontal input trigger buffer
@@ -18,14 +20,37 @@ public class AttackNode : Node {
     [Input(backingValue=ShowBackingValue.Never)] public AttackLink input;
     [Output(dynamicPortList=true, connectionType=ConnectionType.Override)] public AttackLink[] links;
 
+    List<Tuple<AttackLink, AttackNode>> directionalLinks = new List<Tuple<AttackLink, AttackNode>>();
+    AttackNode anyDirectionNode = null;
+
+    // directional attacks are prioritized in order, otherwise an any-directional link is used
     public AttackNode GetNextAttack(AttackBuffer buffer) {
-        for (var i=0; i<links.Length; i++) {
+        directionalLinks.Clear();
+        anyDirectionNode = null;
+
+        for (int i=0; i<links.Length; i++) {
             AttackLink link = links[i];
             if (link.type==buffer.type && buffer.HasDirection(link.direction)) {
                 AttackNode next = GetPort("links "+i).Connection.node as AttackNode;
-                if (next.Enabled()) return next;
+                if (next.Enabled()) {
+                    if (link.direction == AttackDirection.ANY) {
+                        anyDirectionNode = next;
+                    } else {
+                        directionalLinks.Add(new Tuple<AttackLink, AttackNode>(link, next));
+                    }
+                }
             }
         }
+
+        // return first encountered directional match
+        if (directionalLinks.Count > 0) {
+            return directionalLinks[0].Item2;
+        }
+
+        if (anyDirectionNode != null) {
+            return anyDirectionNode;
+        }
+
         return null;
     }
 
