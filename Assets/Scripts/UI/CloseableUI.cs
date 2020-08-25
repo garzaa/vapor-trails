@@ -29,13 +29,11 @@ public class CloseableUI : MonoBehaviour {
         if (targetUI != null) targetUI.SetActive(true);
         if (stopTime) Time.timeScale = 0f;
         if (soloUISound) SoundManager.SoloUIAudio();
-        Debug.Log("Opening " + name);
     }
 
     virtual public void Close() {
         if (open) GlobalController.openUIs -= 1;
 
-        Debug.Log("Closing "+name);
         if (stopTime) Time.timeScale = 1f;
         this.open = false;
         GlobalController.pc.ExitCutscene();
