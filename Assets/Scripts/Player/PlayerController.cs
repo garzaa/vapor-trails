@@ -321,6 +321,10 @@ public class PlayerController : Entity {
 
 		if (InputManager.HorizontalInput() != 0) {
 			float targetXSpeed = hInput * moveSpeed;
+
+			if (grounded && InAttackStates()) {
+				targetXSpeed = 0;
+			}
 			
 			// if moving above max speed and not decelerating
 			if (IsSpeeding() && MovingForwards()) {
@@ -1397,9 +1401,6 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterAttackGraph(PlayerAttackGraph graph) {
-		if (this.attackGraph != null && this.attackGraph == graph) {
-			return;
-		}
 		attackGraph = graph;
 		attackGraph.Initialize(anim, GetComponent<AttackBuffer>());
 		attackGraph.EnterGraph();

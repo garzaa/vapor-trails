@@ -23,8 +23,8 @@ public class AttackBuffer : MonoBehaviour {
     }
 
     void Update() {
-        punch = Input.GetButtonDown(Buttons.PUNCH);
-        kick = Input.GetButtonDown(Buttons.KICK);
+        punch = InputManager.ButtonDown(Buttons.PUNCH);
+        kick = InputManager.ButtonDown(Buttons.KICK);
         if (punch || kick) {
             ResetBufferTimeout();
             
@@ -43,11 +43,11 @@ public class AttackBuffer : MonoBehaviour {
     }
 
     IEnumerator ClearInputs() {
-        yield return new WaitForSecondsRealtime(GlobalController.save.options.attackBuffer * (1f/16f));
+        yield return new WaitForSecondsRealtime(InputManager.GetInputBuffer());
         Clear();
     }
 
-
+    // can be called externally
     public void Clear() {
         ResetBufferTimeout();
         attackType = AttackType.NONE;

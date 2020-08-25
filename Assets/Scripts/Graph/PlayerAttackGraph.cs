@@ -12,34 +12,42 @@ public class PlayerAttackGraph : NodeGraph {
 
     AttackNode currentNode = null;
 
+    string exitNodeName = "Idle";
+
     public void Initialize(Animator anim, AttackBuffer buffer) {
         this.anim = anim;
         this.buffer = buffer;
-    }
+}
 
     public void EnterGraph() {
         currentNode = GetRootNode();
         currentNode.OnNodeEnter();
+        exitNodeName = (currentNode as InitialBranchNode).exitNode;
     }
 
     public void ExitGraph() {
         currentNode.OnNodeExit();
         currentNode = null;
+        anim.Play(exitNodeName, 0);
         GlobalController.pc.ExitAttackGraph(); // bad
     }
 
     public void Update() {
         // assume there aren't any blend states on the animator
         AnimatorClipInfo[] clipInfo = anim.GetCurrentAnimatorClipInfo(layerIndex:0);
-        clipLength = (clipInfo.Length > 0 ? clipInfo[0].clip.length : 1);
+        // if for some reason the current state has no animation in it
+        clipLength = (clipInfo.Length > 0 ? clipInfo[0].clip.length : 0.25f);
         clipTime = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-        currentFrame = (int) ((clipTime/clipLength) * 16f);
 
-        if (buffer.ready && currentFrame>=currentNode.IASA) {
+        currentFrame = (int) ((clipTime * clipLength) * 16f);
+
+        if (buffer.ready && (currentFrame>=currentNode.IASA || currentNode.cancelable)) {
             MoveNextNode();
         }
-
-        if (clipTime/clipLength > 1) {
+        else if (currentFrame>=currentNode.IASA && InputManager.HasHorizontalInput()) {
+            ExitGraph();
+        }
+        else if (clipTime >= 1) {
             ExitGraph();
         }
     }
@@ -48,7 +56,6 @@ public class PlayerAttackGraph : NodeGraph {
         AttackNode next = currentNode.GetNextAttack(buffer);
         if (next != null) {
             MoveNode(next);
-            return;
         }
     }
 
@@ -59,7 +66,7 @@ public class PlayerAttackGraph : NodeGraph {
         currentNode = node;
         currentNode.OnNodeEnter();
 
-        anim.Play(GetStateName(currentNode));
+        anim.Play(GetStateName(currentNode), 0, 0);
     }
 
     AttackNode GetRootNode() {
@@ -74,7 +81,7 @@ public class PlayerAttackGraph : NodeGraph {
     }
 
     public void OnAttackLand() {
-        MoveNextNode();
+        currentNode.cancelable = true;
     }
 
 }

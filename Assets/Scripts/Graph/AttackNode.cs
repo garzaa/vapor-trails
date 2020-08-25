@@ -12,7 +12,10 @@ using UnityEditor;
 public class AttackNode : Node {
     public string attackName;
     // TODO: also make horizontal input trigger buffer
-    public int IASA = 16;
+    public int IASA = 7;
+
+    [HideInInspector]
+    public bool cancelable = false;
 
     [HideInInspector]
     public bool active = false;
@@ -23,7 +26,7 @@ public class AttackNode : Node {
     List<Tuple<AttackLink, AttackNode>> directionalLinks = new List<Tuple<AttackLink, AttackNode>>();
     AttackNode anyDirectionNode = null;
 
-    // directional attacks are prioritized in order, otherwise an any-directional link is used
+    // directional attacks are prioritized in order, otherwise the first any-directional link is used
     public AttackNode GetNextAttack(AttackBuffer buffer) {
         directionalLinks.Clear();
         anyDirectionNode = null;
@@ -63,6 +66,7 @@ public class AttackNode : Node {
     }
 
     public virtual void OnNodeExit() {
+        cancelable = false;
         active = false;
     }
 

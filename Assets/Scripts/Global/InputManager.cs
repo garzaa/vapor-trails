@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour {
     }
 
     public static bool HasHorizontalInput() {
-        return Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE/4f;
+        return Mathf.Abs(rewiredPlayer.GetAxis(Buttons.H_AXIS)) > 0.01f;
     }
 
     public static float HorizontalInput() {
@@ -107,5 +107,9 @@ public class InputManager : MonoBehaviour {
 
     public void OnButtonPollEnd() {
         InputManager.polling = false;
+    }
+
+    public static float GetInputBuffer() {
+        return GlobalController.save.options.inputBuffer * (1f/16f);
     }
 }
