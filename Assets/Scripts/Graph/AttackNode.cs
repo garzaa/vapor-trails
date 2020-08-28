@@ -34,14 +34,14 @@ public class AttackNode : Node {
     }
 
     // directional attacks are prioritized in order, otherwise the first any-directional link is used
-    protected AttackNode MatchAttackNode(AttackBuffer buffer, AttackLink[] attackLinks) {
+    protected AttackNode MatchAttackNode(AttackBuffer buffer, AttackLink[] attackLinks, string portListName="links") {
         directionalLinks.Clear();
         anyDirectionNode = null;
 
         for (int i=0; i<attackLinks.Length; i++) {
             AttackLink link = attackLinks[i];
             if (link.type==buffer.type && buffer.HasDirection(link.direction)) {
-                AttackNode next = GetPort("links "+i).Connection.node as AttackNode;
+                AttackNode next = GetPort(portListName+" "+i).Connection.node as AttackNode;
                 if (next.Enabled()) {
                     if (anyDirectionNode==null && link.direction==AttackDirection.ANY) {
                         anyDirectionNode = next;

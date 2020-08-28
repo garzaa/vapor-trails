@@ -10,15 +10,12 @@ public class InitialBranchNode : AttackNode {
     override public AttackNode GetNextNode(AttackBuffer buffer) {
         AttackNode next = null;
 
-        if ((this.graph as PlayerAttackGraph).rb2d.velocity.magnitude >= speedBarrier){
-            Debug.Log("looking at speed links");
-            next = MatchAttackNode(buffer, speedLinks);
+        if ((this.graph as PlayerAttackGraph).rb2d.velocity.magnitude >= speedBarrier) {
+            next = MatchAttackNode(buffer, speedLinks, portListName:"speedLinks");
         }
 
         if (next == null) {
             next = MatchAttackNode(buffer, links);
-        } else {
-            Debug.Log("found next speed node "+next.attackName);
         }
 
         return next;
