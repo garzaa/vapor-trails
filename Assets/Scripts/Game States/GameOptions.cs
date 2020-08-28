@@ -7,14 +7,23 @@ public class GameOptions {
     public bool gameJournalist = false;
     public bool slideDrop = false;
     public int inputBuffer = 8;
+    
+    bool fullscreen = true;
 
     public void Load() {
         shortHop = LoadBool("ShortHop");
         gameJournalist = LoadBool("GameJournalist");
-        QualitySettings.vSyncCount = LoadInt("VSync");
         slideDrop = LoadBool("SlideDrop");
         GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
         inputBuffer = LoadInt("InputBuffer");
+        fullscreen = LoadBool("Fullscreen");
+        
+        QualitySettings.vSyncCount = LoadInt("VSync");
+        if (fullscreen) {
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        } else {
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
     }
 
     // player pref changes are done via scripts attached to buttons

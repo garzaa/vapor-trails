@@ -109,7 +109,7 @@ public class InputManager : MonoBehaviour {
         InputManager.polling = false;
     }
 
-    public static float GetInputBuffer() {
+    public static float GetInputBufferDuration() {
         return GlobalController.save.options.inputBuffer * (1f/16f);
     }
 }

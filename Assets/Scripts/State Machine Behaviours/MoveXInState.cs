@@ -10,8 +10,8 @@ public class MoveXInState : RigidBodyAffector {
     Entity entity;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        base.OnStateEnter(animator, stateInfo, layerIndex);
         entity = animator.GetComponent<Entity>();
+        base.OnStateEnter(animator, stateInfo, layerIndex);
     }
 
     override protected void Enter() {

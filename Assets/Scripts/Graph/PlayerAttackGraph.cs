@@ -1,28 +1,35 @@
 using UnityEngine;
 using XNode;
 
+[CreateAssetMenu]
 public class PlayerAttackGraph : NodeGraph {
     AttackBuffer buffer;
     const int attackFramerate = 16;
 
     Animator anim;
+    public Rigidbody2D rb2d;
     float clipTime;
     float clipLength;
     int currentFrame; // 16 fps
 
     AttackNode currentNode = null;
 
-    string exitNodeName = "Idle";
+    public string exitNodeName = "Idle 100";
 
-    public void Initialize(Animator anim, AttackBuffer buffer) {
+    public void Initialize(Animator anim, AttackBuffer buffer, Rigidbody2D rb) {
         this.anim = anim;
         this.buffer = buffer;
-}
+        this.rb2d = rb;
+    }
 
     public void EnterGraph() {
         currentNode = GetRootNode();
         currentNode.OnNodeEnter();
-        exitNodeName = (currentNode as InitialBranchNode).exitNode;
+    }
+
+    public void EnterGraph(Node entryNode) {
+        currentNode = (entryNode == null) ? GetRootNode() : entryNode as AttackNode;
+        currentNode.OnNodeEnter();
     }
 
     public void ExitGraph() {
@@ -53,7 +60,7 @@ public class PlayerAttackGraph : NodeGraph {
     }
 
     void MoveNextNode() {
-        AttackNode next = currentNode.GetNextAttack(buffer);
+        AttackNode next = currentNode.GetNextNode(buffer);
         if (next != null) {
             MoveNode(next);
         }

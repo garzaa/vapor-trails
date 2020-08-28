@@ -20,23 +20,30 @@ public class AttackNode : Node {
     [HideInInspector]
     public bool active = false;
 
-    [Input(backingValue=ShowBackingValue.Never)] public AttackLink input;
-    [Output(dynamicPortList=true, connectionType=ConnectionType.Override)] public AttackLink[] links;
+    [Input(backingValue=ShowBackingValue.Never)] 
+    public AttackLink input;
+
+    [Output(dynamicPortList=true, connectionType=ConnectionType.Override)]
+    public AttackLink[] links;
 
     List<Tuple<AttackLink, AttackNode>> directionalLinks = new List<Tuple<AttackLink, AttackNode>>();
     AttackNode anyDirectionNode = null;
 
+    virtual public AttackNode GetNextNode(AttackBuffer buffer) {
+        return MatchAttackNode(buffer, this.links);
+    }
+
     // directional attacks are prioritized in order, otherwise the first any-directional link is used
-    public AttackNode GetNextAttack(AttackBuffer buffer) {
+    protected AttackNode MatchAttackNode(AttackBuffer buffer, AttackLink[] attackLinks) {
         directionalLinks.Clear();
         anyDirectionNode = null;
 
-        for (int i=0; i<links.Length; i++) {
-            AttackLink link = links[i];
+        for (int i=0; i<attackLinks.Length; i++) {
+            AttackLink link = attackLinks[i];
             if (link.type==buffer.type && buffer.HasDirection(link.direction)) {
                 AttackNode next = GetPort("links "+i).Connection.node as AttackNode;
                 if (next.Enabled()) {
-                    if (link.direction == AttackDirection.ANY) {
+                    if (anyDirectionNode==null && link.direction==AttackDirection.ANY) {
                         anyDirectionNode = next;
                     } else {
                         directionalLinks.Add(new Tuple<AttackLink, AttackNode>(link, next));

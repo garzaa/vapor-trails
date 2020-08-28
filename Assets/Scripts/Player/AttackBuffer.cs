@@ -43,7 +43,7 @@ public class AttackBuffer : MonoBehaviour {
     }
 
     IEnumerator ClearInputs() {
-        yield return new WaitForSecondsRealtime(InputManager.GetInputBuffer());
+        yield return new WaitForSecondsRealtime(InputManager.GetInputBufferDuration());
         Clear();
     }
 

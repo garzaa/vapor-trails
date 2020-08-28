@@ -36,7 +36,6 @@ public class PlayerController : Entity {
 	float selfDamageHitstop = .2f;
 	int healCost = 1;
 	int healAmt = 1;
-	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
 	float combatStanceCooldown = 4f;
 	float sdiMultiplier = 0.2f;
@@ -323,7 +322,7 @@ public class PlayerController : Entity {
 			float targetXSpeed = hInput * moveSpeed;
 
 			if (grounded && InAttackStates()) {
-				targetXSpeed = 0;
+				targetXSpeed = rb2d.velocity.x;
 			}
 			
 			// if moving above max speed and not decelerating
@@ -431,7 +430,7 @@ public class PlayerController : Entity {
 			if (!grounded) {
 				//buffer a jump for a short amount of time for when the player hits the ground/wall
 				bufferedJump = true;
-				Invoke("CancelBufferedJump", jumpBufferDuration);
+				Invoke("CancelBufferedJump", InputManager.GetInputBufferDuration());
 				return;
 			}
 		}
@@ -1400,10 +1399,10 @@ public class PlayerController : Entity {
 		if (attackGraph != null) attackGraph.Update();
 	}
 
-	public void EnterAttackGraph(PlayerAttackGraph graph) {
+	public void EnterAttackGraph(PlayerAttackGraph graph, AttackNode startNode = null) {
 		attackGraph = graph;
-		attackGraph.Initialize(anim, GetComponent<AttackBuffer>());
-		attackGraph.EnterGraph();
+		attackGraph.Initialize(anim, GetComponent<AttackBuffer>(), rb2d);
+		attackGraph.EnterGraph(startNode);
 	}
 
 	public void ExitAttackGraph() {
