@@ -651,7 +651,6 @@ public class PlayerController : Entity {
 
 			if (currentState == PlayerStates.DIVEKICK) {
 				currentState = PlayerStates.NORMAL;
-				//anim.SetInteger("SubState", 100);
 			} else if (InputManager.HasHorizontalInput()) {
 				anim.SetTrigger("Roll");
 			} else {
@@ -664,6 +663,9 @@ public class PlayerController : Entity {
 		}
 		if (terminalFalling) {
 			CameraShaker.Shake(0.2f, 0.1f);
+		}
+		if (attackGraph != null) {
+			attackGraph.OnGroundHit();
 		}
 		if (bufferedJump) {
 			GroundJump();

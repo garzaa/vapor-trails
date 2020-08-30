@@ -7,6 +7,11 @@ public class InitialBranchNode : AttackNode {
     [Output(dynamicPortList=true, connectionType=ConnectionType.Override)]
     public AttackLink[] speedLinks;
 
+    override public void OnNodeEnter() {
+        base.OnNodeEnter();
+        attackGraph.MoveNode(GetNextNode(attackGraph.buffer));
+    }
+
     override public AttackNode GetNextNode(AttackBuffer buffer) {
         AttackNode next = null;
 

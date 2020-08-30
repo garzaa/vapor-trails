@@ -3,22 +3,17 @@ using System;
 using UnityEngine;
 using XNode;
 
+/* 
 #if UNITY_EDITOR
 using XNodeEditor;
 using UnityEditor;
 #endif
+*/
 
 [NodeWidth(270)]
-public class AttackNode : Node {
+public class AttackNode : CombatNode {
     public string attackName;
-    // TODO: also make horizontal input trigger buffer
     public int IASA = 7;
-
-    [HideInInspector]
-    public bool cancelable = false;
-
-    [HideInInspector]
-    public bool active = false;
 
     [Input(backingValue=ShowBackingValue.Never)] 
     public AttackLink input;
@@ -31,6 +26,23 @@ public class AttackNode : Node {
 
     virtual public AttackNode GetNextNode(AttackBuffer buffer) {
         return MatchAttackNode(buffer, this.links);
+    }
+
+    override public void NodeUpdate(int currentFrame, float clipTime, AttackBuffer buffer) {
+        if (buffer.ready && (currentFrame>=IASA || cancelable)) {
+            MoveNextNode(buffer);
+        } else if (currentFrame>=IASA && InputManager.HasHorizontalInput()) {
+            attackGraph.ExitGraph();
+        } else if (clipTime >= 1) {
+            attackGraph.ExitGraph();
+        }
+    }
+ 
+    void MoveNextNode(AttackBuffer buffer) {
+        CombatNode next = GetNextNode(buffer);
+        if (next != null) {
+            attackGraph.MoveNode(next);
+        }
     }
 
     // directional attacks are prioritized in order, otherwise the first any-directional link is used
@@ -64,21 +76,14 @@ public class AttackNode : Node {
         return null;
     }
 
-    private void Reset() {
+    void Awake() {
+        // Reset() is called when the node is created and that's it
         name = attackName;
     }
 
-    public virtual void OnNodeEnter() {
-        active = true;
-    }
-
-    public virtual void OnNodeExit() {
-        cancelable = false;
-        active = false;
-    }
-
-    public virtual bool Enabled() {
-        return true;
+    override public void OnNodeEnter() {
+        base.OnNodeEnter();
+        attackGraph.anim.Play(attackName, layer:0, normalizedTime:0);
     }
 }
 
