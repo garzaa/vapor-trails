@@ -9,13 +9,18 @@ public class InitialBranchNode : AttackNode {
 
     override public void OnNodeEnter() {
         base.OnNodeEnter();
-        attackGraph.MoveNode(GetNextNode(attackGraph.buffer));
+        CombatNode next = GetNextNode(attackGraph.buffer);
+        if (next != null) {
+            attackGraph.MoveNode(GetNextNode(attackGraph.buffer));
+        } else {
+            attackGraph.ExitGraph();
+        }
     }
 
-    override public AttackNode GetNextNode(AttackBuffer buffer) {
-        AttackNode next = null;
+    override public CombatNode GetNextNode(AttackBuffer buffer) {
+        CombatNode next = null;
 
-        if ((this.graph as PlayerAttackGraph).rb2d.velocity.magnitude >= speedBarrier) {
+        if (speedBarrier > 0 && ((this.graph as PlayerAttackGraph).rb2d.velocity.magnitude >= speedBarrier)) {
             next = MatchAttackNode(buffer, speedLinks, portListName:"speedLinks");
         }
 

@@ -21,10 +21,13 @@ public class AttackNode : CombatNode {
     [Output(dynamicPortList=true, connectionType=ConnectionType.Override)]
     public AttackLink[] links;
 
-    List<Tuple<AttackLink, AttackNode>> directionalLinks = new List<Tuple<AttackLink, AttackNode>>();
-    AttackNode anyDirectionNode = null;
+    List<Tuple<AttackLink, CombatNode>> directionalLinks = new List<Tuple<AttackLink, CombatNode>>();
+    CombatNode anyDirectionNode = null;
 
-    virtual public AttackNode GetNextNode(AttackBuffer buffer) {
+    [HideInInspector]
+    public float timeOffset = 0;
+
+    virtual public CombatNode GetNextNode(AttackBuffer buffer) {
         return MatchAttackNode(buffer, this.links);
     }
 
@@ -38,33 +41,32 @@ public class AttackNode : CombatNode {
         }
     }
  
-    void MoveNextNode(AttackBuffer buffer) {
+    protected void MoveNextNode(AttackBuffer buffer) {
         CombatNode next = GetNextNode(buffer);
         if (next != null) {
             attackGraph.MoveNode(next);
         }
     }
 
-    // directional attacks are prioritized in order, otherwise the first any-directional link is used
-    protected AttackNode MatchAttackNode(AttackBuffer buffer, AttackLink[] attackLinks, string portListName="links") {
+    // directional attacks are prioritized in order, then the first any-directional link is used
+    protected CombatNode MatchAttackNode(AttackBuffer buffer, AttackLink[] attackLinks, string portListName="links") {
         directionalLinks.Clear();
         anyDirectionNode = null;
 
         for (int i=0; i<attackLinks.Length; i++) {
             AttackLink link = attackLinks[i];
             if (link.type==buffer.type && buffer.HasDirection(link.direction)) {
-                AttackNode next = GetPort(portListName+" "+i).Connection.node as AttackNode;
+                CombatNode next = GetPort(portListName+" "+i).Connection.node as CombatNode;
                 if (next.Enabled()) {
                     if (anyDirectionNode==null && link.direction==AttackDirection.ANY) {
                         anyDirectionNode = next;
                     } else {
-                        directionalLinks.Add(new Tuple<AttackLink, AttackNode>(link, next));
+                        directionalLinks.Add(new Tuple<AttackLink, CombatNode>(link, next));
                     }
                 }
             }
         }
 
-        // return first encountered directional match
         if (directionalLinks.Count > 0) {
             return directionalLinks[0].Item2;
         }
@@ -77,13 +79,13 @@ public class AttackNode : CombatNode {
     }
 
     void Awake() {
-        // Reset() is called when the node is created and that's it
         name = attackName;
     }
 
     override public void OnNodeEnter() {
         base.OnNodeEnter();
-        attackGraph.anim.Play(attackName, layer:0, normalizedTime:0);
+        attackGraph.anim.Play(attackName, layer:0, normalizedTime:timeOffset);
+        timeOffset = 0;
     }
 }
 

@@ -7,7 +7,6 @@ public class PlayerAttackGraph : NodeGraph {
 
     float clipTime;
     float clipLength;
-    int currentStateHash;
 
     int currentFrame;
 
@@ -18,7 +17,9 @@ public class PlayerAttackGraph : NodeGraph {
 
     CombatNode currentNode = null;
 
+    public int stateNum;
     public string exitNodeName = "Idle 100";
+
 
     public void Initialize(Animator anim, AttackBuffer buffer, Rigidbody2D rb) {
         this.anim = anim;
@@ -27,13 +28,12 @@ public class PlayerAttackGraph : NodeGraph {
     }
 
     public void EnterGraph(Node entryNode) {
-        currentNode = (entryNode == null) ? GetRootNode() : entryNode as AttackNode;
+        currentNode = (entryNode == null) ? GetRootNode() : entryNode as CombatNode;
+        anim.SetInteger("SubState", this.stateNum);
         currentNode.OnNodeEnter();
-        currentStateHash = GetStateHash();
     }
 
     public void ExitGraph(bool quiet=false) {
-        Debug.Log("uhhh exitin ggraph");
         currentNode.OnNodeExit();
         currentNode = null;
         GlobalController.pc.ExitAttackGraph(); // bad
@@ -52,9 +52,8 @@ public class PlayerAttackGraph : NodeGraph {
 
         currentNode.NodeUpdate(currentFrame, clipTime, buffer);
 
-        if (currentStateHash != GetStateHash()) {
+        if (anim.GetInteger("SubState") != stateNum) {
             ExitGraph(quiet:true);
-            return;
         }
     }
 
@@ -64,16 +63,15 @@ public class PlayerAttackGraph : NodeGraph {
         currentNode.OnNodeExit();
         currentNode = node;
         currentNode.OnNodeEnter();
-        currentStateHash = GetStateHash();
     }
     
     int GetStateHash() {
         return anim.GetCurrentAnimatorStateInfo(layerIndex:0).fullPathHash;
     }
 
-    AttackNode GetRootNode() {
+    CombatNode GetRootNode() {
         foreach (Node i in nodes) {
-            if (i is InitialBranchNode) return i as AttackNode;
+            if (i is InitialBranchNode) return i as CombatNode;
         }
         return null;
     }

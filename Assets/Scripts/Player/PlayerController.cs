@@ -1401,7 +1401,8 @@ public class PlayerController : Entity {
 		if (attackGraph != null) attackGraph.Update();
 	}
 
-	public void EnterAttackGraph(PlayerAttackGraph graph, AttackNode startNode = null) {
+	public void EnterAttackGraph(PlayerAttackGraph graph, CombatNode startNode = null) {
+		if (attackGraph == graph && startNode == null) return;
 		attackGraph = graph;
 		attackGraph.Initialize(anim, GetComponent<AttackBuffer>(), rb2d);
 		attackGraph.EnterGraph(startNode);

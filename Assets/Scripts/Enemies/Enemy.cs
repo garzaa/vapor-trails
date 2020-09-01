@@ -108,7 +108,7 @@ public class Enemy : Entity {
 		}
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
-		KnockBack(attack.GetKnockback());
+			KnockBack(attack.GetKnockback());
 		}
 	}
 

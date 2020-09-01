@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a54bca9bad0070449b0e0d057e6b3e0e, type: 3}
-  m_Name: Start
+  m_Name: InitialAerialBranch
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -1272, y: -392}
@@ -24,7 +24,6 @@ MonoBehaviour:
     - links 3
     - links 4
     - speedLinks
-    - links 5
     values:
     - _fieldName: links
       _node: {fileID: -7235811323598414317}
@@ -74,7 +73,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: -2266501073755770341}
+        node: {fileID: -2527027453379610409}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -96,7 +95,10 @@ MonoBehaviour:
       _node: {fileID: -7235811323598414317}
       _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: input
+        node: {fileID: -5750277507182843970}
+        reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 0
@@ -110,22 +112,8 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-    - _fieldName: links 5
-      _node: {fileID: -7235811323598414317}
-      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: input
-        node: {fileID: -3641469007417115879}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 1
-  attackName: InitialBranch
+  attackName: InitialAerialBranch
   IASA: 0
-  cancelable: 0
-  active: 0
   input:
     type: 0
     direction: 0
@@ -139,9 +127,8 @@ MonoBehaviour:
   - type: 2
     direction: 2
   - type: 2
-    direction: 0
-  - type: 2
     direction: -2
+  timeOffset: 0
   speedBarrier: 0
   speedLinks: []
 --- !u!114 &-6240131603894473624
@@ -154,7 +141,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 793ab3ede586aa949ac858a1c73c61b1, type: 3}
-  m_Name: Attack
+  m_Name: Knife Hand
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -904, y: -504}
@@ -185,13 +172,75 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   attackName: Knife Hand
-  IASA: 7
-  cancelable: 0
-  active: 0
+  IASA: 9
   input:
     type: 0
     direction: 0
   links: []
+  timeOffset: 0
+--- !u!114 &-5750277507182843970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74782de826e8244a9dbdcba127753eb, type: 3}
+  m_Name: Divekick
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -904, y: 184}
+  ports:
+    keys:
+    - onLand
+    - input
+    - links
+    values:
+    - _fieldName: onLand
+      _node: {fileID: -5750277507182843970}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: -2484709413542326810}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: input
+      _node: {fileID: -5750277507182843970}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: links 4
+        node: {fileID: -7235811323598414317}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: links
+      _node: {fileID: -5750277507182843970}
+      _typeQualifiedName: AttackLink[], Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  attackName: Divekick
+  IASA: 22
+  input:
+    type: 0
+    direction: 0
+  links: []
+  timeOffset: 0
+  onLand:
+    type: 0
+    direction: 0
 --- !u!114 &-4763763747027285684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +251,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 793ab3ede586aa949ac858a1c73c61b1, type: 3}
-  m_Name: Attack
+  m_Name: Air Uppercut
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -904, y: -696}
@@ -233,14 +282,13 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   attackName: Air Uppercut
-  IASA: 7
-  cancelable: 0
-  active: 0
+  IASA: 8
   input:
     type: 0
     direction: 0
   links: []
---- !u!114 &-3641469007417115879
+  timeOffset: 0
+--- !u!114 &-2527027453379610409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,45 +297,82 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 793ab3ede586aa949ac858a1c73c61b1, type: 3}
-  m_Name: Attack
+  m_Script: {fileID: 11500000, guid: 4a87437bf5444914291081d853ba385d, type: 3}
+  m_Name: Unlockable Gate
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -904, y: 184}
+  position: {x: -904, y: -200}
   ports:
     keys:
     - input
-    - links
+    - unlockedBranch
     values:
     - _fieldName: input
-      _node: {fileID: -3641469007417115879}
+      _node: {fileID: -2527027453379610409}
       _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: links 5
+      - fieldName: links 2
         node: {fileID: -7235811323598414317}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-    - _fieldName: links
-      _node: {fileID: -3641469007417115879}
-      _typeQualifiedName: AttackLink[], Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    - _fieldName: unlockedBranch
+      _node: {fileID: -2527027453379610409}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: input
+        node: {fileID: 5603750379249913646}
+        reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
-  attackName: Divekick
-  IASA: 7
-  cancelable: 0
-  active: 0
+  requiredItem: {fileID: 11400000, guid: 9fb5c22c9ff975c4482aae7b98229bfd, type: 2}
   input:
     type: 0
     direction: 0
-  links: []
+  unlockedBranch:
+    type: 0
+    direction: 0
+--- !u!114 &-2484709413542326810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916b48256e8efad499c333c156c88b95, type: 3}
+  m_Name: Move Graph
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -584, y: 296}
+  ports:
+    keys:
+    - input
+    values:
+    - _fieldName: input
+      _node: {fileID: -2484709413542326810}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: onLand
+        node: {fileID: -5750277507182843970}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  targetNode: {fileID: 5700496460433023596, guid: 487fc7333f66bea4b8827d6ebc0083ea,
+    type: 2}
+  input:
+    type: 0
+    direction: 0
 --- !u!114 &-2266501073755770341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +383,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Unlockable Attack
+  m_Name: Bat Spike
   m_EditorClassIdentifier: Assembly-CSharp::UnlockableAttackNode
   graph: {fileID: 11400000}
   position: {x: -904, y: -280}
@@ -328,14 +413,16 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
+  active: 0
+  cancelable: 0
+  attackGraph: {fileID: 0}
   attackName: Bat Spike
   IASA: 7
-  cancelable: 0
-  active: 0
   input:
     type: 0
     direction: 0
   links: []
+  anyDirectionNode: {fileID: 0}
   requiredItem: {fileID: 11400000, guid: 9fb5c22c9ff975c4482aae7b98229bfd, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -353,11 +440,16 @@ MonoBehaviour:
   - {fileID: -7235811323598414317}
   - {fileID: -6240131603894473624}
   - {fileID: -4763763747027285684}
-  - {fileID: -3641469007417115879}
-  - {fileID: -2266501073755770341}
   - {fileID: 3574592096349030910}
+  - {fileID: -5750277507182843970}
+  - {fileID: -2527027453379610409}
+  - {fileID: 5603750379249913646}
+  - {fileID: -2484709413542326810}
   rb2d: {fileID: 0}
-  exitNodeName: Idle 100
+  anim: {fileID: 0}
+  buffer: {fileID: 0}
+  stateNum: 210
+  exitNodeName: Fall
 --- !u!114 &3574592096349030910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,7 +460,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 793ab3ede586aa949ac858a1c73c61b1, type: 3}
-  m_Name: Attack
+  m_Name: Air High Kick
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: -904, y: -8}
@@ -399,10 +491,56 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   attackName: Air High Kick
-  IASA: 7
-  cancelable: 0
-  active: 0
+  IASA: 11
   input:
     type: 0
     direction: 0
   links: []
+  timeOffset: 0
+--- !u!114 &5603750379249913646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793ab3ede586aa949ac858a1c73c61b1, type: 3}
+  m_Name: Bat Spike
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -584, y: -200}
+  ports:
+    keys:
+    - input
+    - links
+    values:
+    - _fieldName: input
+      _node: {fileID: 5603750379249913646}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: unlockedBranch
+        node: {fileID: -2527027453379610409}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: links
+      _node: {fileID: 5603750379249913646}
+      _typeQualifiedName: AttackLink[], Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  attackName: Bat Spike
+  IASA: 11
+  input:
+    type: 0
+    direction: 0
+  links: []
+  timeOffset: 0

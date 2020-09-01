@@ -19,6 +19,7 @@ public class PlayerAttack : Attack {
 
 	public GameObject[] baseDamageHitmarkers;
 
+
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackerParent = player;
@@ -34,8 +35,9 @@ public class PlayerAttack : Attack {
 		}
 
 		// the succ
-		if (pullInEntity && e.staggerable) {
-			e.transform.position = this.transform.position;
+		Rigidbody2D r = e.GetComponent<Rigidbody2D>();
+		if (pullInEntity && e.staggerable && r != null) {
+			r.MovePosition(this.transform.position);
 		}
 
 		//run self knockback
