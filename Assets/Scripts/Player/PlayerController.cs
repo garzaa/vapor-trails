@@ -1154,7 +1154,7 @@ public class PlayerController : Entity {
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
-		anim.Update(0.5f);
+		anim.Update(0.01f);
 		anim.speed = 0f;
 	}
 
