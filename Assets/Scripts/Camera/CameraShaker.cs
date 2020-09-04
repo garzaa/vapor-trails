@@ -70,6 +70,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public static void StopShaking() {
+		rewiredPlayer.StopVibration();
 		shaking = false;
 		shakeDuration = 0;
 	}

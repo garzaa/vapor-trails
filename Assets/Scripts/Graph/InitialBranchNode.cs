@@ -20,7 +20,7 @@ public class InitialBranchNode : AttackNode {
     override public CombatNode GetNextNode(AttackBuffer buffer) {
         CombatNode next = null;
 
-        if (speedBarrier > 0 && ((this.graph as PlayerAttackGraph).rb2d.velocity.magnitude >= speedBarrier)) {
+        if (speedBarrier > 0 && (Mathf.Abs(attackGraph.rb2d.velocity.x) >= speedBarrier)) {
             next = MatchAttackNode(buffer, speedLinks, portListName:"speedLinks");
         }
 

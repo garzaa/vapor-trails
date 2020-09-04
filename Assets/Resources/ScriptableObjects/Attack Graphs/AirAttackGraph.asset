@@ -25,6 +25,10 @@ MonoBehaviour:
     - links 4
     - speedLinks
     - links 5
+    - speedLinks 0
+    - links 6
+    - speedLinks 1
+    - speedLinks 2
     values:
     - _fieldName: links
       _node: {fileID: -7235811323598414317}
@@ -98,7 +102,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 3574592096349030910}
+        node: {fileID: 8953685038536565771}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -114,6 +118,54 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: links 5
+      _node: {fileID: -7235811323598414317}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 3574592096349030910}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: speedLinks 0
+      _node: {fileID: -7235811323598414317}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 6120879042405123640}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: links 6
+      _node: {fileID: -7235811323598414317}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: -5750277507182843970}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: speedLinks 1
+      _node: {fileID: -7235811323598414317}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 6120879042405123640}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+    - _fieldName: speedLinks 2
       _node: {fileID: -7235811323598414317}
       _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
@@ -138,14 +190,22 @@ MonoBehaviour:
   - type: 1
     direction: -2
   - type: 2
+    direction: 1
+  - type: 2
     direction: 0
   - type: 2
     direction: 2
   - type: 2
     direction: -2
   timeOffset: 0
-  speedBarrier: 0
-  speedLinks: []
+  speedBarrier: 7
+  speedLinks:
+  - type: 2
+    direction: 0
+  - type: 2
+    direction: 1
+  - type: 2
+    direction: -2
 --- !u!114 &-6240131603894473624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +290,10 @@ MonoBehaviour:
       _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: links 5
+      - fieldName: links 6
+        node: {fileID: -7235811323598414317}
+        reroutePoints: []
+      - fieldName: speedLinks 2
         node: {fileID: -7235811323598414317}
         reroutePoints: []
       _direction: 0
@@ -498,6 +561,7 @@ MonoBehaviour:
   - {fileID: 8953685038536565771}
   - {fileID: 3995610725722529542}
   - {fileID: -4365432417946740198}
+  - {fileID: 6120879042405123640}
   rb2d: {fileID: 0}
   anim: {fileID: 0}
   buffer: {fileID: 0}
@@ -528,7 +592,7 @@ MonoBehaviour:
       _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: links 4
+      - fieldName: links 5
         node: {fileID: -7235811323598414317}
         reroutePoints: []
       _direction: 0
@@ -557,7 +621,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 1
   attackName: Air High Kick
-  IASA: 11
+  IASA: 8
   input:
     type: 0
     direction: 0
@@ -672,6 +736,69 @@ MonoBehaviour:
     direction: 0
   links: []
   timeOffset: 0
+--- !u!114 &6120879042405123640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74782de826e8244a9dbdcba127753eb, type: 3}
+  m_Name: Missile Kick
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -904, y: 632}
+  ports:
+    keys:
+    - onLand
+    - input
+    - links
+    values:
+    - _fieldName: onLand
+      _node: {fileID: 6120879042405123640}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: input
+      _node: {fileID: 6120879042405123640}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: speedLinks 0
+        node: {fileID: -7235811323598414317}
+        reroutePoints: []
+      - fieldName: speedLinks 1
+        node: {fileID: -7235811323598414317}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: links
+      _node: {fileID: 6120879042405123640}
+      _typeQualifiedName: AttackLink[], Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  attackName: Missile Kick
+  IASA: 7
+  input:
+    type: 0
+    direction: 0
+  links: []
+  timeOffset: 0
+  onLand:
+    type: 0
+    direction: 0
 --- !u!114 &8953685038536565771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,6 +836,9 @@ MonoBehaviour:
       _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
+      - fieldName: links 4
+        node: {fileID: -7235811323598414317}
+        reroutePoints: []
       - fieldName: links 3
         node: {fileID: -7235811323598414317}
         reroutePoints: []

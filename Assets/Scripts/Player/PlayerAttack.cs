@@ -42,10 +42,7 @@ public class PlayerAttack : Attack {
 
 		//run self knockback
 		if (selfKnockBack) {
-			attackerParent.GetComponent<Rigidbody2D>().velocity = new Vector2(
-				forceX ? selfKnockBackVector.x * attackerParent.ForwardScalar() : attackerParent.GetComponent<Rigidbody2D>().velocity.x,
-				selfKnockBackVector.y
-			);
+			SelfKnockBack();
 		}
 		//give the player some energy
 		if (gainsEnergy) {
@@ -79,6 +76,13 @@ public class PlayerAttack : Attack {
 				}
 			}
 		}
+	}
+
+	public void SelfKnockBack() {
+		attackerParent.GetComponent<Rigidbody2D>().velocity = new Vector2(
+			forceX ? selfKnockBackVector.x * attackerParent.ForwardScalar() : attackerParent.GetComponent<Rigidbody2D>().velocity.x,
+			selfKnockBackVector.y
+		);
 	}
 
 	override public void MakeHitmarker(Transform hurtboxPos) {
