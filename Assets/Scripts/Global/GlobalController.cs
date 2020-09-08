@@ -512,6 +512,7 @@ public class GlobalController : MonoBehaviour {
 			return;
 		}
 		paused = true;
+		CameraShaker.StopShaking();
 		pauseUI.Open();
 	}
 

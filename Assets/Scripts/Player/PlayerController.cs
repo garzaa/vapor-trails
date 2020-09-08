@@ -1372,7 +1372,6 @@ public class PlayerController : Entity {
 	}
 
 	public void OnAttackLand(Attack attack) {
-		// ResetAirJumps();
 		if (attackGraph != null) {
 			attackGraph.OnAttackLand();
 		}
