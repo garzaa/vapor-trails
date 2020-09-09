@@ -6,7 +6,7 @@ public class Boss : Enemy {
 
     BarUI bossHealthUI;
 
-    void Start() {
+    virtual protected void Start() {
         bossHealthUI = GlobalController.bossHealthUI;
         bossHealthUI.SetBarColor(healthColor);
     }

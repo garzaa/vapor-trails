@@ -7,6 +7,8 @@ public class Hurtbox : MonoBehaviour {
 	[Header("For Targeting Systems")]
 	public bool overrideTargetPosition;
 
+	public GameObject hitEffect;
+
 	void Start() {
 		if (parentObject == null && GetComponentInParent<Entity>() != null) {
 			parentObject = GetComponentInParent<Entity>().gameObject;
@@ -18,11 +20,21 @@ public class Hurtbox : MonoBehaviour {
 		return parentObject.GetComponent<Entity>();
 	}
 
+	public Transform GetTargetPosition() {
+		if (overrideTargetPosition || parentObject==null) return this.transform;
+		return parentObject.transform;
+	}
+
 	virtual public bool OnHit(Attack a) {
-		if (parentObject != null) {
-			parentObject.GetComponent<Entity>().OnHit(a);
-		}
+		PropagateHitEvent(a);
 		if (a.hitmarker != null) a.MakeHitmarker(this.transform);
+		if (hitEffect != null) Instantiate(hitEffect, this.transform.position, Quaternion.identity, null);
 		return true;
+	}
+
+	virtual public void PropagateHitEvent(Attack attack) {
+		if (parentObject != null) {
+			parentObject.GetComponent<Entity>().OnHit(attack);
+		}
 	}
 }
