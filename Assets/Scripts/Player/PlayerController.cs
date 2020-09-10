@@ -593,7 +593,7 @@ public class PlayerController : Entity {
 
 	IEnumerator StartDashCooldown(float seconds) {
         dashCooldown = true;
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSecondsRealtime(seconds);
         EndDashCooldown();
     }
 
@@ -902,7 +902,8 @@ public class PlayerController : Entity {
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
-			LoseEnergy(gunCost);
+			StartCombatStanceCooldown();
+			//LoseEnergy(gunCost);
 		}
 	}
 
@@ -969,7 +970,8 @@ public class PlayerController : Entity {
 			KnockBack(kv);
 		}
 		// asdi
-		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*sdiMultiplier));
+		float actualSDIMultiplier = sdiMultiplier * (attack.gameObject.CompareTag(Tags.EnviroDamage) ? 3 : 1);
+		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 	}
 
 	override public void StunFor(float seconds) {

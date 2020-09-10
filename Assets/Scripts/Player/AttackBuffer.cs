@@ -8,6 +8,7 @@ public class AttackBuffer : MonoBehaviour {
     Coroutine clearBuffer;
 
     bool punch, kick;
+    const float inputThreshold = 0.5f;
 
     public AttackType type {
         get {
@@ -35,11 +36,19 @@ public class AttackBuffer : MonoBehaviour {
 
             direction = new Vector2(
                     Mathf.Sign(ls.x),
-                    Mathf.Approximately(ls.y, 0) ? 0 : Mathf.Sign(ls.y)
-                ) * GlobalController.pc.ForwardVector() * new Vector2(1, 2);
+                    Mathf.Approximately(ls.y, 0) ? 0 : ClampZero(ls.y)
+                );
+            direction = direction * GlobalController.pc.ForwardVector() * new Vector2(1, 2);
 
             StartBufferTimeout();
         }
+    }
+
+    float ClampZero(float input) {
+        if (Mathf.Abs(input) < inputThreshold) {
+            return 0;
+        }
+        return Mathf.Sign(input);
     }
 
     IEnumerator ClearInputs() {

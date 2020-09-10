@@ -3,11 +3,12 @@
 public class Hurtbox : MonoBehaviour {
 
 	public GameObject parentObject;
+	public GameObject hitEffect;
+	public AudioClip hitSound;
 	
 	[Header("For Targeting Systems")]
 	public bool overrideTargetPosition;
 
-	public GameObject hitEffect;
 
 	void Start() {
 		if (parentObject == null && GetComponentInParent<Entity>() != null) {
@@ -29,6 +30,9 @@ public class Hurtbox : MonoBehaviour {
 		PropagateHitEvent(a);
 		if (a.hitmarker != null) a.MakeHitmarker(this.transform);
 		if (hitEffect != null) Instantiate(hitEffect, this.transform.position, Quaternion.identity, null);
+		if (hitSound != null) {
+			SoundManager.WorldSound(hitSound);
+		}
 		return true;
 	}
 

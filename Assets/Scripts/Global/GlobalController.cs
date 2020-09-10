@@ -465,11 +465,22 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterSlowMotion() {
+		Hitstop.Interrupt();
 		Time.timeScale = 0.3f;
 	}
 
 	public static void ExitSlowMotion() {
 		Time.timeScale = 1;
+	}
+
+	public static void SlowMotionFor(float seconds) {
+		gc.StartCoroutine(gc.TimedSlowMotion(seconds));
+	}
+
+	IEnumerator TimedSlowMotion(float seconds) {
+		EnterSlowMotion();
+		yield return new WaitForSecondsRealtime(seconds);
+		ExitSlowMotion();
 	}
 
 	public static void LoadGame() {

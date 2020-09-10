@@ -124,6 +124,10 @@ public class AnimationInterface : MonoBehaviour {
 		GlobalController.ExitSlowMotion();
 	}
 
+	public void SlowMotionFor(float seconds) {
+		GlobalController.SlowMotionFor(seconds);
+	}
+
 	public void ShowTitle(string text) {
 		string[] splitText = text.Split('/');
 		GlobalController.ShowTitleText(splitText[0], splitText[1]);

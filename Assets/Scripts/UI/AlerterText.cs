@@ -37,6 +37,10 @@ public class AlerterText : MonoBehaviour {
         }
     }
 
+    public static void AlertImmediate(string alert) {
+        DisplayAlert(alert);
+    }
+
     public IEnumerator CheckQueue() {
         if (alertQueue.Count > 0) {
             DisplayAlert(alertQueue.Dequeue());

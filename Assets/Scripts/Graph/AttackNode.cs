@@ -34,6 +34,8 @@ public class AttackNode : CombatNode {
     override public void NodeUpdate(int currentFrame, float clipTime, AttackBuffer buffer) {
         if (buffer.ready && (currentFrame>=IASA || cancelable)) {
             MoveNextNode(buffer);
+        } else if  (currentFrame>=IASA && buffer.ready) {
+            MoveNextNode(buffer, allowReEntry:true);
         } else if (currentFrame>=IASA && InputManager.HasHorizontalInput()) {
             attackGraph.ExitGraph();
         } else if (clipTime >= 1) {
@@ -41,10 +43,15 @@ public class AttackNode : CombatNode {
         }
     }
  
-    protected void MoveNextNode(AttackBuffer buffer) {
+    protected void MoveNextNode(AttackBuffer buffer, bool allowReEntry=false) {
         CombatNode next = GetNextNode(buffer);
         if (next != null) {
             attackGraph.MoveNode(next);
+            return;
+        }
+
+        if (allowReEntry) {
+            attackGraph.EnterGraph(null);
         }
     }
 
