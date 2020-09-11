@@ -902,6 +902,7 @@ public class PlayerController : Entity {
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
+			StartCombatCooldown();
 			StartCombatStanceCooldown();
 			//LoseEnergy(gunCost);
 		}

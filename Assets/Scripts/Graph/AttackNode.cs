@@ -27,15 +27,10 @@ public class AttackNode : CombatNode {
     [HideInInspector]
     public float timeOffset = 0;
 
-    virtual public CombatNode GetNextNode(AttackBuffer buffer) {
-        return MatchAttackNode(buffer, this.links);
-    }
-
     override public void NodeUpdate(int currentFrame, float clipTime, AttackBuffer buffer) {
         if (buffer.ready && (currentFrame>=IASA || cancelable)) {
-            MoveNextNode(buffer);
-        } else if  (currentFrame>=IASA && buffer.ready) {
-            MoveNextNode(buffer, allowReEntry:true);
+            if (!cancelable) MoveNextNode(buffer, allowReEntry:true);
+            else MoveNextNode(buffer);
         } else if (currentFrame>=IASA && InputManager.HasHorizontalInput()) {
             attackGraph.ExitGraph();
         } else if (clipTime >= 1) {
@@ -53,6 +48,10 @@ public class AttackNode : CombatNode {
         if (allowReEntry) {
             attackGraph.EnterGraph(null);
         }
+    }
+
+    virtual public CombatNode GetNextNode(AttackBuffer buffer) {
+        return MatchAttackNode(buffer, this.links);
     }
 
     // directional attacks are prioritized in order, then the first any-directional link is used

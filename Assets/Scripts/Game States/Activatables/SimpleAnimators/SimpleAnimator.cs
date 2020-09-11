@@ -17,6 +17,12 @@ public class SimpleAnimator : Activatable {
         this.running = b;
     }
 
+    void Update() {
+        if (!Application.isPlaying) {
+            Draw();
+        }
+    }
+
     void LateUpdate() {
         if (!running) return;
         Draw();

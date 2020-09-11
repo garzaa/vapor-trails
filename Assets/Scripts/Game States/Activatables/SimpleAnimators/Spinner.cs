@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Spinner : SimpleAnimator {
     public float speed;
     public bool unscaled;

@@ -6,7 +6,7 @@ public class Thorn : Boss {
     public GameObject orbitingSwords;
     public GameObject blurredSwords;
     public AudioClip swordSpinNoise;
-    public float blurCutoff;
+    public AudioClip ringBreakSound;
 
     public int maxSwords;
     int currentSwords;
@@ -30,6 +30,7 @@ public class Thorn : Boss {
         SpaceSwordRotation();
     }
 
+    [ContextMenu("Space Swords")]
     void SpaceSwordRotation() {
         currentSwords = GetActiveSwords();
         for (int i=0; i<currentSwords; i++) {
@@ -43,21 +44,32 @@ public class Thorn : Boss {
 
     public void OnSwordRingHit() {
         currentSwords = GetActiveSwords();
-        orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
         if (currentSwords <= 1) {
             RingBreak();
             return;
         }
-        targetSwordAngle.z += 180; // (360f/((float) maxSwords)) * (maxSwords-currentSwords);
+        LoseSword();
+        anim.SetTrigger("RingHit");
+        rb2d.velocity = new Vector2(
+            rb2d.velocity.x - ForwardScalar(),
+            rb2d.velocity.y
+        );
+    }
+
+    public void LoseSword() {
+        orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
+        // rotate forwards and back
+        targetSwordAngle.z += (currentSwords % 2 == 0) ? 170 : -170;
         targetSwordAngle.z = targetSwordAngle.z % 360;
         targetingRotation = true;
-        SpaceSwordRotation();
         SoundManager.WorldSound(swordSpinNoise);
-        anim.SetTrigger("RingHit");
+        SpaceSwordRotation();
     }
 
     protected override void Update() {
         base.Update();
+        currentSwords = GetActiveSwords();
+        anim.SetInteger("CurrentSwords", currentSwords);
 
         if (targetingRotation && Mathf.Abs(orbitingSwords.transform.localRotation.eulerAngles.z - targetSwordAngle.z) < 1f) {
             swordSpinner.enabled = true;
@@ -72,12 +84,12 @@ public class Thorn : Boss {
                 smoothAmount * Time.unscaledDeltaTime
             ));
         }
-
-        blurredSwords.SetActive(Mathf.Abs(swordRingVelocity.z) > blurCutoff);
     }
 
     void RingBreak() {
-        AlerterText.Alert("<color=red>RING BREAK</color>");
+        // todo: disable all of them i guess
+        SoundManager.WorldSound(ringBreakSound);
+        orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
         anim.SetTrigger("RingBreak");
     }
 
@@ -88,13 +100,13 @@ public class Thorn : Boss {
     }
 
     IEnumerator ShowSwords() {
-        int idx=0;
+        // int idx=0;
         foreach (Transform s in orbitingSwords.transform) {
-            yield return new WaitForSeconds(0.1f);
-            AlerterText.AlertImmediate("reset sword "+idx++);
+            // AlerterText.AlertImmediate("reset sword "+idx++);
             s.gameObject.SetActive(true);
             SpaceSwordRotation();
         }
+        yield return new WaitForSeconds(0f);
     }
 
     int GetActiveSwords() {
