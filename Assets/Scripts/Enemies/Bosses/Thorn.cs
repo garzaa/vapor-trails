@@ -11,8 +11,8 @@ public class Thorn : Boss {
     public int maxSwords;
     int currentSwords;
 
-    public Vector3 targetSwordAngle = Vector3.zero;
-    Vector3 swordRingVelocity = Vector3.zero;
+    float targetSwordAngle = 0;
+    float swordRingVelocity = 0;
     float initialSwordRingAngle = 0;
 
     public float smoothAmount = 10f;
@@ -25,8 +25,8 @@ public class Thorn : Boss {
         base.Start();
         maxSwords = orbitingSwords.transform.childCount;
         currentSwords = maxSwords;
-        targetSwordAngle = orbitingSwords.transform.localRotation.eulerAngles;
-        initialSwordRingAngle = targetSwordAngle.z;
+        targetSwordAngle = orbitingSwords.transform.localRotation.eulerAngles.z;
+        initialSwordRingAngle = targetSwordAngle;
         SpaceSwordRotation();
     }
 
@@ -59,8 +59,8 @@ public class Thorn : Boss {
     public void LoseSword() {
         orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
         // rotate forwards and back
-        targetSwordAngle.z += (currentSwords % 2 == 0) ? 170 : -170;
-        targetSwordAngle.z = targetSwordAngle.z % 360;
+        targetSwordAngle += (currentSwords % 2 == 0) ? 170 : -170;
+        targetSwordAngle = targetSwordAngle % 360;
         targetingRotation = true;
         SoundManager.WorldSound(swordSpinNoise);
         SpaceSwordRotation();
@@ -71,17 +71,20 @@ public class Thorn : Boss {
         currentSwords = GetActiveSwords();
         anim.SetInteger("CurrentSwords", currentSwords);
 
-        if (targetingRotation && Mathf.Abs(orbitingSwords.transform.localRotation.eulerAngles.z - targetSwordAngle.z) < 1f) {
+        if (targetingRotation && Mathf.Abs(orbitingSwords.transform.localRotation.eulerAngles.z - targetSwordAngle) < 1f) {
             swordSpinner.enabled = true;
             targetingRotation = false;
         } else if (targetingRotation) {
             swordSpinner.enabled = false;
             
-            orbitingSwords.transform.localRotation = Quaternion.Euler(Vector3.SmoothDamp(
-                orbitingSwords.transform.localRotation.eulerAngles,
-                targetSwordAngle,
-                ref swordRingVelocity,
-                smoothAmount * Time.unscaledDeltaTime
+            orbitingSwords.transform.localRotation = Quaternion.Euler(
+                0,
+                0,
+                Mathf.SmoothDamp(
+                    orbitingSwords.transform.localRotation.eulerAngles.z,
+                    targetSwordAngle,
+                    ref swordRingVelocity,
+                    smoothAmount * Time.unscaledDeltaTime
             ));
         }
     }
@@ -89,13 +92,16 @@ public class Thorn : Boss {
     void RingBreak() {
         // todo: disable all of them i guess
         SoundManager.WorldSound(ringBreakSound);
-        orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
         anim.SetTrigger("RingBreak");
+        // in case weird frame things happen
+        if (GetActiveSwords() > 0) {
+            orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
+        }
     }
 
     public void ResetSwords() {
         currentSwords = maxSwords;
-        targetSwordAngle.z = initialSwordRingAngle;
+        targetSwordAngle = initialSwordRingAngle;
         StartCoroutine(ShowSwords());
     }
 

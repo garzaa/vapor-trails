@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class TrackHipOffset : StateMachineBehaviour {
-    string anchorName = "PlayerRig/Hips";
+    public string anchorName = "PlayerRig/Hips";
 
     Rigidbody2D parentContainer;
     Transform anchor;

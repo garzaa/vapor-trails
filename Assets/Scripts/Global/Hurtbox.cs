@@ -4,6 +4,7 @@ public class Hurtbox : MonoBehaviour {
 
 	public GameObject parentObject;
 	public GameObject hitEffect;
+	public bool overrideHitEffect;
 	public AudioClip hitSound;
 	
 	[Header("For Targeting Systems")]
@@ -28,7 +29,10 @@ public class Hurtbox : MonoBehaviour {
 
 	virtual public bool OnHit(Attack a) {
 		PropagateHitEvent(a);
-		if (a.hitmarker != null) a.MakeHitmarker(this.transform);
+		if (a.hitmarker != null && !overrideHitEffect) {
+			Debug.Log("sd;kjhsdf;g");
+			a.MakeHitmarker(this.transform);
+		}
 		if (hitEffect != null) {
 			GameObject h = Instantiate(hitEffect, a.transform.position, Quaternion.identity, this.transform);
 			h.transform.parent = null;
