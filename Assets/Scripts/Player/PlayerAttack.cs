@@ -118,11 +118,6 @@ public class PlayerAttack : Attack {
 		h.transform.parent = null;
 	}
 
-	public void OnDeflect() {
-		player.GainEnergy(1);
-		player.Parry();
-	}
-
 	override public int GetDamage() {
 		return this.damage * attackerParent.GetComponent<PlayerController>().baseDamage;
 	}

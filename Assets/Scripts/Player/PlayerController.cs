@@ -107,6 +107,7 @@ public class PlayerController : Entity {
 	public Transform vaporExplosion;
 	public Transform sparkle;
 	public GameObject parryParticles;
+	public GameObject shieldBreak;
 	GameObject instantiatedSparkle = null;
 
 	string[] deathText = {
@@ -183,14 +184,10 @@ public class PlayerController : Entity {
 		return this.forcedWalking || InputManager.Button(Buttons.WALK);
 	}
 
-	public void Parry() {
-		if (currentEnergy <= 0) {
-			return;
-		}
+	public void Parry(Attack attack) {
 		if (parryCount == 0) {	
 			FirstParry();
 		} else {
-			currentEnergy--;
 			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
 			Instantiate( 
@@ -950,8 +947,14 @@ public class PlayerController : Entity {
 				}
 			}
 		} else if (canParry) {
-			Parry();
-			return;
+			currentEnergy -= attack.GetDamage();
+			if (currentEnergy < 0) {
+				AlerterText.Alert("PARRY BREAK");
+				Instantiate(shieldBreak, this.transform.position, shieldBreak.transform.rotation, null);
+			} else {
+				Parry(attack);
+				return;
+			}
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);

@@ -3,13 +3,6 @@ using System;
 using UnityEngine;
 using XNode;
 
-/* 
-#if UNITY_EDITOR
-using XNodeEditor;
-using UnityEditor;
-#endif
-*/
-
 [NodeWidth(270)]
 public class AttackNode : CombatNode {
     public string attackName;
@@ -29,8 +22,12 @@ public class AttackNode : CombatNode {
 
     override public void NodeUpdate(int currentFrame, float clipTime, AttackBuffer buffer) {
         if (buffer.ready && (currentFrame>=IASA || cancelable)) {
-            if (!cancelable) MoveNextNode(buffer, allowReEntry:true);
-            else MoveNextNode(buffer);
+            if (!cancelable) {
+                MoveNextNode(buffer, allowReEntry:true);
+            }
+            else {
+                MoveNextNode(buffer);
+            }
         } else if (currentFrame>=IASA && InputManager.HasHorizontalInput()) {
             attackGraph.ExitGraph();
         } else if (clipTime >= 1) {

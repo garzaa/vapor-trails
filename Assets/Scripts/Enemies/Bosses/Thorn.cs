@@ -6,7 +6,7 @@ public class Thorn : Boss {
     public GameObject orbitingSwords;
     public GameObject blurredSwords;
     public AudioClip swordSpinNoise;
-    public AudioClip ringBreakSound;
+    public GameObject shieldBreakPrefab;
 
     public int maxSwords;
     int currentSwords;
@@ -87,7 +87,7 @@ public class Thorn : Boss {
 
     void RingBreak() {
         // todo: disable all of them i guess
-        SoundManager.WorldSound(ringBreakSound);
+        Instantiate(shieldBreakPrefab, this.transform.position, shieldBreakPrefab.transform.rotation, this.transform);
         anim.SetTrigger("RingBreak");
         // in case weird frame things happen
         if (GetActiveSwords() > 0) {
