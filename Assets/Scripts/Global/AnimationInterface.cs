@@ -31,7 +31,7 @@ public class AnimationInterface : MonoBehaviour {
 		} else {
 			pos = fallbackEffectPoint.transform;
 		}
-		GameObject g = Instantiate(effects[index], Vector3.zero, Quaternion.identity, pos.transform);
+		GameObject g = Instantiate(effects[index], pos.position, Quaternion.identity, pos.transform);
 		g.transform.parent = null;
 	}
 
@@ -40,7 +40,7 @@ public class AnimationInterface : MonoBehaviour {
 		if (pos == null) {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], Vector3.zero, Quaternion.identity, pos.transform);
+		Instantiate(effects[index], pos.position, Quaternion.identity, pos.transform);
 	}
 
 	public void EmitParticles(int p) {

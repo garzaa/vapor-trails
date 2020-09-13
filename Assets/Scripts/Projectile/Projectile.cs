@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour {
 
 	public LayerMask collisionLayers;
 	public List<string> collisionTags;
+	public bool spawnEffectOnGroundOnly;
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (
@@ -20,8 +21,9 @@ public class Projectile : MonoBehaviour {
 
 		if (impactShake) CameraShaker.TinyShake();
 
-		if (hitEffect != null) {
-			Instantiate(hitEffect, this.transform.position, Quaternion.identity, null);
+		if (hitEffect != null && (!spawnEffectOnGroundOnly || other.gameObject.layer.Equals(LayerMask.NameToLayer(Layers.Ground)))) {
+			GameObject g = Instantiate(hitEffect, this.transform.position, this.transform.rotation, this.transform);
+			g.transform.parent = null;
 		}
 
 		Destroy(this.gameObject);

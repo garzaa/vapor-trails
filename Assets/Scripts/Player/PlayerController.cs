@@ -201,7 +201,6 @@ public class PlayerController : Entity {
 				this.transform
 			);
 		}
-		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
 		canParry = true;
@@ -214,9 +213,10 @@ public class PlayerController : Entity {
 	public void FirstParry() {
 		AlerterText.Alert("Autoparry active");
 		anim.SetTrigger("Parry");
+		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
 		CameraShaker.Shake(0.1f, 0.1f);
-		Hitstop.Run(0.5f);
+		Hitstop.Run(0.4f);
 	}
 
 	public void EndShortHopWindow() {

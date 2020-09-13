@@ -58,12 +58,8 @@ public class Thorn : Boss {
 
     public void LoseSword() {
         orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
-        // rotate forwards and back
-        targetSwordAngle += (currentSwords % 2 == 0) ? 170 : -170;
-        targetSwordAngle = targetSwordAngle % 360;
-        targetingRotation = true;
         SoundManager.WorldSound(swordSpinNoise);
-        SpaceSwordRotation();
+        SpinSwords();
     }
 
     protected override void Update() {
@@ -97,6 +93,13 @@ public class Thorn : Boss {
         if (GetActiveSwords() > 0) {
             orbitingSwords.transform.GetChild(currentSwords-1).gameObject.SetActive(false);
         }
+    }
+
+    public void SpinSwords() {
+        targetSwordAngle += (currentSwords % 2 == 0) ? 170 : -170;
+        targetSwordAngle = targetSwordAngle % 360;
+        targetingRotation = true;
+        SpaceSwordRotation();
     }
 
     public void ResetSwords() {

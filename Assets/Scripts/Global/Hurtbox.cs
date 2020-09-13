@@ -30,7 +30,6 @@ public class Hurtbox : MonoBehaviour {
 	virtual public bool OnHit(Attack a) {
 		PropagateHitEvent(a);
 		if (a.hitmarker != null && !overrideHitEffect) {
-			Debug.Log("sd;kjhsdf;g");
 			a.MakeHitmarker(this.transform);
 		}
 		if (hitEffect != null) {

@@ -10,6 +10,6 @@ public class MoveForward : MonoBehaviour {
 
     void Update() {
         float degZ = transform.eulerAngles.z;
-        rb2d.velocity = Vector2.right.Rotate(degZ) * speed;
+        rb2d.velocity = (Vector2.right * transform.lossyScale.x).Rotate(degZ) * speed;
     }
 }

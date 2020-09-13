@@ -1,7 +1,14 @@
 using UnityEngine;
 
 public class RandomRotation : MonoBehaviour {
+    public float lowBound = 0;
+    public float highBound = 360f;
+
     void Start() {
-        transform.Rotate(0f, 0f, Random.Range(0f, 360f));
+        transform.rotation = Quaternion.Euler(
+            0,
+            0,
+            transform.rotation.eulerAngles.z + Random.Range(lowBound, highBound)
+        );
     }
 }
