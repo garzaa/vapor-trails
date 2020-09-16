@@ -109,6 +109,7 @@ public class PlayerController : Entity {
 	public GameObject parryParticles;
 	public GameObject shieldBreak;
 	GameObject instantiatedSparkle = null;
+	GameObject diamondShine;
 
 	string[] deathText = {
 		"WARNING: WAVEFORM DESTABILIZED",
@@ -138,6 +139,7 @@ public class PlayerController : Entity {
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 		combatActives = GetComponentsInChildren<ActiveInCombat>(includeInactive:true);
+		diamondShine = Resources.Load("Effects/DiamondShine") as GameObject;
 	}
 	
 	void Update() {
@@ -186,14 +188,13 @@ public class PlayerController : Entity {
 
 	public void Parry(Attack attack) {
 		if (parryCount == 0) {	
-			FirstParry();
+			FirstParry(attack);
 		} else {
 			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
 			Instantiate( 
 				parryEffect, 
-				// move it forward and to the right a bit
-				(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
+				GetParryEffectPosition(attack),
 				Quaternion.identity,
 				this.transform
 			);
@@ -207,13 +208,22 @@ public class PlayerController : Entity {
 		Invoke("EndParryWindow", 0.5f);
 	}
 
-	public void FirstParry() {
+	public void FirstParry(Attack attack) {
 		AlerterText.Alert("Autoparry active");
 		anim.SetTrigger("Parry");
-		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
+		Instantiate(
+			diamondShine, 
+			GetParryEffectPosition(attack),
+			Quaternion.identity,
+			null
+		);
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
 		CameraShaker.Shake(0.1f, 0.1f);
 		Hitstop.Run(0.4f);
+	}
+
+	public Vector2 GetParryEffectPosition(Attack attack) {
+		return Vector2.MoveTowards(transform.position, attack.transform.position, 0.16f);
 	}
 
 	public void EndShortHopWindow() {
@@ -901,7 +911,7 @@ public class PlayerController : Entity {
 			);
 			StartCombatCooldown();
 			StartCombatStanceCooldown();
-			//LoseEnergy(gunCost);
+			LoseEnergy(gunCost);
 		}
 	}
 

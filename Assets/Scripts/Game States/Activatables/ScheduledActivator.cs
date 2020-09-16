@@ -18,6 +18,8 @@ public class ScheduledActivator : Activator {
 	}
 
 	void InvokedActivation() {
+		if (!enabled) return;
+
 		Activate();
 		if (oneShot) return;
 		Invoke("InvokedActivation", timeout);
