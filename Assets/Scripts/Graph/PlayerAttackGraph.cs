@@ -34,7 +34,9 @@ public class PlayerAttackGraph : NodeGraph {
     }
 
     public void ExitGraph(bool quiet=false) {
-        currentNode.OnNodeExit();
+        if (currentNode != null) {
+            currentNode.OnNodeExit();
+        }
         currentNode = null;
         GlobalController.pc.ExitAttackGraph(); // bad
         if (!quiet) anim.Play(exitNodeName, 0);

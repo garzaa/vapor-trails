@@ -10,7 +10,6 @@ public class PlayerController : Entity {
 	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
-	const float stunLength = 0.4f;
 	const float parryWindowLength = 4f/16f;
 	const float coyoteTime = 0.1f;
 
@@ -974,18 +973,18 @@ public class PlayerController : Entity {
 
 		if (this.currentHP == 0) return;
 		
-		StunFor(stunLength);
+		StunFor(attack.stunLength);
+
+		// asdi
+		float actualSDIMultiplier = sdiMultiplier * (attack.gameObject.CompareTag(Tags.EnviroDamage) ? 3 : 1);
+		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 
 		//flip to attacker
 		if (attack.knockBack) {
 			Vector2 kv = attack.GetKnockback();
-			bool attackerToLeft = attack.attackerParent.transform.position.x < this.transform.position.x;
-			if ((attackerToLeft && facingRight) || (!attackerToLeft && !facingRight)) ForceFlip();
-			KnockBack(kv);
+			if (!IsFacing(attack.gameObject)) ForceFlip();
+			rb2d.velocity = (kv + (InputManager.LeftStick()));
 		}
-		// asdi
-		float actualSDIMultiplier = sdiMultiplier * (attack.gameObject.CompareTag(Tags.EnviroDamage) ? 3 : 1);
-		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 	}
 
 	override public void StunFor(float seconds) {
@@ -1060,8 +1059,7 @@ public class PlayerController : Entity {
 		AlerterText.Alert($"<color=red>CAUSE OF DEATH:</color>");
 		AlerterText.Alert($"<color=red>{fatalBlow.attackName}</color>");
 		// if the animation gets interrupted or something, use this as a failsafe
-		Invoke("FinishDyingAnimation", 3f);
-		this.dead = true;
+		Invoke("FinishDyingAnimation", 3f);		this.dead = true;
 		SoundManager.PlayerDieSound();
 		currentEnergy = 0;
 		CameraShaker.Shake(0.2f, 0.1f);

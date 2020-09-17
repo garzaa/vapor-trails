@@ -61,10 +61,10 @@ public class AttackNode : CombatNode {
             if (link.type==buffer.type && buffer.HasDirection(link.direction)) {
                 CombatNode next = GetPort(portListName+" "+i).Connection.node as CombatNode;
                 if (next.Enabled()) {
-                    if (anyDirectionNode==null && link.direction==AttackDirection.ANY) {
-                        anyDirectionNode = next;
-                    } else {
+                    if (link.direction != AttackDirection.ANY) {
                         directionalLinks.Add(new Tuple<AttackLink, CombatNode>(link, next));
+                    } else if (anyDirectionNode == null) {
+                        anyDirectionNode = next;
                     }
                 }
             }
