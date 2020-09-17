@@ -17,6 +17,11 @@ public class RandomTransition : StateMachineBehaviour {
         startedExit = false;
         if (triggerNames.Length > 0) return;
         animator.Play(transitions[Random.Range(0, transitions.Length)]);
+        if (triggerNames.Length > 0) {
+            foreach (string t in triggerNames) {
+                animator.ResetTrigger(t);
+            }
+        }
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

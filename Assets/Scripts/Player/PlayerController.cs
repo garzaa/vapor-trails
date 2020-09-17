@@ -7,7 +7,7 @@ public class PlayerController : Entity {
 	const float jumpSpeed = 3.8f;
 	const float jumpCutoff = 2.0f;
 	const float hardLandSpeed = -4f;
-	const float dashSpeed = 7f;
+	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
 	const float stunLength = 0.4f;
