@@ -400,7 +400,7 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if ((frozen && !dashing) || lockedInSpace) {
+		if ((frozen && !dashing) || lockedInSpace || stunned) {
 			return;
 		}
 

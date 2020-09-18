@@ -27,7 +27,8 @@ public class RandomTransition : StateMachineBehaviour {
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         if (stateInfo.normalizedTime >= triggerSetTime && !startedExit) {
             startedExit = true;
-            animator.SetTrigger(triggerNames[Random.Range(0, triggerNames.Length)]);
+            string triggerName = triggerNames[Random.Range(0, triggerNames.Length)];
+            if (!string.IsNullOrEmpty(triggerName)) animator.SetTrigger(triggerName);
         }
     }
 }
