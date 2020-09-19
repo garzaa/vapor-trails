@@ -910,7 +910,7 @@ public class PlayerController : Entity {
 			);
 			StartCombatCooldown();
 			StartCombatStanceCooldown();
-			//LoseEnergy(gunCost);
+			LoseEnergy(gunCost);
 		}
 	}
 

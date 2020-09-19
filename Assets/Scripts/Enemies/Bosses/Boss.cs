@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class Boss : Enemy {
     public Activatable deathActivatable;
-    [HideInInspector] public Color healthColor = new Color(221, 82, 82, 255);
 
     BarUI bossHealthUI;
+    
+    public Color healthColor = new Color(221, 82, 82, 255);
+    public bool enableHealthUIOnStart = false;
 
     virtual protected void Start() {
         bossHealthUI = GlobalController.bossHealthUI;
         bossHealthUI.SetBarColor(healthColor);
+        bossHealthUI.gameObject.SetActive(enableHealthUIOnStart);
     }
 
     public void StartFight() {
