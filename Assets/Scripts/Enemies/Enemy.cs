@@ -151,7 +151,7 @@ public class Enemy : Entity {
 	public void CloseHurtboxes() {
 		foreach (Transform child in transform) {
 			if (child.gameObject.tag.Equals(Tags.EnemyHurtbox)) {
-				child.GetComponent<Collider2D>().enabled = false;
+				if (child.GetComponent<Collider2D>() != null) child.GetComponent<Collider2D>().enabled = false;
 			}
 		}
 	}
