@@ -69,7 +69,7 @@ public class TargetingSystem : MonoBehaviour {
 
 	void Update() {
 		if (!onPlayer) return;
-		if (targetingUI == null || !CanTarget()) {
+		if (targetingUI == null || !CanTarget() || GlobalController.pc.currentEnergy<PlayerController.gunCost) {
 			targetAnim.SetBool("Locked", false);
 			return;
 		}

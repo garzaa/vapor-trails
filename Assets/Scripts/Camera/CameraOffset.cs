@@ -24,6 +24,9 @@ public class CameraOffset : MonoBehaviour {
 	public bool clampPosition;
 	public Vector2 maxLookahead;
 
+	bool lookingAtBoss;
+	GameObject boss;
+
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
 	}
@@ -60,7 +63,12 @@ public class CameraOffset : MonoBehaviour {
 			newPosition += (Vector3) offset;
 		}
 
-		//then update movement
+		// move 3/4 of the way towards the boss
+		if (lookingAtBoss) {
+			newPosition += (boss.transform.position - this.transform.position) * 0.75f;
+		}
+
+		//then update camera pos
 		transform.position = Vector3.SmoothDamp(
 			transform.position,
 			newPosition,
@@ -73,5 +81,15 @@ public class CameraOffset : MonoBehaviour {
 
 	public void SetOffset(Vector2 newOffset) {
 		this.offset = newOffset;
+	}
+
+	public void OnBossFightStart() {
+		boss = GameObject.FindObjectOfType<Boss>().gameObject;
+		lookingAtBoss  = true;
+	}
+
+	public void OnBossFightStop() {
+		lookingAtBoss = false;
+		boss = null;
 	}
 }
