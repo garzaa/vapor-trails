@@ -36,7 +36,7 @@ public class PlayerController : Entity {
 	int healCost = 1;
 	int healAmt = 1;
 	float combatCooldown = 2f;
-	float combatStanceCooldown = 4f;
+	float combatStanceCooldown = 9f;
 	float sdiMultiplier = 0.2f;
 	float preDashSpeed;
 	bool perfectDashPossible;
