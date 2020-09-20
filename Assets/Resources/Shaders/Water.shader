@@ -20,6 +20,7 @@ Shader "Custom/Water"
 		[Header(Movement)]
 		_XSpeed ("X Speed", Float) = 0
 		_YSpeed ("Y Speed", Float) = 0
+
 	}
 
 	SubShader
@@ -49,6 +50,7 @@ Shader "Custom/Water"
 			#pragma fragment frag
 			#pragma multi_compile _ PIXELSNAP_ON
 			#include "UnityCG.cginc"
+			#include "Assets/Resources/Shaders/utils.cginc"
 			
 			struct appdata_t
 			{
@@ -101,16 +103,19 @@ Shader "Custom/Water"
 			float2 SineDisplace (float2 uv)
 			{
 				float2 final = uv;
+				
+				float4 time = _Time;
+
 
 				//uv offset
-				final.y = (uv.y + (_Time.w * _YSpeed));
-				final.x = (uv.x + (_Time.w * _XSpeed));
+				final.y = (uv.y + (time.w * _YSpeed));
+				final.x = (uv.x + (time.w * _XSpeed));
 
 				// x waves
-				final.y += (_XAmp * sin((uv.x/_XWidth) + (_Time * _XWaveSpeed)));
+				final.y += (_XAmp * sin((uv.x/_XWidth) + (time * _XWaveSpeed)));
 
 				// y waves
-				final.x += (_YAmp * sin((uv.y/_YWidth) + (_Time * _YWaveSpeed)));
+				final.x += (_YAmp * sin((uv.y/_YWidth) + (time * _YWaveSpeed)));
                 return final;
 			}
 
