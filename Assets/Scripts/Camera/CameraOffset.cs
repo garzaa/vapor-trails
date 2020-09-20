@@ -39,7 +39,7 @@ public class CameraOffset : MonoBehaviour {
 
 		Vector3 newPosition = player.transform.position;
 
-		if (lookingAhead) {
+		if (lookingAhead && !lookingAtBoss) {
 			//first offset based on player orientation
 			float newX = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookAhead * speedRamp;
 			float scalar = pc.IsGrounded() ? 1 : 0;

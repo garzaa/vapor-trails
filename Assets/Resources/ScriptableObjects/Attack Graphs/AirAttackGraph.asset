@@ -28,6 +28,7 @@ MonoBehaviour:
     - speedLinks 0
     - links 6
     - speedLinks 1
+    - speedLinks 2
     values:
     - _fieldName: links
       _node: {fileID: -7235811323598414317}
@@ -164,6 +165,18 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
+    - _fieldName: speedLinks 2
+      _node: {fileID: -7235811323598414317}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 8953685038536565771}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
   attackName: InitialAerialBranch
   IASA: 0
   input:
@@ -191,6 +204,8 @@ MonoBehaviour:
     direction: -2
   - type: 2
     direction: 1
+  - type: 2
+    direction: 0
 --- !u!114 &-6299186365788759399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,6 +888,9 @@ MonoBehaviour:
         node: {fileID: -7235811323598414317}
         reroutePoints: []
       - fieldName: links 6
+        node: {fileID: -7235811323598414317}
+        reroutePoints: []
+      - fieldName: speedLinks 2
         node: {fileID: -7235811323598414317}
         reroutePoints: []
       _direction: 0

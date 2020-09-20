@@ -198,6 +198,7 @@ public class PlayerController : Entity {
 				this.transform
 			);
 		}
+		if (!IsFacing(attack.attackerParent.gameObject)) ForceFlip();
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
 		canParry = true;

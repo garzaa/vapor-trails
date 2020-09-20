@@ -42,6 +42,7 @@ public class Boss : Enemy {
     void OnDisable() {
         if (startFightOnEnable) {
             stopBossFight.Raise();
+            bossHealthUI.gameObject.SetActive(false);
         }
     }
 }
