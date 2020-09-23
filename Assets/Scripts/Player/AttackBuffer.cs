@@ -8,7 +8,7 @@ public class AttackBuffer : MonoBehaviour {
     Coroutine clearBuffer;
 
     bool punch, kick;
-    const float inputThreshold = 0.5f;
+    const float inputThreshold = 0.2f;
 
     public AttackType type {
         get {
