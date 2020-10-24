@@ -23,6 +23,7 @@ public class Attack : MonoBehaviour {
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
 	public bool inheritMomentum = false;
+	public bool instakill = false;
 
 	protected Rigidbody2D rb2d;
 

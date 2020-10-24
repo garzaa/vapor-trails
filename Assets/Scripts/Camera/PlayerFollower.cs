@@ -23,6 +23,8 @@ public class PlayerFollower : MonoBehaviour {
 
 	public GameObject target;
 
+	CameraOffset cameraOffset;
+
 	void Start() {
 		if (player == null) {
 			player = GameObject.Find("Player");
@@ -35,6 +37,7 @@ public class PlayerFollower : MonoBehaviour {
 		);
 		pc = player.GetComponent<PlayerController>();
 		this.target = player;
+		cameraOffset = GetComponentInChildren<CameraOffset>();
 	}
 	
 	void FixedUpdate() {
@@ -65,9 +68,10 @@ public class PlayerFollower : MonoBehaviour {
 		}	
 	}
 
-	public void SnapToPlayer() {
+	public void SnapToTarget() {
 		DisableSmoothing();
-		this.transform.position = player.transform.position;
+		velocity = Vector3.zero;
+		this.transform.position = target.transform.position;
 		EnableSmoothing();
 	}
 
@@ -81,22 +85,22 @@ public class PlayerFollower : MonoBehaviour {
 
 	public void EnableFollowing() {
 		this.following = true;
-		GetComponentInChildren<CameraOffset>().following = true;
+		cameraOffset.following = true;
 	}
 
 	public void DisableFollowing() {
 		this.following = false;
-		GetComponentInChildren<CameraOffset>().following = false;
+		cameraOffset.following = false;
 	}
 
 	public void FollowTarget(GameObject target) {
 		this.target = target;
-		GetComponentInChildren<CameraOffset>().following = false;
+		cameraOffset.following = false;
 	}
 
 	public void FollowPlayer() {
-		if (GetComponentInChildren<CameraOffset>() != null) {
-			GetComponentInChildren<CameraOffset>().following = true;
+		if (cameraOffset != null) {
+			cameraOffset.following = true;
 		}
 		this.target = player;
 	}

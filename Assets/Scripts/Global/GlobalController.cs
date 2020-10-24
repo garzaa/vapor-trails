@@ -339,19 +339,29 @@ public class GlobalController : MonoBehaviour {
 				playerAnimator.SetBool(s, true);
 			}
 		}
+
+		binarySaver.SyncImmediateStates(saveSlot, save);
 	}
 
 	public static void AddState(GameState state) {
 		if (state == null) return;
 		save.gameStates.Add(state.name);
 		PropagateStateChange();
+		if (state.writeImmediately) {
+			binarySaver.SyncImmediateStates(saveSlot, save);
+		}
 	}
 
 	public static void AddStates(List<GameState> states) {
+		bool writeImmediate = false;
 		foreach (GameState state in states) {
 			save.gameStates.Add(state.name);
+			if (state.writeImmediately) writeImmediate = true;
 		}
 		PropagateStateChange();
+		if (writeImmediate) {
+			binarySaver.SyncImmediateStates(saveSlot, save);
+		}
 	}
 
 	public static bool HasState(GameState state) {
@@ -381,19 +391,16 @@ public class GlobalController : MonoBehaviour {
 			return;
 		}
 		gc.StartCoroutine(gc.MovePlayerNextFrame(position));
-		playerFollower.DisableSmoothing();
 	}
 
 	// make sure the trail renderers don't emit
 	IEnumerator MovePlayerNextFrame(Vector2 position) {
-		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		yield return new WaitForEndOfFrame();
-		pc.GetComponent<Rigidbody2D>().position = position;
+		pc.transform.position = position;
+		playerFollower.SnapToTarget();
 		pc.EnableTrails();
-		playerFollower.SnapToPlayer();
 		yield return new WaitForSecondsRealtime(0.5f);
-		playerFollower.EnableSmoothing();
 		UnFadeToBlack();
 		pc.ExitCutscene();
 	}
@@ -486,8 +493,8 @@ public class GlobalController : MonoBehaviour {
 	public static void LoadGame() {
 		FadeToBlack();
 		saveWrapper.save = binarySaver.LoadFile(saveSlot);
-		// refresh????? fucking GC languages
 		save = saveWrapper.save;
+		LoadSceneToPosition(save.sceneName, save.playerPosition);
 		pc.LoadFromSaveData(saveWrapper.save);
 		inventory.items.Empty();
 		foreach (StoredItem s in save.playerItems.items) {
@@ -497,7 +504,6 @@ public class GlobalController : MonoBehaviour {
 			o.Start();
 		}
 		inventory.UpdateMoneyUI();
-		LoadSceneToPosition(save.sceneName, save.playerPosition);
  	}
 
 	public static void SaveGame(bool autosave=false) {
@@ -515,6 +521,7 @@ public class GlobalController : MonoBehaviour {
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
+		binarySaver.SyncImmediateStates(saveSlot, saveWrapper.save);
 		binarySaver.SaveFile(saveWrapper.save, saveSlot);
 	}
 

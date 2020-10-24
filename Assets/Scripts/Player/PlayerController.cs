@@ -1036,6 +1036,10 @@ public class PlayerController : Entity {
 		Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
 		SoundManager.PlayerHurtSound();
 		currentHP -= attack.GetDamage();
+		
+		if (attack.instakill) {
+			currentHP = 0;
+		}
 
 		Hitstop.Run(selfDamageHitstop);
 

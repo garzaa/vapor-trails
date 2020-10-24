@@ -8,7 +8,7 @@ public class ActivatedDialogue : Activatable {
 
 	public override void ActivateSwitch(bool b) {
 		if (b) {
-			this.npc.Interact(GameObject.FindObjectOfType<PlayerController>().gameObject);
+			npc.Interact(GlobalController.pc.gameObject);
 		}
 	}
 }

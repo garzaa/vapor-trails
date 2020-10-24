@@ -136,13 +136,13 @@ public class TransitionManager : MonoBehaviour {
 		}
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-		loadTextUI.SetActive(true);
 		asyncLoad.allowSceneActivation = false;
+		loadTextUI.SetActive(true);
 		
         //wait until the last operation fully loads to return anything
         while (!asyncLoad.isDone) {
 			loadProgressText.text = asyncLoad.progress.ToString("P");
-			if (asyncLoad.progress >= .9f) {
+			if (asyncLoad.progress >= 0.9f) {
 				asyncLoad.allowSceneActivation = true;
 			}
 
