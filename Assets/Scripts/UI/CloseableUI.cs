@@ -66,7 +66,7 @@ public class CloseableUI : MonoBehaviour {
     }
 
     // again, deal with input frame timing
-    IEnumerator WaitAndClose() {
+    protected IEnumerator WaitAndClose() {
         yield return new WaitForEndOfFrame();
         gameObject.SetActive(false);
     }

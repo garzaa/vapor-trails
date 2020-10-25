@@ -43,6 +43,7 @@ public class ChoiceUI : CloseableUI {
     }
 
     void CloseSelfChoices() {
+        // StartCoroutine(base.WaitAndClose());
         base.Close();
         choices.SetActive(false);
         foreach (Transform child in choices.transform) {

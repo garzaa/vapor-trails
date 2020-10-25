@@ -85,6 +85,7 @@ public class PlayerController : Entity {
 	bool justLeftGround = false;
 	Coroutine currentWallTimeout;
 	Coroutine coyoteTimeout;
+	Coroutine exitCutsceneRoutine;
 	bool canShoot = true;
 	Coroutine platformTimeout;
 	public bool inCutscene;
@@ -109,6 +110,7 @@ public class PlayerController : Entity {
 	public GameObject shieldBreak;
 	GameObject instantiatedSparkle = null;
 	GameObject diamondShine;
+
 
 	string[] deathText = {
 		"WARNING: WAVEFORM DESTABILIZED",
@@ -1168,13 +1170,15 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterCutscene(bool invincible = true) {
+		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
+		Debug.Log("Entering cutscene");
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
-		anim.Update(0.01f);
+		anim.Update(1f);
 		anim.speed = 0f;
 	}
 
@@ -1190,9 +1194,17 @@ public class PlayerController : Entity {
 	}
 
 	public void ExitCutscene() {
+		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
+		exitCutsceneRoutine = StartCoroutine(_ExitCutscene());
+	}
+
+	IEnumerator _ExitCutscene() {
+		yield return new WaitForEndOfFrame();
+		yield return new WaitForEndOfFrame();
+		Debug.Log("Exiting cutscene");
 		if (TransitionManager.sceneData != null) {
 			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
-				return;
+				yield break;
 			}
 		}
 		UnFreeze();
@@ -1202,6 +1214,7 @@ public class PlayerController : Entity {
 		SetInvincible(false);
 		inCutscene = false;
 		anim.speed = 1f;
+		exitCutsceneRoutine = null;
 	}
 
 	public bool IsGrounded() {

@@ -62,7 +62,6 @@ public class CameraOffset : MonoBehaviour {
 			newPosition += (Vector3) offset;
 		}
 
-		// move 3/4 of the way towards the optional target
 		if (otherTarget != null) {
 			newPosition += (otherTarget.transform.position - this.transform.position);
 		}

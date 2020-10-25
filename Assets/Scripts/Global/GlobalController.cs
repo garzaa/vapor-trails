@@ -231,12 +231,12 @@ public class GlobalController : MonoBehaviour {
 		if (npc.centerCameraInDialogue) {
 			playerFollower.LookAtPoint(npc.gameObject);
 		}
+		pc.EnterCutscene();
 	}
 
 	public static void ExitDialogue() {
 		dialogueOpen = false;
 		dialogueClosedThisFrame = true;
-		Debug.Log("Exiting dialogue");
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
 			if (currentNPC.centerCameraInDialogue) playerFollower.StopLookingAtPoint();
