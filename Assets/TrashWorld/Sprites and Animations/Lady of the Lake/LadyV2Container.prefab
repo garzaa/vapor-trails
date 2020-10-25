@@ -1439,11 +1439,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3875739710352798582}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.188, y: 0.24, z: 0}
+  m_LocalPosition: {x: 0.0059999675, y: 0.12600002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7698159567160256840}
-  m_RootOrder: 7
+  m_Father: {fileID: 7698159565551150344}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &149026888083967901
 ParticleSystem:
@@ -1518,9 +1518,9 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 1
+  scalingMode: 0
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -11824,7 +11824,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7698159567160256840}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6873028829360186227
 GameObject:
@@ -12716,6 +12716,7 @@ MonoBehaviour:
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
   icon: {fileID: 0}
+  centerCameraInDialogue: 0
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &7698159565423414339
@@ -13121,6 +13122,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 0}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 1
 --- !u!1 &7698159565518513965
 GameObject:
@@ -13193,6 +13197,7 @@ Transform:
   - {fileID: 7698159566769500137}
   - {fileID: 7698159565791510027}
   - {fileID: 7698159567088149606}
+  - {fileID: 610197874973818045}
   m_Father: {fileID: 7698159567160256840}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13286,6 +13291,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 7698159567160256843}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 0
 --- !u!1 &7698159565589468590
 GameObject:
@@ -14159,7 +14167,6 @@ MonoBehaviour:
   attackName: Prismatic X-404 Claw
   damage: 1
   attackLandSound: {fileID: 0}
-  swingSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -14173,6 +14180,7 @@ MonoBehaviour:
   knockBack: 0
   knockbackVector: {x: 0, y: 0}
   inheritMomentum: 0
+  instakill: 0
   attackLandEvent: 0
 --- !u!61 &7698159565929728518
 BoxCollider2D:
@@ -16990,6 +16998,7 @@ MonoBehaviour:
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
   icon: {fileID: 0}
+  centerCameraInDialogue: 1
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &7698159566895998549
@@ -17006,10 +17015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conversations:
   - lines:
-    - lineText: 'I smell a missing piece of me.
-
-        A new Prismatic, fresh from
-        Paradise.'
+    - lineText: Help me! Help. You have to help me.
       speakerName: Lady of the Lake
       speakerImage: {fileID: 5277895616011291442, guid: 7bb9b3e08ca27ba4094b0286e3704e62,
         type: 3}
@@ -17018,15 +17024,7 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: ...
-      speakerName: Val
-      speakerImage: {fileID: 21300000, guid: e00b278ac11cd0048915228fd5e8705e, type: 3}
-      voiceSound: 2
-      activatable: {fileID: 0}
-      activatesOnLineEnd: 0
-      blocking: 0
-      gameFlag: 0
-    - lineText: Shiny. Elegant. But not good enough to leave the labs.
+    - lineText: Help me, haha...help! Help me.
       speakerName: Lady of the Lake
       speakerImage: {fileID: 5277895616011291442, guid: 7bb9b3e08ca27ba4094b0286e3704e62,
         type: 3}
@@ -17035,8 +17033,8 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: I was like you once. When they cast me down here. But I found my
-        missing pieces in the dark.
+    - lineText: When they cast me down, I was weak and vulnerable like you. But I
+        made a shell out of the lost souls in the dark.
       speakerName: Lady of the Lake
       speakerImage: {fileID: 6917659711918826061, guid: 7bb9b3e08ca27ba4094b0286e3704e62,
         type: 3}
@@ -17045,9 +17043,7 @@ MonoBehaviour:
       activatesOnLineEnd: 0
       blocking: 0
       gameFlag: 0
-    - lineText: 'And, well.
-
-        Look at me now.'
+    - lineText: Look at me now. Help me. Become me.
       speakerName: Lady of the Lake
       speakerImage: {fileID: -2858997325463359923, guid: 7bb9b3e08ca27ba4094b0286e3704e62,
         type: 3}
@@ -22357,7 +22353,6 @@ Transform:
   - {fileID: 7698159565966510816}
   - {fileID: 7698159565929728521}
   - {fileID: 8953453702142924664}
-  - {fileID: 610197874973818045}
   - {fileID: 1012471402727904140}
   m_Father: {fileID: 7698159566413690276}
   m_RootOrder: 2
@@ -22477,9 +22472,9 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
-  dropBossResources: 1
   deathActivatable: {fileID: 0}
   healthColor: {r: 0.7490196, g: 0.2784314, b: 0.2784314, a: 1}
+  startFightOnEnable: 0
 --- !u!1 &7698159567171134251
 GameObject:
   m_ObjectHideFlags: 0
@@ -22551,6 +22546,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 7698159567160256843}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 0
 --- !u!1 &7698159567174494619
 GameObject:
@@ -23023,6 +23021,7 @@ MonoBehaviour:
   initialDelay: 0
   running: 1
   speed: -50
+  unscaled: 0
 --- !u!1 &8315275997656473576
 GameObject:
   m_ObjectHideFlags: 0
@@ -24094,9 +24093,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e26a0dcb2d4b9a40a343117933e5510, type: 3}
---- !u!1 &8959669414998055274 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9190140092060080353, guid: 3e26a0dcb2d4b9a40a343117933e5510,
+--- !u!4 &8953453702142924664 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9196283164125271795, guid: 3e26a0dcb2d4b9a40a343117933e5510,
     type: 3}
   m_PrefabInstance: {fileID: 278884957730177419}
   m_PrefabAsset: {fileID: 0}
@@ -24106,9 +24105,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 278884957730177419}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &8953453702142924664 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9196283164125271795, guid: 3e26a0dcb2d4b9a40a343117933e5510,
+--- !u!1 &8959669414998055274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9190140092060080353, guid: 3e26a0dcb2d4b9a40a343117933e5510,
     type: 3}
   m_PrefabInstance: {fileID: 278884957730177419}
   m_PrefabAsset: {fileID: 0}

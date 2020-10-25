@@ -5,9 +5,9 @@ public class CameraLookPoint : Activatable {
 
     override public void ActivateSwitch(bool b) {
         if (b) {
-            GlobalController.playerFollower.FollowTarget(target);
+            GlobalController.playerFollower.LookAtPoint(target);
         } else {
-            GlobalController.playerFollower.FollowPlayer();
+            GlobalController.playerFollower.StopLookingAtPoint();
         }
     }
 }

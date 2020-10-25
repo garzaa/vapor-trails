@@ -112,4 +112,13 @@ public class PlayerFollower : MonoBehaviour {
 	public void ResetOffset() {
 		this.currentOffset = initialOffset;
 	}
+
+	// use the camera offset subobject because it's smoother
+	public void LookAtPoint(GameObject point) {
+		cameraOffset.LookAtTarget(point);
+	}
+
+	public void StopLookingAtPoint() {
+		cameraOffset.StopLookingAtTarget();
+	}
 }

@@ -228,13 +228,18 @@ public class GlobalController : MonoBehaviour {
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
+		if (npc.centerCameraInDialogue) {
+			playerFollower.LookAtPoint(npc.gameObject);
+		}
 	}
 
 	public static void ExitDialogue() {
 		dialogueOpen = false;
 		dialogueClosedThisFrame = true;
+		Debug.Log("Exiting dialogue");
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
+			if (currentNPC.centerCameraInDialogue) playerFollower.StopLookingAtPoint();
 		}
 		currentNPC = null;
 		if (queuedNPCs.Count != 0) {

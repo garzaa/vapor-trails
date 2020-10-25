@@ -11,7 +11,8 @@ public class Save {
     public int basePlayerDamage = 1;
     public List<GameFlag> gameFlags = new List<GameFlag>();
 
-    [HideInInspector] public List<string> gameStates = new List<string>();
+    // [HideInInspector]
+    public List<string> gameStates = new List<string>();
 
     public PlayerUnlocks unlocks;    
     
