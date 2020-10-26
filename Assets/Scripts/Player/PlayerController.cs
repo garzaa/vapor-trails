@@ -1171,7 +1171,6 @@ public class PlayerController : Entity {
 
 	public void EnterCutscene(bool invincible = true) {
 		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
-		Debug.Log("Entering cutscene");
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
@@ -1201,7 +1200,6 @@ public class PlayerController : Entity {
 	IEnumerator _ExitCutscene() {
 		yield return new WaitForEndOfFrame();
 		yield return new WaitForEndOfFrame();
-		Debug.Log("Exiting cutscene");
 		if (TransitionManager.sceneData != null) {
 			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
 				yield break;
