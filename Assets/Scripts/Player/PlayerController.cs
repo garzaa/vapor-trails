@@ -36,7 +36,7 @@ public class PlayerController : Entity {
 	int healCost = 1;
 	int healAmt = 1;
 	float combatCooldown = 2f;
-	float combatStanceCooldown = 9f;
+	float combatStanceCooldown = 7f;
 	float sdiMultiplier = 0.2f;
 	float preDashSpeed;
 	bool perfectDashPossible;
@@ -1354,13 +1354,13 @@ public class PlayerController : Entity {
 
 	// called from PlayerCombatBehaviour
 	public void StartCombatStanceCooldown() {
-		anim.SetLayerWeight(1, 1);
+		anim.SetFloat("CombatStance", 1);
 		CancelInvoke("EndCombatStanceCooldown");
 		Invoke("EndCombatStanceCooldown", combatStanceCooldown);
 	}
 
 	public void EndCombatStanceCooldown() {
-		anim.SetLayerWeight(1, 0);
+		anim.SetFloat("CombatStance", 0);
 	}
 
 	// called from animations
