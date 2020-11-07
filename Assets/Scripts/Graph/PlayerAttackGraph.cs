@@ -14,17 +14,18 @@ public class PlayerAttackGraph : NodeGraph {
     public Rigidbody2D rb2d;
     public Animator anim;
     public AttackBuffer buffer;
+    public AirAttackTracker airAttackTracker;
 
     CombatNode currentNode = null;
 
     public int stateNum;
     public string exitNodeName = "Idle 100";
 
-
-    public void Initialize(Animator anim, AttackBuffer buffer, Rigidbody2D rb) {
+    public void Initialize(Animator anim, AttackBuffer buffer, Rigidbody2D rb, AirAttackTracker airAttackTracker) {
         this.anim = anim;
         this.buffer = buffer;
         this.rb2d = rb;
+        this.airAttackTracker = airAttackTracker;
     }
 
     public void EnterGraph(Node entryNode) {

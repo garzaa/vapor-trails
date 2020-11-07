@@ -56,3 +56,12 @@ float2 rotateUV(float2 uv, float deg) {
 
     return uv;
 }
+
+/*
+void replaceColor(float3 In, float3 From, float3 To, float Range, float Fuzziness, out float3 Out)
+{
+    float Distance = distance(From, In);
+    Out = lerp(To, In, saturate((Distance - Range) / max(Fuzziness, e-f)));
+}
+^^^ what is e-f here
+*/

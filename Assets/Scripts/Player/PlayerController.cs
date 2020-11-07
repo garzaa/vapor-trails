@@ -72,6 +72,7 @@ public class PlayerController : Entity {
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
 	GroundCheck groundCheck;
+	AirAttackTracker airAttackTracker;
 
 	public bool grounded = false;
 	WallCheckData wall = null;
@@ -135,12 +136,13 @@ public class PlayerController : Entity {
 		gunEyes = transform.Find("GunEyes").transform;
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
-		RefreshAirMovement();
 		lastSafeOffset = this.transform.position;
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 		combatActives = GetComponentsInChildren<ActiveInCombat>(includeInactive:true);
 		diamondShine = Resources.Load("Effects/DiamondShine") as GameObject;
+		airAttackTracker = GetComponent<AirAttackTracker>();
+		RefreshAirMovement();
 	}
 	
 	void Update() {
@@ -721,6 +723,7 @@ public class PlayerController : Entity {
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 		anim.ResetTrigger("Flail");
 		panicJumpInputs = 0;
+		airAttackTracker.Reset();
 	}
 
 	void SaveLastSafePos() {
@@ -1434,7 +1437,7 @@ public class PlayerController : Entity {
 	public void EnterAttackGraph(PlayerAttackGraph graph, CombatNode startNode = null) {
 		if (attackGraph == graph && startNode == null) return;
 		attackGraph = graph;
-		attackGraph.Initialize(anim, GetComponent<AttackBuffer>(), rb2d);
+		attackGraph.Initialize(anim, GetComponent<AttackBuffer>(), rb2d, airAttackTracker);
 		attackGraph.EnterGraph(startNode);
 	}
 

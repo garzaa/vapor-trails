@@ -11,12 +11,18 @@ public class UnlockableGate : CombatNode {
     [Output(backingValue=ShowBackingValue.Never, connectionType=ConnectionType.Override)]
     public AttackLink unlockedBranch;
 
+    CombatNode GetUnlockedNode() {
+        return (GetPort("unlockedBranch").Connection.node as CombatNode);
+    }
+
     override public bool Enabled() {
-        return GlobalController.inventory.items.HasItem(requiredItem);
+        return base.Enabled() 
+        && GlobalController.inventory.items.HasItem(requiredItem)
+        && GetUnlockedNode().Enabled();
     }
 
     override public void OnNodeEnter() {
         base.OnNodeEnter();
-        attackGraph.MoveNode(GetPort("unlockedBranch").Connection.node as CombatNode);
+        attackGraph.MoveNode(GetUnlockedNode());
     }
 }
