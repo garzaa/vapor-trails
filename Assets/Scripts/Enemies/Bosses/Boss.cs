@@ -19,7 +19,7 @@ public class Boss : Enemy {
         startBossFight = Resources.Load("ScriptableObjects/Events/StartBossFight") as GameEvent;
         stopBossFight = Resources.Load("ScriptableObjects/Events/StopBossFight") as GameEvent;
 
-        victoryEffect = Resources.Load("Effects/Boss Victory Effect") as GameObject;
+        victoryEffect = Resources.Load("Effects/Final Blow Prefab") as GameObject;
 
         if (startFightOnEnable) StartFight();
     }
@@ -40,6 +40,7 @@ public class Boss : Enemy {
     override protected void Die() {
         bossHealthUI.gameObject.SetActive(false);
         if (deathActivatable != null) deathActivatable.Activate();
+        if (victoryEffectOnDeath) Instantiate(victoryEffect, transform.position, Quaternion.identity, null);
         base.Die();
         stopBossFight.Raise();
     }

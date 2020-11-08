@@ -159,4 +159,8 @@ public class AnimationInterface : MonoBehaviour {
 		Transform target = (effectPoint != null ? effectPoint : fallbackEffectPoint.transform);
 		GlobalController.MovePlayerTo(target.position);
 	}
+
+	public void RunHitstop(float duration) {
+		Hitstop.Run(duration);
+	}
 }

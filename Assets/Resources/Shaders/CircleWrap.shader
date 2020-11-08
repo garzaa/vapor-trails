@@ -77,6 +77,7 @@
                 uv.x += _MoveSpeed * _UnscaledTime * -2.0;
 
                 fixed4 c = tex2D(_MainTex, uv) * IN.color;
+                c.rgb *= c.a;
             
                 return c;
             }
