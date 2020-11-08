@@ -148,7 +148,6 @@ public class GlobalController : MonoBehaviour {
 		dialogueClosedThisFrame = false;
 
 		UpdateControllerStatus();
-		Shader.SetGlobalFloat("_UnscaledTime", Time.realtimeSinceStartup);
 
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
@@ -161,6 +160,10 @@ public class GlobalController : MonoBehaviour {
 			AlerterText.Alert("Game loaded");
 		}
 #endif
+	}
+
+	void Update() {
+		Shader.SetGlobalFloat("_UnscaledTime", Time.unscaledTime);
 	}
 
 	public static void OnDialogueSkip() {
@@ -287,10 +290,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static Vector2 GetPlayerPos() {
 		return pc.transform.position;
-	}
-
-	public static void Respawn() {
-		rm.RespawnPlayer();
 	}
 
 	//called when the new respawn scene is loaded

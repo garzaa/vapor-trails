@@ -111,6 +111,7 @@ public class PlayerController : Entity {
 	public GameObject shieldBreak;
 	GameObject instantiatedSparkle = null;
 	GameObject diamondShine;
+	GameEvent deathEvent;
 
 
 	string[] deathText = {
@@ -143,6 +144,7 @@ public class PlayerController : Entity {
 		diamondShine = Resources.Load("Effects/DiamondShine") as GameObject;
 		airAttackTracker = GetComponent<AirAttackTracker>();
 		RefreshAirMovement();
+		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
 	}
 	
 	void Update() {
@@ -1070,7 +1072,7 @@ public class PlayerController : Entity {
 		AlerterText.Alert($"<color=red>CAUSE OF DEATH:</color>");
 		AlerterText.Alert($"<color=red>{fatalBlow.attackName}</color>");
 		// if the animation gets interrupted or something, use this as a failsafe
-		Invoke("FinishDyingAnimation", 3f);		this.dead = true;
+		dead = true;
 		SoundManager.PlayerDieSound();
 		currentEnergy = 0;
 		CameraShaker.Shake(0.2f, 0.1f);
@@ -1078,18 +1080,15 @@ public class PlayerController : Entity {
 		Freeze();
 		anim.SetTrigger("Die");
 		anim.SetBool("TouchingWall", false);
+		deathEvent.Raise();
 		InterruptEverything();
 		EndCombatStanceCooldown();
 		ResetAttackTriggers();
 	}
 
-	public void FinishDyingAnimation() {
-		CancelInvoke("FinishDyingAnimation");
-		GlobalController.Respawn();
-	}
-
 	public void StartRespawning() {
 		anim.SetTrigger("Respawn");
+		EndCombatStanceCooldown();
 		anim.SetBool("Skeleton", false);
 		EndRespawnAnimation();
 	}

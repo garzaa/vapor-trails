@@ -68,12 +68,13 @@
             float _MoveSpeed;
             float _RadialScale;
             float _LengthScale;
+            float _UnscaledTime;
 
             fixed4 frag(v2f IN) : COLOR
             {
                 float2 uv = IN.texcoord;
                 Unity_PolarCoordinates_float(uv, float2(0.5, 0.5), _RadialScale, _LengthScale, uv);
-                uv.x += _MoveSpeed * _Time.y * -1.0;
+                uv.x += _MoveSpeed * _UnscaledTime * -2.0;
 
                 fixed4 c = tex2D(_MainTex, uv) * IN.color;
             

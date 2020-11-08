@@ -123,7 +123,7 @@ public class TransitionManager : MonoBehaviour {
 		this.currentBeacon = beacon;
 
 		PlayerController pc = GlobalController.pc;
-		pc.LockInSpace();
+		pc.EnterCutscene();
 
 		StartCoroutine(LoadAsync(sceneName, fade));
 	}
@@ -144,6 +144,7 @@ public class TransitionManager : MonoBehaviour {
 			loadProgressText.text = asyncLoad.progress.ToString("P");
 			if (asyncLoad.progress >= 0.9f) {
 				asyncLoad.allowSceneActivation = true;
+				GlobalController.pc.ExitCutscene();
 			}
 
             yield return null;

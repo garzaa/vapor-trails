@@ -3,6 +3,9 @@ using UnityEngine;
 public class Boss : Enemy {
     public Activatable deathActivatable;
 
+    public bool victoryEffectOnDeath;
+    GameObject victoryEffect;
+
     BarUI bossHealthUI;
     
     public Color healthColor = new Color(221, 82, 82, 255);
@@ -15,6 +18,8 @@ public class Boss : Enemy {
         bossHealthUI.SetBarColor(healthColor);
         startBossFight = Resources.Load("ScriptableObjects/Events/StartBossFight") as GameEvent;
         stopBossFight = Resources.Load("ScriptableObjects/Events/StopBossFight") as GameEvent;
+
+        victoryEffect = Resources.Load("Effects/Boss Victory Effect") as GameObject;
 
         if (startFightOnEnable) StartFight();
     }
