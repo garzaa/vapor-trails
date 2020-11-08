@@ -148,6 +148,7 @@ public class GlobalController : MonoBehaviour {
 		dialogueClosedThisFrame = false;
 
 		UpdateControllerStatus();
+		Shader.SetGlobalFloat("_UnscaledTime", Time.realtimeSinceStartup);
 
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
