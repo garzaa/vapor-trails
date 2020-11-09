@@ -17,6 +17,7 @@ public class BossFightIntro : MonoBehaviour {
         bossName.text = info.bossName;
         bossFightImage.sprite = info.bossFightImage;
         gameObject.SetActive(true);
+        StartCoroutine(WaitAndEnableSkip());
     }
 
     IEnumerator WaitAndEnableSkip() {
@@ -26,7 +27,7 @@ public class BossFightIntro : MonoBehaviour {
 
     void Update() {
         if (canSkip && InputManager.GenericContinueInput()) {
-            gameObject.SetActive(false);
+            GetComponent<Animator>().SetTrigger("Close");
         }
     }
 }
