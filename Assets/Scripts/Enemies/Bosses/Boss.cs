@@ -13,6 +13,8 @@ public class Boss : Enemy {
     GameEvent startBossFight;
     GameEvent stopBossFight;
 
+    public BossInfo bossInfo;
+
     virtual protected void Start() {
         bossHealthUI = GlobalController.bossHealthUI;
         bossHealthUI.SetBarColor(healthColor);
@@ -28,6 +30,9 @@ public class Boss : Enemy {
         // state machine bugs
         if (this.hp <= 0) return;
         bossHealthUI.gameObject.SetActive(true);
+        if (bossInfo.bossFightImage != null) {
+            BossFightIntro.ShowIntro(this.bossInfo);
+        }
         startBossFight.Raise();
     }
 

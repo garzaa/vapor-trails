@@ -51,6 +51,7 @@ public class GlobalController : MonoBehaviour {
 	static GameObject playerMenu;
 	static BinarySaver binarySaver;
 	static SaveWrapper saveWrapper;
+	public static BossFightIntro bossFightIntro;
 
 	void Awake() {
 		if (gc == null) {
@@ -79,6 +80,7 @@ public class GlobalController : MonoBehaviour {
 		binarySaver = gc.GetComponent<BinarySaver>();
 		saveWrapper = gc.GetComponent<SaveWrapper>();
 		audioListener = gc.GetComponentInChildren<AudioListener>();
+		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {

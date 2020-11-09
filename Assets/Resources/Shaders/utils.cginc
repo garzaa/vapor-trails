@@ -73,3 +73,8 @@ void Unity_PolarCoordinates_float(float2 UV, float2 Center, float RadialScale, f
     float angle = atan2(delta.x, delta.y) * 1.0/6.28 * LengthScale;
     Out = float2(radius, angle);
 }
+
+void Unity_Posterize_float4(float4 In, float4 Steps, out float4 Out)
+{
+    Out = floor(In / (1 / Steps)) * (1 / Steps);
+}

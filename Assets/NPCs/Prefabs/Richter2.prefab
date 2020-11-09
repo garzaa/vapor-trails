@@ -6036,6 +6036,7 @@ MonoBehaviour:
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
   icon: {fileID: 0}
+  centerCameraInDialogue: 0
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &1005688788782154054
@@ -6569,7 +6570,6 @@ MonoBehaviour:
   attackName: Peacekeeper-Model Club
   damage: 2
   attackLandSound: {fileID: 0}
-  swingSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -6583,6 +6583,7 @@ MonoBehaviour:
   knockBack: 1
   knockbackVector: {x: 1, y: 0}
   inheritMomentum: 0
+  instakill: 0
   attackLandEvent: 1
 --- !u!61 &7490619501584139902
 BoxCollider2D:
@@ -12618,6 +12619,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 8754231401218031729}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 1
 --- !u!1 &8753451264826872801
 GameObject:
@@ -13523,9 +13527,13 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
-  dropBossResources: 1
   deathActivatable: {fileID: 0}
+  victoryEffectOnDeath: 0
   healthColor: {r: 221, g: 82, b: 82, a: 255}
+  startFightOnEnable: 0
+  bossInfo:
+    bossName: 
+    bossFightImage: {fileID: 0}
 --- !u!114 &8712667784246231257
 MonoBehaviour:
   m_ObjectHideFlags: 0
