@@ -162,10 +162,6 @@ public class GlobalController : MonoBehaviour {
 #endif
 	}
 
-	void Update() {
-		Shader.SetGlobalFloat("_UnscaledTime", Time.unscaledTime);
-	}
-
 	public static void OnDialogueSkip() {
 		if (!dialogueOpen || dialogueOpenedThisFrame || inAnimationCutscene) {
 			return;
