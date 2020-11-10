@@ -44,6 +44,8 @@ public class AttackNode : CombatNode {
 
         if (allowReEntry) {
             attackGraph.EnterGraph(null);
+        } else {
+            attackGraph.ExitGraph();
         }
     }
 
