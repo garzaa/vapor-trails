@@ -14,6 +14,7 @@ public class Boss : Enemy {
     GameEvent stopBossFight;
 
     public BossInfo bossInfo;
+    public GameObject cameraAnchor;
 
     virtual protected void Start() {
         bossHealthUI = GlobalController.bossHealthUI;

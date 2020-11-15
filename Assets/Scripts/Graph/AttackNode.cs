@@ -21,17 +21,24 @@ public class AttackNode : CombatNode {
     public float timeOffset = 0;
 
     override public void NodeUpdate(int currentFrame, float clipTime, AttackBuffer buffer) {
-        if (buffer.ready && (currentFrame>=IASA || cancelable)) {
-            if (!cancelable) {
-                MoveNextNode(buffer, allowReEntry:true);
-            }
-            else {
+        if (buffer.ready && (cancelable || currentFrame>=IASA)) {
+            if (currentFrame>=IASA) {
+                MoveNextNode(buffer, allowReEntry: true);
+                return;
+            } else if (cancelable) {
                 MoveNextNode(buffer);
+                return;
             }
-        } else if (currentFrame>=IASA && InputManager.HasHorizontalInput()) {
+        }
+        
+        if (currentFrame>=IASA && InputManager.HasHorizontalInput()) {
             attackGraph.ExitGraph();
-        } else if (clipTime >= 1) {
+            return;
+        }
+        
+        if (clipTime >= 1) {
             attackGraph.ExitGraph();
+            return;
         }
     }
  
@@ -44,8 +51,6 @@ public class AttackNode : CombatNode {
 
         if (allowReEntry) {
             attackGraph.EnterGraph(null);
-        } else {
-            attackGraph.ExitGraph();
         }
     }
 

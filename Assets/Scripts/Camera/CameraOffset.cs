@@ -82,7 +82,8 @@ public class CameraOffset : MonoBehaviour {
 	}
 
 	public void OnBossFightStart() {
-		LookAtTarget(GameObject.FindObjectOfType<Boss>().gameObject);
+		Boss b = GameObject.FindObjectOfType<Boss>();
+		LookAtTarget((b.cameraAnchor != null) ? b.cameraAnchor : b.gameObject);
 	}
 
 	public void OnBossFightStop() {
