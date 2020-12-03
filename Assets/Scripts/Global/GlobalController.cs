@@ -422,6 +422,16 @@ public class GlobalController : MonoBehaviour {
 		MovePlayerTo(b.transform.position);
 	}
 
+	public static void ShortBlackFade() {
+		
+	}
+
+	IEnumerator _ShortBlackFade() {
+		FadeToBlack();
+		yield return new WaitForSecondsRealtime(0.5f);
+		UnFadeToBlack();
+	}
+
 	public static void FadeToBlack() {
 		blackoutUI.Show();
 	}

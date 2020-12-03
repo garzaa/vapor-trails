@@ -56,7 +56,7 @@ public class CameraShaker : MonoBehaviour
 			shakeDuration -= Time.unscaledDeltaTime * decreaseFactor;
 		} else {
 			shakeDuration = 0f;
-			camTransform.localPosition = originalPos;
+			if (!shaking) camTransform.localPosition = originalPos;
 		}
 	}
 
