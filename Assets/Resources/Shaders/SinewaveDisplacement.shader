@@ -5,6 +5,7 @@
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		[PerRendererData] _Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
+        [PerRendererData] _FlashColor ("Flash Color", Color) = (1,1,1,0)
 		
 		[Header(Properties)]
 		_Speed ("Speed", Float) = 64
@@ -73,6 +74,7 @@
 			sampler2D _AlphaTex;
 			float _AlphaSplitEnabled;
 			float4 _MainTex_TexelSize;
+            fixed4 _FlashColor;
 			uniform half _PixelSize;
 			uniform float _Speed;
 			uniform float _Amp;
@@ -96,6 +98,7 @@
 				fixed4 color = tex2D (_MainTex, final);
 				if (any(color.rgb != half3(1,1,1)))
 					color.rgb *= _Color.rgb;
+                color.rgb = lerp(color.rgb,_FlashColor.rgb,_FlashColor.a);
 				color.rgb *= color.a;
 				return color;
 			}

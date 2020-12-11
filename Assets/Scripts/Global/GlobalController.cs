@@ -423,7 +423,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void ShortBlackFade() {
-		
+		gc.StartCoroutine(gc._ShortBlackFade());
 	}
 
 	IEnumerator _ShortBlackFade() {
