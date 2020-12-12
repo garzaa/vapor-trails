@@ -528,13 +528,11 @@ public class PlayerController : Entity {
 			Invoke("EndEarlyDashInput", missedInputCooldown);
 			return;
 		}
-
-		/*
+		
 		if (!grounded && airDashes < 1) {
 			return;
 		}
 		airDashes--;
-		*/
 
 		StartCombatStanceCooldown();
 		CameraShaker.MedShake();
@@ -606,6 +604,7 @@ public class PlayerController : Entity {
 
 	IEnumerator StartDashCooldown(float seconds) {
         dashCooldown = true;
+		anim.SetBool("RedWings", true);
         yield return new WaitForSecondsRealtime(seconds);
         EndDashCooldown();
     }
@@ -616,7 +615,10 @@ public class PlayerController : Entity {
 		}
 		if (dashCooldown) {
 			dashCooldown = false;
-			FlashCyan();
+			if (grounded) {
+				FlashCyan();
+				anim.SetBool("RedWings", false);
+			}
 			perfectDashPossible = true;
 			Invoke("ClosePerfectDashWindow", 0.2f);
 		}
@@ -684,6 +686,10 @@ public class PlayerController : Entity {
 			GroundJump();
 			CancelBufferedJump();
 		}
+
+		if (!dashCooldown) {
+			anim.SetBool("RedWings", false);
+		}
 	}
 
 	public void CheckFlip() {
@@ -721,11 +727,15 @@ public class PlayerController : Entity {
 
 	void RefreshAirMovement() {
 		canFlipKick = true;
-		airDashes = 1;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 		anim.ResetTrigger("Flail");
 		panicJumpInputs = 0;
 		airAttackTracker.Reset();
+		if (airDashes<1 && dashCooldown) {
+			FlashCyan();
+		}
+		anim.SetBool("RedWings", false);
+		airDashes = 1;
 	}
 
 	void SaveLastSafePos() {
@@ -756,6 +766,7 @@ public class PlayerController : Entity {
 
 	public override void OnGroundLeave() {
 		grounded = false;
+		airDashes = 1;
 		justLeftGround = true;
 		anim.SetBool("Grounded", false);
 		coyoteTimeout = StartCoroutine(GroundLeaveTimeout());
