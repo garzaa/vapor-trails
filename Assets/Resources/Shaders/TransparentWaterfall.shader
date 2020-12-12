@@ -2,7 +2,7 @@ Shader "Custom/TransparentWaterfall" {
     Properties {
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 
-        _Color     ("Main Color", Color) = (1,1,1,1)
+        _Color     ("Tint", Color) = (1,1,1,1)
         _BumpAmt   ("Distortion", Range(0, 128)) = 10
         _BumpMap   ("Normal Map", 2D) = "bump" {}
         _BumpScale ("Normal Map Scale", Vector) = (1,1,1,1)
@@ -68,11 +68,13 @@ Shader "Custom/TransparentWaterfall" {
 
                 struct appdata_t {
                     float4 vertex : POSITION;
+                    float4 color  : COLOR;
                     float2 texcoord : TEXCOORD0;
                 };
              
                 struct v2f {
                     float4 vertex : POSITION;
+                    fixed4 color  : COLOR;
                     float4 uvgrab : TEXCOORD0;
                     float2 uvbump : TEXCOORD1;
                     float2 uvmain : TEXCOORD2;
@@ -83,6 +85,7 @@ Shader "Custom/TransparentWaterfall" {
                 float4 _BumpMap_ST;
                 float4 _MainTex_ST;
                 float4 _MoveSpeed;
+                fixed4 _Color;
 
                 v2f vert(appdata_t v) {
                     v2f o;
@@ -92,10 +95,11 @@ Shader "Custom/TransparentWaterfall" {
                     o.uvbump = TRANSFORM_TEX(v.texcoord, _BumpMap) * _BumpScale + (_Time.w * _MoveSpeed.xy);
                     o.uvmain = TRANSFORM_TEX(v.texcoord, _MainTex);
 
+                    o.color = v.color * _Color;
+
                     return o;
                 }
 
-                fixed4 _Color;
                 sampler2D _GrabTexture;
                 float4 _GrabTexture_TexelSize;
                 sampler2D _BumpMap;
@@ -107,11 +111,9 @@ Shader "Custom/TransparentWaterfall" {
                     i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 
                     half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
-                    half4 texPixel = tex2D(_MainTex, i.uvmain) * _Color;
+                    half4 texPixel = tex2D(_MainTex, i.uvmain + (_Time.w * _MoveSpeed.xy));
 
-                    return grabPixel;
-
-                    // return grabPixel * texPixel;
+                    return grabPixel * i.color;
                 }
 
                 ENDCG
