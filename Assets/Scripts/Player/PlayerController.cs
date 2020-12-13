@@ -615,7 +615,7 @@ public class PlayerController : Entity {
 		}
 		if (dashCooldown) {
 			dashCooldown = false;
-			if (grounded) {
+			if (grounded || airDashes>1) {
 				FlashCyan();
 				anim.SetBool("RedWings", false);
 			}
