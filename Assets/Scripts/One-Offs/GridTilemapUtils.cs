@@ -20,13 +20,15 @@ public class GridTilemapUtils : MonoBehaviour {
     public void AddTilemap() {
         float parallaxAmount = (GetComponent<ParallaxLayer>()!=null) ? GetComponent<ParallaxLayer>().speed.x : 0;
         string tilemapName = $"{parallaxAmount}x {sortingOrder} {sortingLayer}";
+    
         GameObject t = new GameObject(tilemapName);
         t.transform.parent = this.transform;
         t.AddComponent<Tilemap>();
+        t.transform.position = Vector3.zero;
+
         TilemapRenderer tr = t.AddComponent<TilemapRenderer>();
         tr.sortingLayerName = sortingLayer;
         tr.sortingOrder = sortingOrder;
-        t.transform.position = Vector3.zero;
 
         if (addCollider) AddCollider(t);
     }
