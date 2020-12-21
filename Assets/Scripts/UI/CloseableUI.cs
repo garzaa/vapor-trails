@@ -63,6 +63,7 @@ public class CloseableUI : MonoBehaviour {
         if (open && closeOnGenericEscape && InputManager.GenericEscapeInput()) {
             StartCoroutine(WaitAndClose());
         }
+        if (stopTime) Time.timeScale = 0f;
     }
 
     // again, deal with input frame timing
