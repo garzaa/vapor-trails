@@ -75,6 +75,7 @@ public class BinarySaver : MonoBehaviour {
             }
         }
         foreach (String s in toPrune) {
+            AlerterText.Alert(s);
             diskSave.gameStates.Remove(s);
         }
 

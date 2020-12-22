@@ -43,6 +43,7 @@ public class StatefulNPC : NPC {
 			return;
 		}
 		NPCConversations[] possibleConversations = GetComponentsInChildren<NPCConversations>(includeInactive:false);
+		Debug.Log(possibleConversations.Length);
 		this.conversations = possibleConversations[possibleConversations.Length-1];
 		if (pickFirstConvo) this.conversations = possibleConversations[0];
 		// only reset the counter if there's a change
@@ -53,5 +54,11 @@ public class StatefulNPC : NPC {
 		currentConversationName = this.conversations.name;
 		queuedChange = false;
 	}
+
+    public override void Interact(GameObject player)
+    {
+		PickFirstConversation();
+        base.Interact(player);
+    }
 
 }
