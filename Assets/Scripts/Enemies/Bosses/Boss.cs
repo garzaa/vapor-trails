@@ -31,10 +31,14 @@ public class Boss : Enemy {
         // state machine bugs
         if (this.hp <= 0) return;
         bossHealthUI.gameObject.SetActive(true);
+        ShowIntro();
+        startBossFight.Raise();
+    }
+
+    public void ShowIntro() {
         if (bossInfo.bossFightImage != null) {
             BossFightIntro.ShowIntro(this.bossInfo);
         }
-        startBossFight.Raise();
     }
 
     override protected void Update() {
