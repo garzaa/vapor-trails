@@ -27,7 +27,12 @@ public class BossFightIntro : MonoBehaviour {
 
     void Update() {
         if (canSkip && InputManager.GenericContinueInput()) {
-            GetComponent<Animator>().SetTrigger("Close");
+            StartCoroutine(CloseUI());
         }
+    }
+
+    IEnumerator CloseUI() {
+        yield return new WaitForEndOfFrame();
+        GetComponent<Animator>().SetTrigger("Close");
     }
 }
