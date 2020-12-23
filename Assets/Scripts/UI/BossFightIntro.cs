@@ -17,6 +17,7 @@ public class BossFightIntro : MonoBehaviour {
         bossName.text = info.bossName;
         bossFightImage.sprite = info.bossFightImage;
         gameObject.SetActive(true);
+        GlobalController.pc.EnterCutscene();
         StartCoroutine(WaitAndEnableSkip());
     }
 
@@ -33,6 +34,7 @@ public class BossFightIntro : MonoBehaviour {
 
     IEnumerator CloseUI() {
         yield return new WaitForEndOfFrame();
+        GlobalController.pc.ExitCutscene();
         GetComponent<Animator>().SetTrigger("Close");
     }
 }
