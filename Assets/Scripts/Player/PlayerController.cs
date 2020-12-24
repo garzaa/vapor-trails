@@ -753,6 +753,7 @@ public class PlayerController : Entity {
 	IEnumerator ReturnToSafety(float delay) {
 		yield return new WaitForSecondsRealtime(delay);
 		rb2d.velocity = Vector2.zero;
+		hardFalling = false;
 		if (this.currentHP <= 0) {
 			yield break;
 		}

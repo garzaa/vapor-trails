@@ -21,6 +21,8 @@ Shader "Custom/Water"
 		_XSpeed ("X Speed", Float) = 0
 		_YSpeed ("Y Speed", Float) = 0
 
+		[Header(Transparency)]
+		_TransparentColor ("Transparent Color", Color) = (1, 1, 1, 1)
 	}
 
 	SubShader
@@ -43,6 +45,43 @@ Shader "Custom/Water"
             Tags { "LightMode" = "Always" }
         }
 
+		Pass {
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma fragmentoption ARB_precision_hint_fastest
+			#include "UNITYCG.cginc"
+
+			struct appdata_t {
+				float4 vertex : POSITION;
+				float2 texcoord : TEXCOORD0;
+			};
+
+			struct v2f {
+				float4 vertex : POSITION;
+				float4 uvgrab : TEXCOORD0;
+			};
+			
+			v2f vert(appdata_t v) {
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uvgrab = ComputeGrabScreenPos(o.vertex);
+				return o;
+			}
+
+			sampler2D _GrabTexture;
+			float4 _GrabTexture_TexelSize;
+			float4 _MainTex_TexelSize;
+
+			half4 frag(v2f i): COLOR {
+				half4 color = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
+				return color;
+			}
+
+			ENDCG
+		}
+
 		Pass
 		{
 		CGPROGRAM
@@ -63,26 +102,29 @@ Shader "Custom/Water"
 			{
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
-				float2 texcoord : TEXCOORD0;
+				float4 uvgrab   : TEXCOORD0;
+				float2 uvmain   : TEXCOORD2;
+				float3 worldPos : TEXCOORD3;
 			};
 			
 			fixed4 _Color;
+			float4 _MainTex_ST;
 
-			v2f vert(appdata_t IN)
-			{
-				v2f OUT;
-				OUT.vertex = UnityObjectToClipPos(IN.vertex);
-				OUT.texcoord = IN.texcoord;
-				OUT.color = IN.color * _Color;
+			v2f vert(appdata_t v) {
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				// comment this or else tilemap offsets get messed up somehow (why??)
+				o.uvgrab = ComputeGrabScreenPos(o.vertex);
+				
+				o.uvmain = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 
-				return OUT;
+				o.color = v.color * _Color;
+
+				return o;
 			}
 
 			sampler2D _MainTex;
-			sampler2D _AlphaTex;
-			float _AlphaSplitEnabled;
-			float4 _MainTex_TexelSize;
-			uniform half _PixelSize;
 
 			uniform float _XWaveSpeed;
 			uniform float _XAmp;
@@ -99,6 +141,7 @@ Shader "Custom/Water"
             float4 _GrabTexture_TexelSize;
 
 			fixed4 _FlashColor;
+			fixed4 _TransparentColor;
 
 			float2 SineDisplace (float2 uv)
 			{
@@ -119,18 +162,39 @@ Shader "Custom/Water"
                 return final;
 			}
 
-			fixed4 frag(v2f IN) : SV_Target
-			{
-                fixed4 color = tex2D(_MainTex, SineDisplace(IN.texcoord));
+			float2 BGDisplace(float2 uv, float3 worldPos) {
+				float2 final = uv;
+				float4 time = _Time;
 
-                // then do the grabpass displacement
-                // fixed4 tint = tex2D(_GrabTexture, SineDisplace(IN.texcoord));
+				// x waves
+				final.y += (0.002 * sin((worldPos.x/0.02) + (time * 200)));
+
+				// y waves
+				final.x += (0.002 * sin((worldPos.y/0.02) + (time * 200)));
+                return final;
+			}
+
+			fixed4 frag(v2f i) : SV_Target
+			{
+
+				i.uvgrab.xy = BGDisplace(i.uvgrab.xy, i.worldPos);
+
+				half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab)) * _TransparentColor;
+				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain));
+
+
+				fixed4 color = lerp(grabPixel, texPixel, round(texPixel.a));
+				
+				// discard distorted pixel if it's completely transparent
+				if (any(texPixel.a == 0)) {
+					color.a = 0;
+				}
 
                 //color *= tint;
                 color.rgb = lerp(color.rgb,_FlashColor.rgb,_FlashColor.a);
 				color.rgb *= color.a;
 
-				return color;// * tint;
+				return color;
 			}
 		ENDCG
 		}

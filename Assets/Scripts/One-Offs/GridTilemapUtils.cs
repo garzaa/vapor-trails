@@ -19,7 +19,7 @@ public class GridTilemapUtils : MonoBehaviour {
 
     public void AddTilemap() {
         float parallaxAmount = (GetComponent<ParallaxLayer>()!=null) ? GetComponent<ParallaxLayer>().speed.x : 0;
-        string tilemapName = $"{parallaxAmount}x {sortingOrder} {sortingLayer}";
+        string tilemapName = (parallaxAmount!=0 ? $"{parallaxAmount}x " : "") + $"{sortingOrder} {sortingLayer}";
     
         GameObject t = new GameObject(tilemapName);
         t.transform.parent = this.transform;
