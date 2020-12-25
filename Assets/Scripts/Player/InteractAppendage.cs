@@ -12,7 +12,7 @@ public class InteractAppendage : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D otherCol) {
 		Interactable i = otherCol.GetComponent<Interactable>();
-		if (i != null) {
+		if (i != null && GlobalController.pc.IsGrounded()) {
 			if (currentInteractable != null) {
 				currentInteractable.RemovePrompt();
 			}
