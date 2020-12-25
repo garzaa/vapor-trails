@@ -7,14 +7,6 @@ public class InputManager : MonoBehaviour {
 
     static readonly float INPUT_TOLERANCE = 0.2f;
 
-    public static bool dpadUp;
-    public static bool dpadDown;
-    public static bool dpadLeft;
-    public static bool dpadRight;
-
-    float lastX;
-    float lastY;
-
     static InputManager im;
 
     static bool polling = false;
@@ -22,16 +14,6 @@ public class InputManager : MonoBehaviour {
     void Start() {
         if (im == null) im = this;
         rewiredPlayer = ReInput.players.GetPlayer(0);
-    }
- 
-    void Update() {
-        dpadRight = (Input.GetAxis(Buttons.XTAUNT) == 1 && lastX != 1);
-        dpadLeft = (Input.GetAxis (Buttons.XTAUNT) == -1 && lastX != -1);
-        dpadUp = (Input.GetAxis (Buttons.YTAUNT) == 1 && lastY != 1);
-        dpadDown = (Input.GetAxis (Buttons.YTAUNT) == -1 && lastY != -1);
-
-        lastX = Input.GetAxis(Buttons.XTAUNT);
-        lastY = Input.GetAxis(Buttons.YTAUNT);
     }
 
     public static bool HasHorizontalInput() {
@@ -76,6 +58,7 @@ public class InputManager : MonoBehaviour {
             InputManager.ButtonDown(Buttons.SPECIAL)
             || InputManager.ButtonDown(Buttons.INVENTORY)
             || InputManager.Button(Buttons.PAUSE)
+            || InputManager.ButtonDown(Buttons.UI_CANCEL)
         );
     }
 
@@ -94,7 +77,7 @@ public class InputManager : MonoBehaviour {
     }
 
     public static bool TauntInput() {
-        return dpadDown || dpadLeft || dpadRight || dpadUp;
+        return false;
     }
 
     public static Vector2 MoveVector() {

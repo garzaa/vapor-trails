@@ -153,21 +153,11 @@ public class PlayerController : Entity {
 		Shoot();
 		Attack();
 		Interact();
-		Taunt();
 		UpdateAnimationParams();
 		UpdateUI();
 		CheckFlip();
 		UpdateWallSliding();
 		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
-	}
-
-	void Taunt() {
-		if (frozen || stunned) return;
-		anim.SetFloat(Buttons.XTAUNT, Input.GetAxis(Buttons.XTAUNT));
-		anim.SetFloat(Buttons.YTAUNT, Input.GetAxis(Buttons.YTAUNT));
-		if (InputManager.TauntInput()) {
-			anim.SetTrigger("Taunt");
-		}
 	}
 	
 	void Interact() {

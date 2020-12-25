@@ -7,8 +7,6 @@ public static class Buttons {
     public static readonly string ATTACK = "Attack";
     public static readonly string PUNCH  = "Punch";
     public static readonly string KICK   = "Kick";
-    public static readonly string XTAUNT = "Horizontal Taunt";
-    public static readonly string YTAUNT = "Vertical Taunt";
     public static readonly string INVENTORY = "Inventory";
     public static readonly string WALK = "Walk";
 
@@ -22,4 +20,9 @@ public static class Buttons {
     public static readonly string PAUSE   = "Start";
     public static readonly string TABLEFT = "Tab Left";
     public static readonly string TABRIGHT = "Tab Right";
+
+    public static readonly string UI_X = "UIHorizontal";
+    public static readonly string UI_Y = "UIVertical";
+    public static readonly string UI_CANCEL = "UICancel";
+    public static readonly string UI_SUBMIT = "UISubmit";
 }
