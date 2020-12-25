@@ -329,6 +329,11 @@ public class PlayerController : Entity {
 		// you can't push forward + down on sticks, so do this
 		if (hInput >= 0.5f) hInput = 1f;
 
+		if (wall!=null && wall.direction==Mathf.Sign(hInput)) {
+			anim.SetFloat("Speed", 0f);
+			return;
+		}
+
 		anim.SetFloat("Speed", Mathf.Abs(hInput));
 
 		if (InputManager.HorizontalInput() != 0) {

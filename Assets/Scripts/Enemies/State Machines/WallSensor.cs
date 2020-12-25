@@ -25,7 +25,7 @@ public class WallSensor : Sensor {
 			distance,
 			layerMask
 		);
-		Debug.DrawLine(start, start+(Vector2.right * e.ForwardScalar() * distance));
+		Debug.DrawLine(start, start+(Vector2.right * e.ForwardScalar() * distance), Color.red);
 		nearWall = (hit.transform != null);
 		if (nearWall) {
 			Debug.DrawLine(transform.position, hit.point, Color.cyan);
