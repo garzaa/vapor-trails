@@ -22,6 +22,10 @@ public class PositionMover : MonoBehaviour {
 
     void OnDisable() {
         currentDestination = 0;
+        if (sendSpeedToAnimator) {
+            animator.SetFloat("SpeedX", 0);
+		    animator.SetFloat("SpeedY", 0);
+        }
     }
 
     void FixedUpdate() {
