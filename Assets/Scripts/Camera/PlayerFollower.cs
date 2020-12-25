@@ -22,6 +22,8 @@ public class PlayerFollower : MonoBehaviour {
 	bool playerWasNull = false;
 
 	public GameObject target;
+	public float tolerance;
+	public bool useTolerance = false;
 
 	CameraOffset cameraOffset;
 
@@ -38,10 +40,16 @@ public class PlayerFollower : MonoBehaviour {
 		pc = player.GetComponent<PlayerController>();
 		this.target = player;
 		cameraOffset = GetComponentInChildren<CameraOffset>();
+		UpdateOffset(initialOffset);
+	}
+
+	bool OutsideTolerance() {
+		if (!useTolerance) return true;
+		return Mathf.Abs(Vector2.Distance((Vector2) transform.position, (Vector2) target.transform.position)) > tolerance;
 	}
 	
 	void FixedUpdate() {
-		if (!following) {
+		if (!following || !OutsideTolerance()) {
 			return;
 		}
 

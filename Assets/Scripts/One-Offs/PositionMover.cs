@@ -54,9 +54,13 @@ public class PositionMover : MonoBehaviour {
         }
 
         if (sendSpeedToAnimator) {
+            float currentSpeed = speed;
+            if (Vector2.Distance(target.transform.position, dt.transform.position) < Vector2.kEpsilon) {
+                currentSpeed = 0;
+            }
             float angle = Vector2.Angle(dt.transform.position - target.transform.position, Vector2.right) * Mathf.Deg2Rad;
-            animator.SetFloat("SpeedX", Mathf.Abs(speed * Mathf.Cos(angle)));
-		    animator.SetFloat("SpeedY", Mathf.Abs(speed * Mathf.Sin(angle)));
+            animator.SetFloat("SpeedX", Mathf.Abs(currentSpeed * Mathf.Cos(angle)));
+		    animator.SetFloat("SpeedY", Mathf.Abs(currentSpeed * Mathf.Sin(angle)));
         }
     }
 }
