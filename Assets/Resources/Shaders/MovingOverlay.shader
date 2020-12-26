@@ -89,9 +89,10 @@
                 if (any(compareColor(c, _Mask1, 0.1) || compareColor(c, _Mask2, 0.1))) {
                     c.rgb = lerp(c.rgb, overlay.rgb, overlay.a);
                 }
-
-
+				
 				c.rgb *= c.a;
+
+
 				return c;
 			}
 		ENDCG
