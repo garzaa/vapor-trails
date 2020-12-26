@@ -1325,7 +1325,7 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator InteractTimeout() {
-		yield return new WaitForSecondsRealtime(1);
+		yield return new WaitForSecondsRealtime(0.5f);
 		canInteract = true;
 	}
 

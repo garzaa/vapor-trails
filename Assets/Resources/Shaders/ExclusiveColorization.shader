@@ -1,25 +1,29 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Sprites/DistanceColorization" {
+Shader "Sprites/ExclusiveColorization" {
 Properties {
 	_Color ("Tint Color", Color) = (1, 1, 1, 1)
-	_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
-	_ColorDistance ("Max Distance", Float) = 0.5
-	_MainTex ("Particle Texture", 2D) = "white" {}
+    _ExcludeColor ("Exclude Color", Color) = (1, 1, 1, 1)
+	[PerRendererData] _MainTex ("Particle Texture", 2D) = "white" {}
 }
 
 Category {
-	Tags {
+	Tags { 
 		"Queue"="Transparent" 
 		"IgnoreProjector"="True" 
 		"RenderType"="Transparent" 
 		"PreviewType"="Plane"
-		"CanUseSpriteAtlas"="True" 
+		"CanUseSpriteAtlas"="True"
 	}
+
 	Name "MainPass"
 	Blend SrcAlpha OneMinusSrcAlpha
 	AlphaTest Greater .01
 	ColorMask RGB
-	Cull Off Lighting Off ZWrite Off Fog { Color (0,0,0,0) }
+	Cull Off
+	Lighting Off
+	ZWrite Off
+	Fog { Color (0,0,0,0) }
 	BindChannels {
 		Bind "Color", color
 		Bind "Vertex", vertex
@@ -39,8 +43,7 @@ Category {
 
 			sampler2D _MainTex;
 			float4 _Color;
-			float4 _BaseColor;
-			float _ColorDistance;
+            float4 _ExcludeColor;
 			
 			struct appdata_t {
 				float4 vertex : POSITION;
@@ -67,10 +70,10 @@ Category {
 
 			half4 frag (v2f i) : COLOR
 			{
-
-				half4 c = tex2D(_MainTex, i.texcoord).rgba;
-				if (length(c.rgb - _BaseColor.rgb) > _ColorDistance)
-					c.rgb *= _Color.rgb;
+				//return i.color * (1 - (1 - i.color) * (1 - _Color)) * tex2D(_MainTex, i.texcoord);
+				half4 c = tex2D(_MainTex, i.texcoord).rgba; 			//Here is the texture
+				if (any(c.rgb != _ExcludeColor.rgb))                               //if the texture color is different from white
+					c.rgba *= _Color.rgba;                                   //then color it by using the _Color property
 				return c;   
 			}
 			ENDCG 
