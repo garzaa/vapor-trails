@@ -23,6 +23,12 @@ Shader "Custom/Water"
 
 		[Header(Transparency)]
 		_TransparentColor ("Transparent Color", Color) = (1, 1, 1, 1)
+
+		[Header(Background Distortion)]
+		_BumpAmt   ("Distortion", Range(0, 128)) = 10
+        _BumpMap   ("Normal Map", 2D) = "bump" {}
+        _BumpScale ("Normal Map Scale", Vector) = (1,1,1,1)
+        _MoveSpeed ("Normal Map Speed", Vector) = (0,0,0,0)
 	}
 
 	SubShader
@@ -103,12 +109,19 @@ Shader "Custom/Water"
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float4 uvgrab   : TEXCOORD0;
+				float2 uvbump   : TEXCOORD1;
 				float2 uvmain   : TEXCOORD2;
 				float3 worldPos : TEXCOORD3;
 			};
 			
 			fixed4 _Color;
+			
+			float _BumpAmt;
+			sampler2D _BumpMap;
+			float4 _BumpScale;
+			float4 _BumpMap_ST;
 			float4 _MainTex_ST;
+			float4 _MoveSpeed;
 
 			v2f vert(appdata_t v) {
 				v2f o;
@@ -116,6 +129,8 @@ Shader "Custom/Water"
 				// comment this or else tilemap offsets get messed up somehow (why??)
 				o.uvgrab = ComputeGrabScreenPos(o.vertex);
 				
+				o.uvbump = TRANSFORM_TEX(v.texcoord, _BumpMap) * _BumpScale + (_Time.w * _MoveSpeed.xy);
+
 				o.uvmain = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
 
@@ -146,9 +161,7 @@ Shader "Custom/Water"
 			float2 SineDisplace (float2 uv)
 			{
 				float2 final = uv;
-				
 				float4 time = _Time;
-
 
 				//uv offset
 				final.y = (uv.y + (time.w * _YSpeed));
@@ -162,22 +175,11 @@ Shader "Custom/Water"
                 return final;
 			}
 
-			float2 BGDisplace(float2 uv, float3 worldPos) {
-				float2 final = uv;
-				float4 time = _Time;
-
-				// x waves
-				final.y += (0.002 * sin((worldPos.x/0.02) + (time * 200)));
-
-				// y waves
-				final.x += (0.002 * sin((worldPos.y/0.02) + (time * 200)));
-                return final;
-			}
-
 			fixed4 frag(v2f i) : SV_Target
 			{
-
-				i.uvgrab.xy = BGDisplace(i.uvgrab.xy, i.worldPos);
+				half2 bump = UnpackNormal(tex2D(_BumpMap, i.uvbump)).rg;
+				float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
+				i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 
 				half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab)) * _TransparentColor;
 				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain));
