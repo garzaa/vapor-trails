@@ -56,6 +56,7 @@
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord : TEXCOORD0;
+				float2 screenpos: TEXCOORD1;
 			};
 			
 			fixed4 _Color;
@@ -66,6 +67,7 @@
 				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				OUT.texcoord = IN.texcoord;
 				OUT.color = IN.color * _Color;
+				OUT.screenpos = ComputeScreenPos(OUT.vertex);
 
 				return OUT;
 			}
@@ -84,7 +86,7 @@
 			float _XSpeed;
 			float _YSpeed;
 
-			fixed4 SineDisplace (float2 uv)
+			fixed4 SineDisplace (float2 uv, v2f IN)
 			{
 				float2 final = uv;
 
@@ -96,7 +98,7 @@
 				final.x += floor(3 * sin(floor(uv.y / _MainTex_TexelSize.y) + (_Time * 80))) * _MainTex_TexelSize.x;
 
 				fixed4 color = tex2D (_MainTex, final);
-				if (any(color.rgb != half3(1,1,1)))
+				if (any(color.rgb != half3(1,1,1)) || (IN.screenpos.x<0.4 || IN.screenpos.x>0.6))
 					color.rgb *= _Color.rgb;
                 color.rgb = lerp(color.rgb,_FlashColor.rgb,_FlashColor.a);
 				color.rgb *= color.a;
@@ -105,7 +107,7 @@
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = SineDisplace (IN.texcoord);
+				fixed4 c = SineDisplace (IN.texcoord, IN);
 				return c;
 			}
 		ENDCG
