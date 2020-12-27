@@ -4,4 +4,5 @@ using UnityEngine;
 public class BossInfo {
     public string bossName;
     public Sprite bossFightImage;
+    public string playerName;
 }

@@ -5,6 +5,9 @@ using System.Collections;
 public class BossFightIntro : MonoBehaviour {
     public Text bossName;
     public Image bossFightImage;
+    public Text playerName;
+
+    const string defaultPlayerName = "Val";
 
     bool canSkip = false;
 
@@ -16,6 +19,12 @@ public class BossFightIntro : MonoBehaviour {
         canSkip = false;
         bossName.text = info.bossName;
         bossFightImage.sprite = info.bossFightImage;
+        if (!string.IsNullOrEmpty(info.playerName)) {
+            playerName.text = info.playerName;
+        } else {
+            playerName.text = defaultPlayerName;
+        }
+
         gameObject.SetActive(true);
         GlobalController.pc.EnterCutscene();
         StartCoroutine(WaitAndEnableSkip());
