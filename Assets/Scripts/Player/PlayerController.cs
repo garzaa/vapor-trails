@@ -169,6 +169,7 @@ public class PlayerController : Entity {
 			&& canInteract
 			&& grounded
 		) {
+			EndCombatStanceCooldown();
 			SoundManager.InteractSound();
 			InterruptEverything();
 			interaction.currentInteractable.InteractFromPlayer(this.gameObject);

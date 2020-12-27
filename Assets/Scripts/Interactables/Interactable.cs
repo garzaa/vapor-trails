@@ -9,8 +9,9 @@ public class Interactable : MonoBehaviour {
 
 	//editor-linked items
 	public GameObject promptPrefab;
-
 	public Transform optionalPromptTransform;
+
+	public bool forceFlipTo;
 	
 	GameObject currentPrompt = null;
 
@@ -69,6 +70,11 @@ public class Interactable : MonoBehaviour {
 	}
 
 	public virtual void Interact(GameObject player) {
+		if (forceFlipTo) {
+			if (!GlobalController.pc.IsFacing(this.gameObject)) {
+				GlobalController.pc.ForceFlip();
+			}
+		}
 		RemovePrompt();
 	}
 
