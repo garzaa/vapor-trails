@@ -7,6 +7,7 @@ public class AnimationInterface : MonoBehaviour {
 	Animator anim;
 	ParticleSystem ps;
 
+	public float effectDistance = 8f;
 	public Transform effectPoint;
 	public GameObject fallbackEffectPoint;
 	public List<GameObject> effects;
@@ -88,7 +89,9 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void PlaySound(int soundIndex) {
-	SoundManager.PlaySound(this.sounds[soundIndex]);
+		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
+			SoundManager.PlaySound(this.sounds[soundIndex]);
+		}
 	}
 
 	public void HitActivatable(int index) {
@@ -112,7 +115,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
-		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < 8f) {
+		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
 			CameraShaker.Shake(0.07f, seconds);
 		}
 	}
