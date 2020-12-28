@@ -29,6 +29,7 @@ public class GameOptions {
     }
 
     // player pref changes are done via scripts attached to buttons
+    // SettingsSlider and SettingsToggle
     public void Apply() {
         PlayerPrefs.Save();
         Load();
