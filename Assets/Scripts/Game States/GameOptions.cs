@@ -17,8 +17,10 @@ public class GameOptions {
         GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
         inputBuffer = LoadInt("InputBuffer");
         fullscreen = LoadBool("Fullscreen");
-        
+    
+        Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");
+    
         if (fullscreen) {
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
         } else {
