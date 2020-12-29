@@ -8,7 +8,6 @@ public class Boss : Enemy {
 
     BarUI bossHealthUI;
     
-    public Color healthColor = new Color(221, 82, 82, 255);
     public bool startFightOnEnable = false;
     GameEvent startBossFight;
     GameEvent stopBossFight;
@@ -18,7 +17,6 @@ public class Boss : Enemy {
 
     virtual protected void Start() {
         bossHealthUI = GlobalController.bossHealthUI;
-        bossHealthUI.SetBarColor(healthColor);
         startBossFight = Resources.Load("ScriptableObjects/Events/StartBossFight") as GameEvent;
         stopBossFight = Resources.Load("ScriptableObjects/Events/StopBossFight") as GameEvent;
 
@@ -31,7 +29,7 @@ public class Boss : Enemy {
         // state machine bugs
         if (this.hp <= 0) return;
         bossHealthUI.gameObject.SetActive(true);
-        ShowIntro();
+    ShowIntro();
         startBossFight.Raise();
     }
 

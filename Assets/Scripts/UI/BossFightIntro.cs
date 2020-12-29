@@ -39,6 +39,7 @@ public class BossFightIntro : MonoBehaviour {
         if (canSkip && InputManager.GenericContinueInput()) {
             StartCoroutine(CloseUI());
         }
+        GlobalController.pc.EnterCutscene();
     }
 
     IEnumerator CloseUI() {
