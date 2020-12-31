@@ -721,7 +721,7 @@ public class PlayerController : Entity {
 		ChangeAirspeed();
 	}
 
-	void RefreshAirMovement() {
+	public void RefreshAirMovement() {
 		canFlipKick = true;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 		anim.ResetTrigger("Flail");

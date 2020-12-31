@@ -107,7 +107,8 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void FollowEffectPoint() {
-		GlobalController.playerFollower.FollowTarget(this.effectPoint.gameObject);
+		GameObject point = effectPoint == null ? fallbackEffectPoint : effectPoint.gameObject;
+		GlobalController.playerFollower.FollowTarget(point);
 	}
 
 	public void StopFollowingEffectPoint() {
