@@ -9,6 +9,7 @@ public class Boss : Enemy {
     BarUI bossHealthUI;
     
     public bool startFightOnEnable = false;
+    bool startedFight;
     GameEvent startBossFight;
     GameEvent stopBossFight;
 
@@ -19,18 +20,19 @@ public class Boss : Enemy {
         bossHealthUI = GlobalController.bossHealthUI;
         startBossFight = Resources.Load("ScriptableObjects/Events/StartBossFight") as GameEvent;
         stopBossFight = Resources.Load("ScriptableObjects/Events/StopBossFight") as GameEvent;
-
         victoryEffect = Resources.Load("Effects/Final Blow Prefab") as GameObject;
-
         if (startFightOnEnable) StartFight();
     }
 
     public void StartFight() {
         // state machine bugs
         if (this.hp <= 0) return;
+        bossHealthUI.current = this.hp;
+        bossHealthUI.max = this.totalHP;
         bossHealthUI.gameObject.SetActive(true);
-    ShowIntro();
+        ShowIntro();
         startBossFight.Raise();
+        startedFight = true;
     }
 
     public void ShowIntro() {
@@ -41,8 +43,10 @@ public class Boss : Enemy {
 
     override protected void Update() {
         base.Update();
-        bossHealthUI.current = this.hp;
-        bossHealthUI.max = this.totalHP;
+        if (startedFight) {
+            bossHealthUI.current = this.hp;
+            bossHealthUI.max = this.totalHP;
+        }
     }
 
     override protected void Die() {
