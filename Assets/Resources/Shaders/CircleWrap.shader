@@ -20,9 +20,9 @@
             "CanUseSpriteAtlas"="True"
         }
 
+        ZWrite Off
         Cull Off
         Lighting Off
-        ZWrite Off
         Fog { Mode Off }
         Blend One OneMinusSrcAlpha
 

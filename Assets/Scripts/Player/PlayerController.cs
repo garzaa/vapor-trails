@@ -745,7 +745,6 @@ public class PlayerController : Entity {
 		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
 	}
 
-
 	IEnumerator ReturnToSafety(float delay) {
 		yield return new WaitForSecondsRealtime(delay);
 		rb2d.velocity = Vector2.zero;
