@@ -734,6 +734,10 @@ public class PlayerController : Entity {
 		airDashes = 1;
 	}
 
+	public void OnLedgePop() {
+		RefreshAirMovement();
+	}
+
 	void SaveLastSafePos() {
 		// save the safe position as an offset of the groundCheck's last hit ground
 		GameObject currentGround = groundCheck.currentGround;
