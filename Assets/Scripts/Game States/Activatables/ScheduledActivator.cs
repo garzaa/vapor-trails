@@ -12,9 +12,12 @@ public class ScheduledActivator : Activator {
 
 	public bool oneShot = false;
 
-	public override void Start() {
-		base.Start();
-		Invoke("InvokedActivation", delay);
+	void OnEnable() {
+		Invoke("InvokedActivation", GetDelay());
+	}
+
+	void OnDisable() {
+		CancelInvoke("InvokedActivation");
 	}
 
 	void InvokedActivation() {
