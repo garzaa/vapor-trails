@@ -1445,6 +1445,7 @@ public class PlayerController : Entity {
 	}
 
 	public void DisableTriggers() {
+		if (interaction == null) interaction = GetComponentInChildren<InteractAppendage>();
 		interaction.GetComponent<BoxCollider2D>().enabled = false;
 	}
 
