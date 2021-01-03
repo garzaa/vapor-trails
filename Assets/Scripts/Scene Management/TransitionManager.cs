@@ -105,10 +105,7 @@ public class TransitionManager : MonoBehaviour {
 
 		}
 
-		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
-		if (triggered != null) {
-			triggered.OnPlayerEnter();
-		}
+		pc.EnableTriggers();
 
 	}
 
@@ -124,6 +121,7 @@ public class TransitionManager : MonoBehaviour {
 
 		PlayerController pc = GlobalController.pc;
 		pc.EnterCutscene();
+		pc.DisableTriggers();
 
 		StartCoroutine(LoadAsync(sceneName, fade));
 	}

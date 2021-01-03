@@ -1292,17 +1292,6 @@ public class PlayerController : Entity {
 		this.forcedWalking = false;
 	}
 
-	public PlayerTriggeredObject CheckInsideTrigger() {
-		int layerMask = 1 << LayerMask.NameToLayer(Layers.Triggers);
-		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.up, .1f, layerMask);
-		if (hit) {
-			if (hit.transform.GetComponent<PlayerTriggeredObject>() != null) {
-				return hit.transform.GetComponent<PlayerTriggeredObject>();
-			}
-		} 
-		return null;
-	}
-
 	public void AnimFoostep() {
 		SoundManager.FootFallSound();
 	}
@@ -1453,5 +1442,14 @@ public class PlayerController : Entity {
 
 	public void ExitAttackGraph() {
 		attackGraph = null;
+	}
+
+	public void DisableTriggers() {
+		interaction.GetComponent<BoxCollider2D>().enabled = false;
+	}
+
+	public void EnableTriggers() {
+		if (interaction == null) return;
+		interaction.GetComponent<BoxCollider2D>().enabled = true;
 	}
 }

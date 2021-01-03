@@ -6,7 +6,7 @@ public class EnableOnGameState : MonoBehaviour {
 
     public bool setDisabled = false;
 
-    void Start() {
+    void OnEnable() {
         CheckState();
     }
 

@@ -12,6 +12,7 @@ public class CloseableUI : MonoBehaviour {
     public bool useSelf = false;
     public bool closeAtStart = false;
     public bool soloUISound = false;
+    public bool continuousCutscene = false;
 
     protected bool open;
     protected bool started;
@@ -64,6 +65,7 @@ public class CloseableUI : MonoBehaviour {
             StartCoroutine(WaitAndClose());
         }
         if (stopTime) Time.timeScale = 0f;
+        if (continuousCutscene) GlobalController.pc.EnterCutscene();
     }
 
     // again, deal with input frame timing
