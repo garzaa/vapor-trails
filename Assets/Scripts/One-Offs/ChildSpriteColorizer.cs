@@ -9,7 +9,6 @@ public class ChildSpriteColorizer : MonoBehaviour {
 
     SpriteRenderer[] sprites;
 
-
 #if UNITY_EDITOR
     void OnEnable() {
         sprites = GetComponentsInChildren<SpriteRenderer>(includeInactive: true)
