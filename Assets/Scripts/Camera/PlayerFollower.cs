@@ -22,6 +22,10 @@ public class PlayerFollower : MonoBehaviour {
 	bool playerWasNull = false;
 
 	public GameObject target;
+	public float tolerance;
+	public bool useTolerance = false;
+
+	CameraOffset cameraOffset;
 
 	void Start() {
 		if (player == null) {
@@ -35,10 +39,17 @@ public class PlayerFollower : MonoBehaviour {
 		);
 		pc = player.GetComponent<PlayerController>();
 		this.target = player;
+		cameraOffset = GetComponentInChildren<CameraOffset>();
+		UpdateOffset(initialOffset);
+	}
+
+	bool OutsideTolerance() {
+		if (!useTolerance) return true;
+		return Mathf.Abs(Vector2.Distance((Vector2) transform.position, (Vector2) target.transform.position)) > tolerance;
 	}
 	
 	void FixedUpdate() {
-		if (!following) {
+		if (!following || !OutsideTolerance()) {
 			return;
 		}
 
@@ -55,7 +66,7 @@ public class PlayerFollower : MonoBehaviour {
 					z:this.transform.position.z),
 				ref velocity,
 				smoothAmount * Time.deltaTime
-				);
+			);
 		} else {
 			transform.position = new Vector3(
 					x:followX ? target.transform.position.x + currentOffset.x : transform.position.x,
@@ -65,9 +76,10 @@ public class PlayerFollower : MonoBehaviour {
 		}	
 	}
 
-	public void SnapToPlayer() {
+	public void SnapToTarget() {
 		DisableSmoothing();
-		this.transform.position = player.transform.position;
+		velocity = Vector3.zero;
+		this.transform.position = target.transform.position;
 		EnableSmoothing();
 	}
 
@@ -81,22 +93,22 @@ public class PlayerFollower : MonoBehaviour {
 
 	public void EnableFollowing() {
 		this.following = true;
-		GetComponentInChildren<CameraOffset>().following = true;
+		cameraOffset.following = true;
 	}
 
 	public void DisableFollowing() {
 		this.following = false;
-		GetComponentInChildren<CameraOffset>().following = false;
+		cameraOffset.following = false;
 	}
 
 	public void FollowTarget(GameObject target) {
 		this.target = target;
-		GetComponentInChildren<CameraOffset>().following = false;
+		cameraOffset.following = false;
 	}
 
 	public void FollowPlayer() {
-		if (GetComponentInChildren<CameraOffset>() != null) {
-			GetComponentInChildren<CameraOffset>().following = true;
+		if (cameraOffset != null) {
+			cameraOffset.following = true;
 		}
 		this.target = player;
 	}
@@ -107,5 +119,14 @@ public class PlayerFollower : MonoBehaviour {
 
 	public void ResetOffset() {
 		this.currentOffset = initialOffset;
+	}
+
+	// use the camera offset subobject because it's smoother
+	public void LookAtPoint(GameObject point) {
+		cameraOffset.LookAtTarget(point);
+	}
+
+	public void StopLookingAtPoint() {
+		cameraOffset.StopLookingAtTarget();
 	}
 }

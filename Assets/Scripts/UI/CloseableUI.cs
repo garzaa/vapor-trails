@@ -12,6 +12,7 @@ public class CloseableUI : MonoBehaviour {
     public bool useSelf = false;
     public bool closeAtStart = false;
     public bool soloUISound = false;
+    public bool continuousCutscene = false;
 
     protected bool open;
     protected bool started;
@@ -20,6 +21,7 @@ public class CloseableUI : MonoBehaviour {
         if ((exclusive && GlobalController.openUIs > 0)) {
             return;
         }
+
         if (!open) GlobalController.openUIs += 1;
         this.open = true;
         Hitstop.Interrupt();
@@ -31,10 +33,11 @@ public class CloseableUI : MonoBehaviour {
     }
 
     virtual public void Close() {
-        if (stopTime) Time.timeScale = 1f;
         if (open) GlobalController.openUIs -= 1;
+
+        if (stopTime) Time.timeScale = 1f;
         this.open = false;
-        if (GlobalController.openUIs == 0) GlobalController.pc.ExitCutscene();
+        GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
         if (soloUISound) SoundManager.DefaultAudio();
     }
@@ -61,10 +64,12 @@ public class CloseableUI : MonoBehaviour {
         if (open && closeOnGenericEscape && InputManager.GenericEscapeInput()) {
             StartCoroutine(WaitAndClose());
         }
+        if (stopTime) Time.timeScale = 0f;
+        if (continuousCutscene) GlobalController.pc.EnterCutscene();
     }
 
     // again, deal with input frame timing
-    IEnumerator WaitAndClose() {
+    protected IEnumerator WaitAndClose() {
         yield return new WaitForEndOfFrame();
         gameObject.SetActive(false);
     }

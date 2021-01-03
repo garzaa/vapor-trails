@@ -1,113 +1,98 @@
 using UnityEngine;
+using Rewired;
 
 public class InputManager : MonoBehaviour {
 
+    static Player rewiredPlayer;
+
     static readonly float INPUT_TOLERANCE = 0.2f;
 
-    static bool frozenInputs = false;
+    static InputManager im;
 
-    private static bool CheckFrozenInputs(string buttonName) {
-        return !(frozenInputs
-            && (
-                Buttons.IsType(buttonName, InputType.MOVE)
-                || Buttons.IsType(buttonName, InputType.ACTION)
-            ));
-    }
+    static bool polling = false;
 
-    public static bool dpadUp;
-    public static bool dpadDown;
-    public static bool dpadLeft;
-    public static bool dpadRight;
-
-    float lastX;
-    float lastY;
- 
-    void Update() {
-        dpadRight = (Input.GetAxis(Buttons.XTAUNT) == 1 && lastX != 1);
-        dpadLeft = (Input.GetAxis (Buttons.XTAUNT) == -1 && lastX != -1);
-        dpadUp = (Input.GetAxis (Buttons.YTAUNT) == 1 && lastY != 1);
-        dpadDown = (Input.GetAxis (Buttons.YTAUNT) == -1 && lastY != -1);
-
-        lastX = Input.GetAxis(Buttons.XTAUNT);
-        lastY = Input.GetAxis(Buttons.YTAUNT);
+    void Start() {
+        if (im == null) im = this;
+        rewiredPlayer = ReInput.players.GetPlayer(0);
     }
 
     public static bool HasHorizontalInput() {
-        return frozenInputs ? false : Mathf.Abs(Input.GetAxis(Buttons.H_AXIS)) > INPUT_TOLERANCE/4f;
+        return Mathf.Abs(rewiredPlayer.GetAxis(Buttons.H_AXIS)) > 0.01f;
     }
 
     public static float HorizontalInput() {
-        return frozenInputs ? 0 : Input.GetAxis(Buttons.H_AXIS);
+        return rewiredPlayer.GetAxis(Buttons.H_AXIS);
     }
 
     public static float VerticalInput() {
-        return frozenInputs ? 0 : Input.GetAxis(Buttons.V_AXIS);
-    }
-
-    public static bool BlockInput() {
-        return frozenInputs ? false : Input.GetAxis(Buttons.BLOCK) > 0.5f;
+        return Input.GetAxis(Buttons.V_AXIS);
     }
 
     public static bool ButtonDown(string buttonName) {
-        return CheckFrozenInputs(buttonName) && Input.GetButtonDown(buttonName);
+        return !polling && rewiredPlayer.GetButtonDown(buttonName);
     }
 
     public static bool Button(string buttonName) {
-        return CheckFrozenInputs(buttonName) && Input.GetButton(buttonName);
+        return !polling && rewiredPlayer.GetButton(buttonName);
     }
 
     public static bool ButtonUp(string buttonName) {
-        return CheckFrozenInputs(buttonName) && Input.GetButtonUp(buttonName);
-    }
-
-    public static void FreezeInputs() {
-        frozenInputs = true;
-    }
-
-    public static void UnfreezeInputs() {
-        frozenInputs = false;
+        return !polling && rewiredPlayer.GetButtonUp(buttonName);
     }
 
     public static bool GenericContinueInput() {
         return (
-            Input.GetButtonDown(Buttons.JUMP) || GenericEscapeInput() || AttackInput()
+            ButtonDown(Buttons.JUMP) || GenericEscapeInput() || AttackInput()
         );
     }
 
     public static bool AttackInput() {
         return (
-            Input.GetButtonDown(Buttons.PUNCH)
-            || Input.GetButtonDown(Buttons.KICK)
+            ButtonDown(Buttons.PUNCH)
+            || ButtonDown(Buttons.KICK)
         );
     }
 
     public static bool GenericEscapeInput() {
         return (
-            Input.GetButtonDown(Buttons.SPECIAL)
-            || Input.GetButtonDown(Buttons.INVENTORY)
-            || Input.GetButton(Buttons.PAUSE)
+            InputManager.ButtonDown(Buttons.SPECIAL)
+            || InputManager.ButtonDown(Buttons.INVENTORY)
+            || InputManager.Button(Buttons.PAUSE)
+            || InputManager.ButtonDown(Buttons.UI_CANCEL)
         );
     }
 
     public static Vector2 RightStick() {
         return new Vector2(
-            Input.GetAxis("Right-Horizontal"),
-            -Input.GetAxis("Right-Vertical")
+            rewiredPlayer.GetAxis("Right-Horizontal"),
+            rewiredPlayer.GetAxis("Right-Vertical")
         );
     }
 
     public static Vector2 LeftStick() {
         return new Vector2(
-            Input.GetAxis("Horizontal"),
-            Input.GetAxis("Vertical")
+            rewiredPlayer.GetAxis(Buttons.H_AXIS),
+            rewiredPlayer.GetAxis(Buttons.V_AXIS)
         );
     }
 
     public static bool TauntInput() {
-        return dpadDown || dpadLeft || dpadRight || dpadUp;
+        return false;
     }
 
     public static Vector2 MoveVector() {
         return new Vector2(HorizontalInput(), VerticalInput());
+    }
+
+    public void OnButtonPollStart() {
+        InputManager.polling = true;    
+    }
+
+    public void OnButtonPollEnd() {
+        InputManager.polling = false;
+    }
+
+    public static float GetInputBufferDuration() {
+        return GlobalController.save.options.inputBuffer * (1f/16f);
     }
 }

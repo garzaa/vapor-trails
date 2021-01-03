@@ -16,10 +16,10 @@ public class TabUI : MonoBehaviour {
 
     void Update() {
         if (!keyNavigation) return;
-        if (Input.GetButtonDown("Tab Left")) {
+        if (InputManager.ButtonDown(Buttons.TABLEFT)) {
             PreviousTab();
         }
-        else if (Input.GetButtonDown("Tab Right")) {
+        else if (InputManager.ButtonDown(Buttons.TABRIGHT)) {
             NextTab();
         }
     }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 50794635457955746}
   - component: {fileID: 95662980317890310}
   - component: {fileID: 114207366154810408}
-  - component: {fileID: 114080363219909906}
+  - component: {fileID: 7516095628711839836}
   - component: {fileID: 114635727832666338}
   - component: {fileID: 114390016606124612}
   - component: {fileID: 114658252261490686}
@@ -51,6 +51,7 @@ Transform:
   - {fileID: 7598105873955343971}
   - {fileID: 3498271957640515153}
   - {fileID: 2349774170856584592}
+  - {fileID: 5082369312684764627}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -138,7 +139,8 @@ MonoBehaviour:
   currentGround: {fileID: 0}
   constantlyUseCollider: 0
   collidertoUse: {fileID: 0}
---- !u!114 &114080363219909906
+  flipOnLedgeStep: 0
+--- !u!114 &7516095628711839836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1018928358723658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be9ee8ca185a704cb4176c2e3dc51cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 44ec8192172380b4d970eb58a657ef73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   facingRight: 0
@@ -160,8 +162,8 @@ MonoBehaviour:
   invincible: 0
   envDmgSusceptible: 1
   rb2d: {fileID: 0}
-  hp: 20
-  totalHP: 20
+  hp: 15
+  totalHP: 0
   moveForce: 0
   maxSpeed: 0
   diStrength: 0.5
@@ -174,7 +176,15 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
-  dropBossResources: 1
+  deathActivatable: {fileID: 0}
+  victoryEffectOnDeath: 0
+  healthColor: {r: 221, g: 82, b: 82, a: 255}
+  startFightOnEnable: 0
+  bossInfo:
+    bossName: Richter
+    bossFightImage: {fileID: 21300000, guid: 13ec61b679215dc4b849547cdf808914, type: 3}
+    playerName: X-404
+  cameraAnchor: {fileID: 5406647950624654907}
 --- !u!114 &114635727832666338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingRight: 0
   target: {fileID: 0}
+  threshold: 0.2
 --- !u!114 &114390016606124612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2dd39ac477df2459651082cd61a600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectDistance: 8
   effectPoint: {fileID: 4697251305795606}
   fallbackEffectPoint: {fileID: 0}
   effects:
@@ -249,6 +261,7 @@ MonoBehaviour:
   distance: 0.5
   useTrigger: 0
   autoFlip: 0
+  nearWall: 0
 --- !u!114 &114075445800985150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+  alsoForPlayer: 0
 --- !u!114 &114676199892490854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +353,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -439,6 +454,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -520,6 +536,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -605,6 +622,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -699,6 +717,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -780,6 +799,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -860,6 +880,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -940,6 +961,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1046,6 +1068,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 1018928358723658}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 0
 --- !u!1 &1350613022828552
 GameObject:
@@ -1093,6 +1118,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1174,6 +1200,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1255,6 +1282,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1385,6 +1413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: 
   damage: 1
+  attackLandSound: {fileID: 0}
   cameraShakeIntensity: 0.23
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -1393,11 +1422,13 @@ MonoBehaviour:
   hitmarker: {fileID: 0}
   flipHitmarker: 0
   attackedTags: []
-  attackerParent: {fileID: 114080363219909906}
+  attackerParent: {fileID: 0}
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: 0}
   inheritMomentum: 0
+  instakill: 0
+  attackLandEvent: 0
 --- !u!60 &60777008598411440
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1549,6 +1580,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1630,6 +1662,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1772,6 +1805,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1872,6 +1906,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1953,6 +1988,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -6693,6 +6729,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -6816,6 +6853,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -6897,6 +6935,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7071,8 +7110,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
   optionalPromptTransform: {fileID: 0}
+  forceFlipTo: 0
   dialogueAnimationBool: 0
   dialogueAnimator: {fileID: 0}
+  generateMapIcon: 0
+  icon: {fileID: 0}
+  centerCameraInDialogue: 0
   currentConversation: 0
   currentDialogueLine: 0
 --- !u!114 &2824545427012464600
@@ -7198,6 +7241,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 50794635457955746}
+--- !u!1 &5406647950624654907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5082369312684764627}
+  m_Layer: 0
+  m_Name: Camera Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5082369312684764627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5406647950624654907}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4230356196836586}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5611870406923514007
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,9 +5,19 @@ using UnityEngine;
 public class InteractAppendage : MonoBehaviour {
 
 	public Interactable currentInteractable;
+	Collider2D c;
 
 	void Start() {
 		this.gameObject.layer = LayerMask.NameToLayer(Layers.Interactables);
+		c = GetComponent<Collider2D>();
+	}
+
+	void Update() {
+		if (GlobalController.pc.IsGrounded() && !GlobalController.pc.inCutscene && GlobalController.pc.canInteract) {
+			c.enabled = true;
+		} else {
+			c.enabled = false;
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D otherCol) {

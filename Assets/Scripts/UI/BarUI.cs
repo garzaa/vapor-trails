@@ -19,6 +19,10 @@ public class BarUI : MonoBehaviour {
     float currentDelta;
     float changeTime;
 
+    void OnEnable() {
+        currentDelta = 0;
+    }
+
     public int max {
         get { return _max; }
         set {
@@ -58,7 +62,9 @@ public class BarUI : MonoBehaviour {
     }
 
     void Update() {
-        if (deltaIndicator == null || currentDelta==current) return;
+        if (deltaIndicator == null || currentDelta==current) {
+            return;
+        }
         
         if (Mathf.Abs(currentDelta-current) < deltaTolerance) {
             currentDelta=current;

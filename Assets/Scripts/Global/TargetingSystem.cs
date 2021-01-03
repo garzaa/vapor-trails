@@ -61,7 +61,7 @@ public class TargetingSystem : MonoBehaviour {
 		}
 
 		if (nearest.GetComponent<Hurtbox>() != null && !nearest.GetComponent<Hurtbox>().overrideTargetPosition) {
-			return nearest.GetComponent<Hurtbox>().parentObject.transform;
+			return nearest.GetComponent<Hurtbox>().GetTargetPosition();
 		}
 
 		return nearest;
@@ -69,7 +69,7 @@ public class TargetingSystem : MonoBehaviour {
 
 	void Update() {
 		if (!onPlayer) return;
-		if (targetingUI == null || !CanTarget()) {
+		if (targetingUI == null || !CanTarget() || GlobalController.pc.currentEnergy<PlayerController.gunCost) {
 			targetAnim.SetBool("Locked", false);
 			return;
 		}

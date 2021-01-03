@@ -54,4 +54,10 @@ public class StatefulNPC : NPC {
 		queuedChange = false;
 	}
 
+    public override void Interact(GameObject player)
+    {
+		PickFirstConversation();
+        base.Interact(player);
+    }
+
 }

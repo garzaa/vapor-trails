@@ -19,6 +19,7 @@ public class PlayerAttack : Attack {
 
 	public GameObject[] baseDamageHitmarkers;
 
+
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<PlayerController>();
 		attackerParent = player;
@@ -34,16 +35,14 @@ public class PlayerAttack : Attack {
 		}
 
 		// the succ
-		if (pullInEntity && e.staggerable) {
-			e.transform.position = this.transform.position;
+		Rigidbody2D r = e.GetComponent<Rigidbody2D>();
+		if (pullInEntity && e.staggerable && r != null) {
+			r.MovePosition(this.transform.position);
 		}
 
 		//run self knockback
 		if (selfKnockBack) {
-			attackerParent.GetComponent<Rigidbody2D>().velocity = new Vector2(
-				forceX ? selfKnockBackVector.x * attackerParent.ForwardScalar() : attackerParent.GetComponent<Rigidbody2D>().velocity.x,
-				selfKnockBackVector.y
-			);
+			SelfKnockBack();
 		}
 		//give the player some energy
 		if (gainsEnergy) {
@@ -79,6 +78,13 @@ public class PlayerAttack : Attack {
 		}
 	}
 
+	public void SelfKnockBack() {
+		attackerParent.GetComponent<Rigidbody2D>().velocity = new Vector2(
+			forceX ? selfKnockBackVector.x * attackerParent.ForwardScalar() : attackerParent.GetComponent<Rigidbody2D>().velocity.x,
+			selfKnockBackVector.y
+		);
+	}
+
 	override public void MakeHitmarker(Transform hurtboxPos) {
 		// Vector2 midpoint = Vector2.MoveTowards(this.transform.position, hurtboxPos.position, Vector2.Distance(this.transform.position, hurtboxPos.position)/2f);
 		
@@ -110,11 +116,6 @@ public class PlayerAttack : Attack {
 			);
 		}
 		h.transform.parent = null;
-	}
-
-	public void OnDeflect() {
-		player.GainEnergy(1);
-		player.Parry();
 	}
 
 	override public int GetDamage() {

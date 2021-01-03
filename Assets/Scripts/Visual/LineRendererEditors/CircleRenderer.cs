@@ -18,6 +18,7 @@ public class CircleRenderer : LineRendererEditor {
 	override protected void Start() {
 		base.Start();
 		DrawCircle(segments);
+		GetComponent<LineRenderer>().useWorldSpace = false;
 	}
 
 	void LateUpdate() {

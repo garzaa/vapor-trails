@@ -40,6 +40,12 @@ public class LocalSubwayController : AnimationInterface {
         }
     }
 
+    void FixedUpdate() {
+        if (holdingPlayer) {
+            GlobalController.pc.EnterCutscene();
+        }
+    }
+
     public void FinishDeparting() {
         if (holdingPlayer) SubwayManager.DepartWithPlayer();
     }

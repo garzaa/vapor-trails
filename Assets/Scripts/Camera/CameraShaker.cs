@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Rewired;
 
 public class CameraShaker : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class CameraShaker : MonoBehaviour
 	public static float decreaseFactor = 1.0f;
 	
 	static Vector3 originalPos;
+	static Player rewiredPlayer;
 
 	void Awake() {
-		if (camTransform == null) camTransform = this.transform;
+		if (camTransform == null) {
+			camTransform = this.transform;
+			rewiredPlayer = ReInput.players.GetPlayer(0);
+		}
+
 	}
 	
 	void OnEnable() {
@@ -39,6 +45,9 @@ public class CameraShaker : MonoBehaviour
 	public static void Shake(float amount, float duration) {
 		shakeAmount = amount;
 		shakeDuration = duration;
+		
+		rewiredPlayer.StopVibration();
+		rewiredPlayer.SetVibration(0, amount*2f, duration);
 	}
 
 	void Update() {
@@ -47,7 +56,7 @@ public class CameraShaker : MonoBehaviour
 			shakeDuration -= Time.unscaledDeltaTime * decreaseFactor;
 		} else {
 			shakeDuration = 0f;
-			camTransform.localPosition = originalPos;
+			if (!shaking) camTransform.localPosition = originalPos;
 		}
 	}
 
@@ -61,6 +70,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public static void StopShaking() {
+		rewiredPlayer.StopVibration();
 		shaking = false;
 		shakeDuration = 0;
 	}

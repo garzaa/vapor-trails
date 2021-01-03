@@ -10,11 +10,14 @@ public class LedgePop : MonoBehaviour {
     Rigidbody2D rb;
     int layerMask;
     Vector2 boxPos;
+    PlayerController player;
 
     void Start() {
         box = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+
+        player = GetComponent<PlayerController>();
     }
 
     void Update() {
@@ -63,6 +66,10 @@ public class LedgePop : MonoBehaviour {
         if (hit.transform == null) {
             rb.MovePosition(rb.position+pop);
             if (rb.velocity.y < yspeedCutoff) rb.velocity = new Vector2(rb.velocity.x, 0f);
+
+            if (player != null) {
+                player.OnLedgePop();
+            }
         }
     }
 }

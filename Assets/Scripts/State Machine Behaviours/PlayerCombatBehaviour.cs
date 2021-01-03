@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class PlayerCombatBehaviour : StateMachineBehaviour {
     PlayerController player;
+    
+    public PlayerAttackGraph attackGraph;
+    [Tooltip("On graph enter, start at this node.")]
+    public AttackNode optionalEntryNode; 
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         Enter(animator);
@@ -11,12 +15,11 @@ public class PlayerCombatBehaviour : StateMachineBehaviour {
         animator.ResetTrigger("AttackLand");
     }
 
-    public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash) {
-        Enter(animator);
-    }
-
     void Enter(Animator animator) {
         if (player == null) player = animator.GetComponent<PlayerController>();
         player.StartCombatStanceCooldown();
+        if (attackGraph != null) {
+            player.EnterAttackGraph(attackGraph, startNode: optionalEntryNode);
+        }
     }
 }

@@ -90,6 +90,7 @@ Shader "UI/CustomUI"
             uniform float _YSpeed;
 
             uniform float4 _Offset;
+            float _UnscaledTime;
 
             v2f vert(appdata_t v)
             {
@@ -111,8 +112,8 @@ Shader "UI/CustomUI"
 
                 // move pixel-perfect
                 // texelsize.z: width
-                uv.x =((uv.x + (_Time * _XSpeed)) * _MainTex_TexelSize.z) / _MainTex_TexelSize.z;
-                uv.y =((uv.y + (_Time * _YSpeed)) * _MainTex_TexelSize.w) / _MainTex_TexelSize.w;
+                uv.x =((uv.x + (_UnscaledTime * _XSpeed)) * _MainTex_TexelSize.z) / _MainTex_TexelSize.z;
+                uv.y =((uv.y + (_UnscaledTime * _YSpeed)) * _MainTex_TexelSize.w) / _MainTex_TexelSize.w;
 
                 uv.x += _Offset.x;
                 uv.y += _Offset.y;

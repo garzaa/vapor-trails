@@ -7,7 +7,6 @@ public class Attack : MonoBehaviour {
 	public string attackName;
 	public int damage = 1;
 	public AudioClip attackLandSound;
-	public AudioClip swingSound;
 	[Range(0, 2f)]
 	public float cameraShakeIntensity = .1f;
 	[Range(0, 2f)]
@@ -24,6 +23,7 @@ public class Attack : MonoBehaviour {
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
 	public bool inheritMomentum = false;
+	public bool instakill = false;
 
 	protected Rigidbody2D rb2d;
 
@@ -94,11 +94,5 @@ public class Attack : MonoBehaviour {
 
 	public virtual void ExtendedAttackLand(Entity e) {
 
-	}
-	
-	void OnEnable() {
-		if (swingSound != null) {
-			SoundManager.PlayIfClose(swingSound, gameObject);
-		}
 	}
 }

@@ -29,8 +29,6 @@ public class MapFog : PersistentObject {
     }
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode) {
-        StopUpdatingMap();
-
         if (!string.IsNullOrEmpty(currentScene)) {
             SaveCurrentMap();
         } 

@@ -24,6 +24,8 @@ public class CameraOffset : MonoBehaviour {
 	public bool clampPosition;
 	public Vector2 maxLookahead;
 
+	GameObject otherTarget;
+
 	void Start() {
 		pc = player.GetComponent<PlayerController>();
 	}
@@ -36,7 +38,7 @@ public class CameraOffset : MonoBehaviour {
 
 		Vector3 newPosition = player.transform.position;
 
-		if (lookingAhead) {
+		if (lookingAhead && otherTarget==null) {
 			//first offset based on player orientation
 			float newX = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookAhead * speedRamp;
 			float scalar = pc.IsGrounded() ? 1 : 0;
@@ -60,7 +62,11 @@ public class CameraOffset : MonoBehaviour {
 			newPosition += (Vector3) offset;
 		}
 
-		//then update movement
+		if (otherTarget != null) {
+			newPosition += (otherTarget.transform.position - this.transform.position);
+		}
+
+		//then update camera pos
 		transform.position = Vector3.SmoothDamp(
 			transform.position,
 			newPosition,
@@ -73,5 +79,22 @@ public class CameraOffset : MonoBehaviour {
 
 	public void SetOffset(Vector2 newOffset) {
 		this.offset = newOffset;
+	}
+
+	public void OnBossFightStart() {
+		Boss b = GameObject.FindObjectOfType<Boss>();
+		LookAtTarget((b.cameraAnchor != null) ? b.cameraAnchor : b.gameObject);
+	}
+
+	public void OnBossFightStop() {
+		StopLookingAtTarget();
+	}
+
+	public void LookAtTarget(GameObject point) {
+		otherTarget = point;
+	}
+
+	public void StopLookingAtTarget() {
+		otherTarget = null;
 	}
 }

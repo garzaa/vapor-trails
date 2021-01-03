@@ -16,6 +16,7 @@ public class RigidBodyMover : RigidBodyAffector {
     }
 
     override protected void Update() {
+        if (rb2d == null) return;
         float baseX = x;
         if (pickMax) baseX = Mathf.Max(Mathf.Abs(x), Mathf.Abs(rb2d.velocity.x)) * Mathf.Sign(x);
         if (entityForward) baseX *= e.ForwardScalar();

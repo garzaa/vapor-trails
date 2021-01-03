@@ -9,6 +9,7 @@ public class ChildSpriteColorizer : MonoBehaviour {
 
     SpriteRenderer[] sprites;
 
+#if UNITY_EDITOR
     void OnEnable() {
         sprites = GetComponentsInChildren<SpriteRenderer>(includeInactive: true)
             .Where(x => x.GetComponent<IgnoreSpriteColorization>()==null)
@@ -23,4 +24,5 @@ public class ChildSpriteColorizer : MonoBehaviour {
         }
         lastColor = color;
     }
+#endif
 }

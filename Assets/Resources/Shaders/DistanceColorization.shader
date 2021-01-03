@@ -1,9 +1,10 @@
 
 Shader "Sprites/DistanceColorization" {
 Properties {
-	[PerRendererData] _TintColor ("Tint Color", Color) = (0, 0, 0, 0)
-	[PerRendererData] _ColorDistance ("Tint Amount", Float) = 0.5
-	[PerRendererData] _MainTex ("Particle Texture", 2D) = "white" {}
+	_Color ("Tint Color", Color) = (1, 1, 1, 1)
+	_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
+	_ColorDistance ("Max Distance", Float) = 0.5
+	_MainTex ("Particle Texture", 2D) = "white" {}
 }
 
 Category {
@@ -37,7 +38,8 @@ Category {
 			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
-			float4 _TintColor;
+			float4 _Color;
+			float4 _BaseColor;
 			float _ColorDistance;
 			
 			struct appdata_t {
@@ -67,8 +69,8 @@ Category {
 			{
 
 				half4 c = tex2D(_MainTex, i.texcoord).rgba;
-				if (length(c.rgb - _TintColor.rgb) > _ColorDistance)
-					c.rgb *= _TintColor.rgb;
+				if (length(c.rgb - _BaseColor.rgb) > _ColorDistance)
+					c.rgb *= _Color.rgb;
 				return c;   
 			}
 			ENDCG 
@@ -79,7 +81,7 @@ Category {
 	SubShader {
 		Pass {
 			SetTexture [_MainTex] {
-				constantColor [_TintColor]
+				constantColor [_Color]
 				combine constant * primary
 			}
 			SetTexture [_MainTex] {

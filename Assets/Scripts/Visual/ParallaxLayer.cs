@@ -1,45 +1,35 @@
 ﻿using UnityEngine;
 
-
 [ExecuteInEditMode]
 public class ParallaxLayer : MonoBehaviour {
  
     public Vector2 speed;
-   	public bool moveInOppositeDirection;
 
 	private Transform cameraTransform;
 	private Vector3 previousCameraPosition;
 	private bool activeLastFrame;
-	private ParallaxOption options;
 
 	public bool zeroOnStart = true;
+	bool started = false;
+	Vector3 distance;
 
 	void Start() {
 		GameObject gameCamera = GameObject.Find("Main Camera");
 		if (gameCamera == null) return;
-		options = gameCamera.GetComponent<ParallaxOption>();
 		cameraTransform = gameCamera.transform;
 		previousCameraPosition = Vector2.zero;
 		RoundChildren(this.transform);
 		if (zeroOnStart) transform.localPosition = Vector2.zero;
+		started = true;
+	}
+
+	void OnEnable() {
+		if (!started) return;
+		else Start();
 	}
 
 	public void LateUpdate() {
-
 		if (cameraTransform == null ) {
-			return;
-		}
-
-		// if parallax wasn't active last frame
-		if (options.moveParallax && !activeLastFrame) {
-			Start();
-			activeLastFrame = options.moveParallax;
-			return;
-		}
-
-		activeLastFrame = options.moveParallax;
-
-		if (!Application.isPlaying && !options.moveParallax){
 			return;
 		}
 
@@ -47,10 +37,7 @@ public class ParallaxLayer : MonoBehaviour {
 		previousCameraPosition = cameraTransform.position;
 	}
 
-    public virtual void ExtendedStart() {
-        
-    }
-
+	// prevent pixel jittering
     void RoundChildren(Transform t) {
 		t.position = t.position.Round(2);
         foreach (Transform child in t) {
@@ -60,8 +47,7 @@ public class ParallaxLayer : MonoBehaviour {
     }
 
 	void Move() {
-		Vector3 distance = cameraTransform.position - previousCameraPosition;
-		float direction = (moveInOppositeDirection) ? -1f : 1f;
-		transform.localPosition += Vector3.Scale(distance, new Vector3(speed.x, speed.y)) * direction;
+		distance = cameraTransform.position - previousCameraPosition;
+		transform.localPosition += Vector3.Scale(distance, speed);
 	}
 }

@@ -5,14 +5,31 @@ using UnityEngine.Audio;
 public class GameOptions {
     public bool shortHop = true;
     public bool gameJournalist = false;
+    public bool slideDrop = false;
+    public int inputBuffer = 8;
+    
+    bool fullscreen = true;
 
     public void Load() {
         shortHop = LoadBool("ShortHop");
         gameJournalist = LoadBool("GameJournalist");
+        slideDrop = LoadBool("SlideDrop");
+        GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
+        inputBuffer = LoadInt("InputBuffer");
+        fullscreen = LoadBool("Fullscreen");
+    
+        Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");
+    
+        if (fullscreen) {
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        } else {
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
     }
 
-    // player pref changes will be done via scripts attached to buttons
+    // player pref changes are done via scripts attached to buttons
+    // SettingsSlider and SettingsToggle
     public void Apply() {
         PlayerPrefs.Save();
         Load();

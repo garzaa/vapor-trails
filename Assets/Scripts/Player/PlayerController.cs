@@ -7,10 +7,9 @@ public class PlayerController : Entity {
 	const float jumpSpeed = 3.8f;
 	const float jumpCutoff = 2.0f;
 	const float hardLandSpeed = -4f;
-	const float dashSpeed = 7f;
+	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
-	const float stunLength = 0.4f;
 	const float parryWindowLength = 4f/16f;
 	const float coyoteTime = 0.1f;
 
@@ -18,7 +17,7 @@ public class PlayerController : Entity {
 	const float peakJumpControlMod = 1.5f;
 	const float peakJumpCutoff = -1f;
 
-	const int gunCost = 2;
+	public const int gunCost = 2;
 
 	const float restingGroundDistance = 0.3f;
 	bool hardFalling = false;
@@ -36,9 +35,8 @@ public class PlayerController : Entity {
 	float selfDamageHitstop = .2f;
 	int healCost = 1;
 	int healAmt = 1;
-	float jumpBufferDuration = 0.1f;
 	float combatCooldown = 2f;
-	float combatStanceCooldown = 4f;
+	float combatStanceCooldown = 3f;
 	float sdiMultiplier = 0.2f;
 	float preDashSpeed;
 	bool perfectDashPossible;
@@ -74,6 +72,7 @@ public class PlayerController : Entity {
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
 	GroundCheck groundCheck;
+	AirAttackTracker airAttackTracker;
 
 	public bool grounded = false;
 	WallCheckData wall = null;
@@ -87,6 +86,7 @@ public class PlayerController : Entity {
 	bool justLeftGround = false;
 	Coroutine currentWallTimeout;
 	Coroutine coyoteTimeout;
+	Coroutine exitCutsceneRoutine;
 	bool canShoot = true;
 	Coroutine platformTimeout;
 	public bool inCutscene;
@@ -99,6 +99,7 @@ public class PlayerController : Entity {
 	bool justFlipped = false;
 	int panicJumpInputs = 0;
 	public ActiveInCombat[] combatActives;
+	public PlayerAttackGraph attackGraph;
 
 	public PlayerStates currentState;
 
@@ -107,7 +108,11 @@ public class PlayerController : Entity {
 	public Transform vaporExplosion;
 	public Transform sparkle;
 	public GameObject parryParticles;
+	public GameObject shieldBreak;
 	GameObject instantiatedSparkle = null;
+	GameObject diamondShine;
+	GameEvent deathEvent;
+
 
 	string[] deathText = {
 		"WARNING: WAVEFORM DESTABILIZED",
@@ -132,11 +137,14 @@ public class PlayerController : Entity {
 		gunEyes = transform.Find("GunEyes").transform;
 		gun = GetComponentInChildren<Gun>();
 		interaction = GetComponentInChildren<InteractAppendage>();
-		RefreshAirMovement();
 		lastSafeOffset = this.transform.position;
 		speedLimiter = GetComponent<SpeedLimiter>();
 		spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(includeInactive:true));
 		combatActives = GetComponentsInChildren<ActiveInCombat>(includeInactive:true);
+		diamondShine = Resources.Load("Effects/DiamondShine") as GameObject;
+		airAttackTracker = GetComponent<AirAttackTracker>();
+		RefreshAirMovement();
+		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
 	}
 	
 	void Update() {
@@ -145,26 +153,23 @@ public class PlayerController : Entity {
 		Shoot();
 		Attack();
 		Interact();
-		Taunt();
 		UpdateAnimationParams();
 		UpdateUI();
 		CheckFlip();
 		UpdateWallSliding();
 		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
 	}
-
-	void Taunt() {
-		if (frozen || stunned) return;
-		anim.SetFloat(Buttons.XTAUNT, Input.GetAxis(Buttons.XTAUNT));
-		anim.SetFloat(Buttons.YTAUNT, Input.GetAxis(Buttons.YTAUNT));
-		if (InputManager.TauntInput()) {
-			anim.SetTrigger("Taunt");
-		}
-	}
 	
 	void Interact() {
 		if (stunned) return;
-		if (UpButtonPress() && interaction.currentInteractable != null && !inCutscene && canInteract && grounded) {
+
+		if (InputManager.ButtonDown(Buttons.INTERACT)
+			&& interaction.currentInteractable != null
+			&& !inCutscene
+			&& canInteract
+			&& grounded
+		) {
+			EndCombatStanceCooldown();
 			SoundManager.InteractSound();
 			InterruptEverything();
 			interaction.currentInteractable.InteractFromPlayer(this.gameObject);
@@ -174,28 +179,23 @@ public class PlayerController : Entity {
 	}
 
 	bool IsForcedWalking() {
-		return this.forcedWalking || Input.GetKey(KeyCode.LeftControl);
+		return this.forcedWalking || InputManager.Button(Buttons.WALK);
 	}
 
-	public void Parry() {
-		if (currentEnergy <= 0) {
-			return;
-		}
+	public void Parry(Attack attack) {
 		if (parryCount == 0) {	
-			FirstParry();
+			FirstParry(attack);
 		} else {
-			currentEnergy--;
 			Hitstop.Run(0.05f);
 			StartCombatStanceCooldown();
 			Instantiate( 
 				parryEffect, 
-				// move it forward and to the right a bit
-				(Vector2) this.transform.position + (Random.insideUnitCircle * 0.2f) + (Vector2.right*this.ForwardVector()*0.15f), 
+				GetParryEffectPosition(attack),
 				Quaternion.identity,
 				this.transform
 			);
 		}
-		GetComponent<AnimationInterface>().SpawnFollowingEffect(2);
+		if (!IsFacing(attack.attackerParent.gameObject)) ForceFlip();
 		parryCount += 1;
 		SoundManager.PlaySound(SoundManager.sm.parry);
 		canParry = true;
@@ -205,12 +205,22 @@ public class PlayerController : Entity {
 		Invoke("EndParryWindow", 0.5f);
 	}
 
-	public void FirstParry() {
+	public void FirstParry(Attack attack) {
 		AlerterText.Alert("Autoparry active");
 		anim.SetTrigger("Parry");
+		Instantiate(
+			diamondShine, 
+			GetParryEffectPosition(attack),
+			Quaternion.identity,
+			null
+		);
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
 		CameraShaker.Shake(0.1f, 0.1f);
-		Hitstop.Run(0.5f);
+		Hitstop.Run(0.4f);
+	}
+
+	public Vector2 GetParryEffectPosition(Attack attack) {
+		return Vector2.MoveTowards(transform.position, attack.transform.position, 0.16f);
 	}
 
 	public void EndShortHopWindow() {
@@ -232,19 +242,24 @@ public class PlayerController : Entity {
 			anim.SetBool("SpecialHeld", false);
 		}
 
+		UpdateAttackGraph();
 
-		if (InputManager.ButtonDown(Buttons.ATTACK) && !inMeteor) {
-			anim.SetTrigger(Buttons.ATTACK);
-		} else if (InputManager.ButtonDown(Buttons.PUNCH)) {
-			anim.SetTrigger(Buttons.PUNCH);
-			// use one trigger to get to the attack state machine, because there are a bunch of transitions to it
-			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+		if (grounded) {
+			if (InputManager.AttackInput() && !InAttackStates()) {
+				anim.SetTrigger(Buttons.ATTACK);
+			}
+		} else {
+			if (InputManager.ButtonDown(Buttons.PUNCH)) {
+				anim.SetTrigger(Buttons.PUNCH);
+				if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+			}
+			else if (InputManager.ButtonDown(Buttons.KICK) && !inMeteor) {
+				anim.SetTrigger(Buttons.KICK);
+				if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
+			}
 		}
-		else if (InputManager.ButtonDown(Buttons.KICK) && !inMeteor) {
-			anim.SetTrigger(Buttons.KICK);
-			if (!InAttackStates()) anim.SetTrigger(Buttons.ATTACK);
-		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
+
+		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			}
@@ -261,7 +276,7 @@ public class PlayerController : Entity {
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.7f) {
 			OrcaFlip();
 		} 
-		else if (InputManager.BlockInput() && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
+		else if (InputManager.ButtonDown(Buttons.BLOCK) && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
@@ -284,7 +299,7 @@ public class PlayerController : Entity {
 		) {
 			anim.SetBool("Surf", true);
 			return;
-		} 
+		}
 
 		anim.SetBool("Surf", false);
 
@@ -305,10 +320,19 @@ public class PlayerController : Entity {
 		// you can't push forward + down on sticks, so do this
 		if (hInput >= 0.5f) hInput = 1f;
 
+		if (wall!=null && wall.direction==Mathf.Sign(hInput)) {
+			anim.SetFloat("Speed", 0f);
+			return;
+		}
+
 		anim.SetFloat("Speed", Mathf.Abs(hInput));
 
 		if (InputManager.HorizontalInput() != 0) {
 			float targetXSpeed = hInput * moveSpeed;
+
+			if (grounded && InAttackStates()) {
+				targetXSpeed = rb2d.velocity.x;
+			}
 			
 			// if moving above max speed and not decelerating
 			if (IsSpeeding() && MovingForwards()) {
@@ -379,7 +403,7 @@ public class PlayerController : Entity {
 	}
 
 	void Jump() {
-		if ((frozen && !dashing) || lockedInSpace) {
+		if ((frozen && !dashing) || lockedInSpace || stunned) {
 			return;
 		}
 
@@ -415,7 +439,7 @@ public class PlayerController : Entity {
 			if (!grounded) {
 				//buffer a jump for a short amount of time for when the player hits the ground/wall
 				bufferedJump = true;
-				Invoke("CancelBufferedJump", jumpBufferDuration);
+				Invoke("CancelBufferedJump", InputManager.GetInputBufferDuration());
 				return;
 			}
 		}
@@ -500,13 +524,11 @@ public class PlayerController : Entity {
 			Invoke("EndEarlyDashInput", missedInputCooldown);
 			return;
 		}
-
-		/*
+		
 		if (!grounded && airDashes < 1) {
 			return;
 		}
 		airDashes--;
-		*/
 
 		StartCombatStanceCooldown();
 		CameraShaker.MedShake();
@@ -578,7 +600,8 @@ public class PlayerController : Entity {
 
 	IEnumerator StartDashCooldown(float seconds) {
         dashCooldown = true;
-        yield return new WaitForSeconds(seconds);
+		anim.SetBool("RedWings", true);
+        yield return new WaitForSecondsRealtime(seconds);
         EndDashCooldown();
     }
 
@@ -588,7 +611,10 @@ public class PlayerController : Entity {
 		}
 		if (dashCooldown) {
 			dashCooldown = false;
-			FlashCyan();
+			if (grounded || airDashes>0) {
+				FlashCyan();
+				anim.SetBool("RedWings", false);
+			}
 			perfectDashPossible = true;
 			Invoke("ClosePerfectDashWindow", 0.2f);
 		}
@@ -636,7 +662,6 @@ public class PlayerController : Entity {
 
 			if (currentState == PlayerStates.DIVEKICK) {
 				currentState = PlayerStates.NORMAL;
-				//anim.SetInteger("SubState", 100);
 			} else if (InputManager.HasHorizontalInput()) {
 				anim.SetTrigger("Roll");
 			} else {
@@ -650,9 +675,16 @@ public class PlayerController : Entity {
 		if (terminalFalling) {
 			CameraShaker.Shake(0.2f, 0.1f);
 		}
+		if (attackGraph != null) {
+			attackGraph.OnGroundHit();
+		}
 		if (bufferedJump) {
 			GroundJump();
 			CancelBufferedJump();
+		}
+
+		if (!dashCooldown) {
+			anim.SetBool("RedWings", false);
 		}
 	}
 
@@ -689,12 +721,21 @@ public class PlayerController : Entity {
 		ChangeAirspeed();
 	}
 
-	void RefreshAirMovement() {
+	public void RefreshAirMovement() {
 		canFlipKick = true;
-		airDashes = 1;
 		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
 		anim.ResetTrigger("Flail");
 		panicJumpInputs = 0;
+		airAttackTracker.Reset();
+		if (airDashes<1 && dashCooldown) {
+			FlashCyan();
+		}
+		anim.SetBool("RedWings", false);
+		airDashes = 1;
+	}
+
+	public void OnLedgePop() {
+		RefreshAirMovement();
 	}
 
 	void SaveLastSafePos() {
@@ -708,23 +749,24 @@ public class PlayerController : Entity {
 		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
 	}
 
-
 	IEnumerator ReturnToSafety(float delay) {
 		yield return new WaitForSecondsRealtime(delay);
+		rb2d.velocity = Vector2.zero;
+		hardFalling = false;
 		if (this.currentHP <= 0) {
 			yield break;
 		}
-		rb2d.velocity = Vector2.zero;
 		FreezeFor(0.4f);
+		LockInSpace();
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
-		rb2d.velocity = Vector2.zero;
 	}
 
 	public override void OnGroundLeave() {
 		grounded = false;
+		airDashes = 1;
 		justLeftGround = true;
 		anim.SetBool("Grounded", false);
 		coyoteTimeout = StartCoroutine(GroundLeaveTimeout());
@@ -886,6 +928,8 @@ public class PlayerController : Entity {
 				forwardScalar: ForwardScalar(), 
 				bulletPos: gunEyes
 			);
+			StartCombatCooldown();
+			StartCombatStanceCooldown();
 			LoseEnergy(gunCost);
 		}
 	}
@@ -932,8 +976,14 @@ public class PlayerController : Entity {
 				}
 			}
 		} else if (canParry) {
-			Parry();
-			return;
+			currentEnergy -= attack.GetDamage();
+			if (currentEnergy < 0) {
+				AlerterText.Alert("PARRY BREAK");
+				Instantiate(shieldBreak, this.transform.position, shieldBreak.transform.rotation, null);
+			} else {
+				Parry(attack);
+				return;
+			}
 		}
 
 		CameraShaker.Shake(0.2f, 0.1f);
@@ -943,17 +993,18 @@ public class PlayerController : Entity {
 
 		if (this.currentHP == 0) return;
 		
-		StunFor(stunLength);
+		StunFor(attack.stunLength);
+
+		// asdi
+		float actualSDIMultiplier = sdiMultiplier * (attack.gameObject.CompareTag(Tags.EnviroDamage) ? 3 : 1);
+		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 
 		//flip to attacker
 		if (attack.knockBack) {
 			Vector2 kv = attack.GetKnockback();
-			bool attackerToLeft = attack.attackerParent.transform.position.x < this.transform.position.x;
-			if ((attackerToLeft && facingRight) || (!attackerToLeft && !facingRight)) ForceFlip();
-			KnockBack(kv);
+			if (!IsFacing(attack.gameObject)) ForceFlip();
+			rb2d.velocity = (kv + (InputManager.LeftStick()));
 		}
-		// asdi
-		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*sdiMultiplier));
 	}
 
 	override public void StunFor(float seconds) {
@@ -1003,6 +1054,10 @@ public class PlayerController : Entity {
 		Instantiate(selfHitmarker, this.transform.position, Quaternion.identity, null);
 		SoundManager.PlayerHurtSound();
 		currentHP -= attack.GetDamage();
+		
+		if (attack.instakill) {
+			currentHP = 0;
+		}
 
 		Hitstop.Run(selfDamageHitstop);
 
@@ -1028,8 +1083,7 @@ public class PlayerController : Entity {
 		AlerterText.Alert($"<color=red>CAUSE OF DEATH:</color>");
 		AlerterText.Alert($"<color=red>{fatalBlow.attackName}</color>");
 		// if the animation gets interrupted or something, use this as a failsafe
-		Invoke("FinishDyingAnimation", 3f);
-		this.dead = true;
+		dead = true;
 		SoundManager.PlayerDieSound();
 		currentEnergy = 0;
 		CameraShaker.Shake(0.2f, 0.1f);
@@ -1037,18 +1091,15 @@ public class PlayerController : Entity {
 		Freeze();
 		anim.SetTrigger("Die");
 		anim.SetBool("TouchingWall", false);
+		deathEvent.Raise();
 		InterruptEverything();
 		EndCombatStanceCooldown();
 		ResetAttackTriggers();
 	}
 
-	public void FinishDyingAnimation() {
-		CancelInvoke("FinishDyingAnimation");
-		GlobalController.Respawn();
-	}
-
 	public void StartRespawning() {
 		anim.SetTrigger("Respawn");
+		EndCombatStanceCooldown();
 		anim.SetBool("Skeleton", false);
 		EndRespawnAnimation();
 	}
@@ -1061,7 +1112,6 @@ public class PlayerController : Entity {
 		ResetAttackTriggers();
 		RefreshAirMovement();
 		UnFreeze();
-		InputManager.UnfreezeInputs();
 		UnLockInSpace();
 		EnableShooting();
 		InvincibleFor(1f);
@@ -1133,13 +1183,14 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterCutscene(bool invincible = true) {
+		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
-		anim.Update(0.5f);
+		anim.Update(1f);
 		anim.speed = 0f;
 	}
 
@@ -1155,9 +1206,16 @@ public class PlayerController : Entity {
 	}
 
 	public void ExitCutscene() {
+		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
+		exitCutsceneRoutine = StartCoroutine(_ExitCutscene());
+	}
+
+	IEnumerator _ExitCutscene() {
+		yield return new WaitForEndOfFrame();
+		yield return new WaitForEndOfFrame();
 		if (TransitionManager.sceneData != null) {
 			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
-				return;
+				yield break;
 			}
 		}
 		UnFreeze();
@@ -1167,6 +1225,7 @@ public class PlayerController : Entity {
 		SetInvincible(false);
 		inCutscene = false;
 		anim.speed = 1f;
+		exitCutsceneRoutine = null;
 	}
 
 	public bool IsGrounded() {
@@ -1233,17 +1292,6 @@ public class PlayerController : Entity {
 		this.forcedWalking = false;
 	}
 
-	public PlayerTriggeredObject CheckInsideTrigger() {
-		int layerMask = 1 << LayerMask.NameToLayer(Layers.Triggers);
-		RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.up, .1f, layerMask);
-		if (hit) {
-			if (hit.transform.GetComponent<PlayerTriggeredObject>() != null) {
-				return hit.transform.GetComponent<PlayerTriggeredObject>();
-			}
-		} 
-		return null;
-	}
-
 	public void AnimFoostep() {
 		SoundManager.FootFallSound();
 	}
@@ -1270,7 +1318,7 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator InteractTimeout() {
-		yield return new WaitForSecondsRealtime(1);
+		yield return new WaitForSecondsRealtime(0.5f);
 		canInteract = true;
 	}
 
@@ -1308,13 +1356,13 @@ public class PlayerController : Entity {
 
 	// called from PlayerCombatBehaviour
 	public void StartCombatStanceCooldown() {
-		anim.SetLayerWeight(1, 1);
+		anim.SetFloat("CombatStance", 1);
 		CancelInvoke("EndCombatStanceCooldown");
 		Invoke("EndCombatStanceCooldown", combatStanceCooldown);
 	}
 
 	public void EndCombatStanceCooldown() {
-		anim.SetLayerWeight(1, 0);
+		anim.SetFloat("CombatStance", 0);
 	}
 
 	// called from animations
@@ -1357,7 +1405,9 @@ public class PlayerController : Entity {
 	}
 
 	public void OnAttackLand(Attack attack) {
-		// ResetAirJumps();	
+		if (attackGraph != null) {
+			attackGraph.OnAttackLand();
+		}
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
@@ -1377,5 +1427,30 @@ public class PlayerController : Entity {
 	public bool InAttackStates() {
 		int currentState = anim.GetInteger("SubState");
 		return (currentState == 110) || (currentState == 210);
+	}
+
+	void UpdateAttackGraph() {
+		if (attackGraph != null) attackGraph.Update();
+	}
+
+	public void EnterAttackGraph(PlayerAttackGraph graph, CombatNode startNode = null) {
+		if (attackGraph == graph && startNode == null) return;
+		attackGraph = graph;
+		attackGraph.Initialize(anim, GetComponent<AttackBuffer>(), rb2d, airAttackTracker);
+		attackGraph.EnterGraph(startNode);
+	}
+
+	public void ExitAttackGraph() {
+		attackGraph = null;
+	}
+
+	public void DisableTriggers() {
+		if (interaction == null) interaction = GetComponentInChildren<InteractAppendage>();
+		interaction.GetComponent<BoxCollider2D>().enabled = false;
+	}
+
+	public void EnableTriggers() {
+		if (interaction == null) return;
+		interaction.GetComponent<BoxCollider2D>().enabled = true;
 	}
 }

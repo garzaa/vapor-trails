@@ -8,15 +8,14 @@ public class Item : ScriptableObject {
     public bool stackable;
     public int cost = 0;
 
-    [SerializeField] List<ItemType> type;
+    public List<ItemType> type;
 
-    [TextArea] [SerializeField]
-    string description;
+    [TextArea]
+    public string description;
 
     public List<GameState> gameStates;
 
-    [SerializeField]
-    public List<ItemEffect> itemEffects;
+    // public List<ItemEffect> itemEffects;
 
     public virtual void OnPickup(bool quiet) {
 

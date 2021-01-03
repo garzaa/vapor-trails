@@ -51,7 +51,13 @@ public class ItemViewer : MonoBehaviour {
             itemTitle.text += ": " + s.count;
         }
         if (itemCost != null) itemCost.text = "$"+item.cost.ToString();
-        itemDescription.text = item.GetDescription();
+        
+        string itemText = item.GetDescription();
+        if (item.IsType(ItemType.WEAPON)) {
+            itemText += "\n\n<color=lime>ATTACK FORM</color>";
+        }
+
+        itemDescription.text = itemText;
     }
 
     public void PopulateItems(InventoryList inventoryList) {

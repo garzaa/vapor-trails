@@ -56,3 +56,25 @@ float2 rotateUV(float2 uv, float deg) {
 
     return uv;
 }
+
+/*
+void replaceColor(float3 In, float3 From, float3 To, float Range, float Fuzziness, out float3 Out)
+{
+    float Distance = distance(From, In);
+    Out = lerp(To, In, saturate((Distance - Range) / max(Fuzziness, e-f)));
+}
+^^^ what is e-f here
+*/
+
+void Unity_PolarCoordinates_float(float2 UV, float2 Center, float RadialScale, float LengthScale, out float2 Out)
+{
+    float2 delta = UV - Center;
+    float radius = length(delta) * 2 * RadialScale;
+    float angle = atan2(delta.x, delta.y) * 1.0/6.28 * LengthScale;
+    Out = float2(radius, angle);
+}
+
+void Unity_Posterize_float4(float4 In, float4 Steps, out float4 Out)
+{
+    Out = floor(In / (1 / Steps)) * (1 / Steps);
+}

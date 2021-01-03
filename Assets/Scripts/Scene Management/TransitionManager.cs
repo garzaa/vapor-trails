@@ -105,10 +105,7 @@ public class TransitionManager : MonoBehaviour {
 
 		}
 
-		PlayerTriggeredObject triggered = GlobalController.pc.CheckInsideTrigger();
-		if (triggered != null) {
-			triggered.OnPlayerEnter();
-		}
+		pc.EnableTriggers();
 
 	}
 
@@ -123,7 +120,8 @@ public class TransitionManager : MonoBehaviour {
 		this.currentBeacon = beacon;
 
 		PlayerController pc = GlobalController.pc;
-		pc.LockInSpace();
+		pc.EnterCutscene();
+		pc.DisableTriggers();
 
 		StartCoroutine(LoadAsync(sceneName, fade));
 	}
@@ -136,14 +134,15 @@ public class TransitionManager : MonoBehaviour {
 		}
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-		loadTextUI.SetActive(true);
 		asyncLoad.allowSceneActivation = false;
+		loadTextUI.SetActive(true);
 		
         //wait until the last operation fully loads to return anything
         while (!asyncLoad.isDone) {
 			loadProgressText.text = asyncLoad.progress.ToString("P");
-			if (asyncLoad.progress >= .9f) {
+			if (asyncLoad.progress >= 0.9f) {
 				asyncLoad.allowSceneActivation = true;
+				GlobalController.pc.ExitCutscene();
 			}
 
             yield return null;

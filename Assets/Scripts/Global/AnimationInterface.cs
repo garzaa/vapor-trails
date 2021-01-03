@@ -7,6 +7,7 @@ public class AnimationInterface : MonoBehaviour {
 	Animator anim;
 	ParticleSystem ps;
 
+	public float effectDistance = 8f;
 	public Transform effectPoint;
 	public GameObject fallbackEffectPoint;
 	public List<GameObject> effects;
@@ -31,7 +32,8 @@ public class AnimationInterface : MonoBehaviour {
 		} else {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.position, pos.rotation, null);
+		GameObject g = Instantiate(effects[index], pos.position, Quaternion.identity, pos.transform);
+		g.transform.parent = null;
 	}
 
 	public void SpawnFollowingEffect(int index) {
@@ -39,7 +41,7 @@ public class AnimationInterface : MonoBehaviour {
 		if (pos == null) {
 			pos = fallbackEffectPoint.transform;
 		}
-		Instantiate(effects[index], pos.position, pos.rotation, pos.transform);
+		Instantiate(effects[index], pos.position, Quaternion.identity, pos.transform);
 	}
 
 	public void EmitParticles(int p) {
@@ -87,7 +89,9 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void PlaySound(int soundIndex) {
-	SoundManager.PlaySound(this.sounds[soundIndex]);
+		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
+			SoundManager.PlaySound(this.sounds[soundIndex]);
+		}
 	}
 
 	public void HitActivatable(int index) {
@@ -103,7 +107,8 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void FollowEffectPoint() {
-		GlobalController.playerFollower.FollowTarget(this.effectPoint.gameObject);
+		GameObject point = effectPoint == null ? fallbackEffectPoint : effectPoint.gameObject;
+		GlobalController.playerFollower.FollowTarget(point);
 	}
 
 	public void StopFollowingEffectPoint() {
@@ -111,7 +116,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
-		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < 8f) {
+		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
 			CameraShaker.Shake(0.07f, seconds);
 		}
 	}
@@ -122,6 +127,10 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void ExitSlowMotion() {
 		GlobalController.ExitSlowMotion();
+	}
+
+	public void SlowMotionFor(float seconds) {
+		GlobalController.SlowMotionFor(seconds);
 	}
 
 	public void ShowTitle(string text) {
@@ -153,5 +162,9 @@ public class AnimationInterface : MonoBehaviour {
 	public void MovePlayerToEffectPoint() {
 		Transform target = (effectPoint != null ? effectPoint : fallbackEffectPoint.transform);
 		GlobalController.MovePlayerTo(target.position);
+	}
+
+	public void RunHitstop(float duration) {
+		Hitstop.Run(duration);
 	}
 }

@@ -6,7 +6,7 @@ public class FaceTarget : MonoBehaviour {
 
 	public bool facingRight;
 	public GameObject target;
-	public float threshold;
+	public float threshold = 0.2f;
 
 	bool isEntity;
 	Entity e;

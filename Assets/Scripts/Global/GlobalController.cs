@@ -51,6 +51,7 @@ public class GlobalController : MonoBehaviour {
 	static GameObject playerMenu;
 	static BinarySaver binarySaver;
 	static SaveWrapper saveWrapper;
+	public static BossFightIntro bossFightIntro;
 
 	void Awake() {
 		if (gc == null) {
@@ -79,6 +80,7 @@ public class GlobalController : MonoBehaviour {
 		binarySaver = gc.GetComponent<BinarySaver>();
 		saveWrapper = gc.GetComponent<SaveWrapper>();
 		audioListener = gc.GetComponentInChildren<AudioListener>();
+		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -135,7 +137,7 @@ public class GlobalController : MonoBehaviour {
 		}
 
 		
-		if (Input.GetButtonDown("Start") && pauseEnabled && !inInventory && !paused) {
+		if (InputManager.ButtonDown(Buttons.PAUSE) && pauseEnabled && !inInventory && !paused) {
 			// pauseUI takes care of unpausing
 			Pause();
 		}
@@ -228,6 +230,10 @@ public class GlobalController : MonoBehaviour {
 		currentNPC = npc;
 		dialogueOpenedThisFrame = true;
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
+		if (npc.centerCameraInDialogue) {
+			playerFollower.LookAtPoint(npc.gameObject);
+		}
+		pc.EnterCutscene();
 	}
 
 	public static void ExitDialogue() {
@@ -235,6 +241,7 @@ public class GlobalController : MonoBehaviour {
 		dialogueClosedThisFrame = true;
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
+			if (currentNPC.centerCameraInDialogue) playerFollower.StopLookingAtPoint();
 		}
 		currentNPC = null;
 		if (queuedNPCs.Count != 0) {
@@ -281,10 +288,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static Vector2 GetPlayerPos() {
 		return pc.transform.position;
-	}
-
-	public static void Respawn() {
-		rm.RespawnPlayer();
 	}
 
 	//called when the new respawn scene is loaded
@@ -339,19 +342,29 @@ public class GlobalController : MonoBehaviour {
 				playerAnimator.SetBool(s, true);
 			}
 		}
+
+		binarySaver.SyncImmediateStates(saveSlot, save);
 	}
 
 	public static void AddState(GameState state) {
 		if (state == null) return;
 		save.gameStates.Add(state.name);
 		PropagateStateChange();
+		if (state.writeImmediately) {
+			binarySaver.SyncImmediateStates(saveSlot, save);
+		}
 	}
 
 	public static void AddStates(List<GameState> states) {
+		bool writeImmediate = false;
 		foreach (GameState state in states) {
 			save.gameStates.Add(state.name);
+			if (state.writeImmediately) writeImmediate = true;
 		}
 		PropagateStateChange();
+		if (writeImmediate) {
+			binarySaver.SyncImmediateStates(saveSlot, save);
+		}
 	}
 
 	public static bool HasState(GameState state) {
@@ -381,19 +394,16 @@ public class GlobalController : MonoBehaviour {
 			return;
 		}
 		gc.StartCoroutine(gc.MovePlayerNextFrame(position));
-		playerFollower.DisableSmoothing();
 	}
 
 	// make sure the trail renderers don't emit
 	IEnumerator MovePlayerNextFrame(Vector2 position) {
-		playerFollower.DisableSmoothing();
 		pc.DisableTrails();
 		yield return new WaitForEndOfFrame();
-		pc.GetComponent<Rigidbody2D>().position = position;
+		pc.transform.position = position;
+		playerFollower.SnapToTarget();
 		pc.EnableTrails();
-		playerFollower.SnapToPlayer();
 		yield return new WaitForSecondsRealtime(0.5f);
-		playerFollower.EnableSmoothing();
 		UnFadeToBlack();
 		pc.ExitCutscene();
 	}
@@ -410,6 +420,16 @@ public class GlobalController : MonoBehaviour {
 			x => x.beacon == beacon
 		).First();
 		MovePlayerTo(b.transform.position);
+	}
+
+	public static void ShortBlackFade() {
+		gc.StartCoroutine(gc._ShortBlackFade());
+	}
+
+	IEnumerator _ShortBlackFade() {
+		FadeToBlack();
+		yield return new WaitForSecondsRealtime(0.5f);
+		UnFadeToBlack();
 	}
 
 	public static void FadeToBlack() {
@@ -465,6 +485,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void EnterSlowMotion() {
+		Hitstop.Interrupt();
 		Time.timeScale = 0.3f;
 	}
 
@@ -472,11 +493,21 @@ public class GlobalController : MonoBehaviour {
 		Time.timeScale = 1;
 	}
 
+	public static void SlowMotionFor(float seconds) {
+		gc.StartCoroutine(gc.TimedSlowMotion(seconds));
+	}
+
+	IEnumerator TimedSlowMotion(float seconds) {
+		EnterSlowMotion();
+		yield return new WaitForSecondsRealtime(seconds);
+		ExitSlowMotion();
+	}
+
 	public static void LoadGame() {
 		FadeToBlack();
 		saveWrapper.save = binarySaver.LoadFile(saveSlot);
-		// refresh????? fucking GC languages
 		save = saveWrapper.save;
+		LoadSceneToPosition(save.sceneName, save.playerPosition);
 		pc.LoadFromSaveData(saveWrapper.save);
 		inventory.items.Empty();
 		foreach (StoredItem s in save.playerItems.items) {
@@ -486,7 +517,6 @@ public class GlobalController : MonoBehaviour {
 			o.Start();
 		}
 		inventory.UpdateMoneyUI();
-		LoadSceneToPosition(save.sceneName, save.playerPosition);
  	}
 
 	public static void SaveGame(bool autosave=false) {
@@ -504,6 +534,7 @@ public class GlobalController : MonoBehaviour {
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
+		binarySaver.SyncImmediateStates(saveSlot, saveWrapper.save);
 		binarySaver.SaveFile(saveWrapper.save, saveSlot);
 	}
 
@@ -512,6 +543,7 @@ public class GlobalController : MonoBehaviour {
 			return;
 		}
 		paused = true;
+		CameraShaker.StopShaking();
 		pauseUI.Open();
 	}
 

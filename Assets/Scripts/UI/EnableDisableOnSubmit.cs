@@ -12,6 +12,7 @@ public class EnableDisableOnSubmit : MonoBehaviour,
 
     public bool onDeselect;
     public bool onSelect;
+    public bool onDisable = true;
     public AudioClip sound;
     
     public void OnSubmit(BaseEventData eventData) {
@@ -39,7 +40,7 @@ public class EnableDisableOnSubmit : MonoBehaviour,
     }
 
     public void OnDisable() {
-        target.SetActive(false);
+        if (onDisable) target.SetActive(false);
     }
 
     void UISound() {

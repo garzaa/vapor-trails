@@ -40,7 +40,6 @@ public class Enemy : Entity {
 	public Transform burstEffect;
 
 	GameObject bossResources;
-	[SerializeField] bool dropBossResources;
 
 	public bool IsStunned() {
 		return stunned;
@@ -72,9 +71,9 @@ public class Enemy : Entity {
 
 		hasSprites = (spr != null || spriteRenderers.Count > 0 || mainChildRenderer != null);
 
-		if (dropBossResources) {
-			bossResources = Resources.Load<GameObject>("Effects/BossResources");
-		}
+		// if (dropBossResources) {
+		//	bossResources = Resources.Load<GameObject>("Effects/BossResources");
+		// }
 	}
 
 	override public void KnockBack(Vector2 kv) {
@@ -108,7 +107,7 @@ public class Enemy : Entity {
 		}
 		StunFor(attack.GetStunLength());
 		if (attack.knockBack) {
-		KnockBack(attack.GetKnockback());
+			KnockBack(attack.GetKnockback());
 		}
 	}
 
@@ -117,11 +116,6 @@ public class Enemy : Entity {
 		this.frozen = true;
 		this.dead = true;
 		Hitstop.Run(.1f);
-		if (dropBossResources) {
-			for (int i=0; i<1; i++) {
-				// Instantiate(bossResources, this.transform.position, Quaternion.identity, null);
-			}
-		}
 		if (!burstOnDeath && anim != null) {
 			anim.SetTrigger("Die");
 		} else {
@@ -150,7 +144,7 @@ public class Enemy : Entity {
 	public void CloseHurtboxes() {
 		foreach (Transform child in transform) {
 			if (child.gameObject.tag.Equals(Tags.EnemyHurtbox)) {
-				child.GetComponent<Collider2D>().enabled = false;
+				if (child.GetComponent<Collider2D>() != null) child.GetComponent<Collider2D>().enabled = false;
 			}
 		}
 	}
