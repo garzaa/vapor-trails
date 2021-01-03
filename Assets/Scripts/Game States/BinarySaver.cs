@@ -63,29 +63,31 @@ public class BinarySaver : MonoBehaviour {
     }
 
     public void SyncImmediateStates(int slot, Save currentSave) {
-        Save diskSave = LoadFile(slot);
+        if (HasFile(slot)) {
+            Save diskSave = LoadFile(slot);
 
-        // prune old states
-        List<string> toPrune = new List<string>();
-        foreach (String diskState in diskSave.gameStates) {
-            if ((Resources.Load("ScriptableObjects/Game States/"+diskState) as GameState).writeImmediately) {
-                if (!currentSave.gameStates.Contains(diskState)) {
-                    toPrune.Add(diskState);
+            // prune old states
+            List<string> toPrune = new List<string>();
+            foreach (String diskState in diskSave.gameStates) {
+                if ((Resources.Load("ScriptableObjects/Game States/"+diskState) as GameState).writeImmediately) {
+                    if (!currentSave.gameStates.Contains(diskState)) {
+                        toPrune.Add(diskState);
+                    }
                 }
             }
-        }
-        foreach (String s in toPrune) {
-            diskSave.gameStates.Remove(s);
-        }
-
-        // add new states
-        foreach (String stateName in currentSave.gameStates) {
-            if ((Resources.Load("ScriptableObjects/Game States/"+stateName) as GameState).writeImmediately) {
-                diskSave.gameStates.Add(stateName);
+            foreach (String s in toPrune) {
+                diskSave.gameStates.Remove(s);
             }
+
+            // add new states
+            foreach (String stateName in currentSave.gameStates) {
+                if ((Resources.Load("ScriptableObjects/Game States/"+stateName) as GameState).writeImmediately) {
+                    diskSave.gameStates.Add(stateName);
+                }
+            }
+            SaveFile(diskSave, slot);
+        } else {
+            SaveFile(currentSave, slot);
         }
-
-
-        SaveFile(diskSave, slot);
     }
 }
