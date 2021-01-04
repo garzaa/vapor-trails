@@ -21,11 +21,13 @@ public class GameOptions {
         Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");
     
+        #if UNITY_STANDALONE
         if (fullscreen) {
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
         } else {
             Screen.fullScreenMode = FullScreenMode.Windowed;
         }
+        #endif
     }
 
     // player pref changes are done via scripts attached to buttons
