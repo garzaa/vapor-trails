@@ -86,8 +86,6 @@ public class BinarySaver : MonoBehaviour {
                 }
             }
             SaveFile(diskSave, slot);
-        } else {
-            SaveFile(currentSave, slot);
         }
     }
 }
