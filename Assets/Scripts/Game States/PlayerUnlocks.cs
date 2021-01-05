@@ -12,4 +12,9 @@ public class PlayerUnlocks {
 		return unlockedAbilities.Contains(a);
 	}
 
+	public void Clear() {
+		unlockedAbilities.Clear();
+		baseDamage = 1;
+	}
+
 }
