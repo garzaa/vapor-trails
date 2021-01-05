@@ -16,9 +16,9 @@ public class InventoryController : MonoBehaviour {
 
     public List<Item> startingItems;
 
-    void Start() {
+    public void Start() {
         // will be overwritten by deserialization, so it's OK
-                                        // hmmgh
+        // hmmgh
         if (startingItems == null || this.items.items.Count > 0) return;
         if (startingItems != null) {
             foreach (Item item in startingItems) {
@@ -27,6 +27,10 @@ public class InventoryController : MonoBehaviour {
             }
         }
         UpdateMoneyUI();
+    }
+
+    public void Clear() {
+        items.items.Clear();
     }
 
     public void ReactToItemSelect(StoredItem item) {

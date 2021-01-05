@@ -17,6 +17,10 @@ public class MenuInterface : MonoBehaviour {
 	public void LoadScene(string sceneName) {
 		GlobalController.LoadScene(sceneName);
 	}
+
+	public void NewGame() {
+		GlobalController.NewGame();
+	}
 	
 	public void LoadGame() {
 		GlobalController.LoadGame();

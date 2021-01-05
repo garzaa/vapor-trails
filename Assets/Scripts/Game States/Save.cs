@@ -3,15 +3,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class Save {
-    public int slotNum = 1;
-    public int currentHP = 5;
-    public int maxHP = 5;
-    public int currentEnergy = 5;
-    public int maxEnergy = 5;
-    public int basePlayerDamage = 1;
+    [HideInInspector] public int slotNum = 1;
+    [HideInInspector] public int currentHP;
+    [HideInInspector] public int maxHP;
+    [HideInInspector] public int currentEnergy;
+    [HideInInspector] public int maxEnergy;
+    [HideInInspector] public int basePlayerDamage;
     public List<GameFlag> gameFlags = new List<GameFlag>();
 
-    // [HideInInspector]
     public List<string> gameStates = new List<string>();
 
     public PlayerUnlocks unlocks;    
@@ -35,6 +34,33 @@ public class Save {
 
     void Awake() {
         persistentObjects = new Dictionary<string, SerializedPersistentObject>();
+        Initialize();
+    }
+
+    void Initialize() {
+        currentHP = 12;
+        maxHP = 12;
+        currentEnergy = 8;
+        maxEnergy = 8;
+        basePlayerDamage = 1;
+    }
+
+    public void Clear() {
+        // wipe all persistent object keys and values
+        persistentObjects.Clear();
+
+        // also playerunlocks? is that referenced? sure
+        unlocks.Clear();
+
+        // then everything else
+        playerPosition = Vector2.zero;
+        sceneName = "";
+        playerItems.items.Clear();
+        persistentObjectKeys.Clear();
+        persistentObjectValues.Clear();
+        gameFlags.Clear();
+
+        Initialize();
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {

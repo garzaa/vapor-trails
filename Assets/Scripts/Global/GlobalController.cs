@@ -95,6 +95,23 @@ public class GlobalController : MonoBehaviour {
 		return;
 	}
 
+	public static void NewGame() {
+		// wipe the save
+		save.Clear();
+
+		// re-add starting game flags
+		gc.GetComponentInChildren<EditorGameStates>().Start();
+
+		// wipe the inventory
+		inventory.Clear();
+
+		// re-add starting items
+		inventory.Start();
+
+		// profit
+		gc.GetComponent<TransitionManager>().LoadScene("Tutorial", null);
+	}
+
 	public static bool HasBeatGame() {
 		return false;
 	}
@@ -348,7 +365,7 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddState(GameState state) {
 		if (state == null) return;
-		save.gameStates.Add(state.name);
+		if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
 		PropagateStateChange();
 		if (state.writeImmediately) {
 			binarySaver.SyncImmediateStates(saveSlot, save);
@@ -358,7 +375,7 @@ public class GlobalController : MonoBehaviour {
 	public static void AddStates(List<GameState> states) {
 		bool writeImmediate = false;
 		foreach (GameState state in states) {
-			save.gameStates.Add(state.name);
+			if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
 			if (state.writeImmediately) writeImmediate = true;
 		}
 		PropagateStateChange();
