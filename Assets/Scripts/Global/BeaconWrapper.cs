@@ -3,6 +3,7 @@ using System.Linq;
 
 public class BeaconWrapper : MonoBehaviour {
     public Beacon beacon;
+    public Activatable activateOnLoad;
     
     #if UNITY_EDITOR
     void Start() {

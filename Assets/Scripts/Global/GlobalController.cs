@@ -95,7 +95,7 @@ public class GlobalController : MonoBehaviour {
 		return;
 	}
 
-	public static void NewGame() {
+	public void NewGame() {
 		// wipe the save
 		save.Clear();
 
@@ -107,9 +107,6 @@ public class GlobalController : MonoBehaviour {
 
 		// re-add starting items
 		inventory.Start();
-
-		// profit
-		gc.GetComponent<TransitionManager>().LoadScene("Tutorial", null);
 	}
 
 	public static bool HasBeatGame() {
@@ -436,6 +433,9 @@ public class GlobalController : MonoBehaviour {
 		BeaconWrapper b = Object.FindObjectsOfType<BeaconWrapper>().Where(
 			x => x.beacon == beacon
 		).First();
+		if (b.activateOnLoad != null) {
+			b.activateOnLoad.Activate();
+		}
 		MovePlayerTo(b.transform.position);
 	}
 

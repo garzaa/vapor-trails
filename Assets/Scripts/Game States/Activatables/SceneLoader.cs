@@ -6,8 +6,9 @@ using Utilities;
 public class SceneLoader : Activatable {
 
 	public SceneField sceneToLoad;
+	public Beacon beacon;
 
 	public override void Activate() {
-		GlobalController.LoadScene(sceneToLoad);
+		GlobalController.LoadScene(sceneToLoad, beacon);
 	}
 }
