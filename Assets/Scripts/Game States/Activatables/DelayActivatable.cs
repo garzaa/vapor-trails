@@ -13,8 +13,9 @@ public class DelayActivatable : Activatable {
     IEnumerator WaitAndActivate(bool b) {
         yield return new WaitForSeconds(delay);
         foreach(Activatable a in activatables) {
-			if (a != null)
-			a.ActivateSwitch(b);
+			if (a != null){
+				a.ActivateSwitch(b);
+			}
 		}
     }
 }
