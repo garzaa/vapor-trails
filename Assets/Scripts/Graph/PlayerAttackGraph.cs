@@ -15,6 +15,7 @@ public class PlayerAttackGraph : NodeGraph {
     public Animator anim;
     public AttackBuffer buffer;
     public AirAttackTracker airAttackTracker;
+    public PlayerController playerController;
 
     CombatNode currentNode = null;
 
@@ -26,6 +27,7 @@ public class PlayerAttackGraph : NodeGraph {
         this.buffer = buffer;
         this.rb2d = rb;
         this.airAttackTracker = airAttackTracker;
+        this.playerController = anim.GetComponent<PlayerController>();
     }
 
     public void EnterGraph(Node entryNode) {
