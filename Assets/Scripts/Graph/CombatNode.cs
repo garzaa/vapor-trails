@@ -14,6 +14,7 @@ public class CombatNode : Node {
     virtual public void OnNodeEnter() {
         attackGraph = this.graph as PlayerAttackGraph;
         active = true;
+        attackGraph.playerController.OnAttackNodeEnter();
     }
 
     virtual public void NodeUpdate(int currentFrame, float clipTime, AttackBuffer buffer) {

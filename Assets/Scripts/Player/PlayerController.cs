@@ -1453,4 +1453,8 @@ public class PlayerController : Entity {
 		if (interaction == null) return;
 		interaction.GetComponent<BoxCollider2D>().enabled = true;
 	}
+
+	public void OnAttackNodeEnter() {
+		if (InputBackwards()) ForceFlip();
+	}
 }
