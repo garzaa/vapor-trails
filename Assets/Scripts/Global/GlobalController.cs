@@ -542,6 +542,7 @@ public class GlobalController : MonoBehaviour {
 			pc.FullHeal();
 			AlerterText.Alert("Done");
 		}
+		if (autosave) AlerterText.AlertImmediate("Autosaving...");
 		save.playerItems = inventory.items.MakeSerializableInventory();
 		save.currentHP = pc.currentHP;
 		save.maxHP = pc.maxHP;
@@ -553,6 +554,7 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
 		binarySaver.SyncImmediateStates(saveSlot, saveWrapper.save);
 		binarySaver.SaveFile(saveWrapper.save, saveSlot);
+		if (autosave) AlerterText.AlertImmediate("Autosave complete");
 	}
 
 	public static void Pause() {

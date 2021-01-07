@@ -1187,6 +1187,7 @@ public class PlayerController : Entity {
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
+		rb2d.velocity = Vector2.zero;
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
@@ -1262,6 +1263,7 @@ public class PlayerController : Entity {
 	public float MoveSpeedRatio() {
 		if (rb2d == null) return 0;
 		if (speedLimiter.maxSpeedX == 0) return 0;
+		if (frozen) return 0;
 		return Mathf.Abs(rb2d.velocity.x / speedLimiter.maxSpeedX);
 	}
 
