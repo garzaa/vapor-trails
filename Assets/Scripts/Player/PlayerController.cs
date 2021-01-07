@@ -1187,7 +1187,7 @@ public class PlayerController : Entity {
 		InterruptEverything();
 		Freeze();
 		LockInSpace();
-		rb2d.velocity = Vector2.zero;
+		if (rb2d != null) rb2d.velocity = Vector2.zero;
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
