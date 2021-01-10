@@ -126,7 +126,6 @@ Shader "Custom/Water"
 			v2f vert(appdata_t v) {
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				// comment this or else tilemap offsets get messed up somehow (why??)
 				o.uvgrab = ComputeGrabScreenPos(o.vertex);
 				
 				o.uvbump = TRANSFORM_TEX(v.texcoord, _BumpMap) * _BumpScale + (_Time.w * _MoveSpeed.xy);
