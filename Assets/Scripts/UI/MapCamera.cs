@@ -9,6 +9,7 @@ public class MapCamera : MonoBehaviour {
     }
 
     void Update() {
-        transform.localPosition += moveSpeed * Time.deltaTime * (Vector3) InputManager.LeftStick();
+        Vector3 nav = (Vector3) InputManager.UINav();
+        transform.localPosition += moveSpeed * Time.unscaledDeltaTime * nav;
     }
 }

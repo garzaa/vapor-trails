@@ -20,6 +20,7 @@ public class UILerper : MonoBehaviour {
 
     void OnEnable() {
         selfTransform.position = originalPos;
+        if (originalPos != Vector3.zero) Debug.LogWarning(gameObject.name + " isn't starting at (0,0)! Pain will occur when resizing the window.");
         this.target = null;
     }
 
