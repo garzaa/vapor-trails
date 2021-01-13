@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameEventListener : MonoBehaviour {
     public GameEvent gameEvent;
+    public bool priority;
     public UnityEvent response;
 
     void OnEnable() {

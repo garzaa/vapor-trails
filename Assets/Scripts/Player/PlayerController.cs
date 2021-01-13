@@ -1000,6 +1000,8 @@ public class PlayerController : Entity {
 		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 
 		//flip to attacker
+		// TODO: enviro damage knockback gets computed here?
+		// also todo: fire save item check when buying an item (Reacttoitemget)
 		if (attack.knockBack) {
 			Vector2 kv = attack.GetKnockback();
 			if (!IsFacing(attack.gameObject)) ForceFlip();

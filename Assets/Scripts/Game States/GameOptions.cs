@@ -18,7 +18,7 @@ public class GameOptions {
         GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
         inputBuffer = LoadInt("InputBuffer");
         fullscreen = LoadBool("Fullscreen");
-        lookaheadRatio = LoadFloat("LookaheadRatio");
+        lookaheadRatio = LoadInt("LookaheadRatio");
     
         Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");

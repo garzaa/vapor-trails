@@ -58,7 +58,6 @@
             float _BumpAmt;
 			sampler2D _BumpMap;
 			float4 _BumpScale;
-			float4 _BumpMap_ST;
 			float4 _MainTex_ST;
             float4 _MainTex_TexelSize;
 			float4 _MoveSpeed;
