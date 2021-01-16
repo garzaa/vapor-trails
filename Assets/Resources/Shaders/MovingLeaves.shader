@@ -61,8 +61,6 @@
 			float4 _MainTex_ST;
             float4 _MainTex_TexelSize;
 			float4 _MoveSpeed;
-            uniform float4 _StepTime;
-
 
 			v2f vert(appdata_t IN)
 			{
@@ -99,7 +97,7 @@
 			{
                 float g = SampleSpriteTexture(IN.texcoord).g;
 
-                half2 bump_uv = IN.worldPos;
+                float2 bump_uv = IN.worldPos;
                 bump_uv /= _BumpScale.xy;
                 bump_uv += _Time.w * _MoveSpeed.xy;
 

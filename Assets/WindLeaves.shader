@@ -51,6 +51,7 @@ Shader "Custom/WindLeaves"
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
+				float3 worldPos : TEXCOORD1;
 			};
 			
 			fixed4 _Color;
@@ -64,6 +65,8 @@ Shader "Custom/WindLeaves"
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif
+
+				OUT.worldPos = mul(unity_ObjectToWorld, IN.vertex);
 
 				return OUT;
 			}
@@ -88,9 +91,21 @@ Shader "Custom/WindLeaves"
 			float _Strength;
 			float4 _Scale;
 			float4 _Velocity;
+			float4 _MainTex_TexelSize;
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
+				float green_amount = SampleSpriteTexture(IN.texcoord).g;
+
+				float2 distortion_coordinates = IN.worldPos;
+				distortion_coordinates /= _Scale.xy;
+				distortion_coordinates += _Time.w * _Velocity.xy;
+
+				half2 distortion_direction = UnpackNormal(tex2D(_NormalMap, distortion_coordinates)).rg;
+				half2 offset = distortion_direction * _Strength * _MainTex_TexelSize.xy * green_amount;
+
+				IN.texcoord += offset;
+
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 				return c;
