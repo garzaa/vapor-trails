@@ -750,14 +750,14 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator ReturnToSafety(float delay) {
-		yield return new WaitForSecondsRealtime(delay);
 		rb2d.velocity = Vector2.zero;
+		LockInSpace();
 		hardFalling = false;
+		yield return new WaitForSecondsRealtime(delay);
 		if (this.currentHP <= 0) {
 			yield break;
 		}
 		FreezeFor(0.4f);
-		LockInSpace();
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
