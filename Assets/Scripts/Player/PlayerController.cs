@@ -757,7 +757,7 @@ public class PlayerController : Entity {
 		if (this.currentHP <= 0) {
 			yield break;
 		}
-		FreezeFor(0.4f);
+		FreezeFor(0.2f);
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
@@ -858,6 +858,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Freeze() {
+		if (speedLimiter != null) speedLimiter.enabled = false;
 		this.inMeteor = false;
 		this.frozen = true;
 	}
@@ -865,6 +866,7 @@ public class PlayerController : Entity {
 	public void UnFreeze() {
 		this.frozen = false;
 		if (anim != null) anim.speed = 1f;
+		if (speedLimiter != null) speedLimiter.enabled = true;
 	}
 
 	public void FlashCyan() {
