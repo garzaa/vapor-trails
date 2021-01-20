@@ -12,16 +12,20 @@ public class LedgePop : MonoBehaviour {
     Vector2 boxPos;
     PlayerController player;
 
+    PlayerGroundCheck groundCheck;
+
     void Start() {
         box = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 
         player = GetComponent<PlayerController>();
+        groundCheck = GetComponent<PlayerGroundCheck>();
     }
 
     void Update() {
         if (Mathf.Abs(rb.velocity.x) < 0.2f) return;
+        if (groundCheck != null && groundCheck.groundData.grounded) return;
         boxPos = (Vector2) box.transform.position + box.offset;
         CheckPopX();
     }

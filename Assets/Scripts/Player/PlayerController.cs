@@ -103,6 +103,8 @@ public class PlayerController : Entity {
 
 	public PlayerStates currentState;
 
+	public GameObject playerRig;
+
 	//other misc prefabs
 	public GameObject selfHitmarker;
 	public Transform vaporExplosion;
@@ -322,6 +324,12 @@ public class PlayerController : Entity {
 			}
 		}
 
+		if (grounded) {
+			playerRig.transform.rotation = Quaternion.Euler(playerRig.transform.rotation.eulerAngles.x, playerRig.transform.rotation.eulerAngles.y, Vector2.SignedAngle(Vector2.up, groundData.normal)); 
+		} else {
+			playerRig.transform.rotation = Quaternion.identity;
+		}
+
 		anim.SetBool("InputBackwards", InputBackwards());
 
 		float modifier = IsForcedWalking() ? 0.4f : 1f;
@@ -361,10 +369,22 @@ public class PlayerController : Entity {
 				);
 			}
 
-			rb2d.velocity = new Vector2(
+			Vector2 targetVelocity = new Vector2(
 				targetXSpeed,
-				rb2d.velocity.y
+				(groundData.grounded) ? 0 : rb2d.velocity.y
 			);
+
+			if (grounded) {
+				targetVelocity = targetVelocity.Rotate(Vector2.SignedAngle(Vector2.up, groundData.normal));
+
+				// if jumped but didn't release the ground colliders yet
+				if (rb2d.velocity.y > targetVelocity.y+2f) {
+					targetVelocity.y = rb2d.velocity.y;
+				}
+
+			}
+
+			rb2d.velocity = targetVelocity;
 		}
 		
 		movingRight = InputManager.HorizontalInput() > 0;
@@ -543,10 +563,13 @@ public class PlayerController : Entity {
 		// back dash animation always comes from the initial dash, where the speed boost has already been applied
 		float newSpeed = (backwards ? preDashSpeed : preDashSpeed+dashSpeed);
 		
-		rb2d.velocity = new Vector2(
+		Vector2 targetVelocity = new Vector2(
 			ForwardScalar() * newSpeed, 
-			Mathf.Max(rb2d.velocity.y, 0)
+			groundData.grounded ? 0 : Mathf.Max(rb2d.velocity.y, 0)
 		);
+
+		rb2d.velocity = targetVelocity.Rotate(Vector2.SignedAngle(Vector2.up, groundData.normal));
+
 		if (perfectDashPossible && !earlyDashInput) {
 			AlerterText.Alert("Recycling boost");
 			perfectDashPossible = false;
