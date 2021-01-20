@@ -389,13 +389,6 @@ public class PlayerController : Entity {
 		}
 
 		movingForwardsLastFrame = MovingForwards();
-
-		// due to frame skips or other weird shit, add a little self-healing here
-		if (!grounded && rb2d.velocity.y == 0f && !frozen) {
-			//Invoke("HealGroundTimeout", 0.5f);
-		} else if (grounded || (!grounded && rb2d.velocity.y != 0f)) {
-			CancelInvoke("HealGroundTimeout");
-		}
 	}
 
 	public bool IsSpeeding() {
@@ -537,12 +530,10 @@ public class PlayerController : Entity {
 
 	public void StartDashAnimation(bool backwards) {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-		float additive = 0f;
-		// backdash always comes from initial fdash, so subtract fdash speed if necessary	
-		if (backwards && preDashSpeed>dashSpeed) {
-			additive = preDashSpeed - dashSpeed;
-		}
-		float newSpeed = ((backwards ? additive : preDashSpeed) + dashSpeed);
+
+		// back dash animation always comes from the initial dash, where the speed boost has already been applied
+		float newSpeed = (backwards ? preDashSpeed : preDashSpeed+dashSpeed);
+		
 		rb2d.velocity = new Vector2(
 			ForwardScalar() * newSpeed, 
 			Mathf.Max(rb2d.velocity.y, 0)
@@ -1002,8 +993,6 @@ public class PlayerController : Entity {
 		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 
 		//flip to attacker
-		// TODO: enviro damage knockback gets computed here?
-		// also todo: fire save item check when buying an item (Reacttoitemget)
 		if (attack.knockBack) {
 			Vector2 kv = attack.GetKnockback();
 			if (!IsFacing(attack.gameObject)) ForceFlip();
@@ -1170,10 +1159,7 @@ public class PlayerController : Entity {
 			platform.enabled = false;
 			platformTimeout = StartCoroutine(EnableCollider(0.5f, platform));
 		}
-		rb2d.velocity = new Vector2(
-			rb2d.velocity.x,
-			hardLandSpeed
-		);
+		rb2d.MovePosition(rb2d.position + Vector2.down*0.05f);
 	}
 
 	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {

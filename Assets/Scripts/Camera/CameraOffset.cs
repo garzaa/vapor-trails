@@ -36,7 +36,7 @@ public class CameraOffset : MonoBehaviour {
 		this.lookaheadRatio = options.lookaheadRatio;
 	}
 
-	void FixedUpdate() {
+	void LateUpdate() {
 		if (!following) {
 			transform.localPosition = Vector3.zero;
 			return;
@@ -61,7 +61,7 @@ public class CameraOffset : MonoBehaviour {
 			}
 
 			// lookahead ratio in-game is a slider from 0-5
-			lookaheadDelta = lookaheadDelta * (lookaheadRatio/5f);
+			lookaheadDelta.x *= (lookaheadRatio/5f);
 			
 			newPosition += lookaheadDelta;
 		}
@@ -80,7 +80,8 @@ public class CameraOffset : MonoBehaviour {
 			transform.position,
 			newPosition,
 			ref velocity,
-			smoothAmount * Time.deltaTime
+			smoothAmount * Time.deltaTime,
+			maxSpeed: 10
 		);
 
 		if (stickOffset) transform.position += (Vector3) InputManager.RightStick() * stickOffsetMultiplier; 

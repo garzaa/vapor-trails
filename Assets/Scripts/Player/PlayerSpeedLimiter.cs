@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerSpeedLimiter : SpeedLimiter {
 
     public float dragAmount = 0.01f;
+    const float dragMultiplier = 50f;
     public bool clampSpeed = false;
     PlayerController pc;
 
@@ -19,7 +20,7 @@ public class PlayerSpeedLimiter : SpeedLimiter {
 		if (IsSpeeding()) {
             float reduced = maxSpeedX;
             if (!clampSpeed) {
-			    reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-dragAmount, maxSpeedX);
+			    reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-(dragAmount*Time.deltaTime*dragMultiplier    ), maxSpeedX);
             }
             rb2d.velocity = new Vector2(
                 reduced * originalSign,
