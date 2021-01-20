@@ -24699,7 +24699,6 @@ GameObject:
   - component: {fileID: 61208046417586162}
   - component: {fileID: 50578690507464408}
   - component: {fileID: 95028895832518656}
-  - component: {fileID: 114494436459997376}
   - component: {fileID: 114726818594396558}
   - component: {fileID: 114632667032308398}
   - component: {fileID: 3164965157367048565}
@@ -24708,6 +24707,7 @@ GameObject:
   - component: {fileID: 4251080715250203631}
   - component: {fileID: 1938880260858554626}
   - component: {fileID: 6367212415025964795}
+  - component: {fileID: 1802755085567309930}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -24947,24 +24947,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114494436459997376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765911528617980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cf9c19660536974faf627fe565d705a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  corner1: {fileID: 1336690822729690}
-  corner2: {fileID: 1114997985086966}
-  generateFromCollider: 0
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 1
-  collidertoUse: {fileID: 61208046417586162}
 --- !u!114 &114726818594396558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25090,6 +25072,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usedAttacks: []
+--- !u!114 &1802755085567309930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765911528617980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2331ed91d65d944baa675153b273c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    groundObject: {fileID: 0}
+  playerCollider: {fileID: 61208046417586162}
 --- !u!1 &1813790845386956
 GameObject:
   m_ObjectHideFlags: 0
@@ -110260,6 +110263,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boost Slide
       objectReference: {fileID: 0}
+    - target: {fileID: 2163247105505881533, guid: ac960a57de7bd61489abd2d952580046,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3655119865857507095, guid: ac960a57de7bd61489abd2d952580046,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -113829,6 +113837,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Claw Uppercut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2163247105505881533, guid: ac960a57de7bd61489abd2d952580046,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3655119865857507095, guid: ac960a57de7bd61489abd2d952580046,
         type: 3}

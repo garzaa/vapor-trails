@@ -157,7 +157,7 @@ Shader "Custom/Water"
 			fixed4 _FlashColor;
 			fixed4 _TransparentColor;
 
-			float2 SineDisplace (float2 uv)
+			float2 SineDisplace (float2 uv, v2f i)
 			{
 				float2 final = uv;
 				float4 time = _Time;
@@ -167,10 +167,10 @@ Shader "Custom/Water"
 				final.x = (uv.x + (time.w * _XSpeed));
 
 				// x waves
-				final.y += (_XAmp * sin((uv.x/_XWidth) + (time * _XWaveSpeed)));
+				final.y += (_XAmp * sin((i.worldPos.x/_XWidth) + (time * _XWaveSpeed)));
 
 				// y waves
-				final.x += (_YAmp * sin((uv.y/_YWidth) + (time * _YWaveSpeed)));
+				final.x += (_YAmp * sin((i.worldPos.y/_YWidth) + (time * _YWaveSpeed)));
                 return final;
 			}
 
@@ -181,7 +181,7 @@ Shader "Custom/Water"
 				i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 
 				half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab)) * _TransparentColor;
-				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain));
+				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain, i));
 
 
 				fixed4 color = lerp(grabPixel, texPixel, round(texPixel.a));

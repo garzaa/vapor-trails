@@ -11,7 +11,6 @@ public class GroundCheck : MonoBehaviour {
 	bool groundedCurrentFrame;
 	bool ledgeStepCurrentFrame;
 
-	float coyoteTime = 000f;
 	float raycastLength = 0.4f;
 	float impactSpeed = 0f;
 
@@ -87,7 +86,7 @@ public class GroundCheck : MonoBehaviour {
 		return LeftGrounded() ^ RightGrounded();
 	}
 
-	void FixedUpdate() {
+	void Update() {
 		bool groundedLastFrame = groundedCurrentFrame;
 		groundedCurrentFrame = IsGrounded();
 		if (!groundedLastFrame && groundedCurrentFrame) {

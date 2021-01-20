@@ -19,7 +19,7 @@ public class CameraOffset : MonoBehaviour {
 	public bool following = true;
 
 	public bool stickOffset;
-	float stickOffsetMultiplier = .05f;
+	float stickOffsetMultiplier = .02f;
 	float speedRamp = 2f;
 
 	public bool clampPosition;

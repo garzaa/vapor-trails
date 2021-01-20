@@ -6,7 +6,7 @@ public class PlayerController : Entity {
 	public const float moveSpeed = 3.5f;
 	const float jumpSpeed = 3.8f;
 	const float jumpCutoff = 2.0f;
-	const float hardLandSpeed = -4f;
+	const float hardLandSpeed = -7f;
 	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
@@ -71,8 +71,8 @@ public class PlayerController : Entity {
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
-	GroundCheck groundCheck;
 	AirAttackTracker airAttackTracker;
+	GroundData groundData;
 
 	public bool grounded = false;
 	WallCheckData wall = null;
@@ -128,7 +128,6 @@ public class PlayerController : Entity {
 		unlocks = GetComponentInParent<SaveWrapper>().save.unlocks;
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
-		groundCheck = GetComponent<GroundCheck>();
 		options = GlobalController.save.options;
 		this.facingRight = false;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
@@ -145,9 +144,11 @@ public class PlayerController : Entity {
 		airAttackTracker = GetComponent<AirAttackTracker>();
 		RefreshAirMovement();
 		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
+		groundData = GetComponent<PlayerGroundCheck>().groundData;
 	}
 	
 	void Update() {
+		CheckGroundData();
 		Jump();
 		Move();
 		Shoot();
@@ -158,6 +159,15 @@ public class PlayerController : Entity {
 		CheckFlip();
 		UpdateWallSliding();
 		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+	}
+
+	void CheckGroundData() {
+		if (groundData.hitGround) {
+			OnGroundHit(rb2d.velocity.y);
+		} 
+		else if (groundData.leftGround) {
+			OnGroundLeave();
+		}
 	}
 	
 	void Interact() {
@@ -307,9 +317,8 @@ public class PlayerController : Entity {
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 		if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
-			EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
-			if (platforms != null && grounded) {
-				DropThroughPlatforms(platforms);
+			if (grounded && groundData.platforms != null) {
+				DropThroughPlatforms(groundData.platforms);
 			}
 		}
 
@@ -406,7 +415,7 @@ public class PlayerController : Entity {
 				return;
 			}
 
-			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundCheck.TouchingPlatforms() == null)) {
+			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundData.platforms == null)) {
 				GroundJump();
 				return;
 			}
@@ -731,12 +740,12 @@ public class PlayerController : Entity {
 
 	void SaveLastSafePos() {
 		// save the safe position as an offset of the groundCheck's last hit ground
-		GameObject currentGround = groundCheck.currentGround;
+		GameObject currentGround = groundData.groundObject;
 		if (currentGround == null || currentGround.GetComponent<UnsafeGround>() != null) {
 			return;
 		}
 
-		lastSafeObject = groundCheck.currentGround;
+		lastSafeObject = groundData.groundObject;
 		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
 	}
 
@@ -1154,12 +1163,15 @@ public class PlayerController : Entity {
 		this.canShoot = false;
 	}
 
-	void DropThroughPlatforms(EdgeCollider2D[] platforms) {
-		foreach (EdgeCollider2D platform in platforms) {
+	void DropThroughPlatforms(List<RaycastHit2D>platforms) {
+		foreach (RaycastHit2D hit in platforms) {
+			EdgeCollider2D platform = hit.collider.GetComponent<EdgeCollider2D>();
+			if (platform == null) continue;
 			platform.enabled = false;
 			platformTimeout = StartCoroutine(EnableCollider(0.5f, platform));
 		}
-		rb2d.MovePosition(rb2d.position + Vector2.down*0.05f);
+
+		rb2d.MovePosition(rb2d.position + Vector2.down*0.1f);
 	}
 
 	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {
@@ -1221,8 +1233,8 @@ public class PlayerController : Entity {
 
 	public bool IsGrounded() {
 		// scene load things
-		if (groundCheck == null) return false;
-		return groundCheck.IsGrounded();
+		if (groundData == null) return false;
+		return groundData.grounded;
 	}
 
 	public void Heal() {
