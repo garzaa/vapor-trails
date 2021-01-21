@@ -30,6 +30,8 @@ public class GridTilemapUtils : MonoBehaviour {
         tr.sortingLayerName = sortingLayer;
         tr.sortingOrder = sortingOrder;
 
+        t.AddComponent<TilemapUtils>();
+
         if (addCollider) AddCollider(t);
     }
 

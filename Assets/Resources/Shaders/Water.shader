@@ -181,7 +181,7 @@ Shader "Custom/Water"
 				i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 
 				half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab)) * _TransparentColor;
-				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain, i));
+				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain, i)) * i.color;
 
 
 				fixed4 color = lerp(grabPixel, texPixel, round(texPixel.a));

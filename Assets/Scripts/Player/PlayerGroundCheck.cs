@@ -13,7 +13,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     RaycastHit2D rightGrounded;
     bool grounded;
     bool onLedge;
-    Vector2 currentNormal;
+    Vector2 currentNormal = Vector2.up;
     GameObject currentGround;
 
     List<RaycastHit2D>platforms = new List<RaycastHit2D>();
@@ -27,7 +27,7 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         leftGrounded = LeftGrounded();
         rightGrounded = RightGrounded();
-        grounded = leftGrounded && rightGrounded;
+        grounded = leftGrounded || rightGrounded;
         onLedge = leftGrounded ^ rightGrounded;
         
 
@@ -45,10 +45,13 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         groundData.grounded = grounded;
         groundData.onLedge = onLedge;
-        if (grounded) {
-            groundData.normal = (leftGrounded ? leftGrounded : rightGrounded).normal;
-            groundData.groundObject = (leftGrounded ? leftGrounded : rightGrounded).collider.gameObject;
 
+        currentNormal = GetGroundNormal();
+        groundData.normal = currentNormal;
+        groundData.normalRotation = Vector2.SignedAngle(Vector2.up, currentNormal);
+
+        if (grounded) {
+            groundData.groundObject = (leftGrounded ? leftGrounded : rightGrounded).collider.gameObject;
         }
     }
 
@@ -89,9 +92,28 @@ public class PlayerGroundCheck : MonoBehaviour {
         groundData.ledgeStep = false;
     }
 
+    Vector2 GetGroundNormal() {
+        Vector2 start = transform.position;
+        Vector2 end = (Vector2) transform.position + Vector2.down*0.5f;
+
+        RaycastHit2D hit = Physics2D.Linecast(
+            start,
+            end,
+            defaultLayerMask
+        );
+
+        if (hit.transform != null) {
+            Debug.DrawLine(start, hit.point);
+            return hit.normal;
+        } else {
+            Debug.DrawLine(start, end);
+            return Vector2.up;
+        }
+    }
+
     RaycastHit2D DefaultLinecast(Vector2 origin) {
         Vector2 start = origin + Vector2.up * 0.05f;
-        Vector2 end = origin + Vector2.down * 0.10f;
+        Vector2 end = origin + (-currentNormal * 0.10f);
 
         Debug.DrawLine(start, end);
         return Physics2D.Linecast(
@@ -110,6 +132,7 @@ public class GroundData {
     public bool hitGround;
     public bool ledgeStep;
     public Vector2 normal;
+    public float normalRotation;
     public GameObject groundObject;
     public List<RaycastHit2D> platforms;
 }

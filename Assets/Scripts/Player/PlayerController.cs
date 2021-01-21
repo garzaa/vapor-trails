@@ -325,7 +325,7 @@ public class PlayerController : Entity {
 		}
 
 		if (grounded) {
-			playerRig.transform.rotation = Quaternion.Euler(playerRig.transform.rotation.eulerAngles.x, playerRig.transform.rotation.eulerAngles.y, Vector2.SignedAngle(Vector2.up, groundData.normal)); 
+			playerRig.transform.rotation = Quaternion.Euler(playerRig.transform.rotation.eulerAngles.x, playerRig.transform.rotation.eulerAngles.y, groundData.normalRotation); 
 		} else {
 			playerRig.transform.rotation = Quaternion.identity;
 		}
@@ -375,7 +375,7 @@ public class PlayerController : Entity {
 			);
 
 			if (grounded) {
-				targetVelocity = targetVelocity.Rotate(Vector2.SignedAngle(Vector2.up, groundData.normal));
+				targetVelocity = targetVelocity.Rotate(groundData.normalRotation);
 
 				// if jumped but didn't release the ground colliders yet
 				if (rb2d.velocity.y > targetVelocity.y+2f) {
@@ -480,10 +480,8 @@ public class PlayerController : Entity {
 		} else {
 			ImpactDust();
 		}
-		rb2d.velocity = new Vector2(
-			x:rb2d.velocity.x, 
-			y:jumpSpeed
-		);
+		rb2d.velocity += Vector2.up * jumpSpeed;
+
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
@@ -568,7 +566,7 @@ public class PlayerController : Entity {
 			groundData.grounded ? 0 : Mathf.Max(rb2d.velocity.y, 0)
 		);
 
-		rb2d.velocity = targetVelocity.Rotate(Vector2.SignedAngle(Vector2.up, groundData.normal));
+		rb2d.velocity = targetVelocity.Rotate(groundData.normalRotation);
 
 		if (perfectDashPossible && !earlyDashInput) {
 			AlerterText.Alert("Recycling boost");
