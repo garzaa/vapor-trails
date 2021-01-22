@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SewerWaterfall
+  m_Name: MovingWater
   m_Shader: {fileID: 4800000, guid: 89d8d937a3462482ea7671d6837cfa2e, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -51,6 +51,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Overlay:
+        m_Texture: {fileID: 2800000, guid: 75aacc0471b73d64f935b44365653da3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -73,19 +77,22 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _XAmp: 0
+    - _XAmp: 0.25
     - _XSpeed: 0
     - _XWaveSpeed: 20
-    - _XWidth: 1
-    - _YAmp: 0
-    - _YSpeed: 0.99
-    - _YWaveSpeed: 20
-    - _YWidth: 1
+    - _XWidth: 0.01
+    - _YAmp: 0.004
+    - _YSpeed: 0.8
+    - _YWaveSpeed: 500
+    - _YWidth: 0.1
     - _ZWrite: 1
     m_Colors:
-    - _BumpScale: {r: 4.51, g: 1, b: 1, a: 1}
+    - _BumpScale: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlashColor: {r: 1, g: 1, b: 1, a: 0}
-    - _MoveSpeed: {r: 0, g: 0.5, b: 0, a: 0}
-    - _TransparentColor: {r: 0.18823527, g: 0.8070583, b: 0.8862745, a: 1}
+    - _Mask1: {r: 0.6745098, g: 0.19607845, b: 0.19607845, a: 1}
+    - _Mask2: {r: 1, g: 1, b: 1, a: 1}
+    - _MoveSpeed: {r: 0, g: 0.94, b: 0, a: 0}
+    - _Speed: {r: 0, g: 0.37, b: 0, a: 0}
+    - _TransparentColor: {r: 0.048059814, g: 0.16836466, b: 0.2264151, a: 0.5803922}

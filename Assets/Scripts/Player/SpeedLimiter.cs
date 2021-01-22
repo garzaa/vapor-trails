@@ -11,13 +11,13 @@ public class SpeedLimiter : MonoBehaviour {
     }
 
     void Update() {
+        if (rb2d.constraints == RigidbodyConstraints2D.FreezeAll) {
+            return;
+        }
         SlowRigidBody();
     }
 
     virtual protected void SlowRigidBody() {
-        if (rb2d.constraints != RigidbodyConstraints2D.FreezeAll) {
-            return;
-        }
         Vector2 newVec = rb2d.velocity;
         if (Mathf.Abs(rb2d.velocity.x) > maxSpeedX) {
             newVec.x = rb2d.velocity.x > 0 ? maxSpeedX : -maxSpeedX;

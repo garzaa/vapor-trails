@@ -180,7 +180,8 @@ Shader "Custom/Water"
 				float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
 				i.uvgrab.xy = offset * i.uvgrab.z + i.uvgrab.xy;
 
-				half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab)) * _TransparentColor;
+				half4 grabPixel = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
+				grabPixel.rgb = lerp(grabPixel.rgb, _TransparentColor.rgb, _TransparentColor.a);
 				half4 texPixel = tex2D(_MainTex, SineDisplace(i.uvmain, i)) * i.color;
 
 

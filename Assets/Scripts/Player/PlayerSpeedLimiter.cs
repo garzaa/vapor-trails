@@ -20,7 +20,7 @@ public class PlayerSpeedLimiter : SpeedLimiter {
 		if (IsSpeeding()) {
             float reduced = maxSpeedX;
             if (!clampSpeed) {
-			    reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-(dragAmount*Time.deltaTime*dragMultiplier    ), maxSpeedX);
+			    reduced = Mathf.Max(Mathf.Abs(rb2d.velocity.x)-(dragAmount*Time.deltaTime*dragMultiplier), maxSpeedX);
             }
             rb2d.velocity = new Vector2(
                 reduced * originalSign,

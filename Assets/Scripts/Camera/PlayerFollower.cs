@@ -65,7 +65,7 @@ public class PlayerFollower : MonoBehaviour {
 					y:followY ? target.transform.position.y + currentOffset.y : transform.position.y,
 					z:this.transform.position.z),
 				ref velocity,
-				smoothAmount * Time.deltaTime
+				smoothAmount * Time.smoothDeltaTime
 			);
 		} else {
 			transform.position = new Vector3(

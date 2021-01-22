@@ -2,6 +2,7 @@ Shader "Custom/AlphaBlend" {
 Properties {
     _TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
     _MainTex ("Particle Texture", 2D) = "white" {}
+    [PerRendererData] _FlashColor ("Flash Color", Color) = (1, 1, 1, 0)
 }
 
 Category {
@@ -36,6 +37,7 @@ Category {
             };
 
             float4 _MainTex_ST;
+            fixed4 _FlashColor;
 
             v2f vert (appdata_t v)
             {
@@ -50,6 +52,7 @@ Category {
             {
                 fixed4 col = 2.0f * i.color * tex2D(_MainTex, i.texcoord);
                 col.a = saturate(col.a); // alpha should not have double-brightness applied to it, but we can't fix that legacy behavior without breaking everyone's effects, so instead clamp the output to get sensible HDR behavior (case 967476)
+                col.rgb = lerp(col.rgb,_FlashColor.rgb,_FlashColor.a);
                 return col;
             }
             ENDCG

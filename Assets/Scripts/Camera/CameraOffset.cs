@@ -80,7 +80,7 @@ public class CameraOffset : MonoBehaviour {
 			transform.position,
 			newPosition,
 			ref velocity,
-			smoothAmount * Time.deltaTime,
+			smoothAmount * Time.smoothDeltaTime,
 			maxSpeed: 10
 		);
 

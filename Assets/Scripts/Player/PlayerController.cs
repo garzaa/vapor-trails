@@ -513,6 +513,15 @@ public class PlayerController : Entity {
 			y:jumpSpeed
 		);
 		ImpactDust();
+
+		// refresh airdash
+		if (airDashes < 1) {
+			airDashes += 1;
+			if (!dashCooldown) {
+				anim.SetBool("RedWings", false);
+			}
+		}
+
 		airJumps--;
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
@@ -772,6 +781,7 @@ public class PlayerController : Entity {
 
 	IEnumerator ReturnToSafety(float delay) {
 		rb2d.velocity = Vector2.zero;
+		speedLimiter.enabled = false;
 		LockInSpace();
 		hardFalling = false;
 		yield return new WaitForSecondsRealtime(delay);
@@ -783,6 +793,7 @@ public class PlayerController : Entity {
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
+		speedLimiter.enabled = true;
 	}
 
 	public override void OnGroundLeave() {
