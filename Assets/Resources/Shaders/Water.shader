@@ -128,10 +128,10 @@ Shader "Custom/Water"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uvgrab = ComputeGrabScreenPos(o.vertex);
 				
-				o.uvbump = TRANSFORM_TEX(v.texcoord, _BumpMap) * _BumpScale + (_Time.w * _MoveSpeed.xy);
 
 				o.uvmain = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.worldPos = mul (unity_ObjectToWorld, v.vertex);
+				o.uvbump = TRANSFORM_TEX(o.worldPos, _BumpMap) * _BumpScale + (_Time.w * _MoveSpeed.xy);
 
 				o.color = v.color * _Color;
 
