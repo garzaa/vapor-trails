@@ -5,7 +5,7 @@ public class SpriteRigger : MonoBehaviour {
     public Texture2D spriteAtlas;
     
     void OnEnable() {
-        if (spriteAtlas != null) ApplyAtlas();gs`
+        if (spriteAtlas != null) ApplyAtlas();
     }
 
     public void ApplyAtlas() {
