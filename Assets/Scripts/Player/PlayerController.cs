@@ -46,7 +46,7 @@ public class PlayerController : Entity {
 	bool canShortHop = true;
 	Vector2 lastSafeOffset;
 	GameObject lastSafeObject;
-	SpeedLimiter speedLimiter;
+	public SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	bool canParry = false;
 	bool movingForwardsLastFrame;
@@ -1247,7 +1247,6 @@ public class PlayerController : Entity {
 
 	IEnumerator _ExitCutscene() {
 		yield return new WaitForEndOfFrame();
-		yield return new WaitForEndOfFrame();
 		if (TransitionManager.sceneData != null) {
 			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
 				yield break;
@@ -1260,6 +1259,7 @@ public class PlayerController : Entity {
 		SetInvincible(false);
 		inCutscene = false;
 		anim.speed = 1f;
+		rb2d.velocity = Vector2.zero;
 		exitCutsceneRoutine = null;
 	}
 
