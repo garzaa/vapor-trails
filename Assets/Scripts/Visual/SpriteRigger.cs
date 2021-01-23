@@ -3,6 +3,10 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class SpriteRigger : MonoBehaviour {
     public Texture2D spriteAtlas;
+    
+    void OnEnable() {
+        if (spriteAtlas != null) ApplyAtlas();gs`
+    }
 
     public void ApplyAtlas() {
         foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>()) {
