@@ -413,6 +413,7 @@ public class GlobalController : MonoBehaviour {
 	// make sure the trail renderers don't emit
 	IEnumerator MovePlayerNextFrame(Vector2 position) {
 		pc.DisableTrails();
+		pc.speedLimiter.enabled = false;
 		yield return new WaitForEndOfFrame();
 		pc.transform.position = position;
 		playerFollower.SnapToTarget();
@@ -420,6 +421,7 @@ public class GlobalController : MonoBehaviour {
 		yield return new WaitForSecondsRealtime(0.5f);
 		UnFadeToBlack();
 		pc.ExitCutscene();
+		pc.speedLimiter.enabled = true;
 	}
 
 	public IEnumerator MovePlayerWithFade(Vector2 position) {

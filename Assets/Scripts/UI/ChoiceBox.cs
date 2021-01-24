@@ -19,6 +19,7 @@ public class ChoiceBox : MonoBehaviour {
         if (activatable != null) activatable.Activate();
         ChoiceUI.CloseChoices();
         // if clicked this frame, mimic a dialogue skip input
+        // activating dialogue this frame breaks things
         if (!InputManager.GenericContinueInput()) {
             GlobalController.OnDialogueSkip();
         }

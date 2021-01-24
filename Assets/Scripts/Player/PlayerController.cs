@@ -6,7 +6,7 @@ public class PlayerController : Entity {
 	public const float moveSpeed = 3.5f;
 	const float jumpSpeed = 3.8f;
 	const float jumpCutoff = 2.0f;
-	const float hardLandSpeed = -4f;
+	const float hardLandSpeed = -7f;
 	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
@@ -46,7 +46,7 @@ public class PlayerController : Entity {
 	bool canShortHop = true;
 	Vector2 lastSafeOffset;
 	GameObject lastSafeObject;
-	SpeedLimiter speedLimiter;
+	public SpeedLimiter speedLimiter;
 	public GameObject parryEffect;
 	bool canParry = false;
 	bool movingForwardsLastFrame;
@@ -71,8 +71,8 @@ public class PlayerController : Entity {
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
-	GroundCheck groundCheck;
 	AirAttackTracker airAttackTracker;
+	GroundData groundData;
 
 	public bool grounded = false;
 	WallCheckData wall = null;
@@ -103,6 +103,8 @@ public class PlayerController : Entity {
 
 	public PlayerStates currentState;
 
+	public GameObject playerRig;
+
 	//other misc prefabs
 	public GameObject selfHitmarker;
 	public Transform vaporExplosion;
@@ -128,7 +130,6 @@ public class PlayerController : Entity {
 		unlocks = GetComponentInParent<SaveWrapper>().save.unlocks;
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
-		groundCheck = GetComponent<GroundCheck>();
 		options = GlobalController.save.options;
 		this.facingRight = false;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
@@ -145,9 +146,11 @@ public class PlayerController : Entity {
 		airAttackTracker = GetComponent<AirAttackTracker>();
 		RefreshAirMovement();
 		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
+		groundData = GetComponent<PlayerGroundCheck>().groundData;
 	}
 	
 	void Update() {
+		CheckGroundData();
 		Jump();
 		Move();
 		Shoot();
@@ -158,6 +161,15 @@ public class PlayerController : Entity {
 		CheckFlip();
 		UpdateWallSliding();
 		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+	}
+
+	void CheckGroundData() {
+		if (groundData.hitGround) {
+			OnGroundHit(rb2d.velocity.y);
+		} 
+		else if (groundData.leftGround) {
+			OnGroundLeave();
+		}
 	}
 	
 	void Interact() {
@@ -307,10 +319,15 @@ public class PlayerController : Entity {
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
 		if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
-			EdgeCollider2D[] platforms = groundCheck.TouchingPlatforms();
-			if (platforms != null && grounded) {
-				DropThroughPlatforms(platforms);
+			if (grounded && groundData.platforms != null) {
+				DropThroughPlatforms(groundData.platforms);
 			}
+		}
+
+		if (grounded) {
+			playerRig.transform.rotation = Quaternion.Euler(playerRig.transform.rotation.eulerAngles.x, playerRig.transform.rotation.eulerAngles.y, groundData.normalRotation); 
+		} else {
+			playerRig.transform.rotation = Quaternion.identity;
 		}
 
 		anim.SetBool("InputBackwards", InputBackwards());
@@ -352,10 +369,22 @@ public class PlayerController : Entity {
 				);
 			}
 
-			rb2d.velocity = new Vector2(
+			Vector2 targetVelocity = new Vector2(
 				targetXSpeed,
-				rb2d.velocity.y
+				(groundData.grounded) ? 0 : rb2d.velocity.y
 			);
+
+			if (grounded) {
+				targetVelocity = targetVelocity.Rotate(groundData.normalRotation);
+
+				// if jumped but didn't release the ground colliders yet
+				if (rb2d.velocity.y > targetVelocity.y+2f) {
+					targetVelocity.y = rb2d.velocity.y;
+				}
+
+			}
+
+			rb2d.velocity = targetVelocity;
 		}
 		
 		movingRight = InputManager.HorizontalInput() > 0;
@@ -389,13 +418,6 @@ public class PlayerController : Entity {
 		}
 
 		movingForwardsLastFrame = MovingForwards();
-
-		// due to frame skips or other weird shit, add a little self-healing here
-		if (!grounded && rb2d.velocity.y == 0f && !frozen) {
-			//Invoke("HealGroundTimeout", 0.5f);
-		} else if (grounded || (!grounded && rb2d.velocity.y != 0f)) {
-			CancelInvoke("HealGroundTimeout");
-		}
 	}
 
 	public bool IsSpeeding() {
@@ -413,7 +435,7 @@ public class PlayerController : Entity {
 				return;
 			}
 
-			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundCheck.TouchingPlatforms() == null)) {
+			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundData.platforms == null)) {
 				GroundJump();
 				return;
 			}
@@ -458,10 +480,8 @@ public class PlayerController : Entity {
 		} else {
 			ImpactDust();
 		}
-		rb2d.velocity = new Vector2(
-			x:rb2d.velocity.x, 
-			y:jumpSpeed
-		);
+		rb2d.velocity += Vector2.up * jumpSpeed;
+
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
@@ -493,6 +513,15 @@ public class PlayerController : Entity {
 			y:jumpSpeed
 		);
 		ImpactDust();
+
+		// refresh airdash
+		if (airDashes < 1) {
+			airDashes += 1;
+			if (!dashCooldown) {
+				anim.SetBool("RedWings", false);
+			}
+		}
+
 		airJumps--;
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
@@ -537,16 +566,17 @@ public class PlayerController : Entity {
 
 	public void StartDashAnimation(bool backwards) {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
-		float additive = 0f;
-		// backdash always comes from initial fdash, so subtract fdash speed if necessary	
-		if (backwards && preDashSpeed>dashSpeed) {
-			additive = preDashSpeed - dashSpeed;
-		}
-		float newSpeed = ((backwards ? additive : preDashSpeed) + dashSpeed);
-		rb2d.velocity = new Vector2(
+
+		// back dash animation always comes from the initial dash, where the speed boost has already been applied
+		float newSpeed = (backwards ? preDashSpeed : preDashSpeed+dashSpeed);
+		
+		Vector2 targetVelocity = new Vector2(
 			ForwardScalar() * newSpeed, 
-			Mathf.Max(rb2d.velocity.y, 0)
+			groundData.grounded ? 0 : Mathf.Max(rb2d.velocity.y, 0)
 		);
+
+		rb2d.velocity = targetVelocity.Rotate(groundData.normalRotation);
+
 		if (perfectDashPossible && !earlyDashInput) {
 			AlerterText.Alert("Recycling boost");
 			perfectDashPossible = false;
@@ -740,28 +770,30 @@ public class PlayerController : Entity {
 
 	void SaveLastSafePos() {
 		// save the safe position as an offset of the groundCheck's last hit ground
-		GameObject currentGround = groundCheck.currentGround;
+		GameObject currentGround = groundData.groundObject;
 		if (currentGround == null || currentGround.GetComponent<UnsafeGround>() != null) {
 			return;
 		}
 
-		lastSafeObject = groundCheck.currentGround;
+		lastSafeObject = groundData.groundObject;
 		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
 	}
 
 	IEnumerator ReturnToSafety(float delay) {
-		yield return new WaitForSecondsRealtime(delay);
 		rb2d.velocity = Vector2.zero;
+		speedLimiter.enabled = false;
+		LockInSpace();
 		hardFalling = false;
+		yield return new WaitForSecondsRealtime(delay);
 		if (this.currentHP <= 0) {
 			yield break;
 		}
-		FreezeFor(0.4f);
-		LockInSpace();
+		FreezeFor(0.2f);
 		if (lastSafeObject != null)	{
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
+		speedLimiter.enabled = true;
 	}
 
 	public override void OnGroundLeave() {
@@ -858,6 +890,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Freeze() {
+		if (speedLimiter != null) speedLimiter.enabled = false;
 		this.inMeteor = false;
 		this.frozen = true;
 	}
@@ -865,6 +898,7 @@ public class PlayerController : Entity {
 	public void UnFreeze() {
 		this.frozen = false;
 		if (anim != null) anim.speed = 1f;
+		if (speedLimiter != null) speedLimiter.enabled = true;
 	}
 
 	public void FlashCyan() {
@@ -1161,15 +1195,15 @@ public class PlayerController : Entity {
 		this.canShoot = false;
 	}
 
-	void DropThroughPlatforms(EdgeCollider2D[] platforms) {
-		foreach (EdgeCollider2D platform in platforms) {
+	void DropThroughPlatforms(List<RaycastHit2D>platforms) {
+		foreach (RaycastHit2D hit in platforms) {
+			EdgeCollider2D platform = hit.collider.GetComponent<EdgeCollider2D>();
+			if (platform == null) continue;
 			platform.enabled = false;
 			platformTimeout = StartCoroutine(EnableCollider(0.5f, platform));
 		}
-		rb2d.velocity = new Vector2(
-			rb2d.velocity.x,
-			hardLandSpeed
-		);
+
+		rb2d.MovePosition(rb2d.position + Vector2.down*0.1f);
 	}
 
 	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {
@@ -1213,7 +1247,6 @@ public class PlayerController : Entity {
 
 	IEnumerator _ExitCutscene() {
 		yield return new WaitForEndOfFrame();
-		yield return new WaitForEndOfFrame();
 		if (TransitionManager.sceneData != null) {
 			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
 				yield break;
@@ -1226,13 +1259,14 @@ public class PlayerController : Entity {
 		SetInvincible(false);
 		inCutscene = false;
 		anim.speed = 1f;
+		rb2d.velocity = Vector2.zero;
 		exitCutsceneRoutine = null;
 	}
 
 	public bool IsGrounded() {
 		// scene load things
-		if (groundCheck == null) return false;
-		return groundCheck.IsGrounded();
+		if (groundData == null) return false;
+		return groundData.grounded;
 	}
 
 	public void Heal() {

@@ -15,11 +15,10 @@ public class UILerper : MonoBehaviour {
 
     void Awake() {
         selfTransform = GetComponent<RectTransform>();
-        originalPos = selfTransform.position;
+        originalPos = selfTransform.anchoredPosition;
     }
 
     void OnEnable() {
-        selfTransform.position = originalPos;
         this.target = null;
     }
 
@@ -29,21 +28,21 @@ public class UILerper : MonoBehaviour {
 
     void Update() {
         if (target != null) {
-            selfTransform.position = Vector2.Lerp(
-                selfTransform.position,
+            selfTransform.anchoredPosition = Vector2.Lerp(
+                selfTransform.anchoredPosition,
                 originalPos - target.localPosition,
                 lerpSpeed
             );
         }
         if (xOnly) {
-            selfTransform.position = new Vector2(
-                selfTransform.position.x,
+            selfTransform.anchoredPosition = new Vector2(
+                selfTransform.anchoredPosition.x,
                 originalPos.y
             );
         } else if (yOnly) {
-            selfTransform.position = new Vector2(
+            selfTransform.anchoredPosition = new Vector2(
                 originalPos.x,
-                selfTransform.position.y
+                selfTransform.anchoredPosition.y
             );
         }
     }

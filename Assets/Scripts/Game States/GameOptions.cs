@@ -7,6 +7,7 @@ public class GameOptions {
     public bool gameJournalist = false;
     public bool slideDrop = false;
     public int inputBuffer = 8;
+    public float lookaheadRatio = 1f;
     
     bool fullscreen = true;
 
@@ -17,6 +18,7 @@ public class GameOptions {
         GlobalController.pc.GetComponent<Animator>().SetBool("LedgeDrop", slideDrop);
         inputBuffer = LoadInt("InputBuffer");
         fullscreen = LoadBool("Fullscreen");
+        lookaheadRatio = LoadInt("LookaheadRatio");
     
         Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");
@@ -43,5 +45,9 @@ public class GameOptions {
 
     static int LoadInt(string intName, int defaultValue = 0) {
         return PlayerPrefs.GetInt(intName, defaultValue);
+    }
+
+    static float LoadFloat(string floatName, float defaultValue = 1f) {
+        return PlayerPrefs.GetFloat(floatName, defaultValue);
     }
 }

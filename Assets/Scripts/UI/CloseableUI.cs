@@ -37,7 +37,8 @@ public class CloseableUI : MonoBehaviour {
 
         if (stopTime) Time.timeScale = 1f;
         this.open = false;
-        GlobalController.pc.ExitCutscene();
+        // avoid race conditions
+        if (GlobalController.pc.gameObject.activeInHierarchy) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);
         if (soloUISound) SoundManager.DefaultAudio();
     }

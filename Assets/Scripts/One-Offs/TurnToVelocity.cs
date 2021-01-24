@@ -14,7 +14,7 @@ public class TurnToVelocity : MonoBehaviour {
         this.transform.eulerAngles = new Vector3(
             0,
             0,
-            Vector2.Angle(
+            Vector2.SignedAngle(
                 Vector2.right,
                 rb2d.velocity
             ) + offset

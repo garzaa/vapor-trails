@@ -14,11 +14,12 @@ public class CameraOffset : MonoBehaviour {
 	public float smoothAmount;
 	public float lookAhead;
 	public float lookUp;
+	public float lookaheadRatio = 1;
 
 	public bool following = true;
 
 	public bool stickOffset;
-	float stickOffsetMultiplier = .05f;
+	float stickOffsetMultiplier = .02f;
 	float speedRamp = 2f;
 
 	public bool clampPosition;
@@ -30,7 +31,12 @@ public class CameraOffset : MonoBehaviour {
 		pc = player.GetComponent<PlayerController>();
 	}
 
-	void FixedUpdate() {
+	public void ReactToOptionsClose() {
+		GameOptions options = GlobalController.save.options;
+		this.lookaheadRatio = options.lookaheadRatio;
+	}
+
+	void LateUpdate() {
 		if (!following) {
 			transform.localPosition = Vector3.zero;
 			return;
@@ -39,24 +45,25 @@ public class CameraOffset : MonoBehaviour {
 		Vector3 newPosition = player.transform.position;
 
 		if (lookingAhead && otherTarget==null) {
+			Vector3 lookaheadDelta = new Vector3();
+
 			//first offset based on player orientation
 			// look based on speed, if speed 0 then based on orientation
 			float forwardScalar = pc.MoveSpeedRatio() == 0 ? pc.ForwardScalar() : (pc.movingRight ? 1 : -1);
-			float newX = forwardScalar * pc.MoveSpeedRatio() * lookAhead * speedRamp;
+			lookaheadDelta.x = forwardScalar * pc.MoveSpeedRatio() * lookAhead * speedRamp;
 			float scalar = pc.IsGrounded() ? 1 : 0;
-			float newY = scalar * lookUp;
+			lookaheadDelta.y = scalar * lookUp;
 
 			// but actually no
 			if (clampPosition) {
-					newX = Mathf.Clamp(newX, -maxLookahead.x, maxLookahead.x);
-					newY = Mathf.Clamp(newY, -maxLookahead.y, maxLookahead.y);
+					lookaheadDelta.x = Mathf.Clamp(lookaheadDelta.x, -maxLookahead.x, maxLookahead.x);
+					lookaheadDelta.y = Mathf.Clamp(lookaheadDelta.y, -maxLookahead.y, maxLookahead.y);
 			}
+
+			// lookahead ratio in-game is a slider from 0-5
+			lookaheadDelta.x *= (lookaheadRatio/5f);
 			
-			newPosition = new Vector3(
-				newPosition.x + newX,
-				newPosition.y + newY,
-				newPosition.z	
-			);
+			newPosition += lookaheadDelta;
 		}
 
 		//then any other offset
@@ -73,7 +80,8 @@ public class CameraOffset : MonoBehaviour {
 			transform.position,
 			newPosition,
 			ref velocity,
-			smoothAmount * Time.deltaTime
+			smoothAmount * Time.smoothDeltaTime,
+			maxSpeed: 10
 		);
 
 		if (stickOffset) transform.position += (Vector3) InputManager.RightStick() * stickOffsetMultiplier; 

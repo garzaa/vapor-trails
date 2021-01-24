@@ -47,8 +47,8 @@ public class PlayerFollower : MonoBehaviour {
 		if (!useTolerance) return true;
 		return Mathf.Abs(Vector2.Distance((Vector2) transform.position, (Vector2) target.transform.position)) > tolerance;
 	}
-	
-	void FixedUpdate() {
+
+	void LateUpdate() {
 		if (!following || !OutsideTolerance()) {
 			return;
 		}
@@ -65,7 +65,7 @@ public class PlayerFollower : MonoBehaviour {
 					y:followY ? target.transform.position.y + currentOffset.y : transform.position.y,
 					z:this.transform.position.z),
 				ref velocity,
-				smoothAmount * Time.deltaTime
+				smoothAmount * Time.smoothDeltaTime
 			);
 		} else {
 			transform.position = new Vector3(

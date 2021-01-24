@@ -24,6 +24,13 @@ public class InputManager : MonoBehaviour {
         return rewiredPlayer.GetAxis(Buttons.H_AXIS);
     }
 
+    public static Vector2 UINav() {
+        return new Vector2(
+            rewiredPlayer.GetAxis(Buttons.UI_X),
+            rewiredPlayer.GetAxis(Buttons.UI_Y)
+        );
+    }
+
     public static float VerticalInput() {
         return Input.GetAxis(Buttons.V_AXIS);
     }

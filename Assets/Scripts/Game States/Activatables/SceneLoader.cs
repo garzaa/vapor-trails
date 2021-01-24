@@ -8,7 +8,9 @@ public class SceneLoader : Activatable {
 	public SceneField sceneToLoad;
 	public Beacon beacon;
 
-	public override void Activate() {
-		GlobalController.LoadScene(sceneToLoad, beacon);
-	}
+    public override void ActivateSwitch(bool b) {
+		if (b) {
+			GlobalController.LoadScene(sceneToLoad, beacon);
+		}
+    }
 }

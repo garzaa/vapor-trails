@@ -46,6 +46,7 @@
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
+				float3 worldPos : TEXCOORD1;
 			};
 			
 			fixed4 _Color;
@@ -56,6 +57,7 @@
 				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				OUT.texcoord = IN.texcoord;
 				OUT.color = IN.color * _Color;
+                OUT.worldPos = mul(unity_ObjectToWorld, IN.vertex);
 
 				return OUT;
 			}
@@ -83,7 +85,7 @@
                 // get the mask color
                 // it's gonna be a different size texture, so normalize to pixels for uv lookup
                 fixed2 maskUV = (IN.texcoord / _MainTex_TexelSize) * _Overlay_TexelSize;
-                fixed4 overlay = tex2D (_Overlay, maskUV + (_Time.w * _Speed));
+                fixed4 overlay = tex2D (_Overlay, IN.worldPos + (_Time.w * _Speed));
 
                 // if there's a match with either mask color
                 if (any(compareColor(c, _Mask1, 0.1) || compareColor(c, _Mask2, 0.1))) {

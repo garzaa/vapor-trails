@@ -10,7 +10,10 @@ public class SpeedLimiter : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate() {
+    void Update() {
+        if (rb2d.constraints == RigidbodyConstraints2D.FreezeAll) {
+            return;
+        }
         SlowRigidBody();
     }
 
