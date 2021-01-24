@@ -28,6 +28,9 @@ public class ProjectBuilder {
         if (report.summary.result.Equals(BuildResult.Succeeded)) {
             Debug.Log($"Finished! Build for {folderSuffix} succeeded with size {report.summary.totalSize}");
         } else {
+            if (report.summary.result == BuildResult.Succeeded) {
+                Debug.Log("Build Success for "+folderSuffix);
+            }
             Debug.Log($"Build for {folderSuffix} finished with result: {report.summary.result}");
             Debug.Log($"Total errors: {report.summary.totalErrors}");
         }
