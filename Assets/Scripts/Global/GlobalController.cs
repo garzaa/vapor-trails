@@ -107,6 +107,12 @@ public class GlobalController : MonoBehaviour {
 
 		// re-add starting items
 		inventory.Start();
+		
+		// bad
+		GlobalController.pc.maxEnergy = save.maxEnergy;
+		GlobalController.pc.currentEnergy = save.currentEnergy;
+		GlobalController.pc.maxHP = save.maxHP;
+		GlobalController.pc.currentHP = save.currentHP;
 	}
 
 	public static bool HasBeatGame() {
