@@ -1030,14 +1030,16 @@ public class PlayerController : Entity {
 		StunFor(attack.stunLength);
 
 		// asdi
-		float actualSDIMultiplier = sdiMultiplier * (attack.gameObject.CompareTag(Tags.EnviroDamage) ? 3 : 1);
+		float actualSDIMultiplier = sdiMultiplier * (attack.gameObject.CompareTag(Tags.EnviroDamage) ? 0 : 1);
 		rb2d.MovePosition(transform.position + ((Vector3) InputManager.MoveVector()*actualSDIMultiplier));
 
-		//flip to attacker
 		if (attack.knockBack) {
 			Vector2 kv = attack.GetKnockback();
+			if (attack.knockbackAway) {
+				kv = kv.magnitude * (transform.position - attack.transform.position).normalized; 
+			}
 			if (!IsFacing(attack.gameObject)) ForceFlip();
-			rb2d.velocity = (kv + (InputManager.LeftStick()));
+			rb2d.velocity = kv;
 		}
 	}
 
@@ -1298,7 +1300,7 @@ public class PlayerController : Entity {
 		if (rb2d == null) return 0;
 		if (speedLimiter.maxSpeedX == 0) return 0;
 		if (frozen) return 0;
-		return Mathf.Abs(rb2d.velocity.x / speedLimiter.maxSpeedX);
+		return Mathf.Abs(rb2d.velocity.x) / speedLimiter.maxSpeedX;
 	}
 
 	bool VerticalInput() {

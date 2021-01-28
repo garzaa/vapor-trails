@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Linq;
 
 public class Enemy : Entity {
 
 	[HideInInspector] public Rigidbody2D rb2d;
 
-	public int hp;
+	public int hp = 5;
 	[HideInInspector]
 	public int totalHP;
 	public int moveForce;
@@ -38,6 +39,8 @@ public class Enemy : Entity {
 
 	public bool burstOnDeath = false;
 	public Transform burstEffect;
+
+	public UnityEvent deathEvent;
 
 	GameObject bossResources;
 
@@ -123,7 +126,9 @@ public class Enemy : Entity {
 				Burst();
 			}
 			Destroy(this.gameObject);
+			return;
 		}
+		deathEvent.Invoke();
 	}
 
 	// for each added behavior, call it

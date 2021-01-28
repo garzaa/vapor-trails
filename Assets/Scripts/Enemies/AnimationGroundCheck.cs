@@ -9,6 +9,9 @@ public class AnimationGroundCheck : GroundCheck {
 	bool touchingLedgeLastFrame;
 	public bool flipOnLedgeStep;
 
+	public float lastFlipTime;
+	float flipInterval = 0.5f;
+
 	new void Start() {
 		base.Start();
 		animator = GetComponent<Animator>();
@@ -23,8 +26,9 @@ public class AnimationGroundCheck : GroundCheck {
 		}
 		animator.SetBool("Grounded", IsGrounded());
 		animator.SetBool("TouchingLedge", onLedge);
-		if (flipOnLedgeStep && onLedge) {
+		if (flipOnLedgeStep && onLedge && (Time.unscaledTime> lastFlipTime+flipInterval)) {
 			entity.Flip();
+			lastFlipTime = Time.unscaledTime;
 		}
 		touchingLedgeLastFrame = onLedge;
 	}
