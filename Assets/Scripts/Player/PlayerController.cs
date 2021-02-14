@@ -271,7 +271,7 @@ public class PlayerController : Entity {
 			}
 		}
 
-		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.7f) {
+		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.2f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			}
@@ -285,7 +285,7 @@ public class PlayerController : Entity {
 				//Reflect();
 			}
 		} 
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.7f) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.2f) {
 			OrcaFlip();
 		} 
 		else if (InputManager.ButtonDown(Buttons.BLOCK) && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
@@ -318,7 +318,7 @@ public class PlayerController : Entity {
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
-		if (InputManager.VerticalInput() < -0.8f && InputManager.ButtonDown(Buttons.JUMP)) {
+		if (InputManager.VerticalInput() < -0.2f && InputManager.ButtonDown(Buttons.JUMP)) {
 			if (grounded && groundData.platforms != null) {
 				DropThroughPlatforms(groundData.platforms);
 			}
