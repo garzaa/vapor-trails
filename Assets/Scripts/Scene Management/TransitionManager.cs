@@ -55,6 +55,7 @@ public class TransitionManager : MonoBehaviour {
 		pc.Show();
 		pc.ExitCutscene();
 		pc.EnableShooting();
+		pc.gameObject.SetActive(false);
 
 		GlobalController.ShowUI();
 
@@ -102,7 +103,10 @@ public class TransitionManager : MonoBehaviour {
 			}
 
 			GlobalController.pauseEnabled = sd.enablePausing;
-
+			
+			pc.gameObject.SetActive(!sd.disablePlayer);
+		} else {
+			pc.gameObject.SetActive(true);
 		}
 
 		pc.EnableTriggers();
