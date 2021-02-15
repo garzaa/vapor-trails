@@ -148,7 +148,18 @@ public class PlayerController : Entity {
 		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
 		groundData = GetComponent<PlayerGroundCheck>().groundData;
 	}
-	
+
+    protected override void OnEnable() {
+        base.OnEnable();
+		if (groundData != null) {
+			if (groundData.grounded) {
+				OnGroundHit(0f);
+			}
+		}
+    }
+
+    
+
 	void Update() {
 		CheckGroundData();
 		Jump();
