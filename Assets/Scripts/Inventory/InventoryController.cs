@@ -98,7 +98,7 @@ public class InventoryController : MonoBehaviour {
             } else {
                 merchantInventory.RemoveItem(s);
             }
-            AddItem(toAdd, false);
+            GlobalController.AddItem(toAdd, false);
             inventoryUI.merchantLine.text = currentMerchant.GetThanksDialogue(item);
             itemBuy.PlayOneShot(itemBuy.clip);
             UpdateMoneyUI();

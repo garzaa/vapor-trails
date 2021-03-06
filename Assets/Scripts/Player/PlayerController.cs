@@ -1255,7 +1255,7 @@ public class PlayerController : Entity {
 
 	public void ExitCutscene() {
 		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
-		exitCutsceneRoutine = StartCoroutine(_ExitCutscene());
+		if (gameObject.activeSelf) exitCutsceneRoutine = StartCoroutine(_ExitCutscene());
 	}
 
 	IEnumerator _ExitCutscene() {
