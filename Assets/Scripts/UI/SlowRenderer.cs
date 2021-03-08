@@ -10,22 +10,16 @@ public class SlowRenderer : MonoBehaviour {
     string textLastFrame;
     Coroutine renderRoutine;
 
-    Text uiText;
+    public Text uiText;
     int letterIndex = 0;
     char[] pauses = {'.', '!', ',', '?', '\n'};
     public float letterDelay = 0.01f;
+    public bool silent = true;
 
     void OnEnable() {
-        uiText = GetComponent<Text>();
+        if (uiText == null) uiText = GetComponent<Text>();
         textLastFrame = text;
         StartRendering();
-    }
-
-    void Update() {
-        if (text != textLastFrame) {
-            StartRendering();
-        }
-        textLastFrame = text;
     }
 
     void StartRendering() {
@@ -40,7 +34,7 @@ public class SlowRenderer : MonoBehaviour {
 		if (letterIndex < text.Length) {
 			uiText.text = text.Substring(0, letterIndex+1); // + MakeInvisibleText();
 			if (char.IsLetter(text[letterIndex])) {
-				SoundManager.VoiceSound(0);
+				if (!silent) SoundManager.VoiceSound(0);
 			}
 			int scalar = 1;
 			if (IsPause(text[letterIndex])) {

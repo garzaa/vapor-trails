@@ -14,11 +14,18 @@ public class Interactable : MonoBehaviour {
 	public bool forceFlipTo;
 	
 	GameObject currentPrompt = null;
+	
+	public string promptText;
+	GameObject textPrompt;
 
 	void OnEnable() {
 		this.gameObject.layer = LayerMask.NameToLayer(Layers.Interactables);
 		ExtendedStart();
 	}	
+
+	void Start() {
+		textPrompt = Resources.Load("InteractWords") as GameObject;
+	}
 
 	protected virtual void ExtendedStart() {
 
@@ -34,13 +41,27 @@ public class Interactable : MonoBehaviour {
 			return;
 		}
 
-		if (currentPrompt == null && promptPrefab != null) {
-			currentPrompt = Instantiate(
-				promptPrefab,
-				GetPromptPosition(),
-				Quaternion.identity,
-				this.transform
-			);
+		if (currentPrompt == null) {
+
+			if (!string.IsNullOrEmpty(promptText)) {
+				GameObject g = Instantiate(
+					textPrompt,
+					GetPromptPosition(),
+					Quaternion.identity,
+					this.transform
+				);
+				g.GetComponentInChildren<WorldPointCanvas>().target = this.transform;
+				g.GetComponentInChildren<SlowRenderer>().text = promptText;
+				currentPrompt = g;
+				return;
+			} else if (promptPrefab != null) {
+				currentPrompt = Instantiate(
+					promptPrefab,
+					GetPromptPosition(),
+					Quaternion.identity,
+					this.transform
+				);
+			}
 		}
 	}
 
