@@ -151,10 +151,17 @@ public class GroundCheck : MonoBehaviour {
 		}
 		else {
 			// start 15 pixels above the collider edge
-			Debug.DrawLine(cornerPos + new Vector2(0, 0.05f), cornerPos - new Vector2(0, 0.05f));
+			// rotate to keep in line with rigidbody
+			Vector2 margin = Vector2.up*0.05f;
+			// cornerPos is passed in in world space
+			cornerPos = transform.InverseTransformPoint(cornerPos);
+			Vector2 start = transform.TransformPoint(cornerPos + margin);
+			Vector2 end = transform.TransformPoint(cornerPos - margin);
+
+			Debug.DrawLine(start, end);
 			return Physics2D.Linecast(
-				cornerPos + new Vector2(0, 0.05f),
-				cornerPos - new Vector2(0, 0.05f),
+				start,
+				end,
 				1 << LayerMask.NameToLayer(Layers.Ground)
 			);
 		}
