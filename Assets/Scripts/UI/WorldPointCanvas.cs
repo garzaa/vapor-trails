@@ -13,7 +13,7 @@ public class WorldPointCanvas : MonoBehaviour {
         r = GetComponent<RectTransform>();
     }
 
-    void Update() {
+    void LateUpdate() {
         r.position = camera.WorldToScreenPoint(target.position);
     }
 }
