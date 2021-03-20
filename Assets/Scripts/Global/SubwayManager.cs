@@ -29,7 +29,7 @@ public class SubwayManager : MonoBehaviour {
     public static string GetStopScene(SubwayStop stop) {
         return sm.stationMappings.Where(
             x => x.stop == stop
-        ).First().scene.SceneName;
+        ).First().sceneContainer.scene.SceneName;
     }
 
     public static void ArriveWithPlayer() {
