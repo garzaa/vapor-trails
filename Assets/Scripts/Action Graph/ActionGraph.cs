@@ -5,7 +5,7 @@ public class ActionGraph : NodeGraph {
     IActionNode GetRootNode() {
         foreach (Node i in nodes) {
             IActionNode a = i as IActionNode;
-            if (a.input == null) {
+            if (a.IsRoot()) {
                 return a;
             }
         }
