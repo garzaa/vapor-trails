@@ -1,8 +1,8 @@
-public class InverterNode : IActionNode {
+public class InverterNode : ActionNode {
     public Signal output;
 
     override protected void OnInput() {
-        foreach (IActionNode node in GetActionNodes(nameof(output))) {
+        foreach (ActionNode node in GetActionNodes(nameof(output))) {
             node.SetInput(this.input.Flip());
         }
     }

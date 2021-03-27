@@ -10,4 +10,7 @@ public class Signal {
         this.value = !value;
         return this;
     }
+
+    public static Signal positive = new Signal(true);
+    public static Signal negative = new Signal(false);
 }

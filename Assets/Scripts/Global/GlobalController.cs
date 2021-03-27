@@ -319,10 +319,19 @@ public class GlobalController : MonoBehaviour {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
 			PropagateFlagChange();
+			PushStateChange();
+		}
+	}
+
+	// call this for every sub-item change 
+	public static void PushStateChange() {
+		foreach (IStateUpdateListener listener in FindObjectsOfType<MonoBehaviour>().OfType<IStateUpdateListener>()) {
+			listener.OnStateUpdate();
 		}
 	}
 
 	public static void PropagateFlagChange() {
+		PushStateChange();
 		foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
 			i.ReactToStateChange();
 		}
@@ -362,6 +371,8 @@ public class GlobalController : MonoBehaviour {
 				playerAnimator.SetBool(s, true);
 			}
 		}
+
+		PushStateChange();
 
 		binarySaver.SyncImmediateStates(saveSlot, save);
 	}

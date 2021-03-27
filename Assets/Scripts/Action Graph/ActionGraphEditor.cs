@@ -6,7 +6,7 @@ using XNodeEditor;
 public class ActionGraphEditor : NodeGraphEditor {
     // only pick up action graph nodes
     public override string GetNodeMenuName(Type type) {
-        if (typeof(IActionNode).IsAssignableFrom(type)) {
+        if (typeof(ActionNode).IsAssignableFrom(type)) {
             return base.GetNodeMenuName(type);
         } else return null;
     }
