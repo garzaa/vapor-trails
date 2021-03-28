@@ -25,10 +25,6 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
     }
 
     List<ActionNode> GetRootNodes() {
-        Debug.Log(graph);
-        foreach (Node n in graph.nodes) {
-            Debug.Log(n);
-        }
         return graph.nodes
             .ConvertAll<ActionNode>(x => (ActionNode) x)
             .Where(x => x!=null && x.IsRoot())

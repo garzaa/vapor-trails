@@ -319,7 +319,6 @@ public class GlobalController : MonoBehaviour {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
 			PropagateFlagChange();
-			PushStateChange();
 		}
 	}
 
@@ -647,6 +646,7 @@ public class GlobalController : MonoBehaviour {
 		}
 		inventory.AddItem(s, quiet);
 		PropagateItemChange();
+		PushStateChange();
 	}
 
 	public static void PropagateItemChange(bool immediateOnly=true) {

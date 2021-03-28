@@ -20,8 +20,12 @@ public abstract class ActionNode : Node {
         return !GetPort(nameof(input)).IsConnected;
     }
 
-    public IEnumerable<ActionNode> GetActionNodes(string portName) {
-        return GetPort(portName).GetConnections() as IEnumerable<ActionNode>;
+    public List<ActionNode> GetActionNodes(string portName) {
+        return GetPort(portName)
+                .GetConnections()
+                .Select(connection => connection.node)
+                .Cast<ActionNode>()
+                .ToList();
     }
 }
 

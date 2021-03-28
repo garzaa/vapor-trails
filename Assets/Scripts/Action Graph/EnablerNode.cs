@@ -6,10 +6,6 @@ public class EnablerNode : ActionNode {
 
     protected override void OnInput() {
         foreach (GameObject g in targets) {
-            if (g == null) {
-                Debug.Log("retard");
-                continue;
-            }
             g.SetActive(input.value);
         }
     }

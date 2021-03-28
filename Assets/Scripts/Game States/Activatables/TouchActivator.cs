@@ -16,7 +16,9 @@ public class TouchActivator : MonoBehaviour {
         foreach (string s in wantedTags) {
             if (other.gameObject.CompareTag(s)) {
                 activatable.Activate();
-                StartCoroutine(CoolDown(cooldown));
+                if (gameObject.activeInHierarchy) {
+                    StartCoroutine(CoolDown(cooldown));
+                }
                 return;
             }
         }

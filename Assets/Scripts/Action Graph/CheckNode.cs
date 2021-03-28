@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public abstract class CheckNode : ActionNode {
     [Output(backingValue=ShowBackingValue.Never)]
     public Signal yes;
@@ -13,7 +15,7 @@ public abstract class CheckNode : ActionNode {
         }
         
         foreach (ActionNode node in GetActionNodes(nameof(no))) {
-            node.SetInput(output);
+            node.SetInput(output.Flip());
         }
     }
 
