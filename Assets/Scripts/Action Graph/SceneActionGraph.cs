@@ -27,7 +27,7 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
     List<ActionNode> GetRootNodes() {
         return graph.nodes
             .ConvertAll<ActionNode>(x => (ActionNode) x)
-            .Where(x => x!=null && x.IsRoot())
+            .Where(x => x is SignalOnStart)
             .ToList();
     }
 }

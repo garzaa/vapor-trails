@@ -16,16 +16,18 @@ public abstract class ActionNode : Node {
         OnInput();
     }
 
-    public bool IsRoot() {
-        return !GetPort(nameof(input)).IsConnected;
-    }
-
-    public List<ActionNode> GetActionNodes(string portName) {
+    List<ActionNode> GetPortNodes(string portName) {
         return GetPort(portName)
                 .GetConnections()
                 .Select(connection => connection.node)
                 .Cast<ActionNode>()
                 .ToList();
+    }
+
+    public void SetPortOutput(string port, Signal signal) {
+        foreach (ActionNode node in GetPortNodes(port)) {
+            node.SetInput(signal);
+        }
     }
 }
 

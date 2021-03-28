@@ -2,6 +2,12 @@
 public class Signal {
     public bool value { get; set; }
 
+    public Signal inverse {
+        get {
+            return new Signal(!this.value);
+        }
+    }
+
     public Signal(bool value) {
         this.value = value;
     }

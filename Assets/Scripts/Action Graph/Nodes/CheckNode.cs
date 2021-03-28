@@ -10,13 +10,8 @@ public abstract class CheckNode : ActionNode {
     override protected void OnInput() {
         Signal output = new Signal(Check());
 
-        foreach (ActionNode node in GetActionNodes(nameof(yes))) {
-            node.SetInput(output);
-        }
-        
-        foreach (ActionNode node in GetActionNodes(nameof(no))) {
-            node.SetInput(output.Flip());
-        }
+        SetPortOutput(nameof(yes), output);
+        SetPortOutput(nameof(no), output.inverse);
     }
 
     protected abstract bool Check();
