@@ -32,7 +32,6 @@ public class MoveXInState : RigidBodyAffector {
             baseX *= entity.ForwardScalar();
         }
         Vector2 final = rb2d.transform.TransformDirection(Vector2.right * baseX);
-        Debug.Log(final);
         rb2d.velocity = final;
     }
 }
