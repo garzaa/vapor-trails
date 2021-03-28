@@ -2,11 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class EnablerNode : ActionNode {
-    public List<GameObject> targets;
+    public GameObject target;
 
     protected override void OnInput() {
-        foreach (GameObject g in targets) {
-            g.SetActive(input.value);
-        }
+        target.SetActive(input.value);
     }
 }

@@ -13,7 +13,17 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
     }
 
     public void OnStateUpdate() {
-        Initialize();
+        // DON"T initialize, instead find the state and item checkers and update those with a postive signal
+        // the immediate ones, anyway
+        foreach (StateChangeNode node in GetStateListenerNodes()) {
+            node.SetInput(Signal.positive);
+        }
+    }
+
+    List<StateChangeNode> GetStateListenerNodes() {
+        return graph.nodes
+            .OfType<StateChangeNode>()
+            .ToList();
     }
 
     void Initialize() {

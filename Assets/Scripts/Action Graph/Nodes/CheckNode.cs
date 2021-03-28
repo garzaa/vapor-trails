@@ -1,17 +1,14 @@
 using UnityEngine;
 
 public abstract class CheckNode : ActionNode {
-    [Output(backingValue=ShowBackingValue.Never)]
-    public Signal yes;
-
-    [Output(backingValue=ShowBackingValue.Never)]
-    public Signal no;
+    [Output]
+    public Signal output;
 
     override protected void OnInput() {
-        Signal output = new Signal(Check());
-
-        SetPortOutput(nameof(yes), output);
-        SetPortOutput(nameof(no), output.inverse);
+        // only fire the check if there's a positive input
+        if (input.value) {
+            SetPortOutput(nameof(output), new Signal(Check()));
+        }
     }
 
     protected abstract bool Check();
