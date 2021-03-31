@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
 
     bool started = false;
+    bool hasStateListeners = false;
 
     void Start() {
         started = true;
@@ -13,8 +14,9 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
     }
 
     public void OnStateUpdate() {
-        // DON"T initialize, instead find the state and item checkers and update those with a postive signal
-        // the immediate ones, anyway
+        if (!hasStateListeners) {
+            return;
+        }
         foreach (StateChangeNode node in GetStateListenerNodes()) {
             node.SetInput(Signal.positive);
         }
@@ -31,6 +33,9 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
 
         foreach (ActionNode node in GetRootNodes()) {
             node.SetInput(Signal.positive);
+            if (node is StateChangeNode) {
+                hasStateListeners = true;
+            }
         }
     }
 

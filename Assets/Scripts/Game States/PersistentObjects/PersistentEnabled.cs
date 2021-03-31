@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class PersistentEnabled : PersistentObject {
 
+	bool firstEnable = true;
+
 	void OnEnable() {
-		SerializedPersistentObject o = LoadObjectState();
-		if (o != null) {
-			if (!((bool) o.persistentProperties["enabled"])) {
-				Disable();
-				return;
+		if (firstEnable) {
+			firstEnable = false;
+
+			SerializedPersistentObject o = LoadObjectState();
+			if (o != null) {
+				bool wasEnabled = (bool) o.persistentProperties["enabled"];
+				if (!wasEnabled) {
+					Disable();
+				}
 			}
+		} else {
+			UpdateState(true);
 		}
-		UpdateState(true);
 	}
 
-	//this NEEDS to be called to update the state
+	void OnDisable() {
+		UpdateState(false);
+	}
+
 	public void Disable() {
 		UpdateState(false);
 		this.gameObject.SetActive(false);
