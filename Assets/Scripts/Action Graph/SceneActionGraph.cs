@@ -36,6 +36,11 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
             if (node is StateChangeNode) {
                 hasStateListeners = true;
             }
+
+            // maybe put this in the node
+            if (node is InteractTriggerNode) {
+                (node as InteractTriggerNode).Link();
+            }
         }
     }
 
