@@ -50,7 +50,7 @@ public class Interactable : MonoBehaviour {
 					Quaternion.identity,
 					this.transform
 				);
-				g.GetComponentInChildren<WorldPointCanvas>().target = this.transform;
+				g.GetComponentInChildren<WorldPointCanvas>().target = optionalPromptTransform ?? this.transform;
 				g.GetComponentInChildren<SlowRenderer>().text = promptText;
 				currentPrompt = g;
 				return;
