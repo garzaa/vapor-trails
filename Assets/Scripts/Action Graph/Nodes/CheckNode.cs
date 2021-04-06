@@ -5,9 +5,10 @@ public abstract class CheckNode : ActionNode {
     public Signal output;
 
     override protected void OnInput() {
-        // only fire the check if there's a positive input
         if (input.value) {
             SetPortOutput(nameof(output), new Signal(Check()));
+        } else {
+            SetPortOutput(nameof(output), Signal.negative);
         }
     }
 
