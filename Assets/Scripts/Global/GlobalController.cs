@@ -433,19 +433,21 @@ public class GlobalController : MonoBehaviour {
 			gc.StartCoroutine(gc.MovePlayerWithFade(position));
 			return;
 		}
-		gc.StartCoroutine(gc.MovePlayerNextFrame(position));
+		gc.StartCoroutine(gc.MovePlayerNextFrame(position, fade));
 	}
 
 	// make sure the trail renderers don't emit
-	IEnumerator MovePlayerNextFrame(Vector2 position) {
+	IEnumerator MovePlayerNextFrame(Vector2 position, bool fade) {
 		pc.DisableTrails();
 		pc.speedLimiter.enabled = false;
 		yield return new WaitForEndOfFrame();
 		pc.transform.position = position;
 		playerFollower.SnapToTarget();
 		pc.EnableTrails();
-		yield return new WaitForSecondsRealtime(0.5f);
-		UnFadeToBlack();
+		if (fade) {
+			yield return new WaitForSecondsRealtime(0.5f);
+			UnFadeToBlack();
+		}
 		pc.ExitCutscene();
 		pc.speedLimiter.enabled = true;
 	}
@@ -454,7 +456,7 @@ public class GlobalController : MonoBehaviour {
 		pc.EnterCutscene();
 		FadeToBlack();
 		yield return new WaitForSeconds(0.5f);
-		StartCoroutine(MovePlayerNextFrame(position));
+		StartCoroutine(MovePlayerNextFrame(position, fade:true));
 	}
 
 	public static void MovePlayerToBeacon(Beacon beacon) {

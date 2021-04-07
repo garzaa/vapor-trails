@@ -564,11 +564,14 @@ public class PlayerController : Entity {
 			Invoke("EndEarlyDashInput", missedInputCooldown);
 			return;
 		}
-		
-		if (!grounded && airDashes < 1) {
-			return;
+
+		if (!(grounded || justLeftGround)) {
+			if (airDashes < 1) {
+				return;
+			} else {
+				airDashes--;
+			}
 		}
-		airDashes--;
 
 		StartCombatStanceCooldown();
 		CameraShaker.MedShake();
