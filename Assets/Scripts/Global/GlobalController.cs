@@ -408,11 +408,14 @@ public class GlobalController : MonoBehaviour {
 
 	public static void LoadScene(string sceneName, Beacon beacon=null) {
 		if (beacon.leftScene != null) {
-			string beaconSceneName = beacon.leftScene.scene;
+			string beaconSceneName = beacon.leftScene.scene.SceneName;
 
-			if (string.Equals(beaconSceneName, SceneManager.GetActiveScene().name)) {
-				beaconSceneName = beacon.rightScene.scene;
+			if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
+				Debug.Log("Left scene is this scene, picking the right scene");
+				beaconSceneName = beacon.rightScene.scene.SceneName;
 			}
+
+			Debug.Log("Loading scene "+beaconSceneName);
 
 			gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
 		} else {
