@@ -1220,6 +1220,7 @@ public class PlayerController : Entity {
 		}
 
 		rb2d.MovePosition(rb2d.position + Vector2.down*0.1f);
+		rb2d.velocity = new Vector2(rb2d.velocity.x, hardLandSpeed/2f);
 	}
 
 	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {

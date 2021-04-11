@@ -411,11 +411,8 @@ public class GlobalController : MonoBehaviour {
 			string beaconSceneName = beacon.leftScene.scene.SceneName;
 
 			if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
-				Debug.Log("Left scene is this scene, picking the right scene");
 				beaconSceneName = beacon.rightScene.scene.SceneName;
 			}
-
-			Debug.Log("Loading scene "+beaconSceneName);
 
 			gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
 		} else {
@@ -466,10 +463,18 @@ public class GlobalController : MonoBehaviour {
 		BeaconWrapper b = Object.FindObjectsOfType<BeaconWrapper>().Where(
 			x => x.beacon == beacon
 		).First();
-		if (b.activateOnLoad != null) {
-			b.activateOnLoad.Activate();
+		if (b != null) {
+			if (b.activateOnLoad != null) {
+				b.activateOnLoad.Activate();
+			}
+			MovePlayerTo(b.transform.position);
+		} else {
+			// if no beacon wrapper, there should at least be a corresponding door
+			// with that beacon
+			Door d = Object.FindObjectsOfType<Door>().Where(
+				x => x.beacon == beacon
+			).First();
 		}
-		MovePlayerTo(b.transform.position);
 	}
 
 	public static void ShortBlackFade() {

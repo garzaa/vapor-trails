@@ -71,7 +71,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     RaycastHit2D[] GetPlatforms(Vector2 corner) {
         return Physics2D.CircleCastAll(
             corner,
-            0.32f,
+            1.28f,
             Vector2.zero,
             0f,
             defaultLayerMask
