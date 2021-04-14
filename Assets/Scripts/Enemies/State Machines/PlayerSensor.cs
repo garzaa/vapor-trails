@@ -7,7 +7,7 @@ public class PlayerSensor : Sensor {
 	public bool absoluteX = true;
 	Vector2 playerDist;
 
-	public bool running = false;
+	public bool running = true;
 
 	void Update() {
 		if (pc.IsDead() || !running) {
