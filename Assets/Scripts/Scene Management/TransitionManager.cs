@@ -18,6 +18,8 @@ public class TransitionManager : MonoBehaviour {
 	
 	public static SceneData sceneData;
 
+	public Transition transition;
+
 	void Start() {
 		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 		loadTextUI.SetActive(false);

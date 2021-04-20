@@ -35,4 +35,10 @@ public class SimpleAnimator : Activatable {
     virtual protected void Init() {
 
     }
+
+    void OnValidate() {
+        if (initialDelay > 0) {
+            running = false;
+        }
+    }
 }
