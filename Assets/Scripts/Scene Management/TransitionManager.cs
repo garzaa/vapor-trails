@@ -5,29 +5,28 @@ using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour {
 
-	Beacon currentBeacon;
-	bool toPosition = false;
-	Vector2 position = Vector2.zero;
+	public Transition transition;
+	public static SceneData sceneData;
+
 	float targetVolume = 1f;
 	float originalVolume = 1f;
-	readonly float FADE_TIME = 1f;
+	const float FADE_TIME = 1f;
 	float elapsedTime;
 	float transitionEndTime;
 	public GameObject loadTextUI;
 	public Text loadProgressText;
-	
-	public static SceneData sceneData;
 
-	public Transition transition;
-
-	void Start() {
-		//OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		loadTextUI.SetActive(false);
+		ApplySceneData();
+		LoadFromTransition();
+		transition.Clear();
 	}
 
 	void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+		loadTextUI.SetActive(false);
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
 
 	void Update() {
 		if (Time.time < transitionEndTime) {
@@ -43,56 +42,35 @@ public class TransitionManager : MonoBehaviour {
 		transitionEndTime = Time.time + FADE_TIME;
 	}
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		// reset everything and then re-enable according to scene data
-		sceneData = null;
-		loadTextUI.SetActive(false);
-		FadeAudio(1);
-		PlayerController pc = GlobalController.pc;
-		pc.StopForcedWalking();
-		pc.inCutscene = false;
+	private void LoadFromTransition() {
 		GlobalController.UnFadeToBlack();
-		GlobalController.pauseEnabled = true;
-		pc.UnLockInSpace();
-		pc.Show();
-		pc.ExitCutscene();
-		pc.EnableShooting();
-		pc.gameObject.SetActive(false);
+		FadeAudio(1);
 
-		GlobalController.ShowUI();
-
-		if (currentBeacon != null) {
-			GlobalController.MovePlayerToBeacon(currentBeacon);
-			currentBeacon = null;
-		} else if (SubwayManager.playerOnSubway) {
+		if (transition.subway) {
 			SubwayManager.ArriveWithPlayer();
-		} else if (toPosition) {
-			GlobalController.MovePlayerTo(position, fade: true);
-			toPosition = false;
+		} else if (transition.beacon != null) {
+			GlobalController.MovePlayerToBeacon(transition.beacon);
+		} else {
+			GlobalController.MovePlayerTo(transition.position);
 		}
+	}
 
-		SceneData sd;
-		if (GameObject.Find("SceneData") != null) {
-			sd = GameObject.Find("SceneData").GetComponent<SceneData>();
-			sceneData = sd;
-
+	private void ApplySceneData() {
+		SceneData sd = GameObject.FindObjectOfType<SceneData>();
+		if (sd != null) {
+			TransitionManager.sceneData = sd;
 			if (sd.loadOtherSceneAtStart) {
-				LoadScene(sd.otherSceneName, null, fade:false);
+				LoadScene(sd.otherSceneName, null, fade: false);
 				return;
 			}
 
 			GlobalController.ShowTitleText(sd.title, sd.subTitle);
+			PlayerController pc = GlobalController.pc;
 
 			if (sd.hideUI) {
 				GlobalController.HideUI();
 			} else {
 				GlobalController.ShowUI();
-			}
-
-			if (sd.lockPlayer) {
-				pc.EnterCutscene();
-			} else if (sd.unlockPlayer) {
-				pc.ExitCutscene();
 			}
 
 			if (sd.hidePlayer) {
@@ -105,29 +83,19 @@ public class TransitionManager : MonoBehaviour {
 			}
 
 			GlobalController.pauseEnabled = sd.enablePausing;
-			
-			pc.gameObject.SetActive(!sd.disablePlayer);
-		} else {
-			pc.gameObject.SetActive(true);
 		}
-
-		pc.EnableTriggers();
-
 	}
 
 	public void LoadSceneToPosition(string sceneName, Vector2 position) {
-		this.toPosition = true;
-		this.position = position;
+		transition.position = position;
 		LoadScene(sceneName, null);
 	}
 
 	public void LoadScene(string sceneName, Beacon beacon, bool fade = true) {
 		if (fade) GlobalController.FadeToBlack();
-		this.currentBeacon = beacon;
+		transition.beacon = beacon;
 
-		PlayerController pc = GlobalController.pc;
-		pc.EnterCutscene();
-		pc.DisableTriggers();
+		GlobalController.pc.EnterCutscene();
 
 		StartCoroutine(LoadAsync(sceneName, fade));
 	}
@@ -148,7 +116,6 @@ public class TransitionManager : MonoBehaviour {
 			loadProgressText.text = asyncLoad.progress.ToString("P");
 			if (asyncLoad.progress >= 0.9f) {
 				asyncLoad.allowSceneActivation = true;
-				GlobalController.pc.ExitCutscene();
 			}
 
             yield return null;

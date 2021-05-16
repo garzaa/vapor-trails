@@ -1264,11 +1264,10 @@ public class PlayerController : Entity {
 
 	IEnumerator _ExitCutscene() {
 		yield return new WaitForEndOfFrame();
-		if (TransitionManager.sceneData != null) {
-			if (TransitionManager.sceneData.hidePlayer || TransitionManager.sceneData.lockPlayer) {
+		if (TransitionManager.sceneData != null && TransitionManager.sceneData.hidePlayer) {
 				yield break;
-			}
 		}
+
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();
