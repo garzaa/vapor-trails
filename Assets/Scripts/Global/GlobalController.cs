@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using System.Xml;
 
 public class GlobalController : MonoBehaviour {
 
@@ -21,7 +22,11 @@ public class GlobalController : MonoBehaviour {
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
-	public static Save save;
+	public static Save save {
+		get {
+			return gc.saveContainer.save;
+		}
+	}
 	static CloseableUI pauseUI;
 	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
@@ -50,25 +55,18 @@ public class GlobalController : MonoBehaviour {
 
 	static GameObject playerMenu;
 	static BinarySaver binarySaver;
-	static SaveWrapper saveWrapper;
 	public static BossFightIntro bossFightIntro;
 
+	[SerializeField] SaveContainer saveContainer;
+
 	void Awake() {
-		if (gc == null) {
-			gc = this;
-		} else {
-			// if this one's a duplicate, destroy
-			Destroy(this.gameObject);
-			return;
-		}
-		DontDestroyOnLoad(this);
+		gc = this;
 		titleText = editorTitleText;
 		dialogueUI = GetComponentInChildren<DialogueUI>();
 		signUI = GetComponentInChildren<SignUI>();
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
-		save = gc.GetComponent<SaveWrapper>().save;
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = GetComponentInChildren<PauseUI>();
 		abilityUIAnimator = GameObject.Find("AbilityGetUI").GetComponent<Animator>();
@@ -78,9 +76,12 @@ public class GlobalController : MonoBehaviour {
 		bossHealthUI.gameObject.SetActive(false);
 		playerMenu = GameObject.Find("PlayerMenu");
 		binarySaver = gc.GetComponent<BinarySaver>();
-		saveWrapper = gc.GetComponent<SaveWrapper>();
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
+	}
+
+	void OnDisable() {
+		save.loadedOnce = true;
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -92,27 +93,13 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void NewGamePlus() {
+		AlerterText.Alert("Hey idiot you forgot to make NG+");
 		return;
 	}
 
 	public void NewGame() {
-		// wipe the save
-		save.Clear();
-
-		// re-add starting game flags
-		gc.GetComponentInChildren<EditorGameStates>().Start();
-
-		// wipe the inventory
-		inventory.Clear();
-
-		// re-add starting items
-		inventory.Start();
-		
-		// bad
-		GlobalController.pc.maxEnergy = save.maxEnergy;
-		GlobalController.pc.currentEnergy = save.currentEnergy;
-		GlobalController.pc.maxHP = save.maxHP;
-		GlobalController.pc.currentHP = save.currentHP;
+		// replace with a fresh save, everything will be loaded correctly in the next scene
+		saveContainer = SaveContainer.GetNewSave();
 	}
 
 	public static bool HasBeatGame() {
@@ -560,18 +547,8 @@ public class GlobalController : MonoBehaviour {
 
 	public static void LoadGame() {
 		FadeToBlack();
-		saveWrapper.save = binarySaver.LoadFile(saveSlot);
-		save = saveWrapper.save;
+		gc.saveContainer.save = binarySaver.LoadFile(saveSlot);
 		LoadSceneToPosition(save.sceneName, save.playerPosition);
-		pc.LoadFromSaveData(saveWrapper.save);
-		inventory.items.Empty();
-		foreach (StoredItem s in save.playerItems.items) {
-			GlobalController.AddItem(s, quiet:true);
-		}
-		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
-			o.Start();
-		}
-		inventory.UpdateMoneyUI();
  	}
 
 	public static void SaveGame(bool autosave=false) {
@@ -590,8 +567,8 @@ public class GlobalController : MonoBehaviour {
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
-		binarySaver.SyncImmediateStates(saveSlot, saveWrapper.save);
-		binarySaver.SaveFile(saveWrapper.save, saveSlot);
+		binarySaver.SyncImmediateStates(saveSlot, save);
+		binarySaver.SaveFile(save, saveSlot);
 		if (autosave) AlerterText.AlertImmediate("Autosave complete");
 	}
 

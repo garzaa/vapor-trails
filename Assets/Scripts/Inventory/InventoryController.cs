@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour {
@@ -14,23 +15,42 @@ public class InventoryController : MonoBehaviour {
     public Text moneyUI;
     public AudioSource itemBuy;
 
-    public List<Item> startingItems;
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        LoadFromSaveData(GlobalController.save);
+    }
+
+    void LoadFromSaveData(Save save) {
+        // populate items from the save file, wherever that setting is
+        // then add save.startingitems
+    }
+
 
     public void Start() {
-        // will be overwritten by deserialization, so it's OK
-        // hmmgh
-        if (startingItems == null || this.items.items.Count > 0) return;
+        // TODO: reconcile this with the full game
+        // if it was loaded from another scene, then don't add the editor items
+        // but if we're starting in this scene then it's OK
+        if (!GlobalController.save.loadedOnce) {
+        List<Item> startingItems = GlobalController.save.startingItems;
+            if (startingItems != null) {
+                foreach (Item item in startingItems) {
+                    if (item != null) GlobalController.AddItem(new StoredItem(item), quiet: true);
+                }
+            }
+        }
+        /*
+        if (startingItems == null || items.IsEmpty()) return;
         if (startingItems != null) {
             foreach (Item item in startingItems) {
                 // get around me being lazy in the editor
                 if (item != null) GlobalController.AddItem(new StoredItem(item), quiet:true);
             }
         }
+        */
         UpdateMoneyUI();
     }
 
     public void Clear() {
-        items.items.Clear();
+        items.Clear();
     }
 
     public void ReactToItemSelect(StoredItem item) {

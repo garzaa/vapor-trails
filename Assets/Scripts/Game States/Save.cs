@@ -3,20 +3,22 @@ using UnityEngine;
 
 [System.Serializable]
 public class Save {
+    public int maxHP;
+    public int maxEnergy;
+
     [HideInInspector] public int slotNum = 1;
     [HideInInspector] public int currentHP;
-    [HideInInspector] public int maxHP;
     [HideInInspector] public int currentEnergy;
-    [HideInInspector] public int maxEnergy;
     [HideInInspector] public int basePlayerDamage;
+
     public List<GameFlag> gameFlags = new List<GameFlag>();
 
     public List<string> gameStates = new List<string>();
 
-    public PlayerUnlocks unlocks;    
+    [HideInInspector] public PlayerUnlocks unlocks;    
     
-    public string sceneName;
-    public SerializableInventoryList playerItems;
+    [HideInInspector] public string sceneName;
+    [HideInInspector] public SerializableInventoryList playerItems;
     
     [System.NonSerialized]
     public Vector2 playerPosition;
@@ -27,40 +29,21 @@ public class Save {
     [System.NonSerialized]
     public Dictionary<string, SerializedPersistentObject> persistentObjects = new Dictionary<string, SerializedPersistentObject>();
     
-    public List<string> persistentObjectKeys = new List<string>();
-    public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
+    [HideInInspector] public List<string> persistentObjectKeys = new List<string>();
+    [HideInInspector] public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
 
     public GameOptions options;
 
-    void Awake() {
-        persistentObjects = new Dictionary<string, SerializedPersistentObject>();
-        Initialize();
-    }
+    public bool loadedOnce;
 
-    void Initialize() {
-        currentHP = 12;
-        maxHP = 12;
-        currentEnergy = 8;
-        maxEnergy = 8;
-        basePlayerDamage = 1;
-    }
+    public void Initialize() {
+        if (loadedOnce) return;
 
-    public void Clear() {
-        // wipe all persistent object keys and values
-        persistentObjects.Clear();
+        currentHP = maxHP;
+        currentEnergy = maxEnergy;
 
-        // also playerunlocks? is that referenced? sure
-        unlocks.Clear();
-
-        // then everything else
-        playerPosition = Vector2.zero;
-        sceneName = "";
-        playerItems.items.Clear();
-        persistentObjectKeys.Clear();
-        persistentObjectValues.Clear();
-        gameFlags.Clear();
-
-        Initialize();
+        // loadedOnce is set by GlobalController when unloaded
+        // so dependent things (i.e. inventory) can access it without race conditions
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {

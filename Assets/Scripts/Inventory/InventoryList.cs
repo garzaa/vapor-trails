@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class InventoryList : MonoBehaviour {
-    public List<StoredItem> items;
+    List<StoredItem> items;
 
     public InventoryList() {
         this.items = new List<StoredItem>();
@@ -19,8 +19,16 @@ public class InventoryList : MonoBehaviour {
         return null;
     }
 
-    public void Empty() {
+    public void Clear() {
         items.Clear();
+    }
+
+    public bool IsEmpty() {
+        return items != null && items.Count > 0;
+    }
+
+    public List<StoredItem> GetAll() {
+        return items;
     }
 
     public StoredItem GetItem(Item item) {

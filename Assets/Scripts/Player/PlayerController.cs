@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : Entity {
 	public const float moveSpeed = 3.5f;
@@ -127,7 +128,7 @@ public class PlayerController : Entity {
 	};
 
 	void Start() {
-		unlocks = GetComponentInParent<SaveWrapper>().save.unlocks;
+		unlocks = GlobalController.save.unlocks;
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 		options = GlobalController.save.options;
@@ -151,6 +152,8 @@ public class PlayerController : Entity {
 
     protected override void OnEnable() {
         base.OnEnable();
+		LoadFromSaveData(GlobalController.save);
+		
 		if (groundData != null) {
 			if (groundData.grounded) {
 				OnGroundHit(0f);
@@ -158,7 +161,16 @@ public class PlayerController : Entity {
 		}
     }
 
-    
+	void LoadFromSaveData(Save s) {
+		this.unlocks = s.unlocks;
+		this.maxEnergy = s.maxEnergy;
+		this.maxHP = s.maxHP;
+		this.currentEnergy = s.currentEnergy;
+		this.currentHP = s.currentHP;
+		this.baseDamage = s.basePlayerDamage;
+		this.options = s.options;
+		UpdateUI();
+	}
 
 	void Update() {
 		CheckGroundData();
@@ -1356,17 +1368,6 @@ public class PlayerController : Entity {
 	override public void UnLockInSpace() {
 		base.UnLockInSpace();
 		this.transform.rotation = Quaternion.identity;
-	}
-
-	public void LoadFromSaveData(Save s) {
-		this.unlocks = s.unlocks;
-		this.maxEnergy = s.maxEnergy;
-		this.maxHP = s.maxHP;
-		this.currentEnergy = s.currentEnergy;
-		this.currentHP = s.currentHP;
-		this.baseDamage = s.basePlayerDamage;
-		this.options = s.options;
-		UpdateUI();
 	}
 
 	IEnumerator InteractTimeout() {
