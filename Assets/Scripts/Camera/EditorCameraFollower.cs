@@ -14,7 +14,7 @@ public class EditorCameraFollower : MonoBehaviour {
     void Update() {
         if (!Application.isPlaying && Camera.current != null && Camera.current.transform != null) {
             Vector3 currentPos = Camera.current.transform.position;
-            if (currentPos != lastPos) {
+            if (!currentPos.Equals(lastPos)) {
                 this.transform.position = (Vector2) Camera.current.transform.position;
             }
             lastPos = Camera.current.transform.position;
