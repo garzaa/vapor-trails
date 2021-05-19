@@ -8,7 +8,7 @@ public class BinarySaver : MonoBehaviour {
     const string folder = "saves";
     const string extension = ".dat";
 
-    BinaryFormatter binaryFormatter = new BinaryFormatter();
+    static BinaryFormatter binaryFormatter = new BinaryFormatter();
 
     void OnEnable() {
         if (!Directory.Exists(GetFolderPath())) {
@@ -16,7 +16,7 @@ public class BinarySaver : MonoBehaviour {
         }
     }
 
-    public void SaveFile(Save save, int slot) {
+    public static void SaveFile(Save save, int slot) {
         save.BeforeSerialize();
 
         using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.OpenOrCreate))
@@ -25,7 +25,7 @@ public class BinarySaver : MonoBehaviour {
         }
     }
 
-    public Save LoadFile(int slot) {
+    public static Save LoadFile(int slot) {
         Save save;
         using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.Open))
         {
@@ -35,7 +35,7 @@ public class BinarySaver : MonoBehaviour {
         return save;
     }
 
-    public bool HasFile(int slot) {
+    public static bool HasFile(int slot) {
         if (!File.Exists(GetSavePath(slot))) return false;
         try {
             Save s = LoadFile(slot);
@@ -46,46 +46,15 @@ public class BinarySaver : MonoBehaviour {
         }
     }
 
-    string GetFolderPath() {
+    static string GetFolderPath() {
         return Path.Combine(Application.persistentDataPath, folder);
     }
     
-    string GetSavePath(int slot) {
+    static string GetSavePath(int slot) {
         return Path.Combine(GetFolderPath(), slot+extension);
     }
 
-    public bool HasFinishedGame() {
+    public static bool HasFinishedGame() {
         return false;
-    }
-
-    public void NewGamePlus() {
-
-    }
-
-    public void SyncImmediateStates(int slot, Save currentSave) {
-        if (HasFile(slot)) {
-            Save diskSave = LoadFile(slot);
-
-            // prune old states
-            List<string> toPrune = new List<string>();
-            foreach (String diskState in diskSave.gameStates) {
-                if ((Resources.Load("ScriptableObjects/Game States/"+diskState) as GameState).writeImmediately) {
-                    if (!currentSave.gameStates.Contains(diskState)) {
-                        toPrune.Add(diskState);
-                    }
-                }
-            }
-            foreach (String s in toPrune) {
-                diskSave.gameStates.Remove(s);
-            }
-
-            // add new states
-            foreach (String stateName in currentSave.gameStates) {
-                if ((Resources.Load("ScriptableObjects/Game States/"+stateName) as GameState).writeImmediately) {
-                    diskSave.gameStates.Add(stateName);
-                }
-            }
-            SaveFile(diskSave, slot);
-        }
     }
 }

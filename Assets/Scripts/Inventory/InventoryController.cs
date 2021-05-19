@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour {
-    public InventoryList items;   
+    public InventoryList items {
+        get {
+            return GlobalController.GetSaveContainer().runtimeInventory;
+        }
+    } 
     public InventoryUI inventoryUI;
     public MerchantUI merchantUI;
     bool inInventory = false;
@@ -15,37 +19,21 @@ public class InventoryController : MonoBehaviour {
     public Text moneyUI;
     public AudioSource itemBuy;
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        LoadFromSaveData(GlobalController.save);
-    }
-
-    void LoadFromSaveData(Save save) {
-        // populate items from the save file, wherever that setting is
-        // then add save.startingitems
-    }
-
-
-    public void Start() {
-        // TODO: reconcile this with the full game
+    public void OnEnable() {
         // if it was loaded from another scene, then don't add the editor items
+        // (because they were almost certainly loaded in that last scene)
         // but if we're starting in this scene then it's OK
         if (!GlobalController.save.loadedOnce) {
-        List<Item> startingItems = GlobalController.save.startingItems;
+            List<Item> startingItems = GlobalController.GetSaveContainer().GetStartingItems();
             if (startingItems != null) {
                 foreach (Item item in startingItems) {
                     if (item != null) GlobalController.AddItem(new StoredItem(item), quiet: true);
                 }
             }
         }
-        /*
-        if (startingItems == null || items.IsEmpty()) return;
-        if (startingItems != null) {
-            foreach (Item item in startingItems) {
-                // get around me being lazy in the editor
-                if (item != null) GlobalController.AddItem(new StoredItem(item), quiet:true);
-            }
-        }
-        */
+
+        items.AddAll(GlobalController.GetSaveContainer().GetInventory());
+
         UpdateMoneyUI();
     }
 

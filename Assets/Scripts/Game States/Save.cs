@@ -18,7 +18,7 @@ public class Save {
     [HideInInspector] public PlayerUnlocks unlocks;    
     
     [HideInInspector] public string sceneName;
-    [HideInInspector] public SerializableInventoryList playerItems;
+    public InventoryList playerItems;
     
     [System.NonSerialized]
     public Vector2 playerPosition;

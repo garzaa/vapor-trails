@@ -24,7 +24,7 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerFollower playerFollower;
 	public static Save save {
 		get {
-			return gc.saveContainer.save;
+			return gc.saveContainer.GetSave();
 		}
 	}
 	static CloseableUI pauseUI;
@@ -54,7 +54,6 @@ public class GlobalController : MonoBehaviour {
 	public static int openUIs = 0;
 
 	static GameObject playerMenu;
-	static BinarySaver binarySaver;
 	public static BossFightIntro bossFightIntro;
 
 	[SerializeField] SaveContainer saveContainer;
@@ -75,9 +74,10 @@ public class GlobalController : MonoBehaviour {
 		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
 		bossHealthUI.gameObject.SetActive(false);
 		playerMenu = GameObject.Find("PlayerMenu");
-		binarySaver = gc.GetComponent<BinarySaver>();
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
+
+		if (!save.loadedOnce) AddStates(saveContainer.GetStartingGameStates());
 	}
 
 	void OnDisable() {
@@ -89,7 +89,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static bool HasSavedGame() {
-		return binarySaver.HasFile(saveSlot); 
+		return BinarySaver.HasFile(saveSlot); 
 	}
 
 	public static void NewGamePlus() {
@@ -221,6 +221,10 @@ public class GlobalController : MonoBehaviour {
 		} else {
 			ExitDialogue();
 		}
+	}
+
+	public static SaveContainer GetSaveContainer() {
+		return gc.saveContainer;
 	}
 
 	public static void EnterDialogue(NPC npc, bool fromQueue=false) {
@@ -359,8 +363,7 @@ public class GlobalController : MonoBehaviour {
 		}
 
 		PushStateChange();
-
-		binarySaver.SyncImmediateStates(saveSlot, save);
+		gc.saveContainer.SyncImmediateStates(saveSlot);
 	}
 
 	public static void AddState(GameState state) {
@@ -368,7 +371,7 @@ public class GlobalController : MonoBehaviour {
 		if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
 		PropagateStateChange();
 		if (state.writeImmediately) {
-			binarySaver.SyncImmediateStates(saveSlot, save);
+			gc.saveContainer.SyncImmediateStates(saveSlot);
 		}
 	}
 
@@ -380,7 +383,7 @@ public class GlobalController : MonoBehaviour {
 		}
 		PropagateStateChange();
 		if (writeImmediate) {
-			binarySaver.SyncImmediateStates(saveSlot, save);
+			gc.saveContainer.SyncImmediateStates(saveSlot);
 		}
 	}
 
@@ -546,8 +549,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadGame() {
-		FadeToBlack();
-		gc.saveContainer.save = binarySaver.LoadFile(saveSlot);
+		gc.saveContainer.LoadFromSlot(saveSlot);
 		LoadSceneToPosition(save.sceneName, save.playerPosition);
  	}
 
@@ -555,10 +557,8 @@ public class GlobalController : MonoBehaviour {
 		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {
 			AlerterText.Alert("Rebuilding waveform");
 			pc.FullHeal();
-			AlerterText.Alert("Done");
 		}
 		if (autosave) AlerterText.AlertImmediate("Autosaving...");
-		save.playerItems = inventory.items.MakeSerializableInventory();
 		save.currentHP = pc.currentHP;
 		save.maxHP = pc.maxHP;
 		save.currentEnergy = pc.currentEnergy;
@@ -567,8 +567,7 @@ public class GlobalController : MonoBehaviour {
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
-		binarySaver.SyncImmediateStates(saveSlot, save);
-		binarySaver.SaveFile(save, saveSlot);
+		gc.saveContainer.WriteToDiskSlot(saveSlot);
 		if (autosave) AlerterText.AlertImmediate("Autosave complete");
 	}
 
