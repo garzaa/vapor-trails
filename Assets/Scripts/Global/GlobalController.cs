@@ -76,7 +76,7 @@ public class GlobalController : MonoBehaviour {
 		playerMenu = GameObject.Find("PlayerMenu");
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
-
+		save.Initialize();
 		if (!save.loadedOnce) AddStates(saveContainer.GetStartingGameStates());
 	}
 
@@ -99,7 +99,9 @@ public class GlobalController : MonoBehaviour {
 
 	public void NewGame() {
 		// replace with a fresh save, everything will be loaded correctly in the next scene
-		saveContainer = SaveContainer.GetNewSave();
+		saveContainer.WipeSave();
+		// the new save does need to be re-initialized though
+		save.Initialize();
 	}
 
 	public static bool HasBeatGame() {

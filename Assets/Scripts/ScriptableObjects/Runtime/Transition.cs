@@ -5,6 +5,7 @@ public class Transition : ScriptableObject {
     public bool subway;
     public Beacon beacon;
     public Vector2 position;
+    public bool loadedOnce = false;
 
     public void Clear() {
         subway = false;

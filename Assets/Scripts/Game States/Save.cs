@@ -41,9 +41,6 @@ public class Save {
 
         currentHP = maxHP;
         currentEnergy = maxEnergy;
-
-        // loadedOnce is set by GlobalController when unloaded
-        // so dependent things (i.e. inventory) can access it without race conditions
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {

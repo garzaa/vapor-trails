@@ -16,16 +16,11 @@ public class TransitionManager : MonoBehaviour {
 	public GameObject loadTextUI;
 	public Text loadProgressText;
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+	void OnEnable() {
 		loadTextUI.SetActive(false);
 		ApplySceneData();
 		LoadFromTransition();
 		transition.Clear();
-	}
-
-	void OnEnable() {
-		loadTextUI.SetActive(false);
-		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
 	void Update() {
@@ -45,6 +40,12 @@ public class TransitionManager : MonoBehaviour {
 	private void LoadFromTransition() {
 		GlobalController.UnFadeToBlack();
 		FadeAudio(1);
+
+		if (!transition.loadedOnce) {
+			// if the game's just starting
+			transition.loadedOnce = true;
+			return;
+		}
 
 		if (transition.subway) {
 			SubwayManager.ArriveWithPlayer();

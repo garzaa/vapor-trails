@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InventoryController : MonoBehaviour {
     public InventoryList items {
         get {
-            return GlobalController.GetSaveContainer().runtimeInventory;
+            return GlobalController.GetSaveContainer().GetInventory();
         }
     } 
     public InventoryUI inventoryUI;
@@ -31,8 +31,6 @@ public class InventoryController : MonoBehaviour {
                 }
             }
         }
-
-        items.AddAll(GlobalController.GetSaveContainer().GetInventory());
 
         UpdateMoneyUI();
     }

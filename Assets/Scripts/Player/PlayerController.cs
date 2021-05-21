@@ -1376,6 +1376,9 @@ public class PlayerController : Entity {
 	}
 
 	public override void Hide() {
+		if (anim == null) {
+			anim = GetComponent<Animator>();
+		}
 		anim.SetBool("Hidden", true);
 	}
 

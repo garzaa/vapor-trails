@@ -8,15 +8,20 @@ public class SaveContainer : ScriptableObject
     [SerializeField] Save save;
 
 
-    public static SaveContainer GetNewSave() {
-        return Resources.Load("ScriptableObjects/Runtime/Saves/New Save") as SaveContainer;
+    public void WipeSave() {
+        this.runtimeInventory.Clear();
+        SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Saves/New Save") as SaveContainer;
+        this.save = newSave.save;
+        this.startingGameStates = newSave.startingGameStates;
+        this.startingItems = newSave.startingItems;
     }
 
     [SerializeField] List<Item> startingItems;
     [SerializeField] List<GameState> startingGameStates;
 
 
-    public InventoryList runtimeInventory;
+    [Header("Don't change these properties")]
+    [SerializeField] InventoryList runtimeInventory;
 
     public Save GetSave() {
         return this.save;
