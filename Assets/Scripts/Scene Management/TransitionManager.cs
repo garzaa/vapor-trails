@@ -16,7 +16,10 @@ public class TransitionManager : MonoBehaviour {
 	public GameObject loadTextUI;
 	public Text loadProgressText;
 
+	GlobalController global;
+
 	void OnEnable() {
+		global = GetComponentInParent<GlobalController>();
 		loadTextUI.SetActive(false);
 		ApplySceneData();
 		LoadFromTransition();
@@ -83,7 +86,7 @@ public class TransitionManager : MonoBehaviour {
 				pc.Flip();
 			}
 
-			GlobalController.pauseEnabled = sd.enablePausing;
+			global.pauseEnabled = sd.enablePausing;
 		}
 	}
 

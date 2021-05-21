@@ -14,7 +14,7 @@ public class ItemViewer : MonoBehaviour {
     public ScrollRect scrollView;
     public AudioClip selectSound;
 
-    [SerializeField] InventoryList editorInventoryLink;
+    [SerializeField] InventoryController editorInventoryLink;
 
     bool started = false;
 
@@ -25,7 +25,7 @@ public class ItemViewer : MonoBehaviour {
         itemDescription.text = "";
 
         if (editorInventoryLink != null) {
-            PopulateItems(editorInventoryLink);
+            PopulateItems(editorInventoryLink.items);
         }
     }
 

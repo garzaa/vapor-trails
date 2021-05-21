@@ -17,7 +17,7 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerController pc;
 	public static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
-	public static bool pauseEnabled = true;
+	public bool pauseEnabled = true;
 	static bool paused = false;
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
@@ -102,6 +102,9 @@ public class GlobalController : MonoBehaviour {
 		saveContainer.WipeSave();
 		// the new save does need to be re-initialized though
 		save.Initialize();
+		foreach (Item i in saveContainer.GetStartingItems()) {
+			AddItem(new StoredItem(i), quiet:true);
+		}
 	}
 
 	public static bool HasBeatGame() {

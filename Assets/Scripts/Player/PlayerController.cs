@@ -115,6 +115,7 @@ public class PlayerController : Entity {
 	GameObject instantiatedSparkle = null;
 	GameObject diamondShine;
 	GameEvent deathEvent;
+	PlayerGroundCheck groundCheck;
 
 
 	string[] deathText = {
@@ -147,7 +148,8 @@ public class PlayerController : Entity {
 		airAttackTracker = GetComponent<AirAttackTracker>();
 		RefreshAirMovement();
 		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
-		groundData = GetComponent<PlayerGroundCheck>().groundData;
+		groundCheck = GetComponent<PlayerGroundCheck>();
+		groundData = groundCheck.groundData;
 	}
 
     protected override void OnEnable() {
@@ -503,8 +505,9 @@ public class PlayerController : Entity {
 		} else {
 			ImpactDust();
 		}
+		// disable ground check for a little while to not snap back to ground
+		groundCheck.DisableFor(0.1f);
 		rb2d.velocity += Vector2.up * jumpSpeed;
-
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
@@ -680,6 +683,7 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundHit(float impactSpeed) {
+		Debug.Log("ground hit");
 		grounded = true;
 		canShortHop = true;
 		RefreshAirMovement();

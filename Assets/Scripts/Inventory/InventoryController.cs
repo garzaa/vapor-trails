@@ -20,18 +20,6 @@ public class InventoryController : MonoBehaviour {
     public AudioSource itemBuy;
 
     public void OnEnable() {
-        // if it was loaded from another scene, then don't add the editor items
-        // (because they were almost certainly loaded in that last scene)
-        // but if we're starting in this scene then it's OK
-        if (!GlobalController.save.loadedOnce) {
-            List<Item> startingItems = GlobalController.GetSaveContainer().GetStartingItems();
-            if (startingItems != null) {
-                foreach (Item item in startingItems) {
-                    if (item != null) GlobalController.AddItem(new StoredItem(item), quiet: true);
-                }
-            }
-        }
-
         UpdateMoneyUI();
     }
 

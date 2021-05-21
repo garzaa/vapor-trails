@@ -14,6 +14,8 @@ public class CloseableUI : MonoBehaviour {
     public bool soloUISound = false;
     public bool continuousCutscene = false;
 
+    public bool debug = false;
+
     protected bool open;
     protected bool started;
 
@@ -21,6 +23,7 @@ public class CloseableUI : MonoBehaviour {
         if ((exclusive && GlobalController.openUIs > 0)) {
             return;
         }
+        if (debug) Debug.Log(gameObject.name + " opened");
 
         if (!open) GlobalController.openUIs += 1;
         this.open = true;
@@ -37,6 +40,7 @@ public class CloseableUI : MonoBehaviour {
 
         if (stopTime) Time.timeScale = 1f;
         this.open = false;
+        if (debug) Debug.Log(gameObject.name + " closed");
         // avoid race conditions
         if (GlobalController.pc.gameObject.activeInHierarchy) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);

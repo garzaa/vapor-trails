@@ -4,6 +4,7 @@ using System.Collections;
 
 public class PlayerGroundCheck : MonoBehaviour {
     public GroundData groundData = new GroundData();
+    [SerializeField] bool detecting = true;
     
     public BoxCollider2D playerCollider;
 
@@ -43,7 +44,7 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         groundData.platforms = TouchingPlatforms();
 
-        groundData.grounded = grounded;
+        groundData.grounded = grounded && detecting;
         groundData.onLedge = onLedge;
 
         currentNormal = GetGroundNormal();
@@ -121,6 +122,16 @@ public class PlayerGroundCheck : MonoBehaviour {
             end,
             defaultLayerMask
         );
+    }
+
+    public void DisableFor(float seconds) {
+        StartCoroutine(WaitAndEnable(seconds));
+    }
+
+    IEnumerator WaitAndEnable(float seconds) {
+        detecting = false;
+        yield return new WaitForSeconds(seconds);
+        detecting = true;
     }
 }
 
