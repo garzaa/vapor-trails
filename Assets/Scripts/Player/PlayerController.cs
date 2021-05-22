@@ -683,7 +683,6 @@ public class PlayerController : Entity {
 	}
 
 	public override void OnGroundHit(float impactSpeed) {
-		Debug.Log("ground hit");
 		grounded = true;
 		canShortHop = true;
 		RefreshAirMovement();

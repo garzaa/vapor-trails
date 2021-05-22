@@ -30,6 +30,8 @@ public class PlayerGroundCheck : MonoBehaviour {
         rightGrounded = RightGrounded();
         grounded = leftGrounded || rightGrounded;
         onLedge = leftGrounded ^ rightGrounded;
+
+        grounded = grounded && detecting;
         
 
         if (groundData.grounded && !grounded) {
@@ -44,7 +46,7 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         groundData.platforms = TouchingPlatforms();
 
-        groundData.grounded = grounded && detecting;
+        groundData.grounded = grounded;
         groundData.onLedge = onLedge;
 
         currentNormal = GetGroundNormal();
