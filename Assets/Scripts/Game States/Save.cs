@@ -37,8 +37,6 @@ public class Save {
     public bool loadedOnce;
 
     public void Initialize() {
-        if (loadedOnce) return;
-
         currentHP = maxHP;
         currentEnergy = maxEnergy;
     }

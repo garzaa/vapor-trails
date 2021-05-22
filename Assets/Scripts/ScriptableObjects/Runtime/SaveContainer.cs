@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Scene Container", menuName = "Runtime/Save Container")]
-public class SaveContainer : ScriptableObject
-{
-    [SerializeField] Save save;
+public class SaveContainer : ScriptableObject {
 
     // this exists so multiple save containers can reference the same save
     // so dev saves left over in levels can use the runtime save in the final build
@@ -14,7 +12,7 @@ public class SaveContainer : ScriptableObject
     public void WipeSave() {
         runtime.inventory.Clear();
         SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
-        this.save = newSave.save;
+        runtime.save = newSave.GetSave();
         this.startingGameStates = newSave.startingGameStates;
         this.startingItems = newSave.startingItems;
     }
@@ -27,15 +25,14 @@ public class SaveContainer : ScriptableObject
     }
 
     public void OnSceneLoad() {
-        if (!save.loadedOnce) {
+        if (!runtime.save.loadedOnce) {
             foreach (Item i in startingItems) {
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
             GlobalController.AddStates(startingGameStates);
+            runtime.save.Initialize();
         }
-        save.loadedOnce = true;
-
-        save.Initialize();
+        runtime.save.loadedOnce = true;
     }
 
     public bool RuntimeLoadedOnce() {
@@ -52,11 +49,11 @@ public class SaveContainer : ScriptableObject
     }
 
     public void LoadFromSlot(int slot) {
-        this.save = BinarySaver.LoadFile(slot);
+        runtime.save = BinarySaver.LoadFile(slot);
     }
 
     public void WriteToDiskSlot(int slot) {
-        BinarySaver.SaveFile(this.save, slot);
+        BinarySaver.SaveFile(runtime.save, slot);
     }
 
     public void SyncImmediateStates(int slot) {
@@ -69,7 +66,7 @@ public class SaveContainer : ScriptableObject
             List<string> toPrune = new List<string>();
             foreach (string diskState in diskSave.gameStates) {
                 if ((Resources.Load("ScriptableObjects/Game States/"+diskState) as GameState).writeImmediately) {
-                    if (!save.gameStates.Contains(diskState)) {
+                    if (!runtime.save.gameStates.Contains(diskState)) {
                         toPrune.Add(diskState);
                     }
                 }
@@ -79,7 +76,7 @@ public class SaveContainer : ScriptableObject
             }
 
             // add new states
-            foreach (string stateName in save.gameStates) {
+            foreach (string stateName in runtime.save.gameStates) {
                 if ((Resources.Load("ScriptableObjects/Game States/"+stateName) as GameState).writeImmediately) {
                     diskSave.gameStates.Add(stateName);
                 }
