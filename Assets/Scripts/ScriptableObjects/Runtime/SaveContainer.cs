@@ -7,10 +7,13 @@ public class SaveContainer : ScriptableObject
 {
     [SerializeField] Save save;
 
+    // this exists so multiple save containers can reference the same save
+    // so dev saves left over in levels can use the runtime save in the final build
+    [SerializeField] RuntimeSaveWrapper runtime;
 
     public void WipeSave() {
-        this.runtimeInventory.Clear();
-        SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Saves/New Save") as SaveContainer;
+        runtime.inventory.Clear();
+        SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
         this.save = newSave.save;
         this.startingGameStates = newSave.startingGameStates;
         this.startingItems = newSave.startingItems;
@@ -19,29 +22,33 @@ public class SaveContainer : ScriptableObject
     [SerializeField] List<Item> startingItems;
     [SerializeField] List<GameState> startingGameStates;
 
-
-    [Header("Don't change these properties")]
-    [SerializeField] InventoryList runtimeInventory;
-
     public Save GetSave() {
-        return this.save;
+        return runtime.save;
     }
 
-    public List<Item> GetStartingItems() {
-        return this.startingItems;
+    public void OnSceneLoad() {
+        if (!save.loadedOnce) {
+            foreach (Item i in startingItems) {
+                GlobalController.AddItem(new StoredItem(i), quiet:true);
+            }
+            GlobalController.AddStates(startingGameStates);
+        }
+        save.loadedOnce = true;
+
+        save.Initialize();
     }
 
-    public List<GameState> GetStartingGameStates() {
-        return this.startingGameStates;
+    public bool RuntimeLoadedOnce() {
+        return runtime.loadedOnce;
     }
 
     // called before scene transitions
     public void SaveInventory(InventoryList inventory) {
-        this.runtimeInventory = inventory;
+        runtime.inventory = inventory;
     }
 
     public InventoryList GetInventory() {
-        return runtimeInventory;
+        return runtime.inventory;
     }
 
     public void LoadFromSlot(int slot) {
