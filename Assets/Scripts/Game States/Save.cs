@@ -3,13 +3,13 @@ using UnityEngine;
 
 [System.Serializable]
 public class Save {
-    public int maxHP;
-    public int maxEnergy;
+    public int maxHP = 12;
+    public int maxEnergy = 8;
 
-    [HideInInspector] public int slotNum = 1;
-    [HideInInspector] public int currentHP;
-    [HideInInspector] public int currentEnergy;
-    [HideInInspector] public int basePlayerDamage;
+    public int slotNum = 1;
+    public int currentHP;
+    public int currentEnergy;
+    public int basePlayerDamage = 1;
 
     public List<GameFlag> gameFlags = new List<GameFlag>();
 
