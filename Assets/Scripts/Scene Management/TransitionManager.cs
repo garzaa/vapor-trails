@@ -44,9 +44,7 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.UnFadeToBlack();
 		FadeAudio(1);
 
-		if (!transition.loadedOnce) {
-			// if the game's just starting
-			transition.loadedOnce = true;
+		if (!GlobalController.GetSaveContainer().RuntimeLoadedOnce()) {
 			return;
 		}
 
