@@ -9,14 +9,6 @@ public class SaveContainer : ScriptableObject {
     // so dev saves left over in levels can use the runtime save in the final build
     [SerializeField] RuntimeSaveWrapper runtime;
 
-    public void WipeSave() {
-        runtime.inventory.Clear();
-        SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
-        runtime.save = newSave.GetSave();
-        this.startingGameStates = newSave.startingGameStates;
-        this.startingItems = newSave.startingItems;
-    }
-
     [SerializeField] List<Item> startingItems;
     [SerializeField] List<GameState> startingGameStates;
 
@@ -24,15 +16,26 @@ public class SaveContainer : ScriptableObject {
         return runtime.save;
     }
 
+    public void WipeSave() {
+        runtime.inventory.Clear();
+        runtime.loadedOnce = false;
+        SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
+        runtime.save = newSave.GetSave();
+        this.startingGameStates = newSave.startingGameStates;
+        this.startingItems = newSave.startingItems;
+        runtime.save.Initialize();
+    }
+
     public void OnSceneLoad() {
-        if (!runtime.save.loadedOnce) {
+        if (!runtime.save.firstLoadHappened) {
+            runtime.save.Initialize();
             foreach (Item i in startingItems) {
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
             GlobalController.AddStates(startingGameStates);
-            runtime.save.Initialize();
         }
-        runtime.save.loadedOnce = true;
+        runtime.save.firstLoadHappened = true;
+        runtime.loadedOnce = true;
     }
 
     public bool RuntimeLoadedOnce() {

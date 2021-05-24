@@ -15,9 +15,9 @@ public class Save {
 
     public List<string> gameStates = new List<string>();
 
-    [HideInInspector] public PlayerUnlocks unlocks;    
+    public PlayerUnlocks unlocks;    
     
-    [HideInInspector] public string sceneName;
+    public string sceneName;
     public InventoryList playerItems;
     
     [System.NonSerialized]
@@ -29,16 +29,25 @@ public class Save {
     [System.NonSerialized]
     public Dictionary<string, SerializedPersistentObject> persistentObjects = new Dictionary<string, SerializedPersistentObject>();
     
-    [HideInInspector] public List<string> persistentObjectKeys = new List<string>();
-    [HideInInspector] public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
+    public List<string> persistentObjectKeys = new List<string>();
+    public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
 
     public GameOptions options;
 
-    public bool loadedOnce;
+    public bool firstLoadHappened;
 
     public void Initialize() {
+        // called once per save
+        firstLoadHappened = false;
         currentHP = maxHP;
         currentEnergy = maxEnergy;
+        persistentObjects.Clear();
+        playerItems.Clear();
+        gameFlags.Clear();
+        gameStates.Clear();
+        unlocks.Clear();
+        persistentObjectKeys.Clear();
+        persistentObjectValues.Clear();
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {

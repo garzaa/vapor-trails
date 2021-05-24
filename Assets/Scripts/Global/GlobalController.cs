@@ -450,10 +450,10 @@ public class GlobalController : MonoBehaviour {
 			x => x.beacon == beacon
 		).First();
 		if (b != null) {
+			MovePlayerTo(b.transform.position);
 			if (b.activateOnLoad != null) {
 				b.activateOnLoad.Activate();
 			}
-			MovePlayerTo(b.transform.position);
 		} else {
 			// if no beacon wrapper, there should at least be a corresponding door
 			// with that beacon
