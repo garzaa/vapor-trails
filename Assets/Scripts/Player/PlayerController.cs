@@ -1156,10 +1156,11 @@ public class PlayerController : Entity {
 		Freeze();
 		anim.SetTrigger("Die");
 		anim.SetBool("TouchingWall", false);
-		deathEvent.Raise();
 		InterruptEverything();
 		EndCombatStanceCooldown();
 		ResetAttackTriggers();
+		
+		deathEvent.Raise();
 	}
 
 	public void StartRespawning() {
