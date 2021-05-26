@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using System.Xml;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class GlobalController : MonoBehaviour {
 
@@ -77,7 +79,20 @@ public class GlobalController : MonoBehaviour {
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
 		saveContainer.OnSceneLoad();
+
+#if UNITY_EDITOR
+		EditorApplication.playModeStateChanged += OnPlayModeChange;
+#endif
 	}
+
+#if UNITY_EDITOR
+	// "clean" the save scriptable object when the editor stops playing
+	private static void OnPlayModeChange(PlayModeStateChange stateChange) {
+		if (stateChange == PlayModeStateChange.ExitingPlayMode) {
+			gc.saveContainer.WipeSave();
+		}
+	}	
+#endif
 
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
