@@ -33,8 +33,20 @@ public class SaveContainer : ScriptableObject {
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
             GlobalController.AddStates(startingGameStates);
+            runtime.save.firstLoadHappened = true;
         }
-        runtime.save.firstLoadHappened = true;
+        // player is not getting items
+        if (!runtime.loadedOnce) {
+            LoadRuntime();
+        }
+    }
+
+    void SaveRuntime() {
+        runtime.save.playerItems = runtime.inventory;
+    }
+
+    void LoadRuntime() {
+        runtime.inventory = runtime.save.playerItems;
         runtime.loadedOnce = true;
     }
 
@@ -42,20 +54,17 @@ public class SaveContainer : ScriptableObject {
         return runtime.loadedOnce;
     }
 
-    // called before scene transitions
-    public void SaveInventory(InventoryList inventory) {
-        runtime.inventory = inventory;
-    }
-
     public InventoryList GetInventory() {
         return runtime.inventory;
     }
 
     public void LoadFromSlot(int slot) {
+        runtime.loadedOnce = false;
         runtime.save = BinarySaver.LoadFile(slot);
     }
 
     public void WriteToDiskSlot(int slot) {
+        SaveRuntime();
         BinarySaver.SaveFile(runtime.save, slot);
     }
 
