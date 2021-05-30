@@ -86,10 +86,10 @@ public class GlobalController : MonoBehaviour {
 	}
 
 #if UNITY_EDITOR
-	// "clean" the save scriptable object when the editor stops playing
+	// "clean" the runtime data when the editor stops playing to mimic a game exit
 	private static void OnPlayModeChange(PlayModeStateChange stateChange) {
 		if (stateChange == PlayModeStateChange.ExitingPlayMode) {
-			gc.saveContainer.WipeSave();
+			gc.saveContainer.CleanEditorRuntime();
 		}
 	}	
 #endif

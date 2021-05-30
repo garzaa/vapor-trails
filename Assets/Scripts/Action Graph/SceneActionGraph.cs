@@ -45,6 +45,12 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
     }
 
     List<ActionNode> GetRootNodes() {
+        ActionGraph g = graph;
+
+        // this can happen due to start weirdness
+        if (graph == null) {
+            graph = GetComponent<ActionGraph>();
+        }
         return graph.nodes
             .ConvertAll<ActionNode>(x => (ActionNode) x)
             .Where(x => x is SignalOnStart)

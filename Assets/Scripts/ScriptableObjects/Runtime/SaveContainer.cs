@@ -19,11 +19,19 @@ public class SaveContainer : ScriptableObject {
     public void WipeSave() {
         runtime.inventory.Clear();
         runtime.loadedOnce = false;
-        SaveContainer newSave = Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
-        runtime.save = newSave.GetSave();
-        this.startingGameStates = newSave.startingGameStates;
-        this.startingItems = newSave.startingItems;
+        SaveContainer newContainer = GetNewSaveContainer();
+        runtime.save = newContainer.GetSave();
+        this.startingGameStates = newContainer.startingGameStates;
+        this.startingItems = newContainer.startingItems;
         runtime.save.Initialize();
+    }
+
+    public void CleanEditorRuntime() {
+        runtime.save.Initialize();
+    }
+
+    private SaveContainer GetNewSaveContainer() {
+        return Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
     }
 
     public void OnSceneLoad() {
