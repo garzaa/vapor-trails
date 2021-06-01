@@ -43,9 +43,9 @@ public class SaveContainer : ScriptableObject {
             GlobalController.AddStates(startingGameStates);
             runtime.save.firstLoadHappened = true;
         }
-        // player is not getting items
         if (!runtime.loadedOnce) {
             LoadRuntime();
+            runtime.loadedOnce = true;
         }
     }
 
@@ -55,7 +55,6 @@ public class SaveContainer : ScriptableObject {
 
     void LoadRuntime() {
         runtime.inventory = runtime.save.playerItems;
-        runtime.loadedOnce = true;
     }
 
     public bool RuntimeLoadedOnce() {

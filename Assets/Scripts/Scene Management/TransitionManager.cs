@@ -18,7 +18,7 @@ public class TransitionManager : MonoBehaviour {
 
 	GlobalController global;
 
-	void OnEnable() {
+	void Awake() {
 		global = GetComponentInParent<GlobalController>();
 		loadTextUI.SetActive(false);
 		ApplySceneData();
