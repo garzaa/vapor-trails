@@ -2,6 +2,7 @@ using UnityEngine;
 using XNode;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
 
@@ -46,10 +47,8 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
 
     List<ActionNode> GetRootNodes() {
         ActionGraph g = graph;
-
-        // this can happen due to start weirdness
         if (graph == null) {
-            graph = GetComponent<ActionGraph>();
+            Debug.Log(this.name);
         }
         return graph.nodes
             .ConvertAll<ActionNode>(x => (ActionNode) x)
