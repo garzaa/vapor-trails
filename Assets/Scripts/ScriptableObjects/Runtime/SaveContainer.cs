@@ -27,6 +27,8 @@ public class SaveContainer : ScriptableObject {
     }
 
     public void CleanEditorRuntime() {
+        runtime.inventory.Clear();
+        runtime.loadedOnce = false;
         runtime.save.Initialize();
     }
 
@@ -35,17 +37,21 @@ public class SaveContainer : ScriptableObject {
     }
 
     public void OnSceneLoad() {
-        if (!runtime.save.firstLoadHappened) {
+
+        bool isFirstLoad = !runtime.save.firstLoadHappened;
+
+        if (!runtime.loadedOnce) {
+            LoadRuntime();
+            runtime.loadedOnce = true;
+        }
+
+        if (isFirstLoad) {
             runtime.save.Initialize();
             foreach (Item i in startingItems) {
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
             GlobalController.AddStates(startingGameStates);
             runtime.save.firstLoadHappened = true;
-        }
-        if (!runtime.loadedOnce) {
-            LoadRuntime();
-            runtime.loadedOnce = true;
         }
     }
 

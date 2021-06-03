@@ -78,11 +78,14 @@ public class GlobalController : MonoBehaviour {
 		playerMenu = GameObject.Find("PlayerMenu");
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
-		saveContainer.OnSceneLoad();
 
 #if UNITY_EDITOR
 		EditorApplication.playModeStateChanged += OnPlayModeChange;
 #endif
+	}
+
+	void Start() {
+		saveContainer.OnSceneLoad();
 	}
 
 #if UNITY_EDITOR
