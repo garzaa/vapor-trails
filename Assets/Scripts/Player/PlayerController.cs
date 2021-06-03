@@ -116,6 +116,7 @@ public class PlayerController : Entity {
 	GameObject diamondShine;
 	GameEvent deathEvent;
 	PlayerGroundCheck groundCheck;
+	PlayerGrabber playerGrabber;
 
 
 	string[] deathText = {
@@ -177,6 +178,12 @@ public class PlayerController : Entity {
 		this.baseDamage = s.basePlayerDamage;
 		this.options = s.options;
 		UpdateUI();
+	}
+
+	void OnCollisionEnter2D(Collision2D collision2D) {
+		if (this.playerGrabber != null) {
+			this.playerGrabber.ReleasePlayer();
+		}
 	}
 
 	void Update() {
@@ -978,6 +985,14 @@ public class PlayerController : Entity {
 		CameraShaker.MedShake();
 	}
 
+	public void OnGrab(PlayerGrabber grabber) {
+		this.playerGrabber = grabber;
+	}
+
+	public void OnGrabRelease() {
+		this.playerGrabber = null;
+	}
+
 	public void Sparkle() {
 		if (instantiatedSparkle == null) {
 			instantiatedSparkle = (GameObject) Instantiate(sparkle, gunEyes.position, Quaternion.identity, gunEyes.transform).gameObject as GameObject;
@@ -1476,6 +1491,7 @@ public class PlayerController : Entity {
 	}
 
 	public void OnBoost(AcceleratorController accelerator) {
+		if (playerGrabber != null) playerGrabber.ReleasePlayer();
 		RefreshAirMovement();
 		InterruptMeteor();
 		StartCombatCooldown(); 

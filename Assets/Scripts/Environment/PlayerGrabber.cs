@@ -10,12 +10,19 @@ public class PlayerGrabber : MonoBehaviour {
 		if (c.gameObject.CompareTag(Tags.Player)) {
 			lastParent = c.transform.parent;
 			c.transform.parent = this.transform;
+			GlobalController.pc.OnGrab(this);
 		}
 	}
 
 	void OnCollisionExit2D(Collision2D c) {
 		if (c.gameObject.CompareTag(Tags.Player)) {
 			c.transform.parent = lastParent;
+			ReleasePlayer();
 		}
+	}
+
+	public void ReleasePlayer() {
+		GlobalController.pc.transform.parent = lastParent;
+		GlobalController.pc.OnGrabRelease();
 	}
 }
