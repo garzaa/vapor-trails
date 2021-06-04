@@ -23,6 +23,6 @@ public class PlayerGrabber : MonoBehaviour {
 
 	public void ReleasePlayer() {
 		GlobalController.pc.transform.parent = lastParent;
-		GlobalController.pc.OnGrabRelease();
+		GlobalController.pc.OnGrabRelease(this);
 	}
 }

@@ -989,7 +989,12 @@ public class PlayerController : Entity {
 		this.playerGrabber = grabber;
 	}
 
-	public void OnGrabRelease() {
+	public void OnGrabRelease(PlayerGrabber playerGrabber) {
+		Rigidbody2D grabberBody = playerGrabber.GetComponent<Rigidbody2D>();
+		if (grabberBody != null) {
+			AlerterText.Alert(grabberBody.velocity.ToString());
+			rb2d.velocity += grabberBody.velocity;
+		}
 		this.playerGrabber = null;
 	}
 
