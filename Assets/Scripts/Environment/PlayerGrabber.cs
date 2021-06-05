@@ -6,6 +6,18 @@ public class PlayerGrabber : MonoBehaviour {
 
 	Transform lastParent;
 
+	Vector3 previous;
+	Vector2 velocity;
+
+	void Update() {
+		velocity = (transform.position - previous) / Time.deltaTime;
+      	previous = transform.position;
+	}
+
+	public Vector2 GetVelocity() {
+		return this.velocity;
+	}
+
 	void OnCollisionEnter2D(Collision2D c) {
 		if (c.gameObject.CompareTag(Tags.Player)) {
 			lastParent = c.transform.parent;

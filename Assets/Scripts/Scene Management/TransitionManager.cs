@@ -44,8 +44,6 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.UnFadeToBlack();
 		FadeAudio(1);
 
-		Debug.Log("Loading from transition");
-
 		if (!GlobalController.GetSaveContainer().RuntimeLoadedOnce()) {
 			return;
 		}
