@@ -9,7 +9,7 @@ public class PlayerGrabber : MonoBehaviour {
 	Vector3 previous;
 	Vector2 velocity;
 
-	void Update() {
+	void LateUpdate() {
 		velocity = (transform.position - previous) / Time.deltaTime;
       	previous = transform.position;
 	}
