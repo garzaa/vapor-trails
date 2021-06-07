@@ -468,7 +468,6 @@ public class PlayerController : Entity {
 
 			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f))) {
 				if (groundData.platforms.Count > 0 && InputManager.VerticalInput() < -0.2f) {
-					Debug.Log("platform drop");
 					DropThroughPlatforms(groundData.platforms);
 					return;
 				}
