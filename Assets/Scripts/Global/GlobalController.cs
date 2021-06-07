@@ -411,7 +411,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadScene(string sceneName, Beacon beacon=null) {
-		if (beacon.leftScene != null) {
+		if (beacon != null && beacon.leftScene != null) {
 			string beaconSceneName = beacon.leftScene.scene.SceneName;
 
 			if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
