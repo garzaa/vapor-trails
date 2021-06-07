@@ -9,6 +9,7 @@ public abstract class Tags {
 	public const string Finish = "Finish";
 	public const string GameController = "GameController";
 	public const string MainCamera = "MainCamera";
+	public const string Platform = "Platform";
 	public const string Player = "Player";
 	public const string PlayerHitbox = "PlayerHitbox";
 	public const string PlayerHurtbox = "PlayerHurtbox";

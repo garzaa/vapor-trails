@@ -18,6 +18,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     GameObject currentGround;
 
     List<RaycastHit2D>platforms = new List<RaycastHit2D>();
+    List<RaycastHit2D> nonPlatforms = new List<RaycastHit2D>();
 
     void Awake() {
         defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
@@ -64,8 +65,16 @@ public class PlayerGroundCheck : MonoBehaviour {
         platforms.AddRange(GetPlatforms(playerCollider.BottomLeftCorner()));
         platforms.AddRange(GetPlatforms(playerCollider.BottomRightCorner()));
 
-        if (platforms.Count == 0) {
-            return null;
+        nonPlatforms.Clear();
+
+        for (int i=0; i<platforms.Count; i++) {
+            if (!platforms[i].collider.CompareTag(Tags.Platform)) {
+                nonPlatforms.Add(platforms[i]);
+            }
+        }
+
+        for (int i=0; i<nonPlatforms.Count; i++) {
+            platforms.Remove(nonPlatforms[i]);
         }
 
         return platforms;

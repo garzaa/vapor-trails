@@ -355,12 +355,6 @@ public class PlayerController : Entity {
 		anim.SetBool("HorizontalInput",  InputManager.HasHorizontalInput());
 		anim.SetFloat("VerticalSpeed", rb2d.velocity.y);
 
-		if (InputManager.VerticalInput() < -0.2f && InputManager.ButtonDown(Buttons.JUMP)) {
-			if (grounded && groundData.platforms != null) {
-				DropThroughPlatforms(groundData.platforms);
-			}
-		}
-
 		if (grounded) {
 			playerRig.transform.rotation = Quaternion.Euler(playerRig.transform.rotation.eulerAngles.x, playerRig.transform.rotation.eulerAngles.y, groundData.normalRotation); 
 		} else {
@@ -472,7 +466,12 @@ public class PlayerController : Entity {
 				return;
 			}
 
-			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f)) && (InputManager.VerticalInput()>=-0.7 || groundData.platforms == null)) {
+			if ((grounded || (justLeftGround && rb2d.velocity.y < 0.1f))) {
+				if (groundData.platforms.Count > 0 && InputManager.VerticalInput() < -0.2f) {
+					Debug.Log("platform drop");
+					DropThroughPlatforms(groundData.platforms);
+					return;
+				}
 				GroundJump();
 				return;
 			}
