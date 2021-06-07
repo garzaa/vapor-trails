@@ -24,6 +24,7 @@ public class MoveXInState : RigidBodyAffector {
     }
 
     void Move() {
+        Vector2 v = rb2d.velocity;
         float baseX = speed;
         if (pickMax) {
             baseX = Mathf.Max(Mathf.Abs(speed), Mathf.Abs(rb2d.velocity.x) * Mathf.Sign(speed));
@@ -31,7 +32,7 @@ public class MoveXInState : RigidBodyAffector {
         if (entityForward) {
             baseX *= entity.ForwardScalar();
         }
-        Vector2 final = rb2d.transform.TransformDirection(Vector2.right * baseX);
-        rb2d.velocity = final;
+        v.x = baseX;
+        rb2d.velocity = v;
     }
 }
