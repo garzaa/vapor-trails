@@ -41,6 +41,7 @@ public class Save {
         firstLoadHappened = false;
         currentHP = maxHP;
         currentEnergy = maxEnergy;
+        sceneName = "";
         persistentObjects.Clear();
         playerItems.Clear();
         gameFlags.Clear();
