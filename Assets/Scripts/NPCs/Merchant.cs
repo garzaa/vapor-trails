@@ -30,7 +30,6 @@ public class Merchant : PersistentObject {
     }
 
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
-        this.baseInventory = GetComponent<InventoryList>();
         if (s == null) {
             this.baseInventory.AddAll(startingInventory);
             return;

@@ -11,7 +11,7 @@ public class MapFog : PersistentObject {
     const string MAP_PROPERTY = "Map";
 
     float texturePPU = 1f/12f;
-    float updateInterval = 0.5f;
+    float updateInterval = 0.2f;
 
     void OnEnable() {
         Load();
@@ -24,7 +24,7 @@ public class MapFog : PersistentObject {
 
     public void SaveCurrentMap() {
         if (persistentProperties == null) persistentProperties = new Hashtable();
-        persistentProperties[MAP_PROPERTY] = EncodeMap();
+        persistentProperties[MAP_PROPERTY+"/"+SceneManager.GetActiveScene().name] = EncodeMap();
         SaveObjectState();
     }
 
