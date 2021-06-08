@@ -72,7 +72,6 @@ public class SaveContainer : ScriptableObject {
     }
 
     public void LoadFromSlot(int slot) {
-        runtime.loadedOnce = false;
         runtime.save = BinarySaver.LoadFile(slot);
     }
 

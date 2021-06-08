@@ -90,6 +90,7 @@ public class TransitionManager : MonoBehaviour {
 
 	public void LoadSceneToPosition(string sceneName, Vector2 position) {
 		transition.position = position;
+		Debug.Log(position);
 		LoadScene(sceneName, null);
 	}
 

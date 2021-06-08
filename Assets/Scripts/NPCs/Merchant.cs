@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(InventoryList))]
 public class Merchant : PersistentObject {
 
     public List<Item> startingInventory;
