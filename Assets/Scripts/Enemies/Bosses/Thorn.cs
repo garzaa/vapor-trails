@@ -103,6 +103,7 @@ public class Thorn : Boss {
     }
 
     public void ResetSwords() {
+        if (hp <= 0) return;
         currentSwords = maxSwords;
         targetSwordAngle = initialSwordRingAngle;
         StartCoroutine(ShowSwords());

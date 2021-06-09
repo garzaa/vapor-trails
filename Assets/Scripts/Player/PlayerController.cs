@@ -1268,7 +1268,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 	}
 
-	public void EnterCutscene(bool invincible = true) {
+	public void EnterCutscene(bool invincible = true, bool withAnimate = true) {
 		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
 		InterruptEverything();
 		Freeze();
@@ -1277,7 +1277,7 @@ public class PlayerController : Entity {
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
-		anim.Update(1f);
+		if (withAnimate) anim.Update(1f);
 		anim.speed = 0f;
 	}
 

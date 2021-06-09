@@ -60,6 +60,7 @@ MonoBehaviour:
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: 2}
+  knockbackAway: 0
   inheritMomentum: 0
   instakill: 0
   attackLandEvent: 0
@@ -307,6 +308,7 @@ MonoBehaviour:
   stunLength: 0.5
   knockBack: 1
   knockbackVector: {x: 2, y: 0}
+  knockbackAway: 0
   inheritMomentum: 0
   instakill: 0
   attackLandEvent: 1
@@ -564,6 +566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
   optionalPromptTransform: {fileID: 0}
+  forceFlipTo: 0
+  promptText: 
   dialogueAnimationBool: 0
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
@@ -1520,6 +1524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
   optionalPromptTransform: {fileID: 0}
+  forceFlipTo: 0
+  promptText: 
   dialogueAnimationBool: 0
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
@@ -8605,6 +8611,7 @@ GameObject:
   - component: {fileID: 3771980989581552271}
   - component: {fileID: 5210852437077015738}
   - component: {fileID: 7537468818402958726}
+  - component: {fileID: 8694985357784264556}
   m_Layer: 12
   m_Name: Thorn
   m_TagString: Untagged
@@ -8686,13 +8693,16 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   deathActivatable: {fileID: 4882757750794846699}
   victoryEffectOnDeath: 1
-  healthColor: {r: 0.7490196, g: 0.2784314, b: 0.2784314, a: 255}
   startFightOnEnable: 0
   bossInfo:
     bossName: Rena
     bossFightImage: {fileID: 21300000, guid: 1bd14d86718478a48a794eb63a97f354, type: 3}
+    playerName: 
   cameraAnchor: {fileID: 5174889274739129096}
   orbitingSwords: {fileID: 6511699113821842445}
   blurredSwords: {fileID: 2809813320968705351}
@@ -8782,6 +8792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2dd39ac477df2459651082cd61a600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectDistance: 8
   effectPoint: {fileID: 0}
   fallbackEffectPoint: {fileID: 3750492472431576174}
   effects:
@@ -8834,6 +8845,7 @@ MonoBehaviour:
   constantlyUseCollider: 1
   collidertoUse: {fileID: 407876987381750992}
   flipOnLedgeStep: 0
+  lastFlipTime: 0
 --- !u!114 &2351806458406234947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8874,6 +8886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   absoluteX: 1
+  running: 1
 --- !u!114 &7537468818402958726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8891,6 +8904,20 @@ MonoBehaviour:
   useTrigger: 0
   autoFlip: 0
   nearWall: 0
+--- !u!114 &8694985357784264556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442911535529228972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfb81e62e411374582aca0e6b9d9269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4197597371724406952}
+  alsoForPlayer: 0
 --- !u!1 &6442911535699362045
 GameObject:
   m_ObjectHideFlags: 0
@@ -9965,6 +9992,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptPrefab: {fileID: 0}
   optionalPromptTransform: {fileID: 0}
+  forceFlipTo: 0
+  promptText: 
   dialogueAnimationBool: 0
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
@@ -10130,6 +10159,7 @@ MonoBehaviour:
   stunLength: 0.5
   knockBack: 1
   knockbackVector: {x: 0, y: 5}
+  knockbackAway: 0
   inheritMomentum: 0
   instakill: 0
   attackLandEvent: 0
