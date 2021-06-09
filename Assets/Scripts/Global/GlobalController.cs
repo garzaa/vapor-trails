@@ -56,6 +56,7 @@ public class GlobalController : MonoBehaviour {
 	public static int openUIs = 0;
 
 	static GameObject playerMenu;
+	static Coroutine showPlayerRoutine;
 	public static BossFightIntro bossFightIntro;
 
 	[SerializeField] SaveContainer saveContainer;
@@ -718,12 +719,23 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void HidePlayer() {
+		if (showPlayerRoutine != null) {
+			gc.StopCoroutine(showPlayerRoutine);
+		}
 		pc.EnterCutscene();
 		pc.Hide();
 	}
 
 	public static void ShowPlayer() {
+		// can't have the player exiting the cutscene early!
 		pc.ExitCutscene();
+		showPlayerRoutine = gc.StartCoroutine(gc._ShowPlayer());
+	}
+	
+	IEnumerator _ShowPlayer() {
+		yield return new WaitForEndOfFrame();
+		yield return new WaitForEndOfFrame();
 		pc.Show();
+		showPlayerRoutine = null;
 	}
 }
