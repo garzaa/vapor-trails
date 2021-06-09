@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using XNode;
 using XNodeEditor;
@@ -11,3 +12,4 @@ public class ActionGraphEditor : NodeGraphEditor {
         } else return null;
     }
 }
+#endif

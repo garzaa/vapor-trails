@@ -24,7 +24,7 @@ public class MapFog : PersistentObject {
 
     public void SaveCurrentMap() {
         if (persistentProperties == null) persistentProperties = new Hashtable();
-        persistentProperties[MAP_PROPERTY+"/"+SceneManager.GetActiveScene().name] = EncodeMap();
+        persistentProperties[MAP_PROPERTY] = EncodeMap();
         SaveObjectState();
     }
 
