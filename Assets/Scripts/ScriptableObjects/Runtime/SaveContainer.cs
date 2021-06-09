@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Scene Container", menuName = "Runtime/Save Container")]
@@ -9,6 +9,8 @@ public class SaveContainer : ScriptableObject {
     // so dev saves left over in levels can use the runtime save in the final build
     [SerializeField] RuntimeSaveWrapper runtime;
 
+    // this should probably always be empty for a new game
+    [SerializeField] List<GameCheckpoint> gameCheckpoints;
     [SerializeField] List<Item> startingItems;
     [SerializeField] List<GameState> startingGameStates;
 
@@ -47,10 +49,16 @@ public class SaveContainer : ScriptableObject {
 
         if (isFirstLoad) {
             runtime.save.Initialize();
-            foreach (Item i in startingItems) {
+
+            List<Item> allStartingItems = gameCheckpoints.SelectMany(x => x.items).Union(startingItems).ToList();
+            List<GameState> allStartingStates = gameCheckpoints.SelectMany(x => x.states).Union(startingGameStates).ToList();
+
+            Debug.Log(allStartingStates);
+
+            foreach (Item i in allStartingItems) {
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
-            GlobalController.AddStates(startingGameStates);
+            GlobalController.AddStates(allStartingStates);
             runtime.save.firstLoadHappened = true;
         }
     }
