@@ -20,4 +20,8 @@ public class TurnToVelocity : MonoBehaviour {
             ) + offset
         );
     }
+
+    void OnDisable() {
+        transform.rotation = Quaternion.identity;
+    }
 }
