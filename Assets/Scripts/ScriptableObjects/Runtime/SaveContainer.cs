@@ -54,6 +54,7 @@ public class SaveContainer : ScriptableObject {
             GlobalController.AddStates(allStartingStates);
             runtime.save.firstLoadHappened = true;
         }
+        runtime.loadedOnce = true;
     }
 
     void SaveRuntime() {
@@ -62,7 +63,6 @@ public class SaveContainer : ScriptableObject {
 
     void LoadRuntime() {
         runtime.inventory = runtime.save.playerItems;
-        runtime.loadedOnce = true;
     }
 
     public bool RuntimeLoadedOnce() {
@@ -76,6 +76,7 @@ public class SaveContainer : ScriptableObject {
     public void LoadFromSlot(int slot) {
         runtime.save = BinarySaver.LoadFile(slot);
         LoadRuntime();
+        runtime.loadedOnce = true;
     }
 
     public void WriteToDiskSlot(int slot) {
