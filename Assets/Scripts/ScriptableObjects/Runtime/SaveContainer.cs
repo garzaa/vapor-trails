@@ -53,8 +53,6 @@ public class SaveContainer : ScriptableObject {
             List<Item> allStartingItems = gameCheckpoints.SelectMany(x => x.items).Union(startingItems).ToList();
             List<GameState> allStartingStates = gameCheckpoints.SelectMany(x => x.states).Union(startingGameStates).ToList();
 
-            Debug.Log(allStartingStates);
-
             foreach (Item i in allStartingItems) {
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
@@ -81,6 +79,7 @@ public class SaveContainer : ScriptableObject {
 
     public void LoadFromSlot(int slot) {
         runtime.save = BinarySaver.LoadFile(slot);
+        runtime.loadedOnce = false;
     }
 
     public void WriteToDiskSlot(int slot) {
