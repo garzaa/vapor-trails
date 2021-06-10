@@ -203,7 +203,6 @@ public class PlayerController : Entity {
 	}
 
 	void TrackFallDistance() {
-		Debug.Log(velocityLastFrame);
 		if (rb2d.velocity.y<0 && velocityLastFrame.y>=0) {
 			fallStart = transform.position.y;
 		}
@@ -718,7 +717,6 @@ public class PlayerController : Entity {
 		if (wall!=null && wall.direction==ForwardScalar()) {
 			Flip();
 		}
-		AlerterText.Alert((fallStart-transform.position.y).ToString());
 		if ((fallStart-transform.position.y > hardLandDistance) && !bufferedJump) {
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
