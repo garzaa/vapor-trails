@@ -7,7 +7,7 @@ public class PlayerController : Entity {
 	public const float moveSpeed = 3.5f;
 	const float jumpSpeed = 3.8f;
 	const float jumpCutoff = 2.0f;
-	const float hardLandSpeed = -7f;
+	const float hardLandDistance = .64f * 4f;
 	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
 	const float dashCooldownLength = .6f;
@@ -21,7 +21,6 @@ public class PlayerController : Entity {
 	public const int gunCost = 2;
 
 	const float restingGroundDistance = 0.3f;
-	bool hardFalling = false;
 
 	//these will be loaded from the save
 	public int currentHP;
@@ -99,6 +98,8 @@ public class PlayerController : Entity {
 	bool bufferedJump = false;
 	bool justFlipped = false;
 	int panicJumpInputs = 0;
+	Vector2 velocityLastFrame;
+	float fallStart;
 	public ActiveInCombat[] combatActives;
 	public PlayerAttackGraph attackGraph;
 
@@ -187,6 +188,7 @@ public class PlayerController : Entity {
 	}
 
 	void Update() {
+		TrackFallDistance();
 		CheckGroundData();
 		Jump();
 		Move();
@@ -198,6 +200,13 @@ public class PlayerController : Entity {
 		CheckFlip();
 		UpdateWallSliding();
 		// Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+	}
+
+	void TrackFallDistance() {
+		Debug.Log(velocityLastFrame);
+		if (rb2d.velocity.y<0 && velocityLastFrame.y>=0) {
+			fallStart = transform.position.y;
+		}
 	}
 
 	void CheckGroundData() {
@@ -439,16 +448,15 @@ public class PlayerController : Entity {
 			terminalFalling = false;
 		}
 
-		if (rb2d.velocity.y < hardLandSpeed && !inMeteor) {
-			hardFalling = true;
+		if (!inMeteor && (fallStart-rb2d.transform.position.y > hardLandDistance)) {
 			anim.SetBool("FastFalling", true);
 		}
 		else if (!IsGrounded()) {
-			hardFalling = false;
 			anim.SetBool("FastFalling", false);
 		}
 
 		movingForwardsLastFrame = MovingForwards();
+		velocityLastFrame = rb2d.velocity;
 	}
 
 	public bool IsSpeeding() {
@@ -710,8 +718,8 @@ public class PlayerController : Entity {
 		if (wall!=null && wall.direction==ForwardScalar()) {
 			Flip();
 		}
-		if (hardFalling && !bufferedJump) {
-			hardFalling = false;
+		AlerterText.Alert((fallStart-transform.position.y).ToString());
+		if ((fallStart-transform.position.y > hardLandDistance) && !bufferedJump) {
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
 				// don't multiply by HInput to be kinder to controller users
@@ -822,7 +830,6 @@ public class PlayerController : Entity {
 		rb2d.velocity = Vector2.zero;
 		speedLimiter.enabled = false;
 		LockInSpace();
-		hardFalling = false;
 		yield return new WaitForSecondsRealtime(delay);
 		if (this.currentHP <= 0) {
 			yield break;
@@ -1255,7 +1262,7 @@ public class PlayerController : Entity {
 		}
 
 		rb2d.MovePosition(rb2d.position + Vector2.down*0.1f);
-		rb2d.velocity = new Vector2(rb2d.velocity.x, hardLandSpeed/2f);
+		rb2d.velocity = new Vector2(rb2d.velocity.x, -4f);
 	}
 
 	IEnumerator EnableCollider(float seconds, EdgeCollider2D platform) {
