@@ -42,11 +42,6 @@ public class SaveContainer : ScriptableObject {
 
         bool isFirstLoad = !runtime.save.firstLoadHappened;
 
-        if (!runtime.loadedOnce) {
-            LoadRuntime();
-            runtime.loadedOnce = true;
-        }
-
         if (isFirstLoad) {
             runtime.save.Initialize();
 
@@ -67,6 +62,7 @@ public class SaveContainer : ScriptableObject {
 
     void LoadRuntime() {
         runtime.inventory = runtime.save.playerItems;
+        runtime.loadedOnce = true;
     }
 
     public bool RuntimeLoadedOnce() {
@@ -79,7 +75,7 @@ public class SaveContainer : ScriptableObject {
 
     public void LoadFromSlot(int slot) {
         runtime.save = BinarySaver.LoadFile(slot);
-        runtime.loadedOnce = false;
+        LoadRuntime();
     }
 
     public void WriteToDiskSlot(int slot) {
