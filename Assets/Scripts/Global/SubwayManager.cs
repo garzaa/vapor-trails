@@ -10,7 +10,6 @@ public class SubwayManager : MonoBehaviour {
     static LocalSubwayController localSubway;
     static Vector3 playerOffset;
     static SubwayStop destination;
-    public static bool playerOnSubway;
     static bool firstClose;
 
     public List<StationSceneMapping> stationMappings;
@@ -22,8 +21,7 @@ public class SubwayManager : MonoBehaviour {
     }
 
     public static void DepartWithPlayer() {
-        playerOnSubway = true;
-        GlobalController.LoadScene(GetStopScene(destination));
+        GlobalController.LoadSceneWithSubway(GetStopScene(destination));
     }
 
     public static string GetStopScene(SubwayStop stop) {

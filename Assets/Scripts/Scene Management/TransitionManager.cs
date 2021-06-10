@@ -57,14 +57,15 @@ public class TransitionManager : MonoBehaviour {
 		}
 	}
 
+	public void LoadSceneWithSubway(string sceneName) {
+		transition.subway = true;
+		LoadScene(sceneName, null);
+	}
+
 	private void ApplySceneData() {
 		SceneData sd = GameObject.FindObjectOfType<SceneData>();
 		if (sd != null) {
 			TransitionManager.sceneData = sd;
-			if (sd.loadOtherSceneAtStart) {
-				LoadScene(sd.otherSceneName, null, fade: false);
-				return;
-			}
 
 			GlobalController.ShowTitleText(sd.title, sd.subTitle);
 			PlayerController pc = GlobalController.pc;

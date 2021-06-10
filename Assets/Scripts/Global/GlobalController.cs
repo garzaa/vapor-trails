@@ -433,6 +433,10 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
 
+	public static void LoadSceneWithSubway(string sceneName) {
+		gc.GetComponent<TransitionManager>().LoadSceneWithSubway(sceneName);
+	}
+
 	public static void MovePlayerTo(Vector2 position, bool fade=false) {
 		if (fade) {
 			gc.StartCoroutine(gc.MovePlayerWithFade(position));

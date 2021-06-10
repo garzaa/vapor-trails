@@ -10,8 +10,6 @@ public class SceneData : MonoBehaviour {
 	public bool blockRespawning;
 	[HideInInspector]
 	public string sceneName;
-	public bool loadOtherSceneAtStart;
-	public string otherSceneName;
 	public bool hideUI;
 	public bool unlockPlayer;
 	public bool forceFaceRight;

@@ -868,11 +868,13 @@ public class PlayerController : Entity {
 	}
 
 	void InterruptMeteor() {
+		if (anim == null) return;
 		anim.SetBool("InMeteor", false);
 		inMeteor = false;
 	}
 
 	public void ResetAttackTriggers() {
+		if (anim == null) return;
 		anim.ResetTrigger(Buttons.ATTACK);
 		anim.ResetTrigger(Buttons.PUNCH);
 		anim.ResetTrigger(Buttons.KICK);
@@ -1283,6 +1285,7 @@ public class PlayerController : Entity {
 		inCutscene = true;
 		SetInvincible(invincible);
 		if (pauseAnimation) {
+			if (anim == null) anim = GetComponent<Animator>();
 			anim.speed = 0f;
 		}
 	}
