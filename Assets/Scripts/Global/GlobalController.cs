@@ -87,6 +87,9 @@ public class GlobalController : MonoBehaviour {
 
 	void Start() {
 		saveContainer.OnSceneLoad();
+		// called juust in case awake() and onenable() were too slow
+		PropagateStateChange();
+		PropagateItemChange();
 	}
 
 #if UNITY_EDITOR
