@@ -13,6 +13,7 @@ public class CloseableUI : MonoBehaviour {
     public bool closeAtStart = false;
     public bool soloUISound = false;
     public bool continuousCutscene = false;
+    public bool pauseAnimation = false;
 
     public bool debug = false;
 
@@ -29,7 +30,7 @@ public class CloseableUI : MonoBehaviour {
         this.open = true;
         Hitstop.Interrupt();
         if (interactSound) SoundManager.InteractSound();
-        GlobalController.pc.EnterCutscene(invincible:invincibleDuring, withAnimate: false);
+        GlobalController.pc.EnterCutscene(invincible:invincibleDuring, pauseAnimation: pauseAnimation);
         if (targetUI != null) targetUI.SetActive(true);
         if (stopTime) Time.timeScale = 0f;
         if (soloUISound) SoundManager.SoloUIAudio();

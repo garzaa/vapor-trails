@@ -259,7 +259,7 @@ public class GlobalController : MonoBehaviour {
 		if (npc.centerCameraInDialogue) {
 			playerFollower.LookAtPoint(npc.gameObject);
 		}
-		pc.EnterCutscene();
+		pc.EnterCutscene(pauseAnimation: false);
 	}
 
 	public static void ExitDialogue() {

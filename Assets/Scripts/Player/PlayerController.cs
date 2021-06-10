@@ -1268,7 +1268,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 	}
 
-	public void EnterCutscene(bool invincible = true, bool withAnimate = true) {
+	public void EnterCutscene(bool invincible = true, bool pauseAnimation = true) {
 		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
 		InterruptEverything();
 		Freeze();
@@ -1277,8 +1277,9 @@ public class PlayerController : Entity {
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
-		if (withAnimate) anim.Update(1f);
-		anim.speed = 0f;
+		if (pauseAnimation) {
+			anim.speed = 0f;
+		}
 	}
 
 	// exitCutscene is called instead of exitInventory
