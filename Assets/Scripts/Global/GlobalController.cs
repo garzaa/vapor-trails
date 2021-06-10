@@ -434,7 +434,6 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void MovePlayerTo(Vector2 position, bool fade=false) {
-		Debug.Log("Moving player to "+position);
 		if (fade) {
 			gc.StartCoroutine(gc.MovePlayerWithFade(position));
 			return;
