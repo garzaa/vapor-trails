@@ -85,8 +85,14 @@ public class Thorn : Boss {
         }
     }
 
+    override public void DamageFor(int dmg) {
+        if (GetActiveSwords() > 0) {
+            return;
+        }
+        base.DamageFor(dmg);
+    }
+
     void RingBreak() {
-        // todo: disable all of them i guess
         Instantiate(shieldBreakPrefab, this.transform.position, shieldBreakPrefab.transform.rotation, this.transform);
         anim.SetTrigger("RingBreak");
         // in case weird frame things happen
@@ -110,9 +116,7 @@ public class Thorn : Boss {
     }
 
     IEnumerator ShowSwords() {
-        // int idx=0;
         foreach (Transform s in orbitingSwords.transform) {
-            // AlerterText.AlertImmediate("reset sword "+idx++);
             s.gameObject.SetActive(true);
             SpaceSwordRotation();
         }

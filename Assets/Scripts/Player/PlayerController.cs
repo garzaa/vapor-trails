@@ -640,7 +640,7 @@ public class PlayerController : Entity {
 		}
 		Freeze();
 		if (dashTimeout != null) StopCoroutine(dashTimeout);
-        dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
+	    dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
 	}
 
 	private void EndEarlyDashInput() {
@@ -705,7 +705,9 @@ public class PlayerController : Entity {
 		RefreshAirMovement();
 		InterruptAttack();
 		StopWallTimeout();
-		SaveLastSafePos();
+		if (!groundData.onLedge) {
+			SaveLastSafePos();
+		}
 		if (rb2d.velocity.y < -1.5f) {
 			ImpactDust();
 		}
@@ -1100,14 +1102,14 @@ public class PlayerController : Entity {
 
 	override public void StunFor(float seconds) {
 		if (staggerable) {
-            stunned = true;
-            CancelInvoke("UnStun");
+	        stunned = true;
+	        CancelInvoke("UnStun");
 			Animator anim = GetComponent<Animator>();
 			anim.SetTrigger("OnHit");
 			anim.SetBool("Stunned", true);
 			// play immediate in hitstun1
 			anim.Update(0.1f);
-            Invoke("UnStun", seconds);
+	        Invoke("UnStun", seconds);
 		}
 	}
 
@@ -1125,7 +1127,7 @@ public class PlayerController : Entity {
 			x.material = defaultMaterial;
 		});
 		if (spr != null) {
-        	spr.material = defaultMaterial;
+		    spr.material = defaultMaterial;
 		}
 	}
 
@@ -1157,7 +1159,7 @@ public class PlayerController : Entity {
 		} else if (currentHP > 0 && attack.GetDamage() > 0) {	
 			AlerterText.Alert($"WAVEFORM INTEGRITY {currentHP}");
 		} else if (currentHP < 4) {
-        	AlerterText.Alert("<color=red>WAVEFORM CRITICAL</color>");
+		    AlerterText.Alert("<color=red>WAVEFORM CRITICAL</color>");
 		}
 
 	}
