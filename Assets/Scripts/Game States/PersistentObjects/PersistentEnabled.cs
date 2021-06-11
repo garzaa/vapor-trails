@@ -4,18 +4,32 @@ using UnityEngine;
 
 public class PersistentEnabled : PersistentObject {
 
+	bool firstEnable = true;
+
 	void OnEnable() {
-		SerializedPersistentObject o = LoadObjectState();
-		if (o != null) {
-			if (!((bool) o.persistentProperties["enabled"])) {
-				Disable();
-				return;
+		if (firstEnable) {
+			firstEnable = false;
+
+			SerializedPersistentObject o = LoadObjectState();
+			if (o != null) {
+				bool wasEnabled = (bool) o.persistentProperties["enabled"];
+				if (!wasEnabled) {
+					Disable();
+				}
 			}
+		} else {
+			UpdateState(true);
 		}
-		UpdateState(true);
 	}
 
-	//this NEEDS to be called to update the state
+	void OnDisable() {
+		if (this.enabled) {
+			// this.enabled is true when the object is disabled to be destroyed on a scene load
+			return;
+		}
+		UpdateState(false);
+	}
+
 	public void Disable() {
 		UpdateState(false);
 		this.gameObject.SetActive(false);

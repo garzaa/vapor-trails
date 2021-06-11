@@ -23,7 +23,8 @@ public class ActivatedAnimation : Activatable {
         if (b && isTrigger) {
             anim.SetTrigger(animationName);
         } else if (setBool != BoolEnum.NONE) {
-            anim.SetBool(animationName, setBool == BoolEnum.TRUE);
+            // flip based on activate/deactivate
+            anim.SetBool(animationName, !(setBool == BoolEnum.TRUE) ^ b);
         } else {
             if (!toggleBool) {
                 anim.SetBool(animationName, b);

@@ -21,11 +21,12 @@ public class WallSensor : Sensor {
 
 		RaycastHit2D hit = Physics2D.Raycast(
 			start,
-			Vector2.right * e.ForwardScalar(),
+			transform.TransformDirection(Vector2.right * e.ForwardScalar()),
 			distance,
 			layerMask
 		);
-		Debug.DrawLine(start, start+(Vector2.right * e.ForwardScalar() * distance), Color.red);
+		Vector2 raycast = transform.TransformDirection(Vector2.right * e.ForwardScalar() * distance);
+		Debug.DrawLine(start, start+raycast, Color.red);
 		nearWall = (hit.transform != null);
 		if (nearWall) {
 			Debug.DrawLine(transform.position, hit.point, Color.cyan);

@@ -121,7 +121,7 @@ public class LocalSubwayController : AnimationInterface {
     override public void HidePlayer() {
         // if called from OnSceneLoaded
         holdingPlayer = true;
-        animator = animator ?? GetComponent<Animator>();
+        if (animator == null) animator = GetComponent<Animator>();
         animator.SetBool("PlayerHidden", true);
         base.HidePlayer();
     }

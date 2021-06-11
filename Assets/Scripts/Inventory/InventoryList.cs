@@ -1,14 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class InventoryList : MonoBehaviour {
-    public List<StoredItem> items;
-
-    public InventoryList() {
-        this.items = new List<StoredItem>();
-    }
+[System.Serializable]
+public class InventoryList {
+    [SerializeField] List<StoredItem> items = new List<StoredItem>();
 
     public StoredItem GetItem(string itemName) {
         foreach (StoredItem i in items) {
@@ -19,8 +15,16 @@ public class InventoryList : MonoBehaviour {
         return null;
     }
 
-    public void Empty() {
+    public void Clear() {
         items.Clear();
+    }
+
+    public bool IsEmpty() {
+        return items != null && items.Count > 0;
+    }
+
+    public List<StoredItem> GetAll() {
+        return items;
     }
 
     public StoredItem GetItem(Item item) {
@@ -74,14 +78,6 @@ public class InventoryList : MonoBehaviour {
             AddItem(i.item);
         }
     }
-    
-    public SerializableInventoryList MakeSerializableInventory() {
-        return new SerializableInventoryList(items);
-    }
-
-    public void LoadFromSerializableInventoryList(SerializableInventoryList i) {
-        this.items = i.items;
-    }
 
     public void RemoveItem(StoredItem toRemove) {
         if (GetItem(toRemove) == null) {
@@ -96,14 +92,5 @@ public class InventoryList : MonoBehaviour {
             items.Remove(GetItem(toRemove));
         } 
 
-    }
-}
-
-[System.Serializable]
-public class SerializableInventoryList {
-    public List<StoredItem> items;
-    
-    public SerializableInventoryList(List<StoredItem> items) {
-        this.items = items;
     }
 }

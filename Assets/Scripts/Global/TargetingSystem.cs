@@ -16,11 +16,9 @@ public class TargetingSystem : MonoBehaviour {
 	bool onPlayer = false;
 
 	void Start() {
-		onPlayer = gameObject.GetComponentInParent<SaveWrapper>() != null;
+		onPlayer = gameObject.GetComponentInParent<GlobalController>() != null;
 		if (!onPlayer) return;
-		playerUnlocks = gameObject.GetComponentInParent<SaveWrapper>()
-			.save
-			.unlocks;
+		playerUnlocks = GlobalController.save.unlocks;
 	}
 
 	bool CanTarget() {

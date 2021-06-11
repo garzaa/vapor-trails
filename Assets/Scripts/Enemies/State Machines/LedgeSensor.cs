@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// this class does not work; the hit transform is always null?
-
 [RequireComponent(typeof(WallSensor))]
 public class LedgeSensor : Sensor {
     public float maxVertRange = 0.64f;

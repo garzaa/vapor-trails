@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System.Linq;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class GlobalController : MonoBehaviour {
 
@@ -16,12 +19,16 @@ public class GlobalController : MonoBehaviour {
 	public static PlayerController pc;
 	public static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
-	public static bool pauseEnabled = true;
+	public bool pauseEnabled = true;
 	static bool paused = false;
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
 	public static PlayerFollower playerFollower;
-	public static Save save;
+	public static Save save {
+		get {
+			return gc.saveContainer.GetSave();
+		}
+	}
 	static CloseableUI pauseUI;
 	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
@@ -49,26 +56,19 @@ public class GlobalController : MonoBehaviour {
 	public static int openUIs = 0;
 
 	static GameObject playerMenu;
-	static BinarySaver binarySaver;
-	static SaveWrapper saveWrapper;
+	static Coroutine showPlayerRoutine;
 	public static BossFightIntro bossFightIntro;
 
+	[SerializeField] SaveContainer saveContainer;
+
 	void Awake() {
-		if (gc == null) {
-			gc = this;
-		} else {
-			// if this one's a duplicate, destroy
-			Destroy(this.gameObject);
-			return;
-		}
-		DontDestroyOnLoad(this);
+		gc = this;
 		titleText = editorTitleText;
 		dialogueUI = GetComponentInChildren<DialogueUI>();
 		signUI = GetComponentInChildren<SignUI>();
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
 		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
-		save = gc.GetComponent<SaveWrapper>().save;
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = GetComponentInChildren<PauseUI>();
 		abilityUIAnimator = GameObject.Find("AbilityGetUI").GetComponent<Animator>();
@@ -77,36 +77,47 @@ public class GlobalController : MonoBehaviour {
 		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
 		bossHealthUI.gameObject.SetActive(false);
 		playerMenu = GameObject.Find("PlayerMenu");
-		binarySaver = gc.GetComponent<BinarySaver>();
-		saveWrapper = gc.GetComponent<SaveWrapper>();
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
+
+#if UNITY_EDITOR
+		EditorApplication.playModeStateChanged += OnPlayModeChange;
+#endif
 	}
+
+	void Start() {
+		saveContainer.OnSceneLoad();
+		// called juust in case awake() and onenable() were too slow
+		PropagateStateChange();
+		PropagateItemChange();
+	}
+
+#if UNITY_EDITOR
+	// "clean" the runtime data when the editor stops playing to mimic a game exit
+	private static void OnPlayModeChange(PlayModeStateChange stateChange) {
+		if (stateChange == PlayModeStateChange.ExitingPlayMode) {
+			gc.saveContainer.CleanEditorRuntime();
+		}
+	}	
+#endif
 
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
 	}
 
 	public static bool HasSavedGame() {
-		return binarySaver.HasFile(saveSlot); 
+		return BinarySaver.HasFile(saveSlot); 
 	}
 
 	public static void NewGamePlus() {
+		AlerterText.Alert("Hey idiot you forgot to make NG+");
 		return;
 	}
 
 	public void NewGame() {
-		// wipe the save
-		save.Clear();
-
-		// re-add starting game flags
-		gc.GetComponentInChildren<EditorGameStates>().Start();
-
-		// wipe the inventory
-		inventory.Clear();
-
-		// re-add starting items
-		inventory.Start();
+		// replace with a fresh save, everything will be loaded correctly in the next scene
+		saveContainer.WipeSave();
+		saveContainer.OnSceneLoad();
 	}
 
 	public static bool HasBeatGame() {
@@ -230,6 +241,10 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
+	public static SaveContainer GetSaveContainer() {
+		return gc.saveContainer;
+	}
+
 	public static void EnterDialogue(NPC npc, bool fromQueue=false) {
 		Hitstop.Interrupt();
 		if (dialogueOpen) {
@@ -247,7 +262,7 @@ public class GlobalController : MonoBehaviour {
 		if (npc.centerCameraInDialogue) {
 			playerFollower.LookAtPoint(npc.gameObject);
 		}
-		pc.EnterCutscene();
+		pc.EnterCutscene(pauseAnimation: false);
 	}
 
 	public static void ExitDialogue() {
@@ -316,7 +331,15 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
+	// call this for every sub-item change 
+	public static void PushStateChange() {
+		foreach (IStateUpdateListener listener in FindObjectsOfType<MonoBehaviour>().OfType<IStateUpdateListener>()) {
+			listener.OnStateUpdate();
+		}
+	}
+
 	public static void PropagateFlagChange() {
+		PushStateChange();
 		foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
 			i.ReactToStateChange();
 		}
@@ -357,7 +380,8 @@ public class GlobalController : MonoBehaviour {
 			}
 		}
 
-		binarySaver.SyncImmediateStates(saveSlot, save);
+		PushStateChange();
+		gc.saveContainer.SyncImmediateStates(saveSlot);
 	}
 
 	public static void AddState(GameState state) {
@@ -365,7 +389,7 @@ public class GlobalController : MonoBehaviour {
 		if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
 		PropagateStateChange();
 		if (state.writeImmediately) {
-			binarySaver.SyncImmediateStates(saveSlot, save);
+			gc.saveContainer.SyncImmediateStates(saveSlot);
 		}
 	}
 
@@ -377,7 +401,7 @@ public class GlobalController : MonoBehaviour {
 		}
 		PropagateStateChange();
 		if (writeImmediate) {
-			binarySaver.SyncImmediateStates(saveSlot, save);
+			gc.saveContainer.SyncImmediateStates(saveSlot);
 		}
 	}
 
@@ -391,7 +415,17 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadScene(string sceneName, Beacon beacon=null) {
-		gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
+		if (beacon != null && beacon.leftScene != null) {
+			string beaconSceneName = beacon.leftScene.scene.SceneName;
+
+			if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
+				beaconSceneName = beacon.rightScene.scene.SceneName;
+			}
+
+			gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
+		} else {
+			gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
+		}
 	}
 
 	public static void LoadScene(SceneContainer sceneContainer, Beacon beacon=null) {
@@ -402,24 +436,30 @@ public class GlobalController : MonoBehaviour {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
 
+	public static void LoadSceneWithSubway(string sceneName) {
+		gc.GetComponent<TransitionManager>().LoadSceneWithSubway(sceneName);
+	}
+
 	public static void MovePlayerTo(Vector2 position, bool fade=false) {
 		if (fade) {
 			gc.StartCoroutine(gc.MovePlayerWithFade(position));
 			return;
 		}
-		gc.StartCoroutine(gc.MovePlayerNextFrame(position));
+		gc.StartCoroutine(gc.MovePlayerNextFrame(position, fade));
 	}
 
 	// make sure the trail renderers don't emit
-	IEnumerator MovePlayerNextFrame(Vector2 position) {
+	IEnumerator MovePlayerNextFrame(Vector2 position, bool fade) {
 		pc.DisableTrails();
-		pc.speedLimiter.enabled = false;
+		if (pc.speedLimiter) pc.speedLimiter.enabled = false;
 		yield return new WaitForEndOfFrame();
 		pc.transform.position = position;
 		playerFollower.SnapToTarget();
 		pc.EnableTrails();
-		yield return new WaitForSecondsRealtime(0.5f);
-		UnFadeToBlack();
+		if (fade) {
+			yield return new WaitForSecondsRealtime(0.5f);
+			UnFadeToBlack();
+		}
 		pc.ExitCutscene();
 		pc.speedLimiter.enabled = true;
 	}
@@ -428,17 +468,25 @@ public class GlobalController : MonoBehaviour {
 		pc.EnterCutscene();
 		FadeToBlack();
 		yield return new WaitForSeconds(0.5f);
-		StartCoroutine(MovePlayerNextFrame(position));
+		StartCoroutine(MovePlayerNextFrame(position, fade:true));
 	}
 
 	public static void MovePlayerToBeacon(Beacon beacon) {
 		BeaconWrapper b = Object.FindObjectsOfType<BeaconWrapper>().Where(
 			x => x.beacon == beacon
 		).First();
-		if (b.activateOnLoad != null) {
-			b.activateOnLoad.Activate();
+		if (b != null) {
+			MovePlayerTo(b.transform.position);
+			if (b.activateOnLoad != null) {
+				b.activateOnLoad.Activate();
+			}
+		} else {
+			// if no beacon wrapper, there should at least be a corresponding door
+			// with that beacon
+			Door d = Object.FindObjectsOfType<Door>().Where(
+				x => x.beacon == beacon
+			).First();
 		}
-		MovePlayerTo(b.transform.position);
 	}
 
 	public static void ShortBlackFade() {
@@ -523,29 +571,16 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void LoadGame() {
-		FadeToBlack();
-		saveWrapper.save = binarySaver.LoadFile(saveSlot);
-		save = saveWrapper.save;
+		gc.saveContainer.LoadFromSlot(saveSlot);
 		LoadSceneToPosition(save.sceneName, save.playerPosition);
-		pc.LoadFromSaveData(saveWrapper.save);
-		inventory.items.Empty();
-		foreach (StoredItem s in save.playerItems.items) {
-			GlobalController.AddItem(s, quiet:true);
-		}
-		foreach (PersistentObject o in FindObjectsOfType<PersistentObject>()) {
-			o.Start();
-		}
-		inventory.UpdateMoneyUI();
  	}
 
 	public static void SaveGame(bool autosave=false) {
 		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {
 			AlerterText.Alert("Rebuilding waveform");
 			pc.FullHeal();
-			AlerterText.Alert("Done");
 		}
 		if (autosave) AlerterText.AlertImmediate("Autosaving...");
-		save.playerItems = inventory.items.MakeSerializableInventory();
 		save.currentHP = pc.currentHP;
 		save.maxHP = pc.maxHP;
 		save.currentEnergy = pc.currentEnergy;
@@ -554,8 +589,7 @@ public class GlobalController : MonoBehaviour {
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
 		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
-		binarySaver.SyncImmediateStates(saveSlot, saveWrapper.save);
-		binarySaver.SaveFile(saveWrapper.save, saveSlot);
+		gc.saveContainer.WriteToDiskSlot(saveSlot);
 		if (autosave) AlerterText.AlertImmediate("Autosave complete");
 	}
 
@@ -620,6 +654,7 @@ public class GlobalController : MonoBehaviour {
 		}
 		inventory.AddItem(s, quiet);
 		PropagateItemChange();
+		PushStateChange();
 	}
 
 	public static void PropagateItemChange(bool immediateOnly=true) {
@@ -691,12 +726,23 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void HidePlayer() {
+		if (showPlayerRoutine != null) {
+			gc.StopCoroutine(showPlayerRoutine);
+		}
 		pc.EnterCutscene();
 		pc.Hide();
 	}
 
 	public static void ShowPlayer() {
+		// can't have the player exiting the cutscene early!
 		pc.ExitCutscene();
+		showPlayerRoutine = gc.StartCoroutine(gc._ShowPlayer());
+	}
+	
+	IEnumerator _ShowPlayer() {
+		yield return new WaitForEndOfFrame();
+		yield return new WaitForEndOfFrame();
 		pc.Show();
+		showPlayerRoutine = null;
 	}
 }

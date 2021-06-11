@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour {
-    public InventoryList items;   
+    public InventoryList items {
+        get {
+            return GlobalController.GetSaveContainer().GetInventory();
+        }
+    } 
     public InventoryUI inventoryUI;
     public MerchantUI merchantUI;
     bool inInventory = false;
@@ -14,23 +19,12 @@ public class InventoryController : MonoBehaviour {
     public Text moneyUI;
     public AudioSource itemBuy;
 
-    public List<Item> startingItems;
-
-    public void Start() {
-        // will be overwritten by deserialization, so it's OK
-        // hmmgh
-        if (startingItems == null || this.items.items.Count > 0) return;
-        if (startingItems != null) {
-            foreach (Item item in startingItems) {
-                // get around me being lazy in the editor
-                if (item != null) GlobalController.AddItem(new StoredItem(item), quiet:true);
-            }
-        }
+    public void OnEnable() {
         UpdateMoneyUI();
     }
 
     public void Clear() {
-        items.items.Clear();
+        items.Clear();
     }
 
     public void ReactToItemSelect(StoredItem item) {
@@ -98,7 +92,7 @@ public class InventoryController : MonoBehaviour {
             } else {
                 merchantInventory.RemoveItem(s);
             }
-            AddItem(toAdd, false);
+            GlobalController.AddItem(toAdd, false);
             inventoryUI.merchantLine.text = currentMerchant.GetThanksDialogue(item);
             itemBuy.PlayOneShot(itemBuy.clip);
             UpdateMoneyUI();

@@ -28,7 +28,7 @@ public class PositionMover : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
+    void Update() {
         if (currentDestination >= destinations.Length) {
             return;
         }

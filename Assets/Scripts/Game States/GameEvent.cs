@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 [CreateAssetMenu]
 public class GameEvent : ScriptableObject {
-    List<GameEventListener> listeners = new List<GameEventListener>();
-    List<GameEventListener> priorityListeners = new List<GameEventListener>();
+
+    [Header("Internals (ignore type err)")]
+    [SerializeField] List<GameEventListener> listeners = new List<GameEventListener>();
+    [SerializeField] List<GameEventListener> priorityListeners = new List<GameEventListener>();
 
     public void Raise() {
         for (int i=0; i<priorityListeners.Count; i++) {

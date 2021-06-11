@@ -1,6 +1,8 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "Beacon", menuName = "Data Containers/Beacon")]
 public class Beacon : ScriptableObject {
     [TextArea] [SerializeField] string description;
+    public SceneContainer leftScene;
+    public SceneContainer rightScene;
 }

@@ -13,6 +13,9 @@ public class CloseableUI : MonoBehaviour {
     public bool closeAtStart = false;
     public bool soloUISound = false;
     public bool continuousCutscene = false;
+    public bool pauseAnimation = false;
+
+    public bool debug = false;
 
     protected bool open;
     protected bool started;
@@ -21,12 +24,13 @@ public class CloseableUI : MonoBehaviour {
         if ((exclusive && GlobalController.openUIs > 0)) {
             return;
         }
+        if (debug) Debug.Log(gameObject.name + " opened");
 
         if (!open) GlobalController.openUIs += 1;
         this.open = true;
         Hitstop.Interrupt();
         if (interactSound) SoundManager.InteractSound();
-        GlobalController.pc.EnterCutscene(invincible:invincibleDuring);
+        GlobalController.pc.EnterCutscene(invincible:invincibleDuring, pauseAnimation: pauseAnimation);
         if (targetUI != null) targetUI.SetActive(true);
         if (stopTime) Time.timeScale = 0f;
         if (soloUISound) SoundManager.SoloUIAudio();
@@ -37,6 +41,7 @@ public class CloseableUI : MonoBehaviour {
 
         if (stopTime) Time.timeScale = 1f;
         this.open = false;
+        if (debug) Debug.Log(gameObject.name + " closed");
         // avoid race conditions
         if (GlobalController.pc.gameObject.activeInHierarchy) GlobalController.pc.ExitCutscene();
         if (targetUI != null) targetUI.SetActive(false);

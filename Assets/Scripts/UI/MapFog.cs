@@ -8,36 +8,30 @@ public class MapFog : PersistentObject {
     [SerializeField] GameObject cameraTarget;
 
     string currentScene;
-    string mapProp = "Map";
-    SpriteRenderer spriteRenderer;
+    const string MAP_PROPERTY = "Map";
 
     float texturePPU = 1f/12f;
-    float updateInterval = 0.5f;
+    float updateInterval = 0.2f;
 
     void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoad;
+        Load();
     }
 
-    override public void Start() {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    // called when the scene is unloaded
+    void OnDisable() {
+        SaveCurrentMap();
     }
 
     public void SaveCurrentMap() {
         if (persistentProperties == null) persistentProperties = new Hashtable();
-        persistentProperties[mapProp] = EncodeMap();
+        persistentProperties[MAP_PROPERTY] = EncodeMap();
         SaveObjectState();
     }
 
-    void OnSceneLoad(Scene scene, LoadSceneMode mode) {
-        if (!string.IsNullOrEmpty(currentScene)) {
-            SaveCurrentMap();
-        } 
-
-        currentScene = scene.name;
-
+    void Load() {
         SerializedPersistentObject savedState = LoadObjectState();
         if (savedState != null) {
-            DecodeAndUpdateMap((bool[]) savedState.persistentProperties[mapProp]);
+            DecodeAndUpdateMap((bool[]) savedState.persistentProperties[MAP_PROPERTY]);
         } else {
             WipeMap();
         }
@@ -103,5 +97,5 @@ public class MapFog : PersistentObject {
 
     override public string GetID() {
         return "MapFog/"+currentScene;
-    }    
+    }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class SpriteSwitcher : SimpleAnimator {
     [Range(0, 1)]
     public float frameDelay;

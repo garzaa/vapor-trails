@@ -3,12 +3,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class Save {
-    [HideInInspector] public int slotNum = 1;
-    [HideInInspector] public int currentHP;
-    [HideInInspector] public int maxHP;
-    [HideInInspector] public int currentEnergy;
-    [HideInInspector] public int maxEnergy;
-    [HideInInspector] public int basePlayerDamage;
+    public int maxHP = 12;
+    public int maxEnergy = 8;
+
+    public int slotNum = 1;
+    public int currentHP;
+    public int currentEnergy;
+    public int basePlayerDamage = 1;
+
     public List<GameFlag> gameFlags = new List<GameFlag>();
 
     public List<string> gameStates = new List<string>();
@@ -16,7 +18,7 @@ public class Save {
     public PlayerUnlocks unlocks;    
     
     public string sceneName;
-    public SerializableInventoryList playerItems;
+    public InventoryList playerItems;
     
     [System.NonSerialized]
     public Vector2 playerPosition;
@@ -32,35 +34,21 @@ public class Save {
 
     public GameOptions options;
 
-    void Awake() {
-        persistentObjects = new Dictionary<string, SerializedPersistentObject>();
-        Initialize();
-    }
+    public bool firstLoadHappened;
 
-    void Initialize() {
-        currentHP = 12;
-        maxHP = 12;
-        currentEnergy = 8;
-        maxEnergy = 8;
-        basePlayerDamage = 1;
-    }
-
-    public void Clear() {
-        // wipe all persistent object keys and values
-        persistentObjects.Clear();
-
-        // also playerunlocks? is that referenced? sure
-        unlocks.Clear();
-
-        // then everything else
-        playerPosition = Vector2.zero;
+    public void Initialize() {
+        // called once per save
+        firstLoadHappened = false;
+        currentHP = maxHP;
+        currentEnergy = maxEnergy;
         sceneName = "";
-        playerItems.items.Clear();
+        persistentObjects.Clear();
+        playerItems.Clear();
+        gameFlags.Clear();
+        gameStates.Clear();
+        unlocks.Clear();
         persistentObjectKeys.Clear();
         persistentObjectValues.Clear();
-        gameFlags.Clear();
-
-        Initialize();
     }
 
     public void SavePersistentObject(SerializedPersistentObject o) {

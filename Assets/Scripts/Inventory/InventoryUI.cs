@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using System.Linq;
 
 public class InventoryUI : CloseableUI {
@@ -82,8 +82,10 @@ public class InventoryUI : CloseableUI {
             Destroy(oldItem.gameObject);
             oldItem.parent = null;
         }
-        for (int i=inventoryList.items.Count-1; i>=0; i--) {
-            StoredItem item = inventoryList.items[i];
+
+        List<StoredItem> items = inventoryList.GetAll();
+        for (int i=items.Count-1; i>=0; i--) {
+            StoredItem item = items[i];
             GameObject g = (GameObject) Instantiate(itemPaneTemplate);
             g.transform.parent = gridHolder;
             g.GetComponent<ItemPane>().PopulateSelfInfo(item);

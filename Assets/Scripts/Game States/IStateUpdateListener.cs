@@ -1,0 +1,3 @@
+interface IStateUpdateListener {
+    void OnStateUpdate();
+}

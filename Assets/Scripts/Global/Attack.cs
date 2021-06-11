@@ -22,6 +22,7 @@ public class Attack : MonoBehaviour {
 	public float stunLength = 0.2f;
 	public bool knockBack = true;
 	public Vector2 knockbackVector = Vector2.zero;
+	public bool knockbackAway = false;
 	public bool inheritMomentum = false;
 	public bool instakill = false;
 

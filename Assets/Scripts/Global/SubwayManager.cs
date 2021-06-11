@@ -10,26 +10,24 @@ public class SubwayManager : MonoBehaviour {
     static LocalSubwayController localSubway;
     static Vector3 playerOffset;
     static SubwayStop destination;
-    public static bool playerOnSubway;
     static bool firstClose;
 
     public List<StationSceneMapping> stationMappings;
 
     void Start() {
-        if (sm == null) sm = this;
+        sm = this;
         mapUI = GlobalController.gc.GetComponentInChildren<SubwayMapUI>(true);
         CloseMapUI();
     }
 
     public static void DepartWithPlayer() {
-        playerOnSubway = true;
-        GlobalController.LoadScene(GetStopScene(destination));
+        GlobalController.LoadSceneWithSubway(GetStopScene(destination));
     }
 
     public static string GetStopScene(SubwayStop stop) {
         return sm.stationMappings.Where(
             x => x.stop == stop
-        ).First().scene.SceneName;
+        ).First().sceneContainer.scene.SceneName;
     }
 
     public static void ArriveWithPlayer() {

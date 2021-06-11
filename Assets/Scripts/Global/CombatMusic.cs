@@ -13,8 +13,8 @@ public class CombatMusic : MonoBehaviour {
     static List<AudioFade> musics;
 
     void OnEnable() {
-        if (cm == null) cm = this;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        cm = this;
+        musics = GameObject.FindObjectsOfType<AudioFade>().Where(x => x.combatMusic).ToList();
     }
 
     public static void EnterCombat() {
@@ -29,10 +29,6 @@ public class CombatMusic : MonoBehaviour {
         foreach (AudioFade music in musics) {
             music.FadeOut(fadeOutTime);
         }
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        musics = GameObject.FindObjectsOfType<AudioFade>().Where(x => x.combatMusic).ToList();
     }
 
     void OnTriggerEnter2D(Collider2D other) {

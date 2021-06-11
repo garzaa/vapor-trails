@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System.Collections.Generic;
 
 public class ItemViewer : MonoBehaviour {
     public GameObject itemPaneTemplate;
@@ -13,7 +14,7 @@ public class ItemViewer : MonoBehaviour {
     public ScrollRect scrollView;
     public AudioClip selectSound;
 
-    [SerializeField] InventoryList editorInventoryLink;
+    [SerializeField] InventoryController editorInventoryLink;
 
     bool started = false;
 
@@ -24,7 +25,7 @@ public class ItemViewer : MonoBehaviour {
         itemDescription.text = "";
 
         if (editorInventoryLink != null) {
-            PopulateItems(editorInventoryLink);
+            PopulateItems(editorInventoryLink.items);
         }
     }
 
@@ -69,8 +70,10 @@ public class ItemViewer : MonoBehaviour {
             Destroy(oldItem.gameObject);
             oldItem.SetParent(null, false);
         }
-        for (int i=inventoryList.items.Count-1; i>=0; i--) {
-            StoredItem storedItem = inventoryList.items[i];
+        
+        List<StoredItem> items = inventoryList.GetAll();
+        for (int i=items.Count-1; i>=0; i--) {
+            StoredItem storedItem = items[i];
             GameObject g = Instantiate(
                 itemPaneTemplate,
                 Vector2.zero,

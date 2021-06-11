@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class TurnToVelocity : MonoBehaviour {
     public Rigidbody2D rb2d;
-    public float offset;
+    // this is the default if entities are normally facing up
+    public float offset = 90;
 
     void Start() {
         if (rb2d == null) {
@@ -19,5 +20,9 @@ public class TurnToVelocity : MonoBehaviour {
                 rb2d.velocity
             ) + offset
         );
+    }
+
+    void OnDisable() {
+        transform.rotation = Quaternion.identity;
     }
 }

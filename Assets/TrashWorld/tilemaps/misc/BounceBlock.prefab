@@ -57,7 +57,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.8}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &5744171124211075044
 MonoBehaviour:
@@ -95,7 +95,9 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 0e7a36ca62cb22d40b442e369835197c, type: 3}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
-  dropBossResources: 0
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3182733649003619704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 8482767699700208431}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 0
   attackName: 
   attackNames:
@@ -252,4 +257,6 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
-  dropBossResources: 0
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []

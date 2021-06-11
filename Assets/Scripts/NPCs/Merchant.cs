@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(InventoryList))]
 public class Merchant : PersistentObject {
 
     public List<Item> startingInventory;
@@ -31,7 +30,6 @@ public class Merchant : PersistentObject {
     }
 
     override public void ConstructFromSerialized(SerializedPersistentObject s) {
-        this.baseInventory = GetComponent<InventoryList>();
         if (s == null) {
             this.baseInventory.AddAll(startingInventory);
             return;
@@ -43,9 +41,7 @@ public class Merchant : PersistentObject {
             x => (GameFlag) x
         ).ToList();
 
-        this.baseInventory.LoadFromSerializableInventoryList(
-            (SerializableInventoryList) s.persistentProperties["Inventory"]
-        );
+        this.baseInventory = s.persistentProperties["Inventory"] as InventoryList;
     }
 
     public void AddGameFlagInventory(GameFlagInventory i) {
@@ -58,7 +54,7 @@ public class Merchant : PersistentObject {
 
     override protected void UpdateObjectState() {
         this.persistentProperties = new Hashtable();
-        this.persistentProperties.Add("Inventory", baseInventory.MakeSerializableInventory());
+        this.persistentProperties.Add("Inventory", baseInventory);
         this.persistentProperties.Add(
             "GameFlags", 
             this.gameFlagsHit.Select(f => (int) f).ToList()

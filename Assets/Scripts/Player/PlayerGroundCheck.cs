@@ -4,6 +4,7 @@ using System.Collections;
 
 public class PlayerGroundCheck : MonoBehaviour {
     public GroundData groundData = new GroundData();
+    [SerializeField] bool detecting = true;
     
     public BoxCollider2D playerCollider;
 
@@ -17,6 +18,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     GameObject currentGround;
 
     List<RaycastHit2D>platforms = new List<RaycastHit2D>();
+    List<RaycastHit2D> nonPlatforms = new List<RaycastHit2D>();
 
     void Awake() {
         defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
@@ -29,6 +31,8 @@ public class PlayerGroundCheck : MonoBehaviour {
         rightGrounded = RightGrounded();
         grounded = leftGrounded || rightGrounded;
         onLedge = leftGrounded ^ rightGrounded;
+
+        grounded = grounded && detecting;
         
 
         if (groundData.grounded && !grounded) {
@@ -61,8 +65,16 @@ public class PlayerGroundCheck : MonoBehaviour {
         platforms.AddRange(GetPlatforms(playerCollider.BottomLeftCorner()));
         platforms.AddRange(GetPlatforms(playerCollider.BottomRightCorner()));
 
-        if (platforms.Count == 0) {
-            return null;
+        nonPlatforms.Clear();
+
+        for (int i=0; i<platforms.Count; i++) {
+            if (!platforms[i].collider.CompareTag(Tags.Platform)) {
+                nonPlatforms.Add(platforms[i]);
+            }
+        }
+
+        for (int i=0; i<nonPlatforms.Count; i++) {
+            platforms.Remove(nonPlatforms[i]);
         }
 
         return platforms;
@@ -71,7 +83,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     RaycastHit2D[] GetPlatforms(Vector2 corner) {
         return Physics2D.CircleCastAll(
             corner,
-            0.32f,
+            1.28f,
             Vector2.zero,
             0f,
             defaultLayerMask
@@ -113,7 +125,7 @@ public class PlayerGroundCheck : MonoBehaviour {
 
     RaycastHit2D DefaultLinecast(Vector2 origin) {
         Vector2 start = origin + Vector2.up * 0.05f;
-        Vector2 end = origin + (-currentNormal * 0.10f);
+        Vector2 end = origin + (-currentNormal * 0.1f);
 
         Debug.DrawLine(start, end);
         return Physics2D.Linecast(
@@ -121,6 +133,16 @@ public class PlayerGroundCheck : MonoBehaviour {
             end,
             defaultLayerMask
         );
+    }
+
+    public void DisableFor(float seconds) {
+        StartCoroutine(WaitAndEnable(seconds));
+    }
+
+    IEnumerator WaitAndEnable(float seconds) {
+        detecting = false;
+        yield return new WaitForSeconds(seconds);
+        detecting = true;
     }
 }
 
