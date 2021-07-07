@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour {
     }
 
     public static float VerticalInput() {
-        return Input.GetAxis(Buttons.V_AXIS);
+        return rewiredPlayer.GetAxis(Buttons.V_AXIS);
     }
 
     public static bool ButtonDown(string buttonName) {
