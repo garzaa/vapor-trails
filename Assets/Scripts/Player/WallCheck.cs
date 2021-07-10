@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class WallCheck : MonoBehaviour {
 
+	#pragma warning disable 0649
 	[SerializeField] BoxCollider2D targetCollider;
 	[SerializeField] float groundGap = 0.06f;
+	#pragma warning restore 0649
 	const bool drawDebug = true;
 
 	public bool touchingWall;

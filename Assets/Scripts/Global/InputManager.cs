@@ -5,8 +5,6 @@ public class InputManager : MonoBehaviour {
 
     static Player rewiredPlayer;
 
-    static readonly float INPUT_TOLERANCE = 0.2f;
-
     static InputManager im;
 
     static bool polling = false;

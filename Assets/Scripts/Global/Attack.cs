@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour {
 
 	public string attackName;
 	public int damage = 1;
-	public AudioClip attackLandSound;
+	public AudioResource attackLandSound;
 	[Range(0, 2f)]
 	public float cameraShakeIntensity = .1f;
 	[Range(0, 2f)]

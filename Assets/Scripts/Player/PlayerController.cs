@@ -31,7 +31,6 @@ public class PlayerController : Entity {
 
 	public int parryCount = 0;
 	public int baseDamage = 1;
-	float invincibilityLength = 1f;
 	float selfDamageHitstop = .2f;
 	int healCost = 1;
 	int healAmt = 1;
@@ -96,7 +95,6 @@ public class PlayerController : Entity {
 	bool runningLastFrame = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
-	bool justFlipped = false;
 	int panicJumpInputs = 0;
 	Vector2 velocityLastFrame;
 	float fallStart;
@@ -664,13 +662,11 @@ public class PlayerController : Entity {
 
 	override public void ForceFlip() {
 		base.ForceFlip();
-		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
 		Invoke("EndFlipWindow", coyoteTime);
 	}
 
 	void EndFlipWindow() {
-		justFlipped = false;
 		anim.SetBool("JustFlipped", false);
 	}
 

@@ -14,9 +14,9 @@ public class AudioResource : ScriptableObject {
 	}
 
 	public void Play() {
-		if (audioType.Equals(audioType.WORLD)) {
+		if (audioType.Equals(AudioType.WORLD)) {
 			SoundManager.WorldSound(GetRandomSound());
-		} else if (audioType.Equals(audioType.UI)) {
+		} else if (audioType.Equals(AudioType.UI)) {
 			SoundManager.UISound(GetRandomSound());
 		} else {
 			Debug.LogWarning("AudioResource "+this.name+" called with a MUSIC type, it's time to write that bit");

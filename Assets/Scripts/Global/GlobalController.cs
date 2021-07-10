@@ -59,7 +59,9 @@ public class GlobalController : MonoBehaviour {
 	static Coroutine showPlayerRoutine;
 	public static BossFightIntro bossFightIntro;
 
+	#pragma warning disable 0649
 	[SerializeField] SaveContainer saveContainer;
+	#pragma warning restore 0649
 
 	void Awake() {
 		gc = this;

@@ -14,7 +14,9 @@ public class ItemViewer : MonoBehaviour {
     public ScrollRect scrollView;
     public AudioClip selectSound;
 
+    #pragma warning disable 0649
     [SerializeField] InventoryController editorInventoryLink;
+	#pragma warning restore 0649
 
     bool started = false;
 

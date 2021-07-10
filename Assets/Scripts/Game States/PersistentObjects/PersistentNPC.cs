@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class PersistentNPC : PersistentObject {
 	
-	int dialogueHash = 0;
 	NPC npc;
 
 	public override void Start() {

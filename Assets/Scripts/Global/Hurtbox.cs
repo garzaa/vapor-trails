@@ -5,7 +5,7 @@ public class Hurtbox : MonoBehaviour {
 	public GameObject parentObject;
 	public GameObject hitEffect;
 	public bool overrideHitEffect;
-	public AudioClip hitSound;
+	public AudioResource hitSound;
 	
 	[Header("For Targeting Systems")]
 	public bool overrideTargetPosition;
@@ -37,7 +37,7 @@ public class Hurtbox : MonoBehaviour {
 			h.transform.parent = null;
 		}
 		if (hitSound != null) {
-			SoundManager.WorldSound(hitSound);
+			SoundManager.PlayIfClose(hitSound, this.gameObject);
 		}
 		return true;
 	}
