@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class AudioResource : ScriptableObject {
 	#pragma warning disable 0649
 	[SerializeField] List<AudioClip> sounds;
-	[SerializeField] public AudioType audioType;
+	[SerializeField] public AudioType audioType = AudioType.WORLD;
 	#pragma warning restore 0649
 
 	public void PlayFrom(GameObject caller) {

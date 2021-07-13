@@ -6,15 +6,14 @@ public class EnemyAttack : Attack {
 
 	public bool attackLandEvent;
 
-	// Use this for initialization
 	void Start () {
 		this.attackedTags = new List<string>();
 		attackedTags.Add(Tags.PlayerHurtbox);
 		attackerParent = GetComponentInParent<Entity>();
 	}
 
-	override public void OnAttackLand(Entity victim) { 
-		base.OnAttackLand(victim);
+	override public void OnAttackLand(Entity victim, Hurtbox hurtbox) { 
+		base.OnAttackLand(victim, hurtbox);
 		if (attackLandEvent) {
 			attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
 		}

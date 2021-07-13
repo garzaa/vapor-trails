@@ -11,7 +11,7 @@ public class TurnToVelocity : MonoBehaviour {
         }
     }
 
-    void Update() {
+    void LateUpdate() {
         this.transform.eulerAngles = new Vector3(
             0,
             0,

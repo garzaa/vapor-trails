@@ -5,11 +5,11 @@ public class Hurtbox : MonoBehaviour {
 	public GameObject parentObject;
 	public GameObject hitEffect;
 	public bool overrideHitEffect;
+	public bool overrideHitSound;
 	public AudioResource hitSound;
 	
 	[Header("For Targeting Systems")]
 	public bool overrideTargetPosition;
-
 
 	void Start() {
 		if (parentObject == null && GetComponentInParent<Entity>() != null) {
