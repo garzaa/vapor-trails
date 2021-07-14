@@ -335,7 +335,7 @@ public class GlobalController : MonoBehaviour {
 
 	// call this for every sub-item change 
 	public static void PushStateChange() {
-		foreach (IStateUpdateListener listener in FindObjectsOfType<MonoBehaviour>().OfType<IStateUpdateListener>()) {
+		foreach (IStateUpdateListener listener in Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<IStateUpdateListener>()) {
 			listener.OnStateUpdate();
 		}
 	}

@@ -1,29 +1,31 @@
-﻿ using UnityEngine;
- using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using System;
  
- public class Timer : MonoBehaviour {
+public class Timer : PersistentObject {
 	public Text timerLabel;
-	private float time;
+	float time;
 
-	bool timing = true;
+	public override void ConstructFromSerialized(SerializedPersistentObject s) {
+		if (s == null) return;
+		persistentProperties = s.persistentProperties;
+		time = 0;
+		if (persistentProperties.ContainsKey(nameof(time))) {
+			time = (float) persistentProperties[nameof(time)];
+		}
+	}
 
 	void Update() {
-		if (!timing) return;
-		time += Time.deltaTime;
+		time += Time.unscaledDeltaTime;
+		
+		TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+		timerLabel.text = timeSpan.ToString(@"hh\:mm\:ss\.ff");
 
-		var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
-		var seconds = time % 60;//Use the euclidean division for the seconds.
-		var fraction = (time * 100) % 100;
-
-		//update the label value
-		timerLabel.text = string.Format ("{0:00}:{1:00}:{2:000}", minutes, seconds, fraction);
+		persistentProperties[nameof(time)] = time;
+		SaveObjectState();
 	}
 
-	public void Reset() {
-		time = 0;
+	override public string GetID() {
+		return nameof(time);
 	}
-
-	public void Stop() {
-		timing = false;
-	}
- }
+}
