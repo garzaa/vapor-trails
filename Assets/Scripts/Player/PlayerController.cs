@@ -637,7 +637,7 @@ public class PlayerController : Entity {
 		}
 		Freeze();
 		if (dashTimeout != null) StopCoroutine(dashTimeout);
-	    dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
+	    dashTimeout = StartCoroutine(RunDashCooldown(dashCooldownLength));
 	}
 
 	private void EndEarlyDashInput() {
@@ -647,7 +647,7 @@ public class PlayerController : Entity {
 	public void StopDashAnimation() {
         UnFreeze();
         dashing = false;
-        dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
+        dashTimeout = StartCoroutine(RunDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
     }
 
@@ -669,7 +669,7 @@ public class PlayerController : Entity {
 		anim.SetBool("JustFlipped", false);
 	}
 
-	IEnumerator StartDashCooldown(float seconds) {
+	IEnumerator RunDashCooldown(float seconds) {
         dashCooldown = true;
 		anim.SetBool("RedWings", true);
         yield return new WaitForSecondsRealtime(seconds);
@@ -804,6 +804,8 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("RedWings", false);
 		airDashes = 1;
+		StopCoroutine(nameof(RunDashCooldown));
+		EndDashCooldown();
 	}
 
 	public void OnLedgePop() {
