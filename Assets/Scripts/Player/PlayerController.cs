@@ -822,7 +822,7 @@ public class PlayerController : Entity {
 		Vector3 currentOffset = transform.position - currentGround.transform.position;
 
 		// wait, in case it's spikes or something
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(0.5f);
 
 
 		lastSafeObject = currentGround;
@@ -1383,7 +1383,7 @@ public class PlayerController : Entity {
 	void OnEnviroDamage(EnviroDamage e) {
 		rb2d.velocity = Vector2.zero;
 		StopCoroutine(nameof(SaveLastSafePos));
-		if (!grounded && e.returnPlayerToSafety) {
+		if (e.returnPlayerToSafety) {
 			LockInSpace();
 			StartEnvHurtAnimation();
 		}
