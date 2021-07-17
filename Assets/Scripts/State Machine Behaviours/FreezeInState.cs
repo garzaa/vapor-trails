@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FreezeInState : StateMachineBehaviour {
 
-	public bool onEnter;
+	public bool onEnter = true;
 	public bool during;
 
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

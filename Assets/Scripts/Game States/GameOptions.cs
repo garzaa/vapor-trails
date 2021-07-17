@@ -8,6 +8,7 @@ public class GameOptions {
     public bool slideDrop = false;
     public int inputBuffer = 8;
     public float lookaheadRatio = 1f;
+    public bool timer = false;
     
     bool fullscreen = true;
 
@@ -19,6 +20,7 @@ public class GameOptions {
         inputBuffer = LoadInt("InputBuffer");
         fullscreen = LoadBool("Fullscreen");
         lookaheadRatio = LoadInt("LookaheadRatio");
+        timer = LoadBool("Timer");
     
         Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");
@@ -36,6 +38,7 @@ public class GameOptions {
     // SettingsSlider and SettingsToggle
     public void Apply() {
         PlayerPrefs.Save();
+        GlobalController.PushStateChange();
         Load();
     }
 

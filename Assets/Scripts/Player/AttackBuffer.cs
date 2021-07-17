@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class AttackBuffer : MonoBehaviour {
-    [SerializeField] AttackType attackType = AttackType.NONE;
-    [SerializeField] Vector2 direction = Vector2.zero;
+    AttackType attackType = AttackType.NONE;
+    Vector2 direction = Vector2.zero;
 
     Coroutine clearBuffer;
 

@@ -70,10 +70,9 @@ public class PlayerAttack : Attack {
 			if (costsEnergy && energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {
 				return;
 			}
-			if (otherCol.GetComponent<Hurtbox>() != null) {
-				if (otherCol.GetComponent<Hurtbox>().OnHit(this)) {
-					OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
-				}
+			Hurtbox hurtbox = otherCol.GetComponent<Hurtbox>();
+			if (hurtbox != null && hurtbox.OnHit(this)) {
+				OnAttackLand(hurtbox.GetParent(), hurtbox);
 			}
 		}
 	}

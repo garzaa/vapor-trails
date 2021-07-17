@@ -5,8 +5,6 @@ public class InputManager : MonoBehaviour {
 
     static Player rewiredPlayer;
 
-    static readonly float INPUT_TOLERANCE = 0.2f;
-
     static InputManager im;
 
     static bool polling = false;
@@ -32,7 +30,7 @@ public class InputManager : MonoBehaviour {
     }
 
     public static float VerticalInput() {
-        return Input.GetAxis(Buttons.V_AXIS);
+        return rewiredPlayer.GetAxis(Buttons.V_AXIS);
     }
 
     public static bool ButtonDown(string buttonName) {

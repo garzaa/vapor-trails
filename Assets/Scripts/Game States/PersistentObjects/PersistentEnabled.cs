@@ -23,8 +23,9 @@ public class PersistentEnabled : PersistentObject {
 	}
 
 	void OnDisable() {
-		if (this.enabled) {
-			// this.enabled is true when the object is disabled to be destroyed on a scene load
+		if (this.isActiveAndEnabled) {
+			// this.isActiveAndEnabled is true when the object is disabled to be destroyed on a scene load
+			// https://answers.unity.com/questions/882428/ondisable-getting-called-from-destroy.html
 			return;
 		}
 		UpdateState(false);

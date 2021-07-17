@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ChoiceBox : MonoBehaviour {
+    #pragma warning disable 0649
     [SerializeField] Text choiceText;
+	#pragma warning restore 0649
     Activatable activatable;
 
     public void Populate(Choice choice) {

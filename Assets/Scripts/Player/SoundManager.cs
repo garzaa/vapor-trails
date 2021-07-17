@@ -119,6 +119,12 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 
+	public static void PlayIfClose(AudioResource s, GameObject g) {
+		if (Vector2.Distance(g.transform.position, GlobalController.audioListener.transform.position) < soundRadius) {
+			s.Play();
+		}
+	}
+
 	public static void SoloUIAudio() {
 		sm.soloUISnapshot.TransitionTo(0f);
 	}

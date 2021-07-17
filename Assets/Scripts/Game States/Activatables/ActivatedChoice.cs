@@ -2,9 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class ActivatedChoice : Activatable {
-
+    #pragma warning disable 0649
     [SerializeField] bool useNamedChildren = true;
     [SerializeField] List<Choice> choices;
+	#pragma warning restore 0649
 
     override public void ActivateSwitch(bool b) {
         if (b) {

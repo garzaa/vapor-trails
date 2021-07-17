@@ -4,10 +4,11 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class MapFog : PersistentObject {
+    #pragma warning disable 0649
     [SerializeField] Texture2D fog;
     [SerializeField] GameObject cameraTarget;
+    #pragma warning restore 0649
 
-    string currentScene;
     const string MAP_PROPERTY = "Map";
 
     float texturePPU = 1f/12f;
@@ -96,6 +97,6 @@ public class MapFog : PersistentObject {
     }
 
     override public string GetID() {
-        return "MapFog/"+currentScene;
+        return "MapFog/"+SceneManager.GetActiveScene().name;
     }
 }

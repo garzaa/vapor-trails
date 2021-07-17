@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class MoveSpeedOverride : MonoBehaviour {
+    #pragma warning disable 0649
     [SerializeField]
     List<MovementOverride> editorOverrides;
+	#pragma warning restore 0649
 
     [HideInInspector]
     public Dictionary<string, Vector2> overrides;

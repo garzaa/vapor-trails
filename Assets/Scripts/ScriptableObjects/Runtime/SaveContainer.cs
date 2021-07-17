@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Scene Container", menuName = "Runtime/Save Container")]
 public class SaveContainer : ScriptableObject {
+    #pragma warning disable 0649
 
     // this exists so multiple save containers can reference the same save
     // so dev saves left over in levels can use the runtime save in the final build
@@ -13,6 +14,7 @@ public class SaveContainer : ScriptableObject {
     [SerializeField] List<GameCheckpoint> gameCheckpoints;
     [SerializeField] List<Item> startingItems;
     [SerializeField] List<GameState> startingGameStates;
+    #pragma warning restore 0649
 
     public Save GetSave() {
         return runtime.save;

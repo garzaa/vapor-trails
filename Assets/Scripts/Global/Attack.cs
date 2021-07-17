@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour {
 
 	public string attackName;
 	public int damage = 1;
-	public AudioClip attackLandSound;
+	public AudioResource attackLandSound;
 	[Range(0, 2f)]
 	public float cameraShakeIntensity = .1f;
 	[Range(0, 2f)]
@@ -39,10 +39,10 @@ public class Attack : MonoBehaviour {
 		return this.damage;
 	}
 
-	public virtual void OnAttackLand(Entity victim) {
+	public virtual void OnAttackLand(Entity victim, Hurtbox hurtbox) {
 		ExtendedAttackLand(victim);
 
-		if (attackLandSound != null) {
+		if (attackLandSound && !hurtbox.overrideHitSound) {
 			SoundManager.PlayIfClose(attackLandSound, victim.gameObject);
 		}
 
@@ -65,8 +65,9 @@ public class Attack : MonoBehaviour {
 			if (otherCol.GetComponent<Hurtbox>() == null) {
 				return;
 			}
-			if (otherCol.GetComponent<Hurtbox>().OnHit(this)) {
-				OnAttackLand(otherCol.GetComponent<Hurtbox>().GetParent());
+			Hurtbox hurtbox = otherCol.GetComponent<Hurtbox>();
+			if (hurtbox.OnHit(this)) {
+				OnAttackLand(hurtbox.GetParent(), hurtbox);
 			}
 		}
 	}

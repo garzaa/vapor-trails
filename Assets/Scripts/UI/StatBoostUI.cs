@@ -4,9 +4,11 @@ using UnityEngine.UI;
 public class StatBoostUI : CloseableUI {
 
     static Animator animator;
+    #pragma warning disable 0649
     [SerializeField] static StatBoostUI sb;
     [SerializeField] Text titleText;
     [SerializeField] Text deltaText;
+    #pragma warning restore 0649
     float uiOpenTime;
 
     void Start() {

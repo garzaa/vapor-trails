@@ -167,4 +167,8 @@ public class AnimationInterface : MonoBehaviour {
 	public void RunHitstop(float duration) {
 		Hitstop.Run(duration);
 	}
+
+	public void PlayAudio(AudioResource audioResource) {
+		audioResource.Play();
+	}
 }

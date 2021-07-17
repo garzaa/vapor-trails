@@ -31,7 +31,6 @@ public class PlayerController : Entity {
 
 	public int parryCount = 0;
 	public int baseDamage = 1;
-	float invincibilityLength = 1f;
 	float selfDamageHitstop = .2f;
 	int healCost = 1;
 	int healAmt = 1;
@@ -56,7 +55,6 @@ public class PlayerController : Entity {
 	Rigidbody2D rb2d;
 	Animator anim;
 	public WallCheck wallCheck;
-	public GameObject hurtboxes;
 	SpriteRenderer spr;
 	Material defaultMaterial;
     Material cyanMaterial;
@@ -96,7 +94,6 @@ public class PlayerController : Entity {
 	bool runningLastFrame = false;
 	bool forcedWalking = false;
 	bool bufferedJump = false;
-	bool justFlipped = false;
 	int panicJumpInputs = 0;
 	Vector2 velocityLastFrame;
 	float fallStart;
@@ -640,7 +637,7 @@ public class PlayerController : Entity {
 		}
 		Freeze();
 		if (dashTimeout != null) StopCoroutine(dashTimeout);
-	    dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
+	    dashTimeout = StartCoroutine(RunDashCooldown(dashCooldownLength));
 	}
 
 	private void EndEarlyDashInput() {
@@ -650,7 +647,7 @@ public class PlayerController : Entity {
 	public void StopDashAnimation() {
         UnFreeze();
         dashing = false;
-        dashTimeout = StartCoroutine(StartDashCooldown(dashCooldownLength));
+        dashTimeout = StartCoroutine(RunDashCooldown(dashCooldownLength));
 		StartCombatCooldown();
     }
 
@@ -664,17 +661,15 @@ public class PlayerController : Entity {
 
 	override public void ForceFlip() {
 		base.ForceFlip();
-		justFlipped = true;
 		anim.SetBool("JustFlipped", true);
 		Invoke("EndFlipWindow", coyoteTime);
 	}
 
 	void EndFlipWindow() {
-		justFlipped = false;
 		anim.SetBool("JustFlipped", false);
 	}
 
-	IEnumerator StartDashCooldown(float seconds) {
+	IEnumerator RunDashCooldown(float seconds) {
         dashCooldown = true;
 		anim.SetBool("RedWings", true);
         yield return new WaitForSecondsRealtime(seconds);
@@ -706,7 +701,7 @@ public class PlayerController : Entity {
 		InterruptAttack();
 		StopWallTimeout();
 		if (!groundData.onLedge) {
-			SaveLastSafePos();
+			StartCoroutine(SaveLastSafePos());
 		}
 		if (rb2d.velocity.y < -1.5f) {
 			ImpactDust();
@@ -809,33 +804,42 @@ public class PlayerController : Entity {
 		}
 		anim.SetBool("RedWings", false);
 		airDashes = 1;
+		StopCoroutine(nameof(RunDashCooldown));
+		EndDashCooldown();
 	}
 
 	public void OnLedgePop() {
 		RefreshAirMovement();
 	}
 
-	void SaveLastSafePos() {
-		// save the safe position as an offset of the groundCheck's last hit ground
+	IEnumerator SaveLastSafePos() {
 		GameObject currentGround = groundData.groundObject;
-		if (currentGround == null || currentGround.GetComponent<UnsafeGround>() != null) {
-			return;
-		}
-
-		lastSafeObject = groundData.groundObject;
-		lastSafeOffset = this.transform.position - lastSafeObject.transform.position;
-	}
-
-	IEnumerator ReturnToSafety(float delay) {
-		rb2d.velocity = Vector2.zero;
-		speedLimiter.enabled = false;
-		LockInSpace();
-		yield return new WaitForSecondsRealtime(delay);
-		if (this.currentHP <= 0) {
+		if (!currentGround || currentGround.GetComponent<UnsafeGround>()) {
 			yield break;
 		}
-		FreezeFor(0.2f);
-		if (lastSafeObject != null)	{
+
+		// offset, in case it's moving
+		Vector3 currentOffset = transform.position - currentGround.transform.position;
+
+		// wait, in case it's spikes or something
+		yield return new WaitForSeconds(0.5f);
+
+
+		lastSafeObject = currentGround;
+		lastSafeOffset = currentOffset;
+	}
+
+	void StartEnvHurtAnimation() {
+		if (currentHP <= 0) {
+			return;
+		}
+		anim.SetTrigger("OnEnvDamage");
+		LockInSpace();
+		speedLimiter.enabled = false;
+	}
+
+	void FinishEnvHurtAnimation() {
+		if (lastSafeObject) {
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnLockInSpace();
@@ -1084,6 +1088,8 @@ public class PlayerController : Entity {
 
 		if (this.currentHP == 0) return;
 		
+		if (isEnvDmg) return;
+
 		StunFor(attack.stunLength);
 
 		// asdi
@@ -1376,9 +1382,10 @@ public class PlayerController : Entity {
 
 	void OnEnviroDamage(EnviroDamage e) {
 		rb2d.velocity = Vector2.zero;
-		if (!grounded && e.returnPlayerToSafety) {
+		StopCoroutine(nameof(SaveLastSafePos));
+		if (e.returnPlayerToSafety) {
 			LockInSpace();
-			StartCoroutine(ReturnToSafety(selfDamageHitstop));
+			StartEnvHurtAnimation();
 		}
 	}
 

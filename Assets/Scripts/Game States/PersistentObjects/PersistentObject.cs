@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PersistentObject : MonoBehaviour {
 
-	public Hashtable persistentProperties;
+	public Hashtable persistentProperties = new Hashtable();
 
 	protected string id;
 
