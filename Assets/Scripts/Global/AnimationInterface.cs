@@ -171,4 +171,8 @@ public class AnimationInterface : MonoBehaviour {
 	public void PlayAudio(AudioResource audioResource) {
 		audioResource.Play();
 	}
+
+	public void PlayAudioClip(AudioClip audioClip) {
+		SoundManager.WorldSound(audioClip);
+	}
 }

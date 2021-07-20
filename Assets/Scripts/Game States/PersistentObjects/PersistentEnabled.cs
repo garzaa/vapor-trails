@@ -14,7 +14,8 @@ public class PersistentEnabled : PersistentObject {
 			if (o != null) {
 				bool wasEnabled = (bool) o.persistentProperties["enabled"];
 				if (!wasEnabled) {
-					Disable();
+					UpdateState(false);
+					gameObject.SetActive(false);
 				}
 			}
 		} else {
@@ -22,18 +23,13 @@ public class PersistentEnabled : PersistentObject {
 		}
 	}
 
-	void OnDisable() {
-		if (this.isActiveAndEnabled) {
-			// this.isActiveAndEnabled is true when the object is disabled to be destroyed on a scene load
-			// https://answers.unity.com/questions/882428/ondisable-getting-called-from-destroy.html
-			return;
-		}
-		UpdateState(false);
+	public void UpdatePersistentState(bool active) {
+		UpdateState(active);
 	}
 
 	public void Disable() {
 		UpdateState(false);
-		this.gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 	
 	protected void UpdateState(bool e) {
