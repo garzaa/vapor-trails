@@ -5,7 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class FalseWall : PlayerTriggeredObject {
 
-	public float childOpacity = 1f;
+	#pragma warning disable 0649
+	[SerializeField] float childOpacity = 1f;
+	#pragma warning restore 0649
 	float opacityPrevFrame;
 
 	SpriteRenderer[] children;
