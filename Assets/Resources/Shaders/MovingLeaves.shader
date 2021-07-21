@@ -99,10 +99,10 @@
 
                 float2 bump_uv = IN.worldPos;
                 bump_uv /= _BumpScale.xy;
-                bump_uv += _Time.w * _MoveSpeed.xy;
+                bump_uv += _Time.w * _MoveSpeed.xy * g;
 
                 half2 bump = UnpackNormal(tex2D(_BumpMap, bump_uv)).rg;
-                float2 offset = bump * _BumpAmt * _MainTex_TexelSize.xy * g;
+                float2 offset = bump * _BumpAmt * _MainTex_TexelSize.xy;
                 IN.texcoord += offset;
 				
                 fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
