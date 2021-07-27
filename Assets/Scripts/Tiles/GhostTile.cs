@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu]
 public class GhostTile : RuleTile {
 	public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject instantiatedGameObject) {
+        Debug.Log("setting location "+location+" to null");
         base.StartUp(location, tilemap, instantiatedGameObject);
 
         if (!Application.isPlaying) {
