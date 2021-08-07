@@ -38,7 +38,7 @@ public class GameOptions {
     // SettingsSlider and SettingsToggle
     public void Apply() {
         PlayerPrefs.Save();
-        GlobalController.PushStateChange();
+        StateChangeRegistry.PushStateChange();
         Load();
     }
 

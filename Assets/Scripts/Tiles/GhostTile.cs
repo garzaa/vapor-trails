@@ -18,8 +18,6 @@ public class GhostTile : RuleTile {
         if (instantiatedGameObject != null) {
             Renderer parentRenderer = parentTilemap.GetComponent<TilemapRenderer>();
 
-            // do tilemaps remove the instnatiated gameo bject? only lne way to find out
-
             GameObject g = Instantiate(instantiatedGameObject, instantiatedGameObject.transform.position, instantiatedGameObject.transform.rotation, parentTilemap.transform);
             foreach (Renderer childRenderer in g.GetComponentsInChildren<Renderer>()) {
                 childRenderer.sortingLayerID = parentRenderer.sortingLayerID;

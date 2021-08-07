@@ -27,6 +27,7 @@ public class PersistentEnabled : PersistentObject {
 		UpdateState(active);
 	}
 
+	// this is called from an item animation
 	public void Disable() {
 		UpdateState(false);
 		gameObject.SetActive(false);

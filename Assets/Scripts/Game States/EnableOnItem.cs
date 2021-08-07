@@ -1,18 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class EnableOnItem : MonoBehaviour {
+public class EnableOnItem : StateChangeReactor {
     public Item wanted;
     public List<Item> wantedItems;
     public bool immediate = true;
 
     public bool setDisabled = false;
 
-    void Start() {
-        CheckState();
-    }
+    override public void React(bool fakeSceneLoad) {
+        if (!immediate && !fakeSceneLoad) return;
 
-    public void CheckState() {
         if (wanted != null) {
             StoredItem i = GlobalController.inventory.items.GetItem(wanted);
             bool hasItem = (i != null);

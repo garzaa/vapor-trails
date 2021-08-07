@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatefulNPC : NPC {
+public class StatefulNPC : NPC, IStateChangeListener {
 
 	public bool pickFirstConvo = false;
 	// don't update state in the middle of a conversation
 	bool queuedChange = false;
 	string currentConversationName;
+
+	public void Awake() {
+		StateChangeRegistry.Add(this);
+	}
+
+	public void OnDestroy() {
+		StateChangeRegistry.Remove(this);
+	}
 
 	public StatefulNPC(NPCConversations c) : base(c) {
 		this.conversations = c;
@@ -22,7 +30,7 @@ public class StatefulNPC : NPC {
 
 	}
 
-	public void ReactToStateChange() {
+	public void React(bool fakeSceneLoad) {
 		PickFirstConversation();
 	}
 

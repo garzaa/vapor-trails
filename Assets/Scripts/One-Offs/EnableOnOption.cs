@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class EnableOnOption : MonoBehaviour, IStateUpdateListener {
+public class EnableOnOption : StateChangeReactor {
 	public string optionName;
 
 	void Start() {
 		gameObject.SetActive(GameOptions.LoadBool(optionName));
 	}
 
-	public void OnStateUpdate() {
+	public override void React(bool fakeSceneLoad) {
 		Start();
 	}
 }

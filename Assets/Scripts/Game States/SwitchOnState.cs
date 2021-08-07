@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchOnState : MonoBehaviour {
+public class SwitchOnState : StateChangeReactor {
 
 	public GameFlag gameFlag;
 	public bool enableOnState;
 
-	virtual protected void Awake() {
+	override public void React(bool fakeSceneLoad) {
 		if (enableOnState) {
 			this.gameObject.SetActive(GlobalController.HasFlag(gameFlag));
 		} else {

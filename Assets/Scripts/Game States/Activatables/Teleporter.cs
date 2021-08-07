@@ -14,8 +14,7 @@ public class Teleporter : Activatable {
 		if (b) {
 			GlobalController.MovePlayerTo(target.transform.position, fade:this.fade);
 			if (triggerStateCheck) {
-				GlobalController.PropagateStateChange(immediateOnly:false);
-				GlobalController.PropagateItemChange(immediateOnly:false);
+				GlobalController.PushStateChange(fakeSceneLoad:true);
 			}
 		}
 	}
