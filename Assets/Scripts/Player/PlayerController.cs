@@ -813,7 +813,7 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator SaveLastSafePos() {
-		// don't save last safe pos if player is stunned
+		// if stunned, just wait a little while
 		if (stunned || frozen) {
 			yield return new WaitForSeconds(0.5f);
 			StartCoroutine(SaveLastSafePos());
@@ -831,7 +831,6 @@ public class PlayerController : Entity {
 		// wait, in case it's spikes or something
 		yield return new WaitForSeconds(0.5f);
 
-		Debug.Log("saving last safe position");
 		lastSafeObject = currentGround;
 		lastSafeOffset = currentOffset;
 	}
@@ -1388,7 +1387,6 @@ public class PlayerController : Entity {
 	}
 
 	void OnEnviroDamage(EnviroDamage e) {
-		Debug.Log("enviro damage");
 		rb2d.velocity = Vector2.zero;
 		StopCoroutine(nameof(SaveLastSafePos));
 		if (e.returnPlayerToSafety) {
