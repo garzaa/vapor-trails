@@ -813,6 +813,13 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator SaveLastSafePos() {
+		// if stunned, just wait a little while
+		if (stunned || frozen) {
+			yield return new WaitForSeconds(0.5f);
+			StartCoroutine(SaveLastSafePos());
+			yield break;
+		}
+
 		GameObject currentGround = groundData.groundObject;
 		if (!currentGround || currentGround.GetComponent<UnsafeGround>()) {
 			yield break;
@@ -823,7 +830,6 @@ public class PlayerController : Entity {
 
 		// wait, in case it's spikes or something
 		yield return new WaitForSeconds(0.5f);
-
 
 		lastSafeObject = currentGround;
 		lastSafeOffset = currentOffset;

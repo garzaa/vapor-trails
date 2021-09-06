@@ -27,7 +27,7 @@ public class SubwayManager : MonoBehaviour {
     public static string GetStopScene(SubwayStop stop) {
         return sm.stationMappings.Where(
             x => x.stop == stop
-        ).First().sceneContainer.scene.SceneName;
+        ).First().sceneContainer.ScenePath;
     }
 
     public static void ArriveWithPlayer() {

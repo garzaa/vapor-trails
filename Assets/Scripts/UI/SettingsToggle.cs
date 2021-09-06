@@ -18,7 +18,7 @@ public class SettingsToggle : MonoBehaviour {
         SetBool(prefName, val);
         if (!quiet) {
             // called from UI and not auto-settings change
-            GlobalController.PushStateChange();
+            StateChangeRegistry.PushStateChange();
             SoundManager.UISound(changeSound);
         }
     }

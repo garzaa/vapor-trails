@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 using System.Linq;
 
 #if UNITY_EDITOR
@@ -59,6 +60,8 @@ public class GlobalController : MonoBehaviour {
 	static Coroutine showPlayerRoutine;
 	public static BossFightIntro bossFightIntro;
 
+	static StateChangeRegistry stateChangeRegistry;
+
 	#pragma warning disable 0649
 	[SerializeField] SaveContainer saveContainer;
 	#pragma warning restore 0649
@@ -90,8 +93,7 @@ public class GlobalController : MonoBehaviour {
 	void Start() {
 		saveContainer.OnSceneLoad();
 		// called juust in case awake() and onenable() were too slow
-		PropagateStateChange();
-		PropagateItemChange();
+		PushStateChange();
 	}
 
 #if UNITY_EDITOR
@@ -329,31 +331,27 @@ public class GlobalController : MonoBehaviour {
 	public static void AddGameFlag(GameFlag f) {
 		if (!save.gameFlags.Contains(f)) {
 			save.gameFlags.Add(f);
-			PropagateFlagChange();
+			PushStateChange();
 		}
 	}
 
-	// call this for every sub-item change 
-	public static void PushStateChange() {
-		foreach (IStateUpdateListener listener in Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<IStateUpdateListener>()) {
-			listener.OnStateUpdate();
+	public static void PushStateChange(bool fakeSceneLoad=false) {
+		Animator playerAnimator = pc.GetComponent<Animator>();
+		playerAnimator.logWarnings = true;
+		foreach (string s in save.gameStates) {
+			if (s.StartsWith("anim_")) {
+				playerAnimator.SetBool(s, true);
+			}
 		}
+		gc.saveContainer.SyncImmediateStates(saveSlot);
+		StateChangeRegistry.PushStateChange(fakeSceneLoad);
 	}
 
-	public static void PropagateFlagChange() {
-		PushStateChange();
-		foreach (SwitchOnStateImmediate i in FindObjectsOfType<SwitchOnStateImmediate>()) {
-			i.ReactToStateChange();
-		}
-		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
-			n.ReactToStateChange();
-		}
-	}
 
 	public static void RemoveGameFlag(GameFlag f) {
 		if (save.gameFlags.Contains(f)) {
 			save.gameFlags.Remove(f);
-			PropagateFlagChange();
+			PushStateChange();
 		}
 	}
 
@@ -364,32 +362,10 @@ public class GlobalController : MonoBehaviour {
 		return save.gameFlags.Contains(f);
 	}
 
-	public static void PropagateStateChange(bool immediateOnly=true) {
-		// all loaded objects, including inactive ones
-		List<EnableOnGameState> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnGameState)) as EnableOnGameState[])
-			.Where(x => immediateOnly ? x.immediate : true).ToList();
-		foreach (EnableOnGameState i in immediates) {
-			i.CheckState();
-		}
-
-		UpdateStatefulNPCs();
-
-		Animator playerAnimator = pc.GetComponent<Animator>();
-		playerAnimator.logWarnings = true;
-		foreach (string s in save.gameStates) {
-			if (s.StartsWith("anim_")) {
-				playerAnimator.SetBool(s, true);
-			}
-		}
-
-		PushStateChange();
-		gc.saveContainer.SyncImmediateStates(saveSlot);
-	}
-
 	public static void AddState(GameState state) {
 		if (state == null) return;
 		if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
-		PropagateStateChange();
+		PushStateChange();
 		if (state.writeImmediately) {
 			gc.saveContainer.SyncImmediateStates(saveSlot);
 		}
@@ -401,7 +377,7 @@ public class GlobalController : MonoBehaviour {
 			if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
 			if (state.writeImmediately) writeImmediate = true;
 		}
-		PropagateStateChange();
+		PushStateChange();
 		if (writeImmediate) {
 			gc.saveContainer.SyncImmediateStates(saveSlot);
 		}
@@ -413,25 +389,21 @@ public class GlobalController : MonoBehaviour {
 
 	public static void RemoveState(GameState state) {
 		save.gameStates.Remove(state.name);
-		PropagateStateChange();
+		PushStateChange();
 	}
 
 	public static void LoadScene(string sceneName, Beacon beacon=null) {
 		if (beacon != null && beacon.leftScene != null) {
-			string beaconSceneName = beacon.leftScene.scene.SceneName;
+			string beaconSceneName = beacon.leftScene.ScenePath;
 
 			if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
-				beaconSceneName = beacon.rightScene.scene.SceneName;
+				beaconSceneName = beacon.rightScene.ScenePath;
 			}
 
 			gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
 		} else {
 			gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 		}
-	}
-
-	public static void LoadScene(SceneContainer sceneContainer, Beacon beacon=null) {
-		LoadScene(sceneContainer.scene.SceneName, beacon:beacon);
 	}
 
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
@@ -655,23 +627,7 @@ public class GlobalController : MonoBehaviour {
 			AddStates(item.gameStates);
 		}
 		inventory.AddItem(s, quiet);
-		PropagateItemChange();
 		PushStateChange();
-	}
-
-	public static void PropagateItemChange(bool immediateOnly=true) {
-		List<EnableOnItem> immediates = (Resources.FindObjectsOfTypeAll(typeof(EnableOnItem)) as EnableOnItem[])
-			.Where(x => immediateOnly ? x.immediate : true).ToList();
-		foreach (EnableOnItem i in immediates) {
-			i.CheckState();
-		}
-		UpdateStatefulNPCs();
-	}
-
-	static void UpdateStatefulNPCs() {
-		foreach (StatefulNPC n in FindObjectsOfType<StatefulNPC>()) {
-			n.ReactToStateChange();
-		}
 	}
 
 	public static void ShowAbilityGetUI() {

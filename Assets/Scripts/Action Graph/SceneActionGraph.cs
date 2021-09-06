@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 
-public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
+public class SceneActionGraph : SceneGraph<ActionGraph>, IStateChangeListener {
 
     bool started = false;
     bool hasStateListeners = false;
@@ -14,10 +14,19 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
         Initialize();
     }
 
-    public void OnStateUpdate() {
+    public void Awake() {
+        StateChangeRegistry.Add(this);
+    }
+
+    public void OnDestroy() {
+        StateChangeRegistry.Remove(this);
+    }
+
+    public void React(bool fakeSceneLoad) {
         if (!hasStateListeners) {
             return;
         }
+
         foreach (StateChangeNode node in GetStateListenerNodes()) {
             node.SetInput(Signal.positive);
         }
@@ -32,11 +41,10 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateUpdateListener {
     void Initialize() {
         if (!started) return;
 
+        hasStateListeners = GetStateListenerNodes().Count > 0;
+
         foreach (ActionNode node in GetRootNodes()) {
             node.SetInput(Signal.positive);
-            if (node is StateChangeNode) {
-                hasStateListeners = true;
-            }
 
             // maybe put this in the node
             if (node is InteractTriggerNode) {

@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class EnableOnGameState : MonoBehaviour {
+public class EnableOnGameState : StateChangeReactor {
     public GameState wantedState;
     public bool immediate = true;
 
     public bool setDisabled = false;
 
-    void OnEnable() {
-        CheckState();
-    }
-
-    public void CheckState() {
+    override public void React(bool fakeSceneLoad) {
+        if (!immediate) return;
         bool hasState = GlobalController.HasState(wantedState);
         if (setDisabled) gameObject.SetActive(!hasState);
         else gameObject.SetActive(hasState);
