@@ -9,7 +9,11 @@ public class EnableOnGameState : StateChangeReactor {
     override public void React(bool fakeSceneLoad) {
         if (!immediate) return;
         bool hasState = GlobalController.HasState(wantedState);
-        if (setDisabled) gameObject.SetActive(!hasState);
-        else gameObject.SetActive(hasState);
+
+        if (setDisabled) {
+            gameObject.SetActive(!hasState);
+        } else {
+            gameObject.SetActive(hasState);
+        }
     }
 }
