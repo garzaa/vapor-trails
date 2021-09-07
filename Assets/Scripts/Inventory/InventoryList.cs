@@ -42,6 +42,14 @@ public class InventoryList {
     public bool HasItem(Item item) {
         return HasItem(item.name);
     }
+    
+    public int GetItemCount(Item item) {
+        if (!HasItem(item)) {
+            return 0;
+        } else {
+            return GetItem(item.name).count;
+        }
+    }
 
     public bool HasItem(StoredItem stored) {
         return HasItem(stored.name);

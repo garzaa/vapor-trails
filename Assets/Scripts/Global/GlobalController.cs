@@ -364,7 +364,9 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddState(GameState state) {
 		if (state == null) return;
-		if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
+		if (!save.gameStates.Contains(state.name)) {
+			save.gameStates.Add(state.name);
+		}
 		PushStateChange();
 		if (state.writeImmediately) {
 			gc.saveContainer.SyncImmediateStates(saveSlot);
