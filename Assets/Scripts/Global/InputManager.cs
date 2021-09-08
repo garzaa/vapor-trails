@@ -3,18 +3,18 @@ using Rewired;
 
 public class InputManager : MonoBehaviour {
 
-    static Player rewiredPlayer;
+    static Player rewiredPlayer = null;
 
     static InputManager im;
 
     static bool polling = false;
 
     public static string ControllerLastInput() {
-        return rewiredPlayer.controllers.GetLastActiveController().name;
+        return rewiredPlayer.controllers.GetLastActiveController().hardwareName;
     }
 
     void Start() {
-        if (im == null) im = this;
+        im = this;
         rewiredPlayer = ReInput.players.GetPlayer(0);
     }
 
