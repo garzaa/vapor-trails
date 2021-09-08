@@ -4,9 +4,19 @@ public class Spinner : SimpleAnimator {
     public float speed;
     public bool unscaled;
 
+    public float updateInterval = 0;
+    
+    float lastUpdate = 0f;
+
     override protected void Draw() {
-        Vector3 r = transform.rotation.eulerAngles;
-        r.z = (r.z + (speed * (unscaled ? Time.unscaledDeltaTime : Time.deltaTime))) % 360;
-        transform.rotation = Quaternion.Euler(r);
+        float t = unscaled ? Time.unscaledTime : Time.time;
+
+        if (t > lastUpdate+updateInterval) {
+            Vector3 r = transform.rotation.eulerAngles;
+            r.z = ((speed * t)) % 360;
+            transform.rotation = Quaternion.Euler(r);
+
+            lastUpdate = t;
+        }
     }
 }
