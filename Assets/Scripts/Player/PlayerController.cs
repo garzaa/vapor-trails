@@ -318,7 +318,7 @@ public class PlayerController : Entity {
 				Dash();
 			}
 		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && wall == null && !inMeteor) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput()<0 && wall == null && !inMeteor) {
 			if (!grounded) {
 				if (unlocks.HasAbility(Ability.Meteor)) {
 					MeteorSlam();

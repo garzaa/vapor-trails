@@ -12,9 +12,9 @@ public class Spinner : SimpleAnimator {
         float t = unscaled ? Time.unscaledTime : Time.time;
 
         if (t > lastUpdate+updateInterval) {
-            Vector3 r = transform.rotation.eulerAngles;
+            Vector3 r = transform.localRotation.eulerAngles;
             r.z = ((speed * t)) % 360;
-            transform.rotation = Quaternion.Euler(r);
+            transform.localRotation = Quaternion.Euler(r);
 
             lastUpdate = t;
         }

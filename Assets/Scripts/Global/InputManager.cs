@@ -9,9 +9,17 @@ public class InputManager : MonoBehaviour {
 
     static bool polling = false;
 
+    public static string ControllerLastInput() {
+        return rewiredPlayer.controllers.GetLastActiveController().name;
+    }
+
     void Start() {
         if (im == null) im = this;
         rewiredPlayer = ReInput.players.GetPlayer(0);
+    }
+
+    void FixedUpdate() {
+        if (rewiredPlayer != null) Debug.Log(ControllerLastInput());
     }
 
     public static bool HasHorizontalInput() {
