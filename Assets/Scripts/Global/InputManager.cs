@@ -18,10 +18,6 @@ public class InputManager : MonoBehaviour {
         rewiredPlayer = ReInput.players.GetPlayer(0);
     }
 
-    void FixedUpdate() {
-        if (rewiredPlayer != null) Debug.Log(ControllerLastInput());
-    }
-
     public static bool HasHorizontalInput() {
         return Mathf.Abs(rewiredPlayer.GetAxis(Buttons.H_AXIS)) > 0.01f;
     }
