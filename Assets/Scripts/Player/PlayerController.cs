@@ -318,7 +318,7 @@ public class PlayerController : Entity {
 				Dash();
 			}
 		}
-		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput() < -0.2f && wall == null && !inMeteor) {
+		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput()<0 && wall == null && !inMeteor) {
 			if (!grounded) {
 				if (unlocks.HasAbility(Ability.Meteor)) {
 					MeteorSlam();
@@ -380,6 +380,8 @@ public class PlayerController : Entity {
 
 		anim.SetFloat("Speed", Mathf.Abs(hInput));
 
+		Vector2 targetVelocity = rb2d.velocity;
+
 		if (InputManager.HorizontalInput() != 0) {
 			float targetXSpeed = hInput * moveSpeed;
 
@@ -405,23 +407,33 @@ public class PlayerController : Entity {
 				);
 			}
 
-			Vector2 targetVelocity = new Vector2(
+			targetVelocity = new Vector2(
 				targetXSpeed,
 				(groundData.grounded) ? 0 : rb2d.velocity.y
 			);
+		
+		} 
 
-			if (grounded) {
-				targetVelocity = targetVelocity.Rotate(groundData.normalRotation);
 
-				// if jumped but didn't release the ground colliders yet
-				if (rb2d.velocity.y > targetVelocity.y+2f) {
-					targetVelocity.y = rb2d.velocity.y;
-				}
+		if (!InputManager.HasHorizontalInput()) {
+			// if falling without input, snap fall to a vertical line
+			if (!grounded && (wall == null) && rb2d.velocity.y < 0 && Mathf.Abs(rb2d.velocity.x) < 2f) {
+				targetVelocity.x = 0;
+			}
+		}
 
+		// mild slope handling
+		if (grounded) {
+			targetVelocity = targetVelocity.Rotate(groundData.normalRotation);
+
+			// if jumped but didn't release the ground colliders yet
+			if (rb2d.velocity.y > targetVelocity.y+2f) {
+				targetVelocity.y = rb2d.velocity.y;
 			}
 
-			rb2d.velocity = targetVelocity;
 		}
+		
+		rb2d.velocity = targetVelocity;
 		
 		movingRight = InputManager.HorizontalInput() > 0;
 
@@ -1090,7 +1102,7 @@ public class PlayerController : Entity {
 		CameraShaker.Shake(0.2f, 0.1f);
 		StartCombatStanceCooldown();
 		DamageBy(attack);
-		CancelInvoke("StartParryWindow");
+		CancelInvoke(nameof(StartParryWindow));
 
 		if (this.currentHP == 0) return;
 		
@@ -1495,16 +1507,23 @@ public class PlayerController : Entity {
 		return (ForwardScalar() * Mathf.Ceil(InputManager.HorizontalInput())) < 0;
 	}
 
+	public void OnBlockAnimationStart() {
+		if (!grounded) {
+			// rb2d.velocity = InputManager.LeftStick() * moveSpeed;
+		}
+	}
+
 	public void StartParryWindow() {
-		CancelInvoke("EndParryWindow");
+		CancelInvoke(nameof(EndParryWindow));
 		canParry = true;
 		StartCombatCooldown();	
-		Invoke("EndParryWindow", parryWindowLength);
+		Invoke(nameof(EndParryWindow), parryWindowLength);
 	}
 
 	public void EndParryWindow() {
 		canParry = false;
 		parryCount = 0;
+		currentEnergy -= 1;
 	}
 
 	public void OnAttackLand(Attack attack) {
