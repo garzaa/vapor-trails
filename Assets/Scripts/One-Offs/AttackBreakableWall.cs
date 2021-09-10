@@ -25,6 +25,8 @@ public class AttackBreakableWall : MonoBehaviour {
 				a.SelfKnockBack();
 			}
 
+			Hitstop.Run(0.2f);
+
 			StartCoroutine(Burst());
 		}
 	}

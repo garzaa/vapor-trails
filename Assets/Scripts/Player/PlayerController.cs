@@ -1005,6 +1005,7 @@ public class PlayerController : Entity {
 		inMeteor = false;
 		anim.SetBool("InMeteor", false);
 		rb2d.velocity = Vector2.zero;
+		StartCombatCooldown();
 		//if called while wallsliding
 		anim.ResetTrigger("Meteor");
 		SoundManager.ExplosionSound();

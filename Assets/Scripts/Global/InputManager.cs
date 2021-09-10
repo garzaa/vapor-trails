@@ -13,6 +13,10 @@ public class InputManager : MonoBehaviour {
         return rewiredPlayer.controllers.GetLastActiveController().hardwareName;
     }
 
+    void FixedUpdate() {
+        // Debug.Log(rewiredPlayer.controllers.GetLastActiveController().hardwareName);
+    }
+
     void Start() {
         im = this;
         rewiredPlayer = ReInput.players.GetPlayer(0);
