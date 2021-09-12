@@ -5,8 +5,9 @@ using Utilities;
 
 public class SceneLoadTrigger : PlayerTriggeredObject {
 
-	public SceneField sceneToLoad;
 	public Beacon beacon;
+	[Header("DEPRECATED")]
+	public SceneField sceneToLoad;
 
 	override protected void Start() {
 		base.Start();

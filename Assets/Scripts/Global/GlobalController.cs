@@ -408,6 +408,16 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
+	public static void LoadToBeacon(Beacon beacon) {
+		string beaconSceneName = beacon.leftScene.ScenePath;
+
+		if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
+			beaconSceneName = beacon.rightScene.ScenePath;
+		}
+
+		gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
+	}
+
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
 		gc.GetComponent<TransitionManager>().LoadSceneToPosition(sceneName, position);
 	}
