@@ -45,7 +45,7 @@ public class AttackBreakableWall : MonoBehaviour {
 			w.StartCoroutine(w.Burst());
 		}
 
-		gameObject.SetActive(false);
+		GetComponent<PersistentEnabled>().Disable();
 	}
 
 	List<AttackBreakableWall> GetNeighbors() {

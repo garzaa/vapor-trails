@@ -7,8 +7,8 @@ public class FalseWall : PlayerTriggeredObject {
 
 	#pragma warning disable 0649
 	[SerializeField] float childOpacity = 1f;
-	#pragma warning restore 0649
 	float opacityPrevFrame;
+	#pragma warning restore 0649
 
 	SpriteRenderer[] children;
 

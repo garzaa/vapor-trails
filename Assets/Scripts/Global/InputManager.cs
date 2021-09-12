@@ -1,23 +1,63 @@
 using UnityEngine;
+using System.Collections.Generic;
 using Rewired;
 
 public class InputManager : MonoBehaviour {
 
     static Player rewiredPlayer = null;
-
     static InputManager im;
-
     static bool polling = false;
 
-    public static string ControllerLastInput() {
-        return rewiredPlayer.controllers.GetLastActiveController().hardwareName;
+    [System.Serializable]
+    public class KeyImage {
+        public string keyName;
+        public Sprite glyph;
     }
 
-    void FixedUpdate() {
-        // Debug.Log(rewiredPlayer.controllers.GetLastActiveController().hardwareName);
+    // TODO: make this a string-sprite pairing and use a hashmap for acceleration
+    public List<KeyImage> keyImages;
+
+    public static Sprite GetGlyph(ActionName action) {
+        // given an action name like "down"
+        // get the controller
+        Controller currentController = rewiredPlayer.controllers.GetLastActiveController();
+        if (currentController == null) {
+            if (rewiredPlayer.controllers.joystickCount > 0) {
+                currentController = rewiredPlayer.controllers.Joysticks[0];
+            } else {
+                currentController = rewiredPlayer.controllers.Keyboard;
+            }
+        }
+
+        // find the controller button name that corresponds to the action
+        // https://guavaman.com/projects/rewired/docs/HowTos.html#display-glyph-for-action
+        ActionElementMap aem = rewiredPlayer.controllers.maps.GetFirstElementMapWithAction(currentController, action.actionId, true);
+        if (aem == null) {
+            Debug.LogWarning("Nothing mapped on current controller for action "+action.name);
+            return null;
+        }
+        Debug.Log(aem.actionDescriptiveName);
+
+        if (currentController.type == ControllerType.Joystick) {
+            Debug.Log("Getting glyph for "+currentController.hardwareName+" at element id "+aem.elementIdentifierId+" with range "+aem.axisRange);
+            return ControllerGlyphs.GetGlyph(currentController.hardwareTypeGuid, aem.elementIdentifierId, aem.axisRange);
+        }
+
+        // just draw UI with the button text
+        return null;
     }
 
-    void Start() {
+    public static string GetLastControllerName() {
+        Rewired.Controller c = rewiredPlayer.controllers.GetLastActiveController();
+        if (c != null) {
+            return c.hardwareName;
+        } else {
+            // this will happen if there's no input at all
+            return "keyboard";
+        }
+    }
+
+    void OnEnable() {
         im = this;
         rewiredPlayer = ReInput.players.GetPlayer(0);
     }
