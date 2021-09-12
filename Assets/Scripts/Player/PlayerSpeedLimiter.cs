@@ -13,8 +13,8 @@ public class PlayerSpeedLimiter : SpeedLimiter {
     }
 
     override protected void SlowRigidBody() {
-		if (rb2d.velocity.sqrMagnitude < 0.01f || (rb2d.constraints == RigidbodyConstraints2D.FreezeAll)) {
-            rb2d.velocity = Vector2.zero;
+		if (rb2d.velocity.sqrMagnitude < 0.01f || (rb2d.constraints == RigidbodyConstraints2D.FreezePositionX)) {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 			return;
 		}
 		float originalSign = Mathf.Sign(rb2d.velocity.x);

@@ -47,7 +47,8 @@ public class Entity : MonoBehaviour {
     public void LockInSpace() {
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
-            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            // allow dropping on the x axis
+            rb2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
             this.lockedInSpace = true;
         }
     }
