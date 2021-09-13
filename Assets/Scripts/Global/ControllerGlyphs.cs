@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Rewired;
 using Rewired.Data.Mapping;
 
+#pragma warning disable 0649
+
 public class ControllerGlyphs : MonoBehaviour {
 	[SerializeField]
 	private ControllerEntry[] controllers;
