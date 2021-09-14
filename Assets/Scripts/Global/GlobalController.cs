@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
 using System.Linq;
 
 #if UNITY_EDITOR
@@ -10,6 +10,11 @@ using UnityEditor;
 #endif
 
 public class GlobalController : MonoBehaviour {
+
+	#pragma warning disable 0649
+	[SerializeField] string version;
+	[SerializeField] Text versionUIText;
+	#pragma warning restore 0649
 
 	public static GlobalController gc;
 	public TitleText editorTitleText;
@@ -91,6 +96,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	void Start() {
+		versionUIText.text = version;
 		saveContainer.OnSceneLoad();
 		// called juust in case awake() and onenable() were too slow
 		PushStateChange();
@@ -104,6 +110,11 @@ public class GlobalController : MonoBehaviour {
 		}
 	}	
 #endif
+
+	public static string GetCurrentVersion() {
+		// given a version like "0.15.2a" return 15
+		return gc.version;
+	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
