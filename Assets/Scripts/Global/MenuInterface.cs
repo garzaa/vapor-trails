@@ -30,10 +30,6 @@ public class MenuInterface : MonoBehaviour {
 		GlobalController.Unpause();
 	}
 
-	public void NewGamePlus() {
-		GlobalController.NewGamePlus();
-	}
-
 	public void ApplyGameOptions() {
 		GlobalController.save.options.Apply();
 	}

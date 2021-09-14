@@ -67,14 +67,6 @@ public class Save {
         return o;
     }
 
-    public void LoadNewGamePlus(Save s, int slotNum) {
-        Debug.LogWarning("Item-based unlocks won't go through, this is maybe not a good idea");
-        this.unlocks = s.unlocks;
-        GlobalController.pc.maxHP = s.maxHP;
-        GlobalController.pc.maxEnergy = s.maxEnergy;
-        GlobalController.pc.baseDamage = s.basePlayerDamage;
-    }
-
     public void UnlockAbility(Ability a) {
         if (!unlocks.unlockedAbilities.Contains(a)) {
             unlocks.unlockedAbilities.Add(a);

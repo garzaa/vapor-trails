@@ -124,11 +124,6 @@ public class GlobalController : MonoBehaviour {
 		return BinarySaver.HasFile(saveSlot); 
 	}
 
-	public static void NewGamePlus() {
-		AlerterText.Alert("Hey idiot you forgot to make NG+");
-		return;
-	}
-
 	public void NewGame() {
 		// replace with a fresh save, everything will be loaded correctly in the next scene
 		saveContainer.WipeSave();
