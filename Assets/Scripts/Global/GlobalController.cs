@@ -98,7 +98,6 @@ public class GlobalController : MonoBehaviour {
 	void Start() {
 		versionUIText.text = version;
 		saveContainer.OnSceneLoad();
-		// called juust in case awake() and onenable() were too slow
 		PushStateChange();
 	}
 
@@ -128,10 +127,6 @@ public class GlobalController : MonoBehaviour {
 		// replace with a fresh save, everything will be loaded correctly in the next scene
 		saveContainer.WipeSave();
 		saveContainer.OnSceneLoad();
-	}
-
-	public static bool HasBeatGame() {
-		return false;
 	}
 
 	static void OpenInventory() {
@@ -414,11 +409,11 @@ public class GlobalController : MonoBehaviour {
 		}
 	}
 
-	public static void LoadToBeacon(Beacon beacon) {
-		string beaconSceneName = beacon.leftScene.ScenePath;
+	public static void LoadScene(Beacon beacon) {
+		string beaconSceneName = beacon.rightScene.ScenePath;
 
 		if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
-			beaconSceneName = beacon.rightScene.ScenePath;
+			beaconSceneName = beacon.leftScene.ScenePath;
 		}
 
 		gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
@@ -566,6 +561,12 @@ public class GlobalController : MonoBehaviour {
 		gc.saveContainer.LoadFromSlot(saveSlot);
 		LoadSceneToPosition(save.sceneName, save.playerPosition);
  	}
+
+	public static void LoadChapter(SaveContainer chapter, Beacon beacon) {
+		gc.saveContainer = chapter;
+		gc.saveContainer.OnSceneLoad(forceInitialize:true);
+		LoadScene(beacon);
+	}
 
 	public static void SaveGame(bool autosave=false) {
 		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {
