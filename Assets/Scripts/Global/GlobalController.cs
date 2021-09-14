@@ -11,8 +11,8 @@ using UnityEditor;
 
 public class GlobalController : MonoBehaviour {
 
+	string version = "0.16.0a";
 	#pragma warning disable 0649
-	[SerializeField] string version;
 	[SerializeField] Text versionUIText;
 	#pragma warning restore 0649
 
