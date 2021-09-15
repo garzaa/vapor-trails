@@ -10,6 +10,8 @@ public class FalseWall : PlayerTriggeredObject {
 	float opacityPrevFrame;
 	#pragma warning restore 0649
 
+	public AudioResource sound;
+
 	SpriteRenderer[] children;
 
 	protected override void Start() {
@@ -31,6 +33,7 @@ public class FalseWall : PlayerTriggeredObject {
 
 	public override void OnPlayerEnter() {
 		GetComponent<Animator>().SetBool("Hidden", true);
+		sound.Play();
 	}
 
 	public override void OnPlayerExit() {

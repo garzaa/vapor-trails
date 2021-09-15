@@ -37,6 +37,9 @@ MonoBehaviour:
       - fieldName: links 0
         node: {fileID: -6104099169245213879}
         reroutePoints: []
+      - fieldName: links 0
+        node: {fileID: -756579869549039188}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -517,6 +520,68 @@ MonoBehaviour:
     direction: 0
   links: []
   timeOffset: 0
+--- !u!114 &-756579869549039188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793ab3ede586aa949ac858a1c73c61b1, type: 3}
+  m_Name: Grounded Missile Kick
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1000, y: 968}
+  ports:
+    keys:
+    - input
+    - links
+    - links 0
+    values:
+    - _fieldName: input
+      _node: {fileID: -756579869549039188}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: unlockedBranch
+        node: {fileID: 2865396908329745308}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: links
+      _node: {fileID: -756579869549039188}
+      _typeQualifiedName: AttackLink[], Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: links 0
+      _node: {fileID: -756579869549039188}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: -7264196609810054540}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
+  attackName: Grounded Missile Kick
+  IASA: 7
+  input:
+    type: 0
+    direction: 0
+  links:
+  - type: 2
+    direction: 0
+  timeOffset: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +612,8 @@ MonoBehaviour:
   - {fileID: -6921716135665434682}
   - {fileID: -936073830692584401}
   - {fileID: 5700496460433023596}
+  - {fileID: -756579869549039188}
+  - {fileID: 2865396908329745308}
   rb2d: {fileID: 0}
   anim: {fileID: 0}
   buffer: {fileID: 0}
@@ -580,6 +647,7 @@ MonoBehaviour:
     - links 5
     - speedLinks
     - speedLinks 0
+    - speedLinks 1
     values:
     - _fieldName: links
       _node: {fileID: 761653082789684407}
@@ -698,6 +766,18 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 1
+    - _fieldName: speedLinks 1
+      _node: {fileID: 761653082789684407}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 2865396908329745308}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 1
   attackName: InitialBranch
   IASA: 0
   input:
@@ -721,6 +801,58 @@ MonoBehaviour:
   speedLinks:
   - type: 2
     direction: -2
+  - type: 2
+    direction: 0
+--- !u!114 &2865396908329745308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a87437bf5444914291081d853ba385d, type: 3}
+  m_Name: Unlockable Gate
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -1288, y: 968}
+  ports:
+    keys:
+    - input
+    - unlockedBranch
+    values:
+    - _fieldName: input
+      _node: {fileID: 2865396908329745308}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: speedLinks 1
+        node: {fileID: 761653082789684407}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: unlockedBranch
+      _node: {fileID: 2865396908329745308}
+      _typeQualifiedName: AttackLink, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: -756579869549039188}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  requiredItem: {fileID: 11400000, guid: 6c7053c585f8e484885aa2a5c287948d, type: 2}
+  input:
+    type: 0
+    direction: 0
+  unlockedBranch:
+    type: 0
+    direction: 0
 --- !u!114 &3737489026782981670
 MonoBehaviour:
   m_ObjectHideFlags: 0

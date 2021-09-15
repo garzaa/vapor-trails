@@ -726,7 +726,7 @@ public class PlayerController : Entity {
 		if (wall!=null && wall.direction==ForwardScalar()) {
 			Flip();
 		}
-		if ((fallStart-transform.position.y > hardLandDistance) && !bufferedJump && rb2d.velocity.y>0) {
+		if ((fallStart-transform.position.y > hardLandDistance) && !bufferedJump && rb2d.velocity.y<=0) {
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
 				// don't multiply by HInput to be kinder to controller users

@@ -6,6 +6,7 @@ using System.Linq;
 public class LocalSubwayController : AnimationInterface {
     List<Animator> doors;
     Animator animator;
+    public GameState discoveryState;
     public AudioSource doorsOpening;
     public SubwayStop stop;
     public PlayerFollower playerFollower;
@@ -52,6 +53,9 @@ public class LocalSubwayController : AnimationInterface {
 
     public void CheckPlayerEnter() {
         if (!holdingPlayer) {
+            if (discoveryState != null) {
+                GlobalController.AddState(discoveryState);
+            }
             animator.SetTrigger("Arrive");
             arrivingForPlayer = true;
         }
