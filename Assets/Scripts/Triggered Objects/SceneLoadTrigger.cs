@@ -15,6 +15,8 @@ public class SceneLoadTrigger : PlayerTriggeredObject {
 	}
 
 	public override void OnPlayerEnter() {
+		// don't fire multiple times
+		this.enabled = false;
 		GlobalController.LoadScene(sceneToLoad, beacon: beacon);
 	}
 
