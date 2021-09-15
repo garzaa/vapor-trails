@@ -313,7 +313,7 @@ public class PlayerController : Entity {
 			}
 		}
 
-		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.2f) {
+		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.5f) {
 			if (unlocks.HasAbility(Ability.Dash)) {
 				Dash();
 			}
@@ -726,7 +726,7 @@ public class PlayerController : Entity {
 		if (wall!=null && wall.direction==ForwardScalar()) {
 			Flip();
 		}
-		if ((fallStart-transform.position.y > hardLandDistance) && !bufferedJump) {
+		if ((fallStart-transform.position.y > hardLandDistance) && !bufferedJump && rb2d.velocity.y>0) {
 			rb2d.velocity = new Vector2(
 				// the player can be falling backwards
 				// don't multiply by HInput to be kinder to controller users
@@ -1156,16 +1156,6 @@ public class PlayerController : Entity {
 		}
 	}
 
-	IEnumerator WaitAndSetVincible(float seconds) {
-		yield return new WaitForSeconds(seconds);
-		SetInvincible(false);
-	}
-
-	void InvincibleFor(float seconds) {
-		SetInvincible(true);
-		StartCoroutine(WaitAndSetVincible(seconds));
-	}
-
 	void DamageBy(Attack attack) {
 		if (attack.damage == 0) return;
 
@@ -1233,7 +1223,6 @@ public class PlayerController : Entity {
 		UnFreeze();
 		UnLockInSpace();
 		EnableShooting();
-		InvincibleFor(1f);
 		FullHeal();
 		this.dead = false;
 		anim.SetTrigger("InstantKneel");
@@ -1302,7 +1291,7 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 	}
 
-	public void EnterCutscene(bool invincible = true, bool pauseAnimation = true) {
+	public void EnterCutscene(bool invincible = true) {
 		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
 		InterruptEverything();
 		Freeze();
@@ -1311,10 +1300,6 @@ public class PlayerController : Entity {
 		DisableShooting();
 		inCutscene = true;
 		SetInvincible(invincible);
-		if (pauseAnimation) {
-			if (anim == null) anim = GetComponent<Animator>();
-			anim.speed = 0f;
-		}
 	}
 
 	// exitCutscene is called instead of exitInventory

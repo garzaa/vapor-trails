@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChapterButton : MonoBehaviour, IPointerDownHandler {
+public class ChapterButton : MonoBehaviour {
 	public SaveContainer save;
 	public Beacon beacon;
 
-	public void OnPointerDown(PointerEventData eventData) {
+	public void OnSubmit() {
 		GlobalController.LoadChapter(save, beacon);
 	}
 }

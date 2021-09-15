@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MainMenuInterface : MonoBehaviour {
 	public GameObject chapters;
+	bool debug = false;
 
 	void Start() {
 		chapters.SetActive(false);
@@ -9,7 +10,11 @@ public class MainMenuInterface : MonoBehaviour {
 
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.K)) {
-			if (!chapters) print("ad;kljhdsaf;lkjsdhf");
+			if (!debug) {
+				debug = true;
+				AlerterText.Alert("DEBUG MODE ENABLED");
+				AlerterText.Alert("have fun homeboy");
+			}
 			chapters.SetActive(!chapters.activeInHierarchy);
 		}
 	}

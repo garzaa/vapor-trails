@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour {
     static InputManager im;
     static bool polling = false;
 
+    public Vector2 ls;
+
     [System.Serializable]
     public class KeyImage {
         public string keyName;
@@ -16,6 +18,10 @@ public class InputManager : MonoBehaviour {
 
     // TODO: make this a string-sprite pairing and use a hashmap for acceleration
     public List<KeyImage> keyImages;
+
+    void Update() {
+        ls = InputManager.LeftStick();
+    }
 
     public static Sprite GetGlyph(ActionName action) {
         // given an action name like "down"
@@ -63,7 +69,7 @@ public class InputManager : MonoBehaviour {
     }
 
     public static bool HasHorizontalInput() {
-        return Mathf.Abs(rewiredPlayer.GetAxis(Buttons.H_AXIS)) > 0.01f;
+        return HorizontalInput() != 0;
     }
 
     public static float HorizontalInput() {
