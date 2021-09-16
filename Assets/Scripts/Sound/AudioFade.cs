@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class AudioFade : MonoBehaviour {
 
     public bool disableAtStart;

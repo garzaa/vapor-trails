@@ -85,6 +85,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -108,7 +109,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 35d4be81934d884448daed886c806936, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -223,7 +224,9 @@ MonoBehaviour:
   burstOnDeath: 1
   burstEffect: {fileID: 4465596146934724, guid: b1eed2ae1dcc59a4195bb7ad94fbc1c0,
     type: 3}
-  dropBossResources: 0
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114764483286689582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +328,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 0}
+  hitEffect: {fileID: 0}
+  overrideHitEffect: 0
+  overrideHitSound: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 0
 --- !u!1 &1883708804734480
 GameObject:
@@ -402,6 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: 
   damage: 1
+  attackLandSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -415,7 +423,10 @@ MonoBehaviour:
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 2, y: 2}
+  knockbackAway: 0
   inheritMomentum: 0
+  instakill: 0
+  attackLandEvent: 0
 --- !u!61 &61048732335608594
 BoxCollider2D:
   m_ObjectHideFlags: 0

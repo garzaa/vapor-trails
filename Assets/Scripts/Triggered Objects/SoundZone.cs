@@ -6,7 +6,7 @@ public class SoundZone : PlayerTriggeredObject {
     
     override protected void Start() {
         base.Start();
-        OnPlayerExit();
+        audioFade.FadeOut(0.01f);
     }
 
     override public void OnPlayerEnter() {

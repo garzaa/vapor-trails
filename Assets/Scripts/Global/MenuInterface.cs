@@ -5,12 +5,10 @@ using UnityEngine;
 public class MenuInterface : MonoBehaviour {
 
 	public GameObject continueGame;
-	public GameObject ngPlus;
 
 	void Start() {
 		if (continueGame != null) {
 			continueGame.SetActive(GlobalController.HasSavedGame());
-			ngPlus.SetActive((GlobalController.HasBeatGame()));
 		}
 	}
 
@@ -28,10 +26,6 @@ public class MenuInterface : MonoBehaviour {
 
 	public void Unpause() {
 		GlobalController.Unpause();
-	}
-
-	public void NewGamePlus() {
-		GlobalController.NewGamePlus();
 	}
 
 	public void ApplyGameOptions() {

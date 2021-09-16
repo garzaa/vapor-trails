@@ -39,6 +39,9 @@ public class BinarySaver : MonoBehaviour {
         if (!File.Exists(GetSavePath(slot))) return false;
         try {
             Save s = LoadFile(slot);
+            if (!CompatibleVersions(s)) {
+                return false;
+            }
             return true;
         } catch (Exception) {
             // deal with legacy saves/changed formats
@@ -55,6 +58,16 @@ public class BinarySaver : MonoBehaviour {
     }
 
     public static bool HasFinishedGame() {
+        // eventually: load all possible slots if possible, check for a saved game where there's some BeatGame flag
+        // or is new game plus even desirable? it'd add a bunch of annoying shit to code and worry about
+        // honestly: no
         return false;
+    }
+
+    public static bool CompatibleVersions(Save save) {
+        string[] saveVersion = save.version.Split('.');
+        string[] currentVersion = GlobalController.GetCurrentVersion().Split('.');
+
+        return saveVersion[0].Equals(currentVersion[0]) && saveVersion[1].Equals(currentVersion[1]);
     }
 }

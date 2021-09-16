@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
 using System.Linq;
 
 #if UNITY_EDITOR
@@ -10,6 +10,11 @@ using UnityEditor;
 #endif
 
 public class GlobalController : MonoBehaviour {
+
+	string version = "0.16.0a";
+	#pragma warning disable 0649
+	[SerializeField] Text versionUIText;
+	#pragma warning restore 0649
 
 	public static GlobalController gc;
 	public TitleText editorTitleText;
@@ -91,8 +96,8 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	void Start() {
+		versionUIText.text = version;
 		saveContainer.OnSceneLoad();
-		// called juust in case awake() and onenable() were too slow
 		PushStateChange();
 	}
 
@@ -105,6 +110,11 @@ public class GlobalController : MonoBehaviour {
 	}	
 #endif
 
+	public static string GetCurrentVersion() {
+		// given a version like "0.15.2a" return 15
+		return gc.version;
+	}
+
 	public static void ShowTitleText(string title, string subTitle = null) {
 		titleText.ShowText(title, subTitle);
 	}
@@ -113,19 +123,10 @@ public class GlobalController : MonoBehaviour {
 		return BinarySaver.HasFile(saveSlot); 
 	}
 
-	public static void NewGamePlus() {
-		AlerterText.Alert("Hey idiot you forgot to make NG+");
-		return;
-	}
-
 	public void NewGame() {
 		// replace with a fresh save, everything will be loaded correctly in the next scene
 		saveContainer.WipeSave();
 		saveContainer.OnSceneLoad();
-	}
-
-	public static bool HasBeatGame() {
-		return false;
 	}
 
 	static void OpenInventory() {
@@ -266,7 +267,7 @@ public class GlobalController : MonoBehaviour {
 		if (npc.centerCameraInDialogue) {
 			playerFollower.LookAtPoint(npc.gameObject);
 		}
-		pc.EnterCutscene(pauseAnimation: false);
+		pc.EnterCutscene();
 	}
 
 	public static void ExitDialogue() {
@@ -406,6 +407,16 @@ public class GlobalController : MonoBehaviour {
 		} else {
 			gc.GetComponent<TransitionManager>().LoadScene(sceneName, beacon);
 		}
+	}
+
+	public static void LoadScene(Beacon beacon) {
+		string beaconSceneName = beacon.rightScene.ScenePath;
+
+		if (SceneManager.GetActiveScene().path.Contains(beaconSceneName)) {
+			beaconSceneName = beacon.leftScene.ScenePath;
+		}
+
+		gc.GetComponent<TransitionManager>().LoadScene(beaconSceneName, beacon);
 	}
 
 	public static void LoadSceneToPosition(string sceneName, Vector2 position) {
@@ -550,6 +561,12 @@ public class GlobalController : MonoBehaviour {
 		gc.saveContainer.LoadFromSlot(saveSlot);
 		LoadSceneToPosition(save.sceneName, save.playerPosition);
  	}
+
+	public static void LoadChapter(SaveContainer chapter, Beacon beacon) {
+		gc.saveContainer = chapter;
+		gc.saveContainer.OnSceneLoad(forceInitialize:true);
+		LoadScene(beacon);
+	}
 
 	public static void SaveGame(bool autosave=false) {
 		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {

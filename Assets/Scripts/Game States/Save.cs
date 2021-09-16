@@ -11,6 +11,11 @@ public class Save {
     public int currentEnergy;
     public int basePlayerDamage = 1;
 
+    public string version {
+        get;
+        private set;
+    }
+
     public List<GameFlag> gameFlags = new List<GameFlag>();
 
     public List<string> gameStates = new List<string>();
@@ -42,6 +47,7 @@ public class Save {
         currentHP = maxHP;
         currentEnergy = maxEnergy;
         sceneName = "";
+        version = GlobalController.GetCurrentVersion();
         persistentObjects.Clear();
         playerItems.Clear();
         gameFlags.Clear();
@@ -61,13 +67,6 @@ public class Save {
         return o;
     }
 
-    public void LoadNewGamePlus(Save s, int slotNum) {
-        this.unlocks = s.unlocks;
-        GlobalController.pc.maxHP = s.maxHP;
-        GlobalController.pc.maxEnergy = s.maxEnergy;
-        GlobalController.pc.baseDamage = s.basePlayerDamage;
-    }
-
     public void UnlockAbility(Ability a) {
         if (!unlocks.unlockedAbilities.Contains(a)) {
             unlocks.unlockedAbilities.Add(a);
@@ -76,6 +75,7 @@ public class Save {
 
     public void BeforeSerialize() {
         options.Apply();
+        version = GlobalController.GetCurrentVersion();
 
         playerX = playerPosition.x;
         playerY = playerPosition.y;

@@ -12,6 +12,14 @@ public class EnemyAttack : Attack {
 		attackerParent = GetComponentInParent<Entity>();
 	}
 
+	
+	protected override void OnTriggerEnter2D(Collider2D other) {
+		if (attackerParent is Enemy && ((Enemy) attackerParent).hp <= 0) {
+			return;
+		}
+		base.OnTriggerEnter2D(other);
+	}
+
 	override public void OnAttackLand(Entity victim, Hurtbox hurtbox) { 
 		base.OnAttackLand(victim, hurtbox);
 		if (attackLandEvent) {

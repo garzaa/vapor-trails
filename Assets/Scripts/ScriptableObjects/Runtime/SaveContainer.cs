@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Scene Container", menuName = "Runtime/Save Container")]
+[CreateAssetMenu(fileName = "Save Container", menuName = "Runtime/Save Container")]
 public class SaveContainer : ScriptableObject {
     #pragma warning disable 0649
 
@@ -40,11 +40,11 @@ public class SaveContainer : ScriptableObject {
         return Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
     }
 
-    public void OnSceneLoad() {
+    public void OnSceneLoad(bool forceInitialize=false) {
 
         bool isFirstLoad = !runtime.save.firstLoadHappened;
 
-        if (isFirstLoad) {
+        if (isFirstLoad || forceInitialize) {
             runtime.save.Initialize();
 
             List<Item> allStartingItems = gameCheckpoints.SelectMany(x => x.items).Union(startingItems).ToList();
