@@ -1361,7 +1361,6 @@ public class PlayerController : Entity {
 		} else {
 			anim.SetBool("CanHeal", true);
 		}
-		anim.SetBool("CanHeartbreak", unlocks.HasAbility(Ability.Heartbreaker));
 		anim.SetBool("CanDoubleJump", airJumps > 0);
 		anim.SetBool("CanOrcaFlip", canFlipKick);
 	}
