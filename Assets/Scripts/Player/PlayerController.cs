@@ -340,7 +340,6 @@ public class PlayerController : Entity {
 	void Move() {
 		if (inCutscene || dead || stunned || frozen) {
 			anim.SetFloat("Speed", 0f);
-			//if (grounded) rb2d.velocity = Vector2.zero;
 			anim.SetFloat("VerticalInput", 0f);
 			anim.SetBool("HorizontalInput", false);
 			anim.SetFloat("VerticalSpeed", 0f);
@@ -560,6 +559,7 @@ public class PlayerController : Entity {
 		CameraShaker.TinyShake();
 		EndShortHopWindow();
 		InterruptMeteor();
+		airAttackTracker.Reset();
 		rb2d.velocity = new Vector2(
 			x:rb2d.velocity.x, 
 			y:jumpSpeed

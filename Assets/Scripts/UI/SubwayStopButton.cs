@@ -47,7 +47,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
     }
 
     public void OnSelect(BaseEventData eventData) {
-        mapUI = mapUI ?? GetComponentInParent<SubwayMapUI>();
+        if (mapUI == null) mapUI = GetComponentInParent<SubwayMapUI>();
         mapUI.ReactToItemHover(this.stop);
     }
 }

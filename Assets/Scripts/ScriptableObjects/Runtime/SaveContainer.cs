@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Scene Container", menuName = "Runtime/Save Container")]
+[CreateAssetMenu(fileName = "Save Container", menuName = "Runtime/Save Container")]
 public class SaveContainer : ScriptableObject {
     #pragma warning disable 0649
 
