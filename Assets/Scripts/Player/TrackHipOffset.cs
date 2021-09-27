@@ -8,6 +8,8 @@ public class TrackHipOffset : StateMachineBehaviour {
     Vector2 startPos;
     Vector2 endPos;
 
+    Vector2 currentPos;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         if (anchor == null) {
             parentContainer = animator.GetComponent<Rigidbody2D>();
@@ -18,7 +20,9 @@ public class TrackHipOffset : StateMachineBehaviour {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        endPos = anchor.localPosition;
+        if (stateInfo.normalizedTime > 0.1f) {
+            endPos = anchor.localPosition;
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
