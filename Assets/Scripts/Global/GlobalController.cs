@@ -694,6 +694,14 @@ public class GlobalController : MonoBehaviour {
 		StatBoostUI.ReactToBoost(statType, amount);
 	}
 
+	static void SyncStats() {
+		save.maxHP = pc.maxHP;
+		save.currentHP = pc.currentHP;
+		save.maxEnergy = pc.maxEnergy;
+		save.currentEnergy = pc.currentEnergy;
+		save.basePlayerDamage = pc.baseDamage;
+	}
+
 	public static void EnableParallax() {
 		parallaxOption.moveParallax = true;
 	}
