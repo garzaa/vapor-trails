@@ -9,5 +9,7 @@ public class DayWatcher : MonoBehaviour {
 		GameObject.FindObjectOfType<Daytime>().Deregister(this);
 	}
 
-	abstract public void OnDayUpdate(float t);
+	virtual public void OnDayUpdate(float t) {
+		throw new System.NotImplementedException();
+	}
 }

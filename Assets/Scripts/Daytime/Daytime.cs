@@ -10,17 +10,17 @@ public class Daytime : MonoBehaviour {
 
 	List<DayWatcher> dayWatchers = new List<DayWatcher>();
 
-	void Register(DayWatcher watcher) {
+	public void Register(DayWatcher watcher) {
 		dayWatchers.Add(watcher);
 	}
 
-	void Deregister(DayWatcher watcher) {
+	public void Deregister(DayWatcher watcher) {
 		dayWatchers.Remove(watcher);
 	}
 
 	void UpdateWatchers() {
 		foreach (DayWatcher w in dayWatchers) {
-			w.OnDayUpdate();
+			w.OnDayUpdate(time);
 		}
 	}
 
