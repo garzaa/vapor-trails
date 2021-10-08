@@ -20,9 +20,7 @@ public class TrackHipOffset : StateMachineBehaviour {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (stateInfo.normalizedTime > 0.1f) {
-            endPos = anchor.localPosition;
-        }
+        endPos = anchor.localPosition;
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
