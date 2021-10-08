@@ -11,7 +11,7 @@ using UnityEditor;
 
 public class GlobalController : MonoBehaviour {
 
-	string version = "0.16.1a";
+	string version = "0.16.2a";
 	#pragma warning disable 0649
 	[SerializeField] Text versionUIText;
 	#pragma warning restore 0649
@@ -377,6 +377,8 @@ public class GlobalController : MonoBehaviour {
 	public static void AddStates(List<GameState> states) {
 		bool writeImmediate = false;
 		foreach (GameState state in states) {
+			if (state == null) continue;
+
 			if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
 			if (state.writeImmediately) writeImmediate = true;
 		}
@@ -692,6 +694,14 @@ public class GlobalController : MonoBehaviour {
 				break;
 		}
 		StatBoostUI.ReactToBoost(statType, amount);
+	}
+
+	static void SyncStats() {
+		save.maxHP = pc.maxHP;
+		save.currentHP = pc.currentHP;
+		save.maxEnergy = pc.maxEnergy;
+		save.currentEnergy = pc.currentEnergy;
+		save.basePlayerDamage = pc.baseDamage;
 	}
 
 	public static void EnableParallax() {
