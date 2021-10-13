@@ -2,9 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class Daytime : MonoBehaviour {
 	[Range(0, 1)]
-	public float time;
+	public float time = 0.5f;
 
 	float lastTime;
 

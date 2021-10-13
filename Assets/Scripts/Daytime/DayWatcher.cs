@@ -1,12 +1,16 @@
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class DayWatcher : MonoBehaviour {
+	Daytime daytime;
+
 	void OnEnable() {
-		GameObject.FindObjectOfType<Daytime>().Register(this);
+		daytime = GameObject.FindObjectOfType<Daytime>();
+		daytime.Register(this);
 	}
 
 	void OnDisable() {
-		GameObject.FindObjectOfType<Daytime>().Deregister(this);
+		if (daytime) daytime.Deregister(this);
 	}
 
 	virtual public void OnDayUpdate(float t) {

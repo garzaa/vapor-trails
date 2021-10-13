@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
+[ExecuteInEditMode]
 public class DayGradient : DayWatcher {
-	public Gradient gradient;
+	public GradientContainer gradient;
 	Tilemap[] tilemaps;
 	SpriteRenderer[] spriteRenderers;
 
