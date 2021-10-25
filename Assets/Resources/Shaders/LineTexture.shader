@@ -1,17 +1,12 @@
-﻿Shader "Custom/MovingLeaves"
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/LineTexture"
 {
 	Properties
 	{
-		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		_MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
-        [PerRendererData] _FlashColor ("Flash Color", Color) = (1,1,1,0)
-
-        [Header(Background Distortion)]
-		_BumpAmt   ("Distortion", Range(0, 128)) = 10
-        _BumpMap   ("Normal Map", 2D) = "bump" {}
-        _BumpScale ("Normal Map Scale", Vector) = (1,1,1,1)
-        _MoveSpeed ("Normal Map Speed", Vector) = (0,0,0,0)
 	}
 
 	SubShader
@@ -50,28 +45,24 @@
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
-                float3 worldPos : TEXCOORD1;
 			};
 			
 			fixed4 _Color;
-
-            float _BumpAmt;
-			sampler2D _BumpMap;
-			float4 _BumpScale;
 			float4 _MainTex_ST;
-            float4 _MainTex_TexelSize;
-			float4 _MoveSpeed;
 
 			v2f vert(appdata_t IN)
 			{
 				v2f OUT;
 				OUT.vertex = UnityObjectToClipPos(IN.vertex);
-				OUT.texcoord = IN.texcoord;
+				// access tiling parameters
+				// writing out TRANSFORM_TEX here for future maintainability
+				// x uv: x+y space
+				// y uv: uhhhh..in.texcoord?
+				OUT.texcoord = IN.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				OUT.color = IN.color * _Color;
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif
-                OUT.worldPos = mul(unity_ObjectToWorld, IN.vertex);
 
 				return OUT;
 			}
@@ -79,7 +70,6 @@
 			sampler2D _MainTex;
 			sampler2D _AlphaTex;
 			float _AlphaSplitEnabled;
-			fixed4 _FlashColor;
 
 			fixed4 SampleSpriteTexture (float2 uv)
 			{
@@ -95,20 +85,7 @@
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-                float g = SampleSpriteTexture(IN.texcoord).g;
-
-                float2 bump_uv = IN.worldPos;
-                bump_uv /= _BumpScale.xy;
-                bump_uv += _Time.w * _MoveSpeed.xy;
-
-                half2 bump = UnpackNormal(tex2D(_BumpMap, bump_uv)).rg;
-                float2 offset = bump * _BumpAmt * _MainTex_TexelSize.xy * g;
-                IN.texcoord += offset;
-				
-                fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
-
-
-                c.rgb = lerp(c.rgb,_FlashColor.rgb,_FlashColor.a);
+				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 				return c;
 			}
