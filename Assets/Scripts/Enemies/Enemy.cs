@@ -106,6 +106,7 @@ public class Enemy : Entity {
 		}
 		DamageFor(attack.GetDamage());
 		if (this.hitSound != null && mainChildRenderer.isVisible) {
+			AlerterText.Alert("Playing hit sound: "+hitSound.name);
 			SoundManager.PlayIfClose(this.hitSound, this.gameObject);
 		}
 		StunFor(attack.GetStunLength());

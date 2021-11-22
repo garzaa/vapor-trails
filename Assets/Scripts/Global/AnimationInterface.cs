@@ -90,7 +90,7 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void PlaySound(int soundIndex) {
 		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
-			SoundManager.PlaySound(this.sounds[soundIndex]);
+			SoundManager.WorldSound(this.sounds[soundIndex]);
 		}
 	}
 

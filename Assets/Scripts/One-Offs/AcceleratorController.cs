@@ -24,7 +24,7 @@ public class AcceleratorController : MonoBehaviour
             animator.SetTrigger("Boost");
             CameraShaker.MedShake();
             for (int i=0; i<boostSounds.Length; i++) {
-                SoundManager.PlaySound(boostSounds[i]);
+                SoundManager.WorldSound(boostSounds[i]);
             }
             StartCoroutine(ReArm());
         }

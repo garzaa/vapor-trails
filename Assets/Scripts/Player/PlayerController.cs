@@ -251,7 +251,7 @@ public class PlayerController : Entity {
 		}
 		if (!IsFacing(attack.attackerParent.gameObject)) ForceFlip();
 		parryCount += 1;
-		SoundManager.PlaySound(SoundManager.sm.parry);
+		SoundManager.WorldSound(SoundManager.sm.parry);
 		canParry = true;
 		StartCombatCooldown();
 		// parries can chain together as long as there's a hit every 0.5 seconds
