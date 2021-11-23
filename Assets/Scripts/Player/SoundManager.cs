@@ -49,10 +49,6 @@ public class SoundManager : MonoBehaviour {
 		sm.worldAudio.PlayOneShot(s);
 	}
 
-	public static void PlaySound(AudioClip s) {
-		sm.a.PlayOneShot(s);
-	}
-
 	public static void HitSound() {
 		sm.a.PlayOneShot(sm.hit);
 	}
@@ -115,7 +111,7 @@ public class SoundManager : MonoBehaviour {
 
 	public static void PlayIfClose(AudioClip s, GameObject g) {
 		if (Vector2.Distance(g.transform.position, GlobalController.audioListener.transform.position) < soundRadius) {
-			PlaySound(s);
+			WorldSound(s);
 		}
 	}
 
