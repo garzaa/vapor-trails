@@ -15,13 +15,18 @@ public class PlayerGroundCheck : MonoBehaviour {
     bool grounded;
     bool onLedge;
     Vector2 currentNormal = Vector2.up;
+    Vector2 bottomCenter;
+    Vector2 overlapBoxSize;
     GameObject currentGround;
 
     List<RaycastHit2D>platforms = new List<RaycastHit2D>();
     List<RaycastHit2D> nonPlatforms = new List<RaycastHit2D>();
 
-    void Awake() {
+    void Start() {
         defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
+        overlapBoxSize = new Vector2();
+        // 1 pixel down from the bottom of the player collider
+        overlapBoxSize.y = 0.04f;
     }
 
     void Update() {
@@ -29,11 +34,8 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         leftGrounded = LeftGrounded();
         rightGrounded = RightGrounded();
-        grounded = leftGrounded || rightGrounded;
+        grounded = detecting && Grounded();
         onLedge = leftGrounded ^ rightGrounded;
-
-        grounded = grounded && detecting;
-        
 
         if (groundData.grounded && !grounded) {
             groundData.leftGround = true;
@@ -78,6 +80,26 @@ public class PlayerGroundCheck : MonoBehaviour {
         }
 
         return platforms;
+    }
+
+    bool Grounded() {
+        // this can change based on animation state, so recompute it here to be safe
+        overlapBoxSize.x = playerCollider.bounds.size.x;
+
+        // get bottom center of box collider
+        bottomCenter = (Vector2) playerCollider.bounds.center + (Vector2.down * playerCollider.bounds.extents.y);
+
+        Bounds bounds = new Bounds(bottomCenter, overlapBoxSize);
+        UtilityMethods.DrawBox(bounds, Color.magenta);
+
+        Collider2D hit = Physics2D.OverlapBox(
+            bottomCenter,
+            overlapBoxSize,
+            0,
+            defaultLayerMask
+        );
+
+        return hit != null;
     }
 
     RaycastHit2D[] GetPlatforms(Vector2 corner) {

@@ -68,4 +68,26 @@
 		}
 		return name;
 	}
+
+    public static void DrawBox(Bounds bounds, Color color) {
+        Vector2 corner1;
+        corner1.x = bounds.min.x;
+        corner1.y = bounds.max.y;
+        Vector2 corner2 = corner1;
+        corner2.x = bounds.max.x;
+        Debug.DrawLine(corner1, corner2, color);
+
+        corner1 = corner2;
+        corner2.y = bounds.min.y;
+        Debug.DrawLine(corner1, corner2, color);
+
+        corner1 = corner2;
+        corner2.x = bounds.min.x;
+        corner2.y = bounds.min.y;
+        Debug.DrawLine(corner1, corner2, color);
+
+        corner1 = corner2;
+        corner2.y = bounds.max.y;
+        Debug.DrawLine(corner1, corner2, color);
+    }
  }
