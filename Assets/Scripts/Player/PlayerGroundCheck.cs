@@ -89,9 +89,6 @@ public class PlayerGroundCheck : MonoBehaviour {
         // get bottom center of box collider
         bottomCenter = (Vector2) playerCollider.bounds.center + (Vector2.down * playerCollider.bounds.extents.y);
 
-        Bounds bounds = new Bounds(bottomCenter, overlapBoxSize);
-        UtilityMethods.DrawBox(bounds, Color.magenta);
-
         Collider2D hit = Physics2D.OverlapBox(
             bottomCenter,
             overlapBoxSize,
