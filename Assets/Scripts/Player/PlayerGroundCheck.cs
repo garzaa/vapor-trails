@@ -12,6 +12,7 @@ public class PlayerGroundCheck : MonoBehaviour {
 
     RaycastHit2D leftGrounded;
     RaycastHit2D rightGrounded;
+    Collider2D groundCollider;
     bool grounded;
     bool onLedge;
     Vector2 currentNormal = Vector2.up;
@@ -34,7 +35,8 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         leftGrounded = LeftGrounded();
         rightGrounded = RightGrounded();
-        grounded = detecting && Grounded();
+        groundCollider = Grounded();
+        grounded = detecting && (groundCollider != null);
         onLedge = leftGrounded ^ rightGrounded;
 
         if (groundData.grounded && !grounded) {
@@ -56,8 +58,8 @@ public class PlayerGroundCheck : MonoBehaviour {
         groundData.normal = currentNormal;
         groundData.normalRotation = Vector2.SignedAngle(Vector2.up, currentNormal);
 
-        if (grounded) {
-            groundData.groundObject = (leftGrounded ? leftGrounded : rightGrounded).collider.gameObject;
+        if (groundCollider != null) {
+            groundData.groundObject = groundCollider.gameObject;
         }
     }
 
@@ -82,7 +84,7 @@ public class PlayerGroundCheck : MonoBehaviour {
         return platforms;
     }
 
-    bool Grounded() {
+    Collider2D Grounded() {
         // this can change based on animation state, so recompute it here to be safe
         overlapBoxSize.x = playerCollider.bounds.size.x;
 
@@ -96,7 +98,7 @@ public class PlayerGroundCheck : MonoBehaviour {
             defaultLayerMask
         );
 
-        return hit != null;
+        return hit;
     }
 
     RaycastHit2D[] GetPlatforms(Vector2 corner) {

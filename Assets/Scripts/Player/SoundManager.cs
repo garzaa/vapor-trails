@@ -45,7 +45,6 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	public static void WorldSound(AudioClip s) {
-		sm.worldAudio.pitch = 1f + Random.Range(-0.1f, 0.1f);
 		sm.worldAudio.PlayOneShot(s);
 	}
 
