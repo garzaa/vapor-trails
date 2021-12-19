@@ -7,7 +7,7 @@ using System.Collections.Generic;
 // TEXTURES THIS USES HAVE TO BE READABLE
 // https://www.scale2x.it/algorithm
 public class SpriteSmoother : MonoBehaviour {
-	const float scaleFactor = 8f;
+	const float scaleFactor = 4f;
 
 	// build a mapping of sprites to their upscaled versions
 	Dictionary<string, Texture2D> upscaledTextures = new Dictionary<string, Texture2D>();
@@ -31,11 +31,11 @@ public class SpriteSmoother : MonoBehaviour {
 		if (!GlobalController.save.options.upsample) {
 			return new Task<AsyncTexture>(() => input);
 		}
-		return Scale8x(input);
+		return Scale4x(input);
 	}
 
-	async Task<AsyncTexture> Scale8x(AsyncTexture input) {
-		AsyncTexture t = await Task.Run(() => Scale2x(Scale2x(Scale2x(input))));
+	async Task<AsyncTexture> Scale4x(AsyncTexture input) {
+		AsyncTexture t = await Task.Run(() => Scale2x(Scale2x(input)));
 		return t;
 	}
 
@@ -78,25 +78,25 @@ public class SpriteSmoother : MonoBehaviour {
 		return Mathf.Approximately(a.r, b.r) && Mathf.Approximately(a.g, b.g) && Mathf.Approximately(a.b, b.b) && Mathf.Approximately(a.a, b.a);
 	}
 
-	public Sprite GetUpscaledSprite(Sprite s) {
+	public Sprite GetUpscaledSprite(Sprite s, SmoothSpriteChild caller) {
 		// if the sprite is upscaled, then return its counterpart
 		if (upscaledSprites.ContainsKey(s.name)) {
  			return upscaledSprites[s.name];
 		}
 
 		string textureName = s.texture.name;
-		if (!upscaledTextures.ContainsKey(textureName)) { 
+		if (!upscaledTextures.ContainsKey(textureName)) {
 			if (!queuedTextures.Contains(textureName)) {
 				queuedTextures.Add(textureName);
-
+				Debug.Log("upscaling texture "+textureName+" from "+caller.gameObject.name);
 				AddUpscaledTexture(new AsyncTexture(s.texture.GetPixels(), new Vector2Int(s.texture.width, s.texture.height)), textureName);
 			}
 			return s;
+		} else {
+			Sprite upscaled = ExtractSprite(s, upscaledTextures[textureName]);
+			upscaledSprites.Add(s.name, upscaled);
+			return upscaled;
 		}
-		Sprite upscaled = ExtractSprite(s, upscaledTextures[textureName]);
-		upscaledSprites.Add(s.name, upscaled);
-
-		return upscaled;
 	}
 
 	async void AddUpscaledTexture(AsyncTexture texture, string name) {
@@ -106,10 +106,11 @@ public class SpriteSmoother : MonoBehaviour {
 		upscaled.mipMapBias = -10;
 		upscaled.SetPixels(upscaledAsync.GetPixels());
 		upscaled.Apply(true, false);
+		upscaled.name = name;
 		upscaledTextures[name] = upscaled;
 		queuedTextures.Remove(name);
 
-		// don't do weird shit if the editor exits play mode
+		// abort the loop if the editor exits play mode
 		if (!Application.isPlaying) return;
 
 		foreach (SmoothSpriteChild c in children) {
@@ -133,6 +134,8 @@ public class SpriteSmoother : MonoBehaviour {
 			original.border,
 			false
 		);
+
+		upscaled.name = original.name;
 
 		return upscaled;
 	}

@@ -10,7 +10,7 @@ public class SmoothSpriteChild : MonoBehaviour {
 	public void Initialize(SpriteSmoother s) {
 		this.spriteSmoother = s;
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite);
+		spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite, this);
 		spriteLastFrame = spriteRenderer.sprite.name;
 	}
 
@@ -19,13 +19,14 @@ public class SmoothSpriteChild : MonoBehaviour {
 		// sprites may differ every frame due to some animator keying, or they may not
 		// so for performance reasons just check every frame, and optimize the check if needed
 		if (spriteRenderer.sprite.name != spriteLastFrame) {
-			spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite);
+			spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite, this);
 		}
 
 		spriteLastFrame = spriteRenderer.sprite.name;
 	}
 
 	public void ForceUpscaledSprite() {
-		spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite);
+		spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite, this);
+		spriteLastFrame = spriteRenderer.sprite.name;
 	}
 }
