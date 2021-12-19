@@ -7,7 +7,7 @@ using System.Collections.Generic;
 // TEXTURES THIS USES HAVE TO BE READABLE
 // https://www.scale2x.it/algorithm
 public class SpriteSmoother : MonoBehaviour {
-	const float scaleFactor = 4f;
+	const float scaleFactor = 8f;
 
 	// build a mapping of sprites to their upscaled versions
 	Dictionary<string, Texture2D> upscaledTextures = new Dictionary<string, Texture2D>();
@@ -31,11 +31,11 @@ public class SpriteSmoother : MonoBehaviour {
 		if (!GlobalController.save.options.upsample) {
 			return new Task<AsyncTexture>(() => input);
 		}
-		return Scale4x(input);
+		return Scale8x(input);
 	}
 
-	async Task<AsyncTexture> Scale4x(AsyncTexture input) {
-		AsyncTexture t = await Task.Run(() => Scale2x(Scale2x(input)));
+	async Task<AsyncTexture> Scale8x(AsyncTexture input) {
+		AsyncTexture t = await Task.Run(() => Scale2x(Scale2x(Scale2x(input))));
 		return t;
 	}
 
