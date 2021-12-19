@@ -9,6 +9,7 @@ public class GameOptions {
     public int inputBuffer = 8;
     public float lookaheadRatio = 1f;
     public bool timer = false;
+    public bool upsample = true;
     
     bool fullscreen = true;
 
@@ -21,6 +22,7 @@ public class GameOptions {
         fullscreen = LoadBool("Fullscreen");
         lookaheadRatio = LoadInt("LookaheadRatio");
         timer = LoadBool("Timer");
+        upsample = LoadBool("Upsample");
     
         Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");

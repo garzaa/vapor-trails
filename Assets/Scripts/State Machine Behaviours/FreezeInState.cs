@@ -11,6 +11,8 @@ public class FreezeInState : StateMachineBehaviour {
 		PlayerController pc = animator.GetComponent<PlayerController>();
 		if (!pc.inCutscene && onEnter) {
 			animator.GetComponent<PlayerController>().Freeze();
+		} else if (!onEnter && !during) {
+			animator.GetComponent<PlayerController>().UnFreeze();
 		}
 	}
 
