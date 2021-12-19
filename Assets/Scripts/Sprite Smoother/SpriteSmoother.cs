@@ -4,12 +4,10 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-// TEXTURES THIS USES HAVE TO BE READABLE
-// https://www.scale2x.it/algorithm
+// TEXTURES THIS USES HAVE TO BE READABLE IN IMPORT SETTINGS
 public class SpriteSmoother : MonoBehaviour {
 	const float scaleFactor = 4f;
 
-	// build a mapping of sprites to their upscaled versions
 	Dictionary<string, Texture2D> upscaledTextures = new Dictionary<string, Texture2D>();
 	Dictionary<string, Sprite> upscaledSprites = new Dictionary<string, Sprite>();
 	HashSet<string> queuedTextures = new HashSet<string>();
@@ -21,6 +19,9 @@ public class SpriteSmoother : MonoBehaviour {
 			return;
 		}
 		foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {
+			if (s.GetComponent<NoSmoothSprite>()) {
+				continue;
+			}
 			SmoothSpriteChild smoothSprite = s.gameObject.AddComponent<SmoothSpriteChild>();
 			smoothSprite.Initialize(this);
 			children.Add(smoothSprite);
@@ -28,9 +29,6 @@ public class SpriteSmoother : MonoBehaviour {
 	}
 
 	Task<AsyncTexture> UpscaleTexture(AsyncTexture input) {
-		if (!GlobalController.save.options.upsample) {
-			return new Task<AsyncTexture>(() => input);
-		}
 		return Scale4x(input);
 	}
 
@@ -75,11 +73,14 @@ public class SpriteSmoother : MonoBehaviour {
 	}
 
 	bool SameColor(Color a, Color b) {
-		return Mathf.Approximately(a.r, b.r) && Mathf.Approximately(a.g, b.g) && Mathf.Approximately(a.b, b.b) && Mathf.Approximately(a.a, b.a);
+		return 
+			Mathf.Approximately(a.r, b.r)
+			&& Mathf.Approximately(a.g, b.g)
+			&& Mathf.Approximately(a.b, b.b)
+			&& Mathf.Approximately(a.a, b.a);
 	}
 
 	public Sprite GetUpscaledSprite(Sprite s, SmoothSpriteChild caller) {
-		// if the sprite is upscaled, then return its counterpart
 		if (upscaledSprites.ContainsKey(s.name)) {
  			return upscaledSprites[s.name];
 		}
@@ -89,7 +90,11 @@ public class SpriteSmoother : MonoBehaviour {
 			if (!queuedTextures.Contains(textureName)) {
 				queuedTextures.Add(textureName);
 				Debug.Log("upscaling texture "+textureName+" from "+caller.gameObject.name);
-				AddUpscaledTexture(new AsyncTexture(s.texture.GetPixels(), new Vector2Int(s.texture.width, s.texture.height)), textureName);
+				AddUpscaledTexture(
+					new AsyncTexture(s.texture.GetPixels(),
+					new Vector2Int(s.texture.width, s.texture.height)),
+					textureName
+				);
 			}
 			return s;
 		} else {
@@ -120,7 +125,6 @@ public class SpriteSmoother : MonoBehaviour {
 
 	Sprite ExtractSprite(Sprite original, Texture2D upscaledAtlas) {
 		Rect spriteRect = original.rect;
-		// upscale the bits individually
 		spriteRect.position *= scaleFactor;
 		spriteRect.size *= scaleFactor;
 
