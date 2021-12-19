@@ -24,4 +24,8 @@ public class SmoothSpriteChild : MonoBehaviour {
 
 		spriteLastFrame = spriteRenderer.sprite.name;
 	}
+
+	public void ForceUpscaledSprite() {
+		spriteRenderer.sprite = spriteSmoother.GetUpscaledSprite(spriteRenderer.sprite);
+	}
 }
