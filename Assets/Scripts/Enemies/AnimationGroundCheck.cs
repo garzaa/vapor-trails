@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationGroundCheck : GroundCheck {
+[RequireComponent(typeof(GroundCheck))]
+public class AnimationGroundCheck : MonoBehaviour {
 
 	Animator animator;
 	bool touchingLedgeLastFrame;
-	public bool flipOnLedgeStep;
+	public bool flipOnLedgeStep = true;
+	GroundData groundData;
 
-	public float lastFlipTime;
+	float lastFlipTime;
 	float flipInterval = 0.5f;
+	Entity entity;
 
-	new void Start() {
-		base.Start();
+	void Start() {
 		animator = GetComponent<Animator>();
 		animator.logWarnings = false;
 		entity = animator.GetComponent<Entity>();
+		groundData = GetComponent<GroundCheck>().groundData;
 	}
 	
 	void Update() {
-		bool onLedge = OnLedge();
-		if (!touchingLedgeLastFrame && onLedge) {
+		if (groundData.ledgeStep) {
 			animator.SetTrigger("LedgeStep");
+			if (flipOnLedgeStep && groundData.onLedge && (Time.unscaledTime > lastFlipTime+flipInterval)) {
+				entity.Flip();
+				lastFlipTime = Time.unscaledTime;
+			}
 		}
-		animator.SetBool("Grounded", IsGrounded());
-		animator.SetBool("TouchingLedge", onLedge);
-		if (flipOnLedgeStep && onLedge && (Time.unscaledTime> lastFlipTime+flipInterval)) {
-			entity.Flip();
-			lastFlipTime = Time.unscaledTime;
-		}
-		touchingLedgeLastFrame = onLedge;
+		animator.SetBool("Grounded", groundData.grounded);
 	}
 }

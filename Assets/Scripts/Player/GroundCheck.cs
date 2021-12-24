@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class PlayerGroundCheck : MonoBehaviour {
+public class GroundCheck : MonoBehaviour {
     public GroundData groundData = new GroundData();
     [SerializeField] bool detecting = true;
     
-    Collider2D playerCollider;
+    Collider2D col;
 
     int defaultLayerMask;
 
@@ -24,7 +24,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     List<RaycastHit2D> nonPlatforms = new List<RaycastHit2D>();
 
     void Start() {
-        playerCollider = GetComponent<Collider2D>();
+        col = GetComponent<Collider2D>();
         defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
         overlapBoxSize = new Vector2();
         // 1 pixel down from the bottom of the player collider
@@ -67,8 +67,8 @@ public class PlayerGroundCheck : MonoBehaviour {
     List<RaycastHit2D> TouchingPlatforms() {
         platforms.Clear();
 
-        platforms.AddRange(GetPlatforms(playerCollider.BottomLeftCorner()));
-        platforms.AddRange(GetPlatforms(playerCollider.BottomRightCorner()));
+        platforms.AddRange(GetPlatforms(col.BottomLeftCorner()));
+        platforms.AddRange(GetPlatforms(col.BottomRightCorner()));
 
         nonPlatforms.Clear();
 
@@ -87,10 +87,10 @@ public class PlayerGroundCheck : MonoBehaviour {
 
     Collider2D GetGroundCollider() {
         // this can change based on animation state, so recompute it here to be safe
-        overlapBoxSize.x = playerCollider.bounds.size.x * 0.95f;
+        overlapBoxSize.x = col.bounds.size.x * 0.95f;
 
         // get bottom center of box collider
-        bottomCenter = (Vector2) playerCollider.bounds.center + (Vector2.down * playerCollider.bounds.extents.y);
+        bottomCenter = (Vector2) col.bounds.center + (Vector2.down * col.bounds.extents.y);
 
         Collider2D hit = Physics2D.OverlapBox(
             bottomCenter,
@@ -113,11 +113,11 @@ public class PlayerGroundCheck : MonoBehaviour {
     }
 
     RaycastHit2D LeftGrounded() {
-        return DefaultLinecast(playerCollider.BottomLeftCorner());
+        return DefaultLinecast(col.BottomLeftCorner());
     }
 
     RaycastHit2D RightGrounded() {
-        return DefaultLinecast(playerCollider.BottomRightCorner());
+        return DefaultLinecast(col.BottomRightCorner());
     }
 
     void RefreshGroundData(GroundData groundData) {

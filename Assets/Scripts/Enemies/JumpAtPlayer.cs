@@ -7,7 +7,7 @@ public class JumpAtPlayer : EnemyBehavior {
 	public float scaleX = 3f;
 	public float scaleY = 5f;
 
-	public bool grounded = false;
+	GroundData groundData;
 
 	bool jumpTrigger = false;
 
@@ -16,11 +16,12 @@ public class JumpAtPlayer : EnemyBehavior {
 	public override void ExtendedStart() {
 		StartCoroutine(JumpTimeout());
 		e = GetComponent<Entity>();
+		groundData = GetComponent<GroundCheck>().groundData;
 	}
 
 	IEnumerator JumpTimeout() {
 		yield return new WaitForSeconds(jumpCooldown);
-		if (!mainController.frozen && playerDistance < maxSeekThreshold && grounded) {
+		if (!mainController.frozen && playerDistance < maxSeekThreshold && groundData.grounded) {
 			jumpTrigger = true;
 		} 
 		StartCoroutine(JumpTimeout());
@@ -55,15 +56,4 @@ public class JumpAtPlayer : EnemyBehavior {
 			e.Flip();
 		}
 	}
-
-	public override void OnGroundHit() {
-		anim.SetBool("Grounded", true);
-		grounded = true;
-	}
-
-	public override void OnGroundLeave() {
-		anim.SetBool("Grounded", false);
-		grounded = false;
-	}
-
 }

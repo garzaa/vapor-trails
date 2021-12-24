@@ -5536,7 +5536,7 @@ GameObject:
   - component: {fileID: 3496745243720871397}
   - component: {fileID: 3496745243720871399}
   - component: {fileID: 3496745243720871384}
-  - component: {fileID: 3496745243720871398}
+  - component: {fileID: 2755939448199983936}
   - component: {fileID: 3496745243720871386}
   - component: {fileID: 3496745243720871385}
   - component: {fileID: 3496745243720871387}
@@ -5544,6 +5544,7 @@ GameObject:
   - component: {fileID: 6216703468640532514}
   - component: {fileID: 2674993368644153512}
   - component: {fileID: 9136444920704847435}
+  - component: {fileID: 4938244145896439321}
   m_Layer: 12
   m_Name: Sword Sludge
   m_TagString: Untagged
@@ -5633,8 +5634,8 @@ MonoBehaviour:
   activatables: []
   npcs: []
   particleSystems: []
---- !u!61 &3496745243720871398
-BoxCollider2D:
+--- !u!70 &2755939448199983936
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5646,19 +5647,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.0016967058}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.30824766, y: 0.64001536}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.001696706}
+  m_Size: {x: 0.3082477, y: 0.6400154}
+  m_Direction: 0
 --- !u!95 &3496745243720871386
 Animator:
   serializedVersion: 3
@@ -5758,14 +5749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
   flipOnLedgeStep: 1
-  lastFlipTime: 0
 --- !u!114 &9136444920704847435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5779,6 +5763,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3496745243720871386}
+--- !u!114 &4938244145896439321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3496745243720871396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!1 &3496745243920895337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5826,6 +5832,7 @@ MonoBehaviour:
   parentObject: {fileID: 3496745243720871396}
   hitEffect: {fileID: 0}
   overrideHitEffect: 0
+  overrideHitSound: 0
   hitSound: {fileID: 0}
   overrideTargetPosition: 0
 --- !u!61 &3496745243920895340

@@ -1361,14 +1361,14 @@ GameObject:
   - component: {fileID: 5693195814457667920}
   - component: {fileID: 5693195814457667922}
   - component: {fileID: 5693195814457667949}
-  - component: {fileID: 5693195814457667923}
+  - component: {fileID: 6791761365480095444}
   - component: {fileID: 5693195814457667951}
   - component: {fileID: 5693195814457667948}
   - component: {fileID: 5693195814457667950}
   - component: {fileID: 5693195814457667945}
   - component: {fileID: 3009124688874464407}
-  - component: {fileID: 4339381593510908640}
-  - component: {fileID: 4794930244464348408}
+  - component: {fileID: 6165439131781517380}
+  - component: {fileID: 2396080496113537894}
   m_Layer: 12
   m_Name: Buff Sludge
   m_TagString: Untagged
@@ -1457,8 +1457,8 @@ MonoBehaviour:
   activatables: []
   npcs: []
   particleSystems: []
---- !u!61 &5693195814457667923
-BoxCollider2D:
+--- !u!70 &6791761365480095444
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1470,19 +1470,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.028070688}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
+  m_Offset: {x: 0, y: -0.02807069}
   m_Size: {x: 0.5757941, y: 0.5872674}
-  m_EdgeRadius: 0
+  m_Direction: 0
 --- !u!95 &5693195814457667951
 Animator:
   serializedVersion: 3
@@ -1570,7 +1560,7 @@ MonoBehaviour:
   animator: {fileID: 5693195814457667951}
   absoluteX: 1
   running: 0
---- !u!114 &4339381593510908640
+--- !u!114 &6165439131781517380
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1579,16 +1569,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5693195814457667921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cf9c19660536974faf627fe565d705a, type: 3}
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
---- !u!114 &4794930244464348408
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
+--- !u!114 &2396080496113537894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1600,12 +1594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
   flipOnLedgeStep: 1
   lastFlipTime: 0
 --- !u!1 &5693195814542283228

@@ -12,7 +12,7 @@ public class LedgePop : MonoBehaviour {
     Vector2 boxPos;
     PlayerController player;
 
-    PlayerGroundCheck groundCheck;
+    GroundCheck groundCheck;
 
     void Start() {
         col = GetComponent<Collider2D>();
@@ -20,7 +20,7 @@ public class LedgePop : MonoBehaviour {
         layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 
         player = GetComponent<PlayerController>();
-        groundCheck = GetComponent<PlayerGroundCheck>();
+        groundCheck = GetComponent<GroundCheck>();
     }
 
     void Update() {

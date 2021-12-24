@@ -73,6 +73,7 @@ MonoBehaviour:
   parentObject: {fileID: 0}
   hitEffect: {fileID: 0}
   overrideHitEffect: 0
+  overrideHitSound: 0
   hitSound: {fileID: 0}
   overrideTargetPosition: 1
 --- !u!1 &1516130600982452
@@ -85,12 +86,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4197224728324444}
   - component: {fileID: 212466818479964612}
-  - component: {fileID: 61282713860480152}
+  - component: {fileID: 1596996181340437115}
   - component: {fileID: 50999782053628186}
   - component: {fileID: 95802058150000348}
   - component: {fileID: 114796344026389494}
   - component: {fileID: 114835370444470916}
   - component: {fileID: 114067602379542934}
+  - component: {fileID: 2649531139523761644}
   m_Layer: 12
   m_Name: Jumping Sludge
   m_TagString: Untagged
@@ -164,8 +166,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &61282713860480152
-BoxCollider2D:
+--- !u!70 &1596996181340437115
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -177,19 +179,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.22839019}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 0.64, y: 0.64}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4266963, y: 0.18321961}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: -0.13}
+  m_Size: {x: 0.58, y: 0.37}
+  m_Direction: 1
 --- !u!50 &50999782053628186
 Rigidbody2D:
   serializedVersion: 4
@@ -279,15 +271,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516130600982452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cf9c19660536974faf627fe565d705a, type: 3}
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!114 &114067602379542934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +307,19 @@ MonoBehaviour:
   scaleX: 3
   scaleY: 5
   grounded: 0
+--- !u!114 &2649531139523761644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516130600982452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flipOnLedgeStep: 1
 --- !u!1 &1685705977747940
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Spiked Sludgeball
   damage: 1
-  attackLandSound: {fileID: 8300000, guid: a990f36b8af24084ab36ab2506d168d5, type: 3}
+  attackLandSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0

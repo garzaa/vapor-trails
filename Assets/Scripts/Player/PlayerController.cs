@@ -113,7 +113,7 @@ public class PlayerController : Entity {
 	GameObject instantiatedSparkle = null;
 	GameObject diamondShine;
 	GameEvent deathEvent;
-	PlayerGroundCheck groundCheck;
+	GroundCheck groundCheck;
 	PlayerGrabber playerGrabber;
 
 
@@ -151,7 +151,7 @@ public class PlayerController : Entity {
 		airAttackTracker = GetComponent<AirAttackTracker>();
 		RefreshAirMovement();
 		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
-		groundCheck = GetComponent<PlayerGroundCheck>();
+		groundCheck = GetComponent<GroundCheck>();
 		groundData = groundCheck.groundData;
 		LoadFromSaveData(GlobalController.save);
 		EnableTriggers();

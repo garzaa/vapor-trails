@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 25246552351322170}
   - component: {fileID: 25246552351322173}
-  - component: {fileID: 25246552351322169}
   - component: {fileID: 25246552351322168}
   - component: {fileID: 25246552351323079}
   - component: {fileID: 25246552351323078}
@@ -18,6 +17,7 @@ GameObject:
   - component: {fileID: 25246552351322172}
   - component: {fileID: 25246552351322171}
   - component: {fileID: 5456746652858171824}
+  - component: {fileID: 3895889239314480056}
   m_Layer: 12
   m_Name: Mr. Crab
   m_TagString: Untagged
@@ -56,35 +56,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.16352832}
-  m_Size: {x: 0.5371819, y: 0.57012534}
-  m_Direction: 0
---- !u!61 &25246552351322169
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 25246552351323076}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.02693367, y: 0.03629449}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.8100014, y: 0.26014072}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: 0.03629449}
+  m_Size: {x: 0.8100014, y: 0.2601407}
+  m_Direction: 1
 --- !u!114 &25246552351322168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,14 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 0
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 1
-  collidertoUse: {fileID: 25246552351322169}
   flipOnLedgeStep: 1
-  lastFlipTime: 0
 --- !u!114 &25246552351322171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +210,28 @@ MonoBehaviour:
   facingRight: 0
   target: {fileID: 0}
   threshold: 0.2
+--- !u!114 &3895889239314480056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25246552351323076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!1 &25246552419082919
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,6 +729,7 @@ MonoBehaviour:
   parentObject: {fileID: 25246552351323076}
   hitEffect: {fileID: 0}
   overrideHitEffect: 0
+  overrideHitSound: 0
   hitSound: {fileID: 0}
   overrideTargetPosition: 0
   hitEvent:
