@@ -6,7 +6,7 @@ public class LedgePop : MonoBehaviour {
     const float speedMultiplier = 0.5f;
     const float yspeedCutoff = 2.5f;
 
-    BoxCollider2D box;
+    Collider2D col;
     Rigidbody2D rb;
     int layerMask;
     Vector2 boxPos;
@@ -15,7 +15,7 @@ public class LedgePop : MonoBehaviour {
     PlayerGroundCheck groundCheck;
 
     void Start() {
-        box = GetComponent<BoxCollider2D>();
+        col = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 
@@ -26,14 +26,14 @@ public class LedgePop : MonoBehaviour {
     void Update() {
         if (Mathf.Abs(rb.velocity.x) < 0.2f) return;
         if (groundCheck != null && groundCheck.groundData.grounded) return;
-        boxPos = (Vector2) box.transform.position + box.offset;
+        boxPos = (Vector2) col.transform.position + col.offset;
         CheckPopX();
     }
 
     void CheckPopX() {
         float speed = rb.velocity.x;
         Vector2 forward = Vector2.right * Mathf.Sign(speed);
-        float distance = (box.size.x/2f)+(castDistance * speed * speedMultiplier);
+        float distance = (col.bounds.size.x/2f)+(castDistance * speed * speedMultiplier);
 
         CheckPop(Vector2.up, forward, distance);
     }
@@ -43,7 +43,7 @@ public class LedgePop : MonoBehaviour {
         RaycastHit2D hit = Physics2D.BoxCast(
             origin: boxPos,
             // don't pick up what the box is currently touching
-            size: box.size - new Vector2(0.01f, 0.01f),
+            size: (Vector2) col.bounds.size - new Vector2(0.01f, 0.01f),
             angle: 0,
             direction: forward,
             distance: distance,
@@ -58,7 +58,7 @@ public class LedgePop : MonoBehaviour {
 
         hit = Physics2D.BoxCast(
             origin: boxPos + pop*2,
-            size: box.size - pop,
+            size: (Vector2) col.bounds.size - pop,
             angle: 0,
             direction: forward,
             distance: distance,

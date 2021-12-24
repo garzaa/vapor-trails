@@ -18,9 +18,11 @@ public class Entity : MonoBehaviour {
     public bool envDmgSusceptible = true;
 
     GameObject dust;
+    Collider2D col;
 
     protected virtual void OnEnable() {
         dust = (GameObject) Resources.Load("Effects/dustR");
+        col = GetComponent<Collider2D>();
     }
 
     public virtual void Flip() {
@@ -147,11 +149,10 @@ public class Entity : MonoBehaviour {
 	}
 
     float ColliderBottom() {
-        BoxCollider2D bc2d = GetComponent<BoxCollider2D>();
-        if (bc2d == null) {
+        if (col == null) {
             return 0;
         }
-        return bc2d.bounds.min.y;
+        return col.bounds.min.y;
     }
 
 	public void ForwardDust() {

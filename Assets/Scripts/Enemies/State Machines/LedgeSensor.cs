@@ -10,7 +10,7 @@ public class LedgeSensor : Sensor {
 
     new void Start() {
         base.Start();
-        size = GetComponent<BoxCollider2D>().bounds.size * 0.75f;
+        size = GetComponent<Collider2D>().bounds.size * 0.75f;
         layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
         wallDistance = GetComponent<WallSensor>().distance;
     }

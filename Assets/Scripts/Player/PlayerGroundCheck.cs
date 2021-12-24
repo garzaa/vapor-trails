@@ -6,7 +6,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     public GroundData groundData = new GroundData();
     [SerializeField] bool detecting = true;
     
-    public BoxCollider2D playerCollider;
+    Collider2D playerCollider;
 
     int defaultLayerMask;
 
@@ -24,6 +24,7 @@ public class PlayerGroundCheck : MonoBehaviour {
     List<RaycastHit2D> nonPlatforms = new List<RaycastHit2D>();
 
     void Start() {
+        playerCollider = GetComponent<Collider2D>();
         defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
         overlapBoxSize = new Vector2();
         // 1 pixel down from the bottom of the player collider
@@ -35,8 +36,8 @@ public class PlayerGroundCheck : MonoBehaviour {
 
         leftGrounded = LeftGrounded();
         rightGrounded = RightGrounded();
-        groundCollider = Grounded();
-        grounded = detecting && (groundCollider != null);
+        groundCollider = GetGroundCollider();
+        grounded = detecting && (leftGrounded || rightGrounded);//(groundCollider != null);
         onLedge = leftGrounded ^ rightGrounded;
 
         if (groundData.grounded && !grounded) {
@@ -84,9 +85,9 @@ public class PlayerGroundCheck : MonoBehaviour {
         return platforms;
     }
 
-    Collider2D Grounded() {
+    Collider2D GetGroundCollider() {
         // this can change based on animation state, so recompute it here to be safe
-        overlapBoxSize.x = playerCollider.bounds.size.x;
+        overlapBoxSize.x = playerCollider.bounds.size.x * 0.95f;
 
         // get bottom center of box collider
         bottomCenter = (Vector2) playerCollider.bounds.center + (Vector2.down * playerCollider.bounds.extents.y);
@@ -136,10 +137,10 @@ public class PlayerGroundCheck : MonoBehaviour {
         );
 
         if (hit.transform != null) {
-            Debug.DrawLine(start, hit.point);
+            Debug.DrawLine(start, hit.point, Color.red);
             return hit.normal;
         } else {
-            Debug.DrawLine(start, end);
+            Debug.DrawLine(start, end, Color.green);
             return Vector2.up;
         }
     }
@@ -148,7 +149,7 @@ public class PlayerGroundCheck : MonoBehaviour {
         Vector2 start = origin + Vector2.up * 0.05f;
         Vector2 end = origin + (-currentNormal * 0.1f);
 
-        Debug.DrawLine(start, end);
+        Debug.DrawLine(start, end, Color.red);
         return Physics2D.Linecast(
             start,
             end,

@@ -14,8 +14,8 @@ public class ForcedInteractTrigger : PlayerTriggeredObject {
 			i = GetComponentInChildren<Interactable>();
 		}
 		//keep the player from interacting with it somehow, unless it's the actual interaction trigger
-		if (i.GetComponent<BoxCollider2D>() != null && i.transform != this.transform) {
-			i.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+		if (i.GetComponent<Collider2D>() != null && i.transform != this.transform) {
+			i.gameObject.GetComponent<Collider2D>().enabled = false;
 		}
 	}
 
@@ -25,8 +25,8 @@ public class ForcedInteractTrigger : PlayerTriggeredObject {
 			interactedOnce = true;
 
 			if (unpairAfterInteract) {
-				if (i.GetComponent<BoxCollider2D>() != null) {
-					i.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+				if (i.GetComponent<Collider2D>() != null) {
+					i.gameObject.GetComponent<Collider2D>().enabled = true;
 				}
 				i.transform.parent = null;
 				gameObject.SetActive(false);

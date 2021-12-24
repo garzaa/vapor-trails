@@ -20,15 +20,15 @@ public class GroundCheck : MonoBehaviour {
 	int defaultLayerMask;
 
 	public bool constantlyUseCollider = false;
-	public BoxCollider2D collidertoUse;
+	public Collider2D collidertoUse;
 
 	PlayerController player;
 
 	protected void Start() {
 		defaultLayerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 		if (generateFromCollider && !constantlyUseCollider) {
-			BoxCollider2D bc = GetComponent<BoxCollider2D>();
-			Vector2 center = bc.offset;
+			Collider2D bc = GetComponent<Collider2D>();
+			Vector2 center = bc.bounds.center;
 			float radiusX = bc.bounds.extents.x;
 			float radiusY = bc.bounds.extents.y;
 			
@@ -69,10 +69,10 @@ public class GroundCheck : MonoBehaviour {
 		if (!constantlyUseCollider) return LeftGrounded() || RightGrounded();
 		else {
 			Vector2 origin = (Vector2) collidertoUse.transform.position + collidertoUse.offset;
-			origin.y -= collidertoUse.size.y/2f;
+			origin.y -= collidertoUse.bounds.size.y/2f;
 			RaycastHit2D hit = Physics2D.BoxCast(
 				origin,
-				collidertoUse.size * new Vector2(0.9f, .1f),
+				collidertoUse.bounds.size * new Vector2(0.9f, .1f),
 				0f,
 				Vector2.down,
 				0.05f,

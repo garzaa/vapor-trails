@@ -7,17 +7,17 @@ public class WallSensor : Sensor {
 	public bool autoFlip = false;
 	public bool nearWall;
 
-	BoxCollider2D bc;
+	Collider2D col;
 	int layerMask;
 
 	new void Start() {
 		base.Start();
-		bc = GetComponent<BoxCollider2D>();
+		col = GetComponent<Collider2D>();
 		layerMask = 1 << LayerMask.NameToLayer(Layers.Ground);
 	}
 
 	void LateUpdate() {
-		Vector2 start = new Vector2(bc.transform.position.x+bc.offset.x, bc.bounds.min.y+0.05f);
+		Vector2 start = new Vector2(col.transform.position.x+col.offset.x, col.bounds.min.y+0.05f);
 
 		RaycastHit2D hit = Physics2D.Raycast(
 			start,

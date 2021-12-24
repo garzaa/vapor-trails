@@ -4,7 +4,7 @@ using UnityEngine;
 public class SpriteRigger : MonoBehaviour {
     public Texture2D spriteAtlas;
     
-    void OnEnable() {
+    void Awake() {
         if (spriteAtlas != null) ApplyAtlas();
     }
 

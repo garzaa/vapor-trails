@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallCheck : MonoBehaviour {
 
 	#pragma warning disable 0649
-	[SerializeField] BoxCollider2D targetCollider;
+	[SerializeField] Collider2D targetCollider;
 	[SerializeField] float groundGap = 0.06f;
 	#pragma warning restore 0649
 	const bool drawDebug = true;
@@ -22,9 +22,9 @@ public class WallCheck : MonoBehaviour {
 
 	public WallCheckData GetWall() {
 		Vector2 startPoint = (Vector2) targetCollider.transform.position + targetCollider.offset;
-		Vector2 actualSize = new Vector2(targetCollider.size.x, targetCollider.bounds.size.y-(2*groundGap));
+		Vector2 actualSize = new Vector2(targetCollider.bounds.size.x, targetCollider.bounds.size.y-(2*groundGap));
 
-		float distance = targetCollider.size.x/2f + extendDistance;
+		float distance = targetCollider.bounds.size.x/2f + extendDistance;
 
 		Vector2 topStart = startPoint+(Vector2.up*actualSize.y*0.5f);
 		Vector2 bottomStart = startPoint+(Vector2.down*actualSize.y*0.5f);

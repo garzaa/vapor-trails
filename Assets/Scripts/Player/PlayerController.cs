@@ -490,7 +490,7 @@ public class PlayerController : Entity {
 				return;
 			}
 
-			if (airJumps > 0 && GetComponent<BoxCollider2D>().enabled && !grounded) {
+			if (airJumps > 0 && GetComponent<Collider2D>().enabled && !grounded) {
 				// player can "ground" jump a little before they hit the ground
 				if (anim.GetFloat("GroundDistance") < restingGroundDistance+0.05f && !justLeftGround) {
 					GroundJump();
