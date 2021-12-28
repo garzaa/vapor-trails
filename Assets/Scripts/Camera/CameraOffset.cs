@@ -51,7 +51,7 @@ public class CameraOffset : MonoBehaviour {
 
 			//first offset based on player orientation
 			// look based on speed, if speed 0 then based on orientation
-			float forwardScalar = pc.MoveSpeedRatio() == 0 ? pc.ForwardScalar() : (pc.movingRight ? 1 : -1);
+			float forwardScalar = pc.MoveSpeedRatio() == 0 ? pc.ForwardScalar() : (pc.inputRight ? 1 : -1);
 			lookaheadDelta.x = forwardScalar * pc.MoveSpeedRatio() * lookAhead * speedRamp;
 			float scalar = pc.IsGrounded() ? 1 : 0;
 			lookaheadDelta.y = scalar * lookUp;

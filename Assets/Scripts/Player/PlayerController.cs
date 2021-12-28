@@ -434,7 +434,7 @@ public class PlayerController : Entity {
 		
 		rb2d.velocity = targetVelocity;
 		
-		movingRight = InputManager.HorizontalInput() > 0;
+		inputRight = InputManager.HorizontalInput() > 0;
 
 		//if they've just started running
 		if (!runningLastFrame && rb2d.velocity.x != 0 && grounded && Mathf.Abs(hInput) > 0.6f) {
@@ -592,7 +592,7 @@ public class PlayerController : Entity {
 			targetXSpeed, 
 			rb2d.velocity.y
 		);
-		movingRight = InputManager.HorizontalInput() > 0;
+		inputRight = InputManager.HorizontalInput() > 0;
 	}
 
 	public void Dash() {
@@ -778,11 +778,11 @@ public class PlayerController : Entity {
         }
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null && InputManager.HasHorizontalInput()) {
-            if (!facingRight && rb2d.velocity.x > 0 && movingRight)
+            if (!facingRight && rb2d.velocity.x > 0 && inputRight)
             {
                 Flip();
             }
-            else if (facingRight && rb2d.velocity.x < 0 && !movingRight)
+            else if (facingRight && rb2d.velocity.x < 0 && !inputRight)
             {
                 Flip();
             }
@@ -1368,8 +1368,14 @@ public class PlayerController : Entity {
 	public float MoveSpeedRatio() {
 		if (rb2d == null) return 0;
 		if (speedLimiter.maxSpeedX == 0) return 0;
-		if (frozen) return 0;
+		if (frozen && !dashing) return 0;
 		return Mathf.Abs(rb2d.velocity.x) / speedLimiter.maxSpeedX;
+	}
+
+	public float YMoveSpeedRatio() {
+		if (rb2d == null) return 0;
+		if (speedLimiter.maxSpeedY == 0) return 0;
+		return rb2d.velocity.y / speedLimiter.maxSpeedY;
 	}
 
 	bool VerticalInput() {

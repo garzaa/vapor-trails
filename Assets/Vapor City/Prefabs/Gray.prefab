@@ -22108,6 +22108,7 @@ GameObject:
   - component: {fileID: 6015545885536385878}
   - component: {fileID: 6015545885536385880}
   - component: {fileID: 6015545885536385881}
+  - component: {fileID: 9122989400027995541}
   m_Layer: 12
   m_Name: Gray
   m_TagString: Untagged
@@ -22148,7 +22149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingRight: 0
   canFlip: 1
-  movingRight: 0
+  inputRight: 0
   frozen: 0
   lockedInSpace: 0
   stunned: 0
@@ -22315,14 +22316,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
   flipOnLedgeStep: 0
-  lastFlipTime: 0
+--- !u!114 &9122989400027995541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6015545885536385872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!1 &6015545885554783062
 GameObject:
   m_ObjectHideFlags: 0

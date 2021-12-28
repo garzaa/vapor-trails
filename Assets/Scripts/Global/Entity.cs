@@ -6,7 +6,7 @@ public class Entity : MonoBehaviour {
 
     public bool facingRight = true;
     public bool canFlip = true;
-    [HideInInspector] public bool movingRight = false;
+    [HideInInspector] public bool inputRight = false;
     public bool frozen = false;
     public bool lockedInSpace = false;
 

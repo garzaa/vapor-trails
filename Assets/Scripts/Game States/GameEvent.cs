@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "Game Event", menuName = "Data Containers/Game Event")]
 public class GameEvent : ScriptableObject {
 
-    [Header("Internals (ignore type err)")]
-    [SerializeField] List<GameEventListener> listeners = new List<GameEventListener>();
-    [SerializeField] List<GameEventListener> priorityListeners = new List<GameEventListener>();
+    List<GameEventListener> listeners = new List<GameEventListener>();
+    List<GameEventListener> priorityListeners = new List<GameEventListener>();
 
     public void Raise() {
         for (int i=0; i<priorityListeners.Count; i++) {

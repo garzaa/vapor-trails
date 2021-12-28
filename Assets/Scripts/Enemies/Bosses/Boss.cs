@@ -12,6 +12,8 @@ public class Boss : Enemy {
     bool startedFight;
     GameEvent startBossFight;
     GameEvent stopBossFight;
+    ObjectGameEvent startBossFightWithObject;
+    ObjectGameEvent stopBossFightWithObject;
 
     public BossInfo bossInfo;
     public GameObject cameraAnchor;
@@ -20,6 +22,8 @@ public class Boss : Enemy {
         bossHealthUI = GlobalController.bossHealthUI;
         startBossFight = Resources.Load("ScriptableObjects/Events/StartBossFight") as GameEvent;
         stopBossFight = Resources.Load("ScriptableObjects/Events/StopBossFight") as GameEvent;
+        startBossFightWithObject = Resources.Load("ScriptableObjects/Events/StartBossFightWithObject") as ObjectGameEvent;
+        stopBossFightWithObject = Resources.Load("ScriptableObjects/Events/StopBossFightWithObject") as ObjectGameEvent;
         victoryEffect = Resources.Load("Effects/Final Blow Prefab") as GameObject;
         if (startFightOnEnable) StartFight();
     }
@@ -32,6 +36,7 @@ public class Boss : Enemy {
         bossHealthUI.gameObject.SetActive(true);
         ShowIntro();
         startBossFight.Raise();
+        startBossFightWithObject.Raise(this.gameObject);
         startedFight = true;
     }
 
@@ -55,11 +60,13 @@ public class Boss : Enemy {
         if (victoryEffectOnDeath) Instantiate(victoryEffect, transform.position, Quaternion.identity, null);
         base.Die();
         stopBossFight.Raise();
+        stopBossFightWithObject.Raise(this.gameObject);
     }
 
     void OnDisable() {
         if (startFightOnEnable) {
             stopBossFight.Raise();
+            stopBossFightWithObject.Raise(this.gameObject);
             bossHealthUI.gameObject.SetActive(false);
         }
     }

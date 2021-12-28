@@ -16,10 +16,10 @@ public class SeekPlayerX : EnemyBehavior {
 		int moveScale;
 		if (playerObject.transform.position.x > this.transform.position.x) {
 			moveScale = 1;
-			mainController.movingRight = true;
+			mainController.inputRight = true;
 		} else {
 			moveScale = -1;
-			mainController.movingRight = false;
+			mainController.inputRight = false;
 		}
 
 		if (Mathf.Abs(mainController.rb2d.velocity.x) < mainController.maxSpeed) {

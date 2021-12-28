@@ -44,7 +44,8 @@ Shader "Custom/LineTexture"
 			{
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
-				float2 texcoord  : TEXCOORD0;
+				float2 texcoord : TEXCOORD0;
+				float3 worldPos : TEXCOORD1;
 			};
 			
 			fixed4 _Color;
@@ -53,16 +54,21 @@ Shader "Custom/LineTexture"
 			v2f vert(appdata_t IN)
 			{
 				v2f OUT;
+				OUT.worldPos = mul(unity_ObjectToWorld, IN.vertex);
 				OUT.vertex = UnityObjectToClipPos(IN.vertex);
 				// access tiling parameters
 				// writing out TRANSFORM_TEX here for future maintainability
 				// x uv: x+y space
 				// y uv: uhhhh..in.texcoord?
-				OUT.texcoord = IN.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				// okay ST is tiling parameters
+				// instead of that, add worldspace xy (biplanar);
+				// OUT.texcoord = IN.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				OUT.texcoord = IN.texcoord.xy;
 				OUT.color = IN.color * _Color;
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif
+
 
 				return OUT;
 			}
@@ -85,7 +91,7 @@ Shader "Custom/LineTexture"
 
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
+				fixed4 c = SampleSpriteTexture (IN.texcoord + IN.worldPos) * IN.color;
 				c.rgb *= c.a;
 				return c;
 			}
