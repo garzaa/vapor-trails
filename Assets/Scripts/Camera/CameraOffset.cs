@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//TODO: delete this file
 // problem: this class both offsets the camera and follows the player slowly
 // it does two things where it should only do one
 public class CameraOffset : MonoBehaviour {

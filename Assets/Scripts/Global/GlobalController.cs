@@ -22,6 +22,7 @@ public class GlobalController : MonoBehaviour {
 	static SignUI signUI;
 	static BlackFadeUI blackoutUI;
 	static DialogueUI dialogueUI;
+	static CinemachineInterface cmInterface;
 	public static PlayerController pc;
 	public static bool dialogueOpen;
 	static bool dialogueOpenedThisFrame = false;
@@ -29,7 +30,6 @@ public class GlobalController : MonoBehaviour {
 	static bool paused = false;
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
-	public static PlayerFollower playerFollower;
 	public static Save save {
 		get {
 			return gc.saveContainer.GetSave();
@@ -53,7 +53,6 @@ public class GlobalController : MonoBehaviour {
 	static Queue<NPC> queuedNPCs = new Queue<NPC>();
 
 	static int saveSlot = 1;
-	static ParallaxOption parallaxOption;
 
 	public GameObject talkPrompt;
 	public GameObject newDialoguePrompt;
@@ -78,17 +77,16 @@ public class GlobalController : MonoBehaviour {
 		signUI = GetComponentInChildren<SignUI>();
 		pc = GetComponentInChildren<PlayerController>();
 		rm = GetComponent<RespawnManager>();
-		playerFollower = gc.GetComponentInChildren<PlayerFollower>();
 		blackoutUI = GetComponentInChildren<BlackFadeUI>();
 		pauseUI = GetComponentInChildren<PauseUI>();
 		abilityUIAnimator = GameObject.Find("AbilityGetUI").GetComponent<Animator>();
 		inventory = gc.GetComponentInChildren<InventoryController>();
-		parallaxOption = gc.GetComponentInChildren<ParallaxOption>();
 		bossHealthUI = GameObject.Find("BossHealthUI").GetComponent<BarUI>();
 		bossHealthUI.gameObject.SetActive(false);
 		playerMenu = GameObject.Find("PlayerMenu");
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
+		cmInterface = gc.GetComponentInChildren<CinemachineInterface>();
 
 #if UNITY_EDITOR
 		EditorApplication.playModeStateChanged += OnPlayModeChange;
@@ -265,7 +263,7 @@ public class GlobalController : MonoBehaviour {
 		dialogueOpenedThisFrame = true;
 		dialogueUI.ShowNameAndPicture(npc.GetCurrentLine());
 		if (npc.centerCameraInDialogue) {
-			playerFollower.LookAtPoint(npc.gameObject);
+			cmInterface.LookAtPoint(npc.gameObject.transform);
 		}
 		pc.EnterCutscene();
 	}
@@ -275,7 +273,9 @@ public class GlobalController : MonoBehaviour {
 		dialogueClosedThisFrame = true;
 		if (currentNPC != null) {
 			currentNPC.CloseDialogue();
-			if (currentNPC.centerCameraInDialogue) playerFollower.StopLookingAtPoint();
+			if (currentNPC.centerCameraInDialogue) {
+				cmInterface.StopLookingAtPoint(currentNPC.gameObject.transform);
+			}
 		}
 		currentNPC = null;
 		if (queuedNPCs.Count != 0) {
@@ -443,7 +443,6 @@ public class GlobalController : MonoBehaviour {
 		if (pc.speedLimiter) pc.speedLimiter.enabled = false;
 		yield return new WaitForEndOfFrame();
 		pc.transform.position = position;
-		playerFollower.SnapToTarget();
 		pc.EnableTrails();
 		if (fade) {
 			yield return new WaitForSecondsRealtime(0.5f);
@@ -702,14 +701,6 @@ public class GlobalController : MonoBehaviour {
 		save.maxEnergy = pc.maxEnergy;
 		save.currentEnergy = pc.currentEnergy;
 		save.basePlayerDamage = pc.baseDamage;
-	}
-
-	public static void EnableParallax() {
-		parallaxOption.moveParallax = true;
-	}
-
-	public static void DisableParallax() {
-		parallaxOption.moveParallax = false;
 	}
 
 	public static void HidePlayer() {

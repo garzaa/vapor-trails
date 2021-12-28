@@ -5,17 +5,18 @@ using UnityEngine;
 public class CameraGrabber : PlayerTriggeredObject {
 
 	public GameObject targetPoint;
+	CinemachineInterface cinemachineInterface;
+
+	new void Start() {
+		base.Start();
+		cinemachineInterface = GameObject.FindObjectOfType<CinemachineInterface>();
+	}
 
 	public override void OnPlayerEnter() {
-		if (targetPoint != null) {
-			GlobalController.playerFollower.FollowTarget(targetPoint);
-		} else {
-			GlobalController.playerFollower.DisableFollowing();
-		}
+		cinemachineInterface.LookAtPoint(targetPoint.transform);
 	}
 
 	public override void OnPlayerExit() {
-		GlobalController.playerFollower.EnableFollowing();
-		GlobalController.playerFollower.FollowPlayer();
+		cinemachineInterface.StopLookingAtPoint(targetPoint.transform);
 	}
 }

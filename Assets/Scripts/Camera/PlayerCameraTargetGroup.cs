@@ -9,7 +9,7 @@ public class PlayerCameraTargetGroup : MonoBehaviour {
 	}
 
 	public void AddTarget(Object o) {
-		tg.AddMember((o as GameObject).transform, 1, 0);
+		tg.AddMember((o as GameObject).transform, 0.5f, 0);
 	}
 
 	public void RemoveTarget(Object o) {

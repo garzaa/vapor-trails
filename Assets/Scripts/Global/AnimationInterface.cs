@@ -6,6 +6,7 @@ public class AnimationInterface : MonoBehaviour {
 
 	Animator anim;
 	ParticleSystem ps;
+	CinemachineInterface cmInterface;
 
 	public float effectDistance = 8f;
 	public Transform effectPoint;
@@ -23,6 +24,7 @@ public class AnimationInterface : MonoBehaviour {
 	void Start() {
 		anim = GetComponent<Animator>();
 		ps = GetComponentInChildren<ParticleSystem>();
+		cmInterface = GameObject.FindObjectOfType<CinemachineInterface>();
 	}
 
 	public void SpawnEffect(int index) {
@@ -50,14 +52,6 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void GameFlag(GameFlag flag) {
 		GlobalController.AddGameFlag(flag);
-	}
-
-	public void StopCameraFollow() {
-		GlobalController.playerFollower.DisableFollowing();
-	}
-
-	public void StartCameraFollow() {
-		GlobalController.playerFollower.EnableFollowing();
 	}
 
 	public void SelfAnimationTrigger(string t) {
@@ -108,11 +102,12 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void FollowEffectPoint() {
 		GameObject point = effectPoint == null ? fallbackEffectPoint : effectPoint.gameObject;
-		GlobalController.playerFollower.FollowTarget(point);
+		cmInterface.LookAtPoint(point.transform);
 	}
 
 	public void StopFollowingEffectPoint() {
-		GlobalController.playerFollower.FollowPlayer();
+		GameObject point = effectPoint == null ? fallbackEffectPoint : effectPoint.gameObject;
+		cmInterface.StopLookingAtPoint(point.transform);
 	}
 
 	public void CameraShake(float seconds) {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: delete this file
 public class PlayerFollower : MonoBehaviour {
 
 	[HideInInspector]

@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class CameraLookPoint : Activatable {
     public GameObject target;
+    CinemachineInterface cmInterface;
+
+    void Start() {
+        cmInterface = GameObject.FindObjectOfType<CinemachineInterface>();
+    }
 
     override public void ActivateSwitch(bool b) {
         if (b) {
-            GlobalController.playerFollower.LookAtPoint(target);
+            cmInterface.LookAtPoint(target.transform);
         } else {
-            GlobalController.playerFollower.StopLookingAtPoint();
+            cmInterface.StopLookingAtPoint(target.transform);
         }
     }
 }
