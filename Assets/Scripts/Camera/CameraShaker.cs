@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using Rewired;
+using Cinemachine;
 
 public class CameraShaker : MonoBehaviour
 {
-	public static Transform camTransform;
-	
 	public static float shakeDuration = 0f;
 	static bool shaking = false;
 	
@@ -14,55 +13,38 @@ public class CameraShaker : MonoBehaviour
 	static Vector3 originalPos;
 	static Player rewiredPlayer;
 
-	void Awake() {
-		if (camTransform == null) {
-			camTransform = this.transform;
-			rewiredPlayer = ReInput.players.GetPlayer(0);
-		}
+	static CameraShaker cs;
 
-	}
-	
-	void OnEnable() {
-		originalPos = camTransform.localPosition;
+	public CinemachineImpulseSource tinyShake;
+	public CinemachineImpulseSource smallShake;
+	public CinemachineImpulseSource mediumShake;
+	public CinemachineImpulseSource bigShake;
+
+	void Awake() {
+		cs = this;
+		rewiredPlayer = ReInput.players.GetPlayer(0);
 	}
 
 	public static void BigShake() {
-		Shake(0.5f, 0.5f);
+		Shake(cs.bigShake);
 	}
 
-	public static void MedShake() {
-		Shake(0.05f, 0.1f);
+	public static void MediumShake() {
+		Shake(cs.mediumShake);
 	}
 
 	public static void SmallShake() {
-		Shake(0.1f, 0.05f);
+		Shake(cs.smallShake);
 	}
 
 	public static void TinyShake() {
-		Shake(0.05f, 0.05f);
+		Shake(cs.tinyShake);
 	}
 
-	public static void Shake(float amount, float duration) {
-		shakeAmount = amount;
-		shakeDuration = duration;
-		
+	static void Shake(CinemachineImpulseSource source) {
+		source.GenerateImpulse();
 		rewiredPlayer.StopVibration();
-		rewiredPlayer.SetVibration(0, amount*2f, duration);
-	}
-
-	void Update() {
-		if (shakeDuration > 0 || shaking) {
-			camTransform.localPosition = originalPos + OnUnitCircle()*shakeAmount;
-			shakeDuration -= Time.unscaledDeltaTime * decreaseFactor;
-		} else {
-			shakeDuration = 0f;
-			if (!shaking) camTransform.localPosition = originalPos;
-		}
-	}
-
-	Vector3 OnUnitCircle() {
-		float randomAngle = Random.Range(0f, Mathf.PI * 2f);
-		return (Vector3) new Vector2(Mathf.Sin(randomAngle), Mathf.Cos(randomAngle));
+		rewiredPlayer.SetVibration(0, shakeAmount*2f, source.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime);
 	}
 
 	public static void StartShaking() {

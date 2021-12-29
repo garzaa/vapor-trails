@@ -111,9 +111,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
-		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
-			CameraShaker.Shake(0.07f, seconds);
-		}
+		CameraShaker.TinyShake();
 	}
 
 	public void EnterSlowMotion() {

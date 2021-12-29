@@ -269,7 +269,7 @@ public class PlayerController : Entity {
 			null
 		);
 		Instantiate(parryParticles, this.transform.position, Quaternion.identity);
-		CameraShaker.Shake(0.1f, 0.1f);
+		CameraShaker.SmallShake();
 		Hitstop.Run(0.4f);
 	}
 
@@ -615,7 +615,7 @@ public class PlayerController : Entity {
 		}
 
 		StartCombatStanceCooldown();
-		CameraShaker.MedShake();
+		CameraShaker.SmallShake();
 		anim.SetTrigger("Dash");
 	}
 
@@ -735,7 +735,7 @@ public class PlayerController : Entity {
 			);
 
 			if (currentState != PlayerStates.DIVEKICK && !inMeteor) {
-				CameraShaker.Shake(0.1f, 0.1f);
+				CameraShaker.MediumShake();
 				SoundManager.HardLandSound();
 				if (InputManager.HasHorizontalInput()) {
 					BackwardDust();
@@ -757,7 +757,7 @@ public class PlayerController : Entity {
 			}
 		}
 		if (terminalFalling) {
-			CameraShaker.Shake(0.2f, 0.1f);
+			CameraShaker.MediumShake();
 		}
 		if (attackGraph != null) {
 			attackGraph.OnGroundHit();
@@ -1012,7 +1012,7 @@ public class PlayerController : Entity {
 		if (currentEnergy > 0) {
 			Instantiate(vaporExplosion, transform.position, Quaternion.identity);
 		}
-		CameraShaker.MedShake();
+		CameraShaker.MediumShake();
 	}
 
 	public void OnGrab(PlayerGrabber grabber) {
@@ -1100,7 +1100,7 @@ public class PlayerController : Entity {
 			}
 		}
 
-		CameraShaker.Shake(0.2f, 0.1f);
+		CameraShaker.SmallShake();
 		StartCombatStanceCooldown();
 		DamageBy(attack);
 		CancelInvoke(nameof(StartParryWindow));
@@ -1194,7 +1194,7 @@ public class PlayerController : Entity {
 		dead = true;
 		SoundManager.PlayerDieSound();
 		currentEnergy = 0;
-		CameraShaker.Shake(0.2f, 0.1f);
+		CameraShaker.MediumShake();
 		LockInSpace();
 		Freeze();
 		anim.SetTrigger("Die");

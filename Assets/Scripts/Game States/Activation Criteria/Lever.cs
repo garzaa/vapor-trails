@@ -32,7 +32,8 @@ public class Lever : ActivationCriteria {
 			Invoke("ReEnableHitting", 1);
 			PlayerAttack a = other.GetComponent<PlayerAttack>();
 			if (a != null) {
-				CameraShaker.Shake(a.cameraShakeIntensity, a.cameraShakeTime);
+				// TODO: add a noise profile in the attack
+				CameraShaker.SmallShake();
 				SoundManager.HitSound();
 				//instantiate the hitmarker
 				if (a.hitmarker != null) {
