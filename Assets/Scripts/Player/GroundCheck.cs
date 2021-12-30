@@ -37,7 +37,7 @@ public class GroundCheck : MonoBehaviour {
         leftGrounded = LeftGrounded();
         rightGrounded = RightGrounded();
         groundCollider = GetGroundCollider();
-        grounded = detecting && (groundCollider != null);
+        grounded = detecting && (groundCollider != null) && (leftGrounded || rightGrounded);
         onLedge = leftGrounded ^ rightGrounded;
 
         if (groundData.grounded && !grounded) {

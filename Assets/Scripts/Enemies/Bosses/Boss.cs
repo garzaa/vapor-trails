@@ -42,7 +42,7 @@ public class Boss : Enemy {
 
     public void ShowIntro() {
         if (bossInfo.bossFightImage != null) {
-            BossFightIntro.ShowIntro(this.bossInfo);
+            GameObject.FindObjectOfType<BossFightIntro>().ShowIntro(this.bossInfo);
         }
     }
 

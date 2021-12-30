@@ -89,6 +89,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void HitActivatable(int index) {
+		Debug.LogWarning(this.name + " is using HitActivatable, switch it to Activate/Deactivate");
 		activatables[index].Activate();
 	}
 

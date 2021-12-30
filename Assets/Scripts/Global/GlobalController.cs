@@ -62,7 +62,6 @@ public class GlobalController : MonoBehaviour {
 
 	static GameObject playerMenu;
 	static Coroutine showPlayerRoutine;
-	public static BossFightIntro bossFightIntro;
 
 	static StateChangeRegistry stateChangeRegistry;
 
@@ -85,7 +84,6 @@ public class GlobalController : MonoBehaviour {
 		bossHealthUI.gameObject.SetActive(false);
 		playerMenu = GameObject.Find("PlayerMenu");
 		audioListener = gc.GetComponentInChildren<AudioListener>();
-		bossFightIntro = gc.GetComponentInChildren<BossFightIntro>(includeInactive:true);
 		cmInterface = gc.GetComponentInChildren<CinemachineInterface>();
 
 #if UNITY_EDITOR
