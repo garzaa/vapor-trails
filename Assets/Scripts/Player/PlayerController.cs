@@ -1292,7 +1292,6 @@ public class PlayerController : Entity {
 	}
 
 	public void EnterCutscene(bool invincible = true) {
-		Debug.Log("entering ctuscene");
 		if (exitCutsceneRoutine != null) StopCoroutine(exitCutsceneRoutine);
 		InterruptEverything();
 		Freeze();

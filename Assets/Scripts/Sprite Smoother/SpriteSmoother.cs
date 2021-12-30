@@ -89,7 +89,6 @@ public class SpriteSmoother : MonoBehaviour {
 		if (!upscaledTextures.ContainsKey(textureName)) {
 			if (!queuedTextures.Contains(textureName)) {
 				queuedTextures.Add(textureName);
-				Debug.Log("upscaling texture "+textureName+" from "+caller.gameObject.name);
 				AddUpscaledTexture(
 					new AsyncTexture(s.texture.GetPixels(),
 					new Vector2Int(s.texture.width, s.texture.height)),
