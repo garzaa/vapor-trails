@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Spinning Blades
   damage: 1
-  attackLandSound: {fileID: 8300000, guid: 4e4171ccd00e72742a944a0f600abf6c, type: 3}
+  attackLandSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Halberd
   damage: 3
-  attackLandSound: {fileID: 8300000, guid: de3ece94db3e23d4eba0fc820fc4aefb, type: 3}
+  attackLandSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -1317,6 +1317,7 @@ MonoBehaviour:
   running: 1
   speed: 100
   unscaled: 0
+  updateInterval: 0
 --- !u!114 &6429370017332057354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6883,6 +6884,7 @@ MonoBehaviour:
   running: 1
   speed: -500
   unscaled: 0
+  updateInterval: 0
 --- !u!1 &3085739706801407576
 GameObject:
   m_ObjectHideFlags: 0
@@ -7666,6 +7668,7 @@ MonoBehaviour:
   parentObject: {fileID: 0}
   hitEffect: {fileID: 0}
   overrideHitEffect: 0
+  overrideHitSound: 0
   hitSound: {fileID: 0}
   overrideTargetPosition: 1
 --- !u!1 &5885844078402494558
@@ -7773,7 +7776,8 @@ MonoBehaviour:
   hitEffect: {fileID: 8573252965097041712, guid: 745972bceb823c54cbaafccb97ecebbb,
     type: 3}
   overrideHitEffect: 1
-  hitSound: {fileID: 8300000, guid: 3ed60f4c24c8b4b42840b8a64c7b9db9, type: 3}
+  overrideHitSound: 0
+  hitSound: {fileID: 0}
   overrideTargetPosition: 1
   hitEvent:
     m_PersistentCalls:
@@ -8612,6 +8616,7 @@ GameObject:
   - component: {fileID: 5210852437077015738}
   - component: {fileID: 7537468818402958726}
   - component: {fileID: 8694985357784264556}
+  - component: {fileID: 4567312130227291438}
   m_Layer: 12
   m_Name: Thorn
   m_TagString: Untagged
@@ -8671,7 +8676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingRight: 0
   canFlip: 1
-  movingRight: 0
+  inputRight: 0
   frozen: 0
   lockedInSpace: 0
   stunned: 0
@@ -8838,14 +8843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 0}
-  corner2: {fileID: 0}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 1
-  collidertoUse: {fileID: 407876987381750992}
   flipOnLedgeStep: 0
-  lastFlipTime: 0
 --- !u!114 &2351806458406234947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8918,6 +8916,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4197597371724406952}
   alsoForPlayer: 0
+--- !u!114 &4567312130227291438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442911535529228972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!1 &6442911535699362045
 GameObject:
   m_ObjectHideFlags: 0
@@ -9487,6 +9507,7 @@ MonoBehaviour:
   running: 1
   speed: -60
   unscaled: 0
+  updateInterval: 0
 --- !u!1 &6694689070811657123
 GameObject:
   m_ObjectHideFlags: 0
@@ -9849,6 +9870,7 @@ MonoBehaviour:
   running: 1
   speed: 200
   unscaled: 0
+  updateInterval: 0
 --- !u!1 &7818824362310860501
 GameObject:
   m_ObjectHideFlags: 0
@@ -10146,7 +10168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Halberd
   damage: 3
-  attackLandSound: {fileID: 8300000, guid: de3ece94db3e23d4eba0fc820fc4aefb, type: 3}
+  attackLandSound: {fileID: 0}
   cameraShakeIntensity: 0.1
   cameraShakeTime: 0.1
   selfKnockBack: 0
@@ -10478,15 +10500,15 @@ PrefabInstance:
       objectReference: {fileID: 6442911535529228973}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc3c57cf5af475f42ba1d20e8cd31aaf, type: 3}
---- !u!4 &6272582264790801631 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4995682900161438782, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
-    type: 3}
-  m_PrefabInstance: {fileID: 1321959834787576033}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5019814746349452100 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6336984265522529189, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1321959834787576033}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6272582264790801631 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4995682900161438782, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
     type: 3}
   m_PrefabInstance: {fileID: 1321959834787576033}
   m_PrefabAsset: {fileID: 0}
@@ -10564,15 +10586,15 @@ PrefabInstance:
       objectReference: {fileID: 6442911535529228973}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc3c57cf5af475f42ba1d20e8cd31aaf, type: 3}
---- !u!1 &8645272427925098300 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6336984265522529189, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
-    type: 3}
-  m_PrefabInstance: {fileID: 2309028202749725849}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7304675642587228327 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4995682900161438782, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 2309028202749725849}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8645272427925098300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6336984265522529189, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
     type: 3}
   m_PrefabInstance: {fileID: 2309028202749725849}
   m_PrefabAsset: {fileID: 0}
@@ -10736,15 +10758,15 @@ PrefabInstance:
       objectReference: {fileID: 6442911535529228973}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc3c57cf5af475f42ba1d20e8cd31aaf, type: 3}
---- !u!4 &9187703107808898726 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4995682900161438782, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
-    type: 3}
-  m_PrefabInstance: {fileID: 4239431433580317336}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7864412980498909501 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6336984265522529189, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 4239431433580317336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9187703107808898726 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4995682900161438782, guid: cc3c57cf5af475f42ba1d20e8cd31aaf,
     type: 3}
   m_PrefabInstance: {fileID: 4239431433580317336}
   m_PrefabAsset: {fileID: 0}
