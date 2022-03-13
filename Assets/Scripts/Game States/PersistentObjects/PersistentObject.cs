@@ -16,7 +16,7 @@ public class PersistentObject : MonoBehaviour {
 	}
 
 	// this is called after the global Awake so the initial save data will always be present
-	virtual public void Start() {
+	virtual protected void Start() {
 		SerializedPersistentObject o = LoadObjectState();
         ConstructFromSerialized(o);
 	}

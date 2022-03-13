@@ -7,7 +7,7 @@ public class PersistentNPC : PersistentObject {
 	
 	NPC npc;
 
-	public override void Start() {
+	protected override void Start() {
 		//load, check the dialogue hash, if it's the same then go to the last line
 		persistentProperties = new Hashtable();
 		npc = GetComponent<NPC>();

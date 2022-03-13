@@ -22,7 +22,7 @@ public class Merchant : PersistentObject {
     public bool generateMapIcon = true;
 
 
-    override public void Start() {
+    override protected void Start() {
         base.Start();
         if (generateMapIcon) {
 			//Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);

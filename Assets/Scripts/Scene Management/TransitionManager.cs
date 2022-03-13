@@ -17,9 +17,11 @@ public class TransitionManager : MonoBehaviour {
 	public Text loadProgressText;
 
 	GlobalController global;
+	Timer speedrunTimer;
 
 	void Awake() {
 		global = GetComponentInParent<GlobalController>();
+		speedrunTimer = GameObject.FindObjectOfType<Timer>();
 		loadTextUI.SetActive(false);
 		ApplySceneData();
 		LoadFromTransition();
@@ -63,6 +65,7 @@ public class TransitionManager : MonoBehaviour {
 	}
 
 	private void ApplySceneData() {
+		TransitionManager.sceneData = null;
 		SceneData sd = GameObject.FindObjectOfType<SceneData>();
 		if (sd != null) {
 			TransitionManager.sceneData = sd;
@@ -95,6 +98,7 @@ public class TransitionManager : MonoBehaviour {
 	}
 
 	public void LoadScene(string sceneName, Beacon beacon, bool fade = true) {
+		speedrunTimer.Pause();
 		if (fade) GlobalController.FadeToBlack();
 		transition.beacon = beacon;
 

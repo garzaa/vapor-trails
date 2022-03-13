@@ -12,7 +12,7 @@ public class ItemWanter : PersistentObject {
     public bool persistent = false;
     public bool consumesItems = false;
 
-    override public void Start() {
+    override protected void Start() {
         persistentProperties = new Hashtable();
         SerializedPersistentObject o = LoadObjectState();
         ConstructFromSerialized(o);
