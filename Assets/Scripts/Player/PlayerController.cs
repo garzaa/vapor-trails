@@ -615,7 +615,7 @@ public class PlayerController : Entity {
 		}
 
 		StartCombatStanceCooldown();
-		CameraShaker.SmallShake();
+		CameraShaker.TinyShake();
 		anim.SetTrigger("Dash");
 	}
 

@@ -112,6 +112,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
+		Debug.LogWarning("Use a scriptable object shake from interface "+this.name);
 		CameraShaker.TinyShake();
 	}
 

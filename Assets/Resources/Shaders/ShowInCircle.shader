@@ -3,7 +3,7 @@ Shader "UI/ShowInCircle"
     Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		_Radius ("Radius", Range(0.0, 0.5)) = 0.25
+		_Radius ("Radius", Range(0.0, 1.0)) = 1.0
         _Color ("Tint", Color) = (1,1,1,1)
 
         _StencilComp ("Stencil Comparison", Float) = 8

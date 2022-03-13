@@ -22,7 +22,7 @@ public class AcceleratorController : MonoBehaviour
         if (playerController != null) {
             playerController.OnBoost(this);
             animator.SetTrigger("Boost");
-            CameraShaker.MediumShake();
+            CameraShaker.SmallShake();
             for (int i=0; i<boostSounds.Length; i++) {
                 SoundManager.WorldSound(boostSounds[i]);
             }

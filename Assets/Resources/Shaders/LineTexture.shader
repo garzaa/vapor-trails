@@ -66,15 +66,12 @@ Shader "Custom/LineTexture"
 			sampler2D _AlphaTex;
 			float _AlphaSplitEnabled;
 
-			fixed4 SampleSpriteTexture (float2 uv)
-			{
-				fixed4 color = tex2D (_MainTex, uv);
-				return color;
-			}
-
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
+				float2 uv = IN.texcoord;
+				uv.x = length(IN.worldPos);
+
+				fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 				return c;
 			}
