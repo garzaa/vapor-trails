@@ -14,10 +14,13 @@ public class PlayerCameraPoint : MonoBehaviour {
 	Vector3 velocity = Vector3.zero;
 	public float smoothAmount = 0.2f;
 	public float actualSmoothAmount;
+
+	bool disableLook = false;
 	
 	void Start() {
 		pc = GameObject.FindObjectOfType<PlayerController>();
 		transform.position = pc.transform.position;
+		disableLook = TransitionManager.sceneData?.disableCameraLook ?? false;
 	}
 
 	public void OnOptionsClose() {
@@ -36,7 +39,7 @@ public class PlayerCameraPoint : MonoBehaviour {
 		lookaheadDelta.y = Mathf.Clamp(lookaheadDelta.y, -maxLookahead.y, maxLookahead.y);
 
 		// then right stick offset
-		lookaheadDelta += (Vector3) InputManager.RightStick() * stickMultiplier;
+		if (!disableLook) lookaheadDelta += (Vector3) InputManager.RightStick() * stickMultiplier;
 
 		targetPosition = pc.transform.position + lookaheadDelta;
 

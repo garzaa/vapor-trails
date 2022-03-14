@@ -89,7 +89,6 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void HitActivatable(int index) {
-		Debug.LogWarning(this.name + " is using HitActivatable, switch it to Activate/Deactivate");
 		activatables[index].Activate();
 	}
 
@@ -113,7 +112,9 @@ public class AnimationInterface : MonoBehaviour {
 
 	public void CameraShake(float seconds) {
 		Debug.LogWarning("Use a scriptable object shake from interface "+this.name);
-		CameraShaker.TinyShake();
+		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
+			CameraShaker.TinyShake();
+		}
 	}
 
 	public void EnterSlowMotion() {

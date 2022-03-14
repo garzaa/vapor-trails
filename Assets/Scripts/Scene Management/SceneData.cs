@@ -10,6 +10,7 @@ public class SceneData : MonoBehaviour {
 	public bool pauseSpeedrunTimer;
 	public bool hideUI;
 	public bool forceFaceRight;
+	public bool disableCameraLook;
 
 	void Awake() {
 		this.gameObject.name = "SceneData";
