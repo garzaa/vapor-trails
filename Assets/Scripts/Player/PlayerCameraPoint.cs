@@ -12,10 +12,16 @@ public class PlayerCameraPoint : MonoBehaviour {
 
 	Vector3 targetPosition = Vector3.zero;
 	Vector3 velocity = Vector3.zero;
-	public float smoothAmount = 0.2f;
-	public float actualSmoothAmount;
+	float smoothTime = 0.2f;
+	float actualSmoothTime;
 
 	bool disableLook = false;
+
+	// this is nested as a child to have different smoothing parameters between movement and lookahead
+	public Transform lookaheadTarget;
+	Vector3 lookaheadTargetVelocity;
+	float lookaheadMaxSpeed = 2f;
+	float lookaheadSmoothTime = 0.5f;
 	
 	void Start() {
 		pc = GameObject.FindObjectOfType<PlayerController>();
@@ -26,10 +32,26 @@ public class PlayerCameraPoint : MonoBehaviour {
 	public void OnOptionsClose() {
 		// options slider is from 1 to 5
 		this.lookaheadRatio = GlobalController.save.options.lookaheadRatio / 5f;
-		actualSmoothAmount = smoothAmount * lookaheadRatio;
+		actualSmoothTime = smoothTime * lookaheadRatio;
 	}
 
 	void LateUpdate() {
+		UpdateBaseFollow();
+		UpdateLookahead();
+	}
+
+	void UpdateBaseFollow() {
+		targetPosition = pc.transform.position;
+
+		transform.position = Vector3.SmoothDamp(
+			transform.position,
+			pc.transform.position,
+			currentVelocity: ref velocity,
+			smoothTime: actualSmoothTime
+		);
+	}
+
+	void UpdateLookahead() {
 		lookaheadDelta = Vector3.zero;
 
 		lookaheadDelta.x = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookaheadRatio * xMultiplier;
@@ -41,13 +63,12 @@ public class PlayerCameraPoint : MonoBehaviour {
 		// then right stick offset
 		if (!disableLook) lookaheadDelta += (Vector3) InputManager.RightStick() * stickMultiplier;
 
-		targetPosition = pc.transform.position + lookaheadDelta;
-
-		transform.position = Vector3.SmoothDamp(
-			transform.position,
-			targetPosition,
-			ref velocity,
-			actualSmoothAmount
+		lookaheadTarget.localPosition = Vector3.SmoothDamp(
+			lookaheadTarget.localPosition,
+			lookaheadDelta,
+			currentVelocity: ref lookaheadTargetVelocity,
+			smoothTime: lookaheadSmoothTime,
+			maxSpeed: lookaheadMaxSpeed
 		);
 	}
 }

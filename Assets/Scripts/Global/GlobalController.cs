@@ -374,12 +374,9 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddStates(List<GameState> states) {
-		bool writeImmediate = false;
 		foreach (GameState state in states) {
 			if (state == null) continue;
-
 			if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
-			if (state.writeImmediately) writeImmediate = true;
 		}
 		PushStateChange();
 	}

@@ -542,7 +542,7 @@ public class PlayerController : Entity {
 		EndShortHopWindow();
 		SoundManager.SmallJumpSound();
 		InterruptMeteor();
-		FreezeFor(0.1f);
+		//FreezeFor(0.1f);
 		if (wall!=null) DownDust();
 		rb2d.velocity = new Vector2(
 			// boost the player away from the wall
@@ -760,7 +760,7 @@ public class PlayerController : Entity {
 		if (attackGraph != null) {
 			attackGraph.OnGroundHit();
 		}
-		
+
 		if (bufferedJump) {
 			GroundJump();
 			CancelBufferedJump();
