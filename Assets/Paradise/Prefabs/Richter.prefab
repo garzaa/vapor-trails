@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114075445800985150}
   - component: {fileID: 114315638436727504}
   - component: {fileID: 114676199892490854}
+  - component: {fileID: 4960469001227731506}
   m_Layer: 12
   m_Name: Richter
   m_TagString: Untagged
@@ -133,12 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fbfff98769d741b8a9813d6e6689e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 1711506965120698}
-  corner2: {fileID: 1916539034659274}
-  generateFromCollider: 0
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
   flipOnLedgeStep: 0
 --- !u!114 &7516095628711839836
 MonoBehaviour:
@@ -154,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingRight: 0
   canFlip: 1
-  movingRight: 0
+  inputRight: 0
   frozen: 0
   lockedInSpace: 0
   stunned: 0
@@ -176,9 +171,11 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   burstOnDeath: 0
   burstEffect: {fileID: 0}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   deathActivatable: {fileID: 0}
   victoryEffectOnDeath: 0
-  healthColor: {r: 221, g: 82, b: 82, a: 255}
   startFightOnEnable: 0
   bossInfo:
     bossName: Richter
@@ -245,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   absoluteX: 1
+  running: 1
 --- !u!114 &114047429087717010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +305,28 @@ MonoBehaviour:
   boolName: FoughtOnce
   gameFlag: 6
   invertPresence: 0
+--- !u!114 &4960469001227731506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018928358723658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!1 &1042676402012656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,6 +1090,7 @@ MonoBehaviour:
   parentObject: {fileID: 1018928358723658}
   hitEffect: {fileID: 0}
   overrideHitEffect: 0
+  overrideHitSound: 0
   hitSound: {fileID: 0}
   overrideTargetPosition: 0
 --- !u!1 &1350613022828552
@@ -1426,6 +1447,7 @@ MonoBehaviour:
   stunLength: 0.2
   knockBack: 1
   knockbackVector: {x: 0, y: 0}
+  knockbackAway: 0
   inheritMomentum: 0
   instakill: 0
   attackLandEvent: 0
@@ -7111,6 +7133,7 @@ MonoBehaviour:
   promptPrefab: {fileID: 0}
   optionalPromptTransform: {fileID: 0}
   forceFlipTo: 0
+  promptText: 
   dialogueAnimationBool: 0
   dialogueAnimator: {fileID: 0}
   generateMapIcon: 0
