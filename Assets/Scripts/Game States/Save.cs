@@ -47,7 +47,7 @@ public class Save {
         currentHP = maxHP;
         currentEnergy = maxEnergy;
         sceneName = "";
-        version = GlobalController.GetCurrentVersion();
+        version = Application.version;
         persistentObjects.Clear();
         playerItems.Clear();
         gameFlags.Clear();
@@ -75,7 +75,7 @@ public class Save {
 
     public void BeforeSerialize() {
         options.Apply();
-        version = GlobalController.GetCurrentVersion();
+        version = Application.version;
 
         playerX = playerPosition.x;
         playerY = playerPosition.y;

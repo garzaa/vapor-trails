@@ -57,16 +57,9 @@ public class BinarySaver : MonoBehaviour {
         return Path.Combine(GetFolderPath(), slot+extension);
     }
 
-    public static bool HasFinishedGame() {
-        // eventually: load all possible slots if possible, check for a saved game where there's some BeatGame flag
-        // or is new game plus even desirable? it'd add a bunch of annoying shit to code and worry about
-        // honestly: no
-        return false;
-    }
-
     public static bool CompatibleVersions(Save save) {
         string[] saveVersion = save.version.Split('.');
-        string[] currentVersion = GlobalController.GetCurrentVersion().Split('.');
+        string[] currentVersion = Application.version.Split('.');
 
         return saveVersion[0].Equals(currentVersion[0]) && saveVersion[1].Equals(currentVersion[1]);
     }

@@ -756,12 +756,11 @@ public class PlayerController : Entity {
 				anim.SetTrigger("HardLand");
 			}
 		}
-		if (terminalFalling) {
-			CameraShaker.MediumShake();
-		}
+
 		if (attackGraph != null) {
 			attackGraph.OnGroundHit();
 		}
+		
 		if (bufferedJump) {
 			GroundJump();
 			CancelBufferedJump();

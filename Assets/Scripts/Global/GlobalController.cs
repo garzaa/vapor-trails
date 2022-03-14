@@ -106,6 +106,11 @@ public class GlobalController : MonoBehaviour {
 	}	
 #endif
 
+	void OnDisable() {
+		// only do disk IO when a scene is unloaded and not every time an item/state is added
+		saveContainer.SyncImmediateStates(saveSlot);
+	}
+
 	public static string GetCurrentVersion() {
 		// given a version like "0.15.2a" return 15
 		return gc.version;
@@ -342,7 +347,6 @@ public class GlobalController : MonoBehaviour {
 				playerAnimator.SetBool(s, true);
 			}
 		}
-		gc.saveContainer.SyncImmediateStates(saveSlot);
 		StateChangeRegistry.PushStateChange(fakeSceneLoad);
 	}
 
@@ -367,9 +371,6 @@ public class GlobalController : MonoBehaviour {
 			save.gameStates.Add(state.name);
 		}
 		PushStateChange();
-		if (state.writeImmediately) {
-			gc.saveContainer.SyncImmediateStates(saveSlot);
-		}
 	}
 
 	public static void AddStates(List<GameState> states) {
@@ -381,9 +382,6 @@ public class GlobalController : MonoBehaviour {
 			if (state.writeImmediately) writeImmediate = true;
 		}
 		PushStateChange();
-		if (writeImmediate) {
-			gc.saveContainer.SyncImmediateStates(saveSlot);
-		}
 	}
 
 	public static bool HasState(GameState state) {
