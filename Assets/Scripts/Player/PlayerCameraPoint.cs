@@ -20,7 +20,7 @@ public class PlayerCameraPoint : MonoBehaviour {
 	// this is nested as a child to have different smoothing parameters between movement and lookahead
 	public Transform lookaheadTarget;
 	Vector3 lookaheadTargetVelocity;
-	float lookaheadMaxSpeed = 2f;
+	float lookaheadMaxSpeed = 10f;
 	float lookaheadSmoothTime = 0.5f;
 	
 	void Start() {
