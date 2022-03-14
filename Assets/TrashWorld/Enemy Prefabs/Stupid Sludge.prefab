@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingRight: 1
   canFlip: 1
-  movingRight: 0
+  inputRight: 0
   frozen: 0
   lockedInSpace: 0
   stunned: 0
@@ -236,15 +236,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1221381029402868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cf9c19660536974faf627fe565d705a, type: 3}
+  m_Script: {fileID: 11500000, guid: e8fb721b3b14d8a4baecf679ba5b5eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corner1: {fileID: 4232491336946220}
-  corner2: {fileID: 4701346036224702}
-  generateFromCollider: 1
-  currentGround: {fileID: 0}
-  constantlyUseCollider: 0
-  collidertoUse: {fileID: 0}
+  groundData:
+    grounded: 0
+    onLedge: 0
+    leftGround: 0
+    hitGround: 0
+    ledgeStep: 0
+    normal: {x: 0, y: 0}
+    normalRotation: 0
+    groundObject: {fileID: 0}
+  detecting: 1
 --- !u!114 &9057060126471993418
 MonoBehaviour:
   m_ObjectHideFlags: 0

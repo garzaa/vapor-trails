@@ -4,7 +4,7 @@ public class CameraLookPoint : Activatable {
     public GameObject target;
     CinemachineInterface cmInterface;
 
-    void Start() {
+    void OnEnable() {
         cmInterface = GameObject.FindObjectOfType<CinemachineInterface>();
     }
 

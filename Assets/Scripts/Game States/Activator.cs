@@ -7,15 +7,10 @@ public class Activator : MonoBehaviour {
 	public List<ActivationCriteria> criteria;
 	public List<Activatable> objectsToActivate;
 
-	public bool switchOnActivation = true;
 	bool activated = false;
 	public bool singleActivation = true;
 
 	public virtual void Start() {
-		//if it's set to disable everything at the start, make sure it's enabled
-		foreach (Activatable a in objectsToActivate) {
-			if (!switchOnActivation) a.ActivateSwitch(true);
-		}
 		foreach (ActivationCriteria c in criteria) {
 			c.OnRegister(this);
 		}
@@ -44,7 +39,7 @@ public class Activator : MonoBehaviour {
 
 	public virtual void Activate() {
 		foreach (Activatable a in objectsToActivate) {
-			if (a != null) a.ActivateSwitch(switchOnActivation);
+			if (a != null) a.ActivateSwitch(true);
 		}
 	}
 }

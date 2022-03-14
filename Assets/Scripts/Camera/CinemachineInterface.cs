@@ -9,11 +9,12 @@ public class CinemachineInterface : MonoBehaviour {
 	[SerializeField] CinemachineVirtualCamera worldLookCam;
 	#pragma warning restore 0649
 
-	void Start() {
+	void OnEnable() {
 		cinemachine = GetComponent<CinemachineBrain>();
 	}
 
 	public void LookAtPoint(Transform target) {
+		Debug.Log("looking at "+target.name);
 		worldLookCam.m_Follow = target;
 		worldLookCam.m_Priority = 20;
 	}
