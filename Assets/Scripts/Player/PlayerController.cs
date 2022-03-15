@@ -546,7 +546,7 @@ public class PlayerController : Entity {
 		EndShortHopWindow();
 		SoundManager.SmallJumpSound();
 		InterruptMeteor();
-		//FreezeFor(0.1f);
+		FreezeFor(0.1f);
 		if (wall!=null) DownDust();
 		rb2d.velocity = new Vector2(
 			// boost the player away from the wall
@@ -1372,7 +1372,7 @@ public class PlayerController : Entity {
 	public float MoveSpeedRatio() {
 		if (rb2d == null) return 0;
 		if (speedLimiter.maxSpeedX == 0) return 0;
-		if (frozen && !dashing) return 0;
+		if (inCutscene) return 0;
 		return Mathf.Abs(rb2d.velocity.x) / speedLimiter.maxSpeedX;
 	}
 
