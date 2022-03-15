@@ -15,7 +15,7 @@ public class NPC : Interactable {
 	public bool generateMapIcon = true;
 	public Sprite icon;
 
-	public bool centerCameraInDialogue;
+	public bool centerCameraInDialogue = true;
 
 	public int currentConversation = 0;
 	public int currentDialogueLine = 0;

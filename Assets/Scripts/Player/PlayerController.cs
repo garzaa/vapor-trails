@@ -205,6 +205,10 @@ public class PlayerController : Entity {
 		}
 	}
 
+	void ResetFallDistance() {
+		fallStart = transform.position.y;
+	}
+
 	void CheckGroundData() {
 		if (groundData.hitGround) {
 			OnGroundHit(rb2d.velocity.y);
@@ -610,6 +614,7 @@ public class PlayerController : Entity {
 			if (airDashes < 1) {
 				return;
 			} else {
+				ResetFallDistance();
 				airDashes--;
 			}
 		}

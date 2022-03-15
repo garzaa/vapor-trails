@@ -111,9 +111,8 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void CameraShake(float seconds) {
-		Debug.LogWarning("Use a scriptable object shake from interface "+this.name);
 		if (Vector2.Distance(this.transform.position, GlobalController.pc.transform.position) < effectDistance) {
-			CameraShaker.TinyShake();
+			CameraShaker.SmallShake();
 		}
 	}
 
