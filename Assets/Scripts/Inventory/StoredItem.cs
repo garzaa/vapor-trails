@@ -13,6 +13,12 @@ public class StoredItem {
         }
     }
 
+    [JsonConstructor]
+    public StoredItem(string name, int count) {
+        this.name = name;
+        this.count = count;
+    }
+
     public StoredItem(Item i) {
         this.name = i.name;
         this.count = 1;

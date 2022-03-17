@@ -17,7 +17,7 @@ public class PlayerStats : PersistentObject {
 
 		// store enums as text
 		unlockedAbilities = new HashSet<Ability>(
-			GetProperty<List<string>>(nameof(unlockedAbilities))
+			GetList<string>(nameof(unlockedAbilities))
 			.Select(x => (Ability) System.Enum.Parse(typeof(Ability), x))
 		);
 	}
@@ -26,6 +26,7 @@ public class PlayerStats : PersistentObject {
 		SetProperty(
 			nameof(unlockedAbilities),
 			unlockedAbilities.Select(x => x.ToString())
+			.ToList<string>()
 		);
 	}
 
@@ -49,23 +50,23 @@ public class PlayerStats : PersistentObject {
 	}
 
 	public int GetBaseDamage() {
-		return GetProperty<int>(baseDamage);
+		return GetInt(baseDamage);
 	}
 
 	public int GetCurrentHealth() {
-		return GetProperty<int>("currentHealth");
+		return GetInt("currentHealth");
 	}
 
 	public int GetMaxHealth() {
-		return GetProperty<int>("maxHealth");
+		return GetInt("maxHealth");
 	}
 
 	public int GetCurrentEnergy() {
-		return GetProperty<int>("currentEnergy");
+		return GetInt("currentEnergy");
 	}
 
 	public int GetMaxEnergy() {
-		return GetProperty<int>("maxEnergy");
+		return GetInt("maxEnergy");
 	}
 
 	public bool HasAbility(Ability a) {

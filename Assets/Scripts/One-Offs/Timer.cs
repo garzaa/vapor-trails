@@ -17,7 +17,7 @@ public class Timer : PersistentObject {
 		if (TransitionManager.sceneData != null && TransitionManager.sceneData.pauseSpeedrunTimer) {
 			enabledForThisScene = false;
 		}
-		time = GetProperty<float>(nameof(time));
+		time = GetFloat(nameof(time));
 	}
 
 	void Update() {

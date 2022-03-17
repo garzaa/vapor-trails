@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Newtonsoft.Json.Linq;
+using System;
 
 public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 
@@ -15,7 +17,7 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	Dictionary<string, object> properties = new Dictionary<string, object>();
 
 	virtual public string GetID() {
-		if (useGlobalName) return gameObject.name;
+		if (useGlobalName) return gameObject.name + ": " + GetType().Name;
 		else return SceneManager.GetActiveScene().name + "/" + gameObject.GetHierarchicalName() + ": " + GetType().Name;
 	}
 
@@ -61,5 +63,32 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 
 	protected T GetProperty<T>(string key) {
 		return (T) properties[key];
+	}
+
+	protected float GetFloat(string key) {
+		var v = properties[key];
+		try {
+			return (float) v;
+		} catch (InvalidCastException) {
+			return Convert.ToSingle((System.Double) v);
+		}
+	}
+
+	protected int GetInt(string key) {
+		var v = properties[key];
+		try {
+			return (int) v;
+		} catch (InvalidCastException) {
+			return Convert.ToInt32((Int64) properties[key]);
+		}
+	}
+
+	protected List<T> GetList<T>(string key) {
+		var v = properties[key];
+		try {
+			return (List<T>) v;
+		} catch (InvalidCastException) {
+			return ((JArray) v).ToObject<List<T>>();
+		}
 	}
 }

@@ -16,7 +16,7 @@ public class InventoryList : PersistentObject {
 
     protected override void SetDefaults() {
         SetDefault(nameof(items), new List<StoredItem>());
-        _items = GetProperty<List<StoredItem>>(nameof(items));
+        _items = GetList<StoredItem>(nameof(items));
     }
 
     public StoredItem GetItem(string itemName) {
