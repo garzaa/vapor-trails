@@ -40,12 +40,13 @@ public class Save {
     }
 
     public void SavePersistentObject(PersistentObject o) {
-        if (o is PersistentEnabled) {
+        string id = o.GetID();
+        if (id.Contains(nameof(PersistentEnabled))) {
             AddSubDictIfNeeded(enabled);
             persistentObjects[enabled][o.GetID()] = o.GetAllProperties();
             return;
         }
-        else if (o is MapFog) {
+        else if (id.Contains(nameof(MapFog))) {
             AddSubDictIfNeeded(mapFog);
             persistentObjects[mapFog][o.GetID()] = o.GetAllProperties();
             return;
@@ -54,6 +55,15 @@ public class Save {
     }
 
     public Dictionary<string, object> GetPersistentObject(string id) {
+        if (id.Contains(nameof(PersistentEnabled))) {
+            if (persistentObjects.ContainsKey(enabled) && persistentObjects[enabled].ContainsKey(id)) {
+                return persistentObjects[enabled][id] as Dictionary<string, object>;
+            }
+        } else if (id.Contains(nameof(MapFog))) {
+            if (persistentObjects.ContainsKey(mapFog) && persistentObjects[mapFog].ContainsKey(id)) {
+                return persistentObjects[mapFog][id] as Dictionary<string, object>;
+            }
+        }
         Dictionary<string, object> d = null;
         persistentObjects.TryGetValue(id, out d);
         return d;

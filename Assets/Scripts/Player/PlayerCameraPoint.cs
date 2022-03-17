@@ -40,6 +40,13 @@ public class PlayerCameraPoint : MonoBehaviour {
 		UpdateLookahead();
 	}
 
+	public void SnapToPlayer() {
+		transform.position = pc.transform.position;
+		velocity = Vector2.zero;
+		lookaheadTarget.localPosition = Vector2.zero;
+		lookaheadTargetVelocity = Vector2.zero;
+	}
+
 	void UpdateBaseFollow() {
 		targetPosition = pc.transform.position;
 

@@ -437,6 +437,7 @@ public class GlobalController : MonoBehaviour {
 			yield return new WaitForSecondsRealtime(0.5f);
 			UnFadeToBlack();
 		}
+		GetComponentInChildren<PlayerCameraPoint>().SnapToPlayer();
 		pc.ExitCutscene();
 		pc.speedLimiter.enabled = true;
 	}
