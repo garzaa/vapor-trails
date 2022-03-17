@@ -21,7 +21,6 @@ public class SaveContainer : ScriptableObject {
     }
 
     public void WipeSave() {
-        runtime.inventory.Clear();
         runtime.loadedOnce = false;
         SaveContainer newContainer = GetNewSaveContainer();
         runtime.save = newContainer.GetSave();
@@ -31,7 +30,6 @@ public class SaveContainer : ScriptableObject {
     }
 
     public void CleanEditorRuntime() {
-        runtime.inventory.Clear();
         runtime.loadedOnce = false;
         runtime.save.Initialize();
     }
@@ -51,6 +49,7 @@ public class SaveContainer : ScriptableObject {
             List<GameState> allStartingStates = gameCheckpoints.SelectMany(x => x.states).Union(startingGameStates).ToList();
 
             foreach (Item i in allStartingItems) {
+                if (!i) continue;
                 GlobalController.AddItem(new StoredItem(i), quiet:true);
             }
             GlobalController.AddStates(allStartingStates);
@@ -59,30 +58,16 @@ public class SaveContainer : ScriptableObject {
         runtime.loadedOnce = true;
     }
 
-    void SaveRuntime() {
-        runtime.save.playerItems = runtime.inventory;
-    }
-
-    void LoadRuntime() {
-        runtime.inventory = runtime.save.playerItems;
-    }
-
     public bool RuntimeLoadedOnce() {
         return runtime.loadedOnce;
     }
 
-    public InventoryList GetInventory() {
-        return runtime.inventory;
-    }
-
     public void LoadFromSlot(int slot) {
         runtime.save = BinarySaver.LoadFile(slot);
-        LoadRuntime();
         runtime.loadedOnce = true;
     }
 
     public void WriteToDiskSlot(int slot) {
-        SaveRuntime();
         BinarySaver.SaveFile(runtime.save, slot);
     }
 

@@ -8,16 +8,12 @@ public class PersistentEnabled : PersistentObject {
 
 	bool calledCorrectly;
 
-	void OnEnable() {
+	protected override void SetDefaults() {
 		if (firstEnable) {
 			firstEnable = false;
-
-			SerializedPersistentObject o = LoadObjectState();
-			if (o != null) {
-				bool wasEnabled = (bool) o.persistentProperties["enabled"];
-				if (!wasEnabled) {
-					Disable();
-				}
+			SetDefault("enabled", true);
+			if (!GetProperty<bool>("enabled")) {
+				Disable();
 			}
 		} else {
 			UpdateState(true);
@@ -28,13 +24,6 @@ public class PersistentEnabled : PersistentObject {
 		UpdateState(active);
 	}
 
-	void OnDisable() {
-		if (!calledCorrectly && Application.isPlaying) {
-			// this gets called when the application quits so kind of doesn't work (??maybe?? maybe my code's just bad)
-			// Debug.LogWarning(gameObject.name + " has a persistentEnabled but was disabled normally!");
-		}
-	}
-
 	// this is called from an item animation
 	public void Disable() {
 		calledCorrectly = true;
@@ -43,8 +32,6 @@ public class PersistentEnabled : PersistentObject {
 	}
 	
 	protected void UpdateState(bool e) {
-		persistentProperties = new Hashtable();
-		persistentProperties.Add("enabled", e);
-		SaveObjectState();
+		SetProperty("enabled", e);
 	}
 }

@@ -22,15 +22,14 @@ public class PlayerController : Entity {
 
 	const float restingGroundDistance = 0.3f;
 
-	//these will be loaded from the save
-	public int currentHP;
-	public int maxHP;
-	public int currentEnergy;
-	public int maxEnergy;
-	public GameOptions options;
+	public int currentHP { get; private set; }
+	int maxHP;
+	public int currentEnergy { get; private set; }
+	int maxEnergy;
+	GameOptions options;
 
-	public int parryCount = 0;
-	public int baseDamage = 1;
+	int parryCount = 0;
+	public int baseDamage {get; private set; }
 	float selfDamageHitstop = .2f;
 	int healCost = 1;
 	int healAmt = 1;
@@ -65,7 +64,6 @@ public class PlayerController : Entity {
 	public BarUI energyBarUI;
 	public ParticleSystem deathParticles;
 	InteractAppendage interaction;
-	PlayerUnlocks unlocks;
 	public GameObject targetingSystem;
 	TrailRenderer[] trails;
 	List<SpriteRenderer> spriteRenderers;
@@ -79,7 +77,6 @@ public class PlayerController : Entity {
 	bool dashCooldown = false;
 	public bool dashing = false;
 	bool inMeteor = false;
-	bool terminalFalling = false;
 	public bool justLeftWall = false;
 	bool justLeftGround = false;
 	Coroutine currentWallTimeout;
@@ -115,7 +112,7 @@ public class PlayerController : Entity {
 	GameEvent deathEvent;
 	GroundCheck groundCheck;
 	PlayerGrabber playerGrabber;
-
+	PlayerStats stats;
 
 	string[] deathText = {
 		"WARNING: WAVEFORM DESTABILIZED",
@@ -132,9 +129,10 @@ public class PlayerController : Entity {
 	}
 
 	void Start() {
-		unlocks = GlobalController.save.unlocks;
 		rb2d = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
+		stats = GetComponent<PlayerStats>();
+		LoadStats();
 		options = GlobalController.save.options;
 		this.facingRight = false;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
@@ -153,7 +151,6 @@ public class PlayerController : Entity {
 		deathEvent = Resources.Load("ScriptableObjects/Events/Player Death") as GameEvent;
 		groundCheck = GetComponent<GroundCheck>();
 		groundData = groundCheck.groundData;
-		LoadFromSaveData(GlobalController.save);
 		EnableTriggers();
 	}
 
@@ -167,14 +164,12 @@ public class PlayerController : Entity {
 		}
     }
 
-	void LoadFromSaveData(Save s) {
-		this.unlocks = s.unlocks;
-		this.maxEnergy = s.maxEnergy;
-		this.maxHP = s.maxHP;
-		this.currentEnergy = s.currentEnergy;
-		this.currentHP = s.currentHP;
-		this.baseDamage = s.basePlayerDamage;
-		this.options = s.options;
+	void LoadStats() {		
+		this.currentHP = stats.GetCurrentHealth();
+		this.maxHP = stats.GetMaxHealth();
+		this.currentEnergy = stats.GetCurrentEnergy();
+		this.maxEnergy = stats.GetMaxEnergy();
+		this.baseDamage = stats.GetBaseDamage();
 		UpdateUI();
 	}
 
@@ -182,6 +177,25 @@ public class PlayerController : Entity {
 		if (this.playerGrabber != null) {
 			this.playerGrabber.ReleasePlayer();
 		}
+	}
+
+	public void BoostHealth(int amount) {
+		maxHP += amount;
+		if (stats.HasAbility(Ability.Heal)) {
+			currentHP = maxHP;
+		}
+		stats.SetHealth(currentHP, maxHP);
+	}
+
+	public void BoostEnergy(int amount) {
+		maxEnergy += amount;
+		currentEnergy = maxEnergy;
+		stats.SetEnergy(currentEnergy, maxEnergy);
+	}
+
+	public void BoostBaseDamage(int amount) {
+		baseDamage += amount;
+		stats.SetBaseDamage(amount);
 	}
 
 	void Update() {
@@ -318,13 +332,13 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.HasHorizontalInput() && (!frozen || justLeftWall) && Mathf.Abs(InputManager.VerticalInput()) < 0.5f) {
-			if (unlocks.HasAbility(Ability.Dash)) {
+			if (stats.HasAbility(Ability.Dash)) {
 				Dash();
 			}
 		}
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && InputManager.VerticalInput()<0 && wall == null && !inMeteor) {
 			if (!grounded) {
-				if (unlocks.HasAbility(Ability.Meteor)) {
+				if (stats.HasAbility(Ability.Meteor)) {
 					MeteorSlam();
 				}
 			} else {
@@ -334,7 +348,7 @@ public class PlayerController : Entity {
 		else if (InputManager.ButtonDown(Buttons.SPECIAL) && canFlipKick && (wall == null) && !grounded && InputManager.VerticalInput() > 0.2f) {
 			OrcaFlip();
 		} 
-		else if (InputManager.ButtonDown(Buttons.BLOCK) && !canParry && unlocks.HasAbility(Ability.Parry) && currentEnergy >= 1) {
+		else if (InputManager.ButtonDown(Buttons.BLOCK) && !canParry && stats.HasAbility(Ability.Parry) && currentEnergy >= 1) {
 			InterruptEverything();
 			anim.SetTrigger(Buttons.BLOCK);
 			// i made the poor decision to track the timings with BlockBehaviour.cs
@@ -351,7 +365,7 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.Button(Buttons.SURF) 
-			&& unlocks.HasAbility(Ability.Surf)
+			&& stats.HasAbility(Ability.Surf)
 			&& Mathf.Abs(rb2d.velocity.x) > 2f
 		) {
 			anim.SetBool("Surf", true);
@@ -453,10 +467,7 @@ public class PlayerController : Entity {
 		runningLastFrame = Mathf.Abs(hInput) > 0.6f;
 		
 		if (rb2d.velocity.y < terminalFallSpeed) {
-			terminalFalling = true;
 			rb2d.velocity = new Vector2(rb2d.velocity.x, terminalFallSpeed);
-		} else {
-			terminalFalling = false;
 		}
 
 		if (!inMeteor && (fallStart-rb2d.transform.position.y > hardLandDistance)) {
@@ -480,7 +491,7 @@ public class PlayerController : Entity {
 		}
 
 		if (InputManager.ButtonDown(Buttons.JUMP)) {			
-			if (unlocks.HasAbility(Ability.WallClimb) && (wall != null)) {
+			if (stats.HasAbility(Ability.WallClimb) && (wall != null)) {
 				WallJump();
 				return;
 			}
@@ -794,7 +805,7 @@ public class PlayerController : Entity {
     }
 
 	public void OrcaFlip() {
-		if (!unlocks.HasAbility(Ability.UpSlash)) {
+		if (!stats.HasAbility(Ability.UpSlash)) {
 			return;
 		}
 		EndShortHopWindow();
@@ -811,7 +822,7 @@ public class PlayerController : Entity {
 
 	public void RefreshAirMovement() {
 		canFlipKick = true;
-		airJumps = unlocks.HasAbility(Ability.DoubleJump) ? 1 : 0;
+		airJumps = stats.HasAbility(Ability.DoubleJump) ? 1 : 0;
 		anim.ResetTrigger("Flail");
 		panicJumpInputs = 0;
 		airAttackTracker.Reset();
@@ -932,7 +943,7 @@ public class PlayerController : Entity {
 		EndDashCooldown();
 		InterruptMeteor();
 		RefreshAirMovement();
-		if (bufferedJump && unlocks.HasAbility(Ability.WallClimb)) {
+		if (bufferedJump && stats.HasAbility(Ability.WallClimb)) {
 			WallJump();
 			CancelBufferedJump();
 		}
@@ -1035,7 +1046,7 @@ public class PlayerController : Entity {
 	}
 
 	public void Shoot() {
-		if (!unlocks.HasAbility(Ability.GunEyes) || frozen || !canShoot || stunned) {
+		if (!stats.HasAbility(Ability.GunEyes) || frozen || !canShoot || stunned) {
 			return;
 		}
 		if (InputManager.ButtonDown(Buttons.PROJECTILE) && CheckEnergy() >= gunCost) {
@@ -1360,7 +1371,7 @@ public class PlayerController : Entity {
 	}
 
 	public void UpdateAnimationParams() {
-		if (healCost > currentEnergy || currentHP >= maxHP || !unlocks.HasAbility(Ability.Heal)) {
+		if (healCost > currentEnergy || currentHP >= maxHP || !stats.HasAbility(Ability.Heal)) {
 			anim.SetBool("CanHeal", false);
 		} else {
 			anim.SetBool("CanHeal", true);

@@ -27,7 +27,7 @@ public class ItemViewer : MonoBehaviour {
         itemDescription.text = "";
 
         if (editorInventoryLink != null) {
-            PopulateItems(editorInventoryLink.items);
+            PopulateItems(editorInventoryLink.items.GetAll());
         }
     }
 
@@ -63,7 +63,7 @@ public class ItemViewer : MonoBehaviour {
         itemDescription.text = itemText;
     }
 
-    public void PopulateItems(InventoryList inventoryList) {
+    public void PopulateItems(List<StoredItem> items) {
         // don't want to modify the list in place, instead copy and iterate through that
         // it Just Works
         foreach (Transform oldItem in gridHolder.transform.Cast<Transform>().ToArray()) {
@@ -73,7 +73,6 @@ public class ItemViewer : MonoBehaviour {
             oldItem.SetParent(null, false);
         }
         
-        List<StoredItem> items = inventoryList.GetAll();
         for (int i=items.Count-1; i>=0; i--) {
             StoredItem storedItem = items[i];
             GameObject g = Instantiate(

@@ -9,60 +9,20 @@ public class MapFog : PersistentObject {
     [SerializeField] GameObject cameraTarget;
     #pragma warning restore 0649
 
-    const string MAP_PROPERTY = "Map";
+    const string MAP_PROPERTY = "FogTexture";
 
     float texturePPU = 1f/12f;
     float updateInterval = 0.2f;
 
-    void OnEnable() {
-        Load();
-    }
-
-    // called when the scene is unloaded
-    void OnDisable() {
-        SaveCurrentMap();
-    }
-
-    public void SaveCurrentMap() {
-        if (persistentProperties == null) persistentProperties = new Hashtable();
-        persistentProperties[MAP_PROPERTY] = EncodeMap();
-        SaveObjectState();
-    }
-
-    void Load() {
-        SerializedPersistentObject savedState = LoadObjectState();
-        if (savedState != null) {
-            DecodeAndUpdateMap((bool[]) savedState.persistentProperties[MAP_PROPERTY]);
+    override protected void SetDefaults() {
+        if (HasProperty(MAP_PROPERTY)) {
+            DecodeAndUpdateMap(GetProperty<byte[]>(MAP_PROPERTY));
         } else {
-            WipeMap();
+            ResetMap();
         }
-
-        StartUpdatingMap();
     }
 
-    bool[] EncodeMap() {
-        Color32[] pixels = fog.GetPixels32();
-        bool[] alphas = new bool[pixels.Length];
-        for (int i=0; i<pixels.Length; i++) {
-            alphas[i] = pixels[i].a > 0;
-        }
-        return alphas;
-    }
-
-    void DecodeAndUpdateMap(bool[] map) {
-        Color32[] colors = new Color32[map.Length];
-        for (int i=0; i<map.Length; i++) {
-            colors[i] = new Color(0, 0, 0, ToByte(map[i]));
-        }
-        fog.SetPixels32(colors);
-        fog.Apply();
-    }
-
-    byte ToByte(bool b) {
-        return b ? (byte) 1 : (byte) 0;
-    }
-
-    void WipeMap() {
+    void ResetMap() {
         Color32[] colors = new Color32[fog.width*fog.height];
         for (int i=0; i<colors.Length; i++) {
             colors[i] = new Color(0, 0, 0, 1);
@@ -71,12 +31,30 @@ public class MapFog : PersistentObject {
         fog.Apply();
     }
 
-    void StopUpdatingMap() {
-        StopAllCoroutines();
+    void Start() {
+       StartCoroutine(UpdateMap()); 
     }
 
-    void StartUpdatingMap() {
-        StartCoroutine(UpdateMap());
+    public void SaveCurrentMap() {
+        SetProperty(MAP_PROPERTY, EncodeMap());
+    }
+
+    byte[] EncodeMap() {
+        Color32[] pixels = fog.GetPixels32();
+        byte[] alphas = new byte[pixels.Length];
+        for (int i=0; i<pixels.Length; i++) {
+            alphas[i] = pixels[i].a > 0 ? (byte) 1 : (byte) 0;
+        }
+        return alphas;
+    }
+
+    void DecodeAndUpdateMap(byte[] map) {
+        Color32[] colors = new Color32[map.Length];
+        for (int i=0; i<map.Length; i++) {
+            colors[i] = new Color(0, 0, 0, map[i]);
+        }
+        fog.SetPixels32(colors);
+        fog.Apply();
     }
 
     IEnumerator UpdateMap() {
@@ -92,11 +70,12 @@ public class MapFog : PersistentObject {
             new Color32(0, 0, 0, 0)
         );
         fog.Apply();
+        SaveCurrentMap();
 
         StartCoroutine(UpdateMap());
     }
 
     override public string GetID() {
-        return "MapFog/"+SceneManager.GetActiveScene().name;
+        return SceneManager.GetActiveScene().name;
     }
 }

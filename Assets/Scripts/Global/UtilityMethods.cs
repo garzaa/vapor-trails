@@ -1,6 +1,7 @@
 ﻿ using UnityEngine;
  using UnityEngine.UI;
  using System.Collections.Generic;
+ using UnityEngine.SceneManagement;
  using System.Collections;
  
  static class UtilityMethods {
@@ -90,4 +91,19 @@
         corner2.y = bounds.max.y;
         Debug.DrawLine(corner1, corner2, color);
     }
+
+    public static List<T> Find<T>(  )
+         {
+             List<T> interfaces = new List<T>();
+             GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+             foreach( var rootGameObject in rootGameObjects )
+             {
+                 T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
+                 foreach( var childInterface in childrenInterfaces )
+                 {
+                     interfaces.Add(childInterface);
+                 }
+             }
+             return interfaces;
+         }
  }

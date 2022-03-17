@@ -3,6 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class BinarySaver : MonoBehaviour {
     const string folder = "saves";
@@ -19,18 +20,20 @@ public class BinarySaver : MonoBehaviour {
     public static void SaveFile(Save save, int slot) {
         save.BeforeSerialize();
 
-        using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.OpenOrCreate))
-        {
-            binaryFormatter.Serialize(fileStream, save);
+        using (StreamWriter jsonWriter = new StreamWriter(GetSavePath(slot)+".json", append: false)) {
+            jsonWriter.Write(JsonConvert.SerializeObject(save, Formatting.Indented));
         }
     }
 
     public static Save LoadFile(int slot) {
         Save save;
-        using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.Open))
-        {
-            save = (Save) binaryFormatter.Deserialize(fileStream);
-        }
+
+
+
+        // using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.Open))
+        // {
+        //     save = (Save) binaryFormatter.Deserialize(fileStream);
+        // }
         save.AfterDeserialize();
         return save;
     }

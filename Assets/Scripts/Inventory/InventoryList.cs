@@ -2,9 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class InventoryList {
-    [SerializeField] List<StoredItem> items = new List<StoredItem>();
+public class InventoryList : PersistentObject {
+    private List<StoredItem> _items = null;
+
+    public List<StoredItem> items  {
+        get {
+            if (_items == null) {
+                base.OnEnable();
+            }
+            return _items;
+        }
+    }
+
+    protected override void SetDefaults() {
+        SetDefault(nameof(items), new List<StoredItem>());
+        _items = GetProperty<List<StoredItem>>(nameof(items));
+    }
 
     public StoredItem GetItem(string itemName) {
         foreach (StoredItem i in items) {
@@ -53,10 +66,6 @@ public class InventoryList {
 
     public bool HasItem(StoredItem stored) {
         return HasItem(stored.name);
-    }
-
-    public Item GetItemByIndex(int index) {
-        return items[index].item;
     }
 
     public void AddItem(StoredItem s) {

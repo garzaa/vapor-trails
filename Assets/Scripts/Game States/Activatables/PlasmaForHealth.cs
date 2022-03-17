@@ -6,11 +6,11 @@ public class PlasmaForHealth : Activatable {
 
     override public void ActivateSwitch(bool b) {
         if (b) {
-            InventoryList playerInventory = GlobalController.inventory.items;
-            if (playerInventory.HasItem(plasma)) {
-                StoredItem playerPlasma = playerInventory.GetItem(plasma);
+            InventoryController playerInventory = GlobalController.inventory;
+            if (playerInventory.items.HasItem(plasma)) {
+                StoredItem playerPlasma = playerInventory.items.GetItem(plasma);
                 int plasmaCount = playerPlasma.count;
-                playerInventory.RemoveItem(playerPlasma);
+                playerInventory.items.RemoveItem(playerPlasma);
                 GlobalController.BoostStat(StatType.HEALTH, plasmaCount*healthPerPlasma);
             }
         }

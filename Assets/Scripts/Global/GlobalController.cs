@@ -64,6 +64,7 @@ public class GlobalController : MonoBehaviour {
 	static Coroutine showPlayerRoutine;
 
 	static StateChangeRegistry stateChangeRegistry;
+	static PlayerStats playerStats;
 
 	#pragma warning disable 0649
 	[SerializeField] SaveContainer saveContainer;
@@ -93,6 +94,7 @@ public class GlobalController : MonoBehaviour {
 
 	void Start() {
 		versionUIText.text = version;
+		playerStats = GameObject.FindObjectOfType<PlayerStats>();
 		saveContainer.OnSceneLoad();
 		PushStateChange();
 	}
@@ -333,10 +335,8 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddGameFlag(GameFlag f) {
-		if (!save.gameFlags.Contains(f)) {
-			save.gameFlags.Add(f);
-			PushStateChange();
-		}
+		save.gameFlags.Add(f);
+		PushStateChange();
 	}
 
 	public static void PushStateChange(bool fakeSceneLoad=false) {
@@ -352,10 +352,8 @@ public class GlobalController : MonoBehaviour {
 
 
 	public static void RemoveGameFlag(GameFlag f) {
-		if (save.gameFlags.Contains(f)) {
-			save.gameFlags.Remove(f);
-			PushStateChange();
-		}
+		save.gameFlags.Remove(f);
+		PushStateChange();
 	}
 
 	public static bool HasFlag(GameFlag f) {
@@ -367,16 +365,14 @@ public class GlobalController : MonoBehaviour {
 
 	public static void AddState(GameState state) {
 		if (state == null) return;
-		if (!save.gameStates.Contains(state.name)) {
-			save.gameStates.Add(state.name);
-		}
+		save.gameStates.Add(state.name);
 		PushStateChange();
 	}
 
 	public static void AddStates(List<GameState> states) {
 		foreach (GameState state in states) {
 			if (state == null) continue;
-			if (!save.gameStates.Contains(state.name)) save.gameStates.Add(state.name);
+			save.gameStates.Add(state.name);
 		}
 		PushStateChange();
 	}
@@ -563,19 +559,16 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void SaveGame(bool autosave=false) {
-		if (save.unlocks.HasAbility(Ability.Heal) && !autosave) {
+		if (playerStats.HasAbility(Ability.Heal) && !autosave) {
 			AlerterText.Alert("Rebuilding waveform");
 			pc.FullHeal();
 		}
 		if (autosave) AlerterText.AlertImmediate("Autosaving...");
-		save.currentHP = pc.currentHP;
-		save.maxHP = pc.maxHP;
-		save.currentEnergy = pc.currentEnergy;
-		save.maxEnergy = pc.maxEnergy;
-		save.basePlayerDamage = pc.baseDamage;
+		foreach (ISaveListener saveListener in UtilityMethods.Find<ISaveListener>()) {
+			saveListener.OnBeforeSave();
+		}
 		save.playerPosition = pc.transform.position;
 		save.sceneName = SceneManager.GetActiveScene().path;
-		gc.GetComponentInChildren<MapFog>().SaveCurrentMap();
 		gc.saveContainer.WriteToDiskSlot(saveSlot);
 		if (autosave) AlerterText.AlertImmediate("Autosave complete");
 	}
@@ -593,17 +586,11 @@ public class GlobalController : MonoBehaviour {
 		paused = false;
 	}
 
-	public static SerializedPersistentObject GetPersistentObject(string id) {
-		if (save == null) {
-			return null;
-		}
-		return save.GetPersistentObject(id);
+	public static Dictionary<string, object> GetPersistentObject(PersistentObject o) {
+		return save.GetPersistentObject(o.GetID());
 	}
 
-	public static void SavePersistentObject(SerializedPersistentObject o) {
-		if (save == null) {
-			return;
-		}
+	public static void SavePersistentObject(PersistentObject o) {
 		save.SavePersistentObject(o);
 	}
 
@@ -662,7 +649,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void UnlockAbility(Ability a) {
-		save.UnlockAbility(a);
+		playerStats.UnlockAbility(a);
 	}
 
 	public static void EnterMerchantDialogue(Merchant merchant) {
@@ -674,26 +661,16 @@ public class GlobalController : MonoBehaviour {
 	public static void BoostStat(StatType statType, int amount) {
 		switch (statType) {
 			case StatType.HEALTH:
-				int missing = pc.maxHP-pc.currentHP;
-				pc.maxHP += amount;
-				pc.currentHP = pc.maxHP-missing;
+				pc.BoostHealth(amount);
 				break;
 			case StatType.ENERGY:
-				pc.maxEnergy += amount;
+				pc.BoostEnergy(amount);
 				break;
 			case StatType.DAMAGE:
-				pc.baseDamage += amount;
+				pc.BoostBaseDamage(amount);
 				break;
 		}
 		StatBoostUI.ReactToBoost(statType, amount);
-	}
-
-	static void SyncStats() {
-		save.maxHP = pc.maxHP;
-		save.currentHP = pc.currentHP;
-		save.maxEnergy = pc.maxEnergy;
-		save.currentEnergy = pc.currentEnergy;
-		save.basePlayerDamage = pc.baseDamage;
 	}
 
 	public static void HidePlayer() {

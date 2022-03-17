@@ -11,18 +11,18 @@ public class TargetingSystem : MonoBehaviour {
 	public GameObject targetingUI;
 	Animator targetAnim;
 
-	PlayerUnlocks playerUnlocks;
+	PlayerStats playerStats;
 	
 	bool onPlayer = false;
 
 	void Start() {
 		onPlayer = gameObject.GetComponentInParent<GlobalController>() != null;
 		if (!onPlayer) return;
-		playerUnlocks = GlobalController.save.unlocks;
+		playerStats = GameObject.FindObjectOfType<PlayerStats>();
 	}
 
 	bool CanTarget() {
-		return !onPlayer || playerUnlocks.HasAbility(Ability.GunEyes);
+		return !onPlayer || playerStats.HasAbility(Ability.GunEyes);
 	}
 
 	void OnEnable() {

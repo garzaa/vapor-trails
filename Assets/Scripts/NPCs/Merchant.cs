@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(InventoryList))]
 public class Merchant : PersistentObject {
 
     public List<Item> startingInventory;
@@ -21,27 +22,22 @@ public class Merchant : PersistentObject {
 
     public bool generateMapIcon = true;
 
-
-    override protected void Start() {
-        base.Start();
-        if (generateMapIcon) {
-			//Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);
-		}
-    }
-
-    override public void ConstructFromSerialized(SerializedPersistentObject s) {
-        if (s == null) {
+    protected override void SetDefaults() {
+        if (!hasSavedData) {
             this.baseInventory.AddAll(startingInventory);
             return;
         }
-
-        this.persistentProperties = s.persistentProperties;
-
-        this.gameFlagsHit = ((List<int>) s.persistentProperties["GameFlags"]).Select(
+    
+        this.gameFlagsHit = (GetProperty<List<int>>("GameFlags")).Select(
             x => (GameFlag) x
         ).ToList();
+    }
 
-        this.baseInventory = s.persistentProperties["Inventory"] as InventoryList;
+    void Start() {
+        if (generateMapIcon) {
+			//Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);
+		}
+        baseInventory = GetComponent<InventoryList>();
     }
 
     public void AddGameFlagInventory(GameFlagInventory i) {
@@ -52,18 +48,11 @@ public class Merchant : PersistentObject {
         gameFlagsHit.Add(i.flag);
     }
 
-    override protected void UpdateObjectState() {
-        this.persistentProperties = new Hashtable();
-        this.persistentProperties.Add("Inventory", baseInventory);
-        this.persistentProperties.Add(
+    public void ReactToBuy() {
+        SetProperty(
             "GameFlags", 
             this.gameFlagsHit.Select(f => (int) f).ToList()
         );
-        SaveObjectState();
-    }
-
-    public void ReactToBuy() {
-        this.UpdateObjectState();
     }
 
     public string GetThanksDialogue(Item item) {

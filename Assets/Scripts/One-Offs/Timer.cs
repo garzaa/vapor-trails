@@ -5,37 +5,31 @@ using System;
 public class Timer : PersistentObject {
 	public Text timerLabel;
 	float time;
-	bool enabledForThisScene;
+	bool enabledForThisScene = true;
 	bool paused;
 
-	protected override void Start() {
-		base.Start();
-		enabledForThisScene = true;
+
+	protected override void SetDefaults() {
+		SetDefault(nameof(time), 0f);
+	}
+
+	void Start() {
 		if (TransitionManager.sceneData != null && TransitionManager.sceneData.pauseSpeedrunTimer) {
 			enabledForThisScene = false;
 		}
-	}
-
-	public override void ConstructFromSerialized(SerializedPersistentObject s) {
-		if (s == null) return;
-		persistentProperties = s.persistentProperties;
-		time = 0;
-		if (persistentProperties.ContainsKey(nameof(time))) {
-			time = (float) persistentProperties[nameof(time)];
-		}
+		time = GetProperty<float>(nameof(time));
 	}
 
 	void Update() {
+		TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+		timerLabel.text = timeSpan.ToString(@"hh\:mm\:ss\.ff");
+		
 		if (!enabledForThisScene) return;
 		if (paused) return;
 
 		time += Time.unscaledDeltaTime;
 		
-		TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-		timerLabel.text = timeSpan.ToString(@"hh\:mm\:ss\.ff");
-
-		persistentProperties[nameof(time)] = time;
-		SaveObjectState();
+		SetProperty(nameof(time), time);
 	}
 
 	public void Pause() {
@@ -44,9 +38,5 @@ public class Timer : PersistentObject {
 
 	public void Resume() {
 		paused = false;
-	}
-
-	override public string GetID() {
-		return nameof(time);
 	}
 }

@@ -3,98 +3,68 @@ using UnityEngine;
 
 [System.Serializable]
 public class Save {
-    public int maxHP = 12;
-    public int maxEnergy = 8;
-
     public int slotNum = 1;
-    public int currentHP;
-    public int currentEnergy;
-    public int basePlayerDamage = 1;
 
     public string version {
         get;
         private set;
     }
 
-    public List<GameFlag> gameFlags = new List<GameFlag>();
+    public HashSet<GameFlag> gameFlags = new HashSet<GameFlag>();
+    public HashSet<string> gameStates = new HashSet<string>();
 
-    public List<string> gameStates = new List<string>();
-
-    public PlayerUnlocks unlocks;    
-    
     public string sceneName;
-    public InventoryList playerItems;
     
-    [System.NonSerialized]
     public Vector2 playerPosition;
-
-    float playerX;
-    float playerY;
-
-    [System.NonSerialized]
-    public Dictionary<string, SerializedPersistentObject> persistentObjects = new Dictionary<string, SerializedPersistentObject>();
-    
-    public List<string> persistentObjectKeys = new List<string>();
-    public List<SerializedPersistentObject> persistentObjectValues = new List<SerializedPersistentObject>(); 
+    public Dictionary<string, Dictionary<string, object>> persistentObjects = new Dictionary<string, Dictionary<string, object>>();
 
     public GameOptions options;
 
     public bool firstLoadHappened;
 
+    const string enabled = "enabled";
+    const string mapFog = "mapFog";
+
     public void Initialize() {
         // called once per save
         firstLoadHappened = false;
-        currentHP = maxHP;
-        currentEnergy = maxEnergy;
         sceneName = "";
         version = Application.version;
         persistentObjects.Clear();
-        playerItems.Clear();
         gameFlags.Clear();
         gameStates.Clear();
-        unlocks.Clear();
-        persistentObjectKeys.Clear();
-        persistentObjectValues.Clear();
     }
 
-    public void SavePersistentObject(SerializedPersistentObject o) {
-        persistentObjects[o.id] = o;
+    void AddSubDictIfNeeded(string s) {
+        if (!persistentObjects.ContainsKey(s)) persistentObjects[s] = new Dictionary<string, object>();
     }
 
-    public SerializedPersistentObject GetPersistentObject(string id) {
-        SerializedPersistentObject o = null;
-        persistentObjects.TryGetValue(id, out o);
-        return o;
-    }
-
-    public void UnlockAbility(Ability a) {
-        if (!unlocks.unlockedAbilities.Contains(a)) {
-            unlocks.unlockedAbilities.Add(a);
+    public void SavePersistentObject(PersistentObject o) {
+        if (o is PersistentEnabled) {
+            AddSubDictIfNeeded(enabled);
+            persistentObjects[enabled][o.GetID()] = o.GetAllProperties();
+            return;
         }
+        else if (o is MapFog) {
+            AddSubDictIfNeeded(mapFog);
+            persistentObjects[mapFog][o.GetID()] = o.GetAllProperties();
+            return;
+        }
+        persistentObjects[o.GetID()] = o.GetAllProperties();
+    }
+
+    public Dictionary<string, object> GetPersistentObject(string id) {
+        Dictionary<string, object> d = null;
+        persistentObjects.TryGetValue(id, out d);
+        return d;
     }
 
     public void BeforeSerialize() {
         options.Apply();
         version = Application.version;
-
-        playerX = playerPosition.x;
-        playerY = playerPosition.y;
-
-        persistentObjectKeys.Clear();
-        persistentObjectValues.Clear();
-        foreach (KeyValuePair<string, SerializedPersistentObject> kv in persistentObjects) {
-            persistentObjectKeys.Add(kv.Key);
-            persistentObjectValues.Add(kv.Value);
-        }
     }
 
     public void AfterDeserialize() {
-        this.persistentObjects = new Dictionary<string, SerializedPersistentObject>();
-        for (int i=0; i<persistentObjectKeys.Count; i++) {
-            this.persistentObjects.Add(persistentObjectKeys[i], persistentObjectValues[i]);
-        }
-
-        playerPosition = new Vector2(playerX, playerY);
         options.Load();
     }
 }

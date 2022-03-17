@@ -1,65 +1,65 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PersistentObject : MonoBehaviour {
+public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 
-	public Hashtable persistentProperties = new Hashtable();
+	[Tooltip("If checked, objects with this name share data between scenes.")]
+	public bool useGlobalName;
 
-	protected string id;
+	protected bool hasSavedData {
+		get { return properties.Count > 0; }
+	}
+
+	Dictionary<string, object> properties = new Dictionary<string, object>();
 
 	virtual public string GetID() {
-		if (id == null) {
-			id = SceneManager.GetActiveScene().path + "/" + gameObject.GetHierarchicalName();
+		if (useGlobalName) return gameObject.name;
+		else return SceneManager.GetActiveScene().name + "/" + gameObject.GetHierarchicalName() + ": " + GetType().Name;
+	}
+
+	protected void OnEnable() {
+		properties = LoadObjectState();
+		SetDefaults();
+	}
+
+	public void Reset() {
+		properties.Clear();
+		SetDefaults();
+	}
+
+	protected abstract void SetDefaults();
+
+	protected void SetDefault(string key, object val) {
+		if (!properties.ContainsKey(key)) {
+			properties[key] = val;
 		}
-		return id;
 	}
 
-	// this is called after the global Awake so the initial save data will always be present
-	virtual protected void Start() {
-		SerializedPersistentObject o = LoadObjectState();
-        ConstructFromSerialized(o);
+	public Dictionary<string, object> GetAllProperties() {
+		return properties;
 	}
 
-	public Hashtable GetProperties() {
-		return persistentProperties;
+	protected Dictionary<string, object> LoadObjectState() {
+		Dictionary<string, object> o = GlobalController.GetPersistentObject(this);
+		if (o == null) return new Dictionary<string, object>();
+		return o;
 	}
 
-	public SerializedPersistentObject MakeSerialized() {
-		return new SerializedPersistentObject(this);
+	public void OnBeforeSave() {
+		GlobalController.SavePersistentObject(this);
 	}
 
-	virtual public void ConstructFromSerialized(SerializedPersistentObject s) {
-		if (s == null) {
-			return;
-		}
-		this.persistentProperties = s.persistentProperties;
+	protected bool HasProperty(string key) {
+		return properties.ContainsKey(key);
 	}
 
-	protected SerializedPersistentObject LoadObjectState() {
-		return GlobalController.GetPersistentObject(GetID());
-	}
-	
-	public string StoredObjectName() {
-		return System.Guid.NewGuid().ToString();
+	protected void SetProperty(string key, object obj) {
+		properties[key] = obj;
 	}
 
-	// to be called from subclasses
-	virtual protected void UpdateObjectState() {
-
-	}
-
-	protected void SaveObjectState() {
-		GlobalController.SavePersistentObject(this.MakeSerialized());
-	}
-}
-
-[System.Serializable]
-public class SerializedPersistentObject {
-	public readonly string id;
-	public readonly Hashtable persistentProperties;
-	public SerializedPersistentObject(PersistentObject p) {
-		this.persistentProperties = p.GetProperties();
-		this.id = p.GetID();
+	protected T GetProperty<T>(string key) {
+		return (T) properties[key];
 	}
 }

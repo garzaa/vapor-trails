@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour {
-    public InventoryList items {
-        get {
-            return GlobalController.GetSaveContainer().GetInventory();
-        }
-    } 
     public InventoryUI inventoryUI;
     public MerchantUI merchantUI;
     bool inInventory = false;
@@ -18,13 +13,19 @@ public class InventoryController : MonoBehaviour {
     public Merchant currentMerchant;
     public Text moneyUI;
     public AudioSource itemBuy;
-
-    public void OnEnable() {
-        UpdateMoneyUI();
+    bool initialized = false;
+    private InventoryList _items = null;
+    public InventoryList items {
+        get {
+            if (_items == null) {
+                _items = GetComponent<InventoryList>();
+            }
+            return _items;
+        }
     }
 
-    public void Clear() {
-        items.Clear();
+    void Awake() {
+        UpdateMoneyUI();
     }
 
     public void ReactToItemSelect(StoredItem item) {
