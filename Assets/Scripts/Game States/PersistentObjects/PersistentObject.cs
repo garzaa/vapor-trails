@@ -73,6 +73,9 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	}
 
 	protected T GetProperty<T>(string key) {
+		if (properties[key].GetType().Equals(typeof(JObject))) {
+			properties[key] = (properties[key] as JObject).ToObject<T>();
+		}
 		return (T) properties[key];
 	}
 
@@ -99,7 +102,7 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 		try {
 			return (List<T>) v;
 		} catch (InvalidCastException) {
-			return ((JArray) v).ToObject<List<T>>();
+			return (v as JArray).ToObject<List<T>>();
 		}
 	}
 }

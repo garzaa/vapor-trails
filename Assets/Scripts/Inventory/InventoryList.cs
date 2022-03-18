@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryList : PersistentObject {
-    private List<StoredItem> _items = null;
+    List<StoredItem> _items = null;
 
     public List<StoredItem> items  {
         get {
