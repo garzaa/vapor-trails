@@ -17,8 +17,19 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	Dictionary<string, object> properties = new Dictionary<string, object>();
 
 	virtual public string GetID() {
-		if (useGlobalName) return gameObject.name + ": " + GetType().Name;
+		if (useGlobalName) return "Global/" + gameObject.name + ": " + GetType().Name;
 		else return SceneManager.GetActiveScene().name + "/" + gameObject.GetHierarchicalName() + ": " + GetType().Name;
+	}
+
+	public string[] GetPath() {
+		List<string> l = new List<string>(GetID().Split('/'));
+		l.RemoveAt(l.Count - 1);
+		return l.ToArray();
+	}
+
+	public string GetName() {
+		string[] s = GetID().Split('/');
+		return s[s.Length-1];
 	}
 
 	protected void OnEnable() {

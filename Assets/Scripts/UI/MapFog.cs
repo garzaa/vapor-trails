@@ -76,6 +76,6 @@ public class MapFog : PersistentObject {
     }
 
     override public string GetID() {
-        return SceneManager.GetActiveScene().name + ": "+ nameof(MapFog);
+        return "MapFog/" + SceneManager.GetActiveScene().name;
     }
 }

@@ -92,13 +92,13 @@
         Debug.DrawLine(corner1, corner2, color);
     }
 
-    public static List<T> Find<T>(  )
+    public static List<T> Find<T>(bool includeInactive=false)
          {
              List<T> interfaces = new List<T>();
              GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
              foreach( var rootGameObject in rootGameObjects )
              {
-                 T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
+                 T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>(includeInactive: includeInactive);
                  foreach( var childInterface in childrenInterfaces )
                  {
                      interfaces.Add(childInterface);

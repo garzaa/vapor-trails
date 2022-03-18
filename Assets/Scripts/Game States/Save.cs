@@ -22,9 +22,6 @@ public class Save {
 
     public bool firstLoadHappened;
 
-    const string enabled = "enabled";
-    const string mapFog = "mapFog";
-
     public void Initialize() {
         // called once per save
         firstLoadHappened = false;
@@ -35,38 +32,37 @@ public class Save {
         gameStates.Clear();
     }
 
-    void AddSubDictIfNeeded(string s) {
-        if (!persistentObjects.ContainsKey(s)) persistentObjects[s] = new Dictionary<string, object>();
+    Dictionary<string, object> GetSubDict(Dictionary<string, object> current, string s) {
+        if (current == null) Debug.Log("huh??? "+ s);
+        if (!current.ContainsKey(s)) {
+            current[s] = new Dictionary<string, object>();
+        }
+        return current[s] as Dictionary<string, object>;
     }
 
-    public void SavePersistentObject(PersistentObject o) {
-        string id = o.GetID();
-        if (id.Contains(nameof(PersistentEnabled))) {
-            AddSubDictIfNeeded(enabled);
-            persistentObjects[enabled][o.GetID()] = o.GetAllProperties();
-            return;
+    Dictionary<string, object> GetDictForPath(string[] path) {
+        // turn a/b/c into persistentObjects[a][b][c]
+        Debug.Log(string.Join("/", path));
+        string root = path[0];
+        if (!persistentObjects.ContainsKey(root)) {
+            Debug.Log("adding subdict "+ root);
+            persistentObjects[root] = new Dictionary<string, object>();
         }
-        else if (id.Contains(nameof(MapFog))) {
-            AddSubDictIfNeeded(mapFog);
-            persistentObjects[mapFog][o.GetID()] = o.GetAllProperties();
-            return;
+        Dictionary<string, object> current = persistentObjects[root];
+        for (int i=1; i<path.Length; i++) {
+            current = GetSubDict(current, path[i]);
         }
-        persistentObjects[o.GetID()] = o.GetAllProperties();
+        return current;
     }
 
-    public Dictionary<string, object> GetPersistentObject(string id) {
-        if (id.Contains(nameof(PersistentEnabled))) {
-            if (persistentObjects.ContainsKey(enabled) && persistentObjects[enabled].ContainsKey(id)) {
-                return persistentObjects[enabled][id] as Dictionary<string, object>;
-            }
-        } else if (id.Contains(nameof(MapFog))) {
-            if (persistentObjects.ContainsKey(mapFog) && persistentObjects[mapFog].ContainsKey(id)) {
-                return persistentObjects[mapFog][id] as Dictionary<string, object>;
-            }
-        }
-        Dictionary<string, object> d = null;
-        persistentObjects.TryGetValue(id, out d);
-        return d;
+    public void SetPersistentObject(PersistentObject o) {
+        GetDictForPath(o.GetPath())[o.GetName()] = o.GetAllProperties();
+    }
+
+    public Dictionary<string, object> GetPersistentObject(PersistentObject o) {
+        object d = null;
+        GetDictForPath(o.GetPath()).TryGetValue(o.GetName(), out d);
+        return d as Dictionary<string, object>;
     }
 
     public void BeforeSerialize() {

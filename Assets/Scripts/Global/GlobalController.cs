@@ -565,7 +565,7 @@ public class GlobalController : MonoBehaviour {
 			pc.FullHeal();
 		}
 		if (autosave) AlerterText.AlertImmediate("Autosaving...");
-		foreach (ISaveListener saveListener in UtilityMethods.Find<ISaveListener>()) {
+		foreach (ISaveListener saveListener in UtilityMethods.Find<ISaveListener>(includeInactive: true)) {
 			saveListener.OnBeforeSave();
 		}
 		save.playerPosition = pc.transform.position;
@@ -588,11 +588,11 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static Dictionary<string, object> GetPersistentObject(PersistentObject o) {
-		return save.GetPersistentObject(o.GetID());
+		return save.GetPersistentObject(o);
 	}
 
 	public static void SavePersistentObject(PersistentObject o) {
-		save.SavePersistentObject(o);
+		save.SetPersistentObject(o);
 	}
 
 	static void UpdateControllerStatus() {
