@@ -33,19 +33,20 @@ public class Save {
     }
 
     Dictionary<string, object> GetSubDict(Dictionary<string, object> current, string s) {
-        if (current == null) Debug.Log("huh??? "+ s);
         if (!current.ContainsKey(s)) {
+            Debug.Log("adding subdict "+ s);
             current[s] = new Dictionary<string, object>();
+        } else {
+            // TODO: if this is a JObject, convert it to an object and then a new dictionary<string, object>
+            Debug.Log(current[s].GetType());
         }
         return current[s] as Dictionary<string, object>;
     }
 
     Dictionary<string, object> GetDictForPath(string[] path) {
         // turn a/b/c into persistentObjects[a][b][c]
-        Debug.Log(string.Join("/", path));
         string root = path[0];
         if (!persistentObjects.ContainsKey(root)) {
-            Debug.Log("adding subdict "+ root);
             persistentObjects[root] = new Dictionary<string, object>();
         }
         Dictionary<string, object> current = persistentObjects[root];
