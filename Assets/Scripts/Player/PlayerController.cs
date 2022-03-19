@@ -79,6 +79,7 @@ public class PlayerController : Entity {
 	bool inMeteor = false;
 	public bool justLeftWall = false;
 	bool justLeftGround = false;
+	bool platformBoosted = false;
 	Coroutine currentWallTimeout;
 	Coroutine coyoteTimeout;
 	Coroutine exitCutsceneRoutine;
@@ -547,10 +548,17 @@ public class PlayerController : Entity {
 		}
 		// disable ground check for a little while to not snap back to ground
 		groundCheck.DisableFor(0.1f);
-		rb2d.velocity = new Vector2(
-			rb2d.velocity.x,
-			jumpSpeed
-		);
+		// leave in an old bug, but you just get one
+		// jump while moving upwards through a platform to add vertical speed
+		if (!platformBoosted && rb2d.velocity.y > 0.1f) {
+			platformBoosted = true;
+			rb2d.velocity += Vector2.up * jumpSpeed;
+		} else {
+			rb2d.velocity = new Vector2(
+				rb2d.velocity.x,
+				jumpSpeed
+			);
+		}
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
@@ -728,6 +736,7 @@ public class PlayerController : Entity {
 	public override void OnGroundHit(float impactSpeed) {
 		grounded = true;
 		canShortHop = true;
+		platformBoosted = false;
 		RefreshAirMovement();
 		InterruptAttack();
 		StopWallTimeout();
