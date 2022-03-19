@@ -10,6 +10,7 @@ public class GameOptions {
     public float lookaheadRatio = 1f;
     public bool timer = false;
     public bool upsample = true;
+    public bool cameraShake = true;
     
     bool fullscreen = true;
 
@@ -23,6 +24,7 @@ public class GameOptions {
         lookaheadRatio = LoadInt("LookaheadRatio");
         timer = LoadBool("Timer");
         upsample = LoadBool("Upsample");
+        cameraShake = LoadBool("CameraShake");
     
         Application.runInBackground = LoadBool("RunInBackground");
         QualitySettings.vSyncCount = LoadInt("VSync");

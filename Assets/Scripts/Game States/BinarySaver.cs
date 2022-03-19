@@ -19,8 +19,7 @@ public class BinarySaver : MonoBehaviour {
     public static void SaveFile(Save save, int slot) {
         save.BeforeSerialize();
 
-        using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.OpenOrCreate))
-        {
+        using (FileStream fileStream = File.Open(GetSavePath(slot), FileMode.OpenOrCreate)) {
             binaryFormatter.Serialize(fileStream, save);
         }
     }
@@ -44,7 +43,6 @@ public class BinarySaver : MonoBehaviour {
             }
             return true;
         } catch (Exception) {
-            // deal with legacy saves/changed formats
             return false;
         }
     }

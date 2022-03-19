@@ -42,6 +42,9 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	static void Shake(CinemachineImpulseSource source) {
+		if (!GlobalController.save.options.cameraShake) {
+			return;
+		}
 		source.GenerateImpulse();
 		rewiredPlayer.StopVibration();
 		rewiredPlayer.SetVibration(0, shakeAmount*2f, source.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime);
