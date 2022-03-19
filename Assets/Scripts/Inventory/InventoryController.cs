@@ -13,7 +13,6 @@ public class InventoryController : MonoBehaviour {
     public Merchant currentMerchant;
     public Text moneyUI;
     public AudioSource itemBuy;
-    bool initialized = false;
     private InventoryList _items = null;
     public InventoryList items {
         get {
@@ -24,7 +23,7 @@ public class InventoryController : MonoBehaviour {
         }
     }
 
-    void Awake() {
+    void Start() {
         UpdateMoneyUI();
     }
 

@@ -43,7 +43,7 @@ public class PlayerCameraPoint : MonoBehaviour {
 	public void SnapToPlayer() {
 		transform.position = pc.transform.position;
 		velocity = Vector2.zero;
-		lookaheadTarget.localPosition = Vector2.zero;
+		lookaheadTarget.localPosition = GetLookaheadVector(true);
 		lookaheadTargetVelocity = Vector2.zero;
 	}
 
@@ -58,17 +58,21 @@ public class PlayerCameraPoint : MonoBehaviour {
 		);
 	}
 
-	void UpdateLookahead() {
-		lookaheadDelta = Vector3.zero;
+	Vector2 GetLookaheadVector(bool isGrounded) {
+		Vector2 v = Vector3.zero;
+		v.x = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookaheadRatio * xMultiplier;
+		v.y = pc.IsGrounded() ? (1 * lookaheadRatio) : (pc.YMoveSpeedRatio() * lookaheadRatio * yMultiplier);
 
-		lookaheadDelta.x = pc.ForwardScalar() * pc.MoveSpeedRatio() * lookaheadRatio * xMultiplier;
-		lookaheadDelta.y = pc.IsGrounded() ? (1 * lookaheadRatio) : (pc.YMoveSpeedRatio() * lookaheadRatio * yMultiplier);
-
-		lookaheadDelta.x = Mathf.Clamp(lookaheadDelta.x, -maxLookahead.x, maxLookahead.x);
-		lookaheadDelta.y = Mathf.Clamp(lookaheadDelta.y, -maxLookahead.y, maxLookahead.y);
+		v.x = Mathf.Clamp(v.x, -maxLookahead.x, maxLookahead.x);
+		v.y = Mathf.Clamp(v.y, -maxLookahead.y, maxLookahead.y);
 
 		// then right stick offset
-		if (!disableLook) lookaheadDelta += (Vector3) InputManager.RightStick() * stickMultiplier;
+		if (!disableLook) v += InputManager.RightStick() * stickMultiplier;
+		return v;
+	}
+
+	void UpdateLookahead() {
+		lookaheadDelta = GetLookaheadVector(pc.IsGrounded());
 
 		lookaheadTarget.localPosition = Vector3.SmoothDamp(
 			lookaheadTarget.localPosition,

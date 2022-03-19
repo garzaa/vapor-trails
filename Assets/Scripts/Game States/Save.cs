@@ -33,16 +33,19 @@ public class Save {
         gameStates.Clear();
     }
 
+    void ResetPersistentObject() {
+        foreach (PersistentObject p in Resources.FindObjectsOfTypeAll<PersistentObject>()) {
+            p.Reload();
+        }
+    }
+
     Dictionary<string, object> GetSubDict(Dictionary<string, object> current, string s) {
         if (!current.ContainsKey(s)) {
-            Debug.Log("adding subdict "+ s);
             current[s] = new Dictionary<string, object>();
         } else if (current[s].GetType().Equals(typeof(JObject))){
             // if this is a JObject, convert it to an object and then a new dictionary<string, object>
             // this will come from disk saves being loaded as loosely-typed dictionaries
             Dictionary<string, object> d =  (current[s] as JObject).ToObject<Dictionary<string, object>>();
-            Debug.Log("converted current["+s+"] to native object");
-            Debug.Log(string.Join(",", d.Keys));
             current[s] = d;
         }
         return current[s] as Dictionary<string, object>;
@@ -53,10 +56,6 @@ public class Save {
         string root = path[0];
         if (!persistentObjects.ContainsKey(root)) {
             persistentObjects[root] = new Dictionary<string, object>();
-        }
-        if (persistentObjects[root].GetType().Equals(typeof(JObject))) {
-            Debug.Log("as;dofha;srkljf");
-            // Dictionary<string, object> d = (persistentObjects[root] as JObject).ToObject<Dictionary<string, object>>();
         }
         Dictionary<string, object> current = persistentObjects[root];
         for (int i=1; i<path.Length; i++) {
@@ -73,7 +72,9 @@ public class Save {
         object d = null;
         GetDictForPath(o.GetPath()).TryGetValue(o.GetName(), out d);
         if (d != null) {
-            Debug.Log("successfully loaded property for "+o.GetName());
+            if (d.GetType().Equals(typeof(JObject))) {
+                return (d as JObject).ToObject<Dictionary<string, object>>();
+            }
         }
         return d as Dictionary<string, object>;
     }

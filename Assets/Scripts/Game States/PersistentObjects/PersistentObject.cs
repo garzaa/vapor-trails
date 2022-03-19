@@ -15,10 +15,31 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	}
 
 	Dictionary<string, object> properties = new Dictionary<string, object>();
+	
+	protected void OnEnable() {
+		properties = LoadObjectState();
+		SetDefaults();
+	}
 
-	virtual public string GetID() {
-		if (useGlobalName) return "Global/" + gameObject.name + ": " + GetType().Name;
-		else return SceneManager.GetActiveScene().name + "/" + gameObject.GetHierarchicalName() + ": " + GetType().Name;
+	void OnDestroy() {
+		SyncToSave();
+	}
+
+	public void OnBeforeSave() {
+		SyncToSave();
+	}
+
+	void SyncToSave() {
+		GlobalController.SavePersistentObject(this);
+	}
+
+	public void Reload() {
+		this.OnEnable();
+	}
+
+	public string GetID() {
+		if (useGlobalName) return "globalObjects/" + gameObject.name + "/" + GetType().Name;
+		else return SceneManager.GetActiveScene().name + "/" + gameObject.GetHierarchicalName() + "/" + GetType().Name;
 	}
 
 	public string[] GetPath() {
@@ -30,16 +51,6 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	public string GetName() {
 		string[] s = GetID().Split('/');
 		return s[s.Length-1];
-	}
-
-	protected void OnEnable() {
-		properties = LoadObjectState();
-		SetDefaults();
-	}
-
-	public void Reset() {
-		properties.Clear();
-		SetDefaults();
 	}
 
 	protected abstract void SetDefaults();
@@ -58,10 +69,6 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 		Dictionary<string, object> o = GlobalController.GetPersistentObject(this);
 		if (o == null) return new Dictionary<string, object>();
 		return o;
-	}
-
-	public void OnBeforeSave() {
-		GlobalController.SavePersistentObject(this);
 	}
 
 	protected bool HasProperty(string key) {

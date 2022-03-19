@@ -63,19 +63,19 @@ public class SaveContainer : ScriptableObject {
     }
 
     public void LoadFromSlot(int slot) {
-        runtime.save = BinarySaver.LoadFile(slot);
+        runtime.save = JsonSaver.LoadFile(slot);
         runtime.loadedOnce = true;
     }
 
     public void WriteToDiskSlot(int slot) {
-        BinarySaver.SaveFile(runtime.save, slot);
+        JsonSaver.SaveFile(runtime.save, slot);
     }
 
     public void SyncImmediateStates(int slot) {
         // load a copy of the current save parallel to runtime, add/remove immediate states as necessary, and save
         // don't add any of the current runtime properties
-        if (BinarySaver.HasFile(slot)) {
-            Save diskSave = BinarySaver.LoadFile(slot);
+        if (JsonSaver.HasFile(slot)) {
+            Save diskSave = JsonSaver.LoadFile(slot);
 
             // prune old states
             List<string> toPrune = new List<string>();
@@ -97,7 +97,7 @@ public class SaveContainer : ScriptableObject {
                 }
             }
             // save the non-runtime save loaded from disk
-            BinarySaver.SaveFile(diskSave, slot);
+            JsonSaver.SaveFile(diskSave, slot);
         }
     }
 }

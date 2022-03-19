@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Text;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +18,7 @@ public class MapFog : PersistentObject {
 
     override protected void SetDefaults() {
         if (HasProperty(MAP_PROPERTY)) {
-            DecodeAndUpdateMap(GetProperty<byte[]>(MAP_PROPERTY));
+            DecodeAndUpdateMap(GetProperty<string>(MAP_PROPERTY));
         } else {
             ResetMap();
         }
@@ -39,19 +41,19 @@ public class MapFog : PersistentObject {
         SetProperty(MAP_PROPERTY, EncodeMap());
     }
 
-    byte[] EncodeMap() {
+    string EncodeMap() {
         Color32[] pixels = fog.GetPixels32();
-        byte[] alphas = new byte[pixels.Length];
+        StringBuilder alphas = new StringBuilder(new string('0', pixels.Length));
         for (int i=0; i<pixels.Length; i++) {
-            alphas[i] = pixels[i].a > 0 ? (byte) 1 : (byte) 0;
+            alphas[i] = (pixels[i].a > 0 ? '1' : '0');
         }
-        return alphas;
+        return alphas.ToString();
     }
 
-    void DecodeAndUpdateMap(byte[] map) {
+    void DecodeAndUpdateMap(string map) {
         Color32[] colors = new Color32[map.Length];
         for (int i=0; i<map.Length; i++) {
-            colors[i] = new Color(0, 0, 0, map[i]);
+            colors[i] = new Color(0, 0, 0, (int) char.GetNumericValue(map[i]));
         }
         fog.SetPixels32(colors);
         fog.Apply();
@@ -73,9 +75,5 @@ public class MapFog : PersistentObject {
         SaveCurrentMap();
 
         StartCoroutine(UpdateMap());
-    }
-
-    override public string GetID() {
-        return "MapFog/" + SceneManager.GetActiveScene().name;
     }
 }

@@ -7,8 +7,6 @@ public class PersistentEnabled : PersistentObject {
 
 	bool firstEnable = true;
 
-	bool calledCorrectly;
-
 	protected override void SetDefaults() {
 		if (firstEnable) {
 			firstEnable = false;
@@ -27,7 +25,6 @@ public class PersistentEnabled : PersistentObject {
 
 	// this is called from an item animation
 	public void Disable() {
-		calledCorrectly = true;
 		UpdateState(false);
 		gameObject.SetActive(false);
 	}

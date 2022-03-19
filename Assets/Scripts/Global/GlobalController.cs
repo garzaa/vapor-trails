@@ -123,7 +123,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static bool HasSavedGame() {
-		return BinarySaver.HasFile(saveSlot); 
+		return JsonSaver.HasFile(saveSlot); 
 	}
 
 	public void NewGame() {
