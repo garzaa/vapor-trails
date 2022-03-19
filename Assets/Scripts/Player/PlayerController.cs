@@ -547,7 +547,10 @@ public class PlayerController : Entity {
 		}
 		// disable ground check for a little while to not snap back to ground
 		groundCheck.DisableFor(0.1f);
-		rb2d.velocity += Vector2.up * jumpSpeed;
+		rb2d.velocity = new Vector2(
+			rb2d.velocity.x,
+			jumpSpeed
+		);
 		anim.SetTrigger(Buttons.JUMP);
 		InterruptAttack();
 		SoundManager.SmallJumpSound();
@@ -745,7 +748,7 @@ public class PlayerController : Entity {
 				// the player can be falling backwards
 				// don't multiply by HInput to be kinder to controller users
 				(Mathf.Abs(rb2d.velocity.x) + (Mathf.Abs(impactSpeed / 4f))) * ForwardScalar(),
-				impactSpeed
+				rb2d.velocity.y
 			);
 
 			if (currentState != PlayerStates.DIVEKICK && !inMeteor) {
