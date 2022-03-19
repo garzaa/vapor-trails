@@ -728,9 +728,7 @@ public class PlayerController : Entity {
 		RefreshAirMovement();
 		InterruptAttack();
 		StopWallTimeout();
-		if (!groundData.onLedge) {
-			StartCoroutine(SaveLastSafePos());
-		}
+		StartCoroutine(SaveLastSafePos());
 		if (rb2d.velocity.y < -1.5f) {
 			ImpactDust();
 		}
@@ -840,6 +838,9 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator SaveLastSafePos() {
+		if (!groundData.grounded && !groundData.onLedge || wall == null) {
+			yield break;
+		}
 		// if stunned, just wait a little while
 		if (stunned || frozen) {
 			yield return new WaitForSeconds(0.5f);
@@ -866,6 +867,7 @@ public class PlayerController : Entity {
 		if (currentHP <= 0) {
 			return;
 		}
+		Freeze();
 		anim.SetTrigger("OnEnvDamage");
 		LockInSpace();
 		speedLimiter.enabled = false;
@@ -875,6 +877,7 @@ public class PlayerController : Entity {
 		if (lastSafeObject) {
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
+		UnFreeze();
 		UnLockInSpace();
 		speedLimiter.enabled = true;
 	}
