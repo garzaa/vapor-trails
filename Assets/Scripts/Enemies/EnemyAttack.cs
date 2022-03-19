@@ -20,8 +20,7 @@ public class EnemyAttack : Attack {
 		base.OnTriggerEnter2D(other);
 	}
 
-	override public void OnAttackLand(Entity victim, Hurtbox hurtbox) { 
-		base.OnAttackLand(victim, hurtbox);
+	override public void ExtendedAttackLand(Entity victim) { 
 		if (attackLandEvent) {
 			attackerParent.GetComponent<Animator>().SetTrigger("AttackLand");
 		}

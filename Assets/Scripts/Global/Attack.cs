@@ -25,6 +25,7 @@ public class Attack : MonoBehaviour {
 	public bool knockbackAway = false;
 	public bool inheritMomentum = false;
 	public bool instakill = false;
+	HashSet<Entity> entitiesHitThisActive = new HashSet<Entity>();
 
 	protected Rigidbody2D rb2d;
 
@@ -35,11 +36,17 @@ public class Attack : MonoBehaviour {
 		rb2d = attackerParent.GetComponent<Rigidbody2D>();
 	}
 
+	void OnDisable() {
+		entitiesHitThisActive.Clear();
+	}
+
 	public virtual int GetDamage() {
 		return this.damage;
 	}
 
-	public virtual void OnAttackLand(Entity victim, Hurtbox hurtbox) {
+	public void OnAttackLand(Entity victim, Hurtbox hurtbox) {
+		entitiesHitThisActive.Add(victim);
+
 		ExtendedAttackLand(victim);
 
 		if (attackLandSound && !hurtbox.overrideHitSound) {
@@ -58,16 +65,20 @@ public class Attack : MonoBehaviour {
 	}
 
 	virtual protected void OnTriggerEnter2D(Collider2D otherCol) {
-		if (!ExtendedAttackCheck(otherCol)) {
+		Hurtbox hurtbox = otherCol.GetComponent<Hurtbox>();
+		if (!hurtbox || !ExtendedAttackCheck(hurtbox)) {	
 			return;
 		}
-		if (attackedTags.Contains(otherCol.gameObject.tag)) {
-			if (otherCol.GetComponent<Hurtbox>() == null) {
-				return;
-			}
-			Hurtbox hurtbox = otherCol.GetComponent<Hurtbox>();
+
+		Entity entity = hurtbox.GetParent();
+
+		if (entitiesHitThisActive.Contains(entity)) {
+			return;
+		}
+
+		if (attackedTags.Contains(hurtbox.gameObject.tag)) {
 			if (hurtbox.OnHit(this)) {
-				OnAttackLand(hurtbox.GetParent(), hurtbox);
+				OnAttackLand(entity, hurtbox);
 			}
 		}
 	}
@@ -87,11 +98,11 @@ public class Attack : MonoBehaviour {
 		return this.stunLength;
 	}
 
-	public virtual bool ExtendedAttackCheck(Collider2D col) {
-		if (col.GetComponent<Hurtbox>() == null) {
+	public virtual bool ExtendedAttackCheck(Hurtbox hurtbox) {
+		if (hurtbox == null) {
 			return false;
 		}
-		return !col.GetComponent<Hurtbox>().GetParent().invincible;
+		return !hurtbox.GetParent().invincible;
 	}
 
 	public virtual void ExtendedAttackLand(Entity e) {
