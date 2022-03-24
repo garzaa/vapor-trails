@@ -61,6 +61,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -112,7 +113,6 @@ MonoBehaviour:
   - {fileID: 8273482234294254902}
   objectsToActivate:
   - {fileID: 8306458595799364731}
-  switchOnActivation: 1
   singleActivation: 0
 --- !u!114 &8273482234294254902
 MonoBehaviour:
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798067a6a70cafa4b81a794376b2e44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSatisfied: 0
+  satisfied: 0
   flipped: 0
   active: 1
   flipToInactive: 0
@@ -289,10 +289,12 @@ MonoBehaviour:
   - {fileID: 8306458594368371305}
   speed: 2
   loop: 0
+  closeLoop: 1
   callback: {fileID: 0}
   flipToMovement: 0
   target: {fileID: 8306458595038960589}
   sendSpeedToAnimator: 0
+  currentDestination: 0
 --- !u!114 &5847982754391431127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb8f238a4695ec4aa56b47e4dd13603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useGlobalName: 0
 --- !u!1 &8306458595038960590
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,10 +464,12 @@ MonoBehaviour:
   - {fileID: 8306458596166454661}
   speed: 2
   loop: 0
+  closeLoop: 1
   callback: {fileID: 0}
   flipToMovement: 0
   target: {fileID: 8306458595038960589}
   sendSpeedToAnimator: 0
+  currentDestination: 0
 --- !u!114 &8275865370394631398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb8f238a4695ec4aa56b47e4dd13603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useGlobalName: 0
 --- !u!1001 &8306458594764469108
 PrefabInstance:
   m_ObjectHideFlags: 0

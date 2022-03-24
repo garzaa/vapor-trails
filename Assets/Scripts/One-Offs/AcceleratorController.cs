@@ -7,7 +7,7 @@ public class AcceleratorController : MonoBehaviour
 
     public Vector2 boostVector;
     public AudioClip[] boostSounds;
-    public int resetDelay;    
+    public int resetDelay;
 
     bool armed = true;
 

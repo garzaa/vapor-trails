@@ -4,7 +4,7 @@ public class LedgePop : MonoBehaviour {
     const float popDistance = 0.10f;
     const float castDistance = 0.05f;
     const float speedMultiplier = 0.5f;
-    const float yspeedCutoff = 2.5f;
+    const float yspeedCutoff = 3.5f;
 
     Collider2D col;
     Rigidbody2D rb;

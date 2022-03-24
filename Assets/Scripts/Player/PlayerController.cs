@@ -427,7 +427,7 @@ public class PlayerController : Entity {
 
 			targetVelocity = new Vector2(
 				targetXSpeed,
-				(groundData.grounded) ? 0 : rb2d.velocity.y
+				rb2d.velocity.y
 			);
 		
 		} 
@@ -850,12 +850,13 @@ public class PlayerController : Entity {
 	}
 
 	IEnumerator SaveLastSafePos() {
-		if (!groundData.grounded && !groundData.onLedge || wall == null) {
+		if ((!groundData.grounded && !groundData.onLedge) || wall != null) {
 			yield break;
 		}
+
 		// if stunned, just wait a little while
 		if (stunned || frozen) {
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(0.2f);
 			StartCoroutine(SaveLastSafePos());
 			yield break;
 		}
@@ -867,9 +868,6 @@ public class PlayerController : Entity {
 
 		// offset, in case it's moving
 		Vector3 currentOffset = transform.position - currentGround.transform.position;
-
-		// wait, in case it's spikes or something
-		yield return new WaitForSeconds(0.5f);
 
 		lastSafeObject = currentGround;
 		lastSafeOffset = currentOffset;
@@ -939,6 +937,10 @@ public class PlayerController : Entity {
 	void UpdateWallSliding() {
 		bool touchingLastFrame = wall!=null;
 		wall = wallCheck.GetWall();
+
+		if (!stats.HasAbility(Ability.WallClimb)) {
+			return;
+		}
 
 		if (!touchingLastFrame && (wall!=null)) {
 			OnWallHit(wall);
@@ -1559,13 +1561,13 @@ public class PlayerController : Entity {
 		InterruptMeteor();
 		StartCombatCooldown(); 
 		EndShortHopWindow();
-		anim.SetTrigger(Buttons.JUMP);
 		rb2d.MovePosition((Vector2) accelerator.transform.position + (Vector2.up * 0.32f).Rotate(accelerator.transform.rotation.eulerAngles.z));
 		Vector2 v  = accelerator.GetBoostVector();
 		rb2d.velocity = new Vector2(
 			v.x == 0 ? rb2d.velocity.x : v.x,
 			v.y
 		);
+		anim.Play("DivekickRecoil -251");
 	}
 
 	public bool InAttackStates() {
