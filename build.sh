@@ -12,3 +12,5 @@ echo "building project"
     -batchmode \
     -executeMethod ProjectBuilder.BuildAll
 echo "done"
+
+python busybot.py $(git describe --tags | cut -d "-" -f 1-2 | tr - .)
