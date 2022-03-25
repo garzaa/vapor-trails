@@ -13,7 +13,9 @@ async def on_ready():
 	print("busybox online")
 	craniel = await client.fetch_user(CRANE)
 	await craniel.send("build "+sys.argv[1]+" is done! please acknowledge")
-	await asyncio.sleep(60 * 10)
+	await asyncio.sleep(60 * 5)
+	await craniel.send("PLEASE")
+	await asyncio.sleep(60 * 5)
 	await craniel.send("you took longer than ten minutes to respond! I'm killing myself now!")
 	os._exit(0)
 	

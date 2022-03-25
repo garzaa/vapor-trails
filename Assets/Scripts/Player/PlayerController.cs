@@ -427,7 +427,7 @@ public class PlayerController : Entity {
 
 			targetVelocity = new Vector2(
 				targetXSpeed,
-				rb2d.velocity.y
+				(groundData.grounded) ? 0 : rb2d.velocity.y
 			);
 		
 		} 
