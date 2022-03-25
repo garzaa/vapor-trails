@@ -23,6 +23,8 @@ public class Merchant : PersistentObject {
     public bool generateMapIcon = true;
 
     protected override void SetDefaults() {
+        baseInventory = GetComponent<InventoryList>();
+
         if (!hasSavedData) {
             this.baseInventory.AddAll(startingInventory);
             return;
@@ -37,7 +39,6 @@ public class Merchant : PersistentObject {
         if (generateMapIcon) {
 			//Instantiate(Resources.Load("ShopIcon"), transform.position, Quaternion.identity, this.transform);
 		}
-        baseInventory = GetComponent<InventoryList>();
     }
 
     public void AddGameFlagInventory(GameFlagInventory i) {

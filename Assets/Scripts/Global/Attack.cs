@@ -25,7 +25,6 @@ public class Attack : MonoBehaviour {
 	public bool knockbackAway = false;
 	public bool inheritMomentum = false;
 	public bool instakill = false;
-	HashSet<Entity> entitiesHitThisActive = new HashSet<Entity>();
 
 	protected Rigidbody2D rb2d;
 
@@ -36,17 +35,11 @@ public class Attack : MonoBehaviour {
 		rb2d = attackerParent.GetComponent<Rigidbody2D>();
 	}
 
-	void OnDisable() {
-		entitiesHitThisActive.Clear();
-	}
-
 	public virtual int GetDamage() {
 		return this.damage;
 	}
 
 	public void OnAttackLand(Entity victim, Hurtbox hurtbox) {
-		entitiesHitThisActive.Add(victim);
-
 		ExtendedAttackLand(victim);
 
 		if (attackLandSound && !hurtbox.overrideHitSound) {
@@ -71,10 +64,6 @@ public class Attack : MonoBehaviour {
 		}
 
 		Entity entity = hurtbox.GetParent();
-
-		if (entitiesHitThisActive.Contains(entity)) {
-			return;
-		}
 
 		if (attackedTags.Contains(hurtbox.gameObject.tag)) {
 			if (hurtbox.OnHit(this)) {

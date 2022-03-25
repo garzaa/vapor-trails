@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour {
 	public string promptText;
 	GameObject textPrompt;
 
-	void OnEnable() {
+	public void OnEnable() {
 		this.gameObject.layer = LayerMask.NameToLayer(Layers.Interactables);
 		ExtendedStart();
 	}	

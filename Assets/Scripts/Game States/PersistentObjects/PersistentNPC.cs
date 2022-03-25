@@ -9,6 +9,7 @@ public class PersistentNPC : PersistentObject {
 
 	protected override void SetDefaults() {
 		npc = GetComponent<NPC>();
+		npc.OnEnable();
 
 		SetDefault("dialogueHash", 0);
 		SetDefault("currentConversation", 0);

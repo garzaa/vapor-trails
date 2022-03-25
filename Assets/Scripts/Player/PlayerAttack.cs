@@ -11,6 +11,7 @@ public class PlayerAttack : Attack {
 	public float hitstopLength = 0.2f;
 	public bool rotateHitmarker = true;
 	public bool pullInEntity = false;
+	HashSet<Entity> entitiesHitThisActive = new HashSet<Entity>();
 
 	public bool attackLandEvent = true;
 
@@ -29,10 +30,16 @@ public class PlayerAttack : Attack {
 		bc2d = GetComponent<BoxCollider2D>();
 	}
 
+	void OnDisable() {
+		entitiesHitThisActive.Clear();
+	}
+
 	public override void ExtendedAttackLand(Entity e) {
 		if (e == null) {
 			return;
 		}
+
+		entitiesHitThisActive.Add(e);
 
 		// the succ
 		Rigidbody2D r = e.GetComponent<Rigidbody2D>();
@@ -70,7 +77,13 @@ public class PlayerAttack : Attack {
 			if (costsEnergy && energyCost > attackerParent.GetComponent<PlayerController>().CheckEnergy()) {
 				return;
 			}
+
 			Hurtbox hurtbox = otherCol.GetComponent<Hurtbox>();
+
+			if (entitiesHitThisActive.Contains(hurtbox.GetParent().GetComponent<Entity>())) {
+				return;
+			}
+
 			if (hurtbox != null && hurtbox.OnHit(this)) {
 				OnAttackLand(hurtbox.GetParent(), hurtbox);
 			}
