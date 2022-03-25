@@ -17,6 +17,7 @@ public class PlayerAttack : Attack {
 
 	PlayerController player;
 	BoxCollider2D bc2d;
+	bool colliderOnLastFrame;
 
 	public GameObject[] baseDamageHitmarkers;
 
@@ -30,8 +31,15 @@ public class PlayerAttack : Attack {
 		bc2d = GetComponent<BoxCollider2D>();
 	}
 
-	void OnDisable() {
+	void OnAttackDisable() {
 		entitiesHitThisActive.Clear();
+	}
+
+	void Update() {
+		if (!bc2d.enabled && colliderOnLastFrame) {
+			OnAttackDisable();
+		}
+		colliderOnLastFrame = bc2d.enabled;
 	}
 
 	public override void ExtendedAttackLand(Entity e) {
