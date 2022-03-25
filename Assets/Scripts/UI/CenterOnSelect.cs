@@ -5,7 +5,7 @@ public class CenterOnSelect : MonoBehaviour, ISelectHandler {
 
     UILerper lerper;
 
-    void Start() {
+    void Awake() {
         lerper = GetComponentInParent<UILerper>();
     }
 
