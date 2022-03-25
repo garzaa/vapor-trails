@@ -24,13 +24,14 @@ public class Merchant : PersistentObject {
 
     protected override void SetDefaults() {
         baseInventory = GetComponent<InventoryList>();
+        SetDefault("GameFlags", new List<int>());
 
-        if (!hasSavedData) {
+	    if (!hasSavedData && (startingInventory != null && startingInventory.Count > 0)) {
             this.baseInventory.AddAll(startingInventory);
             return;
         }
     
-        this.gameFlagsHit = (GetProperty<List<int>>("GameFlags")).Select(
+        this.gameFlagsHit = (GetList<int>("GameFlags")).Select(
             x => (GameFlag) x
         ).ToList();
     }
