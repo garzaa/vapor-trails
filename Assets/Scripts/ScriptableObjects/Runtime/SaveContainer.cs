@@ -11,9 +11,11 @@ public class SaveContainer : ScriptableObject {
     [SerializeField] RuntimeSaveWrapper runtime;
 
     // this should probably always be empty for a new game
-    [SerializeField] List<GameCheckpoint> gameCheckpoints;
     [SerializeField] List<Item> startingItems;
     [SerializeField] List<GameState> startingGameStates;
+    [Tooltip("Import all items and states from the past saves")]
+    [SerializeField] List<SaveContainer> compositeSaves;
+
     #pragma warning restore 0649
 
     public Save GetSave() {
@@ -45,8 +47,8 @@ public class SaveContainer : ScriptableObject {
         if (isFirstLoad || forceInitialize) {
             runtime.save.Initialize();
 
-            List<Item> allStartingItems = gameCheckpoints.SelectMany(x => x.items).Union(startingItems).ToList();
-            List<GameState> allStartingStates = gameCheckpoints.SelectMany(x => x.states).Union(startingGameStates).ToList();
+            List<Item> allStartingItems = GetStartingItems();
+            List<GameState> allStartingStates = GetStartingStates();
 
             foreach (Item i in allStartingItems) {
                 if (!i) continue;
@@ -56,6 +58,24 @@ public class SaveContainer : ScriptableObject {
             runtime.save.firstLoadHappened = true;
         }
         runtime.loadedOnce = true;
+    }
+
+    protected List<Item> GetStartingItems() {
+        List<Item> items = new List<Item>();
+        items.AddRange(startingItems);
+        foreach (SaveContainer c in compositeSaves) {
+            items.AddRange(c.GetStartingItems());
+        }
+        return items;
+    }
+
+    protected List<GameState> GetStartingStates() {
+        List<GameState> states = new List<GameState>();
+        states.AddRange(startingGameStates);
+        foreach (SaveContainer c in compositeSaves) {
+            states.AddRange(c.GetStartingStates());
+        }
+        return states;
     }
 
     public bool RuntimeLoadedOnce() {

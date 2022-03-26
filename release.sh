@@ -23,4 +23,6 @@ set -x
 gitrelease
 itchrelease
 
+python busybox.py --build $(git describe --tags | cut -d "-" -f 1-2 | tr - .) --release
+
 set +x
