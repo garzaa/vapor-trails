@@ -69,7 +69,14 @@ public class LedgePop : MonoBehaviour {
         // if no hit with inner tolerance, then pop the rb2d in that direction
         if (hit.transform == null) {
             rb.MovePosition(rb.position+pop);
-            if (rb.velocity.y < yspeedCutoff) rb.velocity = new Vector2(rb.velocity.x, 0f);
+            if (rb.velocity.y < yspeedCutoff) {
+                if (player == null) {
+                    rb.velocity = new Vector2(rb.velocity.x, 0f);
+                } else {
+                    rb.velocity = new Vector2(rb.velocity.x, InputManager.Button(Buttons.JUMP) ? rb.velocity.y : 0f);
+                }
+                
+            }
 
             if (player != null) {
                 player.OnLedgePop();

@@ -9,10 +9,10 @@ public class PlayerStats : PersistentObject {
 
 	protected override void SetDefaults() {
 		SetDefault(baseDamage, 1);
-		SetDefault("currentHealth", 20);
-		SetDefault("maxHealth", 20);
-		SetDefault("currentEnergy", 10);
-		SetDefault("maxEnergy", 10);
+		SetDefault("currentHealth", 16);
+		SetDefault("maxHealth", 16);
+		SetDefault("currentEnergy", 12);
+		SetDefault("maxEnergy", 12);
 		SetDefault(nameof(unlockedAbilities), new List<string>());
 
 		// store enums as text
