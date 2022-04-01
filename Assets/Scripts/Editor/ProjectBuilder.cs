@@ -10,7 +10,7 @@ public class ProjectBuilder {
 
     public static void BuildAll() {
         enabledScenes = GetEnabledScenes();
-	    PlayerSettings.bundleVersion = Git.BuildVersion;
+	    PlayerSettings.bundleVersion = GetArg("-buildNum");
         Build(BuildTarget.WebGL, "webgl");
         Build(BuildTarget.StandaloneWindows64, "win-exe", extension: ".exe");
         Build(BuildTarget.StandaloneWindows, "win32-exe", extension: ".exe");
@@ -44,4 +44,18 @@ public class ProjectBuilder {
     static EditorBuildSettingsScene[] GetEnabledScenes() {
         return EditorBuildSettings.scenes.Where(scene => scene.enabled).ToArray();
     }
+
+    static string GetArg(string name)
+    {
+        var args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == name && args.Length > i + 1)
+            {
+                return args[i + 1];
+            }
+        }
+        return null;
+    }
+
 }

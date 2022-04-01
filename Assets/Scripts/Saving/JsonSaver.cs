@@ -8,6 +8,9 @@ using Newtonsoft.Json.Linq;
 public class JsonSaver : MonoBehaviour {
     const string folder = "saves";
     const string extension = ".json";
+    static readonly string[] versionsBeforeBreak = new string[] {
+        
+    };
 
     void OnEnable() {
         if (!Directory.Exists(GetFolderPath())) {
@@ -65,6 +68,15 @@ public class JsonSaver : MonoBehaviour {
         string[] saveVersion = version.Split('.');
         string[] currentVersion = Application.version.Split('.');
 
-        return saveVersion[0].Equals(currentVersion[0]) && saveVersion[1].Equals(currentVersion[1]);
+        bool minorVersionCompatible = true;
+        if (!saveVersion[1].Equals(currentVersion[1])) {
+            foreach (string s in versionsBeforeBreak) {
+                if (saveVersion[1].Equals(s)) {
+                    minorVersionCompatible = true;
+                }
+            }
+        }
+
+        return saveVersion[0].Equals(currentVersion[0]) && minorVersionCompatible;
     }
 }
