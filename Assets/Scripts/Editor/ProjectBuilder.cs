@@ -10,7 +10,7 @@ public class ProjectBuilder {
 
     public static void BuildAll() {
         enabledScenes = GetEnabledScenes();
-	    PlayerSettings.bundleVersion = Git.BuildVersion;
+	    PlayerSettings.bundleVersion = "0.17.29";// Git.BuildVersion;
         Build(BuildTarget.WebGL, "webgl");
         Build(BuildTarget.StandaloneWindows64, "win-exe", extension: ".exe");
         Build(BuildTarget.StandaloneWindows, "win32-exe", extension: ".exe");

@@ -39,7 +39,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	static void Shake(CinemachineImpulseSource source) {
-		if (SaveManager.save.options.cameraShake) {
+		if (!SaveManager.save.options.cameraShake) {
 			return;
 		}
 		source.GenerateImpulse();
