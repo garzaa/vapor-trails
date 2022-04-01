@@ -15,6 +15,7 @@ public class SceneActionGraph : SceneGraph<ActionGraph>, IStateChangeListener {
     }
 
     public void Awake() {
+		Debug.Log("registering state change listener for "+this.name);
         StateChangeRegistry.Add(this);
     }
 

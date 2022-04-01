@@ -31,7 +31,7 @@ public class PlayerCameraPoint : MonoBehaviour {
 
 	public void OnOptionsClose() {
 		// options slider is from 1 to 5
-		this.lookaheadRatio = GlobalController.save.options.lookaheadRatio / 5f;
+		this.lookaheadRatio = SaveManager.save.options.lookaheadRatio / 5f;
 		actualSmoothTime = smoothTime * lookaheadRatio;
 	}
 

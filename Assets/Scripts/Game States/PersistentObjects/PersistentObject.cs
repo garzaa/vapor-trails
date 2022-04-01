@@ -22,6 +22,10 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	}
 
 	void OnDestroy() {
+		// if this isn't here, they sync to the save when a new scene loads and dirty a "clean" chapter or disk save
+		if (TransitionManager.sceneData.dirty) {
+			return;
+		}
 		SyncToSave();
 	}
 
@@ -29,8 +33,8 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 		SyncToSave();
 	}
 
-	void SyncToSave() {
-		GlobalController.SavePersistentObject(this);
+	protected void SyncToSave() {
+		SaveManager.SavePersistentObject(this);
 	}
 
 	public void Reload() {
@@ -66,7 +70,7 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	}
 
 	protected Dictionary<string, object> LoadObjectState() {
-		Dictionary<string, object> o = GlobalController.GetPersistentObject(this);
+		Dictionary<string, object> o = SaveManager.GetPersistentObject(this);
 		if (o == null) return new Dictionary<string, object>();
 		return o;
 	}

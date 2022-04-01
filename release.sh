@@ -32,8 +32,8 @@ function releasezips() {
         -d "{\"tag_name\":\"$release_name\", \"name\": \"$build_num\" }"
     
     # upload files to that release
-    # update: this does NOT work
     for i in win-exe win32-exe osx webgl gnu-linux; do
+        # update: this does NOT work, return early
         break
         # 7z a -tzip ../demos/zips/vapor-trails-$i.zip ../demos/vapor-trails-$i
         curl \

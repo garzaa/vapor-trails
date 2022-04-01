@@ -15,7 +15,7 @@ public class SpriteSmoother : MonoBehaviour {
 	List<SmoothSpriteChild> children = new List<SmoothSpriteChild>();
 
 	void Start() {
-		if (!GlobalController.save.options.upsample) {
+		if (!SaveManager.save.options.upsample) {
 			return;
 		}
 		foreach (SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {

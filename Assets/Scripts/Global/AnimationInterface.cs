@@ -51,7 +51,7 @@ public class AnimationInterface : MonoBehaviour {
 	}
 
 	public void GameFlag(GameFlag flag) {
-		GlobalController.AddGameFlag(flag);
+		SaveManager.AddGameFlag(flag);
 	}
 
 	public void SelfAnimationTrigger(string t) {

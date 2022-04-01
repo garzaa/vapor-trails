@@ -33,7 +33,7 @@ public class FalseWall : PlayerTriggeredObject {
 
 	public override void OnPlayerEnter() {
 		GetComponent<Animator>().SetBool("Hidden", true);
-		sound.Play();
+		if (sound != null) sound.Play();
 	}
 
 	public override void OnPlayerExit() {

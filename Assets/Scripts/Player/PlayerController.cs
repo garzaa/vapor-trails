@@ -134,7 +134,7 @@ public class PlayerController : Entity {
 		anim = GetComponent<Animator>();
 		stats = GetComponent<PlayerStats>();
 		LoadStats();
-		options = GlobalController.save.options;
+		options = SaveManager.save.options;
 		this.facingRight = false;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();

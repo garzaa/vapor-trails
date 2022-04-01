@@ -30,11 +30,6 @@ public class GlobalController : MonoBehaviour {
 	static bool paused = false;
 	public static bool dialogueClosedThisFrame = false;
 	static NPC currentNPC;
-	public static Save save {
-		get {
-			return gc.saveContainer.GetSave();
-		}
-	}
 	static CloseableUI pauseUI;
 	public static bool inAnimationCutscene;
 	static bool inAbilityGetUI;
@@ -66,10 +61,6 @@ public class GlobalController : MonoBehaviour {
 	static StateChangeRegistry stateChangeRegistry;
 	static PlayerStats playerStats;
 
-	#pragma warning disable 0649
-	[SerializeField] SaveContainer saveContainer;
-	#pragma warning restore 0649
-
 	void Awake() {
 		gc = this;
 		titleText = editorTitleText;
@@ -86,36 +77,11 @@ public class GlobalController : MonoBehaviour {
 		playerMenu = GameObject.Find("PlayerMenu");
 		audioListener = gc.GetComponentInChildren<AudioListener>();
 		cmInterface = gc.GetComponentInChildren<CinemachineInterface>();
-
-#if UNITY_EDITOR
-		EditorApplication.playModeStateChanged += OnPlayModeChange;
-#endif
+		playerStats = GetComponentInChildren<PlayerStats>();
 	}
 
 	void Start() {
-		versionUIText.text = version;
-		playerStats = GameObject.FindObjectOfType<PlayerStats>();
-		saveContainer.OnSceneLoad();
-		PushStateChange();
-	}
-
-#if UNITY_EDITOR
-	// "clean" the runtime data when the editor stops playing to mimic a game exit
-	private static void OnPlayModeChange(PlayModeStateChange stateChange) {
-		if (stateChange == PlayModeStateChange.ExitingPlayMode) {
-			gc.saveContainer.CleanEditorRuntime();
-		}
-	}	
-#endif
-
-	void OnDisable() {
-		// only do disk IO when a scene is unloaded and not every time an item/state is added
-		saveContainer.SyncImmediateStates(saveSlot);
-	}
-
-	public static string GetCurrentVersion() {
-		// given a version like "0.15.2a" return 15
-		return gc.version;
+		versionUIText.text = Application.version;
 	}
 
 	public static void ShowTitleText(string title, string subTitle = null) {
@@ -124,12 +90,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static bool HasSavedGame() {
 		return JsonSaver.HasFile(saveSlot); 
-	}
-
-	public void NewGame() {
-		// replace with a fresh save, everything will be loaded correctly in the next scene
-		saveContainer.WipeSave();
-		saveContainer.OnSceneLoad();
 	}
 
 	static void OpenInventory() {
@@ -187,11 +147,11 @@ public class GlobalController : MonoBehaviour {
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.LeftBracket)) {
 			AlerterText.Alert("Saving game...");
-			GlobalController.SaveGame(autosave:false);
+			SaveManager.SaveGame(autosave:false);
 			AlerterText.Alert("Game saved");
 		} else if (Input.GetKeyDown(KeyCode.RightBracket)) {
 			AlerterText.Alert("Loading game...");
-			GlobalController.LoadGame();
+			SaveManager.LoadGame();
 			AlerterText.Alert("Game loaded");
 		}
 #endif
@@ -247,10 +207,6 @@ public class GlobalController : MonoBehaviour {
 		} else {
 			ExitDialogue();
 		}
-	}
-
-	public static SaveContainer GetSaveContainer() {
-		return gc.saveContainer;
 	}
 
 	public static void EnterDialogue(NPC npc, bool fromQueue=false) {
@@ -325,67 +281,12 @@ public class GlobalController : MonoBehaviour {
 		signUI.Hide();
 	}
 
-	public static Vector2 GetPlayerPos() {
-		return pc.transform.position;
-	}
-
 	//called when the new respawn scene is loaded
 	public static void StartPlayerRespawning() {
 		pc.StartRespawning();
 	}
 
-	public static void AddGameFlag(GameFlag f) {
-		save.gameFlags.Add(f);
-		PushStateChange();
-	}
-
-	public static void PushStateChange(bool fakeSceneLoad=false) {
-		Animator playerAnimator = pc.GetComponent<Animator>();
-		playerAnimator.logWarnings = true;
-		foreach (string s in save.gameStates) {
-			if (s.StartsWith("anim_")) {
-				playerAnimator.SetBool(s, true);
-			}
-		}
-		StateChangeRegistry.PushStateChange(fakeSceneLoad);
-	}
-
-
-	public static void RemoveGameFlag(GameFlag f) {
-		save.gameFlags.Remove(f);
-		PushStateChange();
-	}
-
-	public static bool HasFlag(GameFlag f) {
-		if (save == null || f == GameFlag.None) {
-			return false;
-		}
-		return save.gameFlags.Contains(f);
-	}
-
-	public static void AddState(GameState state) {
-		if (state == null) return;
-		save.gameStates.Add(state.name);
-		PushStateChange();
-	}
-
-	public static void AddStates(List<GameState> states) {
-		foreach (GameState state in states) {
-			if (state == null) continue;
-			save.gameStates.Add(state.name);
-		}
-		PushStateChange();
-	}
-
-	public static bool HasState(GameState state) {
-		return save.gameStates.Contains(state.name);
-	}
-
-	public static void RemoveState(GameState state) {
-		save.gameStates.Remove(state.name);
-		PushStateChange();
-	}
-
+	// TODO: encapsulate this better in TransitionManager
 	public static void LoadScene(string sceneName, Beacon beacon=null) {
 		if (beacon != null && beacon.leftScene != null) {
 			string beaconSceneName = beacon.leftScene.ScenePath;
@@ -548,32 +449,6 @@ public class GlobalController : MonoBehaviour {
 		ExitSlowMotion();
 	}
 
-	public static void LoadGame() {
-		gc.saveContainer.LoadFromSlot(saveSlot);
-		LoadSceneToPosition(save.sceneName, save.playerPosition);
- 	}
-
-	public static void LoadChapter(SaveContainer chapter, Beacon beacon) {
-		gc.saveContainer = chapter;
-		gc.saveContainer.OnSceneLoad(forceInitialize:true);
-		LoadScene(beacon);
-	}
-
-	public static void SaveGame(bool autosave=false) {
-		if (playerStats.HasAbility(Ability.Heal) && !autosave) {
-			AlerterText.Alert("Rebuilding waveform");
-			pc.FullHeal();
-		}
-		if (autosave) AlerterText.AlertImmediate("Autosaving...");
-		foreach (ISaveListener saveListener in UtilityMethods.Find<ISaveListener>(includeInactive: true)) {
-			saveListener.OnBeforeSave();
-		}
-		save.playerPosition = pc.transform.position;
-		save.sceneName = SceneManager.GetActiveScene().path;
-		gc.saveContainer.WriteToDiskSlot(saveSlot);
-		if (autosave) AlerterText.AlertImmediate("Autosave complete");
-	}
-
 	public static void Pause() {
 		if (pc.inCutscene) {
 			return;
@@ -585,14 +460,6 @@ public class GlobalController : MonoBehaviour {
 
 	public static void Unpause() {
 		paused = false;
-	}
-
-	public static Dictionary<string, object> GetPersistentObject(PersistentObject o) {
-		return save.GetPersistentObject(o);
-	}
-
-	public static void SavePersistentObject(PersistentObject o) {
-		save.SetPersistentObject(o);
 	}
 
 	static void UpdateControllerStatus() {
@@ -625,10 +492,10 @@ public class GlobalController : MonoBehaviour {
 			}
         }
 		if (item.gameStates != null) {
-			AddStates(item.gameStates);
+			SaveManager.AddStates(item.gameStates);
 		}
 		inventory.AddItem(s, quiet);
-		PushStateChange();
+		SaveManager.PushStateChange();
 	}
 
 	public static void ShowAbilityGetUI() {

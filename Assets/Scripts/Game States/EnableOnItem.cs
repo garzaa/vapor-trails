@@ -15,8 +15,11 @@ public class EnableOnItem : StateChangeReactor {
         if (wanted != null) {
             StoredItem i = GlobalController.inventory.items.GetItem(wanted);
             bool hasItem = (i != null && i.count >= amount);
-            if (setDisabled) gameObject.SetActive(!hasItem);
-            else gameObject.SetActive(hasItem);
+            if (setDisabled) {
+                gameObject.SetActive(!hasItem);
+            } else {
+                gameObject.SetActive(hasItem);
+            }
         } else {
             bool satisfied = true;
             foreach (Item i in wantedItems) {
@@ -29,5 +32,4 @@ public class EnableOnItem : StateChangeReactor {
             else gameObject.SetActive(satisfied);
         }
     }
-
 }

@@ -152,6 +152,6 @@ public class InputManager : MonoBehaviour {
     }
 
     public static float GetInputBufferDuration() {
-        return GlobalController.save.options.inputBuffer * (1f/16f);
+        return SaveManager.save.options.inputBuffer * (1f/16f);
     }
 }

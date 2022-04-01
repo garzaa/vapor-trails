@@ -6,6 +6,6 @@ public class GameStateGiver: Activatable {
 	public GameState gameState;
 
 	public override void ActivateSwitch(bool b) {
-		if (b) GlobalController.AddState(this.gameState);
+		if (b) SaveManager.AddState(this.gameState);
 	}
 }

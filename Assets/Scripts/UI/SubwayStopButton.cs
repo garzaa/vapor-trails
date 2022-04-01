@@ -31,7 +31,7 @@ public class SubwayStopButton : MonoBehaviour, ISelectHandler {
             Start();
         }
         anim = anim ?? GetComponent<Animator>();
-        if (requiredState!=null && !GlobalController.HasState(requiredState)) {
+        if (requiredState!=null && !SaveManager.HasState(requiredState)) {
             GetComponentInChildren<Text>().text = "???";
             // anim.SetBool("Interactable", false);
             discovered = false;

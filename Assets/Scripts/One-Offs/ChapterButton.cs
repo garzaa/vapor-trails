@@ -7,6 +7,6 @@ public class ChapterButton : MonoBehaviour {
 	public Beacon beacon;
 
 	public void OnSubmit() {
-		GlobalController.LoadChapter(save, beacon);
+		SaveManager.LoadChapter(save, beacon);
 	}
 }

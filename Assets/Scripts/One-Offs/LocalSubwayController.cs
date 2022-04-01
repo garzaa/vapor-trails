@@ -54,7 +54,7 @@ public class LocalSubwayController : AnimationInterface {
     public void CheckPlayerEnter() {
         if (!holdingPlayer) {
             if (discoveryState != null) {
-                GlobalController.AddState(discoveryState);
+                SaveManager.AddState(discoveryState);
             }
             animator.SetTrigger("Arrive");
             arrivingForPlayer = true;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameStateWanter : Activatable {
     public List<GameState> gameStates;
@@ -7,7 +8,7 @@ public class GameStateWanter : Activatable {
 
     override public void Activate() {
         foreach (GameState s in gameStates) {
-            if (!GlobalController.HasState(s)) {
+            if (!SaveManager.HasState(s)) {
                 if (noActivatable != null) {
                     noActivatable.Activate();
                 }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour {
     public InventoryUI inventoryUI;
-    public MerchantUI merchantUI;
     bool inInventory = false;
 
     public Item moneyItem;

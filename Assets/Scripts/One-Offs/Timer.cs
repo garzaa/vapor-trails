@@ -11,18 +11,17 @@ public class Timer : PersistentObject {
 
 	protected override void SetDefaults() {
 		SetDefault(nameof(time), 0f);
+		time = GetFloat(nameof(time));
 	}
 
 	void Start() {
 		if (TransitionManager.sceneData != null && TransitionManager.sceneData.pauseSpeedrunTimer) {
 			enabledForThisScene = false;
 		}
-		time = GetFloat(nameof(time));
 	}
 
 	void Update() {
-		TimeSpan timeSpan = TimeSpan.FromSeconds(time);
-		timerLabel.text = timeSpan.ToString(@"hh\:mm\:ss\.ff");
+		timerLabel.text = TimeSpan.FromSeconds(time).ToString(@"hh\:mm\:ss\.ff");
 		
 		if (!enabledForThisScene) return;
 		if (paused) return;

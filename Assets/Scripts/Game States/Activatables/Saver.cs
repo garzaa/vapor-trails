@@ -7,7 +7,7 @@ public class Saver : Activatable {
 	public bool autosave = true;
 
 	override public void Activate() {
-		GlobalController.SaveGame(autosave: autosave);
+		SaveManager.SaveGame(autosave: autosave);
 	}
 
 	override public void ActivateSwitch(bool b) {

@@ -17,9 +17,9 @@ public class SwitchOnStateImmediate : SwitchOnState {
 
 	void UpdateSelf() {
 		if (enableOnState) {
-			targetObject.SetActive(GlobalController.HasFlag(gameFlag));
+			targetObject.SetActive(SaveManager.HasFlag(gameFlag));
 		} else {
-			targetObject.SetActive(!GlobalController.HasFlag(gameFlag));
+			targetObject.SetActive(!SaveManager.HasFlag(gameFlag));
 		}
 	}
 

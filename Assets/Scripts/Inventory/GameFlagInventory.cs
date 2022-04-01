@@ -8,7 +8,7 @@ public class GameFlagInventory : MonoBehaviour {
     public List<Item> items;
 
     void Start() {
-        if (GlobalController.HasFlag(this.flag)) {
+        if (SaveManager.HasFlag(this.flag)) {
             merchant.AddGameFlagInventory(this);
         }
     }

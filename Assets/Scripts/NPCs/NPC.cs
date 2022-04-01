@@ -78,8 +78,8 @@ public class NPC : Interactable {
 		base.AddPrompt();
 	}
 
-	public int GetConversationsHash() {
-		return conversations.PersistentHashCode();
+	public string GetConversationsHash() {
+		return conversations.PersistentHashCode().ToString();
 	}
 
 	public bool AtLastConversation() {

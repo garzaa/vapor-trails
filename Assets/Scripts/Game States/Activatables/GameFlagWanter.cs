@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Collections.Generic;
 
 public class GameFlagWanter : Activatable {
@@ -7,7 +8,7 @@ public class GameFlagWanter : Activatable {
 
     override public void Activate() {
         foreach (GameFlag f in gameFlags) {
-            if (!GlobalController.HasFlag(f)) {
+            if (!SaveManager.HasFlag(f)) {
                 if (noActivatable != null) {
                     noActivatable.Activate();
                     if (yesActivatable != null) {

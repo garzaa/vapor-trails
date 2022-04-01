@@ -61,7 +61,7 @@ public class DialogueUI : CloseableUI {
 		StartSlowRender(controllerFriendlyText);
 
 		if (line.gameFlag != GameFlag.None) {
-			GlobalController.AddGameFlag(line.gameFlag);
+			SaveManager.AddGameFlag(line.gameFlag);
 		}
 	}
 

@@ -9,9 +9,9 @@ public class SwitchOnState : StateChangeReactor {
 
 	override public void React(bool fakeSceneLoad) {
 		if (enableOnState) {
-			this.gameObject.SetActive(GlobalController.HasFlag(gameFlag));
+			this.gameObject.SetActive(SaveManager.HasFlag(gameFlag));
 		} else {
-			this.gameObject.SetActive(!GlobalController.HasFlag(gameFlag));
+			this.gameObject.SetActive(!SaveManager.HasFlag(gameFlag));
 		}
 	}
 	

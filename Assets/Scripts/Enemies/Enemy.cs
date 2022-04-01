@@ -53,7 +53,7 @@ public class Enemy : Entity {
 		fakeDamage = hp < 0;
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
-		playerObject = GameObject.FindObjectOfType<PlayerController>().gameObject;
+		playerObject = GlobalController.pc.gameObject;
 		if ((anim = this.GetComponent<Animator>()) != null) {
 			this.hasAnimator = true;
 			anim.logWarnings = false;

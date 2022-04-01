@@ -28,8 +28,26 @@ public class InventoryList : PersistentObject {
         return null;
     }
 
-    public void Clear() {
-        items.Clear();
+    public void AddItem(StoredItem s) {
+        if (s.item.stackable && HasItem(s)) {
+            GetItem(s).count += s.count;
+        } else {
+            items.Add(s);
+        }
+    }
+
+    public void RemoveItem(StoredItem toRemove) {
+        if (GetItem(toRemove) == null) {
+            Debug.Log("RemoveItem isn't nullsafe you brainlet");
+        }
+        if (toRemove.item.stackable) {
+            GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
+            if (GetItem(toRemove).count == 0) {
+                items.Remove(GetItem(toRemove));
+            }
+        } else {
+            items.Remove(GetItem(toRemove));
+        } 
     }
 
     public bool IsEmpty() {
@@ -68,14 +86,6 @@ public class InventoryList : PersistentObject {
         return HasItem(stored.name);
     }
 
-    public void AddItem(StoredItem s) {
-        if (s.item.stackable && HasItem(s)) {
-            GetItem(s).count += s.count;
-        } else {
-            items.Add(s);
-        }
-    }
-
     public void AddItem(Item s) {
         AddItem(new StoredItem(s));
     }
@@ -94,20 +104,5 @@ public class InventoryList : PersistentObject {
         foreach (StoredItem i in items) {
             AddItem(i.item);
         }
-    }
-
-    public void RemoveItem(StoredItem toRemove) {
-        if (GetItem(toRemove) == null) {
-            Debug.Log("RemoveItem isn't nullsafe you brainlet");
-        }
-        if (toRemove.item.stackable) {
-            GetItem(toRemove).count -= Mathf.Max(toRemove.count, 1);
-            if (GetItem(toRemove).count == 0) {
-                items.Remove(GetItem(toRemove));
-            }
-        } else {
-            items.Remove(GetItem(toRemove));
-        } 
-
     }
 }

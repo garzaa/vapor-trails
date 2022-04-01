@@ -4,9 +4,6 @@ using Cinemachine;
 
 public class CameraShaker : MonoBehaviour
 {
-	public static float shakeDuration = 0f;
-	static bool shaking = false;
-	
 	public static float shakeAmount = 0.1f;
 	public static float decreaseFactor = 1.0f;
 	
@@ -42,7 +39,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	static void Shake(CinemachineImpulseSource source) {
-		if (!GlobalController.save.options.cameraShake) {
+		if (SaveManager.save.options.cameraShake) {
 			return;
 		}
 		source.GenerateImpulse();
@@ -51,12 +48,11 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public static void StartShaking() {
-		shaking = true;
+		throw new System.NotImplementedException();
 	}
 
 	public static void StopShaking() {
 		rewiredPlayer.StopVibration();
-		shaking = false;
-		shakeDuration = 0;
+		// throw new System.NotImplementedException();
 	}
 }

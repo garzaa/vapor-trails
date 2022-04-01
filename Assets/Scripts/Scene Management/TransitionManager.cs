@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour {
 
-	public Transition transition;
 	public static SceneData sceneData;
+
+	#pragma warning disable 0649
+	[SerializeField] Transition transition;
+	#pragma warning restore 0649
 
 	float targetVolume = 1f;
 	float originalVolume = 1f;
@@ -19,6 +22,8 @@ public class TransitionManager : MonoBehaviour {
 	GlobalController global;
 	Timer speedrunTimer;
 
+	static TransitionManager instance;
+
 	void Awake() {
 		global = GetComponentInParent<GlobalController>();
 		speedrunTimer = GameObject.FindObjectOfType<Timer>();
@@ -26,6 +31,7 @@ public class TransitionManager : MonoBehaviour {
 		ApplySceneData();
 		LoadFromTransition();
 		transition.Clear();
+		instance = this;
 	}
 
 	void Update() {
@@ -46,7 +52,7 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.UnFadeToBlack();
 		FadeAudio(1);
 
-		if (!GlobalController.GetSaveContainer().RuntimeLoadedOnce()) {
+		if (transition.IsEmpty()) {
 			return;
 		}
 
@@ -57,6 +63,10 @@ public class TransitionManager : MonoBehaviour {
 		} else {
 			GlobalController.MovePlayerTo(transition.position);
 		}
+	}
+
+	public static void SetChapter(SaveContainer chapter) {
+		instance.transition.chapterToImport = chapter;
 	}
 
 	public void LoadSceneWithSubway(string sceneName) {

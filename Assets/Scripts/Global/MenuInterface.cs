@@ -17,7 +17,7 @@ public class MenuInterface : MonoBehaviour {
 	}
 	
 	public void LoadGame() {
-		GlobalController.LoadGame();
+		SaveManager.LoadGame();
 	}
 
 	public void Exit() {
@@ -29,10 +29,10 @@ public class MenuInterface : MonoBehaviour {
 	}
 
 	public void ApplyGameOptions() {
-		GlobalController.save.options.Apply();
+		SaveManager.save.options.Apply();
 	}
 
 	public void LoadGameOptions() {
-		GlobalController.save.options.Load();
+		SaveManager.save.options.Load();
 	}
 }

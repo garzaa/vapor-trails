@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class PersistentNPC : PersistentObject {
 
 	NPC npc;
 
+
 	protected override void SetDefaults() {
 		npc = GetComponent<NPC>();
 		npc.OnEnable();
 
-		SetDefault("dialogueHash", 0);
+		SetDefault("dialogueHash", "0");
 		SetDefault("currentConversation", 0);
 		SetDefault("currentDialogueLine", 0);
 
-		if (npc.GetConversationsHash() == GetProperty<int>("dialogueHash")) {
+		if (npc.GetConversationsHash().ToString().Equals(GetProperty<string>("dialogueHash"))) {
 			npc.currentConversation = GetProperty<int>("currentConversation");
 			npc.currentDialogueLine = GetProperty<int>("currentDialogueLine");
 		}

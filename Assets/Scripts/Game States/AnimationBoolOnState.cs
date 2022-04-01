@@ -11,7 +11,7 @@ public class AnimationBoolOnState : MonoBehaviour {
 	private bool toSet;
 
 	void Start() {
-		toSet = GlobalController.HasFlag(gameFlag) && !invertPresence;
+		toSet = SaveManager.HasFlag(gameFlag) && !invertPresence;
 	}
 
 	//to play nice with animators that get activated and deactivated

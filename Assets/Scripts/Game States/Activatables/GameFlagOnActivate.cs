@@ -6,6 +6,6 @@ public class GameFlagOnActivate : Activatable {
 	public GameFlag flagName;
 
 	public override void ActivateSwitch(bool b) {
-		if (b) GlobalController.AddGameFlag(this.flagName);
+		if (b) SaveManager.AddGameFlag(this.flagName);
 	}
 }
