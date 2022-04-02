@@ -42,16 +42,26 @@ public class SaveManager : MonoBehaviour {
 #endif
 
 	public static void LoadGame() {
-		TransitionManager.sceneData.dirty = true;
+		TransitionManager.DirtyScene();
 		instance.saveContainer.LoadFromSlot(instance.saveSlot);
 		GlobalController.LoadSceneToPosition(save.sceneName, save.playerPosition);
 	}
 
 	public static void LoadChapter(SaveContainer chapter, Beacon beacon) {
-		TransitionManager.sceneData.dirty = true;
+		TransitionManager.DirtyScene();
+		TransitionManager.SetChapter(chapter);
+		GlobalController.LoadScene(beacon);
+	}
+
+	public static void ImportChapter(SaveContainer chapter) {
 		instance.saveContainer = chapter;
 		instance.saveContainer.SetRuntimeFromSelfData();
-		GlobalController.LoadScene(beacon);
+		PushStateChange(fakeSceneLoad: true);
+	}
+
+	public static void ImportCurrentChapter() {
+		instance.saveContainer.SetRuntimeFromSelfData();
+		PushStateChange(fakeSceneLoad: true);
 	}
 
 	public static void SaveGame(bool autosave=false) {

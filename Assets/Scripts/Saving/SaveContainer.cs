@@ -27,11 +27,8 @@ public class SaveContainer : ScriptableObject {
         runtime.save.Clear();
     }
 
-    private SaveContainer GetNewSaveContainer() {
-        return Resources.Load("ScriptableObjects/Runtime/Save Containers/New") as SaveContainer;
-    }
-
     public void SetRuntimeFromSelfData() {
+        runtime.save.Clear();
         List<Item> allStartingItems = GetStartingItems();
         List<GameState> allStartingStates = GetStartingStates();
 

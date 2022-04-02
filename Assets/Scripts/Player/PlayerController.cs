@@ -879,6 +879,7 @@ public class PlayerController : Entity {
 		}
 		Freeze();
 		anim.SetTrigger("OnEnvDamage");
+		stunned = true;
 		LockInSpace();
 		speedLimiter.enabled = false;
 	}
@@ -888,6 +889,7 @@ public class PlayerController : Entity {
 			GlobalController.MovePlayerTo(lastSafeObject.transform.position + (Vector3) lastSafeOffset);
 		}
 		UnFreeze();
+		stunned = false;
 		UnLockInSpace();
 		speedLimiter.enabled = true;
 	}
@@ -1138,7 +1140,6 @@ public class PlayerController : Entity {
 		CancelInvoke(nameof(StartParryWindow));
 
 		if (this.currentHP == 0) return;
-		
 		if (isEnvDmg) return;
 
 		StunFor(attack.stunLength);
@@ -1164,7 +1165,7 @@ public class PlayerController : Entity {
 			Animator anim = GetComponent<Animator>();
 			anim.SetTrigger("OnHit");
 			anim.SetBool("Stunned", true);
-			// play immediate in hitstun1
+			// play immediate in hitstun
 			anim.Update(0.1f);
 	        Invoke("UnStun", seconds);
 		}

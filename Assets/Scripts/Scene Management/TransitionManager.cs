@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour {
 
-	public static SceneData sceneData;
+	public static SceneData sceneData {
+		get; private set;
+	}
 
 	#pragma warning disable 0649
 	[SerializeField] Transition transition;
@@ -18,6 +20,7 @@ public class TransitionManager : MonoBehaviour {
 	float transitionEndTime;
 	public GameObject loadTextUI;
 	public Text loadProgressText;
+	public static bool dirty { get; private set; }
 
 	GlobalController global;
 	Timer speedrunTimer;
@@ -25,13 +28,13 @@ public class TransitionManager : MonoBehaviour {
 	static TransitionManager instance;
 
 	void Awake() {
+		instance = this;
 		global = GetComponentInParent<GlobalController>();
 		speedrunTimer = GameObject.FindObjectOfType<Timer>();
 		loadTextUI.SetActive(false);
 		ApplySceneData();
 		LoadFromTransition();
 		transition.Clear();
-		instance = this;
 	}
 
 	void Update() {
@@ -39,6 +42,10 @@ public class TransitionManager : MonoBehaviour {
 			elapsedTime += Time.deltaTime;
 			AudioListener.volume = Mathf.Lerp(originalVolume, targetVolume, elapsedTime/FADE_TIME);
 		}
+	}
+
+	public static void DirtyScene() {
+		dirty = true;
 	}
 
 	void FadeAudio(float targetVolume) {
@@ -53,7 +60,12 @@ public class TransitionManager : MonoBehaviour {
 		FadeAudio(1);
 
 		if (transition.IsEmpty()) {
+			SaveManager.ImportCurrentChapter();
 			return;
+		}
+
+		if (transition.chapterToImport != null) {
+			SaveManager.ImportChapter(transition.chapterToImport);
 		}
 
 		if (transition.subway) {

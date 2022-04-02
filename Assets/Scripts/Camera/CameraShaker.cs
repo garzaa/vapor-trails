@@ -48,7 +48,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public static void StartShaking() {
-		throw new System.NotImplementedException();
+		// throw new System.NotImplementedException();
 	}
 
 	public static void StopShaking() {

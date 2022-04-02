@@ -23,7 +23,7 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 
 	void OnDestroy() {
 		// if this isn't here, they sync to the save when a new scene loads and dirty a "clean" chapter or disk save
-		if (TransitionManager.sceneData.dirty) {
+		if (TransitionManager.dirty) {
 			return;
 		}
 		SyncToSave();
@@ -38,7 +38,7 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 	}
 
 	public void Reload() {
-		this.OnEnable();
+		OnEnable();
 	}
 
 	public string GetID() {

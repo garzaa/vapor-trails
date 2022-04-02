@@ -8,6 +8,10 @@ public abstract class StateChangeReactor : MonoBehaviour, IStateChangeListener {
 	public void OnDestroy() {
 		StateChangeRegistry.Remove(this);
 	}
+
+	void Start() {
+		React(true);
+	}
 	
 	public abstract void React(bool fakeSceneLoad);
 }

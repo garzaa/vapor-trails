@@ -1,8 +1,9 @@
 alias butler="D:/Program\ Files/butler-windows-amd64/butler.exe"
 alias 7z="C:/Program\ Files/7-Zip/7z.exe"
 
-build_num=$(git describe --tags --match '[0–9]*' | cut -d "-" -f 1-2 | tr - .)
-release_name="r$build_num"
+source ./set_version.sh
+
+release_name="r$BUILD_NUM"
 
 function zip() {
     for i in win-exe win32-exe osx webgl gnu-linux; do

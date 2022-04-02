@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 using UnityEditor.Build.Reporting;
 
 public class ProjectBuilder {
@@ -10,7 +11,8 @@ public class ProjectBuilder {
 
     public static void BuildAll() {
         enabledScenes = GetEnabledScenes();
-	    PlayerSettings.bundleVersion = "0.17.29";// Git.BuildVersion;
+        string versionPath = Path.Combine(Directory.GetCurrentDirectory(), "version.txt");
+	    PlayerSettings.bundleVersion = System.IO.File.ReadAllText(versionPath).Replace("\n", "");
         Build(BuildTarget.WebGL, "webgl");
         Build(BuildTarget.StandaloneWindows64, "win-exe", extension: ".exe");
         Build(BuildTarget.StandaloneWindows, "win32-exe", extension: ".exe");

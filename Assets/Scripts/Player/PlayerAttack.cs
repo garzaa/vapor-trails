@@ -74,8 +74,8 @@ public class PlayerAttack : Attack {
 		
 		//run hitstop if it's a player attack
 		if (hitstopLength > 0.0f && this.gameObject.CompareTag(Tags.PlayerHitbox)) {
-			Hitstop.Run(this.hitstopLength);
 			CameraShaker.TinyShake();
+			Hitstop.Run(this.hitstopLength);
 		}
 	}
 

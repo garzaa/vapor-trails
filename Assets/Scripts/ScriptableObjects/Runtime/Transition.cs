@@ -15,6 +15,6 @@ public class Transition : ScriptableObject {
     }
 
     public bool IsEmpty() {
-        return (subway == false) && (beacon == null) && (position.Equals(Vector2.zero));
+        return (subway == false) && (beacon == null) && (position.Equals(Vector2.zero)) && (chapterToImport == null);
     }
 }

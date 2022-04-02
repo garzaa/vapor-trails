@@ -11,7 +11,6 @@ public class SceneData : MonoBehaviour {
 	public bool hideUI;
 	public bool forceFaceRight;
 	public bool disableCameraLook;
-	public bool dirty; 
 
 	void Awake() {
 		this.gameObject.name = "SceneData";
