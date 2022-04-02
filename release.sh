@@ -3,7 +3,7 @@ alias 7z="C:/Program\ Files/7-Zip/7z.exe"
 
 source ./set_version.sh
 
-release_name="r$BUILD_NUM"
+release_name="r$BUILD_VERSION"
 
 function zip() {
     for i in win-exe win32-exe osx webgl gnu-linux; do
@@ -30,7 +30,7 @@ function releasezips() {
         -H "Authorization: token $GITHUB_TOKEN" \
         -H "Accept: application/vnd.github.v3+json" \
         https://api.github.com/repos/garzaa/vapor-trails/releases \
-        -d "{\"tag_name\":\"$release_name\", \"name\": \"$build_num\" }"
+        -d "{\"tag_name\":\"$release_name\", \"name\": \"$BUILD_VERSION\" }"
     
     # upload files to that release
     for i in win-exe win32-exe osx webgl gnu-linux; do
@@ -60,9 +60,9 @@ function itchrelease() {
 
 set -x
 
-# zip
-gitrelease #&& itchrelease
+zip
+gitrelease && itchrelease
 
-# python busybox.py --build $build_num --release
+python busybox.py --build $BUILD_VERSION --release
 
 set +x
