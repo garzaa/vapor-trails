@@ -127,6 +127,7 @@ public class PlayerController : Entity {
 
 	void Awake() {
 		DisableTriggers();
+		this.facingRight = false;
 	}
 
 	void Start() {
@@ -135,7 +136,6 @@ public class PlayerController : Entity {
 		stats = GetComponent<PlayerStats>();
 		LoadStats();
 		options = SaveManager.save.options;
-		this.facingRight = false;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
 		spr = GetComponent<SpriteRenderer>();
         defaultMaterial = GetComponent<SpriteRenderer>().material;
@@ -700,7 +700,7 @@ public class PlayerController : Entity {
 
 	override public void ForceFlip() {
 		base.ForceFlip();
-		anim.SetBool("JustFlipped", true);
+		if (anim) anim.SetBool("JustFlipped", true);
 		Invoke("EndFlipWindow", coyoteTime);
 	}
 

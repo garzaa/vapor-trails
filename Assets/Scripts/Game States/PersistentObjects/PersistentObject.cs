@@ -29,11 +29,17 @@ public abstract class PersistentObject : MonoBehaviour, ISaveListener {
 		SyncToSave();
 	}
 
+	// optional, if the inherited class isn't syncing on every operation
+	protected virtual void PrepForSave() {
+
+	}
+
 	public void OnBeforeSave() {
 		SyncToSave();
 	}
 
 	protected void SyncToSave() {
+		PrepForSave();
 		SaveManager.SavePersistentObject(this);
 	}
 

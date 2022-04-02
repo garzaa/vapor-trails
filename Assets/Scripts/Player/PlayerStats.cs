@@ -14,12 +14,26 @@ public class PlayerStats : PersistentObject {
 		SetDefault("currentEnergy", 12);
 		SetDefault("maxEnergy", 12);
 		SetDefault(nameof(unlockedAbilities), new List<string>());
+		SetDefault("playerFacingRight", true);
 
 		// store enums as text
 		unlockedAbilities = new HashSet<Ability>(
 			GetList<string>(nameof(unlockedAbilities))
 			.Select(x => (Ability) System.Enum.Parse(typeof(Ability), x))
 		);
+	}
+
+	void Start() {
+		bool facingRight = GetProperty<bool>("playerFacingRight");
+		if (!GlobalController.pc.facingRight && facingRight) {
+			GlobalController.pc.Flip();
+		} else if (GlobalController.pc.facingRight && !facingRight) {
+			GlobalController.pc.Flip();
+		}
+	}
+
+	protected override void PrepForSave() {
+		SetProperty("playerFacingRight", GlobalController.pc.facingRight);
 	}
 
 	void UpdateAbilitiesProperty() {
