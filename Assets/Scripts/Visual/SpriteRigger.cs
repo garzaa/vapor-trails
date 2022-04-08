@@ -1,11 +1,15 @@
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 [ExecuteInEditMode]
 public class SpriteRigger : MonoBehaviour {
     public Texture2D spriteAtlas;
     
     void Awake() {
-        if (spriteAtlas != null) ApplyAtlas();
+        ApplyAtlas();
     }
 
     public void ApplyAtlas() {
@@ -28,3 +32,17 @@ public class SpriteRigger : MonoBehaviour {
 
     }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(SpriteRigger))]
+public class SpriteRiggerInspector : Editor {
+    public override void OnInspectorGUI() {
+        base.DrawDefaultInspector();
+        SpriteRigger spriteRigger = target as SpriteRigger;
+
+        if (GUILayout.Button("Apply Atlas")) {
+            spriteRigger.ApplyAtlas();  
+        }
+    }
+}
+#endif
