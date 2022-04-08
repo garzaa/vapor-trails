@@ -32,30 +32,15 @@ public class TransitionManager : MonoBehaviour {
 		global = GetComponentInParent<GlobalController>();
 		speedrunTimer = GameObject.FindObjectOfType<Timer>();
 		loadTextUI.SetActive(false);
+	}
+
+	void Start() {
 		ApplySceneData();
 		LoadFromTransition();
 		transition.Clear();
 	}
 
-	void Update() {
-		if (Time.time < transitionEndTime) {
-			elapsedTime += Time.deltaTime;
-			AudioListener.volume = Mathf.Lerp(originalVolume, targetVolume, elapsedTime/FADE_TIME);
-		}
-	}
-
-	public static void DirtyScene() {
-		dirty = true;
-	}
-
-	void FadeAudio(float targetVolume) {
-		this.targetVolume = targetVolume;
-		originalVolume = AudioListener.volume;
-		elapsedTime = 0;
-		transitionEndTime = Time.time + FADE_TIME;
-	}
-
-	private void LoadFromTransition() {
+	void LoadFromTransition() {
 		GlobalController.UnFadeToBlack();
 		FadeAudio(1);
 
@@ -75,6 +60,24 @@ public class TransitionManager : MonoBehaviour {
 		} else {
 			GlobalController.MovePlayerTo(transition.position);
 		}
+	}
+
+	void Update() {
+		if (Time.time < transitionEndTime) {
+			elapsedTime += Time.deltaTime;
+			AudioListener.volume = Mathf.Lerp(originalVolume, targetVolume, elapsedTime/FADE_TIME);
+		}
+	}
+
+	public static void DirtyScene() {
+		dirty = true;
+	}
+
+	void FadeAudio(float targetVolume) {
+		this.targetVolume = targetVolume;
+		originalVolume = AudioListener.volume;
+		elapsedTime = 0;
+		transitionEndTime = Time.time + FADE_TIME;
 	}
 
 	public static void SetChapter(SaveContainer chapter) {
