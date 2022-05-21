@@ -112,7 +112,7 @@ public class GlobalController : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		}
 
-		if (inAbilityGetUI && InputManager.ButtonDown(Buttons.JUMP)) {
+		if (inAbilityGetUI && Input.anyKeyDown) {
 			HideAbilityGetUI();
 		}
 
