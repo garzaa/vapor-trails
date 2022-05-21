@@ -74,7 +74,7 @@ public class PlayerController : Entity {
 	WallCheckData wall = null;
 	int airJumps;
 	int airDashes = 1;
-	bool dashCooldown = false;
+	public bool dashCooldown = false;
 	public bool dashing = false;
 	bool inMeteor = false;
 	public bool justLeftWall = false;
@@ -713,6 +713,11 @@ public class PlayerController : Entity {
 		anim.SetBool("RedWings", true);
         yield return new WaitForSecondsRealtime(seconds);
         EndDashCooldown();
+    }
+
+	public void ShortenDashCooldown()
+    {
+		StartCoroutine(RunDashCooldown(dashCooldownLength / 2));
     }
 
 	void EndDashCooldown() {
