@@ -82,11 +82,11 @@ public enum AttackDirection {
     FORWARD = 1,
     BACKWARD = -1,
     UP = 2,
-    DOWN = -2,
+    DOWN = -2
 }
 
 public enum AttackType {
     NONE = 0,
     PUNCH = 1,
-    KICK = 2,
+    KICK = 2
 }

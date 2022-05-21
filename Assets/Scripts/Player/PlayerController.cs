@@ -10,7 +10,7 @@ public class PlayerController : Entity {
 	const float hardLandDistance = .64f * 4f;
 	const float dashSpeed = 6f;
 	const float terminalFallSpeed = -10f;
-	public static float dashCooldownLength = .6f;
+	const float dashCooldownLength = .6f;
 	const float parryWindowLength = 4f/16f;
 	const float coyoteTime = 0.1f;
 
@@ -650,7 +650,7 @@ public class PlayerController : Entity {
 		preDashSpeed = Mathf.Abs(rb2d.velocity.x);
 
 		// back dash animation always comes from the initial dash, where the speed boost has already been applied
-		float newSpeed = (backwards ? preDashSpeed : preDashSpeed + dashSpeed);
+		float newSpeed = (backwards ? preDashSpeed : preDashSpeed+dashSpeed);
 
 		Vector2 targetVelocity = new Vector2(
 			ForwardScalar() * newSpeed,
@@ -678,7 +678,7 @@ public class PlayerController : Entity {
 		if (dashTimeout != null) StopCoroutine(dashTimeout);
 	    dashTimeout = StartCoroutine(RunDashCooldown(dashCooldownLength));
 	}
-	public void reduceDashCooldown()
+	public void ReduceDashCooldown()
 	{
 		StartCoroutine(RunDashCooldown(dashCooldownLength / 2));
 	}
@@ -712,7 +712,7 @@ public class PlayerController : Entity {
 		anim.SetBool("JustFlipped", false);
 	}
 
-	public IEnumerator RunDashCooldown(float seconds) {
+	IEnumerator RunDashCooldown(float seconds) {
         dashCooldown = true;
 		anim.SetBool("RedWings", true);
         yield return new WaitForSecondsRealtime(seconds);
