@@ -6,6 +6,7 @@ using UnityEditor;
 
 [ExecuteInEditMode]
 public class SpriteRigger : MonoBehaviour {
+    // the atlas to be applied
     public Texture2D spriteAtlas;
     
     void Awake() {
@@ -13,6 +14,7 @@ public class SpriteRigger : MonoBehaviour {
     }
 
     public void ApplyAtlas() {
+        if (spriteAtlas == null) return;
         foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>()) {
             Sprite oldSprite = spriteRenderer.sprite;
             Sprite newSprite = Sprite.Create(
