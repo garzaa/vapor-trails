@@ -59,7 +59,7 @@ public class Save {
         return current;
     }
 
-    public void SetPersistentObject(PersistentObject o) {
+public void SetPersistentObject(PersistentObject o) {
         GetDictForPath(o.GetPath())[o.GetName()] = o.GetAllProperties();
     }
 
