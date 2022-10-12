@@ -480,6 +480,7 @@ public class GlobalController : MonoBehaviour {
 	}
 
 	public static void AddItem(StoredItem s, bool quiet=false) {
+		Debug.Log("adding item "+s.name);
 		Item item = s.item;
 		if (!quiet) {
             SoundManager.ItemGetSound();

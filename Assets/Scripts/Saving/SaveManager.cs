@@ -15,7 +15,7 @@ public class SaveManager : MonoBehaviour {
 
 	public static Save save {
 		get {
-			return instance.saveContainer.GetSave();
+ 			return instance.saveContainer.save;
 		}
 	}
 
@@ -33,13 +33,18 @@ public class SaveManager : MonoBehaviour {
 	}
 
 #if UNITY_EDITOR
-	// "clean" the runtime data when the editor stops playing to mimic a game exit
+	// wipe the runtime data when the editor stops playing to mimic a game exit
 	private void OnPlayModeChange(PlayModeStateChange stateChange) {
 		if (stateChange == PlayModeStateChange.ExitingPlayMode) {
-			saveContainer.CleanEditorRuntime();
+			WipeRuntimeSave();
 		}
 	}	
 #endif
+
+	// also called from "new game" start button
+	public void WipeRuntimeSave() {
+		saveContainer.save.Clear();
+	}
 
 	public static void LoadGame() {
 		TransitionManager.DirtyScene();
@@ -47,21 +52,10 @@ public class SaveManager : MonoBehaviour {
 		GlobalController.LoadSceneToPosition(save.sceneName, save.playerPosition);
 	}
 
-	public static void LoadChapter(SaveContainer chapter, Beacon beacon) {
+	public static void LoadChapter(GameCheckpoint checkpoint, Beacon beacon) {
 		TransitionManager.DirtyScene();
-		TransitionManager.SetChapter(chapter);
+		TransitionManager.SetCheckpoint(checkpoint);
 		GlobalController.LoadScene(beacon);
-	}
-
-	public static void ImportChapter(SaveContainer chapter) {
-		instance.saveContainer = chapter;
-		instance.saveContainer.SetRuntimeFromSelfData();
-		PushStateChange(fakeSceneLoad: true);
-	}
-
-	public static void ImportCurrentChapter() {
-		instance.saveContainer.SetRuntimeFromSelfData();
-		PushStateChange(fakeSceneLoad: true);
 	}
 
 	public static void SaveGame(bool autosave=false) {

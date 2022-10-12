@@ -17,7 +17,7 @@ public class Save {
     public Vector2 playerPosition;
     public Dictionary<string, Dictionary<string, object>> persistentObjects = new Dictionary<string, Dictionary<string, object>>();
 
-    public GameOptions options;
+    public GameOptions options = new GameOptions();
 
     public void Clear() {
         sceneName = "";
@@ -79,6 +79,9 @@ public void SetPersistentObject(PersistentObject o) {
     }
 
     public void AfterDeserialize() {
+        if (options == null) {
+            options = new GameOptions();
+        }
         options.Load();
     }
 }

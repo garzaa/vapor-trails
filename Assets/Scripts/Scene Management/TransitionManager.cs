@@ -44,13 +44,8 @@ public class TransitionManager : MonoBehaviour {
 		GlobalController.UnFadeToBlack();
 		FadeAudio(1);
 
-		if (transition.IsEmpty()) {
-			SaveManager.ImportCurrentChapter();
-			return;
-		}
-
-		if (transition.chapterToImport != null) {
-			SaveManager.ImportChapter(transition.chapterToImport);
+		if (transition.checkpointToImport != null) {
+			transition.checkpointToImport.Import();
 		}
 
 		if (transition.subway) {
@@ -80,8 +75,8 @@ public class TransitionManager : MonoBehaviour {
 		transitionEndTime = Time.time + FADE_TIME;
 	}
 
-	public static void SetChapter(SaveContainer chapter) {
-		instance.transition.chapterToImport = chapter;
+	public static void SetCheckpoint(GameCheckpoint checkpoint) {
+		instance.transition.checkpointToImport = checkpoint;
 	}
 
 	public void LoadSceneWithSubway(string sceneName) {
