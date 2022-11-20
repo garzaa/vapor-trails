@@ -8,6 +8,7 @@ public class InventoryList : PersistentObject {
     public List<StoredItem> items  {
         get {
             if (_items == null) {
+                Debug.LogError("PINGAS");
                 base.OnEnable();
             }
             return _items;
@@ -15,8 +16,8 @@ public class InventoryList : PersistentObject {
     }
 
     protected override void SetDefaults() {
-        SetDefault(nameof(items), new List<StoredItem>());
-        _items = GetList<StoredItem>(nameof(items));
+        SetDefault("items", new List<StoredItem>());
+        _items = GetList<StoredItem>("items");
     }
 
     public StoredItem GetItem(string itemName) {
@@ -34,6 +35,7 @@ public class InventoryList : PersistentObject {
         } else {
             items.Add(s);
         }
+        SyncToSave();
     }
 
     public void RemoveItem(StoredItem toRemove) {
@@ -47,7 +49,8 @@ public class InventoryList : PersistentObject {
             }
         } else {
             items.Remove(GetItem(toRemove));
-        } 
+        }
+        SyncToSave();
     }
 
     public bool IsEmpty() {
