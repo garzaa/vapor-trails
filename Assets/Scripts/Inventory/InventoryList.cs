@@ -8,13 +8,13 @@ public class InventoryList : PersistentObject {
     public List<StoredItem> items  {
         get {
             if (_items == null) {
-                Debug.LogError("PINGAS");
                 base.OnEnable();
             }
             return _items;
         }
     }
 
+    // is it this? 
     protected override void SetDefaults() {
         SetDefault("items", new List<StoredItem>());
         _items = GetList<StoredItem>("items");
@@ -35,6 +35,7 @@ public class InventoryList : PersistentObject {
         } else {
             items.Add(s);
         }
+        SetProperty("items", _items);
         SyncToSave();
     }
 
@@ -50,6 +51,7 @@ public class InventoryList : PersistentObject {
         } else {
             items.Remove(GetItem(toRemove));
         }
+        SetProperty("items", _items);
         SyncToSave();
     }
 
